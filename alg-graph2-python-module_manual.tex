@@ -1,11 +1,13 @@
 \documentclass{article}
 \usepackage{hyperref}
 \usepackage{geometry}
+\usepackage{spverbatim}
 \geometry{margin=1in}
+
 \title{Manual for {\tt alg-graph-thry2.sage}\\
   {\small{a graph theory and harmonic morphisms Python module}}}
 \author{David Joyner}
-\date{2025-07-31}
+\date{2025-08-01}
 \begin{document}
 \maketitle
 
@@ -179,7 +181,7 @@ EXAMPLE:
 \textbf{Syntax:} \verb}orthogonal_eigenbasis_sorted(M, F=QQ)}\\
 
 \textbf{Description:}
-\begin{verbatim}
+\begin{spverbatim}
 Input:
       M -- a nxn symmetric real matrix (with real eigenvalues)
 
@@ -191,11 +193,12 @@ Outputs:
       N -- a diagonal matrix of norms of the P_i, so
            that P*N^(-1) is orthonormal.
 
-    This works because the diagonalization method uses a matrix of eigenvectors for the transformation matrix.
-\end{verbatim}
+This works because the diagonalization method uses a matrix of eigenvectors for the
+transformation matrix.
+\end{spverbatim}
 
 \textbf{Example:}
-\begin{verbatim}
+\begin{spverbatim}
 EXAMPLES:
         sage: Gamma1 = graphs.PathGraph(3)
         sage: Q1 = Gamma1.laplacian_matrix(); Q1
@@ -220,7 +223,7 @@ EXAMPLES:
         [1 0 0]
         [0 1 0]
         [0 0 1]
-\end{verbatim}
+\end{spverbatim}
 
 \section{\tt \ \ plot\_walk\_in\_graph}
 
@@ -868,12 +871,14 @@ and each column represents an edge in the graph.
 
 \textbf{Description:}
 \begin{verbatim}
-An oriented cut matrix is like the regular cut matrix, but it takes edge orientation into account.
-It's not obvious, but the result is independent of the choice of an orientation vector.
+An oriented cut matrix is like the regular cut matrix, but it takes edge orientation 
+into account. It's not obvious, but the result is independent of the choice of an 
+orientation vector.
 
 Each row of the matrix corresponds to one oriented cut, and each column to an edge.
 
-Each cut partitions the vertices of the graph into two sets, say V = A \cup B, disjoint and non-empty.
+Each cut partitions the vertices of the graph into two sets, say V = A \cup B, 
+disjoint and non-empty.
 
 An edge from a vertex in A to a vertex in B contributes +1 to the row.
 An edge from B to A contributes -1.
@@ -1217,7 +1222,7 @@ where the row column associated to s has been removed.
 Same as laplacian_reduced_matrix.
 \end{verbatim}
 
-\section{\t laplacian\_reduced\_punctured\_matrix}
+\section{\tt\ \  laplacian\_reduced\_punctured\_matrix}
   
 \textbf{Syntax:} \verb}laplacian_reduced_punctured_matrix(Gamma, eo, s, p, q)}\\
 
@@ -1686,8 +1691,10 @@ Returns the star subgraph of Gamma based at the vertex v.
 
 \textbf{Description:}
 \begin{verbatim}
-Returns True if f defines a graph-theoretic homomorphism from Gamma2 to Gamma 1(ie, vertices to vertices, 
-edges to edges), and False otherwise. 
+Returns True if f defines a graph-theoretic homomorphism from Gamma2 to Gamma 1
+                (ie, vertices to vertices, edges to edges), 
+and 
+        False otherwise. 
 
 NOTE:    Gamma1, Gamma2 must be in standard form.
 
@@ -1734,8 +1741,10 @@ so we drop [EL2, EL1].
 
 \textbf{Description:}
 \begin{verbatim}
-Returns True if f defines a graph-theoretic mapping from Gamma2 to Gamma 1 (ie, vertices to vertices, 
-edges to edges or vertices), and False otherwise. 
+Returns 
+      True if f defines a graph morphism from Gamma2 to Gamma 1, 
+and 
+      False otherwise. 
 
 NOTE:    Gamma1, Gamma2 must be in standard form.
 
@@ -1786,7 +1795,9 @@ where
 
 \textbf{Description:}
 \begin{verbatim}
-Returns a list of the images of the edges under the graph morphism f:Gamma2->Gamma1 in color list notation.
+Returns a list of the images of the edges under the graph morphism 
+             f:Gamma2->Gamma1 
+in color list notation.
 
 \end{verbatim}
 
@@ -1827,7 +1838,7 @@ OUTPUT:
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
+\begin{spverbatim}
     EXAMPLES:
         sage: V = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         sage: E = [(0,1),(0,2),(0,7),(0,8),(1,2),(1,3),(1,7),(2,3),(2,8), (3, 4), (3, 5), (4, 5), (4, 6), (4, 8), (5, 6), (5, 7), (6, 7), (6, 8)]
@@ -1835,7 +1846,7 @@ OUTPUT:
         sage: W = [(0,1), (1,7), (7,5), (5,7)]
         sage: number_of_edges_set_in_a_walk(Gamma, W)
         3
-\end{verbatim}
+\end{spverbatim}
 
 \section{\tt \ \  edge\_set\_is\_a\_walk}
   
@@ -1852,7 +1863,7 @@ OUTPUT:
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
+\begin{spverbatim}
     EXAMPLES:
         sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         sage: E2 = [(0,1),(0,2),(0,7),(0,8),(1,2),(1,3),(1,7),(2,3),(2,8), (3, 4), (3, 5), (4, 5), (4, 6), (4, 8), (5, 6), (5, 7), (6, 7), (6, 8)]
@@ -1866,7 +1877,7 @@ OUTPUT:
         True
         sage: edge_set_is_a_walk(Gamma2, W, verbose= False)
         True
-\end{verbatim}
+\end{spverbatim}
 
 \section{\tt \ \  image\_of\_walk\_under\_graph\_morphism}
 
@@ -1885,29 +1896,31 @@ OUTPUT:
     Returns False if W is not a walk.
 
 \textbf{Example:}
-\begin{verbatim}
+{\small{    
+\begin{spverbatim}
 EXAMPLES:
-        sage: Gamma1 = graphs.CycleGraph(3)
-        sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        sage: E2 = [(0,1),(0,2),(0,7),(0,8),(1,2),(1,3),(1,7),(2,3),(2,8), (3, 4), (3, 5), (4, 5), (4, 6), (4, 8), (5, 6), (5, 7), (6, 7), (6, 8)]
-        sage: Gamma2 = Graph([V2,E2])
-        sage: f = [V2, [2, 1, 0, 2, 0, 1, 2, 0, 1]]
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
-        True
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in Gamma2.vertices(sort=True)]
-        [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in Gamma2.vertices(sort=True)]
-        [2, 2, 2, 2, 2, 2, 2, 2, 2]
-        sage: W = [(0,1), (1,7), (7,5)]
-        sage: image_of_walk_under_graph_morphism(Gamma1, Gamma2, f, W)
-        [(2, 1), (1, 0), (0, 1)]
-        sage: W = [(0,1), (1,7), (7,5), (5,6), (6,8), (8,0)]
-        sage: image_of_walk_under_graph_morphism(Gamma1, Gamma2, f, W)
-        [(2, 1), (1, 0), (0, 1), (1, 2), (2, 1), (1, 2)]
-        sage: W = [(0,1), (1,7), (7,5), (5,0)] ## not a walk in Gamma2
-        sage: image_of_walk_under_graph_morphism(Gamma1, Gamma2, f, W)
-        False
-\end{verbatim}
+    sage: Gamma1 = graphs.CycleGraph(3)
+    sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    sage: E2 = [(0,1),(0,2),(0,7),(0,8),(1,2),(1,3),(1,7),(2,3),(2,8), (3, 4), (3, 5), (4, 5), (4, 6), (4, 8), (5, 6), (5, 7), (6, 7), (6, 8)]
+    sage: Gamma2 = Graph([V2,E2])
+    sage: f = [V2, [2, 1, 0, 2, 0, 1, 2, 0, 1]]
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
+    True
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in Gamma2.vertices(sort=True)]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in Gamma2.vertices(sort=True)]
+    [2, 2, 2, 2, 2, 2, 2, 2, 2]
+    sage: W = [(0,1), (1,7), (7,5)]
+    sage: image_of_walk_under_graph_morphism(Gamma1, Gamma2, f, W)
+    [(2, 1), (1, 0), (0, 1)]
+    sage: W = [(0,1), (1,7), (7,5), (5,6), (6,8), (8,0)]
+    sage: image_of_walk_under_graph_morphism(Gamma1, Gamma2, f, W)
+    [(2, 1), (1, 0), (0, 1), (1, 2), (2, 1), (1, 2)]
+    sage: W = [(0,1), (1,7), (7,5), (5,0)] ## not a walk in Gamma2
+    sage: image_of_walk_under_graph_morphism(Gamma1, Gamma2, f, W)
+    False
+\end{spverbatim}
+}}
 
 \section{\tt \ \  index\_of\_graph\_morphism\_edges}
 \textbf{Syntax:} \verb}index_of_graph_morphism_edges(Gamma1, Gamma2, f, e0, s0, iota2, iota1)}\\
@@ -1942,13 +1955,11 @@ For examples, see matrix_of_graph_morphism_edges.
 
 \textbf{Description:}
 \begin{verbatim}
-    These are the entries of the signed edge matrix attached to the 
-    harmonic map f : Gamma2 -> Gamma1.
+These are the entries of the signed edge matrix attached to the harmonic map 
+            f : Gamma2 -> Gamma1.
+Here e1 is an edge in Gamma1 and e2 is an edge in Gamma2.
 
-    Here e1 is an edge in Gamma1 and e2 is an edge in Gamma2.
-
-    This function helps answer a very specific question:
-
+This function helps answer a very specific question:
            “Does this edge e2 in the big graph Gamma2 get mapped to this 
             edge e1 in the smaller graph Gamma1 under the function f?”
 
@@ -1957,12 +1968,14 @@ For examples, see matrix_of_graph_morphism_edges.
       --  0 if no,
     and raises an error if e2 isn't an edge in the domain of the morphism.
 
-    Called the unsigned edge incidence — it doesn't care about direction, just whether the edge gets mapped or not.
+Called the unsigned edge incidence — it doesn't care about direction, just whether 
+the edge gets mapped or not.
 \end{verbatim}
 
 \textbf{Example:}
 \begin{verbatim}
-See the matrix entries in the example for graph_morphism_edges_matrix_unsigned(Gamma1, Gamma2, f).
+See the matrix entries in the example for 
+           graph_morphism_edges_matrix_unsigned(Gamma1, Gamma2, f).
 \end{verbatim}
 
 \section{\tt \ \ index\_of\_graph\_morphism\_vertices}
@@ -1971,7 +1984,8 @@ See the matrix entries in the example for graph_morphism_edges_matrix_unsigned(G
 
 \textbf{Description:}
 \begin{verbatim}
-See the matrix entries in the example for matrix_of_graph_morphism_vertices(Gamma1, Gamma2, f, verbose = False)
+See the matrix entries in the example for 
+             matrix_of_graph_morphism_vertices(Gamma1, Gamma2, f, verbose = False)
 \end{verbatim}
 
 \section{\tt \ \  graph\_morphism\_vertices\_matrix}
@@ -2009,7 +2023,7 @@ However, the pair [EL2, EL1] can be deduced from the pair [VL2, VL1].
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
+\begin{spverbatim}
     EXAMPLES:
         sage: Gamma2 = graphs.CubeGraph(2)
         sage: Gamma1 = Gamma2.subgraph(vertices = ['00', '01'], edges = [('00', '01')])
@@ -2106,7 +2120,7 @@ However, the pair [EL2, EL1] can be deduced from the pair [VL2, VL1].
         (4, 0, -4, 0)
         sage: Phi2.transpose()*Phi2*Q2*Phi2.transpose()*w
         (6, -8, 1, -8, 1)
-\end{verbatim}
+\end{spverbatim}
 
 \section{\tt \ \ graph\_morphism\_edges\_matrix}
 
@@ -2122,14 +2136,15 @@ from Gamma2 to Gamma, and False otherwise.
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
+\begin{spverbatim}
     EXAMPLES:
         sage: Gamma1 = graphs.PathGraph(3)
         sage: Gamma2 = graphs.HouseGraph()
         sage: V2 = Gamma2.vertices()
         sage: f0 = [0, 0, 1, 1, 2]
         sage: f = [V2, f0]
-        sage: Phi_E_signed = matrix_of_graph_morphism_edges(Gamma1, Gamma2, f, iota2=[1]*6, iota1=[1,-1]); Phi_E_signed
+        sage: Phi_E_signed = matrix_of_graph_morphism_edges(Gamma1, Gamma2, f, iota2=[1]*6, iota1=[1,-1])
+        sage: Phi_E_signed
 	[ 0  0]
 	[ 1  0]
 	[ 1  0]
@@ -2141,7 +2156,8 @@ from Gamma2 to Gamma, and False otherwise.
         sage: V2 = Gamma2.vertices()
         sage: f0 = [0, 1, 1, 0]
         sage: f = [V2, f0]
-        sage: PhiE = matrix_of_graph_morphism_edges(Gamma1, Gamma2, f, iota2=[1]*4, iota1=[1]); PhiE
+        sage: PhiE = matrix_of_graph_morphism_edges(Gamma1, Gamma2, f, iota2=[1]*4, iota1=[1])
+        sage: PhiE
         [1]
         [0]
         [0]
@@ -2165,7 +2181,7 @@ from Gamma2 to Gamma, and False otherwise.
         sage: PhiE = matrix_of_graph_morphism_edges(Gamma1, Gamma2, f, iota2, iota1)
         sage: PhiE*B1.transpose() == B2.transpose()*PhiV   
         True
-\end{verbatim}
+\end{spverbatim}
 
 \section*{\tt matrix\_of\_graph\_morphism\_edges}
 
@@ -2224,7 +2240,8 @@ Returns the (vertex) preimage(s) of v under f:Gamma2 -> Gamma 1, where v is an v
 A morphism  f: Gamma2 -> Gamma1 is represented as a color list by a pair of lists [L2, L1],
 where 
        L2 is the list of all n vertices of Gamma2,
-       L1 is the list of length n of the vertices in Gamma1 that form the corresponding image under the map f.
+       L1 is the list of length n of the vertices in Gamma1 that form 
+          the corresponding image under the map f.
 \end{verbatim}
 
 \textbf{Example:}
@@ -2249,40 +2266,41 @@ Returns the preimage(s) of e under f:Gamma2 -> Gamma1, where e is an edge in Gam
 It is returned as a list, with the default being that the edges are unlabled.
 \end{verbatim}
 
+\noindent
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-        sage: Gamma2 = graphs.CubeGraph(2)
-        sage: Gamma1 = Gamma2.subgraph(vertices = ['00', '01'], edges = [('00', '01')])
-        sage: f = [['00', '01', '10', '11'], ['00', '01', '00', '01']]
-        sage: Gamma2 = graphs.CubeGraph(2)
-        sage: Gamma1.edges(sort=True)
-        [('00', '01', None)]
-        sage: e = Gamma1.edges(sort=True)[0]
-        sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e, labels = True)
-        [('00', '01', None), ('10', '11', None)]
-        sage: Gamma2 = graphs.CubeGraph(3)
-        sage: Gamma1 = graphs.TetrahedralGraph()
-        sage: f = [['000', '001', '010', '011', '100', '101', '110', '111'], [0, 1, 2, 3, 3, 2, 1, 0]]
-        sage: e = Gamma1.edges(sort=True)[1]; e
-        (0, 2, None)
-        sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e, labels = True)
-        [('000', '010', None), ('101', '111', None)]
-        sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e)   
-         [('000', '010'), ('101', '111')]
-        sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e, labels = None) 
-         [('000', '010'), ('101', '111')]
-        sage: Gamma3 = graphs.PathGraph(2)             
-        sage: Gamma4 = graphs.CycleGraph(4)             
-        sage: V4 = Gamma4.vertices(sort=True)                   
-        sage: g0 = [0,1,1,0]                            
-        sage: g = [V4, g0]                             
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g) 
-        True
-        sage: image_of_edge_under_graph_morphism(Gamma3, Gamma4, g, (0,3))
-        0
-        sage: image_of_edge_under_graph_morphism(Gamma3, Gamma4, g, (0,1))
-        (0, 1)
+EXAMPLES:
+    sage: Gamma2 = graphs.CubeGraph(2)
+    sage: Gamma1 = Gamma2.subgraph(vertices = ['00', '01'], edges = [('00', '01')])
+    sage: f = [['00', '01', '10', '11'], ['00', '01', '00', '01']]
+    sage: Gamma2 = graphs.CubeGraph(2)
+    sage: Gamma1.edges(sort=True)
+    [('00', '01', None)]
+    sage: e = Gamma1.edges(sort=True)[0]
+    sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e, labels = True)
+    [('00', '01', None), ('10', '11', None)]
+    sage: Gamma2 = graphs.CubeGraph(3)
+    sage: Gamma1 = graphs.TetrahedralGraph()
+    sage: f = [['000', '001', '010', '011', '100', '101', '110', '111'], [0, 1, 2, 3, 3, 2, 1, 0]]
+    sage: e = Gamma1.edges(sort=True)[1]; e
+    (0, 2, None)
+    sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e, labels = True)
+    [('000', '010', None), ('101', '111', None)]
+    sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e)   
+     [('000', '010'), ('101', '111')]
+    sage: preimage_of_edge_under_graph_morphism(Gamma1, Gamma2, f, e, labels = None) 
+     [('000', '010'), ('101', '111')]
+    sage: Gamma3 = graphs.PathGraph(2)             
+    sage: Gamma4 = graphs.CycleGraph(4)             
+    sage: V4 = Gamma4.vertices(sort=True)                   
+    sage: g0 = [0,1,1,0]                            
+    sage: g = [V4, g0]                             
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g) 
+    True
+    sage: image_of_edge_under_graph_morphism(Gamma3, Gamma4, g, (0,3))
+    0
+    sage: image_of_edge_under_graph_morphism(Gamma3, Gamma4, g, (0,1))
+    (0, 1)
 \end{verbatim}
 
 \section{\tt \ \ preimage\_of\_edges\_under\_graph\_morphism}
@@ -2298,28 +2316,28 @@ It is returned as a list, without repetition.
 
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-        sage: Gamma2 = graphs.CubeGraph(3)
-        sage: V2 = Gamma2.vertices(sort=True); V2  
-        ['000', '001', '010', '011', '100', '101', '110', '111']
-        sage: E2 = Gamma2.edges(labels=None,sort=True); E2 
-        [('000', '001'), ('000', '010'), ('000', '100'), ('001', '011'),
-         ('001', '101'), ('010', '011'), ('010', '110'), ('011', '111'),
-         ('100', '101'), ('100', '110'), ('101', '111'), ('110', '111')]
-        sage: Gamma1 = graphs.TetrahedralGraph() 
-        sage: E1 = Gamma1.edges(labels=None,sort=True); E1       
-        [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
-        sage: f  = [['000', '001', '010', '011', '100', '101', '110', '111'], [0, 1, 2, 3, 3, 2, 1, 0]] 
-        sage: S = [(0, 2), (0, 3), (1, 2), (1, 3)]         
-        sage: preimage_of_edges_under_graph_morphism(Gamma1, Gamma2, f, S) 
-        [('100', '110'),
-         ('000', '010'),
-         ('001', '101'),
-         ('011', '111'),
-         ('101', '111'),
-         ('010', '110'),
-         ('001', '011'),
-         ('000', '100')]
+EXAMPLES:
+    sage: Gamma2 = graphs.CubeGraph(3)
+    sage: V2 = Gamma2.vertices(sort=True); V2  
+    ['000', '001', '010', '011', '100', '101', '110', '111']
+    sage: E2 = Gamma2.edges(labels=None,sort=True); E2 
+    [('000', '001'), ('000', '010'), ('000', '100'), ('001', '011'),
+     ('001', '101'), ('010', '011'), ('010', '110'), ('011', '111'),
+     ('100', '101'), ('100', '110'), ('101', '111'), ('110', '111')]
+    sage: Gamma1 = graphs.TetrahedralGraph() 
+    sage: E1 = Gamma1.edges(labels=None,sort=True); E1       
+    [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
+    sage: f  = [['000', '001', '010', '011', '100', '101', '110', '111'], [0, 1, 2, 3, 3, 2, 1, 0]] 
+    sage: S = [(0, 2), (0, 3), (1, 2), (1, 3)]         
+    sage: preimage_of_edges_under_graph_morphism(Gamma1, Gamma2, f, S) 
+    [('100', '110'),
+     ('000', '010'),
+     ('001', '101'),
+     ('011', '111'),
+     ('101', '111'),
+     ('010', '110'),
+     ('001', '011'),
+     ('000', '100')]
 \end{verbatim}
 
 \section{\tt \ \ graph\_preimage\_of\_edges\_under\_graph\_morphism}
@@ -2334,21 +2352,21 @@ It is returned as a subgraph of Gamma2.
 
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-        sage: Gamma2 = graphs.CubeGraph(3)
-        sage: V2 = Gamma2.vertices(sort=True); V2  
-        ['000', '001', '010', '011', '100', '101', '110', '111']
-        sage: E2 = Gamma2.edges(labels=None,sort=True); E2 
-        [('000', '001'), ('000', '010'), ('000', '100'), ('001', '011'),
-         ('001', '101'), ('010', '011'), ('010', '110'), ('011', '111'),
-         ('100', '101'), ('100', '110'), ('101', '111'), ('110', '111')]
-        sage: Gamma1 = graphs.TetrahedralGraph() 
-        sage: E1 = Gamma1.edges(labels=None,sort=True); E1       
-        [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
-        sage: f  = [['000', '001', '010', '011', '100', '101', '110', '111'], [0, 1, 2, 3, 3, 2, 1, 0]] 
-        sage: S = [(0, 2), (0, 3), (1, 2), (1, 3)]       
-        sage: graph_preimage_of_edges_under_graph_morphism(Gamma1, Gamma2, f, S) 
-         Subgraph of (3-Cube): Graph on 8 vertices
+EXAMPLES:
+    sage: Gamma2 = graphs.CubeGraph(3)
+    sage: V2 = Gamma2.vertices(sort=True); V2  
+    ['000', '001', '010', '011', '100', '101', '110', '111']
+    sage: E2 = Gamma2.edges(labels=None,sort=True); E2 
+    [('000', '001'), ('000', '010'), ('000', '100'), ('001', '011'),
+     ('001', '101'), ('010', '011'), ('010', '110'), ('011', '111'),
+     ('100', '101'), ('100', '110'), ('101', '111'), ('110', '111')]
+    sage: Gamma1 = graphs.TetrahedralGraph() 
+    sage: E1 = Gamma1.edges(labels=None,sort=True); E1       
+    [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
+    sage: f  = [['000', '001', '010', '011', '100', '101', '110', '111'], [0, 1, 2, 3, 3, 2, 1, 0]] 
+    sage: S = [(0, 2), (0, 3), (1, 2), (1, 3)]       
+    sage: graph_preimage_of_edges_under_graph_morphism(Gamma1, Gamma2, f, S) 
+     Subgraph of (3-Cube): Graph on 8 vertices
 \end{verbatim}
 
 \section{\tt \ \ image\_of\_edge\_under\_graph\_morphism}
@@ -2469,29 +2487,33 @@ Here:
     -  e : an edge of Gamma1 incident to phi(v2)
 \end{verbatim}
 
+\noindent
 \textbf{Example:}
+{\small{
 \begin{verbatim}
-    EXAMPLES:
-        sage: V2 = [0,1,2,3]
-        sage: E2 = [(0, 1), (1, 2), (0, 2), (0, 3)]
-        sage: Gamma2 = Graph([V2,E2])
-        sage: eps2 = [1,1,1,1]
-        sage: wt2 = [E2, [1/2, 2/3, 3/5, 4/3]]
-        sage: woGamma2 = [Gamma2, eps2, wt2]
-        sage: V1 = [0,1,2]
-        sage: E1 = [(0, 1), (1, 2), (0, 2)]
-        sage: Gamma1 = Graph([V1, E1])
-        sage: eps1 = [1,1,1]
-        sage: wt1 = [E1, [1/2, 2/3, 3/5]]
-        sage: woGamma1 = [Gamma1, eps1, wt1]
-        sage: f = [[0,1,2,3], [0, 1, 2, 0]]
-        sage: e = (1, 2)
-        sage: [weighted_local_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, v, e) for v in V2]
-         [0, 1, 1, 0]
+EXAMPLES:
+    sage: V2 = [0,1,2,3]
+    sage: E2 = [(0, 1), (1, 2), (0, 2), (0, 3)]
+    sage: Gamma2 = Graph([V2,E2])
+    sage: eps2 = [1,1,1,1]
+    sage: wt2 = [E2, [1/2, 2/3, 3/5, 4/3]]
+    sage: woGamma2 = [Gamma2, eps2, wt2]
+    sage: V1 = [0,1,2]
+    sage: E1 = [(0, 1), (1, 2), (0, 2)]
+    sage: Gamma1 = Graph([V1, E1])
+    sage: eps1 = [1,1,1]
+    sage: wt1 = [E1, [1/2, 2/3, 3/5]]
+    sage: woGamma1 = [Gamma1, eps1, wt1]
+    sage: f = [[0,1,2,3], [0, 1, 2, 0]]
+    sage: e = (1, 2)
+    sage: [weighted_local_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, v, e) for v in V2]
+     [0, 1, 1, 0]
 \end{verbatim}
+}}
 
 \section{\tt \ \ weighted\_vertical\_multiplicity\_of\_harmonic\_map}
-\textbf{Syntax:} \verb}weighted_vertical_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, v2)}\\
+\textbf{Syntax:}
+\verb}weighted_vertical_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, v2)}\\
 
 \textbf{Description:}
 \begin{verbatim}
@@ -2520,55 +2542,62 @@ returns the weighted vertical multiplicity of f at v2
 
 \section{\tt \ \ weighted\_horizontal\_multiplicity\_of\_harmonic\_map}
 
-\textbf{Syntax:} \verb}weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, v2, verbose=False)}\\
+\textbf{Syntax:}
+\verb}weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, v2, verbose=False)}\\
 
 \textbf{Description:}
+\begin{spverbatim}
+Returns the pair
+           (True, mu\_{wt2, phi}(v2)) if  mu\_{wt2, phi}(v2, e) is independent of
+                                       e incident to phi(v2),
+and the pair
+           (False, [mu\_{wt2, phi}(v2, e) for e incident to phi(v2)]) otherwise.
 
-Returns the pair (True, mu\_{wt2, phi}(v2)) if  mu\_{wt2, phi}(v2, e)
-    is independent of e incident to phi(v2), and the pair
-    (False, [mu\_{wt2, phi}(v2, e) for e incident to phi(v2)])
-    otherwise.
+INPUT:
+    - woGamma1 is a triple: [Gamma1 = (V1, E1), epsilon1, wt1], where 
+    -  epsilon1 is a pair [E1,e1], where e1 is a list of length |E1| of edge orientations,
+    -  wt1 is a pair [E1,w1], where w1 is a list of length |E1| of edge weights > 0.
+    - woGamma2 is similar.
+    - f  defines a graph-theoretic mapping
+          from Gamma2 to Gamma1 represented by a pair of lists [L1, L2],
+          where L1 is the list of all n2 vertices of Gamma2,
+          and L2 is the list of length n2 of the vertices in Gamma1: L2 forms 
+          the corresponding image of L1 under the map f)
+    - v2 : a vertex of Gamma2
+    - e : an edge of Gamma1 incident to phi(v2)
+\end{spverbatim}
 
-    woGamma1 is a triple: [Gamma1 = (V1, E1), epsilon1, wt1], where 
-     epsilon1 is a pair [E1,e1], where e1 is a list of length |E1| of edge orientations,
-     wt1 is a pair [E1,w1], where w1 is a list of length |E1| of edge weights > 0.
-    woGamma2 is similar.
-    f : defines a graph-theoretic mapping
-     from Gamma2 to Gamma1 represented by a pair of lists [L1, L2],
-     where L1 is the list of all n2 vertices of Gamma2,
-     and L2 is the list of length n2 of the vertices in Gamma1: L2 forms 
-     the corresponding image of L1 under the map f)
-    v2 : a vertex of Gamma2
-    e : an edge of Gamma1 incident to phi(v2)
-
+\noindent
 \textbf{Example:}
-\begin{verbatim}
+{\small{
+\begin{spverbatim}
 EXAMPLES:
-        sage: V2 = [0,1,2,3]
-        sage: E2 = [(0, 1), (1, 2), (0, 2), (0, 3)]
-        sage: Gamma2 = Graph([V2,E2])
-        sage: eps2 = [1,1,1,1]
-        sage: wt2 = [E2, [1/2, 2/3, 3/5, 4/3]]
-        sage: woGamma2 = [Gamma2, eps2, wt2]
-        sage: V1 = [0,1,2]
-        sage: E1 = [(0, 1), (1, 2), (0, 2)]
-        sage: Gamma1 = Graph([V1, E1])
-        sage: eps1 = [1,1,1]
-        sage: wt1 = [E1, [1/2, 2/3, 3/5]]
-        sage: woGamma1 = [Gamma1, eps1, wt1]
-        sage: f = [[0,1,2,3], [0, 1, 2, 0]]
-        sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 0)
-         (True, 1)
-        sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 1)
-         (True, 1)
-        sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 2)
-         (True, 1)
-        sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 3)
-         (True, 0)
-        sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 0, verbose=True)
-         The image of  0  under phi is  0 .   The (mu(phi, v, s), v, s), s incident to phi(v):   [(1, 0, (0, 1)), (1, 0, (0, 2))] .
-         (True, 1)
-\end{verbatim}
+    sage: V2 = [0,1,2,3]
+    sage: E2 = [(0, 1), (1, 2), (0, 2), (0, 3)]
+    sage: Gamma2 = Graph([V2,E2])
+    sage: eps2 = [1,1,1,1]
+    sage: wt2 = [E2, [1/2, 2/3, 3/5, 4/3]]
+    sage: woGamma2 = [Gamma2, eps2, wt2]
+    sage: V1 = [0,1,2]
+    sage: E1 = [(0, 1), (1, 2), (0, 2)]
+    sage: Gamma1 = Graph([V1, E1])
+    sage: eps1 = [1,1,1]
+    sage: wt1 = [E1, [1/2, 2/3, 3/5]]
+    sage: woGamma1 = [Gamma1, eps1, wt1]
+    sage: f = [[0,1,2,3], [0, 1, 2, 0]]
+    sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 0)
+     (True, 1)
+    sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 1)
+     (True, 1)
+    sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 2)
+     (True, 1)
+    sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 3)
+     (True, 0)
+    sage: weighted_horizontal_multiplicity_of_harmonic_map(woGamma1, woGamma2, f, 0, verbose=True)
+     The image of  0  under phi is  0 .   The (mu(phi, v, s), v, s), s incident to phi(v):   [(1, 0, (0, 1)), (1, 0, (0, 2))] .
+     (True, 1)
+\end{spverbatim}
+}}
 
 \section{\tt \ \ is\_weighted\_harmonic\_graph\_morphism}
 
@@ -2577,28 +2606,26 @@ EXAMPLES:
 \textbf{Description:}
 \begin{verbatim}
 
-Returns true if f defines a weighted graph-theoretic mapping
-    with a "constant" local horizontal multiplicity and False otherwise. 
+Returns 
+     True if f defines a weighted graph-theoretic mapping
+             with a "constant" local horizontal multiplicity and 
+     False otherwise. 
 
-    If verbose=True then more information will be printed out when the
-    map f is not a harmonic morphism.
+If verbose=True then more information will be printed out when the map f is not 
+a harmonic morphism.
 
-    woGamma1 is a triple: [Gamma1 = (V1, E1), epsilon1, wt1], where 
-     epsilon1 is a pair [E1,e1], where e1 is a list of length |E1| of edge orientations,
-     wt1 is a pair [E1,w1], where w1 is a list of length |E1| of edge weights >0.
-    woGamma2 is similar.
+INPUT:
+    - woGamma1 is a triple: [Gamma1 = (V1, E1), epsilon1, wt1], where 
+    -  epsilon1 is a pair [E1,e1], where e1 is a list of length |E1| of edge orientations,
+    -  wt1 is a pair [E1,w1], where w1 is a list of length |E1| of edge weights > 0.
+    - woGamma2 is similar.
+    - f  defines a graph-theoretic mapping
+          from Gamma2 to Gamma1 represented by a pair of lists [L1, L2],
+          where L1 is the list of all n2 vertices of Gamma2,
+          and L2 is the list of length n2 of the vertices in Gamma1: L2 forms 
+          the corresponding image of L1 under the map f).
 
-    Recall, f is given as a map from an edge-weighted, oriented graph Gamma2 to 
-    an edge-weighted, oriented graph Gamma1.
-    Suppose Gamma2 has n vertices. A morphism 
-              f: Gamma2 -> Gamma1
-    is represented by a pair of lists [L2, L1],
-    where L2=V2 is the list of all n vertices of Gamma2,
-    and L1 is the list of length n of the vertices
-    in Gamma1 that form the corresponding image under
-    the map f.
-
-    Slightly different output format than
+Slightly different output format than
       is\_harmonic\_graph\_morphism(Gamma1, Gamma2, f, verbose = False)
 
 \end{verbatim}
@@ -2807,19 +2834,19 @@ OUTPUT:
 
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-        sage: V2 = [0,1,2,3]
-        sage: E2 = [(0, 1), (1, 2), (1, 3)]
-        sage: Gamma2 = Graph([V2,E2])
-        sage: Gamma1 = graphs.PathGraph(3)
-        sage: f = [[0,1,2,3],[2, 1, 1, 0]]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V1]
-        [0, 1, 1, 0]
-        sage: Gamma2 = graphs.CycleGraph(6)
-        sage: Gamma1 = graphs.PathGraph(3)
-        sage: f = [[0,1,2,3,4,5],[2, 2, 1, 0, 0, 1]]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in Gamma2.vertices(sort=True)]
-        [1, 1, 0, 1, 1, 0]
+EXAMPLES:
+    sage: V2 = [0,1,2,3]
+    sage: E2 = [(0, 1), (1, 2), (1, 3)]
+    sage: Gamma2 = Graph([V2,E2])
+    sage: Gamma1 = graphs.PathGraph(3)
+    sage: f = [[0,1,2,3],[2, 1, 1, 0]]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V1]
+    [0, 1, 1, 0]
+    sage: Gamma2 = graphs.CycleGraph(6)
+    sage: Gamma1 = graphs.PathGraph(3)
+    sage: f = [[0,1,2,3,4,5],[2, 2, 1, 0, 0, 1]]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in Gamma2.vertices(sort=True)]
+    [1, 1, 0, 1, 1, 0]
 \end{verbatim}
 
 \section{\tt \ \ horizontal\_multiplicity\_of\_harmonic\_map}
@@ -2845,13 +2872,14 @@ OUTPUT:
 
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-        sage: V2 = [0,1,2,3]
-        sage: E2 = [(0, 1), (1, 2), (1, 3)]
-        sage: Gamma2 = Graph([V2,E2])
-        sage: Gamma1 = graphs.PathGraph(3)
-        sage: f = [[0,1,2,3],[2, 1, 1, 0]]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+EXAMPLES:
+    sage: V2 = [0,1,2,3]
+    sage: E2 = [(0, 1), (1, 2), (1, 3)]
+    sage: Gamma2 = Graph([V2,E2])
+    sage: Gamma1 = graphs.PathGraph(3)
+    sage: f = [[0,1,2,3],[2, 1, 1, 0]]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+     [1, 1, 0, 1]
 \end{verbatim}
 
 \section{\tt \ \ horizonal\_multiplicity\_of\_harmonic\_map}
@@ -4090,120 +4118,125 @@ Returns the CL associated to join(f,g) going from
           join(Gamma2, Gamma4) -> join(Gamma1, Gamma3).
 \end{verbatim}
 
+\noindent
 \textbf{Example:}
+{\small{
 \begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(3)    
-        sage: Gamma2 = graphs.PathGraph(4)     
-        sage: f0 = [0,1,2,2]     
-        sage: V2 = Gamma2.vertices(sort=True)  
-        sage: f = [V2, f0]         
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)    
-        True
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [1, 1, 1, 0]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]  
-        [0, 0, 1, 1]
-        sage: Gamma3 = graphs.PathGraph(2)   
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: g0 = [0,1,1,0]   
-        sage: V4 = Gamma4.vertices(sort=True) 
-        sage: g = [V4, g0]   
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)  
-        True
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
-        [1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
-        [1, 1, 1, 1]
-        sage: CL_of_join_of_morphisms(Gamma1, Gamma2, f, Gamma3, Gamma4, g)  
-         [0, 1, 2, 2, 3, 4, 4, 3]
-        sage: Gamma_2join4 = graph_convert_to_standard(Gamma2.join(Gamma4))    
-        sage: Gamma_1join3 = graph_convert_to_standard(Gamma1.join(Gamma3))   
-        sage: V_2join4 = Gamma_2join4.vertices(sort=True)    
-        sage: f_join_g_0 = CL_of_join_of_morphisms(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
-        sage: f_join_g = [V_2join4, f_join_g_0]    
-        sage: is_harmonic_graph_morphism(Gamma_1join3, Gamma_2join4, f_join_g, verbose=True)   
-        Gamma1 = (V1, E1) =  [0, 1, 2, 3, 4] [(0, 1), (0, 3), (0, 4), (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
-        Gamma2 = (V2, E2) =  [0, 1, 2, 3, 4, 5, 6, 7] [(0, 1), (0, 4), (0, 5), (0, 6), (0, 7), (1, 2), (1, 4), (1, 5), 
-                                                       (1, 6), (1, 7), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (3, 4), 
-                                                       (3, 5), (3, 6), (3, 7), (4, 5), (4, 7), (5, 6), (6, 7)]
-        f = [V2, f0], where f0 =  [0, 1, 2, 2, 3, 4, 4, 3]
-        The edge e =  (2, 3)  is vertical under f.
-        The edge e =  (4, 7)  is vertical under f.
-        The edge e =  (5, 6)  is vertical under f.
-        This [<vertex>, <intersection sizes>]] fails the check: [0, [1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [1, [1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [2, [1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [3, [0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [4, [1, 1, 2, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 1, 2, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [6, [1, 1, 2, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [7, [1, 1, 2, 1]]
-        False
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma_1join3, Gamma_2join4, f_join_g, v) for v in V_2join4]   
-         [0, 0, 1, 1, 1, 1, 1, 1]
-        sage: table_of_local_horizontal_multiplicities(Gamma_1join3, Gamma_2join4, f_join_g)                                                       
-        [[(0, (0, 1), 1), (0, (0, 3), 2), (0, (0, 4), 2)],
-         [(1, (0, 1), 1), (1, (1, 2), 1), (1, (1, 3), 2), (1, (1, 4), 2)],
-         [(2, (1, 2), 1), (2, (2, 3), 2), (2, (2, 4), 2)],
-         [(3, (1, 2), 0), (3, (2, 3), 2), (3, (2, 4), 2)]]
-        sage: Gamma1 = graphs.PathGraph(2)  
-        sage: Gamma2 = graphs.CycleGraph(6)   
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: f21_0 = [0,0,0,1,1,1]         
-        sage: f21 = [V2, f21_0]              
-        sage: Gamma3 = graphs.PathGraph(2)    
-        sage: Gamma4 = graphs.CycleGraph(4)   
-        sage: f43_0 = [0,1,1,0]     
-        sage: f43 = [V4, f43_0]     
-        sage: V4 = Gamma4.vertices(sort=True)   
-        sage: f43 = [V4, f43_0]   
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f21, v) for v in V2]  
-         [1, 0, 1, 1, 0, 1]
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma3, Gamma4, f43, v) for v in V4]            
-         [1, 1, 1, 1]
-        sage: Gamma_2join4 = graph_convert_to_standard(Gamma2.join(Gamma4))  
-        sage: Gamma_1join3 = graph_convert_to_standard(Gamma1.join(Gamma3))   
-        sage: V_2join4 = Gamma_2join4.vertices(sort=True)    
-        sage: f21_join_f43_0 = CL_of_join_of_morphisms(Gamma1, Gamma2, f21, Gamma3, Gamma4, f43)  
-        sage: f21_join_f43 = [V_2join4, f21_join_f43_0]; f21_join_f43       
-        [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0, 0, 0, 1, 1, 1, 2, 3, 3, 2]]
-        sage: is_harmonic_graph_morphism(Gamma_1join3, Gamma_2join4, f21_join_f43, verbose=True)  
-         Gamma1 = (V1, E1) =  [0, 1, 2, 3]
-                              [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
-         Gamma2 = (V2, E2) =  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                              [(0, 1), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9), (1, 2),
-                               (1, 6), (1, 7), (1, 8), (1, 9), (2, 3), (2, 6), (2, 7),
-                               (2, 8), (2, 9), (3, 4), (3, 6), (3, 7), (3, 8), (3, 9), (4, 5),
-                               (4, 6), (4, 7), (4, 8), (4, 9), (5, 6), (5, 7), (5, 8), (5, 9),
-                               (6, 7), (6, 9), (7, 8), (8, 9)]
-        f = [V2, f0], where f0 =  [0, 0, 0, 1, 1, 1, 2, 3, 3, 2]
-        The edge e =  (0, 1)  is vertical under f.
-        The edge e =  (1, 2)  is vertical under f.
-        The edge e =  (3, 4)  is vertical under f.
-        The edge e =  (4, 5)  is vertical under f.
-        The edge e =  (6, 9)  is vertical under f.
-        The edge e =  (7, 8)  is vertical under f.
-        This [<vertex>, <intersection sizes>]] fails the check: [0, [1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [1, [0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [2, [1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [3, [1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [4, [0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [6, [3, 3, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [7, [3, 3, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [8, [3, 3, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [9, [3, 3, 1]]
-        False
-        sage: table_of_local_horizontal_multiplicities(Gamma_1join3, Gamma_2join4, f21_join_f43)                                                   
-        [[(0, (0, 1), 1), (0, (0, 2), 2), (0, (0, 3), 2)],
-         [(1, (0, 1), 0), (1, (0, 2), 2), (1, (0, 3), 2)],
-         [(2, (0, 1), 1), (2, (0, 2), 2), (2, (0, 3), 2)],
-         [(3, (0, 1), 1), (3, (1, 2), 2), (3, (1, 3), 2)],
-         [(4, (0, 1), 0), (4, (1, 2), 2), (4, (1, 3), 2)],
-         [(5, (0, 1), 1), (5, (1, 2), 2), (5, (1, 3), 2)]]
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(3)    
+    sage: Gamma2 = graphs.PathGraph(4)     
+    sage: f0 = [0,1,2,2]     
+    sage: V2 = Gamma2.vertices(sort=True)  
+    sage: f = [V2, f0]         
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)    
+    True
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [1, 1, 1, 0]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]  
+    [0, 0, 1, 1]
+    sage: Gamma3 = graphs.PathGraph(2)   
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: g0 = [0,1,1,0]   
+    sage: V4 = Gamma4.vertices(sort=True) 
+    sage: g = [V4, g0]   
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)  
+    True
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
+    [1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
+    [1, 1, 1, 1]
+    sage: CL_of_join_of_morphisms(Gamma1, Gamma2, f, Gamma3, Gamma4, g)  
+     [0, 1, 2, 2, 3, 4, 4, 3]
+    sage: Gamma_2join4 = graph_convert_to_standard(Gamma2.join(Gamma4))    
+    sage: Gamma_1join3 = graph_convert_to_standard(Gamma1.join(Gamma3))   
+    sage: V_2join4 = Gamma_2join4.vertices(sort=True)    
+    sage: f_join_g_0 = CL_of_join_of_morphisms(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
+    sage: f_join_g = [V_2join4, f_join_g_0]    
+    sage: is_harmonic_graph_morphism(Gamma_1join3, Gamma_2join4, f_join_g, verbose=True)   
+    Gamma1 = (V1, E1) =  [0, 1, 2, 3, 4] 
+            [(0, 1), (0, 3), (0, 4), (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+    Gamma2 = (V2, E2) =  [0, 1, 2, 3, 4, 5, 6, 7] 
+            [(0, 1), (0, 4), (0, 5), (0, 6), (0, 7), (1, 2), (1, 4), (1, 5), 
+             (1, 6), (1, 7), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (3, 4), 
+             (3, 5), (3, 6), (3, 7), (4, 5), (4, 7), (5, 6), (6, 7)]
+    f = [V2, f0], where f0 =  [0, 1, 2, 2, 3, 4, 4, 3]
+    The edge e =  (2, 3)  is vertical under f.
+    The edge e =  (4, 7)  is vertical under f.
+    The edge e =  (5, 6)  is vertical under f.
+    This [<vertex>, <intersection sizes>]] fails the check: [0, [1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [1, [1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [2, [1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [3, [0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [4, [1, 1, 2, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 1, 2, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [6, [1, 1, 2, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [7, [1, 1, 2, 1]]
+    False
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma_1join3, Gamma_2join4, f_join_g, v) for v in V_2join4]   
+     [0, 0, 1, 1, 1, 1, 1, 1]
+    sage: table_of_local_horizontal_multiplicities(Gamma_1join3, Gamma_2join4, f_join_g)                                                       
+    [[(0, (0, 1), 1), (0, (0, 3), 2), (0, (0, 4), 2)],
+     [(1, (0, 1), 1), (1, (1, 2), 1), (1, (1, 3), 2), (1, (1, 4), 2)],
+     [(2, (1, 2), 1), (2, (2, 3), 2), (2, (2, 4), 2)],
+     [(3, (1, 2), 0), (3, (2, 3), 2), (3, (2, 4), 2)]]
+    sage: Gamma1 = graphs.PathGraph(2)  
+    sage: Gamma2 = graphs.CycleGraph(6)   
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: f21_0 = [0,0,0,1,1,1]         
+    sage: f21 = [V2, f21_0]              
+    sage: Gamma3 = graphs.PathGraph(2)    
+    sage: Gamma4 = graphs.CycleGraph(4)   
+    sage: f43_0 = [0,1,1,0]     
+    sage: f43 = [V4, f43_0]     
+    sage: V4 = Gamma4.vertices(sort=True)   
+    sage: f43 = [V4, f43_0]   
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f21, v) for v in V2]  
+     [1, 0, 1, 1, 0, 1]
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma3, Gamma4, f43, v) for v in V4]            
+     [1, 1, 1, 1]
+    sage: Gamma_2join4 = graph_convert_to_standard(Gamma2.join(Gamma4))  
+    sage: Gamma_1join3 = graph_convert_to_standard(Gamma1.join(Gamma3))   
+    sage: V_2join4 = Gamma_2join4.vertices(sort=True)    
+    sage: f21_join_f43_0 = CL_of_join_of_morphisms(Gamma1, Gamma2, f21, Gamma3, Gamma4, f43)  
+    sage: f21_join_f43 = [V_2join4, f21_join_f43_0]; f21_join_f43       
+    [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [0, 0, 0, 1, 1, 1, 2, 3, 3, 2]]
+    sage: is_harmonic_graph_morphism(Gamma_1join3, Gamma_2join4, f21_join_f43, verbose=True)  
+     Gamma1 = (V1, E1) =  [0, 1, 2, 3]
+                          [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
+     Gamma2 = (V2, E2) =  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                          [(0, 1), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9), (1, 2),
+                           (1, 6), (1, 7), (1, 8), (1, 9), (2, 3), (2, 6), (2, 7),
+                           (2, 8), (2, 9), (3, 4), (3, 6), (3, 7), (3, 8), (3, 9), (4, 5),
+                           (4, 6), (4, 7), (4, 8), (4, 9), (5, 6), (5, 7), (5, 8), (5, 9),
+                           (6, 7), (6, 9), (7, 8), (8, 9)]
+    f = [V2, f0], where f0 =  [0, 0, 0, 1, 1, 1, 2, 3, 3, 2]
+    The edge e =  (0, 1)  is vertical under f.
+    The edge e =  (1, 2)  is vertical under f.
+    The edge e =  (3, 4)  is vertical under f.
+    The edge e =  (4, 5)  is vertical under f.
+    The edge e =  (6, 9)  is vertical under f.
+    The edge e =  (7, 8)  is vertical under f.
+    This [<vertex>, <intersection sizes>]] fails the check: [0, [1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [1, [0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [2, [1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [3, [1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [4, [0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [6, [3, 3, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [7, [3, 3, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [8, [3, 3, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [9, [3, 3, 1]]
+    False
+    sage: table_of_local_horizontal_multiplicities(Gamma_1join3, Gamma_2join4, f21_join_f43)                                                   
+    [[(0, (0, 1), 1), (0, (0, 2), 2), (0, (0, 3), 2)],
+     [(1, (0, 1), 0), (1, (0, 2), 2), (1, (0, 3), 2)],
+     [(2, (0, 1), 1), (2, (0, 2), 2), (2, (0, 3), 2)],
+     [(3, (0, 1), 1), (3, (1, 2), 2), (3, (1, 3), 2)],
+     [(4, (0, 1), 0), (4, (1, 2), 2), (4, (1, 3), 2)],
+     [(5, (0, 1), 1), (5, (1, 2), 2), (5, (1, 3), 2)]]
 \end{verbatim}
-
+}}
+    
 \section{\tt \ \ CL\_of\_product\_of\_morphisms}
 
 \textbf{Syntax:} \verb}CL_of_product_of_morphisms(Gamma1, Gamma2, f, Gamma3, Gamma4, g)}\\
@@ -4249,7 +4282,8 @@ EXAMPLES:
 
 \section{\tt \ \ matrix\_of\_graph\_of\_product\_of\_morphisms\_vertices}
 
-\textbf{Syntax:} \verb}matrix_of_graph_of_product_of_morphisms_vertices(Gamma1, Gamma2, f, Gamma3, Gamma4, g)}\\
+\textbf{Syntax:}
+\verb}matrix_of_graph_of_product_of_morphisms_vertices(Gamma1, Gamma2, f, Gamma3, Gamma4, g)}\\
 
 \textbf{Description:}
 \begin{verbatim}
@@ -4269,38 +4303,38 @@ Notation: f represents a harmonic morphism Gamma2 -> Gamma1
 \textbf{Example:}
 \begin{verbatim}
 EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)
-        sage: Gamma2 = graphs.PathGraph(3)
-        sage: f0 = [0,1,1]       
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: f = [V2, f0]     
-        sage: Phi = matrix_of_graph_morphism_vertices(Gamma1, Gamma2, f)
-        [1 0]
-        [0 1]
-        [0 1]
-        sage: Gamma3 = graphs.PathGraph(2) 
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: V4 = Gamma4.vertices(sort=True) 
-        sage: g0 = [0,1,1,0]     
-        sage: g = [V4, g0]  
-        sage: Phi_g = matrix_of_graph_morphism_vertices(Gamma3, Gamma4, g)
-        [1 0]
-        [0 1]
-        [0 1]
-        [1 0]
-        sage: matrix_of_graph_of_product_of_morphisms_vertices(Gamma1, Gamma2, f, Gamma3, Gamma4, g)              
-        [1 0 0 0]
-        [0 1 0 0]
-        [0 1 0 0]
-        [1 0 0 0]
-        [0 0 1 0]
-        [0 0 0 1]
-        [0 0 0 1]
-        [0 0 1 0]
-        [0 0 1 0]
-        [0 0 0 1]
-        [0 0 0 1]
-        [0 0 1 0]
+    sage: Gamma1 = graphs.PathGraph(2)
+    sage: Gamma2 = graphs.PathGraph(3)
+    sage: f0 = [0,1,1]       
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: f = [V2, f0]     
+    sage: Phi = matrix_of_graph_morphism_vertices(Gamma1, Gamma2, f)
+    [1 0]
+    [0 1]
+    [0 1]
+    sage: Gamma3 = graphs.PathGraph(2) 
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: V4 = Gamma4.vertices(sort=True) 
+    sage: g0 = [0,1,1,0]     
+    sage: g = [V4, g0]  
+    sage: Phi_g = matrix_of_graph_morphism_vertices(Gamma3, Gamma4, g)
+    [1 0]
+    [0 1]
+    [0 1]
+    [1 0]
+    sage: matrix_of_graph_of_product_of_morphisms_vertices(Gamma1, Gamma2, f, Gamma3, Gamma4, g)              
+    [1 0 0 0]
+    [0 1 0 0]
+    [0 1 0 0]
+    [1 0 0 0]
+    [0 0 1 0]
+    [0 0 0 1]
+    [0 0 0 1]
+    [0 0 1 0]
+    [0 0 1 0]
+    [0 0 0 1]
+    [0 0 0 1]
+    [0 0 1 0]
 \end{verbatim}
 
 \section{\tt \ \ CL\_product\_projection1\_harmonic}
@@ -4415,7 +4449,8 @@ Assumes Gamma1, Gamma2 are in standard form.
 
 \section{\tt \ \ is\_cartesian\_product\_of\_graph\_morphisms\_harmonic}
 
-\textbf{Syntax:} \verb}is_cartesian_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+\textbf{Syntax:}
+\verb}is_cartesian_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
 
 \textbf{Description:}
 \begin{verbatim}
@@ -4466,7 +4501,10 @@ Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 
 \section{\tt \ \ is\_cartesian\_product\_of\_graph\_morphisms\_a\_morphism}
 
-\textbf{Syntax:} \verb}is_cartesian_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+\textbf{Syntax:}
+{\small{
+\verb}is_cartesian_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+}}
 
 \textbf{Description:}
 \begin{verbatim}
@@ -4477,33 +4515,33 @@ Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)
-        sage: Gamma2 = graphs.PathGraph(3)
-        sage: f0 = [0,1,1]       
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: f = [V2, f0]     
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [0, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [1, 1, 0]
-        sage: Gamma3 = graphs.PathGraph(2) 
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: V4 = Gamma4.vertices(sort=True) 
-        sage: g0 = [0,1,1,0]     
-        sage: g = [V4, g0]  
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
-        [1, 1, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
-        [1, 1, 1, 1]
-        sage: is_cartesian_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)  
-        (0, 2) [(0, 1), (0, 3), (1, 2), (1, 4), (2, 5), (3, 4), (4, 5)]
-        Does not send edges to {edges} union {vertices}
-        False
-        sage: is_cartesian_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
-        False
-\end{verbatim}
+\begin{spverbatim}
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(2)
+    sage: Gamma2 = graphs.PathGraph(3)
+    sage: f0 = [0,1,1]       
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: f = [V2, f0]     
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [0, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [1, 1, 0]
+    sage: Gamma3 = graphs.PathGraph(2) 
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: V4 = Gamma4.vertices(sort=True) 
+    sage: g0 = [0,1,1,0]     
+    sage: g = [V4, g0]  
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
+    [1, 1, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
+    [1, 1, 1, 1]
+    sage: is_cartesian_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)  
+    (0, 2) [(0, 1), (0, 3), (1, 2), (1, 4), (2, 5), (3, 4), (4, 5)]
+    Does not send edges to {edges} union {vertices}
+    False
+    sage: is_cartesian_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
+    False
+\end{spverbatim}
 
 \section{\tt \ \ is\_tensor\_product\_projection1\_harmonic}
 
@@ -4551,7 +4589,10 @@ Assumes Gamma1, Gamma2 are in standard form.
 
 \section{\tt \ \ is\_tensor\_product\_of\_graph\_morphisms\_harmonic}
 
-\textbf{Syntax:} \verb}is_tensor_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+\textbf{Syntax:}
+{\small{
+\verb}is_tensor_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+}}
 
 \textbf{Description:}
 \begin{verbatim}
@@ -4565,40 +4606,43 @@ Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-       sage: V2 = [0, 1, 2, 3, 4, 5]                                                                            
-       sage: E2 = [(0, 1), (0, 2), (0, 4), (0, 5), (1, 2), (1, 3), (1, 4), (2, 3), (2, 5), (3, 4), (3, 5), (4, 5)] 
-       sage: Gamma2 = Graph([V2,E2]) # d4r6a                                                                     
-       sage: Gamma2.chromatic_number()                                                                           
-       3
-       sage: Gamma1 = graphs.CycleGraph(3)                                                                       
-       sage: f0 = [2, 0, 1, 2, 1, 0]                                                                             
-       sage: f = [V2, f0]   
-       sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                          
-       [2, 2, 2, 2, 2, 2]
-       sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                           
-       [0, 0, 0, 0, 0, 0]                                                                 
-       sage: is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma1, Gamma2, f) 
-       True
-       sage: is_tensor_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma1, Gamma2, f)   
-       True
-       sage: Gamma13 = Gamma1.tensor_product(Gamma1)                                                             
-       sage: Gamma24 = Gamma2.tensor_product(Gamma2)                                                             
-       sage: V24 = Gamma24.vertices(sort=True)                                                                            
-       sage: fxg0 = CL_of_product_of_morphisms(Gamma1, Gamma2, f, Gamma1, Gamma2, f)                             
-       sage: Gamma2x4 = graph_convert_to_standard(Gamma24)                                                       
-       sage: Gamma1x3 = graph_convert_to_standard(Gamma13)                                                       
-       sage: V2x4 = Gamma2x4.vertices(sort=True)                                                                          
-       sage: fxg = [V2x4, fxg0]                                                                                  
-       sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                                       
-       True
-       sage: is_harmonic_graph_morphism(Gamma1x3, Gamma2x4, fxg)                                                 
-       True
+EXAMPLES:
+   sage: V2 = [0, 1, 2, 3, 4, 5]                                                      
+   sage: E2 = [(0, 1), (0, 2), (0, 4), (0, 5), (1, 2), (1, 3), (1, 4), (2, 3), (2, 5), (3, 4), (3, 5), (4, 5)] 
+   sage: Gamma2 = Graph([V2,E2]) # d4r6a                                         
+   sage: Gamma2.chromatic_number()                                              
+   3
+   sage: Gamma1 = graphs.CycleGraph(3)                                            
+   sage: f0 = [2, 0, 1, 2, 1, 0]                                                  
+   sage: f = [V2, f0]   
+   sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]     
+   [2, 2, 2, 2, 2, 2]
+   sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]      
+   [0, 0, 0, 0, 0, 0]                                                                 
+   sage: is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma1, Gamma2, f) 
+   True
+   sage: is_tensor_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma1, Gamma2, f)   
+   True
+   sage: Gamma13 = Gamma1.tensor_product(Gamma1)                                             
+   sage: Gamma24 = Gamma2.tensor_product(Gamma2)                                        
+   sage: V24 = Gamma24.vertices(sort=True)                                                       
+   sage: fxg0 = CL_of_product_of_morphisms(Gamma1, Gamma2, f, Gamma1, Gamma2, f)                
+   sage: Gamma2x4 = graph_convert_to_standard(Gamma24)                                          
+   sage: Gamma1x3 = graph_convert_to_standard(Gamma13)                              
+   sage: V2x4 = Gamma2x4.vertices(sort=True)                                           
+   sage: fxg = [V2x4, fxg0]                                                                      
+   sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                           
+   True
+   sage: is_harmonic_graph_morphism(Gamma1x3, Gamma2x4, fxg)                        
+   True
 \end{verbatim}
 
 \section{\tt \ \ is\_tensor\_product\_of\_graph\_morphisms\_a\_morphism}
 
-\textbf{Syntax:} \verb}is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+\textbf{Syntax:}
+{\small{
+\verb}is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+}}
 
 \textbf{Description:}
 \begin{verbatim}
@@ -4611,35 +4655,38 @@ and
 Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 \end{verbatim}
 
+\noindent
 \textbf{Example:}
-\begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)
-        sage: Gamma2 = graphs.PathGraph(3)
-        sage: f0 = [0,1,1]       
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: f = [V2, f0]     
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [0, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [1, 1, 0]
-        sage: Gamma3 = graphs.PathGraph(2) 
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: V4 = Gamma4.vertices(sort=True) 
-        sage: g0 = [0,1,1,0]     
-        sage: g = [V4, g0]  
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
-        [1, 1, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
-        [1, 1, 1, 1]
-        sage: is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)  
-        The Gamma2 edge (0, 2)  does not map to Gamma1 edge set 
-          [(0, 1), (0, 3), (1, 2), (1, 4), (2, 5), (3, 4), (4, 5)]  or vertex set  [0, 1, 2, 3, 4, 5]
-        Error: Does not send edges to {edges} union {vertices}
-        False
-        sage: is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
-        False
-\end{verbatim}
+{\small{
+\begin{spverbatim}
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(2)
+    sage: Gamma2 = graphs.PathGraph(3)
+    sage: f0 = [0,1,1]       
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: f = [V2, f0]     
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [0, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [1, 1, 0]
+    sage: Gamma3 = graphs.PathGraph(2) 
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: V4 = Gamma4.vertices(sort=True) 
+    sage: g0 = [0,1,1,0]     
+    sage: g = [V4, g0]  
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
+    [1, 1, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
+    [1, 1, 1, 1]
+    sage: is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)  
+    The Gamma2 edge (0, 2)  does not map to Gamma1 edge set 
+      [(0, 1), (0, 3), (1, 2), (1, 4), (2, 5), (3, 4), (4, 5)]  or vertex set  [0, 1, 2, 3, 4, 5]
+    Error: Does not send edges to {edges} union {vertices}
+    False
+    sage: is_tensor_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
+    False
+\end{spverbatim}
+}}
 
 \section{\tt \ \ is\_strong\_product\_projection1\_harmonic}
 
@@ -4687,90 +4734,95 @@ harmonic morphism from Gamma1xGamma2 to Gamma1, and False otherwise.
 
 \section{\tt \ \ is\_strong\_product\_of\_graph\_morphisms\_harmonic}
 
-\textbf{Syntax:} \verb}is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+\textbf{Syntax:}
+\verb}is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
 
 \textbf{Description:}
 \begin{verbatim}
-Returns True if fxg (strong product) defines a graph-theoretic mapping
-from Gamma2 to Gamma1 that is harmonic, and False otherwise. 
+Returns 
+      True if fxg (strong product) defines a graph-theoretic mapping
+              from Gamma2 to Gamma1 that is harmonic, 
+and 
+      False otherwise. 
 
-    Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
+Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)
-        sage: Gamma2 = graphs.PathGraph(3)
-        sage: Gamma3 = graphs.CycleGraph(4)
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: V2 = Gamma2.vertices(sort=True)
-        sage: V4 = Gamma4.vertices(sort=True)
-        sage: f0 = [0, 1, 1]
-        sage: g0 = [0,1,2,3] 
-        sage: f = [V2, f0] 
-        sage: g = [V4, g0]
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
-        True
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)
-        True
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [1, 1, 0]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [0, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]
-        [1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]
-        [0, 0, 0, 0]
-        sage: is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)  
-        False
-        sage: is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)   
-        This [<vertex>, <intersection sizes>]] passes the check: [0, [1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] passes the check: [1, [1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] passes the check: [2, [1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] passes the check: [3, [1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [4, [1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [6, [1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [7, [1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [8, [0, 0, 0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [9, [0, 0, 0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [10, [0, 0, 0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [11, [0, 0, 0, 2, 2]]
-        False
-        sage: is_strong_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)                 
-        True
-        sage: Gamma1 = graphs.CycleGraph(3)                                                                       
-        sage: Gamma2 = graphs.CycleGraph(6)                                                                       
-        sage: V2 = Gamma2.vertices(sort=True)                                                                              
-        sage: f0 = [0, 1, 2, 0, 1, 2]                                                                             
-        sage: f = [V2, f0]                                                                                        
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                                       
-        True
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [1, 1, 1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]   
-        [0, 0, 0, 0, 0, 0]
-        sage: Gamma3 = graphs.CycleGraph(4)                                                                       
-        sage: Gamma4 = graphs.CycleGraph(8)                                                                       
-        sage: V4 = Gamma4.vertices(sort=True)                                                                              
-        sage: g0 = [0,1,2,3,0,1,2,3]                                                                              
-        sage: g = [V4, g0]                                                                                        
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)                                                       
-        True
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                          
-        [1, 1, 1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                           
-        [0, 0, 0, 0, 0, 0]
-        sage: is_strong_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)                 
-        True
-        sage: is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g)   
-        True
-\end{verbatim}
+\begin{spverbatim}
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(2)
+    sage: Gamma2 = graphs.PathGraph(3)
+    sage: Gamma3 = graphs.CycleGraph(4)
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: V2 = Gamma2.vertices(sort=True)
+    sage: V4 = Gamma4.vertices(sort=True)
+    sage: f0 = [0, 1, 1]
+    sage: g0 = [0,1,2,3] 
+    sage: f = [V2, f0] 
+    sage: g = [V4, g0]
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
+    True
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)
+    True
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [1, 1, 0]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [0, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]
+    [1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]
+    [0, 0, 0, 0]
+    sage: is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)  
+    False
+    sage: is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)   
+    This [<vertex>, <intersection sizes>]] passes the check: [0, [1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] passes the check: [1, [1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] passes the check: [2, [1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] passes the check: [3, [1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [4, [1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [6, [1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [7, [1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [8, [0, 0, 0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [9, [0, 0, 0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [10, [0, 0, 0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [11, [0, 0, 0, 2, 2]]
+    False
+    sage: is_strong_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)    
+    True
+    sage: Gamma1 = graphs.CycleGraph(3)                                                          
+    sage: Gamma2 = graphs.CycleGraph(6)                                                          
+    sage: V2 = Gamma2.vertices(sort=True)                                                        
+    sage: f0 = [0, 1, 2, 0, 1, 2]                                                                
+    sage: f = [V2, f0]                                                                           
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                          
+    True
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [1, 1, 1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]   
+    [0, 0, 0, 0, 0, 0]
+    sage: Gamma3 = graphs.CycleGraph(4)                                                          
+    sage: Gamma4 = graphs.CycleGraph(8)                                                          
+    sage: V4 = Gamma4.vertices(sort=True)                                                       
+    sage: g0 = [0,1,2,3,0,1,2,3]                                                                 
+    sage: g = [V4, g0]                                                                           
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)                                          
+    True
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]             
+    [1, 1, 1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]              
+    [0, 0, 0, 0, 0, 0]
+    sage: is_strong_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)    
+    True
+    sage: is_strong_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g)   
+    True
+\end{spverbatim}
 
 \section{\tt \ \ is\_strong\_product\_of\_graph\_morphisms\_a\_morphism}
 
-\textbf{Syntax:} \verb}is_strong_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
+\textbf{Syntax:}
+\verb}is_strong_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}\\
 
 \textbf{Description:}
 \begin{verbatim}
@@ -4781,37 +4833,40 @@ Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 \end{verbatim}
 
 \textbf{Example:}
-\begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)
-        sage: Gamma2 = graphs.PathGraph(3)
-        sage: f0 = [0,1,1]       
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: f = [V2, f0]     
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [0, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [1, 1, 0]
-        sage: Gamma3 = graphs.PathGraph(2) 
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: V4 = Gamma4.vertices(sort=True) 
-        sage: g0 = [0,1,1,0]     
-        sage: g = [V4, g0]  
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
-        [1, 1, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
-        [1, 1, 1, 1]
-        sage: is_strong_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
-        False
-        sage: is_strong_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)
-        The edge e =  (0, 3)  has no image in Gamma1 under f.
-        False
-\end{verbatim}
+\begin{spverbatim}
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(2)
+    sage: Gamma2 = graphs.PathGraph(3)
+    sage: f0 = [0,1,1]       
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: f = [V2, f0]     
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [0, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [1, 1, 0]
+    sage: Gamma3 = graphs.PathGraph(2) 
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: V4 = Gamma4.vertices(sort=True) 
+    sage: g0 = [0,1,1,0]     
+    sage: g = [V4, g0]  
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
+    [1, 1, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
+    [1, 1, 1, 1]
+    sage: is_strong_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
+    False
+    sage: is_strong_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)
+    The edge e =  (0, 3)  has no image in Gamma1 under f.
+    False
+\end{spverbatim}
 
 \section{\tt \ \ is\_lexicographic\_product\_of\_graph\_morphisms\_harmonic}
 
-  \textbf{Syntax:} \verb}is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}
-  
+\textbf{Syntax:}
+{\small{
+\verb}is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)}
+}}
+
 \textbf{Description:}
 \begin{verbatim}
 Imagine you have two graphs: Gamma1 and Gamma2. Now suppose you build a new graph where:
@@ -4835,93 +4890,96 @@ The lex product is not symmetric.
 Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 \end{verbatim}
 
+\noindent
 \textbf{Example:}
-\begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)                                                                        
-        sage: Gamma2 = graphs.PathGraph(3)                                                                        
-        sage: Gamma3 = graphs.CycleGraph(4)                                                                       
-        sage: Gamma4 = graphs.CycleGraph(4)                                                                       
-        sage: V2 = Gamma2.vertices(sort=True)                                                                              
-        sage: V4 = Gamma4.vertices(sort=True)                                                                              
-        sage: f0 = [0, 1, 1]                                                                                      
-        sage: g0 = [0,1,2,3]                                                                                      
-        sage: f = [V2, f0]                                                                                        
-        sage: g = [V4, g0]                                                                                        
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                                       
-        True
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)                                                       
-        True
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                          
-        [1, 1, 0]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                           
-        [0, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]                          
-        [1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]                           
-        [0, 0, 0, 0]
-        sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)  
-        False
-        sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)   
-        This [<vertex>, <intersection sizes>]] passes the check: [0, [1, 1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] passes the check: [1, [1, 1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] passes the check: [2, [1, 1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] passes the check: [3, [1, 1, 1, 1, 1, 1]]
-        This [<vertex>, <intersection sizes>]] fails the check: [4, [1, 1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [6, [1, 1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [7, [1, 1, 1, 1, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [8, [0, 0, 0, 0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [9, [0, 0, 0, 0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [10, [0, 0, 0, 0, 2, 2]]
-        This [<vertex>, <intersection sizes>]] fails the check: [11, [0, 0, 0, 0, 2, 2]]
-        False
-        sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)                 
-        True
-        sage: Gamma1 = graphs.CycleGraph(3)                                                                       
-        sage: Gamma2 = graphs.CycleGraph(6)                                                                       
-        sage: V2 = Gamma2.vertices(sort=True)                                                                              
-        sage: f0 = [0, 1, 2, 0, 1, 2]                                                                             
-        sage: f = [V2, f0]                                                                                        
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                                       
-        True
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [1, 1, 1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]   
-        [0, 0, 0, 0, 0, 0]
-        sage: Gamma3 = graphs.CycleGraph(4)                                                                       
-        sage: Gamma4 = graphs.CycleGraph(8)                                                                       
-        sage: V4 = Gamma4.vertices(sort=True)                                                                              
-        sage: g0 = [0,1,2,3,0,1,2,3]                                                                              
-        sage: g = [V4, g0]                                                                                        
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)                                                       
-        True
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                          
-        [1, 1, 1, 1, 1, 1]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]                           
-        [0, 0, 0, 0, 0, 0]
-        sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)                 
-        False
-        sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g)   
-        False
-        sage: Gamma1 = graphs.CompleteGraph(4)
-        sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7] 
-        sage: E2 = [(0, 1), (0, 2), (0, 7), (1, 2), (1, 3), (2, 3), (3, 4), (4, 5), (4, 6), (5, 6), (5, 7), (6, 7)]
-        sage: Gamma2 = Graph([V2,E2]) # d3reg8a
-        sage: Gamma3 = graphs.WheelGraph(4)
-        sage: V3 = Gamma3.vertices(sort=True)
-        sage: g0 = [1,2,3,0]
-        sage: g = [V3,g0]
-        sage: f0 = [0,1,2,3,0,2,1,3]
-        sage: f = [V2, f0]
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
-        True
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma1, g)
-        True                   
-        sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma1, Gamma3, g, verbose = False)
-        True 
-\end{verbatim}
-
+{\small{
+\begin{spverbatim}
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(2)                                                       
+    sage: Gamma2 = graphs.PathGraph(3)                                                       
+    sage: Gamma3 = graphs.CycleGraph(4)                                                      
+    sage: Gamma4 = graphs.CycleGraph(4)                                                      
+    sage: V2 = Gamma2.vertices(sort=True)                                                   
+    sage: V4 = Gamma4.vertices(sort=True)                                                 
+    sage: f0 = [0, 1, 1]                                                            
+    sage: g0 = [0,1,2,3]                                                            
+    sage: f = [V2, f0]                                                              
+    sage: g = [V4, g0]                                                                
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                 
+    True
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)                                
+    True
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]       
+    [1, 1, 0]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]         
+    [0, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]       
+    [1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]       
+    [0, 0, 0, 0]
+    sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=False)  
+    False
+    sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose=True)   
+    This [<vertex>, <intersection sizes>]] passes the check: [0, [1, 1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] passes the check: [1, [1, 1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] passes the check: [2, [1, 1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] passes the check: [3, [1, 1, 1, 1, 1, 1]]
+    This [<vertex>, <intersection sizes>]] fails the check: [4, [1, 1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [5, [1, 1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [6, [1, 1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [7, [1, 1, 1, 1, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [8, [0, 0, 0, 0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [9, [0, 0, 0, 0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [10, [0, 0, 0, 0, 2, 2]]
+    This [<vertex>, <intersection sizes>]] fails the check: [11, [0, 0, 0, 0, 2, 2]]
+    False
+    sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)                 
+    True
+    sage: Gamma1 = graphs.CycleGraph(3)                                                      
+    sage: Gamma2 = graphs.CycleGraph(6)                                                      
+    sage: V2 = Gamma2.vertices(sort=True)                                             
+    sage: f0 = [0, 1, 2, 0, 1, 2]                                                            
+    sage: f = [V2, f0]                                                                       
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)                                
+    True
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [1, 1, 1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]   
+    [0, 0, 0, 0, 0, 0]
+    sage: Gamma3 = graphs.CycleGraph(4)                                                   
+    sage: Gamma4 = graphs.CycleGraph(8)                                                      
+    sage: V4 = Gamma4.vertices(sort=True)                                                
+    sage: g0 = [0,1,2,3,0,1,2,3]                                                            
+    sage: g = [V4, g0]                                                                       
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma4, g)                                      
+    True
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]         
+    [1, 1, 1, 1, 1, 1]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]          
+    [0, 0, 0, 0, 0, 0]
+    sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma3, Gamma4, g, Gamma3, Gamma4, g)                 
+    False
+    sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma3, Gamma4, g)   
+    False
+    sage: Gamma1 = graphs.CompleteGraph(4)
+    sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7] 
+    sage: E2 = [(0, 1), (0, 2), (0, 7), (1, 2), (1, 3), (2, 3), (3, 4), (4, 5), (4, 6), (5, 6), (5, 7), (6, 7)]
+    sage: Gamma2 = Graph([V2,E2]) # d3reg8a
+    sage: Gamma3 = graphs.WheelGraph(4)
+    sage: V3 = Gamma3.vertices(sort=True)
+    sage: g0 = [1,2,3,0]
+    sage: g = [V3,g0]
+    sage: f0 = [0,1,2,3,0,2,1,3]
+    sage: f = [V2, f0]
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
+    True
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma1, g)
+    True                   
+    sage: is_lexicographic_product_of_graph_morphisms_harmonic(Gamma1, Gamma2, f, Gamma1, Gamma3, g, verbose = False)
+    True 
+\end{spverbatim}
+}}
+    
 \section{\tt \ \ is\_lexicographic\_product\_projection1\_harmonic}
 
 \textbf{Syntax:} \verb}is_lexicographic_product_projection1_harmonic(Gamma1, Gamma2, verbose=False)}\\
@@ -4989,7 +5047,8 @@ Assumes Gamma1, Gamma2 are in standard form.
 
 \section{\tt \ \ is\_disjunctive\_product\_of\_graph\_morphisms\_a\_morphism}
 
-\textbf{Syntax:} \verb}is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose = False)}\\
+\textbf{Syntax:}
+\verb}is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose = False)}\\
 
 \textbf{Description:}
 \begin{verbatim}
@@ -5004,53 +5063,57 @@ Assumes Gamma1, Gamma2, Gamma3, Gamma4 are in standard form.
 Converts Gamma2xGamma4 and Gamma1xGamma3 to standard form (eg, for verbose=True output).
 \end{verbatim}
 
+\noindent
 \textbf{Example:}
-\begin{verbatim}
-    EXAMPLES:
-        sage: Gamma1 = graphs.PathGraph(2)
-        sage: Gamma2 = graphs.PathGraph(3)
-        sage: f0 = [0,1,1]       
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: f = [V2, f0]     
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [0, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [1, 1, 0]
-        sage: Gamma3 = graphs.PathGraph(2) 
-        sage: Gamma4 = graphs.CycleGraph(4) 
-        sage: V4 = Gamma4.vertices(sort=True) 
-        sage: g0 = [0,1,1,0]     
-        sage: g = [V4, g0]  
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
-        [1, 1, 1, 1]
-        sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
-        [1, 1, 1, 1]
-        sage: is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
-        False
-        sage: is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose = True) 
-        The edge e =  (0, 3)  has no image in Gamma1 under f.
-        False
-        sage: Gamma1 = graphs.CompleteGraph(4)
-        sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7] 
-        sage: E2 = [(0, 1), (0, 2), (0, 7), (1, 2), (1, 3), (2, 3), (3, 4), (4, 5), (4, 6), (5, 6), (5, 7), (6, 7)]
-        sage: Gamma2 = Graph([V2,E2]) # d3reg8a
-        sage: Gamma3 = graphs.WheelGraph(4)
-        sage: V3 = Gamma3.vertices(sort=True)
-        sage: g0 = [1,2,3,0]
-        sage: g = [V3,g0]
-        sage: f0 = [0,1,2,3,0,2,1,3]
-        sage: f = [V2, f0]
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
-        True
-        sage: is_harmonic_graph_morphism(Gamma3, Gamma1, g)
-        True
-        sage: is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma1, Gamma3, g, verbose = False)
-        True
-\end{verbatim}
+{\small{
+\begin{spverbatim}
+EXAMPLES:
+    sage: Gamma1 = graphs.PathGraph(2)
+    sage: Gamma2 = graphs.PathGraph(3)
+    sage: f0 = [0,1,1]       
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: f = [V2, f0]     
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [0, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [1, 1, 0]
+    sage: Gamma3 = graphs.PathGraph(2) 
+    sage: Gamma4 = graphs.CycleGraph(4) 
+    sage: V4 = Gamma4.vertices(sort=True) 
+    sage: g0 = [0,1,1,0]     
+    sage: g = [V4, g0]  
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4] 
+    [1, 1, 1, 1]
+    sage: [horizonal_multiplicity_of_harmonic_map(Gamma3, Gamma4, g, v) for v in V4]  
+    [1, 1, 1, 1]
+    sage: is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g) 
+    False
+    sage: is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma3, Gamma4, g, verbose = True) 
+    The edge e =  (0, 3)  has no image in Gamma1 under f.
+    False
+    sage: Gamma1 = graphs.CompleteGraph(4)
+    sage: V2 = [0, 1, 2, 3, 4, 5, 6, 7] 
+    sage: E2 = [(0, 1), (0, 2), (0, 7), (1, 2), (1, 3), (2, 3), (3, 4), (4, 5), (4, 6), (5, 6), (5, 7), (6, 7)]
+    sage: Gamma2 = Graph([V2,E2]) # d3reg8a
+    sage: Gamma3 = graphs.WheelGraph(4)
+    sage: V3 = Gamma3.vertices(sort=True)
+    sage: g0 = [1,2,3,0]
+    sage: g = [V3,g0]
+    sage: f0 = [0,1,2,3,0,2,1,3]
+    sage: f = [V2, f0]
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
+    True
+    sage: is_harmonic_graph_morphism(Gamma3, Gamma1, g)
+    True
+    sage: is_disjunctive_product_of_graph_morphisms_a_morphism(Gamma1, Gamma2, f, Gamma1, Gamma3, g, verbose = False)
+    True
+\end{spverbatim}
+}}
 
 \section{\tt \ \ is\_disjunctive\_product\_projection1\_morphism}
 
-\textbf{Syntax:} \verb}is_disjunctive_product_projection1_morphism(Gamma1, Gamma2, verbose=False)}\\
+\textbf{Syntax:}
+\verb}is_disjunctive_product_projection1_morphism(Gamma1, Gamma2, verbose=False)}\\
 
 \textbf{Description:}
 \begin{verbatim}
@@ -5275,61 +5338,62 @@ index set {0, ..., k-1} is identified with ZZ/kZZ).
 
 \textbf{Example:}
 \begin{verbatim}
-    EXAMPLES:
-        sage: Gamma = LC_multipartite_graph([2,3,4])                                       
-        sage: Gamma.vertices(sort=True)                                                             
-        [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        sage: Gamma.edges(labels=None,sort=True)                                                     
-        [(0, 2), (0, 3), (0, 4), (1, 2), (1, 3), (1, 4), 
-         (2, 5), (2, 6), (2, 7), (2, 8), (3, 5), (3, 6), (3, 7), (3, 8), (4, 5), (4, 6), (4, 7), (4, 8)]
-        sage: 
-        sage: Gamma2 = LC_multipartite_graph([2,3,2])  
-        sage: V2 = Gamma2.vertices(sort=True)   
-        sage: Gamma1 = graphs.PathGraph(3) 
-        sage: f0 = [0,0,1,1,1,2,2] 
-        sage: f = [V2, f0]       
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f) 
-        True
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [3, 3, 2, 2, 2, 3, 3]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]  
-        [0, 0, 0, 0, 0, 0, 0]
-        sage: 
-        sage: Gamma2 = LC_multipartite_graph([2,2,3]) 
-        sage: V2 = Gamma2.vertices(sort=True)  
-        sage: Gamma1 = graphs.PathGraph(3) 
-        sage: f0 = [0,0,1,1,2,2,2] 
-        sage: f = [V2, f0]        
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f) 
-        False
-        sage: is_graph_morphism(Gamma1, Gamma2, f) 
-        True
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [0, 0, 0, 0, 0, 0, 0]
-        sage: 
-        sage: Gamma2 = LC_multipartite_graph([2,2,2], cyclic = True)
-        sage: V2 = Gamma2.vertices(sort=True) 
-        sage: Gamma1 = graphs.CycleGraph(3)
-        sage: f0 = [0,0,1,1,2,2]
-        sage: f = [V2, f0] 
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
-        True
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [2, 2, 2, 2, 2, 2]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [0, 0, 0, 0, 0, 0]
-        sage: 
-        sage: Gamma2 = LC_multipartite_graph([2,1,2,1], cyclic = True)  
-        sage: V2 = Gamma2.vertices(sort=True)  
-        sage: Gamma1 = graphs.CycleGraph(4) 
-        sage: f0 = [0,0,1,2,2,3] 
-        sage: f = [V2, f0] 
-        sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f) 
-        True
-        sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
-        [1, 1, 2, 1, 1, 2]
-        sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
-        [0, 0, 0, 0, 0, 0]
+EXAMPLES:
+    sage: Gamma = LC_multipartite_graph([2,3,4])                                       
+    sage: Gamma.vertices(sort=True)                                                             
+    [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    sage: Gamma.edges(labels=None,sort=True)                                                     
+    [(0, 2), (0, 3), (0, 4), (1, 2), (1, 3), (1, 4), 
+     (2, 5), (2, 6), (2, 7), (2, 8), (3, 5), (3, 6), 
+     (3, 7), (3, 8), (4, 5), (4, 6), (4, 7), (4, 8)]
+    sage: 
+    sage: Gamma2 = LC_multipartite_graph([2,3,2])  
+    sage: V2 = Gamma2.vertices(sort=True)   
+    sage: Gamma1 = graphs.PathGraph(3) 
+    sage: f0 = [0,0,1,1,1,2,2] 
+    sage: f = [V2, f0]       
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f) 
+    True
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [3, 3, 2, 2, 2, 3, 3]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]  
+    [0, 0, 0, 0, 0, 0, 0]
+    sage: 
+    sage: Gamma2 = LC_multipartite_graph([2,2,3]) 
+    sage: V2 = Gamma2.vertices(sort=True)  
+    sage: Gamma1 = graphs.PathGraph(3) 
+    sage: f0 = [0,0,1,1,2,2,2] 
+    sage: f = [V2, f0]        
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f) 
+    False
+    sage: is_graph_morphism(Gamma1, Gamma2, f) 
+    True
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [0, 0, 0, 0, 0, 0, 0]
+    sage: 
+    sage: Gamma2 = LC_multipartite_graph([2,2,2], cyclic = True)
+    sage: V2 = Gamma2.vertices(sort=True) 
+    sage: Gamma1 = graphs.CycleGraph(3)
+    sage: f0 = [0,0,1,1,2,2]
+    sage: f = [V2, f0] 
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f)
+    True
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [2, 2, 2, 2, 2, 2]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [0, 0, 0, 0, 0, 0]
+    sage: 
+    sage: Gamma2 = LC_multipartite_graph([2,1,2,1], cyclic = True)  
+    sage: V2 = Gamma2.vertices(sort=True)  
+    sage: Gamma1 = graphs.CycleGraph(4) 
+    sage: f0 = [0,0,1,2,2,3] 
+    sage: f = [V2, f0] 
+    sage: is_harmonic_graph_morphism(Gamma1, Gamma2, f) 
+    True
+    sage: [horizontal_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2] 
+    [1, 1, 2, 1, 1, 2]
+    sage: [vertical_multiplicity_of_harmonic_map(Gamma1, Gamma2, f, v) for v in V2]
+    [0, 0, 0, 0, 0, 0]
 \end{verbatim}
 
 \section{\tt \ \ blowup\_graph}
@@ -5892,10 +5956,13 @@ OUTPUT:
                         mu(v) leafs attached to v. 
                  If f^(-1)(x0) = [v\_1,...,v\_k] (v\_1<v\_2<...<v\_k) then 
                  these new vertices and edges are labeled 
-                 V21 = [n2,...,n2+mu(v\_1)-1], (v1,w) for w in V21,
-                 V22 = [n2+mu(v\_1),..., n2+mu(v\_1)+mu(v\_2)-1], (v2,w) for w in V22,
+                 V21 = [n2,...,n2+mu(v\_1)-1], 
+                     (v1,w) for w in V21,
+                 V22 = [n2+mu(v\_1),..., n2+mu(v\_1)+mu(v\_2)-1], 
+                     (v2,w) for w in V22,
                   ..., 
-                 V2k = [n2+mu(v\_1)+...+mu(v\_{k-1}),..., n2+mu(v\_1)+...+mu(v\_k)-1], (vk,w) for w in V2k.
+                 V2k = [n2+mu(v\_1)+...+mu(v\_{k-1}),..., n2+mu(v\_1)+...+mu(v\_k)-1], 
+                     (vk,w) for w in V2k.
      - g is the graph morphism from Gamma4 -> Gamma3, corresponding to this extention of f.
 \end{verbatim}
     
@@ -6000,7 +6067,7 @@ Output: The harmonic quotient graph morphisms.
 \textbf{Example:}
 \begin{verbatim}
     EXAMPLES:
-        sage: Gamma2 = graphs.LCFGraph(12, [6, -2, 2], 4) # trunc tetrahedron, d3reg12-12? 
+        sage: Gamma2 = graphs.LCFGraph(12, [6, -2, 2], 4) # trunc tetrahedron
         sage: L = has_harmonic_quotient(Gamma2, verbose=True)  
          10  non-trivial harmonic quotient morphism(s) found.
         sage: f0 = L[3][0]; f0     
