@@ -79,8 +79,8 @@ for m in re.finditer(r'\\begin\{example\}%\s*(\w+)(.*?)\\end\{example\}', src, r
     for i, (rows, s, e) in enumerate(tbs):
         nxt = tbs[i + 1][1] if i + 1 < len(tbs) else len(body)
         after = body[e:nxt]
-        g1 = re.search(r'genus\}\(\\Gamma_1\)\s*=\s*(\d+)', after)
-        g2 = re.search(r'genus\}\(\\Gamma_2\)\s*=\s*(\d+)', after)
+        g1 = re.search(r'genus\}?\(\\Gamma_1\)\s*=\s*(\d+)', after)
+        g2 = re.search(r'genus\}?\(\\Gamma_2\)\s*=\s*(\d+)', after)
         d = re.search(r'deg\(\\phi\)\s*=\s*(\d+)', after)
         ex['tables'].append({'rows': rows, 'pos': s, 'line': ex['line'] + body[:s].count('\n'),
                              'g1': int(g1.group(1)) if g1 else None,

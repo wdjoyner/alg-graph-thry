@@ -1,0 +1,276 @@
+\documentclass[11pt,letterpaper]{article}
+\IfFileExists{newtxmath.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{longtable}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\def\UrlBreaks{\do\/\do\_\do\.\do\-}
+
+\title{Revision log for ``Harmonic quotient morphisms of regular graphs: examples''}
+\author{David Joyner and Caroline Melles}
+\date{Current draft: Draft 2, November 16, 2026}
+
+\begin{document}
+\maketitle
+
+This log records every change from one draft to the next, and the
+responses to referee reports. All files are in the folder
+\path{harmonic-quotient} of \url{https://github.com/wdjoyner/alg-graph-thry}.
+
+\begin{center}
+\begin{tabular}{p{0.2\textwidth}p{0.13\textwidth}p{0.58\textwidth}}
+\hline
+Draft & Date & File \\
+\hline
+Draft 0 (original) & 2023-03-26 & \path{archive/regular-graph-harmonic-quotient-examples_2023-03-26.tex} \\
+Draft 1 & 2026-11-15 & git commit \texttt{295fd16} \\
+Draft 2 & 2026-11-16 & \path{regular-graph-harmonic-quotient-examples.tex} (this branch) \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Draft 0 to Draft 1 (computational referee check)}
+
+Claude (Anthropic) recomputed every table, morphism count, quotient list and
+graph invariant with independent programs (now in \path{verification/}).
+The full report is in \path{referee/2026-11-15/}. The line-by-line changes
+are in \path{referee/2026-11-15/corrections.diff}. In summary:
+\begin{enumerate}
+\item Corrected tables that had been copied from neighboring examples:
+{\tt d3reg8e} (not harmonic as printed), the {\tt d4reg9a} coantenna table,
+the {\tt d4reg12d} butterfly table, and the $m$ column of the {\tt d4reg11f}
+$C_6+C_4+C_4$ table.
+\item Corrected stated subgroups that did not give their tables:
+{\tt d3reg10k}, {\tt d3reg10r}, {\tt d3reg10s}, and $G_1$, $G_3$ in
+{\tt d3reg12h}.
+\item Corrected $16$ of $491$ stated morphism counts, including all counts
+for {\tt d3reg6a} and {\tt d3reg6b} and the counts for {\tt d4reg11f},
+{\tt d4reg11g}, {\tt d3reg12a}, {\tt d3reg12g} and {\tt d5reg8a}.
+\item Added the quotient for $G=\mathrm{Aut}(\Gamma_2)$ in $19$ examples. The
+Sage function \path{has_harmonic_quotient} omits it.
+\item Corrected $\deg(\phi)$ in nine tables, where $|G|$ or the fiber size
+had been recorded instead of $\sum m_\phi(x)$ over a fiber.
+\item Corrected wrong $\nu$, $m$ and genus entries, quotient breakdowns,
+graph identifications, five characteristic polynomial coefficients, two
+girths, one critical group order, LCF entries in the summary tables, two
+census totals, and the statement of Tait's conjecture.
+\end{enumerate}
+No result changed status. All corrected statements are computational
+results, as before.
+
+\section{Draft 1 to Draft 2 (style guide)}
+
+Draft 2 revises Draft 1 to the authors' style guide (Draft 1 of the guide,
+November 11, 2026). The mathematical content of the examples is unchanged
+except where noted in Section~\ref{sec:d2-corrections}.
+
+\subsection{Changes by rule of the style guide}
+
+\begin{longtable}{p{0.12\textwidth}p{0.80\textwidth}}
+\hline
+Rule & Change \\
+\hline
+\endhead
+1.1 & 12pt, US Letter, one-inch margins. Times via \texttt{newtx}, falling back to \texttt{mathptmx} when \texttt{newtx} is not installed. \\
+1.2, 1.3 & Compiles with \texttt{pdflatex} with no errors, no undefined references and no overfull or underfull boxes (checked with \texttt{mathptmx}). Long code names use \verb|\path| so that they can break. No manual line breaks were added. \\
+1.4 & No British spellings were found. \\
+1.5, 1.9 & Every example now has a label \texttt{example:NAME}. All cross-references use \verb|\ref|. All citations use \verb|\cite|. \\
+1.6 & Theorem-like environments are numbered within sections. See the concordance below. \\
+1.7 & Citation keys changed: \texttt{graph6} $\to$ \texttt{Mc26}, \texttt{ISGCI} $\to$ \texttt{dR26}, \texttt{Me17} $\to$ \texttt{MM19} (now the published version). New keys \texttt{AM25}, \texttt{Co11}, \texttt{Co12}, \texttt{Co15}, \texttt{GAP}, \texttt{MJ26}, \texttt{MP14}, \texttt{MZ23}, \texttt{Sage}, \texttt{Ur00}, \texttt{VZ24}. \\
+1.8 & $\mathrm{Aut}$, $\mathrm{genus}$ and $\mathrm{Jac}$ are declared operators. $\deg$ is used. Barbell is set upright. \\
+2 & Added an abstract, introduction, literature review (split at March 26, 2023), background, notation table, summary of results with open questions, glossary and acknowledgments. The original ``Definitions'' section is now Section 3.1. \\
+3.2 & Added an orienting paragraph to every section, subsection and ``Examples'' subsubsection that lacked one. \\
+3.4, 3.5 & Defined harmonic morphism, multiplicities, degree, cover, quasicover, multicover, quotient graph, harmonic quotient, CL format and LCF notation, with examples. \\
+3.8 & Removed the semicolons introduced in Draft 1. New text avoids them. \\
+4.1 & The introduction states that all statements about specific graphs are computational results, and names the programs. \\
+4.3 & Checked every bibliography entry against a source. See Section~\ref{sec:levels}. \\
+4.4 & The paper cites the scripts by commit hash: \texttt{538896d} (Sage library) and \texttt{295fd16} (verification). \\
+5.1 & Author line gives \texttt{wdjoyner@gmail.com}. \\
+5.2, 5.3 & Acknowledgments name Claude and its role, and state that AI review is not an independent certification. \\
+6.2, 6.3 & Title kept. Date line ``Original draft: March 26, 2023. Corrected draft: November 16, 2026 (Draft 2).'' A \verb|\thanks| footnote identifies the original. \\
+6.5 & Revision history is kept out of the body, apart from the short paragraph required by 6.6 and the footnote required by 6.3. \\
+6.6 & The introduction lists the kinds of statement that are new in 2026. \\
+6.7 & Five statements not fully verified are marked Remark 2026.1 to 2026.5. \\
+6.9 & Concordance below. \\
+8.1 & Source and compiled PDF are in the repository. The 104 figure files, missing from Draft 1, were recovered from the 2023 PDF into \path{graphics/}. \\
+8.2, 8.3 & This log. The draft number is on the title page. \\
+8.4 & The Sage session that followed \verb|\end{document}| was moved to \path{sage/d4reg11f-session.txt}. \\
+8.5 & Added license notices: CC BY 4.0 for the LaTeX source, MIT for the scripts. \\
+\hline
+\end{longtable}
+
+\subsection{Defaults used for the [DECIDE] items of the style guide}
+
+\begin{itemize}
+\item Document class: \texttt{article} was kept, as in the existing file.
+\item Times package: \texttt{newtx}, with a \texttt{mathptmx} fallback.
+\item Glossary placement: at the end, just before the acknowledgments.
+\item AI credit: in the acknowledgments only. The author line is unchanged.
+\item Citation keys for undated web resources use the year of access
+(\texttt{Mc26}, \texttt{dR26}). Software citations use the keys
+\texttt{GAP} and \texttt{Sage}, which do not follow rule 1.7.
+\end{itemize}
+
+\subsection{Corrections made in Draft 2}
+\label{sec:d2-corrections}
+
+\begin{enumerate}
+\item Example 6.1 ({\tt d3reg8a}) said that $K_4$ is a matchstick graph.
+This is false: a matchstick graph is a unit-distance graph, and the plane
+contains no four points at mutual distance $1$. The sentence now says this.
+\item Removed a stray formula fragment after the subgroup in Example 6.18
+({\tt d3reg10m}), and displayed the subgroup.
+\item Typos: ``There are are'', ``it's automorphism group''.
+\end{enumerate}
+
+\subsection{Copyedits by David Joyner incorporated in Draft 2}
+
+Commit \texttt{12b0ae8} (November 16, 2026) copyedited Draft 1. Its diff is
+\path{regular-graph-revision-2026-11-16.diff}. All of its changes are in
+Draft 2, apart from those that Draft 2 had already made in another way (the
+date line, two typos, the stray fragment and the bibliography). The changes are:
+\begin{itemize}
+\item Two totals in Example 7.7 ({\tt d4reg8c}) and Example 7.8
+({\tt d4reg8d}) were not updated in Draft 1 when the overall counts were
+corrected. They are now $2197=2221-24$ and $12$.
+\item The 12-vertex graph {\tt d3reg12a} was called the Petersen graph. The
+sentence no longer says so. A stray bracket in its edge set was removed.
+\item Factorizations of critical group orders were written with explicit
+products, and $34680=2^3\cdot 3\cdot 5\cdot 17^2$ now shows its factor $3$.
+\item A horizontal rule was added below the header of fourteen
+morphism tables.
+\item Grammar, spelling and punctuation elsewhere.
+\item The page reference ``See also page \ldots\ below'' pointed to a label
+above it. Draft 2 now refers to Example~7.18 ({\tt d4reg9h}).
+\end{itemize}
+
+\subsection{New material in Draft 2}
+
+\begin{itemize}
+\item Lemma 3.6 (diameter bound) now has a proof in the paper. It replaces
+two references to \S3.8 of [MJ22], which was not consulted.
+\item Lemma 3.8 (divisibility of spanning tree counts) is new. Every count in
+the paper satisfies it.
+\item The summary table of Section 9 is new. It gives $|\mathrm{Aut}|$ and
+the number of harmonic quotients for all $86$ graphs, including the two
+graphs on $6$ vertices, whose quotients were not counted before.
+\end{itemize}
+
+\subsection{Verification levels}
+\label{sec:levels}
+
+Levels as in Section 7 of the style guide: Level 1 is an independent
+derivation, Level 2 a check against a source actually consulted, Level 3
+reliance on memory.
+
+\begin{longtable}{p{0.40\textwidth}p{0.07\textwidth}p{0.45\textwidth}}
+\hline
+Item & Level & How \\
+\hline
+\endhead
+All tables, counts, quotient lists, invariants & 1 & Recomputed by the scripts in \path{verification/}. \\
+Lemmas 3.6, 3.7 & 1 & Proved in the paper. \\
+Lemma 3.8, Riemann--Hurwitz, degree, surjectivity & 2 & Lemma 4.12, Theorem 2.14, Lemmas 2.4 and 2.7 of arXiv:0707.1309v2. The IMRN numbering was not checked. \\
+\texttt{has\_harmonic\_quotient} omits $\mathrm{Aut}(\Gamma_2)$ & 1 & Read the code, line 7230 of \path{alg-graph-thry2.sage}. \\
+Bibliography entries BC76, BN09, Co11, Co12, Co15, dR26, JM17, MM19, MP14, MZ23, Ur00, VZ24, AM25 & 2 & Publisher pages, arXiv pages or the cited article. \\
+MJ22, MJ26 & 3 & From the authors. Not consulted. \\
+Tait's conjecture and Tutte's counterexample & 2 & Sources consulted in the Draft 1 check. \\
+\hline
+\end{longtable}
+
+\section{Open items for the authors}
+
+\begin{enumerate}
+\item Is [MJ26] (\emph{Exploring Graphs via Harmonic Morphisms}) the
+published form of [MJ22]? If so, the references to [MJ22] can point to it.
+\item Remarks 2026.1 to 2026.5: the definitions of cover and its variants
+(2026.1), the novelty of the constructions in Section 5 (2026.2), the
+matchstick claims (2026.3), the term ``weed'' (2026.4), and the name
+$X_{37}$ (2026.5).
+\item The CC BY 4.0 license on the paper needs the agreement of both
+authors.
+\item Fix \path{has_harmonic_quotient}: change \verb|<| to \verb|<=| in the
+subgroup filter on line 7230 of \path{alg-graph-thry2.sage}.
+\end{enumerate}
+
+\section{Concordance of numbering}
+
+Sections: old Section 1 (Definitions) is now Section 3.1. Old Section 2
+(constructions) is now Section 5. Old Sections 3, 4, 5 (cubic, quartic,
+quintic) are now Sections 6, 7, 8, and their subsections keep their
+positions. Figure numbers are unchanged (63 figures). Theorem-like
+environments are now numbered within sections, so every example has a new
+number.
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Labeled section & Draft 1 & Draft 2 \\
+\hline
+Cubic cases & 3 & 6 \\
+Cubic, 6 vertices & 3.1 & 6.1 \\
+Cubic, 8 vertices & 3.2 & 6.2 \\
+Cubic, 10 vertices, examples & 3.3.1 & 6.3.1 \\
+Cubic, 12 vertices & 3.4 & 6.4 \\
+Cubic, 12 vertices, examples & 3.4.1 & 6.4.1 \\
+Quartic, 8 vertices & 4.4 & 7.4 \\
+Quartic, 9 vertices & 4.5 & 7.5 \\
+Quartic, 12 vertices & 4.8 & 7.8 \\
+Quintic, 8 vertices & 5.2 & 8.2 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{longtable}{lll|lll}
+\hline
+Example & Draft 1 & Draft 2 & Example & Draft 1 & Draft 2 \\
+\hline
+\endhead
+{\tt d3reg8a} & 1 & 6.1 & {\tt d4reg8a} & 43 & 7.5 \\
+{\tt d3reg8b} & 2 & 6.2 & {\tt d4reg8b} & 44 & 7.6 \\
+{\tt d3reg8c} & 3 & 6.3 & {\tt d4reg8c} & 45 & 7.7 \\
+{\tt d3reg8d} & 4 & 6.4 & {\tt d4reg8d} & 46 & 7.8 \\
+{\tt d3reg8e} & 5 & 6.5 & {\tt d4reg8e} & 47 & 7.9 \\
+{\tt d3reg10a} & 6 & 6.6 & {\tt d4reg8f} & 48 & 7.10 \\
+{\tt d3reg10b} & 7 & 6.7 & {\tt d4reg9a} & 49 & 7.11 \\
+{\tt d3reg10c} & 8 & 6.8 & {\tt d4reg9b} & 50 & 7.12 \\
+{\tt d3reg10d} & 9 & 6.9 & {\tt d4reg9c} & 51 & 7.13 \\
+{\tt d3reg10e} & 10 & 6.10 & {\tt d4reg9d} & 52 & 7.14 \\
+{\tt d3reg10f} & 11 & 6.11 & {\tt d4reg9e} & 53 & 7.15 \\
+{\tt d3reg10g} & 12 & 6.12 & {\tt d4reg9f} & 54 & 7.16 \\
+{\tt d3reg10h} & 13 & 6.13 & {\tt d4reg9g} & 55 & 7.17 \\
+{\tt d3reg10i} & 14 & 6.14 & {\tt d4reg9h} & 56 & 7.18 \\
+{\tt d3reg10j} & 15 & 6.15 & {\tt d4reg9i} & 57 & 7.19 \\
+{\tt d3reg10k} & 16 & 6.16 & {\tt d4reg10a} & 58 & 7.20 \\
+{\tt d3reg10l} & 17 & 6.17 & {\tt d4reg10b} & 59 & 7.21 \\
+{\tt d3reg10m} & 18 & 6.18 & {\tt d4reg10c} & 60 & 7.22 \\
+{\tt d3reg10n} & 19 & 6.19 & {\tt d4reg10d} & 61 & 7.23 \\
+{\tt d3reg10o} & 20 & 6.20 & {\tt d4reg10e} & 62 & 7.24 \\
+{\tt d3reg10p} & 21 & 6.21 & {\tt d4reg10f} & 63 & 7.25 \\
+{\tt d3reg10q} & 22 & 6.22 & {\tt d4reg11a} & 64 & 7.26 \\
+{\tt d3reg10r} & 23 & 6.23 & {\tt d4reg11b} & 65 & 7.27 \\
+{\tt d3reg10s} & 24 & 6.24 & {\tt d4reg11c} & 66 & 7.28 \\
+{\tt d3reg12a} & 25 & 6.25 & {\tt d4reg11d} & 67 & 7.29 \\
+{\tt d3reg12b} & 26 & 6.26 & {\tt d4reg11e} & 68 & 7.30 \\
+{\tt d3reg12c} & 27 & 6.27 & {\tt d4reg11f} & 69 & 7.31 \\
+{\tt d3reg12d} & 28 & 6.28 & {\tt d4reg11g} & 70 & 7.32 \\
+{\tt d3reg12e} & 29 & 6.29 & {\tt d4reg12a} & 71 & 7.33 \\
+{\tt d3reg12f} & 30 & 6.30 & {\tt d4reg12b} & 72 & 7.34 \\
+{\tt d3reg12g} & 31 & 6.31 & {\tt d4reg12c} & 73 & 7.35 \\
+{\tt d3reg12h} & 32 & 6.32 & {\tt d4reg12d} & 74 & 7.36 \\
+{\tt d3reg12i} & 33 & 6.33 & {\tt d4reg12e} & 75 & 7.37 \\
+{\tt d3reg12j} & 34 & 6.34 & {\tt d4reg12f} & 76 & 7.38 \\
+{\tt d3reg12k} & 35 & 6.35 & {\tt d5reg6a} & 77 & 8.1 \\
+{\tt d3reg12l} & 36 & 6.36 & {\tt d5reg8a} & 78 & 8.2 \\
+{\tt d3reg12m} & 37 & 6.37 & {\tt d5reg8b} & 79 & 8.3 \\
+{\tt d3reg12n} & 38 & 6.38 & {\tt d5reg8c} & 80 & 8.4 \\
+{\tt d4reg5a} & 39 & 7.1 & {\tt d5reg10a} & 81 & 8.5 \\
+{\tt d4reg6a} & 40 & 7.2 & {\tt d5reg10b} & 82 & 8.6 \\
+{\tt d4reg7a} & 41 & 7.3 & {\tt d5reg10c} & 83 & 8.7 \\
+{\tt d4reg7b} & 42 & 7.4 & {\tt d5reg10d} & 84 & 8.8 \\
+\hline
+\end{longtable}
+
+\end{document}
