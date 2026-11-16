@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-%last edited by wdj 2023-03-26
+%last edited by wdj 2023-03-26; corrections from a computational referee check, 2026-11-15
 \usepackage{float}
 \usepackage{amsthm}
 \usepackage{amsmath}
@@ -146,10 +146,11 @@ A). The result is a $k$-regular graph with $2n+2d$ vertices.
 \label{sec:cubic-examples}
 
 Most of these are Hamiltonian.
-Indeed, in 1880 P.G. Tait conjectured
-(roughly speaking) that every $2$-connected cubic graph is Hamiltonian.
-While it's known this conjecture is false, the counterexamples are exceptional
-(e.g., the Petersen graph).
+Indeed, P.G. Tait conjectured (1884) that every $3$-connected planar
+cubic graph is Hamiltonian. This conjecture is false (Tutte, 1946), but the
+counterexamples are exceptional: the smallest ones have $38$ vertices.
+(The non-Hamiltonian Petersen graph is $3$-connected and cubic, but it is not
+planar, so it is not a counterexample to Tait's conjecture.)
 \index{Petersen graph}
 \index{Tait's conjecture}
 
@@ -184,13 +185,13 @@ circumference $6$.
 This is vertex transitive but not an edge transitive graph. It is Hamiltonian and circulant
 with parameters $(6, [2, 3, 4])$.
 
-It has $360$ non-trivial harmonic morphisms to $St_4$, $36$ non-trivial harmonic
-morphisms to $P_3$, $102$ to $P_4$, $12$ to $P_5$,
+It has
 $6$ non-trivial harmonic morphisms\footnote{Exactly one of these is a
 harmonic quotient morphism to $C_3$. That morphism is a
-quasicover with constant vertical multiplicity $1$.} to $C_3$,
-There are no non-trivial harmonic morphisms to $P_6$, to the
+quasicover with constant vertical multiplicity $1$.} to $C_3$.
+There are no non-trivial harmonic morphisms to $St_4$, $P_3$, $P_4$, $P_5$, $P_6$, to the
 diamond graph (with $4$ vertices), nor are there any to $K_4$.
+(Since the diameter is $2$, there are none to $P_k$ for $k\geq 4$.)
 
 \item
   {\tt d3reg6b}\newline
@@ -208,22 +209,24 @@ Moreover, it is Hamiltonian and circulant
 with parameters $(6, [1, 3, 5])$.
 
 
-It has $444$ non-trivial harmonic morphisms\footnote{At least one of these is a
+It has $12$ non-trivial harmonic morphisms\footnote{At least one of these is a
 harmonic quotient morphism to $St_4$. That morphism is a homomorphism.}
-to $St_4$, $48$ non-trivial harmonic
-morphisms to $P_3$, $72$ to $P_4$, $72$ to $P_5$,
+to $St_4$, $12$ non-trivial harmonic
+morphisms to $P_3$,
 $36$ non-trivial harmonic morphisms\footnote{At least one of these is a
 harmonic quotient morphism to $C_3$. That morphism is a
-quasicover with constant vertical multiplicity $1$.} to $C_3$,
-There are no non-trivial harmonic morphisms to $P_6$, to the
+quasicover with constant vertical multiplicity $1$.} to $C_3$.
+There are no non-trivial harmonic morphisms to $P_4$, $P_5$, $P_6$, to the
 diamond graph, nor are there any to $K_4$.
+(Since the diameter is $2$, there are none to $P_k$ for $k\geq 4$.)
 \end{enumerate}
 
 \subsection{$8$ vertices}
 \label{sec:cubic-8-vertices}
 
-There are five $3$-regular graphs with $8$ vertices, two of which are
-vertex transitive but none are edge transitive.
+There are five $3$-regular graphs with $8$ vertices, two of which
+(the cube and the Wagner graph) are vertex transitive; only the cube is
+edge transitive.
 All these are Hamiltonian graphs.
 
 
@@ -231,8 +234,8 @@ All these are Hamiltonian graphs.
 \begin{center}
 \begin{tabular}{c|c|c|c|c}
   graph label & LCF & size aut. gp. & genus & size crit. gp. \\ \hline
-  d3reg8a & (8, [4,-2,4,2], 2) & 16 & 5 & $256=2^8$ \\
-  d3reg8b & (8, [2,2,-2,-2], 2) & 4 & 5 & $336=2^43\cdot 7$ \\
+  d3reg8a & (8, [2,2,-2,-2], 2) & 16 & 5 & $256=2^8$ \\
+  d3reg8b & (8, [4,-2,4,2], 2) & 4 & 5 & $336=2^43\cdot 7$ \\
   d3reg8c & (8, [2,4,-2,3,3,4,-3,-3], 1) & 12 & 5 & $363=3\cdot 11^2$ \\
   d3reg8d & (8, [-3,3], 4) & 48 & 5 & $384=2^73$ \\ 
   d3reg8e & (8, [4,-3,3,4], 2) & 16 & 5 & $392=2^37^2$ \\
@@ -393,7 +396,7 @@ E_2 = \{(0, 1), (0, 2), (0, 7), (1, 2), (1, 3), (2, 3), (3, 4),
 (4, 5), (4, 6), (5, 6), (5, 7), (6, 7)
 \}.
 \]
-In this case, there are $13$ non-constant harmonic quotient
+In this case, there are $14$ non-constant harmonic quotient
 morphisms\footnote{These morphisms are distinct, unless indicated otherwise.}
 $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$. Of these, $2$ are isomorphic to $K_4$,
@@ -401,9 +404,9 @@ $2$ are isomorphic to the diamond graph,
 $3$ are\footnote{All these are the same
 morphism, even though the group $G$ is different, so there is
 really only $1$ distinct harmonic quotient morphism to $P_3$.} isomorphic
-to $P_3$, and $6$ are\footnote{All these are also the same
+to $P_3$, and $7$ are\footnote{All these are also the same
 morphism, even though the group $G$ is different, so there is
-really only $1$ distinct harmonic quotient morphism to $P_2$.}
+really only $1$ distinct harmonic quotient morphism to $P_2$. One of the $7$ groups is $Aut(\Gamma_2)$ itself.}
 isomorphic to $P_2$.
 
 When $G=\langle (0,4)(1,6)(2,5)(3,7)\rangle$, then
@@ -537,9 +540,10 @@ E_2 = \{(0, 1), (0, 4), (0, 7), (1, 2), (1, 7), (2, 3), (2, 6),
 \[
 (3, 4), (3, 5), (4, 5), (5, 6), (6, 7)\}.
 \]
-In this case, there is only $1$ harmonic quotient morphism
+In this case, there are only $2$ harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
-$G$ of $Aut(\Gamma_2)$.
+$G$ of $Aut(\Gamma_2)$. For $G=Aut(\Gamma_2)$ (of order $4$) the quotient is
+$P_3$, with fibers $\{0,4\}$, $\{1,3,5,7\}$, $\{2,6\}$.
 When $G=\langle (0,4)(1,5)(2,6)(3,7)\rangle$, then
 $\Gamma_1=\Gamma_2/G$ is isomorphic to the diamond graph.
 The harmonic quotient morphism (a quasicover) is depicted in
@@ -549,14 +553,14 @@ and tabulated below.
 \begin{center}
 \begin{tabular}{c|c|c|c}  
   $x$ & $\phi(x)$ & $m_\phi(x)$ & $\nu_\phi(x)$ \\ \hline
-  0   &    2   &        1         &  0   \\ 
-  1   &    1   &        1         &  1   \\ 
-  2   &    3    &       1         &  0   \\ 
-  3   &    0   &        1         &  1   \\ 
-  4   &    2   &        1         &  0   \\ 
-  5   &    1   &        1         &  1    \\ 
-  6   &    3   &        1         &  0   \\ 
-  7   &    0   &        1         &  1   \\ 
+  0   &    2   &        1         &  1   \\
+  1   &    1   &        1         &  0   \\
+  2   &    3   &        1         &  1   \\
+  3   &    0   &        1         &  0   \\
+  4   &    2   &        1         &  1   \\
+  5   &    1   &        1         &  0   \\
+  6   &    3   &        1         &  1   \\
+  7   &    0   &        1         &  0   \\
 \end{tabular}
 \end{center}
 
@@ -694,7 +698,7 @@ $1$ is isomorphic to $K_4$,
 $6$ are isomorphic to $P_3$, and the
 remaining\footnote{Of these $39$, many are the same
 morphism, even though the group $G$ is different, so there are
-really only $17$ distinct harmonic quotient morphisms to $P_2$.}
+really only $11$ distinct harmonic quotient morphisms to $P_2$.}
 $39$ are $P_2$. 
 
 When $G=\langle (0,3)(1,6)(2,5)(4,7) \rangle$, 
@@ -743,7 +747,7 @@ deg(\phi) =2.
 When $G=\langle (0,1)(2,7)(3,6)(4,5) \rangle$,
 the harmonic quotient morphism (a quasicover) is depicted in
 Figure \ref{fig:harmonic-quotient_d3reg8d-C4_11320023} and
-tabulated above.
+tabulated below.
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -780,7 +784,7 @@ deg(\phi) =2.
 \includegraphics[height=5cm,width=4cm]{graphics/cycle4-0123b.png}
 \end{center}
 \end{minipage}
-\caption{The Wagner graph  $\Gamma_2$ ({\tt d3reg8d}), with a degree two harmonic quotient morphism (a quasicovering) to the cycle graph, $C_4$.}
+\caption{The cube graph  $\Gamma_2$ ({\tt d3reg8d}), with a degree two harmonic quotient morphism (a quasicovering) to the cycle graph, $C_4$.}
 \label{fig:harmonic-quotient_d3reg8d-C4_11320023}
 \end{figure}
 
@@ -819,19 +823,19 @@ isomorphic to $P_2$.
 When $G=\langle (0,7)(1,6)(2,5)(3,4) \rangle$,
 the harmonic quotient morphism (a quasicover) is depicted in
 Figure \ref{fig:harmonic-quotient_d3reg8e-C4_03211230} and
-tabulated above.
+tabulated below.
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
   $x$ & $\phi(x)$ & $m_\phi(x)$ & $\nu_\phi(x)$ \\ \hline
-  0   &    1   &        1         &  1   \\ 
-  1   &    1   &        1         &  1   \\ 
-  2   &    3   &        1         &  1   \\ 
-  3   &    2   &        1         &  1   \\ 
-  4   &    0   &        1         &  1   \\ 
-  5   &    0   &        1         &  1    \\ 
-  6   &    2   &        1         &  1   \\ 
-  7   &    3   &        1         &  1   \\ 
+  0   &    0   &        1         &  1   \\
+  1   &    3   &        1         &  1   \\
+  2   &    2   &        1         &  1   \\
+  3   &    1   &        1         &  1   \\
+  4   &    1   &        1         &  1   \\
+  5   &    2   &        1         &  1   \\
+  6   &    3   &        1         &  1   \\
+  7   &    0   &        1         &  1   \\
 \end{tabular}
 \end{center}
 
@@ -989,7 +993,7 @@ SageMath command:
 The one with %automorphism group of order $16$ and having
 characteristic polynomial  
 \[
-x^{10} - 15x^8 - 4x^7 + 63x^6 + 63x^5 - 61x^4 - 56x^3 - 12x^2 
+x^{10} - 15x^8 - 4x^7 + 63x^6 + 36x^5 - 61x^4 - 56x^3 - 12x^2 
 \]
 Diameter $3$,
 girth $3$,
@@ -1241,7 +1245,7 @@ By a computer check using SageMath , we know there
 are no non-trivial harmonic morphisms to $P_5$.
 %More generally, using Theorem \ref{thrm:diameter-bound}
 Therefore, we know there
-are no on-trivial harmonic morphisms to $P_k$, for $k\geq 5$.
+are no non-trivial harmonic morphisms to $P_k$, for $k\geq 5$.
 \index{integral graph}
 
 SageMath command:
@@ -1255,7 +1259,7 @@ The one with %automorphism group of order $8$ and having
 characteristic polynomial  
 
 \[
-x^{10} - 15x^8 + 71x^6 - 15x^5 - 133x^4 + 64x^3 + 76x^2 - 48x  
+x^{10} - 15x^8 + 71x^6 - 16x^5 - 133x^4 + 64x^3 + 76x^2 - 48x  
 \]
 Diameter $3$,
 girth $4$,
@@ -1571,7 +1575,7 @@ One of these quotient morphisms is tabulated below.
   1   &    1   &        1         &  0   \\ 
   2   &    2   &        1         &  0   \\ 
   3   &    0   &        1         &  0   \\ 
-  4   &    3   &        1         &  0   \\ 
+  4   &    3   &        1         &  1   \\ 
   5   &    4   &        1         &  0    \\ 
   6   &    2   &        1         &  0   \\ 
   7   &    1   &        1         &  0   \\
@@ -1627,9 +1631,12 @@ E_2 = \{
 (4, 5), (5, 6), (5, 7), (6, 7), (6, 9), (7, 8), (8, 9)
 \}.
 \]
-This graph has no non-constant harmonic quotient
-morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
-$G$ of $Aut(\Gamma_2)$.
+This graph has exactly one non-constant harmonic quotient
+morphism $\pi: \Gamma_2\to \Gamma_2/G$, for a subgroup
+$G$ of $Aut(\Gamma_2)$, namely for
+$G=Aut(\Gamma_2)=\langle (0,5)(1,6)(2,7)(3,8)(4,9)\rangle$.
+It is a degree two quasicover of a graph with $5$ vertices and $7$ edges
+(isomorphic to $\overline{P_2\cup P_3}$).
 
 }
 \end{example}
@@ -1803,7 +1810,7 @@ E_2 = \{
 (3, 8), (4, 5), (5, 6), (6, 7), (7, 8), (7, 9), (8, 9)
 \}.
 \]
-This graph has only $1$ non-constant harmonic quotient
+This graph has only $2$ non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$. In this case,
 $G = \langle (0,1)(2,9)(3,8)(4,7)(5,6) \rangle$ and
@@ -1816,10 +1823,11 @@ V_1 = \{0, \dots, 4\},
 E_1 = \{(0, 3), (0, 4), (1, 2), (1, 4), (2, 3), (3, 4)\}.
 \]
 Note that vertices $3$ and $4$ are those with degree $3$.
+(The other harmonic quotient is for $G=Aut(\Gamma_2)$, of order $4$; it is a
+quotient to $P_3$, with fibers $\{0,1,5,6\}$, $\{2,4,7,9\}$, $\{3,8\}$.)
 
 The quotient morphism 
-associated to the subgroup
-$G=\langle (0,1,2)(3,9,7)(4,5,6)\rangle$
+associated to this subgroup
 is tabulated below. As we can see, it's a quasicover
 $\phi:\Gamma_2\to \Gamma_1$.
 
@@ -1914,15 +1922,15 @@ E_2 = \{
 (4, 5), (4, 9), (5, 6), (5, 7), (6, 7), (7, 8), (8, 9)
 \}.
 \]
-This graph has only $4$ non-constant harmonic quotient
+This graph has only $5$ non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$.
 For $2$ subgroups, the quotient $ \Gamma_2/G$ is isomorphic to the house graph
-and the quotient morphisms are distinct. For the remaining two subgroups,
+and the quotient morphisms are distinct. For the remaining three subgroups (one of which is $Aut(\Gamma_2)$),
 the quotient $ \Gamma_2/G$ is
 isomorphic\footnote{The vertices are $0,1,2$, but their ordering is different that usual:
   $0$ and $1$ are the vertices of degree $1$, while vertex $2$ has degree $2$.}
-  to $P_3$ and both quotient morphisms are the same.
+  to $P_3$ and all three quotient morphisms are the same.
 
 In case $G = \langle (0,5)(1,6)(2,7)(3,8)(4,9) \rangle$,
 $\Gamma_1 =  \Gamma_2/G$ is the house graph, with vertices and edges:
@@ -2017,7 +2025,7 @@ E_2 = \{
 (3, 6), (4, 5), (4, 7), (5, 6), (6, 7), (7, 8), (8, 9)
 \}.
 \]
-This graph has $31$ non-constant harmonic quotient
+This graph has $32$ non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$.
 
@@ -2036,7 +2044,7 @@ E_1=\{
 For example, the group $G=\langle (0,8,2)(3,5,7) \rangle$
 yields this quotient graph $\Gamma_1=\Gamma_2/G$.
 
-Eight of these groups yield the same harmonic quotient morphism to
+Two of these groups yield (two distinct) harmonic quotient morphisms to
 $K_{2,3}$ - a genus $2$ graph $\Gamma_1 = (V_1,E_1)$
 with vertices and edges,
 
@@ -2050,7 +2058,7 @@ E_1=\{
 \]
 For example, the group $G=\langle (0,5)(1,4)(2,3)(6,9)(7,8) \rangle$
 yields this quotient graph $\Gamma_1=\Gamma_2/G$.
-One of these is tabulated below and the uncolored graphs is
+One of these is tabulated below and the uncolored graphs are
 depicted in Figure \ref{fig:harmonic-quotient_d3reg10n+K23}.
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -2096,8 +2104,13 @@ Three of these groups yield the same harmonic quotient morphism to
 $St_4$, the star graph on $4$ vertices.
 \index{star graph}
 
-The remaining harmonic quotient morphisms are either to $P_3$ or to
-$P_2$.
+Six further groups (each of order $2$) yield six distinct degree two
+harmonic quotient morphisms to the genus $3$ graph $\overline{P_2\cup P_3}$
+($5$ vertices, $7$ edges).
+
+The remaining $19$ harmonic quotient morphisms are to $P_3$ ($6$ groups,
+$2$ distinct morphisms) or to $P_2$ ($13$ groups, one of them $Aut(\Gamma_2)$;
+all give the same morphism).
 
 }
 \end{example}
@@ -2181,21 +2194,21 @@ E_1=\{
 (0, 1), (0, 2), (0, 3), (1, 3), (1, 4), (2, 3), (2, 4)
 \}.
 \]
-This is tabulated below (and agrees with a table in a previous example).
+This is tabulated below.
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
   $x$ & $\phi(x)$ & $m_\phi(x)$ & $\nu_\phi(x)$ \\ \hline
-  0   &    4   &        1         &  1   \\ 
-  1   &    2   &        1         &  0   \\ 
-  2   &    0   &        1         &  0   \\ 
-  3   &    3   &        1         &  0   \\ 
-  4   &    2   &        1         &  0   \\ 
-  5   &    4   &        1         &  0    \\ 
-  6   &    1   &        1         &  0   \\ 
+  0   &    4   &        1         &  1   \\
+  1   &    2   &        1         &  0   \\
+  2   &    0   &        1         &  0   \\
+  3   &    3   &        1         &  0   \\
+  4   &    2   &        1         &  0   \\
+  5   &    4   &        1         &  1   \\
+  6   &    1   &        1         &  0   \\
   7   &    3   &        1         &  0   \\
   8   &    0   &        1         &  0   \\
-  9   &    1   &        1         &  0   \\ 
+  9   &    1   &        1         &  0   \\
 \end{tabular}
 \end{center}
 
@@ -2268,14 +2281,14 @@ E_2 = \{
  (3, 8), (4, 5), (4, 9), (5, 6), (6, 7), (7, 8), (8, 9)
 \}.
 \]
-This graph has only $1$ non-constant harmonic quotient
+This graph has only $2$ non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$.
 
 
 The group $G = \langle (0,3)(1,2)(4,9)(5,8)(6,7) \rangle$ yields the
 harmonic quotient morphism to the house graph
-$\Gamma_1 = (V_1,E_1) = K_{2,3}$
+$\Gamma_1 = (V_1,E_1)$
 with vertices and edges,
 
 \[
@@ -2286,7 +2299,9 @@ E_1=\{
 (0, 1), (0, 3), (1, 2), (1, 4), (2, 4), (3, 4)
 \}.
 \]
-This is tabulated below.
+This is tabulated below. (The other harmonic quotient is for
+$G=Aut(\Gamma_2)$, of order $4$; it is a quotient to $P_3$, with fibers
+$\{0,3,5,8\}$, $\{1,2,6,7\}$, $\{4,9\}$.)
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -2441,7 +2456,7 @@ Finally, the
 group
 
 \[
-G = \langle (0,2)(1,9)(3,6)(4,7)(5,8), (0,9)(1,2)(3,5)(6,8) \rangle
+G = \langle (0,1)(2,9)(3,8)(4,7)(5,6) \rangle
 \]
 yields the
 harmonic quotient morphism to the cycle graph
@@ -2456,7 +2471,7 @@ E_1=\{
 (0, 3), (0, 4), (1, 2), (1, 4), (2, 3)
 \}.
 \]
-This is tabulated below (the same table as in the previus example).
+This is tabulated below (the same table as in the previous example).
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -2514,7 +2529,7 @@ graphs are the path graph, $P_2$.
 \index{star graph}
 
 The group
-$G = \langle (0,4)(1,3)(5,9)(6,8), (0,4)(1,9)(2,7)(3,5) \rangle$ yields the
+$G = \langle (2,6)(3,8)(4,5)(7,9), (0,1)(2,4)(5,6)(7,9) \rangle$ yields the
 harmonic quotient morphism to the genus $0$ graph
 $\Gamma_1 = (V_1,E_1) = St_4$, with
 
@@ -2566,7 +2581,7 @@ in this collection are edge transitive.
 
 Here are several examples,
 including those $4$ which are vertex transitive and
-those $4$ that are not Hamiltonian.
+four of the five that are not Hamiltonian.
 
 
 {\small{
@@ -2579,7 +2594,7 @@ those $4$ that are not Hamiltonian.
   d3reg12d & -- & 32 & 7  \\
   d3reg12e & (12, [3, -2, -4, -3, 4, 2], 2) & 4 & 7  \\
   d3reg12f & (12, [3,-2,-4,-3,3,3,3,-3,-3,-3,4,2], 1) & 8 & 7   \\
-  d3reg12g & (12, [3, 3, 3, -3, -3, -3], 2) & 4 & 7  \\
+  d3reg12g & (12, [4,2,3,-2,-4,-3,2,3,-2,2,-3,-2], 1) & 4 & 7  \\
   d3reg12h & (12, [3, 3, 3, -3, -3, -3], 2) & 64 & 7  \\
   d3reg12i & (12, [2,-3,-2,3,3,3,-3,-3,-3,2,3,-2], 1) & 16 & 7   \\
   d3reg12j & (12, [2, 3, -2, 2, -3, -2], 2) & 16 & 7  \\
@@ -2621,7 +2636,7 @@ The cardinality of its critical group is $2112=2^63\cdot 11$.
 
 It has no non-trivial harmonic morphisms to $St_4$ or $P_4$, $C_3$, $C_4$,
 or to $K_4$.
-However, there are $12$ non-trivial harmonic morphisms to $P_3$.
+However, there are $8$ non-trivial harmonic morphisms to $P_3$.
 
 %At this time, the number of non-trivial harmonic morphisms to $K_4$ is unknown.
 
@@ -2760,15 +2775,14 @@ SageMath notation:
 The one with automorphism group of order $4$ and
 having characteristic polynomial  
 \[
-x^{12} - 18x^{10} - 6x^9 + 111x^8 + 62x^7 - 265x^6 - 166x^5 + 213x^4 + 93x^3 - 60x^2 
+x^{12} - 18x^{10} - 6x^9 + 111x^8 + 62x^7 - 265x^6 - 166x^5 + 213x^4 + 92x^3 - 60x^2 
 \]
 has girth $3$ and diameter $4$.
 This is a Hamiltonian graph (with circumference $12$).
 The size of the critical group of this graph is $4875=3\cdot 5^313$.
 
-It has $12$ non-trivial harmonic morphisms to $St_4$,
-$6$ non-trivial harmonic morphisms to $C_3$, but no
-non-trivial harmonic morphisms to $P_3$, $P_4$, $C_4$, or to $K_4$.
+It has $6$ non-trivial harmonic morphisms to $C_3$, but no
+non-trivial harmonic morphisms to $St_4$, $P_3$, $P_4$, $C_4$, or to $K_4$.
 
 SageMath notation:
 
@@ -2844,7 +2858,7 @@ By a computer check using SageMath we know there
 are no non-trivial harmonic morphisms to $P_5$.
 %Using Theorem \ref{thrm:diameter-bound}
 Therefore, we know there
-are no non-trivial harmonic morphisms to $P_k$, for $k\geq 6$.
+are no non-trivial harmonic morphisms to $P_k$, for $k\geq 5$.
 
 SageMath notation:
 
@@ -2881,7 +2895,7 @@ has characteristic polynomial
 \index{truncated tetrahedron graph}
   
 \[
-x^{12} - 18x^{10} - 8x^9 + 117x^8 + 96x^7 - 316x^6 - 384x^5 + 240x^4 + 512x^3 - 192x^2 \, .
+x^{12} - 18x^{10} - 8x^9 + 117x^8 + 96x^7 - 316x^6 - 384x^5 + 240x^4 + 512x^3 + 192x^2 \, .
 \]
 This graph has chromatic number $3$ and is not edge transitive.
 It has girth $3$, diameter $3$, and
@@ -2912,7 +2926,7 @@ The graph, $\Gamma$ say, with automorphism group of order $24$
 (acting transitively on the vertices) has characteristic polynomial  
 
 \[
-x^{12} - 18x^{10} + 105x^8 - 236x^6 + 144x^4  \, .
+x^{12} - 18x^{10} + 105x^8 - 232x^6 + 144x^4  \, .
 \]
 It is an integral graph\footnote{Its adjacency spectrum
 multi-set  is $\{3, 2, 2, 1, 0, 0, 0, 0, -1, -2, -2, -3\}$.},
@@ -2938,7 +2952,7 @@ By a computer check using SageMath we know there
 are no non-trivial harmonic morphisms to $P_5$.
 %Using Theorem \ref{thrm:diameter-bound}
 Therefore, we know there
-are no non-trivial harmonic morphisms to $P_k$, for $k\geq 6$.
+are no non-trivial harmonic morphisms to $P_k$, for $k\geq 5$.
 
 SageMath notation:
 
@@ -3296,11 +3310,11 @@ E_2 = \{
  (6, 7), (6, 9), (7, 8), (7, 10), (8, 9), (8, 11), (9, 10), (10, 11)
 \}.
 \]
-This graph has $52$ non-constant harmonic quotient
+This graph has $53$ non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$.
 
-Four of these $52$ are distinct non-constant harmonic quotient
+Four of these $53$ are distinct non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G=K_{3,3}$, for some subgroup $G$.
 (Indeed, these are all covers of this cubic graph.)
 %\footnote{One way to visualize the complete bipartite graph $K_{3,3}$
@@ -3359,7 +3373,7 @@ deg(\phi) =2.
 \end{figure}
 
 
-Four of the remaining $48$ are distinct non-constant harmonic quotient
+Four of the remaining $49$ are distinct non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G=\Gamma_1$, for some $G$.
 (Indeed, these are all quasicovers of this
 graph\footnote{One way to visualize this graph is to
@@ -3368,7 +3382,7 @@ $\Gamma_1$.
 One of these quotients, for the subgroup
 
 \[
-G_1=\langle (0,11)(1,10)(2,7)(3,8)(4,9)(5,6) \rangle,
+G_1=\langle (0,11)(1,8)(2,7)(3,10)(4,9)(5,6) \rangle,
 \]
 is tabulated below. The uncolored graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12h+K33m1}.
@@ -3415,7 +3429,7 @@ deg(\phi) =2.
 \label{fig:harmonic-quotient_d3reg12h+K33m1}
 \end{figure}
 
-Four of the remaining $44$ are distinct non-constant harmonic quotient
+Four of the remaining $45$ are distinct non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some $G$, of the barbell
 graph, $\Gamma_1=Barbell(3,0)$.
 (Indeed, these are all quasicovers of this graph $\Gamma_1$.)
@@ -3471,15 +3485,15 @@ deg(\phi) =2.
 \label{fig:harmonic-quotient_d3reg12h+barbell30}
 \end{figure}
 
-Eight of the remaining $40$ are non-constant harmonic quotient
+Eight of the remaining $41$ are non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some $G$, of the
 cycle graph, $C_3$.
 (Indeed, these are all quasicovers of this graph $\Gamma_1$.)
-One of these quotients, for the subgroup\footnote{Note the $G_2$ is a normal subgroup of $G_3$. Also note that $C_3$ is a quotient graph of the barbell
+One of these quotients, for the subgroup\footnote{Note that $G_2\not\subset G_3$. However, the first generator $a$ of $G_3$ generates a subgroup of index $2$ (hence normal) in $G_3$, and $\Gamma_2/\langle a\rangle$ is also isomorphic to $Barbell(3,0)$. Also note that $C_3$ is a quotient graph of the barbell
 graph $Barbell(3,0)$.}
 
 \[
-G_3=\langle (0,5)(1,2)(3,4)(6,11)(7,8)(9,10), (0,6)(1,9)(2,8)(3,7)(4,10)(5,11) \rangle,
+G_3=\langle (0,5)(1,2)(3,4)(6,11)(7,10)(8,9), (0,11)(1,8)(2,9)(3,10)(4,7)(5,6) \rangle,
 \]
 is tabulated below. The colored graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12h+C3}.
@@ -3522,9 +3536,12 @@ deg(\phi) =4.
 \includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
 \end{center}
 \end{minipage}
-\caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12h}), with a degree two harmonic quotient morphism to and quasicover of, $\Gamma_1=C_3=\Gamma_2/G_3$.}
+\caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12h}), with a degree four harmonic quotient morphism to and quasicover of, $\Gamma_1=C_3=\Gamma_2/G_3$.}
 \label{fig:harmonic-quotient_d3reg12h+C3}
 \end{figure}
+
+The remaining $33$ (one of which is $G=Aut(\Gamma_2)$) all give the same
+harmonic quotient morphism, to $P_2$.
 
 }
 \end{example}
@@ -3612,7 +3629,7 @@ E_2 = \{
 (5, 6), (6, 7), (6, 8), (7, 8), (7, 10), (8, 9), (9, 10), (9, 11), (10, 11)
 \}.
 \]
-This graph has $14$ non-constant harmonic quotient
+This graph has $15$ non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some subgroup
 $G$ of $Aut(\Gamma_2)$.
 
@@ -3655,7 +3672,7 @@ deg(\phi) =2.
 \]
 
 
-One of the remaining $12$ is a non-constant harmonic quotient
+One of the remaining $13$ is a non-constant harmonic quotient
 morphism $\pi: \Gamma_2\to \Gamma_2/G$, for some $G$,
 for the barbell
 graph, $\Gamma_1=Barbell(3,0)$.
@@ -3693,7 +3710,7 @@ is tabulated below.
 deg(\phi) =2.
 \]
 
-Two of the remaining $11$ are distinct non-constant harmonic quotient
+Two of the remaining $12$ are distinct non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some $G$, of
 codomino graph.
 \index{codomino graph}
@@ -3784,7 +3801,8 @@ $\Gamma_1=\Gamma_2/G$.
 \end{tabular}
 \end{center}
 }}
-All the quotient morphisms to $P_4$ in the above table are the same,
+The table omits one subgroup, $G=Aut(\Gamma_2)$ itself, whose quotient is
+also $P_2$. All the quotient morphisms to $P_4$ in the above table are the same,
 and all those to $P_2$ are the same.
 
 Using this table one can see that
@@ -3970,7 +3988,7 @@ codomino graph.
 
 Three of the remaining $28$ are distinct non-constant harmonic quotient
 morphisms $\pi: \Gamma_2\to \Gamma_2/G$, for some $G$, of
-grid graph, $Grid(2,1)$.
+grid graph $P_2\times P_3$ (the $2\times 3$ grid, or domino graph).
 \index{grid graph}
 
 One of the remaining $25$ is a distinct non-constant harmonic quotient
@@ -4117,13 +4135,13 @@ deg(\phi) =2.
 \includegraphics[height=4cm,width=4cm]{graphics/cotwinC5-quotient-of-d3reg12n.png}
 \end{center}
 \end{minipage}
-\caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12n}), with a degree two harmonic quotient morphism to and quasicover of the codomino graph, $\Gamma_1=\Gamma_2/G_2$.}
+\caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12n}), with a degree two harmonic quotient morphism to and quasicover of the co-twin-$C_5$ graph, $\Gamma_1=\Gamma_2/G$.}
 \label{fig:harmonic-quotient_d3reg12n+cotwinC5}
 \end{figure}
 
 One of the remaining $29$ is a distinct non-constant harmonic quotient
 morphism $\pi: \Gamma_2\to \Gamma_2/G$, for some $G$, of
-the $X_{37}$ graph.
+the $X_{37}$ graph\footnote{This quotient graph is isomorphic to the twin-$C_5$ graph below, so the six quotients described in this and the next paragraph all have the same isomorphism type.}.
 \index{$X_{37}$ graph}
 One of these quotients, for the subgroup
 
@@ -4302,8 +4320,7 @@ deg(\phi) =4.
 \subsection{$6$ vertices}
 
 There is (up to isomorphism) exactly one $4$-regular connected graph
-on $6$ vertices, the octahedral graph (also known as the graph of the
-Fano diagram).
+on $6$ vertices, the octahedral graph (also known as $K_{2,2,2}$).
 \index{octahedral graph}
 
 Define $\Gamma=(V,E)$ to have vertices $V=$
@@ -4351,12 +4368,14 @@ for some $G$, but most are not distinct.
 Six of these $59$ are distinct harmonic quotient morphisms
 to the diamond graph.
 
-Of the remaining $53$, $14$ are (not necessarily distinct)
-harmonic quotient morphisms to the cycle graph $C_3$. As we
+Of the remaining $53$, $6$ are
+harmonic quotient morphisms to the cycle graph $C_3$ (all six give the same
+morphism). As we
 know from the paragraph above, all of these morphisms to $C_3$ are
-$2$-multicovers.
+$2$-multicovers. Another $9$ are harmonic quotient morphisms to $P_3$
+($3$ distinct morphisms).
 
-The remaining $39$ are (not necessarily distinct)
+The remaining $38$ are (not necessarily distinct)
 harmonic quotient morphisms to the path graph $P_2$.
 }
 \end{example}
@@ -4428,13 +4447,14 @@ for some $G$.
  {\tt d4reg7b}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg7b} as given above.
-There are $27$ (not necessarily distinct) harmonic quotient morphisms
+There are $28$ (not necessarily distinct) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some $G$.
 
-Two of these $27$ are distinct harmonic quotient morphisms
+Two of these $28$ are harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
-for some $G$, where $\Gamma_1=K_{2,3}$.
+for some $G$, where $\Gamma_1=K_{2,3}$; both subgroups
+($\langle (1,6)(3,4)\rangle$ and $\langle (1,6),(3,4)\rangle$) give the same morphism.
 An example for
 \[
 G = \langle (1,6)(3,4) \rangle
@@ -4479,7 +4499,7 @@ deg(\phi) =2.
 \label{fig:harmonic-quotient_d7reg7b+K23}
 \end{figure}
 
-Two of the remaining $25$ are distinct harmonic quotient morphisms
+Two of the remaining $26$ are distinct harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some $G$, where $\Gamma_1$ is the graph \verb+DF{+,
 a $5$-graph\footnote{This is the graph6 notation. In the ISGCI notation, it is $\overline{K_3\cup 2K_1}$.}.
@@ -4529,21 +4549,21 @@ deg(\phi) =2.
 \label{fig:harmonic-quotient_d4reg7b+fan5}
 \end{figure}
 
-Three of the remaining $23$ are (not necessarily distinct)
+Three of the remaining $24$ are (not necessarily distinct)
 harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some $G$, where $\Gamma_1=St_4$ is the star graph.
 \index{star graph}
 
-Six of the remaining $20$ are (not necessarily distinct)
+Eight of the remaining $21$ are (not necessarily distinct)
 harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
-for some $G$, where $\Gamma_1=P_3$ is the path graph of length $3$.
+for some $G$, where $\Gamma_1=P_3$ is the path graph on $3$ vertices (all eight give the same morphism).
 
-The remaining $14$ are (not necessarily distinct)
+The remaining $13$ (one of them for $G=Aut(\Gamma_2)$; all give the same morphism) are
 harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
-for some $G$, where $\Gamma_1=P_2$ is the path graph of length $2$.
+for some $G$, where $\Gamma_1=P_2$ is the path graph on $2$ vertices.
 
 }
 \end{example}
@@ -4629,7 +4649,7 @@ This graph is isomorphic to the complete bipartite graph
 $K_{4,4}$.
 \index{complete bipartite graph}
 It has diameter $2$,
-girth $3$, circumference $8$,
+girth $4$, circumference $8$,
 chromatic number $2$, 
 critical group of size $4096 = 2^{12}$, 
 and automorphism group of size $1152$.
@@ -4894,6 +4914,8 @@ Of the remaining $2191$, $234$ are (not necessarily distinct) harmonic quotient 
 $\pi: \Gamma_2\to \Gamma_2/G = C_4$, for some $G$.
 Of the remaining $1963$, $636$ are (not necessarily distinct) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_2/G = P_3$, for some $G$.
+The remaining $1327$ consist of $12$ quotients with $6$ vertices,
+$18$ quotients to the star graph $St_5$, and $1297$ quotients to $P_2$.
 }
 \end{example}
 
@@ -4904,15 +4926,15 @@ $\pi: \Gamma_2\to \Gamma_2/G = P_3$, for some $G$.
  {\tt d4reg8d}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg8d} as given above.
-There are $11$ (not necessarily distinct) harmonic quotient morphisms
+There are $12$ (not necessarily distinct) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some $G$.
 
 Of these $11$, $2$ are distinct harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_2/G = K_4$, for some $G$. In fact, they are each a quasicover.
-Of the remaining $9$, $3$ are (not necessarily distinct) harmonic quotient morphisms
+Of the remaining $10$, $3$ are (not necessarily distinct) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_2/G = C_3$, for some $G$.
-Of the remaining $6$, $636$ are (not necessarily distinct) harmonic quotient morphisms
+The remaining $7$ (one of them for $G=Aut(\Gamma_2)$) are (not necessarily distinct) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_2/G = P_2$, for some $G$.
 }
 \end{example}
@@ -4925,10 +4947,12 @@ $\pi: \Gamma_2\to \Gamma_2/G = P_2$, for some $G$.
  {\tt d4reg8e}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg8e} as given above.
-There is exactly one harmonic quotient morphism
+There are exactly two harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$.
-Tabulated below, this is a quotient morphism
+For $G=Aut(\Gamma_2)$ (of order $4$) the quotient is $C_3$, with fibers
+$\{0,1,2,4\}$, $\{3,6\}$, $\{5,7\}$.
+The other, tabulated below, is a quotient morphism
 $\phi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 where $\Gamma_1$ is the gem graph and
 
@@ -4969,7 +4993,7 @@ deg(\phi) =2.
  {\tt d4reg8f}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg8f} as given above.
-There are two (identical) harmonic quotient morphisms
+There are three (identical) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$.
 Each of these is a quotient morphism
@@ -4981,12 +5005,13 @@ One such subgroup is
 \[
 G_1 = \langle (1,2), (0,4,3)(5,7,6) \rangle,
 \]
-and the other is
+another is
 
 \[
-G_2 = \langle (1,2)(3,4)(6,7), (0,4,3)(5,7,6) \rangle.
+G_2 = \langle (1,2)(3,4)(6,7), (0,4,3)(5,7,6) \rangle,
 \]
-Each has cardinality $6$. We tabulate
+and the third is $Aut(\Gamma_2)$, of order $12$.
+The first two have cardinality $6$. We tabulate
 $\phi_1: \Gamma_2\to \Gamma_1=\Gamma_2/G_1=P_3$
 below.
 
@@ -5023,7 +5048,7 @@ deg(\phi) =6.
 There are (up to isomorphism) exactly $16$ $4$-regular connected graphs on $9$ vertices.
 %For the majority of these, it's currently unknown how many (if any)
 %non-trivial harmonic morphisms map from these graphs to $C_4$ or $K_4$.
-Below, we include $8$ of these $16$ as examples.
+Below, we include $9$ of these $16$ as examples.
 
 \begin{enumerate}
 \item
@@ -5264,7 +5289,7 @@ exactly $6$ non-trivial harmonic morphisms from $\Gamma$ to $C_3$.
  {\tt d4reg9a}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg9a} as given above.
-There are $11$ harmonic quotient morphisms
+There are $12$ harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$.
 
@@ -5281,15 +5306,15 @@ below and give the uncolored graphs in Figure \ref{fig:harmonic-quotient_d4reg9a
 \begin{center}
 \begin{tabular}{c|c|c|c}  
   $x$ & $\phi(x)$ & $m_\phi(x)$ & $\nu_\phi(x)$ \\ \hline
-  0   &    3   &        2         &  0   \\ 
-  1   &    2   &        1         &  1  \\ 
-  2   &    1   &        1         &  1  \\ 
-  3   &    0   &        2         &  0  \\ 
-  4   &    1   &        1         &  1   \\
+  0   &    1   &        2         &  0   \\
+  1   &    3   &        1         &  1   \\
+  2   &    3   &        1         &  1   \\
+  3   &    0   &        2         &  0   \\
+  4   &    2   &        1         &  1   \\
   5   &    2   &        1         &  1   \\
-  6   &    3   &        2         &  0   \\
+  6   &    4   &        2         &  0   \\
   7   &    5   &        1         &  0   \\
-  8   &    4   &        1         &  0   \\ 
+  8   &    5   &        1         &  0   \\
 \end{tabular}
 \end{center}
 
@@ -5318,7 +5343,7 @@ deg(\phi) =2.
 \end{figure}
 
 
-One of the remaining $8$ is a harmonic quotient homomorphism
+One of the remaining $9$ is a harmonic quotient homomorphism
 $\phi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 where $\Gamma_1=S_3$, where
 \index{$S_3$ graph}
@@ -5332,21 +5357,21 @@ below and give the uncolored graphs in Figure \ref{fig:harmonic-quotient_d4reg9a
 \begin{center}
 \begin{tabular}{c|c|c|c}  
   $x$ & $\phi(x)$ & $m_\phi(x)$ & $\nu_\phi(x)$ \\ \hline
-  0   &    3   &        1         &  0   \\ 
-  1   &    2   &        1         &  0  \\ 
-  2   &    1   &        1         &  0  \\ 
-  3   &    0   &        2         &  0  \\ 
+  0   &    3   &        1         &  0   \\
+  1   &    2   &        1         &  0   \\
+  2   &    1   &        1         &  0   \\
+  3   &    0   &        2         &  0   \\
   4   &    1   &        1         &  0   \\
   5   &    2   &        1         &  0   \\
-  6   &    3   &        2         &  0   \\
+  6   &    3   &        1         &  0   \\
   7   &    5   &        2         &  0   \\
-  8   &    4   &        2         &  0   \\ 
+  8   &    4   &        2         &  0   \\
 \end{tabular}
 \end{center}
 
 \[
   {\rm genus}(\Gamma_2) =10,\ \ \ \ \
-  {\rm genus}(\Gamma_1) =6,
+  {\rm genus}(\Gamma_1) =4,
 \]
 
 \[
@@ -5368,7 +5393,7 @@ deg(\phi) =2.
 \label{fig:harmonic-quotient_d4reg9a+S3}
 \end{figure}
 
-All the $7$ remaining harmonic quotients map to $P_2$ or $P_3$ or the
+All the $8$ remaining harmonic quotients (one of them for $G=Aut(\Gamma_2)$) map to $P_2$ or $P_3$ or the
 paw graph (which is $C_3$ plus a leaf ``tail').
 \index{paw graph}
 One of these, a harmonic quotient morphisms
@@ -5383,15 +5408,15 @@ is tabulated below.
 \begin{center}
 \begin{tabular}{c|c|c|c}  
   $x$ & $\phi(x)$ & $m_\phi(x)$ & $\nu_\phi(x)$ \\ \hline
-  0   &    1   &        2         &  0   \\ 
-  1   &    2   &        1         &  0  \\ 
-  2   &    2   &        1         &  0  \\ 
-  3   &    0   &        4         &  0  \\ 
-  4   &    2   &        1         &  0   \\
-  5   &    2   &        1         &  0   \\
+  0   &    1   &        2         &  0   \\
+  1   &    2   &        1         &  1   \\
+  2   &    2   &        1         &  1   \\
+  3   &    0   &        4         &  0   \\
+  4   &    2   &        1         &  1   \\
+  5   &    2   &        1         &  1   \\
   6   &    1   &        2         &  0   \\
   7   &    3   &        2         &  0   \\
-  8   &    3   &        2         &  0   \\ 
+  8   &    3   &        2         &  0   \\
 \end{tabular}
 \end{center}
 
@@ -5413,9 +5438,10 @@ deg(\phi) =4.
  {\tt d4reg9b}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg9b} as given above.
-There are no harmonic quotient morphisms
-$\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
-for some subgroup $G$ of $Aut(\Gamma_2)$.
+There is exactly one harmonic quotient morphism
+$\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, namely for
+$G=Aut(\Gamma_2)=\langle (0,5)(1,6)(2,8)(3,4)\rangle$; the quotient
+has $5$ vertices and $8$ edges.
 
 }
 \end{example}
@@ -5433,7 +5459,7 @@ There is only one harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$, to
 $\Gamma_1=C_3$. In fact, this is a multicover
-of degree $3$ and multiplicity $2$.
+of degree $6$ and multiplicity $2$.
 In this case,
 
 \[
@@ -5464,7 +5490,7 @@ below and depict it in Figure \ref{fig:harmonic-quotient_d4reg9c-C3_021012012}.
 \]
 
 \[
-deg(\phi) =3.
+deg(\phi) =6.
 \]
 
 \begin{figure}[H]
@@ -5478,7 +5504,7 @@ deg(\phi) =3.
 \includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9c}), with a degree three harmonic quotient homomorphism (in fact, a multicover) to the cycke graph, $\Gamma_1=C_3$.}
+\caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9c}), with a degree six harmonic quotient homomorphism (in fact, a multicover) to the cycle graph, $\Gamma_1=C_3$.}
 \label{fig:harmonic-quotient_d4reg9c-C3_021012012}
 \end{figure}
 
@@ -5506,13 +5532,13 @@ for some subgroup $G$ of $Aut(\Gamma_2)$.
  {\tt d4reg9e}\newline
 {\rm  
 Let $\Gamma_2$ denote the graph {\tt d4reg9e} as given above.
-There are $5$ harmonic quotient morphisms
+There are $6$ harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$.
-Three of these $5$ are quotients to the \verb+D]w+
+Three of these $6$ are quotients to the \verb+D]w+
 graph\footnote{This is the graph6 notation. However, the ISGCI notation is
-$\overline{P_2\cup P_3}$.}. The remaining two are
-(identical morphisms but with different subgroups)
+$\overline{P_2\cup P_3}$.}. The remaining three are
+(identical morphisms but with different subgroups, one of which is $Aut(\Gamma_2)$)
 harmonic quotients to $P_2$.
 
 One of the three distinct harmonic quotient morphisms
@@ -5652,16 +5678,16 @@ tabulated below, is in fact a homomorphism to $\Gamma_1=S_3$.
 
 \[
   {\rm genus}(\Gamma_2) =10,\ \ \ \ \
-  {\rm genus}(\Gamma_1) =6,
+  {\rm genus}(\Gamma_1) =4,
 \]
 and $\deg(\phi)=2$.
 
-Of the remaining $56$, $9$ are harmonic quotient morphisms to
+Of the remaining $53$, $9$ are harmonic quotient morphisms to
 the paw graph (i.e., $C_3$ plus a leaf edge).
 \index{paw graph}
-Of the remaining $47$, $8$ are (not necessarily distinct) harmonic
+Of the remaining $44$, $8$ are (not necessarily distinct) harmonic
 quotient morphisms to the graph $C_3$.
-All of the remaining $39$ are (not necessarily distinct) harmonic
+All of the remaining $36$ are (not necessarily distinct) harmonic
 quotient morphisms to the graph $P_2$.
 
 }
@@ -5804,7 +5830,7 @@ deg(\phi) =4.
 There are (up to isomorphism) exactly $59$ $4$-regular connected graphs on $10$ vertices, all of which are Hamiltonian.
 Three of these $59$ are vertex transitive,
 two of those three are also edge transitive, and one of those two is also distance regular.
-Of all these, $11$ have a non-trivial harmonic morphism to $C_3$.
+Of all these, $17$ have a non-trivial harmonic morphism to $C_3$.
 Here, we include only a few examples (including the above-mentioned
 vertex transitive graphs), some having a non-trivial harmonic
 morphism to $C_3$, some not.
@@ -6034,9 +6060,11 @@ deg(\phi) =2.
  {\tt d4reg10b}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg10b} as given above.
-There is only $1$ harmonic quotient morphism
-$\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, for some $G$. 
-It happens to be a quasicover of a wheel graph, as shown below.
+There are only $2$ harmonic quotient morphisms
+$\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, for some $G$.
+For $G=Aut(\Gamma_2)$ (of order $4$) the quotient is $C_3$, with fibers
+$\{0,7\}$, $\{1,3,6,8\}$, $\{2,4,5,9\}$.
+The other happens to be a quasicover of a wheel graph, as shown below.
 \index{wheel graph}
 When
 \[
@@ -6107,7 +6135,7 @@ for some subgroup $G$ of $Aut(\Gamma_2)$.
  {\tt d4reg10d}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg10d} as given above.
-There is $8$ (not necessarily distinct) harmonic quotient morphism
+There are $8$ (not necessarily distinct) harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, for some $G$. 
 
 One of these is a cover of a complete graph, as shown below.
@@ -6161,7 +6189,7 @@ deg(\phi) =2.
 \end{figure}
 
 
-Six of the remaining $7$ morphisms are to the 
+Five of the remaining $7$ morphisms are to the 
 \verb+EUjo+ graph\footnote{In the graph6 notation.
 In the ISGCI notation, it is $\overline{A}$.}.
 When
@@ -6212,7 +6240,7 @@ deg(\phi) =2.
 \label{fig:harmonic-quotient_d4reg10d+barA}
 \end{figure}
 
-The $8$th and last of these harmonic quotient morphisms is to $P_2$.
+The last two of these harmonic quotient morphisms are to $P_2$ (and are the same morphism).
 
 }
 \end{example}
@@ -6286,7 +6314,8 @@ G = \langle  (0,9)(1,2)(3,5)(4,6)(7,8) \rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to C_5=\Gamma_1=\Gamma_2/G $.
-This multicover example is tabulated below.
+This multicover example is tabulated below. (All $158$ subgroups with a
+$5$-vertex quotient give this same morphism.)
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -6309,7 +6338,7 @@ This multicover example is tabulated below.
   {\rm genus}(\Gamma_1) =1,
 \]
 \[
-deg(\phi) =2.
+deg(\phi) =4.
 \]
 
 
@@ -6353,7 +6382,7 @@ Of the remaining $180$, $30$ of the graphs $\Gamma_1$ arise as a quotient with
 $3$ vertices isomorphic to the graph $P_3$.
 
 All of the $150$ remaining graphs $\Gamma_1$ arise as a quotient with
-$3$ vertices isomorphic to the graph $P_2$.
+$2$ vertices isomorphic to the graph $P_2$.
 }
 \end{example}
 
@@ -6365,12 +6394,11 @@ Only two of these are vertex transitive, each with an automorphism group of orde
 group of order $130691 = 11\cdot 109^2$, the other order $87131 = 11\cdot 89^2$.
 % d4reg11-82, d4reg11-103
 
-Of all $265$ graphs, only $48$ have a non-trivial harmonic morphism to $C_3$.
+Of all $265$ graphs, only $52$ have a non-trivial harmonic morphism to $C_3$.
 This includes an example of a graph having trivial automorphism group, yet $6$ non-trivial harmonic morphisms to $C_3$.
 % d4reg11-172
 
-If we counted correctly (``by hand''),
-there are $100$ of these $265$ graphs with an odd critical group
+There are $100$ of these $265$ graphs with an odd critical group
 (which therefore have no non-trivial harmonic morphisms to $C_4$ or $K_4$).
 %Neither of the vertex transitive graphs have any non-trivial harmonic morphisms to $C_3$ or to $C_4$ or to $K_4$.
 
@@ -6535,12 +6563,12 @@ girth $3$, circumference $11$ (i.e., Hamiltonian),
 critical group of size $102400=2^{12} 5^2$, 
 and automorphism group of size $64$. 
 
-There are $9466$ non-trivial harmonic morphisms from $\Gamma$ to $P_3$ and
-$16014$ non-trivial harmonic morphisms from $\Gamma$ to $P_4$.
+There are $18$ non-trivial harmonic morphisms from $\Gamma$ to $P_3$ and
+none to $P_4$.
 Since the diameter is $3$, there are no non-trivial harmonic morphisms
 from $\Gamma$ to $P_k$, for $k>4$, by \S 3.8 of \cite{MJ22}.
 There are no non-trivial harmonic morphisms from $\Gamma$ to $C_3$ or
-to $K_4$, however, there are $3488$ non-trivial harmonic morphisms
+to $K_4$, however, there are $16$ non-trivial harmonic morphisms
 from $\Gamma$ to $C_4$.
 
 
@@ -6567,11 +6595,11 @@ girth $3$, circumference $11$ (i.e., Hamiltonian),
 critical group of size $109744=2^{4} 19^3$, 
 and automorphism group of size $144$.
 
-There are $8642$ non-trivial harmonic morphisms from $\Gamma$ to $P_3$.
+There are $18$ non-trivial harmonic morphisms from $\Gamma$ to $P_3$.
 Since the diameter is $2$, there are no non-trivial harmonic morphisms
 from $\Gamma$ to $P_k$, for $k>3$, by \S 3.8 of \cite{MJ22}.
-There are $2304$ non-trivial harmonic morphisms
-from $\Gamma$ to $C_4$ but none to $K_4$.
+There are no non-trivial harmonic morphisms
+from $\Gamma$ to $C_4$ or to $K_4$.
 
 \end{enumerate}
 
@@ -6731,13 +6759,13 @@ Figure \ref{fig:harmonic-quotient_d4reg11f+C6+C4+C4}.
   1   &    1   &        1         &  1  \\ 
   2   &    1   &        1         &  1  \\ 
   3   &    4   &        2         &  0  \\ 
-  4   &    0   &        2         &  0   \\
+  4   &    0   &        1         &  0   \\
   5   &    6   &        2         &  0   \\
   6   &    5   &        2         &  0   \\
   7   &    3   &        1         &  1   \\
   8   &    3   &        1         &  1   \\
-  9   &    2   &        4         &  0   \\
-  10   &   0   &        2         &  0  \\   
+  9   &    2   &        2         &  0   \\
+  10   &   0   &        1         &  0  \\   
 \end{tabular}
 \end{center}
 
@@ -6874,7 +6902,7 @@ deg(\phi) =4.
 \includegraphics[height=4cm,width=4cm]{graphics/DrG-quotient-of-d4reg11f.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d4reg11f}), with a degree two harmonic quotient morphism to the graph ${\tt DrG}=\Gamma_1=\Gamma_2/G$.}
+\caption{The quartic graph $\Gamma_2$ ({\tt d4reg11f}), with a degree four harmonic quotient morphism to the graph ${\tt DrG}=\Gamma_1=\Gamma_2/G$.}
 \label{fig:harmonic-quotient_d4reg11f+DrG}
 \end{figure}
 
@@ -6923,7 +6951,7 @@ E = \{
 \]
 It has diameter $3$,
 girth $4$, circumference $12$ (i.e., Hamiltonian),
-critical group of size $293216 = 2^5 7^2 11\cdot 17$, 
+critical group of size $393216 = 2^{17}\cdot 3$, 
 and automorphism group of size $768$. This is a vertex transitive and
 edge transitive graph. It is also bipartite, symmetric
 (= arc transitive), and isomorphic to the circulant graph with
@@ -7118,7 +7146,7 @@ E = \{
 \}.
 \]
 It has diameter $3$,
-girth $3$, circumference $12$,
+girth $4$, circumference $12$,
 critical group of size $401408 = 2^{13} 7^2$, 
 and automorphism group of size $64$. This is a bipartite graph.
 
@@ -7273,8 +7301,11 @@ G = \langle (0,3)(1,7)(2,10)(4,8)(5,6)(9,11) \rangle ,
 \]
 the quotient morphism maps (is a $2$-multicover, in fact) to the cycle graph
 $\pi: \Gamma_2\to C_6=\Gamma_1=\Gamma_2/G $.
-All of the $1482$ quotients $\Gamma_1=\Gamma_2/G$ having $6$ vertices
-are isomorphic to this cycle graph $C_6$.
+Of the $1482$ quotients $\Gamma_1=\Gamma_2/G$ having $6$ vertices,
+$1330$ are isomorphic to this cycle graph $C_6$ (and all $1330$ give this
+same morphism); the others are $120$ quotients to $C_4$ with two pendant
+edges at one vertex, $24$ to $\overline{C_4\cup K_2}$, and $8$ to the
+octahedral graph.
 This example
 is tabulated below and the uncolored graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12a+C6}. 
@@ -7302,7 +7333,7 @@ Figure \ref{fig:harmonic-quotient_d4reg12a+C6}.
   {\rm genus}(\Gamma_1) =1,
 \]
 \[
-deg(\phi) =2.
+deg(\phi) =4.
 \]
 
 \begin{figure}[H]
@@ -7316,7 +7347,7 @@ deg(\phi) =2.
 \includegraphics[height=4cm,width=4cm]{graphics/C6-quotient-of-d4reg12a.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree two harmonic quotient morphism to the graph $C_6=\Gamma_1=\Gamma_2/G$ described above.}
+\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree four harmonic quotient morphism to the graph $C_6=\Gamma_1=\Gamma_2/G$ described above.}
 \label{fig:harmonic-quotient_d4reg12a+C6}
 \end{figure}
 
@@ -7326,8 +7357,9 @@ G = \langle (0,5,9)(1,4,2)(3,6,11)(7,8,10) \rangle ,
 \]
 the quotient morphism maps (is a $2$-multicover, in fact) to the cycle graph
 $\pi: \Gamma_2\to C_4=\Gamma_1=\Gamma_2/G $.
-All of the $1482$ quotients $\Gamma_1=\Gamma_2/G$ having $4$ vertices
-are isomorphic to this cycle graph $C_4$.
+Of the $2294$ quotients $\Gamma_1=\Gamma_2/G$ having $4$ vertices,
+$170$ are isomorphic to this cycle graph $C_4$, $48$ to the diamond graph,
+and $2076$ to the path graph $P_4$.
 This example
 is tabulated below and the uncolored graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12a+C4}. 
@@ -7355,7 +7387,7 @@ Figure \ref{fig:harmonic-quotient_d4reg12a+C4}.
   {\rm genus}(\Gamma_1) =1,
 \]
 \[
-deg(\phi) =3.
+deg(\phi) =6.
 \]
 
 \begin{figure}[H]
@@ -7369,15 +7401,15 @@ deg(\phi) =3.
 \includegraphics[height=4cm,width=4cm]{graphics/C4-quotient-of-d4reg12a.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree three harmonic quotient morphism to the graph $C_4=\Gamma_1=\Gamma_2/G$ described above.}
+\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree six harmonic quotient morphism to the graph $C_4=\Gamma_1=\Gamma_2/G$ described above.}
 \label{fig:harmonic-quotient_d4reg12a+C4}
 \end{figure}
 
-All of the $1634$ quotients $\Gamma_1=\Gamma_2/G$ having $3$ vertices
-are isomorphic to this cycle graph $P_3$.
+Of the $1634$ quotients $\Gamma_1=\Gamma_2/G$ having $3$ vertices,
+$1309$ are isomorphic to the path graph $P_3$ and $325$ to the cycle graph $C_3$.
 
 All of the $1761$ quotients $\Gamma_1=\Gamma_2/G$ having $2$ vertices
-are isomorphic to this cycle graph $P_2$.
+are isomorphic to the path graph $P_2$.
 }
 \end{example}
 
@@ -7612,7 +7644,7 @@ For instance, when
 \[
 G = \langle (0,4)(1,5)(2,6)(3,7)(8,11)(9,10) \rangle ,
 \]
-the quotient morphism $\pi$ (a quasicover) maps to the $6$ vertex prism graph
+the quotient morphism $\pi$ (a quasicover) maps to the $6$ vertex graph {\tt Ejmw}
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G $, as tabulated below.
 The uncolored graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12c+Ejmw}. 
@@ -7660,12 +7692,12 @@ deg(\phi) =2.
 
 All $6$ of the non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
-$\Gamma_1$ has $4$ vertices, satisfy $\Gamma_4=St_4$.
+$\Gamma_1$ has $4$ vertices, satisfy $\Gamma_1=St_4$.
 \index{star graph}
 
 All $6$ of the non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
-$\Gamma_1$ has $3$ vertices, satisfy $\Gamma_4=C_3$.
+$\Gamma_1$ has $3$ vertices, satisfy $\Gamma_1=C_3$.
 In fact, all these morphisms are quasicovers.
 For instance, when
 \[
@@ -7943,19 +7975,19 @@ Figure \ref{fig:harmonic-quotient_d4reg12d+butterfly}.
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
-  $x$ & $\pi(x)$ & $m_\pi(x)$ & $\nu_\pi(x)$   \\ 
-  0   &    5   &        2         &  0  \\ 
-  1   &    4   &        2         &  0  \\ 
-  2   &    2   &        2         &  0  \\ 
-  3   &    3   &        1         &  0   \\
-  4   &    1   &        1         &  0   \\
-  5   &    5   &        2         &  0   \\
-  6   &    4   &        2         &  0   \\
+  $x$ & $\pi(x)$ & $m_\pi(x)$ & $\nu_\pi(x)$   \\
+  0   &    1   &        2         &  0   \\
+  1   &    4   &        2         &  0   \\
+  2   &    1   &        2         &  0   \\
+  3   &    0   &        1         &  0   \\
+  4   &    0   &        1         &  0   \\
+  5   &    2   &        2         &  0   \\
+  6   &    3   &        2         &  0   \\
   7   &    2   &        2         &  0   \\
-  8   &    0   &        2         &  0   \\
-  9   &    1   &        1         &  0  \\   
-  10  &    3  &         1         &  0  \\
-  11  &    0   &        2         &  0  \\  
+  8   &    3   &        2         &  0   \\
+  9   &    0   &        1         &  0   \\
+  10   &    0   &        1         &  0   \\
+  11   &    4   &        2         &  0   \\
 \end{tabular}
 \end{center}
 
@@ -7996,9 +8028,10 @@ $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
 $\Gamma_1$ has $3$ vertices, exactly $13$ of them
 satisfy $\Gamma_1=P_3$, the path graph.
 (In each case, these quotients have vertical edges.)
-The remaining $6$ satisfy $\Gamma_1=C_3$, the cycle graph.
+The remaining $12$ satisfy $\Gamma_1=C_3$, the cycle graph
+($8$ distinct morphisms).
 The quotients in this case $\pi: \Gamma_2\to C_3=\Gamma_2/G$
-are multicovers of degree 4 and multiplicity $m=2$.
+are multicovers of degree $8$ and multiplicity $m=2$.
 When
 \[
 G = \langle 
@@ -8032,7 +8065,7 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d4reg12d-C3_212002121001}.
   {\rm genus}(\Gamma_1) =1,
 \]
 \[
-deg(\phi) =4.
+deg(\phi) =8.
 \]
 
 \begin{figure}[H]
@@ -8046,7 +8079,7 @@ deg(\phi) =4.
 \includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}) is a degree four $2$-multicover of $\Gamma_1=C_3$.}
+\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}) is a degree eight $2$-multicover of $\Gamma_1=C_3$.}
 \label{fig:harmonic-quotient_d4reg12d-C3_212002121001}
 \end{figure}
 
@@ -8201,7 +8234,7 @@ satisfy $\Gamma_1=C_3$, the cycle graph.
 These quotients $\pi: \Gamma_2\to C_3=\Gamma_2/G$
 are multicovers\footnote{This too was seen in the above case of
 {\tt d4reg12d}, see Example \ref{example:d4reg12d}.}
-of degree 4 and multiplicity $m=2$.
+of degree $8$ and multiplicity $m=2$.
 
 All the $7$ non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
@@ -8215,7 +8248,7 @@ $\Gamma_1$ has $2$ vertices, map to $P_2$.
  {\tt d4reg12f}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d4reg12f} as given above.
-It has $75$  non-trivial harmonic quotient morphisms
+It has $76$  non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$.
 There is exactly $1$ in the case $\Gamma_1$ has $8$ vertices,
@@ -8223,7 +8256,7 @@ none in case $\Gamma_1$ has $7$ vertices,
 $16$ in case $\Gamma_1$ has $6$ vertices,
 $30$ in case $\Gamma_1$ has $4$ vertices,
 $6$ in the case $\Gamma_1$ has $3$ vertices,
-and $22$ in the case $\Gamma_1$ has $2$ vertices
+and $23$ in the case $\Gamma_1$ has $2$ vertices
 (i.e., $\Gamma_1=P_2$).
 
 For instance, when
@@ -8352,10 +8385,10 @@ deg(\phi) =4.
 
 Of the $30$ non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
-$\Gamma_1$ has $6$ vertices, exactly $4$ of them
+$\Gamma_1$ has $4$ vertices, exactly $4$ of them
 satisfy $\Gamma_1={\tt diamond}$.
 The remaining $26$ satisfy $\Gamma_1=P_4$.
-In each case, these quotients to the ath graph $P_4$ all seem
+In each case, these quotients to the path graph $P_4$ all seem
 to be graph homomorphisms.
 \index{diamond graph}
 
@@ -8394,7 +8427,7 @@ Figure \ref{fig:harmonic-quotient_d4reg12f-P4_311213201220}.
   {\rm genus}(\Gamma_1) =0,
 \]
 \[
-deg(\phi) =4.
+deg(\phi) =8.
 \]
 
 \begin{figure}[H]
@@ -8408,7 +8441,7 @@ deg(\phi) =4.
 \includegraphics[height=4cm,width=4cm]{graphics/path4-3120.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12f}), a degree 4 harmonic quotient to the path graph, $\Gamma_1=P_4$.}
+\caption{The quartic graph $\Gamma_2$ ({\tt d4reg12f}), a degree 8 harmonic quotient to the path graph, $\Gamma_1=P_4$.}
 \label{fig:harmonic-quotient_d4reg12f-P4_311213201220}
 \end{figure}
 
@@ -8416,7 +8449,7 @@ All the $6$ non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
 $\Gamma_1$ has $3$ vertices, map to $P_3$.
 
-All $22$ of the non-trivial harmonic quotient morphisms
+All $23$ of the non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$, in the case where
 $\Gamma_1$ has $2$ vertices, map to $P_2$.
 }
@@ -8479,8 +8512,8 @@ girth $3$, circumference $8$,
 critical group of size $21025 = 5^2 29^2$, 
 and automorphism group of size $60$. This has chromatic number $4$.
 
-There are no non-trivial harmonic morphisms from $\Gamma$ to $P_3$, $P_4$,
-$C_3$, $C_4$, or to $K_4$.
+There are $6$ non-trivial harmonic morphisms from $\Gamma$ to $P_3$,
+but none to $P_4$, $C_3$, $C_4$, or to $K_4$.
 
 \item
   {\tt d5reg8b}\newline
@@ -8554,11 +8587,11 @@ $P_4$, $C_4$, or to $K_4$.
   {\tt d5reg8a}\newline
 {\rm  
   Let $\Gamma_2$ denote the graph {\tt d5reg8a}, as above.
-It has $6$  non-trivial harmonic quotient morphisms
+It has $7$  non-trivial harmonic quotient morphisms
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G$,
 for some subgroup $G$ of $Aut(\Gamma_2)$.
 There are exactly $2$ in the case $\Gamma_1$ has $4$ vertices,
-and $4$ in the case $\Gamma_1$ has $2$ vertices
+and $5$ in the case $\Gamma_1$ has $2$ vertices (one of them for $G=Aut(\Gamma_2)$)
 (i.e., $\Gamma_1=P_2$).
 Both of the quotient morphisms in case $\Gamma_1$ has $4$ vertices
 are to $\Gamma_1=St_4$. 
@@ -8639,7 +8672,7 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d5reg8b-C4_32231001}.
   {\rm genus}(\Gamma_1) =1,
 \]
 \[
-deg(\phi) =2.
+deg(\phi) =4.
 \]
 
 \begin{figure}[H]
@@ -8653,13 +8686,14 @@ deg(\phi) =2.
 \includegraphics[height=4cm,width=4cm]{graphics/Cycle4-0123c.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d5reg8b}) is a degree two quasi-multicover of $\Gamma_1=C_4$.}
+\caption{The quintic graph $\Gamma_2$ ({\tt d5reg8b}) is a degree four quasi-multicover of $\Gamma_1=C_4$.}
 \label{fig:harmonic-quotient_d5reg8b-C4_32231001}
 \end{figure}
 
-All of the quotient morphisms in case
-$\Gamma_1$ has $3$ vertices are to $\Gamma_1=C_3$. 
-However, these are not quasi-multicovers.
+Of the $116$ quotient morphisms in case
+$\Gamma_1$ has $3$ vertices, $24$ are to $\Gamma_1=C_3$ ($8$ distinct morphisms)
+and $92$ are to $P_3$ ($2$ distinct morphisms).
+The quotients to $C_3$ are not quasi-multicovers.
 For example, when
 \[
 G = \langle (4,7)(5,6), (0,1)(2,3)(4,6,7,5) \rangle ,
@@ -8702,7 +8736,7 @@ deg(\phi) =4.
 \includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
 \end{center}
 \end{minipage}
-\caption{The quartic graph $\Gamma_2$ ({\tt d5reg8b}) has a degree four harmonic quotient morphism to $\Gamma_1=C_3$.}
+\caption{The quintic graph $\Gamma_2$ ({\tt d5reg8b}) has a degree four harmonic quotient morphism to $\Gamma_1=C_3$.}
 \label{fig:harmonic-quotient_d5reg8b-C3_00112222}
 \end{figure}
 
@@ -9022,7 +9056,7 @@ Figure \ref{fig:harmonic-quotient_d5reg10c+C5}.
 \]
 
 \[
-deg(\phi) =2.
+deg(\phi) =4.
 \]
 
 \begin{figure}[H]
@@ -9036,7 +9070,7 @@ deg(\phi) =2.
 \includegraphics[height=4cm,width=4cm]{graphics/C5-quotient-of-d5reg10c.png}
 \end{center}
 \end{minipage}
-\caption{The quintic graph  $\Gamma_2$ ({\tt d5reg10c}) is a degree two quasi-$2$-multicover of the cycle graph, $\Gamma_1=\Gamma_2/G_2=C_5$.}
+\caption{The quintic graph  $\Gamma_2$ ({\tt d5reg10c}) is a degree four quasi-$2$-multicover of the cycle graph, $\Gamma_1=\Gamma_2/G_2=C_5$.}
 \label{fig:harmonic-quotient_d5reg10c+C5}
 \end{figure}
 
@@ -9071,7 +9105,7 @@ is tabulated below.
 \]
 
 \[
-deg(\phi) =4.
+deg(\phi) =8.
 \]
 
 
@@ -9094,8 +9128,8 @@ and $28265$ in the case $\Gamma_1$ has $2$ vertices
 (i.e., $\Gamma_1=P_2$).
 
 The quotient morphism for the
-subgroup\footnote{In this example, the subgroup $G$
-is actually the center of $Aut(\Gamma_2)$.}
+subgroup\footnote{Here $Aut(\Gamma_2)$ has trivial center; $G$ is a cyclic
+group of order $5$ acting on one side of the bipartition and fixing the other.}
 
 \[
 G=\langle (1,5,8,2,6) \rangle,
@@ -9147,7 +9181,7 @@ This example is also similar in some ways to {\tt d5reg10a}
 in Example \ref{example:d5reg10a}, except that
 it's automorphism group is much larger. In this
 example, $K_5$ is also the quotient of $\Gamma_2$ by
-subgroup of $Aut(\Gamma_2)$ or order $2$. Moreover, the quotient morphism
+a subgroup of $Aut(\Gamma_2)$ of order $2$. Moreover, the quotient morphism
 in this case is also a degree two quasicover
 where each edge has vertical multiplicity $1$.
 }
