@@ -104,6 +104,36 @@ def caption_of(fig_text):
     return fig_text[m.end():i - 1]
 
 
+MARK = 'make_figures.py'
+BEGIN_RE = re.compile(r'% BEGIN ' + re.escape(MARK) + r' (G[12]) box=([\d.]+)x([\d.]+)cm was=(\S+)\n')
+
+
+def drawings(fig_raw):
+    """The two drawings of a figure environment (raw text, comments kept).
+
+    Each is either an \\includegraphics[height=..,width=..]{png} or a block
+        % BEGIN make_figures.py G2 box=5x5cm was=graphics/foo.png
+        ...
+        % END make_figures.py G2
+    written by make_figures.py.  Returns dicts with keys kind ('png' or
+    'tikz'), png, box (width, height in cm), start, end (offsets in fig_raw).
+    """
+    out = []
+    for m in re.finditer(r'\\includegraphics\[([^\]]*)\]\{([^}]*)\}', fig_raw):
+        w = re.search(r'width=([\d.]+)cm', m.group(1))
+        h = re.search(r'height=([\d.]+)cm', m.group(1))
+        out.append({'kind': 'png', 'png': m.group(2), 'box': (float(w.group(1)), float(h.group(1))),
+                    'start': m.start(), 'end': m.end()})
+    for m in BEGIN_RE.finditer(fig_raw):
+        e = re.compile(r'% END ' + re.escape(MARK) + ' ' + m.group(1) + r'(?=\n)').search(fig_raw, m.end())
+        out.append({'kind': 'tikz', 'png': m.group(4), 'box': (float(m.group(2)), float(m.group(3))),
+                    'start': m.start(), 'end': e.end(), 'which': m.group(1)})
+    out.sort(key=lambda d: d['start'])
+    if len(out) != 2:
+        raise ValueError('a figure must have exactly two drawings')
+    return out
+
+
 def read_figures(tex_path):
     raw = open(tex_path).read()
     src = strip_comments(raw)
@@ -112,7 +142,7 @@ def read_figures(tex_path):
     figs = []
     for fm in re.finditer(r'\\begin\{figure\}.*?\\end\{figure\}', src, re.S):
         ftxt = fm.group(0)
-        imgs = re.findall(r'\\(?:includegraphics(\[[^\]]*\])?\{([^}]*)\}|input\{([^}]*)\})', ftxt)
+        imgs = drawings(raw[fm.start():fm.end()])
         label = re.search(r'\\label\{(fig:[^}]*)\}', ftxt).group(1)
         ex = [e for e in examples if e[0] <= fm.start() < e[1]]
         if len(ex) != 1:
@@ -140,8 +170,8 @@ def read_figures(tex_path):
             'example': name,
             'line': src[:fm.start()].count('\n') + 1,
             'table_line': src[:table[0]].count('\n') + 1,
-            'images': [i[1] or i[2] for i in imgs],
-            'image_opts': [i[0] for i in imgs],
+            'images': [i['png'] for i in imgs],
+            'boxes': [i['box'] for i in imgs],
             'caption': caption_of(ftxt),
             'edges2': edges,
             'edges2_source': how,

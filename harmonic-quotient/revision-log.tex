@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
+\usepackage{array}
 \usepackage{longtable}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
@@ -10,7 +11,7 @@
 
 \title{Revision log for ``Harmonic quotient morphisms of regular graphs: examples''}
 \author{David Joyner and Caroline Melles}
-\date{Current draft: Draft 2, November 16, 2026}
+\date{Current draft: Draft 3, November 16, 2026}
 
 \begin{document}
 \maketitle
@@ -20,13 +21,14 @@ responses to referee reports. All files are in the folder
 \path{harmonic-quotient} of \url{https://github.com/wdjoyner/alg-graph-thry}.
 
 \begin{center}
-\begin{tabular}{p{0.2\textwidth}p{0.13\textwidth}p{0.58\textwidth}}
+\begin{tabular}{p{0.2\textwidth}p{0.13\textwidth}>{\raggedright\arraybackslash}p{0.58\textwidth}}
 \hline
 Draft & Date & File \\
 \hline
 Draft 0 (original) & 2023-03-26 & \path{archive/regular-graph-harmonic-quotient-examples_2023-03-26.tex} \\
 Draft 1 & 2026-11-15 & git commit \texttt{295fd16} \\
-Draft 2 & 2026-11-16 & \path{regular-graph-harmonic-quotient-examples.tex} (this branch) \\
+Draft 2 & 2026-11-16 & git commit \texttt{414803e} \\
+Draft 3 & 2026-11-16 & \path{regular-graph-harmonic-quotient-examples.tex} (this branch) \\
 \hline
 \end{tabular}
 \end{center}
@@ -180,6 +182,106 @@ Tait's conjecture and Tutte's counterexample & 2 & Sources consulted in the Draf
 \hline
 \end{longtable}
 
+\section{Draft 2 to Draft 3 (figures redrawn in TikZ)}
+
+David Joyner asked Claude (Anthropic, model Claude Opus 5.5) to redraw the
+figures in TikZ, generated from the data in the text, so that the
+pictures cannot disagree with the tables. A pilot of six figures (1, 4,
+10, 21, 41, 63) was approved before the rest were done. No mathematical
+statement, table, count, caption, label or figure number changed.
+
+\subsection{What changed}
+
+\begin{enumerate}
+\item All $63$ figures ($126$ drawings, formerly $104$ PNG files recovered
+from the 2023 PDF) are now TikZ code embedded in the \texttt{.tex} file,
+between the comments \verb|% BEGIN make_figures.py G2| and
+\verb|% END make_figures.py G2| (and the same for \texttt{G1}). Each
+\verb|BEGIN| line records the PNG it replaces and the size of the old
+box. The colors and node styles are in the preamble, between
+\verb|% BEGIN make_figures.py styles| and \verb|% END make_figures.py styles|.
+The paper no longer needs the folder \path{graphics/}, which is kept until
+the authors approve the new figures.
+\item Each figure draws $\Gamma_2$ above $\Gamma_1$, as before, with every
+vertex labeled by its number. A vertex $y$ of $\Gamma_1$ and its fiber
+$\phi^{-1}(y)$ in $\Gamma_2$ have the same color. The colors of
+$0,1,2,3$ are white, green, blue and red, as in the colored PNGs of 2023.
+Most of the 2023 PNGs of $\Gamma_2$ were uncolored, and every
+``the uncolored graphs are depicted'' in the text ($44$ places) now reads
+``the graphs are depicted''.
+\item Layouts. A Hamiltonian graph is drawn on a circle along a Hamiltonian
+cycle: the cycle $0,1,\dots,n-1$ when it is one (every graph given in LCF
+notation), otherwise the cycle with the fewest crossings. So the quartic and
+quintic $\Gamma_2$, which the 2023 PNGs drew on a circle in the order
+$0,1,\dots,n-1$, now have a different vertex order. Where three or more
+edges would meet at one point, the angles are moved by a few degrees. A
+planar $\Gamma_1$ whose circle drawing has two or more crossings is drawn
+without crossings (the prism, octahedron, wheel and others). Some layouts
+are hand-tuned. $K_{5,5}$ ({\tt d5reg10d}, Figure 63) is drawn in two rows,
+as approved in the pilot. {\tt d4reg11a} (Figure 37) is not Hamiltonian and
+is drawn as two halves joined at vertex $0$. The two octahedra (Figures 46
+and 51) are nested triangles. Five planar $\Gamma_1$ (Figures 23, 32, 39,
+42 and 45) use positions found by a search over grid points.
+\item Section 3.5 has a new paragraph on how the figures are colored and
+laid out, with an example. Section 3.6 describes the two new scripts.
+\item Draft 3 also fixes three departures from the style guide in Draft 2.
+The abstract now opens with an AI-disclosure sentence (rule 5.2). The
+acknowledgments describe Claude's role in Draft 3 and point to this log
+(rules 5.3 and 5.5). The title has the subtitle ``Draft 3. Corrected
+and expanded version'' and the date line ``Original draft: 2023.
+Corrected and expanded draft: 2026'' (rule 6.2).
+\item The preamble loads \texttt{tikz} and no longer loads
+\texttt{graphicx} directly (TikZ loads it).
+\end{enumerate}
+
+\subsection{Scripts}
+
+All three are in \path{verification/} (MIT license).
+\begin{description}
+\item[\path{figlib.py}] Reads each figure's label, caption, example,
+$\Gamma_2$ edge list and $\phi$ table from the \texttt{.tex}. The table
+of a figure is the first table after the first \verb|\ref| to the figure
+and before the next figure, or else the last table before that
+\verb|\ref|.
+\item[\path{make_figures.py}] Computes $\Gamma_1$ as the image of $\phi$,
+chooses the layouts and writes the TikZ blocks into the \texttt{.tex}.
+Running it again gives the same file.
+\item[\path{check_figures.py}] Does not use the other two. It reads the
+TikZ blocks back and takes, for each figure, the nearest table in the
+source. It checks the vertices and edges of $\Gamma_2$ against the text,
+and its degree against ``cubic/quartic/quintic'' in the caption. It checks
+each vertex color against $\phi$, and the fiber sizes against the table.
+It checks that the vertices, colors and edges of $\Gamma_1$ are the image
+of $\phi$, and equal $E_1$ where the text lists it. It checks both genera,
+and that $\sum m_\phi$ over each fiber equals $\deg(\phi)$ and the degree
+in the caption. It checks that no nodes overlap and no edge passes through
+a node. Given the Draft 2 source, it checks that every caption, label and
+box size is unchanged. On Draft 3
+it reports no failures and one warning (concurrent edges in the two-row
+$K_{5,5}$, which is the standard picture). It was tested by changing one
+vertex color, one edge and one table row: each change was caught.
+\end{description}
+
+\subsection{Observations not acted on}
+
+\begin{enumerate}
+\item The label of Figure 22 is \verb|fig:harmonic-quotient_d7reg7b+K23|
+(for {\tt d4reg7b}). Labels were kept unchanged as instructed.
+\item Figure 12 ({\tt d3reg10q}, $C_5$) is never referenced in the text.
+\item The PDF attached to the request was built from an older copy of the
+source (Draft 1, Computer Modern), and that copy lacked
+\path{graphics/K4-0123b.png}, which is in the repository.
+\item This draft was compiled with the \texttt{mathptmx} fallback, since
+\texttt{newtx} is not installed where it was built. Page breaks may differ
+slightly with \texttt{newtx}.
+\end{enumerate}
+
+\subsection{Verification levels}
+
+The agreement of every figure with the text is Level 1: it is checked by
+\path{check_figures.py} from the source. The layouts were also inspected by
+eye on a page with all $63$ figures.
+
 \section{Open items for the authors}
 
 \begin{enumerate}
@@ -191,6 +293,8 @@ matchstick claims (2026.3), the term ``weed'' (2026.4), and the name
 $X_{37}$ (2026.5).
 \item The CC BY 4.0 license on the paper needs the agreement of both
 authors.
+\item Approve the TikZ figures. After that \path{graphics/} can be
+deleted (it is no longer used by the paper).
 \item Fix \path{has_harmonic_quotient}: change \verb|<| to \verb|<=| in the
 subgroup filter on line 7230 of \path{alg-graph-thry2.sage}.
 \end{enumerate}

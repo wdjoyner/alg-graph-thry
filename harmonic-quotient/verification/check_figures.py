@@ -3,9 +3,10 @@
 Usage (from this folder):
     python3 check_figures.py [--reference OLD.tex]
 
-This script does not use figlib.py or make_figures.py.  It reads the .tex and
-the files in ../figures/ separately and checks, for each figure that \\inputs
-TikZ files:
+This script does not use figlib.py or make_figures.py.  It reads the .tex,
+including the TikZ blocks that make_figures.py writes between the comments
+"% BEGIN make_figures.py G2 box=WxHcm was=PNG" and "% END make_figures.py G2"
+(and the same for G1), and checks, for each figure drawn in TikZ:
 
   1. Gamma_2: the drawn vertices are 0..n-1, each labeled by its own number,
      and the drawn edges are exactly the edge list in the text (E_2 in the
@@ -38,8 +39,7 @@ import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.join(HERE, '..')
-TEX = os.path.join(ROOT, 'regular-graph-harmonic-quotient-examples.tex')
+TEX = os.path.join(HERE, '..', 'regular-graph-harmonic-quotient-examples.tex')
 NODE_R = 0.23    # cm, half of minimum size=4.6mm in hq-style.tex
 WORDS = {'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8}
 REG = {'cubic': 3, 'quartic': 4, 'quintic': 5}
@@ -66,19 +66,24 @@ def pairs(s):
 
 
 def set_after(t, i):
-    """Pairs in the first \\{ ... \\} that starts at or after offset i."""
-    j = t.index('\\{', i)
-    k = t.index('\\}', j)
-    return pairs(t[j:k])
+    """Pairs in the first \\{ ... \\} at or after offset i that holds at least
+    three pairs (so a vertex set {0,1,...} is skipped)."""
+    while True:
+        j = t.index('\\{', i)
+        k = t.index('\\}', j)
+        p = pairs(t[j:k])
+        if len(p) >= 3:
+            return p
+        i = k
 
 
-def read_tikz(path):
-    s = open(path).read()
+def read_tikz(s):
     nodes = {}
     for m in re.finditer(r'\\node\[hqv, fill=hq(\d+)\] \(v(\d+)\) at \(([-\d.]+),([-\d.]+)\) \{(\d+)\};', s):
         nodes[int(m.group(2))] = {'color': int(m.group(1)), 'xy': (float(m.group(3)), float(m.group(4))),
                                   'text': int(m.group(5))}
     edges = [frozenset((int(a), int(b))) for a, b in re.findall(r'\\draw\[hqe\] \(v(\d+)\) -- \(v(\d+)\);', s)]
+    s = '\n'.join(ln for ln in s.split('\n') if not ln.startswith('%'))
     n_node_cmds = len(re.findall(r'\\node', s))
     n_draw_cmds = len(re.findall(r'\\draw', s))
     return nodes, edges, (n_node_cmds == len(nodes) and n_draw_cmds == len(edges))
@@ -154,14 +159,18 @@ def main():
     for fm in figs:
         ftxt = fm.group(0)
         label = re.search(r'\\label\{([^}]*)\}', ftxt).group(1)
-        inputs = re.findall(r'\\input\{figures/([^}]*)\}', ftxt)
-        if not inputs:
+        # the raw figure text, comments kept
+        j = raw.index('\\label{%s}' % label)
+        fraw = raw[raw.rindex('\\begin{figure}', 0, j):j]
+        blocks = re.findall(r'% BEGIN make_figures\.py (G[12]) box=([\d.]+)x([\d.]+)cm was=(\S+)\n(.*?)'
+                            r'\n% END make_figures\.py \1\n', fraw, re.S)
+        if not blocks:
             n_png += 1
             continue
         n_tikz += 1
         fig = label[4:]
-        if inputs != [fig + '-G2.tex', fig + '-G1.tex'] or '\\includegraphics' in ftxt:
-            bad(fig, 'figure does not input exactly %s-G2.tex and -G1.tex' % fig)
+        if [b[0] for b in blocks] != ['G2', 'G1'] or '\\includegraphics' in fraw:
+            bad(fig, 'figure does not have exactly a G2 block and then a G1 block')
             continue
         es, ee, name = [e for e in examples if e[0] <= fm.start() < e[1]][0]
         cap = re.search(r'\\caption\{(.*)\}\s*\\label', ftxt, re.S).group(1)
@@ -188,7 +197,7 @@ def main():
         deg = int(re.search(r'deg\(\\phi\)\s*=\s*(\d+)', after).group(1))
 
         # 1, 2: Gamma_2 drawing
-        n2, e2, clean2 = read_tikz(os.path.join(ROOT, 'figures', fig + '-G2.tex'))
+        n2, e2, clean2 = read_tikz(blocks[0][4])
         if not clean2:
             bad(fig, 'G2 file has commands this checker does not understand')
         if sorted(n2) != V2 or any(d['text'] != v for v, d in n2.items()):
@@ -211,7 +220,7 @@ def main():
         if fib_drawn != fib_text:
             bad(fig, 'fiber sizes drawn %s, in the table %s' % (fib_drawn, fib_text))
         # 4: Gamma_1 drawing
-        n1, e1, clean1 = read_tikz(os.path.join(ROOT, 'figures', fig + '-G1.tex'))
+        n1, e1, clean1 = read_tikz(blocks[1][4])
         if not clean1:
             bad(fig, 'G1 file has commands this checker does not understand')
         V1 = sorted(set(phi.values()))
@@ -241,7 +250,15 @@ def main():
             if dc != deg:
                 bad(fig, 'caption says degree %s, deg(phi)=%d' % (dm.group(1), deg))
         # 6: readability
-        box = boxes_from(ref, label) if ref else [(5.0, 5.0), (4.0, 4.0)]
+        box = [(float(b[1]), float(b[2])) for b in blocks]
+        if ref:
+            if boxes_from(ref, label) != box:
+                bad(fig, 'box sizes differ from the PNGs in the reference')
+            pngs = re.findall(r'\\includegraphics\[[^\]]*\]\{([^}]*)\}',
+                              ref[ref.rindex('\\begin{figure}', 0, ref.index('\\label{%s}' % label)):
+                                  ref.index('\\label{%s}' % label)])
+            if pngs != [b[3] for b in blocks]:
+                bad(fig, 'was=... does not name the PNGs of the reference')
         readability(fig + ' G2', n2, e2, box[0])
         readability(fig + ' G1', n1, e1, box[1])
 

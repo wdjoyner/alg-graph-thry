@@ -1,13 +1,14 @@
 \documentclass[12pt,letterpaper]{article}
-% Draft 2, 2026-11-16. Original draft: wdj and C. Melles, 2023-03-26.
+% Draft 3, 2026-11-16. Original draft: wdj and C. Melles, 2023-03-26.
 % Draft 1 (2026-11-15): corrections from a computational referee check.
 % Draft 2 (2026-11-16): revision to the authors' style guide. See revision-log.tex.
+% Draft 3 (2026-11-16): every figure redrawn in TikZ by verification/make_figures.py.
+%   Edit the layouts in that script, not the TikZ blocks below: it rewrites them.
 \usepackage[T1]{fontenc}
 \IfFileExists{newtxmath.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}}
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{float}
-\usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{url}
 \usepackage{fancyvrb}
@@ -16,7 +17,6 @@
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
 \def\UrlBreaks{\do\/\do\_\do\.\do\-}
-\input{figures/hq-style.tex}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}[theorem]{Corollary}
@@ -46,23 +46,47 @@
 
 \makeindex
 
+% BEGIN make_figures.py styles
+% Vertex y of Gamma_1 and its fiber in Gamma_2 have color hq<y>.
+\definecolor{hq0}{HTML}{FFFFFF}
+\definecolor{hq1}{HTML}{6CC56C}
+\definecolor{hq2}{HTML}{7BA7E0}
+\definecolor{hq3}{HTML}{EE7B7B}
+\definecolor{hq4}{HTML}{F2D24B}
+\definecolor{hq5}{HTML}{F5A35C}
+\definecolor{hq6}{HTML}{B99AE0}
+\definecolor{hq7}{HTML}{7FD4D4}
+\definecolor{hq8}{HTML}{C8A27C}
+\definecolor{hq9}{HTML}{B0B0B0}
+\tikzset{
+  hqgraph/.style={line cap=round},
+  hqv/.style={circle, draw=black, line width=0.4pt, inner sep=0pt,
+              minimum size=4.6mm, font=\scriptsize},
+  hqe/.style={line width=0.5pt},
+}
+% END make_figures.py styles
+
 \begin{document}
 
 
-\title{Harmonic quotient morphisms of regular graphs: examples\thanks{The
+\title{Harmonic quotient morphisms of regular graphs: examples\\[4pt]
+{\large Draft 3. Corrected and expanded version}\thanks{The
 original draft of this paper is an unpublished manuscript by the authors,
 dated March 26, 2023. Draft~1 (November 15, 2026) corrected errors found by
 a computational referee check. Draft~2 (November 16, 2026) revises the paper
-to the authors' style guide. The repository
+to the authors' style guide. Draft~3 (November 16, 2026) redraws every
+figure from the edge lists and tables in the text. The repository
 \url{https://github.com/wdjoyner/alg-graph-thry}, folder
 {\tt harmonic-quotient}, contains all drafts, a revision log and the
 verification scripts.}}
 \author{David Joyner\\ {\small\tt wdjoyner@gmail.com} \and Caroline Melles}
-\date{Original draft: March 26, 2023. Corrected draft: November 16, 2026 (Draft 2).}
+\date{Original draft: 2023. Corrected and expanded draft: 2026.}
 \maketitle
 
 \begin{abstract}
-We give many examples of harmonic morphisms $\phi:\Gamma_2\to\Gamma_1$ in the sense
+This revision was prepared with the help of an AI system (Claude, by
+Anthropic), as described in the Acknowledgments. We give many examples
+of harmonic morphisms $\phi:\Gamma_2\to\Gamma_1$ in the sense
 of Baker and Norine, where $\Gamma_2$ is a connected $k$-regular graph
 ($k=3,4,5$) with at most $12$ vertices. For each graph we record standard
 invariants and the number of harmonic morphisms to several small graphs. We
@@ -478,11 +502,14 @@ have the same color. For example, in
 Figure~\ref{fig:harmonic-quotient_d3reg8a-K4_30213201} the vertices $0$ and
 $4$ of $\Gamma_2$ have the color of the vertex $3$ of $\Gamma_1=K_4$, because
 $\phi(0)=\phi(4)=3$. The colors of the vertices $0,1,2,3$ of $\Gamma_1$ are
-always white, green, blue and red. When $\Gamma_2$ or $\Gamma_1$ is
-Hamiltonian, its vertices are drawn on a circle in the order of a
-Hamiltonian cycle (for a graph in LCF notation, the cycle $0,1,\dots,n-1$).
-A script in the repository draws every figure from the edge lists and
-tables in the text, and another checks the figures against them
+always white, green, blue and red. Most graphs are drawn with their
+vertices on a circle, in the order of a Hamiltonian cycle (for a graph in
+LCF notation, the cycle $0,1,\dots,n-1$). A small planar $\Gamma_1$ is
+drawn without crossings when the circle would give two or more, a graph
+that is not Hamiltonian is drawn by hand or by a force-directed layout, and
+$K_{5,5}$ (Figure~\ref{fig:harmonic-quotient_d5reg10d+St6}) is drawn in two
+rows. A script in the repository draws every figure from the edge lists
+and tables in the text, and another checks the figures against them
 (Section~\ref{sec:computations}).
 
 \subsection{How the data were computed}
@@ -501,6 +528,17 @@ conjugacy classes of subgroups for $K_{5,5}$. Statements about all regular
 graphs with given parameters use the complete lists produced by the
 program {\tt geng} of nauty \cite{MP14}. Characteristic polynomials and
 spanning tree counts were computed in exact arithmetic.
+
+The figures are drawn by the script \path{make_figures.py} in the same
+folder. It reads each graph's edge list and the table of $\phi$ from the
+source of this paper, computes $\Gamma_1$ as the image of $\phi$, and
+writes the TikZ code of both drawings into the source. A second script,
+\path{check_figures.py}, reads the drawings back without using the first.
+For every figure it checks that the vertices and edges of $\Gamma_2$ are
+those in the text, that each vertex $x$ has the color of $\phi(x)$, that
+the fiber sizes and the edges of $\Gamma_1$ agree with the table, and that
+the genera and $\deg(\phi)$ in the text and the caption agree with the
+drawing.
 
 \section{Notation}
 \label{sec:notation}
@@ -877,11 +915,51 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d3reg8a-K4_30213201}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg8a-K4_30213201-G2.tex}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8a-K4_30213201.png
+% Gamma_2 = d3reg8a (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (2 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq1] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq3] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq2] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq0] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq1] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg8a-K4_30213201-G1.tex}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K4-0123b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,3 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph $\Gamma_2$, a degree two cover of $\Gamma_1=K_4$.}
@@ -962,11 +1040,50 @@ and tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8a-diamond_02311230.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8a-diamond_02311230.png
+% Gamma_2 = d3reg8a (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (2 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq1] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq1] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq2] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq3] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq0] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=3cm]{graphics/diamond_0123c.png}
+% BEGIN make_figures.py G1 box=3x5cm was=graphics/diamond_0123c.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,1,3 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.270) {0};
+\node[hqv, fill=hq1] (v1) at (-0.000,-1.270) {1};
+\node[hqv, fill=hq2] (v2) at (-1.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (1.270,-0.000) {3};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg8a}), a degree two quasicover of the diamond graph.}
@@ -1045,11 +1162,50 @@ and tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8b-diamond_21302130.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8b-diamond_21302130.png
+% Gamma_2 = d3reg8b (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (3 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq0] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq2] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq1] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq3] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq0] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/diamond-0123b.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/diamond-0123b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,1,3 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-0.000,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg8b}), a degree two quasicover of the diamond graph.}
@@ -1119,11 +1275,48 @@ and tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg8c-star4_33302010-G2.tex}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8c-star4_33302010.png
+% Gamma_2 = d3reg8c (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (4 crossings, angles adjusted to separate concurrent edges).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.079,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.661,1.549) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.079) {2};
+\node[hqv, fill=hq0] (v3) at (-1.549,-1.661) {3};
+\node[hqv, fill=hq2] (v4) at (-0.079,-2.270) {4};
+\node[hqv, fill=hq0] (v5) at (1.661,-1.549) {5};
+\node[hqv, fill=hq1] (v6) at (2.270,-0.079) {6};
+\node[hqv, fill=hq0] (v7) at (1.549,1.661) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg8c-star4_33302010-G1.tex}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/star4-0123.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-0.001,-0.510) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,-1.529) {1};
+\node[hqv, fill=hq2] (v2) at (-0.004,1.534) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-1.534) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg8c}), a degree three harmonic quotient to the star graph, $St_4$.}
@@ -1203,11 +1396,51 @@ and tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8d-K4_30132102.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8d-K4_30132102.png
+% Gamma_2 = d3reg8d (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (4 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq2] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq1] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq0] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq2] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/K4-0123.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/K4-0123.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,3 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The $3$-dimensional cube graph  $\Gamma_2$ ({\tt d3reg8d}), with a degree two harmonic quotient morphism (a covering) to the complete graph, $K_4$.}
@@ -1247,11 +1480,49 @@ tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8d-C4_11320023.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8d-C4_11320023.png
+% Gamma_2 = d3reg8d (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (4 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq2] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq0] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq0] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq2] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq3] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/cycle4-0123b.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/cycle4-0123b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,3,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-0.000,-1.770) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cube graph  $\Gamma_2$ ({\tt d3reg8d}), with a degree two harmonic quotient morphism (a quasicovering) to the cycle graph, $C_4$.}
@@ -1324,11 +1595,49 @@ tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8e-C4_03211230.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg8e-C4_03211230.png
+% Gamma_2 = d3reg8e (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,7 (5 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq1] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq1] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq2] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq3] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq0] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/Cycle4-0123.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/Cycle4-0123.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,3 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg8e}), with a degree two harmonic quotient morphism (a quasicovering) to the cycle graph, $C_4$.}
@@ -2077,17 +2386,64 @@ One of these quotient morphisms is tabulated below.
 \[
 \deg(\phi) =2.
 \]
-The uncolored graphs are depicted in Figure \ref{fig:harmonic-quotient_d3reg10e-Gamma1}.
+The graphs are depicted in Figure \ref{fig:harmonic-quotient_d3reg10e-Gamma1}.
 
 \begin{figure}[H]
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg10e.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg10e.png
+% Gamma_2 = d3reg10e (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,9 (2 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.334,1.836) {1};
+\node[hqv, fill=hq2] (v2) at (-2.159,0.701) {2};
+\node[hqv, fill=hq0] (v3) at (-2.159,-0.701) {3};
+\node[hqv, fill=hq3] (v4) at (-1.334,-1.836) {4};
+\node[hqv, fill=hq4] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq2] (v6) at (1.334,-1.836) {6};
+\node[hqv, fill=hq1] (v7) at (2.159,-0.701) {7};
+\node[hqv, fill=hq0] (v8) at (2.159,0.701) {8};
+\node[hqv, fill=hq3] (v9) at (1.334,1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/C4-C3-C3.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/C4-C3-C3.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,2,4,3 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.397) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,0.397) {3};
+\node[hqv, fill=hq4] (v4) at (1.094,-1.683) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg10e}), with a degree two harmonic quotient morphism to and quasicover of, the graph, $\Gamma_1$.}
@@ -2185,11 +2541,53 @@ is tabulated below and depicted in Figure \ref{fig:harmonic-quotient_d3reg10g-st
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg10g-star4_3330111020.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg10g-star4_3330111020.png
+% Gamma_2 = d3reg10g (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,9 (5 crossings, angles adjusted to separate concurrent edges).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.055,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.423,1.790) {1};
+\node[hqv, fill=hq3] (v2) at (-2.159,0.777) {2};
+\node[hqv, fill=hq0] (v3) at (-2.159,-0.777) {3};
+\node[hqv, fill=hq1] (v4) at (-1.423,-1.790) {4};
+\node[hqv, fill=hq1] (v5) at (0.055,-2.270) {5};
+\node[hqv, fill=hq1] (v6) at (1.246,-1.883) {6};
+\node[hqv, fill=hq0] (v7) at (2.159,-0.626) {7};
+\node[hqv, fill=hq2] (v8) at (2.159,0.626) {8};
+\node[hqv, fill=hq0] (v9) at (1.246,1.883) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v9);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/star4-0123.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/star4-0123.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-0.001,-0.510) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,-1.529) {1};
+\node[hqv, fill=hq2] (v2) at (-0.004,1.534) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-1.534) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg10g}), a degree three harmonic quotient to the star graph, $St_4$.}
@@ -2352,11 +2750,57 @@ The graphs are depicted in Figure \ref{fig:harmonic-quotient_d3reg10k+house}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg10k+house-G2.tex}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg10k.png
+% Gamma_2 = d3reg10k (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,9 (4 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.334,1.836) {1};
+\node[hqv, fill=hq3] (v2) at (-2.159,0.701) {2};
+\node[hqv, fill=hq0] (v3) at (-2.159,-0.701) {3};
+\node[hqv, fill=hq4] (v4) at (-1.334,-1.836) {4};
+\node[hqv, fill=hq1] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq1] (v6) at (1.334,-1.836) {6};
+\node[hqv, fill=hq4] (v7) at (2.159,-0.701) {7};
+\node[hqv, fill=hq0] (v8) at (2.159,0.701) {8};
+\node[hqv, fill=hq3] (v9) at (1.334,1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg10k+house-G1.tex}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/house-graph.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,3,2,1,4 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (1.094,-1.683) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,0.397) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg10k}), with a degree two harmonic quotient morphism to and quasicover of, the house graph, $\Gamma_1$.}
@@ -2554,7 +2998,7 @@ E_1=\{
 \]
 For example, the group $G=\langle (0,5)(1,4)(2,3)(6,9)(7,8) \rangle$
 yields this quotient graph $\Gamma_1=\Gamma_2/G$.
-One of these is tabulated below and the uncolored graphs are
+One of these is tabulated below and the graphs are
 depicted in Figure \ref{fig:harmonic-quotient_d3reg10n+K23}.
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -2585,11 +3029,57 @@ depicted in Figure \ref{fig:harmonic-quotient_d3reg10n+K23}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg10n.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg10n.png
+% Gamma_2 = d3reg10n (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,9 (6 crossings, angles adjusted to separate concurrent edges).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.055,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.423,1.790) {1};
+\node[hqv, fill=hq2] (v2) at (-2.159,0.777) {2};
+\node[hqv, fill=hq2] (v3) at (-2.159,-0.777) {3};
+\node[hqv, fill=hq1] (v4) at (-1.423,-1.790) {4};
+\node[hqv, fill=hq3] (v5) at (0.055,-2.270) {5};
+\node[hqv, fill=hq0] (v6) at (1.246,-1.883) {6};
+\node[hqv, fill=hq4] (v7) at (2.159,-0.626) {7};
+\node[hqv, fill=hq4] (v8) at (2.159,0.626) {8};
+\node[hqv, fill=hq0] (v9) at (1.246,1.883) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v8);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/complete-bipartite-K-2-3.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/complete-bipartite-K-2-3.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,1.770) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-1.770) {3};
+\node[hqv, fill=hq4] (v4) at (-0.000,0.000) {4};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg10n}), with a degree two harmonic quotient morphism to and quasicover of, the complete bipartite graph, $\Gamma_1=K_{2,3}$.}
@@ -2908,11 +3398,56 @@ This is tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg10q.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg10q.png
+% Gamma_2 = d3reg10q (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,9 (7 crossings, angles adjusted to separate concurrent edges).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.055,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.423,1.790) {1};
+\node[hqv, fill=hq3] (v2) at (-2.159,0.777) {2};
+\node[hqv, fill=hq0] (v3) at (-2.159,-0.777) {3};
+\node[hqv, fill=hq4] (v4) at (-1.423,-1.790) {4};
+\node[hqv, fill=hq1] (v5) at (0.055,-2.270) {5};
+\node[hqv, fill=hq1] (v6) at (1.246,-1.883) {6};
+\node[hqv, fill=hq4] (v7) at (2.159,-0.626) {7};
+\node[hqv, fill=hq0] (v8) at (2.159,0.626) {8};
+\node[hqv, fill=hq3] (v9) at (1.246,1.883) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/C5-quotient-of-d3reg10q.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/C5-quotient-of-d3reg10q.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,3,2,1,4 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (1.094,-1.683) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,0.397) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg10q}), with a degree two harmonic quotient morphism to and quasicover of, the cycle graph, $\Gamma_1=C_5$.}
@@ -3668,7 +4203,7 @@ E_1=\{
 (0, 1), (0, 2), (0, 5), (1, 3), (1, 5), (2, 3), (2, 4), (3, 4), (4, 5)
 \}.
 \]
-This is tabulated below. The uncolored graphs are depicted in
+This is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12e+prism6}.
 
 \begin{center}
@@ -3704,11 +4239,66 @@ Figure \ref{fig:harmonic-quotient_d3reg12e+prism6}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12e.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12e.png
+% Gamma_2 = d3reg12e (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,11 (4 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq5] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq0] (v4) at (-1.966,-1.135) {4};
+\node[hqv, fill=hq2] (v5) at (-1.135,-1.966) {5};
+\node[hqv, fill=hq4] (v6) at (-0.000,-2.270) {6};
+\node[hqv, fill=hq3] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq1] (v8) at (1.966,-1.135) {8};
+\node[hqv, fill=hq5] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq0] (v10) at (1.966,1.135) {10};
+\node[hqv, fill=hq2] (v11) at (1.135,1.966) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v11);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v10);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/prism6-quotient-of-d3reg12e.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/prism6-quotient-of-d3reg12e.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: crossing-free (planar; a circle would have 2 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (1.770,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,1.770) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-1.770) {3};
+\node[hqv, fill=hq4] (v4) at (-1.106,-0.000) {4};
+\node[hqv, fill=hq5] (v5) at (1.106,0.000) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12e}), with a degree two harmonic quotient morphism to and cover of, the cubic prism graph, $\Gamma_1$.}
@@ -3852,7 +4442,7 @@ One of these, for the subgroup
 \[
 G_0=\langle (0,6)(1,7)(2,10)(3,9)(4,8)(5,11) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12h+K33}.
 
 \begin{center}
@@ -3887,11 +4477,66 @@ Figure \ref{fig:harmonic-quotient_d3reg12h+K33}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12h.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12h.png
+% Gamma_2 = d3reg12h (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,11 (6 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq4] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq5] (v4) at (-1.966,-1.135) {4};
+\node[hqv, fill=hq0] (v5) at (-1.135,-1.966) {5};
+\node[hqv, fill=hq3] (v6) at (-0.000,-2.270) {6};
+\node[hqv, fill=hq2] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq5] (v8) at (1.966,-1.135) {8};
+\node[hqv, fill=hq4] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq1] (v10) at (1.966,1.135) {10};
+\node[hqv, fill=hq0] (v11) at (1.135,1.966) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/K33-quotient-of-d3reg12h.png}
+% BEGIN make_figures.py G1 box=4x5cm was=graphics/K33-quotient-of-d3reg12h.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,5 (3 crossings, angles adjusted to separate concurrent edges).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.107,2.044) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.960) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,-0.960) {2};
+\node[hqv, fill=hq3] (v3) at (0.107,-2.044) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,-1.084) {4};
+\node[hqv, fill=hq5] (v5) at (1.770,1.084) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12h}), with a degree two harmonic quotient morphism to and cover of, the complete bipartite graph, $K_{3,3}=\Gamma_2/G_0$.}
@@ -3910,7 +4555,7 @@ One of these quotients, for the subgroup
 \[
 G_1=\langle (0,11)(1,8)(2,7)(3,10)(4,9)(5,6) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12h+K33m1}.
 
 \begin{center}
@@ -3944,11 +4589,65 @@ Figure \ref{fig:harmonic-quotient_d3reg12h+K33m1}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12h.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12h.png
+% Gamma_2 = d3reg12h (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,11 (6 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq4] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq5] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq3] (v4) at (-1.966,-1.135) {4};
+\node[hqv, fill=hq1] (v5) at (-1.135,-1.966) {5};
+\node[hqv, fill=hq1] (v6) at (-0.000,-2.270) {6};
+\node[hqv, fill=hq4] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq0] (v8) at (1.966,-1.135) {8};
+\node[hqv, fill=hq3] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq5] (v10) at (1.966,1.135) {10};
+\node[hqv, fill=hq2] (v11) at (1.135,1.966) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K33m1-quotient-of-d3reg12h.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K33m1-quotient-of-d3reg12h.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,5,3,1,4 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.533,-0.885) {1};
+\node[hqv, fill=hq2] (v2) at (-1.533,0.885) {2};
+\node[hqv, fill=hq3] (v3) at (-0.000,-1.770) {3};
+\node[hqv, fill=hq4] (v4) at (1.533,0.885) {4};
+\node[hqv, fill=hq5] (v5) at (-1.533,-0.885) {5};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12h}), with a degree two harmonic quotient morphism to and quasicover of, $\Gamma_1=\Gamma_2/G_1$.}
@@ -3965,7 +4664,7 @@ One of these quotients, for the subgroup
 \[
 G_2=\langle (0,5)(1,2)(3,4)(6,11)(7,8)(9,10) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12h+barbell30}.
 
 
@@ -4000,11 +4699,64 @@ Figure \ref{fig:harmonic-quotient_d3reg12h+barbell30}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12h.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12h.png
+% Gamma_2 = d3reg12h (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,11 (6 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq3] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq0] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq0] (v4) at (-1.966,-1.135) {4};
+\node[hqv, fill=hq1] (v5) at (-1.135,-1.966) {5};
+\node[hqv, fill=hq4] (v6) at (-0.000,-2.270) {6};
+\node[hqv, fill=hq5] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq5] (v8) at (1.966,-1.135) {8};
+\node[hqv, fill=hq2] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq2] (v10) at (1.966,1.135) {10};
+\node[hqv, fill=hq4] (v11) at (1.135,1.966) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/barbell30-quotient-of-d3reg12h.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/barbell30-quotient-of-d3reg12h.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (1.770,-0.619) {0};
+\node[hqv, fill=hq1] (v1) at (0.651,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.619) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,0.619) {3};
+\node[hqv, fill=hq4] (v4) at (-0.651,0.000) {4};
+\node[hqv, fill=hq5] (v5) at (-1.770,-0.619) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12h}), with a degree two harmonic quotient morphism to and quasicover of, $\Gamma_1=\mathrm{Barbell}(3,0)=\Gamma_2/G_2$.}
@@ -4055,11 +4807,57 @@ Figure \ref{fig:harmonic-quotient_d3reg12h+C3}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg12h-C3_122001102201.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d3reg12h-C3_122001102201.png
+% Gamma_2 = d3reg12h (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,11 (6 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq2] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq0] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq0] (v4) at (-1.966,-1.135) {4};
+\node[hqv, fill=hq1] (v5) at (-1.135,-1.966) {5};
+\node[hqv, fill=hq1] (v6) at (-0.000,-2.270) {6};
+\node[hqv, fill=hq0] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq2] (v8) at (1.966,-1.135) {8};
+\node[hqv, fill=hq2] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq0] (v10) at (1.966,1.135) {10};
+\node[hqv, fill=hq1] (v11) at (1.135,1.966) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/cycle3-012.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.533) {2};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12h}), with a degree four harmonic quotient morphism to and quasicover of, $\Gamma_1=C_3=\Gamma_2/G_3$.}
@@ -4247,7 +5045,7 @@ One of these quotients, for the subgroup
 \[
 G=\langle (0,11)(1,9)(2,10)(3,7)(4,8)(5,6) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12j+codomino}.
 
 \begin{center}
@@ -4281,11 +5079,65 @@ Figure \ref{fig:harmonic-quotient_d3reg12j+codomino}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12j.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12j.png
+% Gamma_2 = d3reg12j (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,11 (4 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq2] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq4] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq5] (v4) at (-1.966,-1.135) {4};
+\node[hqv, fill=hq0] (v5) at (-1.135,-1.966) {5};
+\node[hqv, fill=hq0] (v6) at (-0.000,-2.270) {6};
+\node[hqv, fill=hq4] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq5] (v8) at (1.966,-1.135) {8};
+\node[hqv, fill=hq1] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq2] (v10) at (1.966,1.135) {10};
+\node[hqv, fill=hq3] (v11) at (1.135,1.966) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v9) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/codomino-quotient-of-d3reg12j.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/codomino-quotient-of-d3reg12j.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,4,2,3,1,5 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.533,-0.885) {1};
+\node[hqv, fill=hq2] (v2) at (-1.533,-0.885) {2};
+\node[hqv, fill=hq3] (v3) at (-0.000,-1.770) {3};
+\node[hqv, fill=hq4] (v4) at (-1.533,0.885) {4};
+\node[hqv, fill=hq5] (v5) at (1.533,0.885) {5};
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12j}), with a degree two harmonic quotient morphism to and quasicover of the codomino graph, $\Gamma_1=\Gamma_2/G$.}
@@ -4626,7 +5478,7 @@ One of these quotients, for the subgroup
 \[
 G=\langle (0,1)(2,5)(3,11)(4,8)(6,7)(9,10) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12n+cotwinC5}.
 
 \begin{center}
@@ -4660,11 +5512,65 @@ Figure \ref{fig:harmonic-quotient_d3reg12n+cotwinC5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12n.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12n.png
+% Gamma_2 = d3reg12n (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,9,8,11,5,4,10,7,6 (9 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq4] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq3] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq5] (v4) at (1.966,-1.135) {4};
+\node[hqv, fill=hq4] (v5) at (1.135,-1.966) {5};
+\node[hqv, fill=hq2] (v6) at (1.135,1.966) {6};
+\node[hqv, fill=hq2] (v7) at (1.966,1.135) {7};
+\node[hqv, fill=hq5] (v8) at (-1.135,-1.966) {8};
+\node[hqv, fill=hq0] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq0] (v10) at (2.270,-0.000) {10};
+\node[hqv, fill=hq3] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v11);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/cotwinC5-quotient-of-d3reg12n.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/cotwinC5-quotient-of-d3reg12n.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,1,4,3,5 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.533,-0.885) {1};
+\node[hqv, fill=hq2] (v2) at (-1.533,0.885) {2};
+\node[hqv, fill=hq3] (v3) at (1.533,-0.885) {3};
+\node[hqv, fill=hq4] (v4) at (-0.000,-1.770) {4};
+\node[hqv, fill=hq5] (v5) at (1.533,0.885) {5};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12n}), with a degree two harmonic quotient morphism to and quasicover of the co-twin-$C_5$ graph, $\Gamma_1=\Gamma_2/G$.}
@@ -4680,7 +5586,7 @@ One of these quotients, for the subgroup
 \[
 G=\langle (0,1)(2,5)(3,4)(6,7)(8,11)(9,10) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12n+X37}.
 
 \begin{center}
@@ -4714,11 +5620,64 @@ Figure \ref{fig:harmonic-quotient_d3reg12n+X37}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12n.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12n.png
+% Gamma_2 = d3reg12n (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,9,8,11,5,4,10,7,6 (9 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq4] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq5] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq0] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq0] (v4) at (1.966,-1.135) {4};
+\node[hqv, fill=hq5] (v5) at (1.135,-1.966) {5};
+\node[hqv, fill=hq1] (v6) at (1.135,1.966) {6};
+\node[hqv, fill=hq1] (v7) at (1.966,1.135) {7};
+\node[hqv, fill=hq2] (v8) at (-1.135,-1.966) {8};
+\node[hqv, fill=hq3] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq3] (v10) at (2.270,-0.000) {10};
+\node[hqv, fill=hq2] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v11);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/X37-quotient-of-d3reg12n.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/X37-quotient-of-d3reg12n.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-0.457,-0.000) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,1.030) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-0.259,1.592) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,-1.030) {4};
+\node[hqv, fill=hq5] (v5) at (-0.259,-1.592) {5};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12n}), with a degree two harmonic quotient morphism to and quasicover of the $X_{37}$ graph, $\Gamma_1=\Gamma_2/G$.}
@@ -4777,11 +5736,64 @@ Figure \ref{fig:harmonic-quotient_d3reg12n+twinC5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg12n+twinC5-G2.tex}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d3reg12n.png
+% Gamma_2 = d3reg12n (E_2 in the example); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,9,8,11,5,4,10,7,6 (9 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-1.966,1.135) {2};
+\node[hqv, fill=hq2] (v3) at (-2.270,0.000) {3};
+\node[hqv, fill=hq3] (v4) at (1.966,-1.135) {4};
+\node[hqv, fill=hq3] (v5) at (1.135,-1.966) {5};
+\node[hqv, fill=hq0] (v6) at (1.135,1.966) {6};
+\node[hqv, fill=hq5] (v7) at (1.966,1.135) {7};
+\node[hqv, fill=hq5] (v8) at (-1.135,-1.966) {8};
+\node[hqv, fill=hq0] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq4] (v10) at (2.270,-0.000) {10};
+\node[hqv, fill=hq4] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v11);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d3reg12n+twinC5-G1.tex}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/twinC5b-quotient-of-d3reg12n.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.457,-0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-0.259,-1.592) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-1.030) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,1.030) {4};
+\node[hqv, fill=hq5] (v5) at (-0.259,1.592) {5};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12n}), with a degree two harmonic quotient morphism to and quasicover of the twin-$C_5$ graph, $\Gamma_1=\Gamma_2/G$.}
@@ -5038,7 +6050,7 @@ An example for
 \[
 G = \langle (1,6)(3,4) \rangle
 \]
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d7reg7b+K23}.
 
 \begin{center}
@@ -5067,11 +6079,53 @@ Figure \ref{fig:harmonic-quotient_d7reg7b+K23}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg7b.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg7b.png
+% Gamma_2 = d4reg7b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,6 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.213) {0};
+\node[hqv, fill=hq2] (v1) at (-1.820,1.336) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,-0.633) {2};
+\node[hqv, fill=hq0] (v3) at (-1.010,-2.213) {3};
+\node[hqv, fill=hq0] (v4) at (1.010,-2.213) {4};
+\node[hqv, fill=hq4] (v5) at (2.270,-0.633) {5};
+\node[hqv, fill=hq2] (v6) at (1.820,1.336) {6};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K23-quotient-of-d4reg7b.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K23-quotient-of-d4reg7b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,1.770) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-1.770) {3};
+\node[hqv, fill=hq4] (v4) at (-0.000,0.000) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg7b}), with a degree two harmonic quotient morphism to the $K_{2,3}$ graph, $\Gamma_1=\Gamma_2/G$.}
@@ -5087,7 +6141,7 @@ An example for
 G = \langle (1,3)(4,6) \rangle,
 \]
 which is in fact a homomorphism,
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg7b+fan5}.
 
 
@@ -5117,11 +6171,54 @@ Figure \ref{fig:harmonic-quotient_d4reg7b+fan5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg7b.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg7b.png
+% Gamma_2 = d4reg7b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,6 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.213) {0};
+\node[hqv, fill=hq3] (v1) at (-1.820,1.336) {1};
+\node[hqv, fill=hq0] (v2) at (-2.270,-0.633) {2};
+\node[hqv, fill=hq3] (v3) at (-1.010,-2.213) {3};
+\node[hqv, fill=hq1] (v4) at (1.010,-2.213) {4};
+\node[hqv, fill=hq2] (v5) at (2.270,-0.633) {5};
+\node[hqv, fill=hq1] (v6) at (1.820,1.336) {6};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/fan5-quotient-of-d4reg7b.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/fan5-quotient-of-d4reg7b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (0.506,1.264) {1};
+\node[hqv, fill=hq2] (v2) at (-0.632,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (0.506,-1.264) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.000) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \cprotect\caption{The quartic graph  $\Gamma_2$ ({\tt d4reg7b}), with a degree two harmonic quotient morphism to the graph $\Gamma_1=\Gamma_2/G$.}
@@ -5364,7 +6461,7 @@ An example for
 \[
 G = \langle  (1,7)(2,3)(5,6)\rangle,
 \]
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg8a+gem}.
 
 \begin{center}
@@ -5394,11 +6491,57 @@ Figure \ref{fig:harmonic-quotient_d4reg8a+gem}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg8a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg8a.png
+% Gamma_2 = d4reg8a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,6,3,4,2,5,7 (8 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq2] (v2) at (1.605,-1.605) {2};
+\node[hqv, fill=hq2] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq3] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq0] (v5) at (2.270,-0.000) {5};
+\node[hqv, fill=hq0] (v6) at (-2.270,0.000) {6};
+\node[hqv, fill=hq1] (v7) at (1.605,1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/gem-quotient-of-d4reg8a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/gem-quotient-of-d4reg8a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,3,2,1,4 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (1.094,-1.683) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,0.397) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \cprotect\caption{The quartic graph  $\Gamma_2$ ({\tt d4reg8a}), with a degree two harmonic quotient morphism to the graph $\Gamma_1=\Gamma_2/G$.}
@@ -5463,11 +6606,55 @@ is tabulated below and depicted in Figure \ref{fig:harmonic-quotient_d4reg8b+K4}
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d4reg8b-K4_20130321.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d4reg8b-K4_20130321.png
+% Gamma_2 = d4reg8b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,5,7,4,6 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.605,-1.605) {3};
+\node[hqv, fill=hq0] (v4) at (2.270,-0.000) {4};
+\node[hqv, fill=hq3] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq2] (v6) at (1.605,1.605) {6};
+\node[hqv, fill=hq1] (v7) at (1.605,-1.605) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K4-quotient-of-d4reg8b_0123.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K4-quotient-of-d4reg8b_0123.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,3 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph  $\Gamma_2$, with a degree two harmonic quotient morphism to the complete graph, $\Gamma_1=K_4$.}
@@ -5904,7 +7091,7 @@ For example, take
 G = \langle (1,2)(4,5)(7,8) \rangle.
 \]
 We tabulate $\phi: \Gamma_2\to \Gamma_1=\Gamma_2/G$
-below and give the uncolored graphs in Figure \ref{fig:harmonic-quotient_d4reg9a+coantenna}.
+below and give the graphs in Figure \ref{fig:harmonic-quotient_d4reg9a+coantenna}.
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -5934,11 +7121,62 @@ below and give the uncolored graphs in Figure \ref{fig:harmonic-quotient_d4reg9a
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg9a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg9a.png
+% Gamma_2 = d4reg9a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,4,8,6,5,7 (12 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.236) {0};
+\node[hqv, fill=hq3] (v1) at (-1.482,1.696) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.331) {2};
+\node[hqv, fill=hq0] (v3) at (-1.996,-1.222) {3};
+\node[hqv, fill=hq2] (v4) at (-0.788,-2.236) {4};
+\node[hqv, fill=hq2] (v5) at (2.270,0.331) {5};
+\node[hqv, fill=hq4] (v6) at (1.996,-1.222) {6};
+\node[hqv, fill=hq5] (v7) at (1.482,1.696) {7};
+\node[hqv, fill=hq5] (v8) at (0.788,-2.236) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/coantenna-quotient-of-d4reg9a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/coantenna-quotient-of-d4reg9a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,4,5,1,3 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.533,-0.885) {1};
+\node[hqv, fill=hq2] (v2) at (-1.533,0.885) {2};
+\node[hqv, fill=hq3] (v3) at (1.533,0.885) {3};
+\node[hqv, fill=hq4] (v4) at (-1.533,-0.885) {4};
+\node[hqv, fill=hq5] (v5) at (-0.000,-1.770) {5};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9a}), with a degree two harmonic quotient morphism to the coantenna graph, $\Gamma_1$.}
@@ -5955,7 +7193,7 @@ where $\Gamma_1=S_3$, where
 G = \langle (0,6)(1,5)(2,4) \rangle.
 \]
 We tabulate $\phi_1: \Gamma_2\to \Gamma_1=\Gamma_2/G=S_3$
-below and give the uncolored graphs in Figure \ref{fig:harmonic-quotient_d4reg9a+S3}.
+below and give the graphs in Figure \ref{fig:harmonic-quotient_d4reg9a+S3}.
 
 \begin{center}
 \begin{tabular}{c|c|c|c}  
@@ -5985,11 +7223,63 @@ below and give the uncolored graphs in Figure \ref{fig:harmonic-quotient_d4reg9a
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg9a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg9a.png
+% Gamma_2 = d4reg9a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,4,8,6,5,7 (12 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.236) {0};
+\node[hqv, fill=hq2] (v1) at (-1.482,1.696) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.331) {2};
+\node[hqv, fill=hq0] (v3) at (-1.996,-1.222) {3};
+\node[hqv, fill=hq1] (v4) at (-0.788,-2.236) {4};
+\node[hqv, fill=hq2] (v5) at (2.270,0.331) {5};
+\node[hqv, fill=hq3] (v6) at (1.996,-1.222) {6};
+\node[hqv, fill=hq5] (v7) at (1.482,1.696) {7};
+\node[hqv, fill=hq4] (v8) at (0.788,-2.236) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/S3-quotient-of-d4reg9a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/S3-quotient-of-d4reg9a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,4,3,5,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.533,0.885) {1};
+\node[hqv, fill=hq2] (v2) at (1.533,0.885) {2};
+\node[hqv, fill=hq3] (v3) at (-0.000,-1.770) {3};
+\node[hqv, fill=hq4] (v4) at (-1.533,-0.885) {4};
+\node[hqv, fill=hq5] (v5) at (1.533,-0.885) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9a}), with a degree two harmonic quotient morphism to the matchstick graph, $\Gamma_1=S_3$.}
@@ -6102,11 +7392,54 @@ below and depict it in Figure \ref{fig:harmonic-quotient_d4reg9c-C3_021012012}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d4reg9c-C3_021012012.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d4reg9c-C3_021012012.png
+% Gamma_2 = d4reg9c (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,8 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,2.236) {0};
+\node[hqv, fill=hq2] (v1) at (-1.482,1.696) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.331) {2};
+\node[hqv, fill=hq0] (v3) at (-1.996,-1.222) {3};
+\node[hqv, fill=hq1] (v4) at (-0.788,-2.236) {4};
+\node[hqv, fill=hq2] (v5) at (0.788,-2.236) {5};
+\node[hqv, fill=hq0] (v6) at (1.996,-1.222) {6};
+\node[hqv, fill=hq1] (v7) at (2.270,0.331) {7};
+\node[hqv, fill=hq2] (v8) at (1.482,1.696) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/cycle3-012.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.533) {2};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9c}), with a degree six harmonic quotient homomorphism (in fact, a multicover) to the cycle graph, $\Gamma_1=C_3$.}
@@ -6156,7 +7489,7 @@ for the subgroup
 G = \langle (0,1)(2,3)(4,5)(7,8) \rangle.
 \]
 of $\Aut(\Gamma_2)$, is tabulated below.
-In addition, the uncolored graphs are depicted
+In addition, the graphs are depicted
 in Figure \ref{fig:harmonic-quotient_d4reg9e-C4+2C3}.
 
 \begin{center}
@@ -6187,11 +7520,60 @@ in Figure \ref{fig:harmonic-quotient_d4reg9e-C4+2C3}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg9e.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg9e.png
+% Gamma_2 = d4reg9e (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,8 (17 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.236) {0};
+\node[hqv, fill=hq3] (v1) at (-1.482,1.696) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.331) {2};
+\node[hqv, fill=hq1] (v3) at (-1.996,-1.222) {3};
+\node[hqv, fill=hq2] (v4) at (-0.788,-2.236) {4};
+\node[hqv, fill=hq2] (v5) at (0.788,-2.236) {5};
+\node[hqv, fill=hq0] (v6) at (1.996,-1.222) {6};
+\node[hqv, fill=hq4] (v7) at (2.270,0.331) {7};
+\node[hqv, fill=hq4] (v8) at (1.482,1.696) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/C4+2C3-quotient-of-d4reg9e.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/C4+2C3-quotient-of-d4reg9e.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,1,3,4 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (-1.094,-1.683) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.397) {2};
+\node[hqv, fill=hq3] (v3) at (1.094,-1.683) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \cprotect\caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9e}), with a degree two harmonic quotient morphism to the graph \verb+D]w=+$\Gamma_1=\overline{P_2\cup P_3}$.}
@@ -6325,7 +7707,7 @@ for the subgroup
 G = \langle (0,1)(2,6)(3,8)(4,5) \rangle,
 \]
 is tabulated below.
-In addition, the uncolored graphs are depicted
+In addition, the graphs are depicted
 in Figure \ref{fig:harmonic-quotient_d4reg9h-K4+C3}.
 
 \begin{center}
@@ -6356,11 +7738,61 @@ in Figure \ref{fig:harmonic-quotient_d4reg9h-K4+C3}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg9h.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg9h.png
+% Gamma_2 = d4reg9h (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,8 (15 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.236) {0};
+\node[hqv, fill=hq3] (v1) at (-1.482,1.696) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.331) {2};
+\node[hqv, fill=hq0] (v3) at (-1.996,-1.222) {3};
+\node[hqv, fill=hq2] (v4) at (-0.788,-2.236) {4};
+\node[hqv, fill=hq2] (v5) at (0.788,-2.236) {5};
+\node[hqv, fill=hq1] (v6) at (1.996,-1.222) {6};
+\node[hqv, fill=hq4] (v7) at (2.270,0.331) {7};
+\node[hqv, fill=hq0] (v8) at (1.482,1.696) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K4+C3-quotient-of-d4reg9h.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K4+C3-quotient-of-d4reg9h.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,3,1,4 (1 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (1.094,-1.683) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.397) {2};
+\node[hqv, fill=hq3] (v3) at (-1.094,-1.683) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9h}), with a degree two harmonic quotient morphism to the complete house graph, $\Gamma_1=\overline{P_3\cup 2K_1}$.}
@@ -6422,11 +7854,56 @@ in Figure \ref{fig:harmonic-quotient_d4reg9i-paw_232311011}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d4reg9i-paw_232311011.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d4reg9i-paw_232311011.png
+% Gamma_2 = d4reg9i (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,4,5,6,7,8,3 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.236) {0};
+\node[hqv, fill=hq3] (v1) at (-1.482,1.696) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.331) {2};
+\node[hqv, fill=hq3] (v3) at (1.482,1.696) {3};
+\node[hqv, fill=hq1] (v4) at (-1.996,-1.222) {4};
+\node[hqv, fill=hq1] (v5) at (-0.788,-2.236) {5};
+\node[hqv, fill=hq0] (v6) at (0.788,-2.236) {6};
+\node[hqv, fill=hq1] (v7) at (1.996,-1.222) {7};
+\node[hqv, fill=hq1] (v8) at (2.270,0.331) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/paw_0123.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/paw_0123.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.130,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.930) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-0.930) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph  $\Gamma_2$ ({\tt d4reg9i}), with a degree four harmonic quotient morphism to $\Gamma_1={\rm paw}$.}
@@ -6628,7 +8105,7 @@ An example for
 \[
 G = \langle (0,1)(2,5)(3,4)(6,9)(7,8) \rangle
 \]
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg10a+K5me}.
 It is a quasicover.
 
@@ -6661,11 +8138,65 @@ It is a quasicover.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg10a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg10a.png
+% Gamma_2 = d4reg10a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,6,3,7,2,5,4,8,9 (11 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.334,1.836) {1};
+\node[hqv, fill=hq3] (v2) at (-0.000,-2.270) {2};
+\node[hqv, fill=hq0] (v3) at (-2.159,-0.701) {3};
+\node[hqv, fill=hq0] (v4) at (2.159,-0.701) {4};
+\node[hqv, fill=hq3] (v5) at (1.334,-1.836) {5};
+\node[hqv, fill=hq1] (v6) at (-2.159,0.701) {6};
+\node[hqv, fill=hq4] (v7) at (-1.334,-1.836) {7};
+\node[hqv, fill=hq4] (v8) at (2.159,0.701) {8};
+\node[hqv, fill=hq1] (v9) at (1.334,1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K5me-quotient-of-d4reg10a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K5me-quotient-of-d4reg10a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-0.443,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (1.328,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (-1.328,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (0.443,0.000) {3};
+\node[hqv, fill=hq4] (v4) at (1.328,1.770) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg10a}), with a degree two harmonic quotient morphism to the {\tt D\~\,k}$=K_{5}-\{e\}$ graph, $\Gamma_1=\Gamma_2/G$.}
@@ -6694,7 +8225,7 @@ G = \langle (0,7)(1,3)(2,9)(4,5)(6,8) \rangle ,
 \]
 the quotient morphism
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G = W_5$
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg10b+W5}.
 
 \begin{center}
@@ -6725,11 +8256,64 @@ Figure \ref{fig:harmonic-quotient_d4reg10b+W5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg10b.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg10b.png
+% Gamma_2 = d4reg10b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,4,8,6,5,7,2,3,1,9 (13 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (2.159,0.701) {1};
+\node[hqv, fill=hq4] (v2) at (1.334,-1.836) {2};
+\node[hqv, fill=hq3] (v3) at (2.159,-0.701) {3};
+\node[hqv, fill=hq2] (v4) at (-1.334,1.836) {4};
+\node[hqv, fill=hq2] (v5) at (-1.334,-1.836) {5};
+\node[hqv, fill=hq0] (v6) at (-2.159,-0.701) {6};
+\node[hqv, fill=hq1] (v7) at (-0.000,-2.270) {7};
+\node[hqv, fill=hq0] (v8) at (-2.159,0.701) {8};
+\node[hqv, fill=hq4] (v9) at (1.334,1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/W5-quotient-of-d4reg10b.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/W5-quotient-of-d4reg10b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: crossing-free (planar; a circle would have 2 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-0.000,-0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,1.770) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,-1.770) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg10b}), with a degree two harmonic quotient morphism to the wheel graph $W_{5}=\Gamma_1=\Gamma_2/G$.}
@@ -6770,7 +8354,7 @@ G = \langle (0,2)(1,4)(3,5)(6,9)(7,8) \rangle ,
 \]
 the quotient morphism maps to the quartic graph
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G = K_5$. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg10d+K5}.
 
 \begin{center}
@@ -6801,11 +8385,66 @@ Figure \ref{fig:harmonic-quotient_d4reg10d+K5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg10d.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg10d.png
+% Gamma_2 = d4reg10d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,5,8,4,9,2,3,7,1,6 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (2.159,0.701) {1};
+\node[hqv, fill=hq3] (v2) at (-0.000,-2.270) {2};
+\node[hqv, fill=hq2] (v3) at (1.334,-1.836) {3};
+\node[hqv, fill=hq1] (v4) at (-2.159,-0.701) {4};
+\node[hqv, fill=hq2] (v5) at (-1.334,1.836) {5};
+\node[hqv, fill=hq0] (v6) at (1.334,1.836) {6};
+\node[hqv, fill=hq4] (v7) at (2.159,-0.701) {7};
+\node[hqv, fill=hq4] (v8) at (-2.159,0.701) {8};
+\node[hqv, fill=hq0] (v9) at (-1.334,-1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K5-quotient-of-d4reg10d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K5-quotient-of-d4reg10d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,4 (5 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.397) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (1.094,-1.683) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg10d}), with a degree two harmonic quotient morphism to the quartic graph $K_{5}=\Gamma_1=\Gamma_2/G$.}
@@ -6822,7 +8461,7 @@ G = \langle (1,8)(3,9)(4,7)(5,6) \rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to {\tt EUjo}=\Gamma_1=\Gamma_2/G $. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg10d+barA}.
 
 \begin{center}
@@ -6853,11 +8492,66 @@ Figure \ref{fig:harmonic-quotient_d4reg10d+barA}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg10d.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg10d.png
+% Gamma_2 = d4reg10d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,5,8,4,9,2,3,7,1,6 (10 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (2.159,0.701) {1};
+\node[hqv, fill=hq0] (v2) at (-0.000,-2.270) {2};
+\node[hqv, fill=hq3] (v3) at (1.334,-1.836) {3};
+\node[hqv, fill=hq5] (v4) at (-2.159,-0.701) {4};
+\node[hqv, fill=hq2] (v5) at (-1.334,1.836) {5};
+\node[hqv, fill=hq2] (v6) at (1.334,1.836) {6};
+\node[hqv, fill=hq5] (v7) at (2.159,-0.701) {7};
+\node[hqv, fill=hq1] (v8) at (-2.159,0.701) {8};
+\node[hqv, fill=hq3] (v9) at (-1.334,-1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/barA-quotient-of-d4reg10d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/barA-quotient-of-d4reg10d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,3,1,4,2,5 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.533,-0.885) {1};
+\node[hqv, fill=hq2] (v2) at (1.533,-0.885) {2};
+\node[hqv, fill=hq3] (v3) at (-1.533,0.885) {3};
+\node[hqv, fill=hq4] (v4) at (-0.000,-1.770) {4};
+\node[hqv, fill=hq5] (v5) at (1.533,0.885) {5};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg10d}), with a degree two harmonic quotient morphism to the graph ${\tt EUjo}=\Gamma_1=\Gamma_2/G$.}
@@ -6887,7 +8581,7 @@ G = \langle  (1,7)(2,8)(3,4)(5,6)\rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to $\verb+E@~o+$=\Gamma_1=\Gamma_2/G $. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg10e+E-AT-SIM-o}.
 
 \begin{center}
@@ -6918,11 +8612,66 @@ Figure \ref{fig:harmonic-quotient_d4reg10e+E-AT-SIM-o}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg10e.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg10e.png
+% Gamma_2 = d4reg10e (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,7,4,5,6,8 (25 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq5] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.334,1.836) {1};
+\node[hqv, fill=hq1] (v2) at (-2.159,-0.701) {2};
+\node[hqv, fill=hq0] (v3) at (-2.159,0.701) {3};
+\node[hqv, fill=hq0] (v4) at (1.334,-1.836) {4};
+\node[hqv, fill=hq2] (v5) at (2.159,-0.701) {5};
+\node[hqv, fill=hq2] (v6) at (2.159,0.701) {6};
+\node[hqv, fill=hq3] (v7) at (-0.000,-2.270) {7};
+\node[hqv, fill=hq1] (v8) at (1.334,1.836) {8};
+\node[hqv, fill=hq4] (v9) at (-1.334,-1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/E-AT-SIM-o-quotient-of-d4reg10e.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/E-AT-SIM-o-quotient-of-d4reg10e.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.000,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (-0.885,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (0.000,1.770) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,-0.000) {4};
+\node[hqv, fill=hq5] (v5) at (0.000,-0.000) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg10e}), with a degree two harmonic quotient morphism to the graph {\tt E@\,\~\,o}$=\Gamma_1=\Gamma_2/G$.}
@@ -7265,7 +9014,7 @@ G = \langle  (1,5)(2,4)(3,6)(7,9)(8,10)\rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to$ {\tt EJ$\sim$o}$=\Gamma_1=\Gamma_2/G $. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg11a+EJ-SIM-o}.
 
 \begin{center}
@@ -7297,11 +9046,71 @@ Figure \ref{fig:harmonic-quotient_d4reg11a+EJ-SIM-o}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg11a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg11a.png
+% Gamma_2 = d4reg11a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,0.086) {0};
+\node[hqv, fill=hq2] (v1) at (-0.820,1.408) {1};
+\node[hqv, fill=hq1] (v2) at (-1.192,0.172) {2};
+\node[hqv, fill=hq4] (v3) at (-1.841,0.223) {3};
+\node[hqv, fill=hq1] (v4) at (1.192,0.172) {4};
+\node[hqv, fill=hq2] (v5) at (0.820,1.408) {5};
+\node[hqv, fill=hq4] (v6) at (1.841,0.223) {6};
+\node[hqv, fill=hq5] (v7) at (2.098,1.614) {7};
+\node[hqv, fill=hq0] (v8) at (-2.270,-1.614) {8};
+\node[hqv, fill=hq5] (v9) at (-2.098,1.614) {9};
+\node[hqv, fill=hq0] (v10) at (2.270,-1.614) {10};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/EJ-SIM-o-quotient-of-d4reg11a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/EJ-SIM-o-quotient-of-d4reg11a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,4,5,2,3 (5 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.533,0.885) {1};
+\node[hqv, fill=hq2] (v2) at (1.533,-0.885) {2};
+\node[hqv, fill=hq3] (v3) at (1.533,0.885) {3};
+\node[hqv, fill=hq4] (v4) at (-1.533,-0.885) {4};
+\node[hqv, fill=hq5] (v5) at (-0.000,-1.770) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg11a}), with a degree two harmonic quotient morphism to the graph {\tt EJ$\sim$o}$=\Gamma_1=\Gamma_2/G$.}
@@ -7389,7 +9198,7 @@ G = \langle  (1,2)(4,10)(7,8)\rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G $. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg11f+C6+C4+C4}.
 \index{$C_6+C_4+C_4$ graph}
 
@@ -7422,11 +9231,72 @@ Figure \ref{fig:harmonic-quotient_d4reg11f+C6+C4+C4}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg11f.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg11f.png
+% Gamma_2 = d4reg11f (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,9,7,5,8,6,4,3,10 (19 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq7] (v0) at (0.000,2.247) {0};
+\node[hqv, fill=hq1] (v1) at (-1.240,1.883) {1};
+\node[hqv, fill=hq1] (v2) at (-2.086,0.906) {2};
+\node[hqv, fill=hq4] (v3) at (2.086,0.906) {3};
+\node[hqv, fill=hq0] (v4) at (2.270,-0.373) {4};
+\node[hqv, fill=hq6] (v5) at (-0.646,-2.247) {5};
+\node[hqv, fill=hq5] (v6) at (1.733,-1.548) {6};
+\node[hqv, fill=hq3] (v7) at (-1.733,-1.548) {7};
+\node[hqv, fill=hq3] (v8) at (0.646,-2.247) {8};
+\node[hqv, fill=hq2] (v9) at (-2.270,-0.373) {9};
+\node[hqv, fill=hq0] (v10) at (1.240,1.883) {10};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v5) -- (v10);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/C6+C4+C4-quotient-of-d4reg11f.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/C6+C4+C4-quotient-of-d4reg11f.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,-1.652) {0};
+\node[hqv, fill=hq1] (v1) at (1.642,0.766) {1};
+\node[hqv, fill=hq2] (v2) at (0.000,1.652) {2};
+\node[hqv, fill=hq3] (v3) at (-1.642,0.766) {3};
+\node[hqv, fill=hq4] (v4) at (1.134,-0.522) {4};
+\node[hqv, fill=hq5] (v5) at (-1.134,-0.522) {5};
+\node[hqv, fill=hq6] (v6) at (-1.770,-1.218) {6};
+\node[hqv, fill=hq7] (v7) at (1.770,-1.218) {7};
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg11f}), with a degree two harmonic quotient morphism to the graph $C_6+C_4+C_4=\Gamma_1=\Gamma_2/G$.}
@@ -7444,7 +9314,7 @@ G = \langle  (0,5)(1,7)(2,8)(3,6)\rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to {\tt FCdzo}=\Gamma_1=\Gamma_2/G $. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg11f+FCdzo}.
 This is a homomorphism.
 \index{FCdzo graph}
@@ -7478,11 +9348,72 @@ This is a homomorphism.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg11f.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg11f.png
+% Gamma_2 = d4reg11f (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,9,7,5,8,6,4,3,10 (19 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq6] (v0) at (0.000,2.247) {0};
+\node[hqv, fill=hq2] (v1) at (-1.240,1.883) {1};
+\node[hqv, fill=hq1] (v2) at (-2.086,0.906) {2};
+\node[hqv, fill=hq4] (v3) at (2.086,0.906) {3};
+\node[hqv, fill=hq5] (v4) at (2.270,-0.373) {4};
+\node[hqv, fill=hq6] (v5) at (-0.646,-2.247) {5};
+\node[hqv, fill=hq4] (v6) at (1.733,-1.548) {6};
+\node[hqv, fill=hq2] (v7) at (-1.733,-1.548) {7};
+\node[hqv, fill=hq1] (v8) at (0.646,-2.247) {8};
+\node[hqv, fill=hq3] (v9) at (-2.270,-0.373) {9};
+\node[hqv, fill=hq0] (v10) at (1.240,1.883) {10};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v5) -- (v10);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/FCdzo-quotient-of-d4reg11f.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/FCdzo-quotient-of-d4reg11f.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-0.590,-0.590) {1};
+\node[hqv, fill=hq2] (v2) at (0.590,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (0.590,-0.590) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.590) {4};
+\node[hqv, fill=hq5] (v5) at (-0.590,0.590) {5};
+\node[hqv, fill=hq6] (v6) at (-1.770,-0.590) {6};
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg11f}), with a degree two harmonic quotient morphism to the graph ${\tt FCdzo}=\Gamma_1=\Gamma_2/G$.}
@@ -7504,7 +9435,7 @@ G = \langle  (1,2)(4,10)(7,8), (0,5)(1,7)(2,8)(3,6)\rangle ,
 \]
 the quotient morphism maps to the  graph
 $\pi: \Gamma_2\to {\tt DrG}=\Gamma_1=\Gamma_2/G $. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg11f+DrG}. 
 
 \begin{center}
@@ -7536,11 +9467,64 @@ Figure \ref{fig:harmonic-quotient_d4reg11f+DrG}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg11f.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg11f.png
+% Gamma_2 = d4reg11f (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,9,7,5,8,6,4,3,10 (19 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.247) {0};
+\node[hqv, fill=hq3] (v1) at (-1.240,1.883) {1};
+\node[hqv, fill=hq3] (v2) at (-2.086,0.906) {2};
+\node[hqv, fill=hq2] (v3) at (2.086,0.906) {3};
+\node[hqv, fill=hq0] (v4) at (2.270,-0.373) {4};
+\node[hqv, fill=hq4] (v5) at (-0.646,-2.247) {5};
+\node[hqv, fill=hq2] (v6) at (1.733,-1.548) {6};
+\node[hqv, fill=hq3] (v7) at (-1.733,-1.548) {7};
+\node[hqv, fill=hq3] (v8) at (0.646,-2.247) {8};
+\node[hqv, fill=hq1] (v9) at (-2.270,-0.373) {9};
+\node[hqv, fill=hq0] (v10) at (1.240,1.883) {10};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v5) -- (v10);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/DrG-quotient-of-d4reg11f.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/DrG-quotient-of-d4reg11f.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (0.699,0.994) {2};
+\node[hqv, fill=hq3] (v3) at (-0.377,0.000) {3};
+\node[hqv, fill=hq4] (v4) at (0.699,-0.994) {4};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg11f}), with a degree four harmonic quotient morphism to the graph ${\tt DrG}=\Gamma_1=\Gamma_2/G$.}
@@ -7880,11 +9864,78 @@ Note this is a graph homomorphism.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d4reg12a+v9e12ds444222222-G2.tex}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12a.png
+% Gamma_2 = d4reg12a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,10,11,4,5,8,6,7 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq8] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq4] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq7] (v4) at (1.135,-1.966) {4};
+\node[hqv, fill=hq6] (v5) at (1.966,-1.135) {5};
+\node[hqv, fill=hq5] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq2] (v7) at (1.135,1.966) {7};
+\node[hqv, fill=hq7] (v8) at (2.270,-0.000) {8};
+\node[hqv, fill=hq3] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq1] (v10) at (-1.135,-1.966) {10};
+\node[hqv, fill=hq0] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d4reg12a+v9e12ds444222222-G1.tex}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/v9e12ds444222222-quotient-of-d4reg12a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.768,0.478) {0};
+\node[hqv, fill=hq1] (v1) at (-1.298,-1.292) {1};
+\node[hqv, fill=hq2] (v2) at (1.768,-0.478) {2};
+\node[hqv, fill=hq3] (v3) at (-0.884,0.239) {3};
+\node[hqv, fill=hq4] (v4) at (0.470,-1.770) {4};
+\node[hqv, fill=hq5] (v5) at (1.298,1.292) {5};
+\node[hqv, fill=hq6] (v6) at (0.649,0.646) {6};
+\node[hqv, fill=hq7] (v7) at (-0.470,1.770) {7};
+\node[hqv, fill=hq8] (v8) at (0.235,-0.885) {8};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v8);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v2) -- (v8);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree two harmonic quotient morphism to the $9$ vertex graph $\Gamma_1=\Gamma_2/G$ described above.}
@@ -7901,7 +9952,7 @@ $\pi: \Gamma_2\to $\verb+G?r@xw+$=\Gamma_1=\Gamma_2/G $ (in graph6 notation).
 All of the $12$ quotients $\Gamma_1=\Gamma_2/G$ having $8$ vertices
 are isomorphic to this graph, \verb+G?r@xw+.
 This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12a+v8e12ds44442222}. 
 Note this is a graph homomorphism.
 
@@ -7935,11 +9986,77 @@ Note this is a graph homomorphism.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12a.png
+% Gamma_2 = d4reg12a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,10,11,4,5,8,6,7 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq7] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq0] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq4] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq6] (v4) at (1.135,-1.966) {4};
+\node[hqv, fill=hq5] (v5) at (1.966,-1.135) {5};
+\node[hqv, fill=hq3] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq1] (v7) at (1.135,1.966) {7};
+\node[hqv, fill=hq2] (v8) at (2.270,-0.000) {8};
+\node[hqv, fill=hq5] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq1] (v10) at (-1.135,-1.966) {10};
+\node[hqv, fill=hq3] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/v8e12ds44442222-quotient-of-d4reg12a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/v8e12ds44442222-quotient-of-d4reg12a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-0.885,0.443) {0};
+\node[hqv, fill=hq1] (v1) at (0.885,0.443) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.443) {2};
+\node[hqv, fill=hq3] (v3) at (0.000,-1.328) {3};
+\node[hqv, fill=hq4] (v4) at (0.000,-0.443) {4};
+\node[hqv, fill=hq5] (v5) at (0.000,1.328) {5};
+\node[hqv, fill=hq6] (v6) at (1.770,0.443) {6};
+\node[hqv, fill=hq7] (v7) at (0.000,0.443) {7};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v5) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree two harmonic quotient morphism to the $8$ vertex graph $\Gamma_1=\Gamma_2/G$ described above.}
@@ -7958,7 +10075,7 @@ same morphism). The others are $120$ quotients to $C_4$ with two pendant
 edges at one vertex, $24$ to $\overline{C_4\cup K_2}$, and $8$ to the
 octahedral graph.
 This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12a+C6}. 
 
 \begin{center}
@@ -7991,11 +10108,69 @@ Figure \ref{fig:harmonic-quotient_d4reg12a+C6}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12a.png
+% Gamma_2 = d4reg12a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,10,11,4,5,8,6,7 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq4] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq5] (v4) at (1.135,-1.966) {4};
+\node[hqv, fill=hq0] (v5) at (1.966,-1.135) {5};
+\node[hqv, fill=hq0] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq3] (v7) at (1.135,1.966) {7};
+\node[hqv, fill=hq5] (v8) at (2.270,-0.000) {8};
+\node[hqv, fill=hq1] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq2] (v10) at (-1.135,-1.966) {10};
+\node[hqv, fill=hq1] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/C6-quotient-of-d4reg12a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/C6-quotient-of-d4reg12a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,3,4,2,1,5 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (1.533,-0.885) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (-1.533,0.885) {3};
+\node[hqv, fill=hq4] (v4) at (-1.533,-0.885) {4};
+\node[hqv, fill=hq5] (v5) at (1.533,0.885) {5};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree four harmonic quotient morphism to the graph $C_6=\Gamma_1=\Gamma_2/G$ described above.}
@@ -8012,7 +10187,7 @@ Of the $2294$ quotients $\Gamma_1=\Gamma_2/G$ having $4$ vertices,
 $170$ are isomorphic to this cycle graph $C_4$, $48$ to the diamond graph,
 and $2076$ to the path graph $P_4$.
 This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12a+C4}. 
 
 \begin{center}
@@ -8045,11 +10220,65 @@ Figure \ref{fig:harmonic-quotient_d4reg12a+C4}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12a.png
+% Gamma_2 = d4reg12a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,10,11,4,5,8,6,7 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq0] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq0] (v4) at (1.135,-1.966) {4};
+\node[hqv, fill=hq2] (v5) at (1.966,-1.135) {5};
+\node[hqv, fill=hq3] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq1] (v7) at (1.135,1.966) {7};
+\node[hqv, fill=hq1] (v8) at (2.270,-0.000) {8};
+\node[hqv, fill=hq2] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq1] (v10) at (-1.135,-1.966) {10};
+\node[hqv, fill=hq3] (v11) at (-0.000,-2.270) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v9) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/C4-quotient-of-d4reg12a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/C4-quotient-of-d4reg12a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,2,1,3 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-0.000,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree six harmonic quotient morphism to the graph $C_4=\Gamma_1=\Gamma_2/G$ described above.}
@@ -8090,7 +10319,7 @@ the quotient morphism $\pi$ maps to the $7$ vertex graph
 $\pi: \Gamma_2\to {\tt FKMiw}=\Gamma_1=\Gamma_2/G $ (in the graph6 notation).
 In fact, every harmonic quotient having $7$ vertices is isomorphic to
 this graph. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12b+FKMiw}. 
 
 \begin{center}
@@ -8123,11 +10352,75 @@ Figure \ref{fig:harmonic-quotient_d4reg12b+FKMiw}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12b.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12b.png
+% Gamma_2 = d4reg12b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,5,8,9,2,4,6,7,11,10 (22 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq5] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq0] (v2) at (-0.000,-2.270) {2};
+\node[hqv, fill=hq4] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq3] (v4) at (1.135,-1.966) {4};
+\node[hqv, fill=hq6] (v5) at (-2.270,0.000) {5};
+\node[hqv, fill=hq1] (v6) at (1.966,-1.135) {6};
+\node[hqv, fill=hq6] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq1] (v8) at (-1.966,-1.135) {8};
+\node[hqv, fill=hq3] (v9) at (-1.135,-1.966) {9};
+\node[hqv, fill=hq5] (v10) at (1.135,1.966) {10};
+\node[hqv, fill=hq4] (v11) at (1.966,1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v10);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v11);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/FKMiw-quotient-of-d4reg12b.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/FKMiw-quotient-of-d4reg12b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.944,0.118) {1};
+\node[hqv, fill=hq2] (v2) at (0.649,-0.330) {2};
+\node[hqv, fill=hq3] (v3) at (0.000,1.534) {3};
+\node[hqv, fill=hq4] (v4) at (0.000,-1.534) {4};
+\node[hqv, fill=hq5] (v5) at (0.000,-0.566) {5};
+\node[hqv, fill=hq6] (v6) at (1.770,0.000) {6};
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12b}), with a degree two harmonic quotient morphism to the graph {\tt FKMiw}$=\Gamma_1=\Gamma_2/G$ described above.}
@@ -8143,7 +10436,7 @@ the quotient morphism $\pi$ maps (as a cover, in fact) to the quartic graph
 $\pi: \Gamma_2\to $\verb+E]~o+$=\Gamma_1=\Gamma_2/G$ (in the graph6 notation).
 In fact, this graph \verb+E]~o+ is a circulant graph with parameters
 $(6, [1, 2, 4, 5])$. This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12b+circ6-1245}.
 \index{circulant graph}
   
@@ -8177,11 +10470,75 @@ Figure \ref{fig:harmonic-quotient_d4reg12b+circ6-1245}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12b.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12b.png
+% Gamma_2 = d4reg12b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,5,8,9,2,4,6,7,11,10 (22 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq5] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq5] (v2) at (-0.000,-2.270) {2};
+\node[hqv, fill=hq4] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq0] (v4) at (1.135,-1.966) {4};
+\node[hqv, fill=hq1] (v5) at (-2.270,0.000) {5};
+\node[hqv, fill=hq3] (v6) at (1.966,-1.135) {6};
+\node[hqv, fill=hq4] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq3] (v8) at (-1.966,-1.135) {8};
+\node[hqv, fill=hq2] (v9) at (-1.135,-1.966) {9};
+\node[hqv, fill=hq0] (v10) at (1.135,1.966) {10};
+\node[hqv, fill=hq1] (v11) at (1.966,1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v1) -- (v10);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v11);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v10);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/circ6-1245-quotient-of-d4reg12b.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/circ6-1245-quotient-of-d4reg12b.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (0.460,-0.245) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-1.533) {3};
+\node[hqv, fill=hq4] (v4) at (0.000,-1.042) {4};
+\node[hqv, fill=hq5] (v5) at (-0.460,-0.245) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12b}), with a degree two harmonic quotient morphism to the circulant graph $\Gamma_1=\Gamma_2/G$ described above.}
@@ -8299,7 +10656,7 @@ G = \langle (0,4)(1,5)(2,6)(3,7)(8,11)(9,10) \rangle ,
 \]
 the quotient morphism $\pi$ (a quasicover) maps to the $6$ vertex graph {\tt Ejmw}
 $\pi: \Gamma_2\to \Gamma_1=\Gamma_2/G $, as tabulated below.
-The uncolored graphs are depicted in
+The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12c+Ejmw}. 
 
 \begin{center}
@@ -8332,11 +10689,74 @@ Figure \ref{fig:harmonic-quotient_d4reg12c+Ejmw}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12c.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12c.png
+% Gamma_2 = d4reg12c (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,4,5,7,6,8,11,10 (26 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq5] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq4] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq5] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq1] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq4] (v6) at (1.966,-1.135) {6};
+\node[hqv, fill=hq3] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq0] (v8) at (2.270,-0.000) {8};
+\node[hqv, fill=hq2] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq2] (v10) at (1.135,1.966) {10};
+\node[hqv, fill=hq0] (v11) at (1.966,1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v11);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/Ejmw-quotient-of-d4reg12c.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/Ejmw-quotient-of-d4reg12c.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,3,5,2,4 (5 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.533,0.885) {1};
+\node[hqv, fill=hq2] (v2) at (1.533,-0.885) {2};
+\node[hqv, fill=hq3] (v3) at (-1.533,-0.885) {3};
+\node[hqv, fill=hq4] (v4) at (1.533,0.885) {4};
+\node[hqv, fill=hq5] (v5) at (-0.000,-1.770) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12c}), with a degree two harmonic quotient morphism (indeed, a quasicover) to the graph {\tt Ejmw}$=\Gamma_1=\Gamma_2/G$ described above.}
@@ -8392,11 +10812,63 @@ Figure \ref{fig:harmonic-quotient_d4reg12c+C3}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12c_112221010200.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12c_112221010200.png
+% Gamma_2 = d4reg12c (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,9,4,5,7,6,8,11,10 (26 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq2] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq2] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq1] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq0] (v6) at (1.966,-1.135) {6};
+\node[hqv, fill=hq1] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq0] (v8) at (2.270,-0.000) {8};
+\node[hqv, fill=hq2] (v9) at (-1.966,-1.135) {9};
+\node[hqv, fill=hq0] (v10) at (1.135,1.966) {10};
+\node[hqv, fill=hq0] (v11) at (1.966,1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v11);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/cycle3-012.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.533) {2};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12c}), with a degree four harmonic quotient morphism (indeed, a quasicover) to the graph $C_3=\Gamma_1=\Gamma_2/G$.}
@@ -8442,7 +10914,7 @@ G = \langle  (1,11)(3,4)(6,8)(9,10) \rangle ,
 the quotient morphism $\pi$ (a homomorphism) mapping to
 $\Gamma_1=\Gamma_2/G =$\verb+G?qipk+
 is tabulated below
-and the uncolored graphs are depicted in
+and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12d+G_QU_qipk}. 
 
 \begin{center}
@@ -8475,11 +10947,77 @@ Figure \ref{fig:harmonic-quotient_d4reg12d+G_QU_qipk}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12d2.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12d2.png
+% Gamma_2 = d4reg12d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,11,4,5,6,10,7,8,9 (18 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq7] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq3] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq0] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq0] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq6] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq5] (v6) at (1.135,-1.966) {6};
+\node[hqv, fill=hq4] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq5] (v8) at (1.966,1.135) {8};
+\node[hqv, fill=hq2] (v9) at (1.135,1.966) {9};
+\node[hqv, fill=hq2] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq3] (v11) at (-1.966,-1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/G_QU_qipk-quotient-of-d4reg12d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/G_QU_qipk-quotient-of-d4reg12d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,3,7,2,4,5,6 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.252,1.252) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,0.000) {3};
+\node[hqv, fill=hq4] (v4) at (1.252,-1.252) {4};
+\node[hqv, fill=hq5] (v5) at (1.770,-0.000) {5};
+\node[hqv, fill=hq6] (v6) at (1.252,1.252) {6};
+\node[hqv, fill=hq7] (v7) at (-1.252,-1.252) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v5) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}), with a degree two harmonic quotient morphism (indeed, a homomorphism) to the graph $\Gamma_1=\Gamma_2/G$ as described above.}
@@ -8501,7 +11039,7 @@ G = \langle (1,10)(2,7)(3,6)(4,8)(9,11) \rangle ,
 the quotient morphism $\pi$ (a homomorphism) mapping to
 $\Gamma_1=\Gamma_2/G =$\verb+FB]lg+
 is tabulated below
-and the uncolored graphs are depicted in
+and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12d+FB_BR_lg}. 
 
 \begin{center}
@@ -8534,11 +11072,76 @@ Figure \ref{fig:harmonic-quotient_d4reg12d+FB_BR_lg}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12d2.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12d2.png
+% Gamma_2 = d4reg12d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,11,4,5,6,10,7,8,9 (18 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq6] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq4] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq0] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq5] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq2] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq3] (v6) at (1.135,-1.966) {6};
+\node[hqv, fill=hq0] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq5] (v8) at (1.966,1.135) {8};
+\node[hqv, fill=hq1] (v9) at (1.135,1.966) {9};
+\node[hqv, fill=hq4] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq1] (v11) at (-1.966,-1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/FB_BR_lg-quotient-of-d4reg12d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/FB_BR_lg-quotient-of-d4reg12d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: crossing-free (planar; a circle would have 2 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.429,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.665,1.521) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-0.000) {2};
+\node[hqv, fill=hq3] (v3) at (1.123,-0.940) {3};
+\node[hqv, fill=hq4] (v4) at (-0.665,-1.521) {4};
+\node[hqv, fill=hq5] (v5) at (1.123,0.940) {5};
+\node[hqv, fill=hq6] (v6) at (-1.770,-0.000) {6};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}), with a degree two harmonic quotient morphism (indeed, a homomorphism) to the graph $\Gamma_1=\Gamma_2/G$ as described above.}
@@ -8558,7 +11161,7 @@ G = \langle (0,5)(1,6)(2,7)(3,10)(4,9)(8,11) \rangle ,
 the quotient morphism $\pi$ mapping to
 $\Gamma_1=\Gamma_2/G ={\tt Oct}$
 is tabulated below
-and the uncolored graphs are depicted in
+and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12d+octahedral}. 
 
 \begin{center}
@@ -8591,11 +11194,75 @@ Figure \ref{fig:harmonic-quotient_d4reg12d+octahedral}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12d2.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12d2.png
+% Gamma_2 = d4reg12d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,11,4,5,6,10,7,8,9 (18 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq5] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq4] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq1] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq5] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq4] (v6) at (1.135,-1.966) {6};
+\node[hqv, fill=hq2] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq0] (v8) at (1.966,1.135) {8};
+\node[hqv, fill=hq1] (v9) at (1.135,1.966) {9};
+\node[hqv, fill=hq3] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq0] (v11) at (-1.966,-1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/octahedral-quotient-of-d4reg12d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/octahedral-quotient-of-d4reg12d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.533) {2};
+\node[hqv, fill=hq3] (v3) at (0.460,-0.245) {3};
+\node[hqv, fill=hq4] (v4) at (0.000,-1.042) {4};
+\node[hqv, fill=hq5] (v5) at (-0.460,-0.245) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}), with a degree two harmonic quotient morphism (indeed, a cover) to the graph $\Gamma_1=\Gamma_2/G={\tt Oct}$.}
@@ -8623,7 +11290,7 @@ G = \langle (1,11)(3,4)(6,8)(9,10), (0,2)(1,11)(3,10)(4,9)(5,7)(6,8) \rangle ,
 the quotient morphism $\pi$ mapping to
 $\Gamma_1=\Gamma_2/G ={\tt butterfly}$
 is tabulated below
-and the uncolored graphs are depicted in
+and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12d+butterfly}. 
 
 \begin{center}
@@ -8656,11 +11323,68 @@ Figure \ref{fig:harmonic-quotient_d4reg12d+butterfly}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12d2.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12d2.png
+% Gamma_2 = d4reg12d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,11,4,5,6,10,7,8,9 (18 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq1] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq4] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq0] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq0] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq2] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq3] (v6) at (1.135,-1.966) {6};
+\node[hqv, fill=hq2] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq3] (v8) at (1.966,1.135) {8};
+\node[hqv, fill=hq0] (v9) at (1.135,1.966) {9};
+\node[hqv, fill=hq0] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq4] (v11) at (-1.966,-1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/butterfly-quotient-of-d4reg12d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/butterfly-quotient-of-d4reg12d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-0.000,-0.000) {0};
+\node[hqv, fill=hq1] (v1) at (1.770,0.948) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,0.948) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-0.948) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,-0.948) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}), with a degree four harmonic quotient morphism (indeed, a homomorphism) to the graph $\Gamma_1=\Gamma_2/G={\tt butterfly}$.}
@@ -8725,11 +11449,63 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d4reg12d-C3_212002121001}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d4reg12d-C3_212002121001b.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d4reg12d-C3_212002121001b.png
+% Gamma_2 = d4reg12d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,11,4,5,6,10,7,8,9 (18 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq0] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq0] (v4) at (-1.135,-1.966) {4};
+\node[hqv, fill=hq2] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq1] (v6) at (1.135,-1.966) {6};
+\node[hqv, fill=hq2] (v7) at (2.270,-0.000) {7};
+\node[hqv, fill=hq1] (v8) at (1.966,1.135) {8};
+\node[hqv, fill=hq0] (v9) at (1.135,1.966) {9};
+\node[hqv, fill=hq0] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq1] (v11) at (-1.966,-1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v11);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v10);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/cycle3-012.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.533) {2};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12d}) is a degree eight $2$-multicover of $\Gamma_1=C_3$.}
@@ -8770,7 +11546,7 @@ $\pi: \Gamma_2\to {\tt FKLkw}=\Gamma_1=\Gamma_2/G $ (in graph6 notation).
 All of the $6$ quotients $\Gamma_1=\Gamma_2/G$ having $7$ vertices
 are isomorphic to this graph, {\tt FKLkw}.
 This example, which is a matchstick graph (see Remark~\ref{rem:matchstick}),
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12e+FKLkw}.
 \index{{\tt FKLkw} graph}
 
@@ -8804,11 +11580,75 @@ Figure \ref{fig:harmonic-quotient_d4reg12e+FKLkw}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12e1.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12e1.png
+% Gamma_2 = d4reg12e (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,3,11,2,6,7,4,8,5,9,1,10 (12 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq5] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (1.966,1.135) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq4] (v3) at (-1.135,1.966) {3};
+\node[hqv, fill=hq0] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq1] (v5) at (1.966,-1.135) {5};
+\node[hqv, fill=hq1] (v6) at (-1.966,-1.135) {6};
+\node[hqv, fill=hq6] (v7) at (-1.135,-1.966) {7};
+\node[hqv, fill=hq6] (v8) at (1.135,-1.966) {8};
+\node[hqv, fill=hq3] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq4] (v10) at (1.135,1.966) {10};
+\node[hqv, fill=hq2] (v11) at (-1.966,1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v1) -- (v10);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v3) -- (v11);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v5) -- (v9);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v9) -- (v10);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/FKLkw-quotient-of-d4reg12e.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/FKLkw-quotient-of-d4reg12e.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,2,5,4,3,6 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.726) {0};
+\node[hqv, fill=hq1] (v1) at (-1.419,1.042) {1};
+\node[hqv, fill=hq2] (v2) at (-1.770,-0.494) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.494) {3};
+\node[hqv, fill=hq4] (v4) at (0.788,-1.726) {4};
+\node[hqv, fill=hq5] (v5) at (-0.788,-1.726) {5};
+\node[hqv, fill=hq6] (v6) at (1.419,1.042) {6};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$, a degree two harmonic quotient to $\Gamma_1={\tt FKLkw}$.}
@@ -8870,11 +11710,66 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d4reg12e-diamond_201320033130
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d4reg12e-diamond_201320033130.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d4reg12e-diamond_201320033130.png
+% Gamma_2 = d4reg12e (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,3,11,2,6,7,4,8,5,9,1,10 (12 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (1.966,1.135) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-1.135,1.966) {3};
+\node[hqv, fill=hq2] (v4) at (-0.000,-2.270) {4};
+\node[hqv, fill=hq0] (v5) at (1.966,-1.135) {5};
+\node[hqv, fill=hq0] (v6) at (-1.966,-1.135) {6};
+\node[hqv, fill=hq3] (v7) at (-1.135,-1.966) {7};
+\node[hqv, fill=hq3] (v8) at (1.135,-1.966) {8};
+\node[hqv, fill=hq1] (v9) at (2.270,-0.000) {9};
+\node[hqv, fill=hq3] (v10) at (1.135,1.966) {10};
+\node[hqv, fill=hq0] (v11) at (-1.966,1.135) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v10);
+\draw[hqe] (v0) -- (v11);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v1) -- (v10);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v6);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v11);
+\draw[hqe] (v3) -- (v10);
+\draw[hqe] (v3) -- (v11);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v5) -- (v9);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v9) -- (v10);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/diamond-0123d.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/diamond-0123d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, Hamiltonian cycle 0,1,3,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-0.000) {2};
+\node[hqv, fill=hq3] (v3) at (-0.000,-1.770) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12e}) is a degree four quotient morphism to $\Gamma_1={\tt diamond}$.}
@@ -8937,7 +11832,7 @@ G = \langle (0,7)(1,3)(2,6)(4,9)(5,11)(8,10) \rangle ,
 \]
 the quotient morphism maps to the graph
 $\pi: \Gamma_2\to $\verb+EL~o+$=\Gamma_1=\Gamma_2/G $ (in graph6 notation).
-This is tabulated below and the uncolored graphs are depicted in
+This is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12f+EL_tilde_o}.
 \index{\verb+EL~o+ graph}
 
@@ -8971,11 +11866,74 @@ Figure \ref{fig:harmonic-quotient_d4reg12f+EL_tilde_o}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12f.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12f.png
+% Gamma_2 = d4reg12f (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,5,8,9,7,10,11,6,4 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq2] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq5] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq3] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq5] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq4] (v4) at (1.135,1.966) {4};
+\node[hqv, fill=hq1] (v5) at (-1.966,-1.135) {5};
+\node[hqv, fill=hq3] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq2] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq0] (v8) at (-1.135,-1.966) {8};
+\node[hqv, fill=hq4] (v9) at (-0.000,-2.270) {9};
+\node[hqv, fill=hq0] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq1] (v11) at (2.270,-0.000) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v11);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v10);
+\draw[hqe] (v9) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/EL_tilde_o-quotient-of-d4reg12f.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/EL_tilde_o-quotient-of-d4reg12f.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: crossing-free (planar; a circle would have 4 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (-1.770,0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.000,-1.770) {1};
+\node[hqv, fill=hq2] (v2) at (0.000,1.770) {2};
+\node[hqv, fill=hq3] (v3) at (0.620,-0.000) {3};
+\node[hqv, fill=hq4] (v4) at (-0.620,0.000) {4};
+\node[hqv, fill=hq5] (v5) at (1.770,-0.000) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12f}), a degree two harmonic quotient to $\Gamma_1={\tt EL~o}$.}
@@ -8991,7 +11949,7 @@ $\pi: \Gamma_2\to $\verb+E@JW+$=\Gamma_1=\Gamma_2/G $ (in graph6 notation). This
 because it can be drawn to look like the letter R.
 Further, this quotient morphism is in fact a graph homomorphism
 (without vertical edges).
-This is tabulated below and the uncolored graphs are depicted in
+This is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12f+E_at_JW}.
 \index{\verb+E@JW+ graph}
 \index{``R'' graph}
@@ -9026,11 +11984,69 @@ Figure \ref{fig:harmonic-quotient_d4reg12f+E_at_JW}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12f.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d4reg12f.png
+% Gamma_2 = d4reg12f (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,5,8,9,7,10,11,6,4 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq5] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq0] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq4] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq0] (v4) at (1.135,1.966) {4};
+\node[hqv, fill=hq2] (v5) at (-1.966,-1.135) {5};
+\node[hqv, fill=hq1] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq3] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq0] (v8) at (-1.135,-1.966) {8};
+\node[hqv, fill=hq1] (v9) at (-0.000,-2.270) {9};
+\node[hqv, fill=hq4] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq3] (v11) at (2.270,-0.000) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v11);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v10);
+\draw[hqe] (v9) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/E_at_JW-quotient-of-d4reg12f.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/E_at_JW-quotient-of-d4reg12f.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.706,-0.000) {0};
+\node[hqv, fill=hq1] (v1) at (-0.571,0.926) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,1.127) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,0.000) {3};
+\node[hqv, fill=hq4] (v4) at (-0.571,-0.926) {4};
+\node[hqv, fill=hq5] (v5) at (1.770,-1.127) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12f}), a degree 4 harmonic quotient to the R graph, $\Gamma_1$.}
@@ -9089,11 +12105,64 @@ Figure \ref{fig:harmonic-quotient_d4reg12f-P4_311213201220}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d4reg12f-P4_311213201220.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d4reg12f-P4_311213201220.png
+% Gamma_2 = d4reg12f (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,3,2,5,8,9,7,10,11,6,4 (27 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq1] (v1) at (-1.135,1.966) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq2] (v3) at (-1.966,1.135) {3};
+\node[hqv, fill=hq1] (v4) at (1.135,1.966) {4};
+\node[hqv, fill=hq3] (v5) at (-1.966,-1.135) {5};
+\node[hqv, fill=hq2] (v6) at (1.966,1.135) {6};
+\node[hqv, fill=hq0] (v7) at (1.135,-1.966) {7};
+\node[hqv, fill=hq1] (v8) at (-1.135,-1.966) {8};
+\node[hqv, fill=hq2] (v9) at (-0.000,-2.270) {9};
+\node[hqv, fill=hq2] (v10) at (1.966,-1.135) {10};
+\node[hqv, fill=hq0] (v11) at (2.270,-0.000) {11};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v6);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v7);
+\draw[hqe] (v3) -- (v11);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v10);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v11);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v7) -- (v10);
+\draw[hqe] (v8) -- (v9);
+\draw[hqe] (v8) -- (v10);
+\draw[hqe] (v9) -- (v11);
+\draw[hqe] (v10) -- (v11);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/path4-3120.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/path4-3120.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (1.770,-0.008) {0};
+\node[hqv, fill=hq1] (v1) at (-0.590,0.009) {1};
+\node[hqv, fill=hq2] (v2) at (0.590,0.007) {2};
+\node[hqv, fill=hq3] (v3) at (-1.770,-0.009) {3};
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12f}), a degree 8 harmonic quotient to the path graph, $\Gamma_1=P_4$.}
@@ -9359,11 +12428,57 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d5reg8b-C4_32231001}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d5reg8b-C4_32231001.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d5reg8b-C4_32231001.png
+% Gamma_2 = d5reg8b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,4,7,5,6,3 (20 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq2] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq3] (v3) at (1.605,1.605) {3};
+\node[hqv, fill=hq1] (v4) at (-1.605,-1.605) {4};
+\node[hqv, fill=hq0] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq0] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq1] (v7) at (-0.000,-2.270) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/Cycle4-0123c.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/Cycle4-0123c.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,3 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.770) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (-0.000,-1.770) {2};
+\node[hqv, fill=hq3] (v3) at (1.770,-0.000) {3};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v2) -- (v3);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quintic graph $\Gamma_2$ ({\tt d5reg8b}) is a degree four quasi-multicover of $\Gamma_1=C_4$.}
@@ -9409,11 +12524,55 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d5reg8b-C3_00112222}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d5reg8b-C3_00112222.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/harmonic-quotient_d5reg8b-C3_00112222.png
+% Gamma_2 = d5reg8b (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,4,7,5,6,3 (20 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.605,1.605) {1};
+\node[hqv, fill=hq1] (v2) at (-2.270,0.000) {2};
+\node[hqv, fill=hq1] (v3) at (1.605,1.605) {3};
+\node[hqv, fill=hq2] (v4) at (-1.605,-1.605) {4};
+\node[hqv, fill=hq2] (v5) at (1.605,-1.605) {5};
+\node[hqv, fill=hq2] (v6) at (2.270,-0.000) {6};
+\node[hqv, fill=hq2] (v7) at (-0.000,-2.270) {7};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v6) -- (v7);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/cycle3-012.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/cycle3-012.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,2 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.533) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,-1.533) {1};
+\node[hqv, fill=hq2] (v2) at (1.770,-1.533) {2};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v1) -- (v2);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quintic graph $\Gamma_2$ ({\tt d5reg8b}) has a degree four harmonic quotient morphism to $\Gamma_1=C_3$.}
@@ -9614,7 +12773,7 @@ is actually the center of $\Aut(\Gamma_2)$.}
 \[
 G=\langle (0,8)(1,5)(2,7)(3,6)(4,9) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d5reg10a+K5}.
 
 \begin{center}
@@ -9646,11 +12805,71 @@ Figure \ref{fig:harmonic-quotient_d5reg10a+K5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d5reg10a.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d5reg10a.png
+% Gamma_2 = d5reg10a (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, Hamiltonian cycle 0,1,2,3,6,7,5,8,4,9 (30 crossings, angles adjusted to separate concurrent edges).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (0.055,2.270) {0};
+\node[hqv, fill=hq0] (v1) at (-1.423,1.790) {1};
+\node[hqv, fill=hq3] (v2) at (-2.159,0.777) {2};
+\node[hqv, fill=hq2] (v3) at (-2.159,-0.777) {3};
+\node[hqv, fill=hq1] (v4) at (2.159,0.626) {4};
+\node[hqv, fill=hq0] (v5) at (1.246,-1.883) {5};
+\node[hqv, fill=hq2] (v6) at (-1.423,-1.790) {6};
+\node[hqv, fill=hq3] (v7) at (0.055,-2.270) {7};
+\node[hqv, fill=hq4] (v8) at (2.159,-0.626) {8};
+\node[hqv, fill=hq1] (v9) at (1.246,1.883) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v3) -- (v9);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v4) -- (v9);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v8);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K5-quotient-of-d5reg10a.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/K5-quotient-of-d5reg10a.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,4 (5 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.397) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (1.094,-1.683) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v3);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quintic graph  $\Gamma_2$ ({\tt d5reg10a}) is a degree two quasicover of the complete graph, $\Gamma_1=\Gamma_2/G=K_5$.}
@@ -9723,7 +12942,7 @@ is actually the center of $\Aut(\Gamma_2)$.}
 \[
 G=\langle (0,9)(1,2)(3,5)(4,6)(7,8) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d5reg10c+C5}.
 
 \begin{center}
@@ -9755,11 +12974,66 @@ Figure \ref{fig:harmonic-quotient_d5reg10c+C5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d5reg10c.png}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d5reg10c.png
+% Gamma_2 = d5reg10c (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: circle, cycle 0,1,...,9 (29 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq3] (v0) at (0.000,2.270) {0};
+\node[hqv, fill=hq2] (v1) at (-1.334,1.836) {1};
+\node[hqv, fill=hq2] (v2) at (-2.159,0.701) {2};
+\node[hqv, fill=hq1] (v3) at (-2.159,-0.701) {3};
+\node[hqv, fill=hq0] (v4) at (-1.334,-1.836) {4};
+\node[hqv, fill=hq1] (v5) at (-0.000,-2.270) {5};
+\node[hqv, fill=hq0] (v6) at (1.334,-1.836) {6};
+\node[hqv, fill=hq4] (v7) at (2.159,-0.701) {7};
+\node[hqv, fill=hq4] (v8) at (2.159,0.701) {8};
+\node[hqv, fill=hq3] (v9) at (1.334,1.836) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v7);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v0) -- (v9);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v5);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v5);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v4);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v7);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v6);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v8);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v7) -- (v9);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/C5-quotient-of-d5reg10c.png}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/C5-quotient-of-d5reg10c.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: circle, cycle 0,1,...,4 (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (0.000,1.683) {0};
+\node[hqv, fill=hq1] (v1) at (-1.770,0.397) {1};
+\node[hqv, fill=hq2] (v2) at (-1.094,-1.683) {2};
+\node[hqv, fill=hq3] (v3) at (1.094,-1.683) {3};
+\node[hqv, fill=hq4] (v4) at (1.770,0.397) {4};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v4);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v3) -- (v4);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quintic graph  $\Gamma_2$ ({\tt d5reg10c}) is a degree four quasi-$2$-multicover of the cycle graph, $\Gamma_1=\Gamma_2/G=C_5$.}
@@ -9859,11 +13133,67 @@ Figure \ref{fig:harmonic-quotient_d5reg10d+St6}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d5reg10d+St6-G2.tex}
+% BEGIN make_figures.py G2 box=5x5cm was=graphics/graph_d5reg10d.png
+% Gamma_2 = d5reg10d (edge list in the list item); vertex x has color hq<phi(x)>, phi from the table.
+% Layout: hand-tuned.
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq4] (v0) at (-2.270,-1.816) {0};
+\node[hqv, fill=hq1] (v1) at (-2.270,1.816) {1};
+\node[hqv, fill=hq1] (v2) at (-1.135,1.816) {2};
+\node[hqv, fill=hq0] (v3) at (-1.135,-1.816) {3};
+\node[hqv, fill=hq3] (v4) at (0.000,-1.816) {4};
+\node[hqv, fill=hq1] (v5) at (0.000,1.816) {5};
+\node[hqv, fill=hq1] (v6) at (1.135,1.816) {6};
+\node[hqv, fill=hq5] (v7) at (1.135,-1.816) {7};
+\node[hqv, fill=hq1] (v8) at (2.270,1.816) {8};
+\node[hqv, fill=hq2] (v9) at (2.270,-1.816) {9};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v0) -- (v2);
+\draw[hqe] (v0) -- (v5);
+\draw[hqe] (v0) -- (v6);
+\draw[hqe] (v0) -- (v8);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v7);
+\draw[hqe] (v1) -- (v9);
+\draw[hqe] (v2) -- (v3);
+\draw[hqe] (v2) -- (v4);
+\draw[hqe] (v2) -- (v7);
+\draw[hqe] (v2) -- (v9);
+\draw[hqe] (v3) -- (v5);
+\draw[hqe] (v3) -- (v6);
+\draw[hqe] (v3) -- (v8);
+\draw[hqe] (v4) -- (v5);
+\draw[hqe] (v4) -- (v6);
+\draw[hqe] (v4) -- (v8);
+\draw[hqe] (v5) -- (v7);
+\draw[hqe] (v5) -- (v9);
+\draw[hqe] (v6) -- (v7);
+\draw[hqe] (v6) -- (v9);
+\draw[hqe] (v7) -- (v8);
+\draw[hqe] (v8) -- (v9);
+\end{tikzpicture}%
+% END make_figures.py G2
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\input{figures/harmonic-quotient_d5reg10d+St6-G1.tex}
+% BEGIN make_figures.py G1 box=4x4cm was=graphics/St6-quotient-of-d5reg10d.png
+% Gamma_1 = image of phi; vertex y has color hq<y>.
+% Layout: force-directed (0 crossings).
+\begin{tikzpicture}[hqgraph]
+\node[hqv, fill=hq0] (v0) at (1.684,-1.093) {0};
+\node[hqv, fill=hq1] (v1) at (0.177,0.000) {1};
+\node[hqv, fill=hq2] (v2) at (1.683,1.095) {2};
+\node[hqv, fill=hq3] (v3) at (-0.399,1.770) {3};
+\node[hqv, fill=hq4] (v4) at (-1.684,-0.001) {4};
+\node[hqv, fill=hq5] (v5) at (-0.397,-1.770) {5};
+\draw[hqe] (v0) -- (v1);
+\draw[hqe] (v1) -- (v2);
+\draw[hqe] (v1) -- (v3);
+\draw[hqe] (v1) -- (v4);
+\draw[hqe] (v1) -- (v5);
+\end{tikzpicture}%
+% END make_figures.py G1
 \end{center}
 \end{minipage}
 \caption{The quintic graph  $\Gamma_2$ ({\tt d5reg10d}) is a degree five quotient homomorphism to the star graph, $\Gamma_1=\Gamma_2/G=St_6$.}
@@ -10034,9 +13364,12 @@ invariant with independent programs, found the errors corrected in this
 revision, and proposed the corrections. It also prepared this draft to the
 authors' style guide. It wrote the introduction, literature review,
 background, notation, summary, glossary and these acknowledgments, and it
-checked the bibliography against the sources. AI review is not an
+checked the bibliography against the sources. For Draft~3 it wrote the
+scripts that draw every figure from the data in the text and check the
+figures against the tables, and it chose the layouts. AI review is not an
 independent certification of the results. The authors are responsible for
-the content.
+the content. Further details on the AI usage can be found in the revision
+log in the repository.
 
 \begin{thebibliography}{99}
 \raggedright
