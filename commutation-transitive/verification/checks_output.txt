@@ -1,0 +1,103 @@
+=== 1. Which groups are commutation transitive (centralizers of noncentral elts abelian)? ===
+GL(2,3): CT-type? True  |Z|=2
+PGL(2,3): CT? False  |Z|=1
+PSL(2,3): CT? True  |Z|=1
+GL(2,5): CT-type? True  |Z|=4
+PGL(2,5): CT? False  |Z|=1
+PSL(2,5): CT? True  |Z|=1
+GL(2,7): CT-type? True  |Z|=6
+PGL(2,7): CT? False  |Z|=1
+PSL(2,7): CT? False  |Z|=1
+SL(2,4)=PSL: CT? True  |Z|=1
+SL(2,8)=PSL: CT? True  |Z|=1
+
+=== 2. Induced character formula: S3 = GL(2,2), C = A3, mu nontrivial ===
+true value at 3-cycle: -1.000+0.000j;  paper's formula: -3.000+0.000j;  |C|=3
+<Ind mu, Ind mu> = 1.000  (=1 => irreducible; refutes Corollary at q=2)
+
+=== 3. <Ind_T^G pi, Ind_T^G pi> for PGL(2,q), T split torus (Mackey count) ===
+ q=3 char j=0: <,> = 7.000  (pi != pi^w: False; predicted q+3+delta = 7)
+ q=3 char j=1: <,> = 7.000  (pi != pi^w: False; predicted q+3+delta = 7)
+ q=5 char j=0: <,> = 9.000  (pi != pi^w: False; predicted q+3+delta = 9)
+ q=5 char j=1: <,> = 8.000  (pi != pi^w: True; predicted q+3+delta = 8)
+ q=5 char j=2: <,> = 9.000  (pi != pi^w: False; predicted q+3+delta = 9)
+ q=5 char j=3: <,> = 8.000  (pi != pi^w: True; predicted q+3+delta = 8)
+ q=7 char j=0: <,> = 11.000  (pi != pi^w: False; predicted q+3+delta = 11)
+ q=7 char j=1: <,> = 10.000  (pi != pi^w: True; predicted q+3+delta = 10)
+ q=7 char j=2: <,> = 10.000  (pi != pi^w: True; predicted q+3+delta = 10)
+ q=7 char j=3: <,> = 11.000  (pi != pi^w: False; predicted q+3+delta = 11)
+ q=7 char j=4: <,> = 10.000  (pi != pi^w: True; predicted q+3+delta = 10)
+ q=7 char j=5: <,> = 10.000  (pi != pi^w: True; predicted q+3+delta = 10)
+
+=== 4. Conjecture: dim_F2 span{tau(Cent(g))} for PSL(2,2^k) ===
+PSL(2,4): #classes=5, distinct tau vectors=4, F2-rank=3
+PSL(2,8): #classes=9, distinct tau vectors=4, F2-rank=3
+PSL(2,16): #classes=17, distinct tau vectors=4, F2-rank=3
+
+=== 5. Bijection Conj(g,G) <-> G/Cent(g): x^-1 g x <-> x C (left cosets)? ===
+left-coset map well defined? False
+right-coset map Cent(g)x well defined? True
+
+=== 6. Permutation characters 1_A^G for PSL(2,4)=A5 centralizers U,T,T',G: C-rank ===
+ |A|=4: 1_A^G on classes (sizes [15, 20, 12, 12, 1]): [3.0, 0.0, 0.0, 0.0, 15.0]
+ |A|=3: 1_A^G on classes (sizes [15, 20, 12, 12, 1]): [0.0, 2.0, 0.0, 0.0, 20.0]
+ |A|=5: 1_A^G on classes (sizes [15, 20, 12, 12, 1]): [0.0, 0.0, 2.0, 2.0, 12.0]
+ |A|=60: 1_A^G on classes (sizes [15, 20, 12, 12, 1]): [1.0, 1.0, 1.0, 1.0, 1.0]
+ rank over C: 4
+
+=== 7. A5 = SL(2,4): induced characters from centralizers, Brauer-type Z-combinations ===
+ chi3 = f - b': degree 3.000, norm 1.000
+ chi3' = f - b: degree 3.000, norm 1.000
+ chi5 = d - f: degree 5.000, norm 1.000
+ chi4 = b + b' - d: degree 4.000, norm 1.000
+ norms of b,b',d,f: [3.0, 3.0, 7.0, 4.0]
+
+=== 8. Ind_C^G mu irreducible <=> C normal and mu != 1 (CT groups) ===
+ S3: criterion holds for all centralizers and characters: True
+ A4=PSL(2,3): criterion holds for all centralizers and characters: True
+ A5=SL(2,4): criterion holds for all centralizers and characters: True
+
+=== 9. Non-split torus in PGL(2,3) = S4 (cyclic of order 4): norms q-1+delta ===
+ j=0: norm 3.000, predicted 3
+ j=1: norm 2.000, predicted 2
+ j=2: norm 3.000, predicted 3
+ j=3: norm 2.000, predicted 2
+
+=== 10. Harmonic morphisms: commuting graph -> commuting conjugacy class graph ===
+ S3=GL(2,2): |G|=6, |Z|=1, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_1 -> K_1, |W|=1, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+    component K_2 -> K_1, |W|=2, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+ A4=PSL(2,3): |G|=12, |Z|=1, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_2 -> K_2, |W|=1, m(x)=1, degree=1, Riemann-Hurwitz identity: True
+    component K_3 -> K_1, |W|=3, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+ A5=SL(2,4): |G|=60, |Z|=1, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_2 -> K_1, |W|=2, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+    component K_3 -> K_1, |W|=3, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+    component K_4 -> K_2, |W|=2, m(x)=2, degree=4, Riemann-Hurwitz identity: True
+ PSL(2,8): |G|=504, |Z|=1, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_6 -> K_3, |W|=2, m(x)=2, degree=4, Riemann-Hurwitz identity: True
+    component K_7 -> K_1, |W|=7, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+    component K_8 -> K_4, |W|=2, m(x)=2, degree=4, Riemann-Hurwitz identity: True
+ GL(2,3): |G|=48, |Z|=2, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_2 -> K_1, |W|=2, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+    component K_4 -> K_2, |W|=2, m(x)=2, degree=4, Riemann-Hurwitz identity: True
+    component K_6 -> K_3, |W|=2, m(x)=2, degree=4, Riemann-Hurwitz identity: True
+ Q8 (in SL(2,3)): |G|=8, |Z|=2, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_2 -> K_1, |W|=2, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+ D8 (in GL(2,3)): |G|=8, |Z|=2, harmonic with m(x)=|W(Cent(x))| and v(x)=|W|-1 everywhere: True
+    component K_2 -> K_1, |W|=2, m(x)=None, degree=0, Riemann-Hurwitz identity: None
+
+=== 11. Non-commuting graph -> non-commuting class graph for A5: harmonic? ===
+ vertices where harmonicity fails: 59 of 59
+ at an involution x: non-commuting neighbors by (order, class size): {(3, 20): 20, (5, 12): 24}
+
+=== 12. Non-commuting graph (complete multipartite) -> K_M collapsing each part C\Z ===
+ S3=GL(2,2): M=4 parts, part sizes [1, 2], harmonic: False, predicted: False
+ A4=PSL(2,3): M=5 parts, part sizes [2, 3], harmonic: False, predicted: False
+ A5=SL(2,4): M=21 parts, part sizes [2, 3, 4], harmonic: False, predicted: False
+ PSL(2,8): M=73 parts, part sizes [6, 7, 8], harmonic: False, predicted: False
+ GL(2,3): M=13 parts, part sizes [2, 4, 6], harmonic: False, predicted: False
+ Q8 (in SL(2,3)): M=3 parts, part sizes [2], harmonic: True, predicted: True
+    genus 7, target genus 1, degree 4; RH: 12 vs 12
+ D8 (in GL(2,3)): M=3 parts, part sizes [2], harmonic: True, predicted: True
+    genus 7, target genus 1, degree 4; RH: 12 vs 12

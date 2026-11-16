@@ -1,0 +1,1818 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{courier}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{counterexample}[theorem]{Counterexample}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{yremark}{Remark}
+\renewcommand{\theyremark}{2026.\arabic{yremark}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Cent}{Cent}
+\DeclareMathOperator{\Conj}{Conj}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\AGL}{AGL}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Span}{Span}
+\newcommand{\triv}{\mathbf{1}}
+
+\title{The representation theory of finite commutation transitive groups\\[4pt]
+\large Draft 1. Corrected and expanded version (an expository note)}
+\author{David Joyner\thanks{This note corrects and expands the unpublished
+manuscript ``The representation theory of finite commutation transitive
+groups, preliminary version'' (file \texttt{comm\_tr6.tex}, dated 8-5-2000).
+Revision prepared November 16, 2026.}\\
+\texttt{wdjoyner@gmail.com}}
+\date{Original draft: 2000. Corrected and expanded draft: 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This expository note was revised, corrected and expanded with the help of
+an AI system (Claude, by Anthropic). See the Acknowledgments for details.
+A finite group is commutative transitive (CT) if commuting is a transitive
+relation on its non-identity elements. It is commutation transitive if the
+same holds on its non-central elements. Equivalently, every centralizer of a
+non-identity (respectively non-central) element is abelian. We give detailed
+definitions and examples, and we survey the classification of finite CT
+groups. We then study the representations obtained by inducing characters
+from centralizers. We prove a corrected induced-character formula and an
+exact irreducibility criterion. We also prove that, in a finite CT group,
+characters induced from centralizers span the full character ring over
+$\Z$. Finally, we connect the subject to graph theory. The map sending an
+element to its conjugacy class is a harmonic morphism, in the sense of Baker
+and Norine, from the commuting graph onto the commuting conjugacy class
+graph. Several claims of the 2000 draft were false. We keep them as worked
+counterexamples. One example is the claim that $\PGL(2,\F_q)$, $q$ odd, is
+CT.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+
+This section explains what the note is about and what it proves.
+
+\subsection{The problem}
+
+In an abelian group every pair of elements commutes. Commutative
+transitive groups are the next simplest case. Two non-identity elements may
+fail to commute. But if $x$ commutes with $y$, and $y$ commutes with $z$,
+then $x$ commutes with $z$. So the non-identity elements fall into
+``commuting families'', and each family together with the identity is an
+abelian subgroup.
+
+Such groups appear in two quite different parts of group theory.
+\begin{itemize}[itemsep=1pt]
+\item In finite group theory they are the \emph{CA-groups}. Suzuki's work on
+  them in 1957 was a first step toward the odd order theorem
+  \cite{Su57,BSW58}.
+\item In combinatorial group theory, free groups and many related groups are
+  CT. The property plays a role in the study of residually free groups and
+  the Tarski problems \cite{Fi83,FR09,FGRS15}.
+\end{itemize}
+The finite CT groups are completely classified (Theorem~\ref{thm:classif}).
+Each one is abelian, a Frobenius group with abelian kernel and cyclic
+complement, or $\PSL(2,\F_{2^f})$ with $f\ge 2$.
+
+\subsection{What this note does}
+
+The 2000 draft asked how the representations of a CT group arise from its
+centralizers. This note answers that question with complete proofs. The
+main results are the following.
+\begin{enumerate}[itemsep=1pt]
+\item A correct formula for the character of $\Ind_C^G\mu$, where $C$ is a
+  centralizer and $\mu$ is a character of $C$
+  (Proposition~\ref{prop:indformula}).
+\item An exact criterion: in a non-abelian finite CT group, $\Ind_C^G\mu$ is
+  irreducible if and only if $C$ is normal and $\mu\neq\triv$
+  (Theorem~\ref{thm:irred}).
+\item Linear independence of the permutation characters $\triv_A^G$, with
+  one $A$ from each conjugacy class of centralizers
+  (Proposition~\ref{prop:indep}). We also give the exact dimension of the
+  span of the ``support vectors'' studied in 2000
+  (Proposition~\ref{prop:taudim}).
+\item A spanning theorem. In a finite CT group, every virtual character is a
+  $\Z$-linear combination of characters induced from linear characters of
+  centralizers (Theorem~\ref{thm:span}). The proof uses Brauer's induction
+  theorem.
+\item A connection with graph theory. The commuting graph of a commutation
+  transitive group is a disjoint union of complete graphs. The class map from
+  it onto the commuting conjugacy class graph is a harmonic morphism
+  (Theorem~\ref{thm:harmonic}). On the non-commuting graph, the analogous
+  map is harmonic only when all centralizers of non-central elements have
+  the same order (Proposition~\ref{prop:noncommharm}).
+\end{enumerate}
+Several statements of the 2000 draft were wrong. We do not hide them. Each
+one is stated and refuted as a counterexample, because each one teaches
+something. They are Counterexamples~\ref{cex:pgl}, \ref{cex:quotient},
+\ref{cex:formula}, \ref{cex:pglcor}, \ref{cex:supports} and~\ref{cex:q8}.
+
+\subsection{Scope and conventions}
+
+All groups are finite, except in the literature review and in
+Question~\ref{q:profinite}. The 2000 draft announced a profinite analogue,
+but stated and proved nothing. That section has been removed. All
+representations are complex and finite-dimensional. We identify a
+representation with its character when no confusion can arise.
+
+Each result is labeled by its status. A statement with a proof is proved
+here. A statement marked ``cited'' is taken from the given source. Numbered
+remarks of the form ``Remark~2026.$n$'' contain material that we have not
+fully verified. Some claims were also checked by computer. The script
+\texttt{comm\_tr\_checks.py} accompanies this note. It is in the folder
+\texttt{commutation-transitive/verification} of the repository
+\url{https://github.com/wdjoyner/alg-graph-thry}. It is exhaustive for the
+small groups it treats, and the note says when a claim depends on it.
+
+%======================================================================
+\section{Literature review}\label{sec:lit}
+
+This section summarizes the literature and says where the present note fits.
+We separate work before and after the original draft of 2000.
+
+\subsection{Before 2000}
+
+\paragraph{Weisner (1925).} Weisner \cite{We25} studied groups ``in which
+the normaliser of every element except identity is abelian''. In modern
+language, ``normaliser of an element'' means its centralizer. So these are
+exactly the CT groups. He showed that a finite CT group is solvable or
+simple. Wu later observed that one of Weisner's arguments has a gap
+\cite{Wu98}.
+
+\paragraph{Suzuki (1957) and Brauer--Suzuki--Wall (1958).} Suzuki
+\cite{Su57} proved that a CA-group of odd order is solvable. This was the
+first serious attack on Burnside's conjecture, later proved as the
+Feit--Thompson theorem. His argument is character-theoretic. It applies the
+orthogonality relations to the abelian centralizers and their
+normalizers. Combined with the work of Brauer, Suzuki and Wall
+\cite{BSW58}, it shows that the groups $\PSL(2,\F_{2^n})$ are the only
+non-abelian simple groups with this property. A textbook account of the
+classification is in Suzuki's \emph{Group Theory II} \cite{Su86}.
+
+\paragraph{Schmidt (1970).} Schmidt \cite{Sc70} studied finite groups whose
+lattice of centralizers is distributive or modular. Later authors use his
+results to describe the finite groups in which centralizers of
+\emph{non-central} elements are abelian
+\cite{GM23}. These are our commutation transitive groups, which those
+authors call \emph{AC-groups}.
+
+\paragraph{Fine (1983) and Levin--Rosenberger (1986).} The name
+``commutative transitive'' was coined by Fine \cite{Fi83}, in the setting of
+Fuchsian and Kleinian groups. This attribution follows \cite{FGRS15}. Levin
+and Rosenberger \cite{LR86} studied power-commutative and
+commutation-transitive groups.
+
+\paragraph{Wu (1998).} Wu \cite{Wu98} gave a correct proof of Weisner's
+solvable case. A finite solvable CT group is the semidirect product of its
+Fitting subgroup and a cyclic group acting fixed-point-freely. Wu also
+classified the locally finite CT groups, and noted that Tarski monsters are
+infinite simple CT groups.
+
+\paragraph{Representation theory.} The tools used here are classical. They
+are induced representations, Frobenius reciprocity, Mackey's criteria, and
+Brauer's induction theorem. They are explained in Serre's book \cite{Se77}.
+For Frobenius groups we use Isaacs \cite{Is76}.
+
+\subsection{After 2000}
+
+\paragraph{The original draft.} The preliminary version of this note was
+circulated in 2000. A companion preprint computed examples for $A_5$ in GAP
+\cite{Jo00}.
+
+\paragraph{CT groups in combinatorial and model-theoretic group theory.}
+Fine, Gaglione, Rosenberger and Spellman studied the ``commutative
+transitive kernel'' \cite{FGRS00}. Fine and Rosenberger surveyed the subject
+in 2009 \cite{FR09}. In 2015, Fine, Gaglione, Rosenberger and Spellman
+compared CT groups with CSA groups, in which maximal abelian subgroups are
+malnormal \cite{FGRS15}. They explain that commutative transitivity was
+important in the solution of the Tarski problems. Duncan, Kazachkov and
+Remeslennikov showed that the CT groups are exactly the groups with
+trivial center and centralizer dimension~$2$ \cite{DKR05}.
+
+\paragraph{Commuting and non-commuting graphs.} Abdollahi, Akbari and
+Maimani introduced the non-commuting graph of a group, on the vertex set
+$G\setminus Z(G)$ \cite{AAM06}. AC-groups play a special role there. Grazian
+and Monetta continued this study \cite{GM23}. The commuting graph of
+Section~\ref{sec:graph} is the complement of the non-commuting graph.
+
+\paragraph{Conjugacy class graphs.} Herzog, Longobardi and Maj introduced
+the commuting conjugacy class graph in 2009 \cite{HLM09}. Its vertices are
+the non-central conjugacy classes, and two classes are adjacent when they
+contain commuting elements. Rezaei and Foruzanfar determined this graph when
+$G/Z(G)$ is a Frobenius group of order $pq$ or $p^2q$ \cite{RF23}. For
+commutation transitive groups, Section~\ref{sec:harmonic} shows that it is a
+disjoint union of complete graphs.
+
+\paragraph{Harmonic morphisms of graphs.} Urakawa introduced harmonic
+morphisms between simple graphs \cite{Ur00}. Baker and Norine adapted the
+definition to multigraphs. They developed the theory as a discrete analogue
+of holomorphic maps between Riemann surfaces, including a Riemann--Hurwitz
+formula \cite{BN09}. Corry defined harmonic group actions on graphs and
+proved genus bounds for them \cite{Co10}. Melles and Joyner explore graphs
+through harmonic morphisms in two books \cite{JM17,MJ26}.
+Section~\ref{sec:harmonic} applies this theory to the commuting graph.
+
+\paragraph{Rings.} Dol\v{z}an, Klep and Moravec studied finite rings in which
+commutativity is transitive \cite{DKM09}. Their introduction credits Wu
+\cite{Wu98} with proving that finite CT groups are solvable or simple.
+
+\paragraph{How this note fits.} We found no published treatment of the
+specific questions asked here. These are which characters induced from
+centralizers are irreducible, how they span the character ring, and whether
+the class map on the commuting graph is harmonic. All
+results in Sections~\ref{sec:induced}--\ref{sec:harmonic} are elementary
+consequences of the classification and standard tools. Their value is
+expository. They show how the abelian centralizers organize the
+representation theory.
+
+%======================================================================
+\section{Background}\label{sec:background}
+
+This section collects the group theory and representation theory used
+later. Each subsection has an example.
+
+\subsection{Centralizers, normalizers and conjugacy}\label{sec:conj}
+
+Let $G$ be a finite group. The \emph{centralizer} of $g\in G$ is
+$\Cent(g,G)=\{x\in G : xg=gx\}$. The \emph{center} is $Z=Z(G)=\{g : gx=xg
+\text{ for all }x\in G\}$. The \emph{normalizer} of a subgroup $H$ is
+$N_G(H)=\{x\in G: xHx^{-1}=H\}$. The \emph{conjugacy class} of $g$ is
+$\Conj(g,G)=\{x^{-1}gx : x\in G\}$. We write $G_*$ for the set of conjugacy
+classes.
+
+\begin{lemma}\label{lem:conjcent}
+For $g,y\in G$ we have $y^{-1}\Cent(g,G)y=\Cent(y^{-1}gy,G)$. The map
+$\Cent(g,G)x\mapsto x^{-1}gx$ is a well-defined bijection from the set of
+right cosets of $\Cent(g,G)$ onto $\Conj(g,G)$. In particular
+$|\Conj(g,G)|=[G:\Cent(g,G)]$.
+\end{lemma}
+
+\begin{proof}
+If $xg=gx$ then $(y^{-1}xy)(y^{-1}gy)=y^{-1}xgy=y^{-1}gxy=
+(y^{-1}gy)(y^{-1}xy)$. This shows one inclusion, and the reverse inclusion
+follows by replacing $y$ with $y^{-1}$. For the second claim,
+$x^{-1}gx=y^{-1}gy$ holds if and only if $yx^{-1}$ commutes with $g$. That
+is, $y\in\Cent(g,G)x$.
+\end{proof}
+
+\begin{example}\label{ex:s3conj}
+Let $G=S_3$ and $g=(123)$. Then $\Cent(g,G)=A_3$ and $\Conj(g,G)=
+\{(123),(132)\}$, which has $2=[S_3:A_3]$ elements. For $g=(12)$ we get
+$\Cent(g,G)=\{1,(12)\}$ and three conjugates.
+
+The cosets in Lemma~\ref{lem:conjcent} must be \emph{right} cosets. The 2000
+draft used left cosets $x\Cent(g,G)$, and that map is not well defined. Take
+$g=(12)$, $x=(13)$ and $c=(12)\in\Cent(g,G)$. Then $x$ and $xc$ lie in the
+same left coset. But $x^{-1}gx=(23)$, while $(xc)^{-1}g(xc)=
+c^{-1}(23)c=(13)$.
+\end{example}
+
+\subsection{Frobenius groups and fixed-point-free actions}\label{sec:frob}
+
+Frobenius groups are the solvable non-abelian CT groups, so we recall them
+here.
+
+\begin{definition}\label{def:frob}
+A \emph{Frobenius group} is a finite group $G$ with a subgroup $H$ such
+that $1\neq H\neq G$ and $H\cap xHx^{-1}=1$ for all $x\in G\setminus H$.
+The subgroup $H$ is a \emph{Frobenius complement}. A subgroup with the
+intersection property is called \emph{malnormal}.
+\end{definition}
+
+\begin{theorem}[Frobenius; cited from {\cite[Thm.~7.2]{Is76}}]
+\label{thm:frobenius}
+Let $G$ be a Frobenius group with complement $H$. Then
+$K=\bigl(G\setminus\bigcup_{x\in G}xHx^{-1}\bigr)\cup\{1\}$ is a normal
+subgroup of $G$, called the \emph{Frobenius kernel}. Moreover $G=KH$ and
+$K\cap H=1$.
+\end{theorem}
+
+An automorphism $\alpha$ of a group $N$ is \emph{fixed-point-free} if
+$\alpha(n)=n$ only for $n=1$. A group $H$ acts fixed-point-freely on $N$ if
+every non-identity element of $H$ acts by a fixed-point-free automorphism.
+
+\begin{example}\label{ex:frob}
+The following are Frobenius groups.
+\begin{enumerate}[itemsep=1pt]
+\item $S_3$, with kernel $A_3$ and complement $\langle(12)\rangle$.
+\item $A_4$, with kernel $V_4=\{1,(12)(34),(13)(24),(14)(23)\}$ and
+  complement $\langle(123)\rangle$.
+\item The dihedral group $D_{2n}$ of order $2n$ with $n$ odd. The kernel is
+  the rotation subgroup and the complement is generated by a reflection.
+\item The affine group $\AGL(1,q)=\{x\mapsto ax+b : a\in\F_q^\times,
+  b\in\F_q\}$. The kernel is the group of translations $x\mapsto x+b$, which
+  is isomorphic to $(\F_q,+)$. The complement is the group of scalings
+  $x\mapsto ax$, which is isomorphic to $\F_q^\times$. Scaling by $a\neq1$
+  fixes only $0$, so the action is fixed-point-free. Note that
+  $\AGL(1,3)\cong S_3$ and $\AGL(1,4)\cong A_4$.
+\end{enumerate}
+\end{example}
+
+The next lemma is the special case for abelian groups of Brauer's
+permutation lemma. We give the short proof, because it drives the
+irreducibility theorem.
+
+\begin{lemma}\label{lem:brauerperm}
+Let $\alpha$ be an automorphism of a finite abelian group $A$, and let
+$\widehat A=\operatorname{Hom}(A,\C^\times)$. Then $\alpha$ fixes exactly
+as many elements of $A$ as characters $\mu\in\widehat A$ with
+$\mu\circ\alpha=\mu$. In particular, if $\alpha$ is fixed-point-free then
+the trivial character is the only $\alpha$-invariant character.
+\end{lemma}
+
+\begin{proof}
+Since $A$ is abelian, $\varphi(x)=\alpha(x)x^{-1}$ defines a homomorphism
+$\varphi\colon A\to A$. Its kernel is the set of fixed points of $\alpha$. A
+character $\mu$ satisfies $\mu\circ\alpha=\mu$ exactly when $\mu$ is
+trivial on $\varphi(A)$. The number of such characters is
+$|A/\varphi(A)|=|\ker\varphi|$.
+\end{proof}
+
+\subsection{Induced representations}\label{sec:induction}
+
+Let $H\le G$ and let $\rho$ be a representation of $H$ with character
+$\chi_\rho$. The \emph{induced representation} $\Ind_H^G\rho$ has character
+\begin{equation}\label{eq:indchar}
+\Ind_H^G\chi_\rho(g)=\frac{1}{|H|}\sum_{\substack{x\in G\\ x^{-1}gx\in H}}
+\chi_\rho(x^{-1}gx)
+\end{equation}
+\cite[\S7.2]{Se77}. A representation induced from a one-dimensional
+character is called \emph{monomial}. When $\rho=\triv$ is trivial we write
+$\triv_H^G=\Ind_H^G\triv$. This is the \emph{permutation character} of $G$
+acting on $G/H$. Its value $\triv_H^G(g)$ is the number of cosets $xH$
+fixed by $g$.
+
+We write $\langle\phi,\psi\rangle_G=|G|^{-1}\sum_{g\in G}\phi(g)
+\overline{\psi(g)}$. A character $\chi$ is irreducible if and only if
+$\langle\chi,\chi\rangle_G=1$. \emph{Frobenius reciprocity} says
+$\langle\Ind_H^G\psi,\chi\rangle_G=\langle\psi,\Res_H\chi\rangle_H$.
+
+For $s\in G$ put $H_s=sHs^{-1}\cap H$, and let $\rho^s$ be the
+representation $x\mapsto\rho(s^{-1}xs)$ of $H_s$.
+
+\begin{theorem}[Mackey; cited from {\cite[\S7.3--7.4]{Se77}}]
+\label{thm:mackey}
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item Let $s$ run over a set of representatives of the double cosets
+  $H\backslash G/H$. Then
+  \[
+  \langle\Ind_H^G\rho,\Ind_H^G\rho\rangle_G=\sum_{s}
+  \langle\rho^s,\Res_{H_s}\rho\rangle_{H_s}.
+  \]
+\item (Irreducibility criterion.) $\Ind_H^G\rho$ is irreducible if and only
+  if $\rho$ is irreducible and, for every $s\in G\setminus H$, the
+  representations $\rho^s$ and $\Res_{H_s}\rho$ of $H_s$ have no common
+  irreducible constituent.
+\end{enumerate}
+\end{theorem}
+
+\begin{example}\label{ex:s3ind}
+Let $G=S_3$, $H=A_3=\langle c\rangle$ with $c=(123)$, and let $\mu(c)=\omega
+=e^{2\pi i/3}$. By \eqref{eq:indchar}, $\Ind_H^G\mu$ takes the value $2$ at
+$1$, the value $0$ at transpositions, and the value $\omega+\omega^2=-1$ at
+$3$-cycles. Its norm is $(4+0+2\cdot1)/6=1$, so it is the irreducible
+$2$-dimensional representation. By contrast, $\triv_{\langle(12)\rangle}^G$
+is the permutation character of $S_3$ on three points. It equals $\triv$
+plus the $2$-dimensional character.
+\end{example}
+
+\subsection{\texorpdfstring{Groups of $2\times2$ matrices}{Groups of 2x2 matrices}}\label{sec:gl2}
+
+Several examples and counterexamples live in the groups $\GL(2,\F_q)$,
+$\SL(2,\F_q)$, $\PGL(2,\F_q)=\GL(2,\F_q)/\F_q^\times$ and
+$\PSL(2,\F_q)=\SL(2,\F_q)/\{\pm1\}$. Their orders are
+\begin{gather*}
+|\GL(2,\F_q)|=q(q-1)^2(q+1),\qquad |\SL(2,\F_q)|=|\PGL(2,\F_q)|=q(q^2-1),\\
+|\PSL(2,\F_q)|=\frac{q(q^2-1)}{\gcd(2,q-1)}.
+\end{gather*}
+For even $q$ we have $\PSL(2,\F_q)=\SL(2,\F_q)\cong\PGL(2,\F_q)$, because
+$-1=1$ and squaring is bijective on $\F_q^\times$. The group
+$\PSL(2,\F_q)$ is simple for $q\ge4$ \cite[Ch.~8]{Ro95}.
+
+A \emph{split torus} of $\GL(2,\F_q)$ is a conjugate of the diagonal
+subgroup. A \emph{non-split torus} is a conjugate of $\F_{q^2}^\times$,
+acting by multiplication on $\F_{q^2}\cong\F_q^2$. The \emph{unipotent
+subgroup} is $U=\{\left(\begin{smallmatrix}1&b\\0&1\end{smallmatrix}\right)
+\}$.
+
+\begin{lemma}\label{lem:cyclicvector}
+Let $k$ be a field and $g\in M_2(k)$ a non-scalar matrix. Then the
+centralizer of $g$ in $M_2(k)$ is the commutative algebra
+$k[g]=\{a+bg: a,b\in k\}$.
+\end{lemma}
+
+\begin{proof}
+Since $g$ is not scalar, some vector $v$ is not an eigenvector. Then $v$ and
+$gv$ form a basis. If $x$ commutes with $g$, write $xv=av+bgv$. Then
+$x(gv)=g(xv)=(a+bg)gv$. So $x$ and $a+bg$ agree on a basis, and $x=a+bg$.
+\end{proof}
+
+\begin{example}\label{ex:smallgl}
+The small cases are familiar groups. We have $\GL(2,\F_2)\cong S_3$,
+$\PSL(2,\F_3)\cong A_4$ and $\PGL(2,\F_3)\cong S_4$. Also
+$\SL(2,\F_4)\cong\PSL(2,\F_5)\cong A_5$. The non-split torus of
+$\GL(2,\F_2)$ is $\F_4^\times$, cyclic of order~$3$. Under $\GL(2,\F_2)\cong
+S_3$ it corresponds to $A_3$.
+\end{example}
+
+\subsection{Graphs and harmonic morphisms}\label{sec:harmbg}
+
+Harmonic morphisms are the graph-theoretic analogue of holomorphic maps
+between Riemann surfaces \cite{BN09,Ur00}. They are treated at length in
+\cite{MJ26}. This subsection gives the definitions we need.
+
+All graphs here are finite and simple, with no loops or multiple edges. The
+\emph{genus} of a connected graph $\Gamma$ is $g(\Gamma)=|E(\Gamma)|-
+|V(\Gamma)|+1$, its first Betti number. For example
+$g(K_n)=\binom n2-n+1=(n-1)(n-2)/2$.
+
+\begin{definition}[Baker--Norine \cite{BN09}]\label{def:harmonic}
+Let $\Gamma$ and $\Gamma'$ be graphs. A \emph{morphism}
+$\varphi\colon\Gamma\to\Gamma'$ sends vertices to vertices and edges to
+edges or vertices, as follows. For each edge $e=\{x,y\}$ of $\Gamma$,
+either $\varphi(x)\neq\varphi(y)$ are adjacent and
+$\varphi(e)=\{\varphi(x),\varphi(y)\}$, or $\varphi(x)=\varphi(y)$ and
+$\varphi(e)=\varphi(x)$. In the second case $e$ is \emph{vertical}. Let
+$v_\varphi(x)$ be the number of vertical edges at $x$. For a vertex $x$ and
+an edge $e'$ of $\Gamma'$ at $\varphi(x)$, let $m_\varphi(x,e')$ be the
+number of edges $e$ at $x$ with $\varphi(e)=e'$. The morphism is
+\emph{harmonic at $x$} if $m_\varphi(x,e')$ takes the same value
+$m_\varphi(x)$ for every edge $e'$ at $\varphi(x)$. It is \emph{harmonic}
+if it is harmonic at every vertex. The number $m_\varphi(x)$ is the
+\emph{horizontal multiplicity} at $x$.
+\end{definition}
+
+If $\varphi(x)$ has no edges, the condition at $x$ is vacuous and we put
+$m_\varphi(x)=0$. Our graphs are often disconnected. Harmonicity is a
+condition at each vertex, so we may check it one component at a time.
+
+\begin{theorem}[Baker--Norine; cited from {\cite[\S2]{BN09}}]
+\label{thm:bn}
+Let $\varphi\colon\Gamma\to\Gamma'$ be a harmonic morphism of connected
+graphs, where $\Gamma'$ has at least one edge and $m_\varphi(x)\ge1$ for
+all $x$.
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item The number of edges over an edge $e'$ of $\Gamma'$ does not depend on
+  $e'$. It is the \emph{degree} $\deg\varphi$. For every vertex $y$ of
+  $\Gamma'$, $\deg\varphi=\sum_{\varphi(x)=y}m_\varphi(x)$.
+\item (Riemann--Hurwitz.) $2g(\Gamma)-2=\deg\varphi\,\bigl(2g(\Gamma')-2
+  \bigr)+\sum_{x}\bigl(2(m_\varphi(x)-1)+v_\varphi(x)\bigr)$.
+\end{enumerate}
+\end{theorem}
+
+Two families of maps occur below. In each, the vertices of a graph are
+partitioned into blocks and each block is collapsed to one vertex.
+
+\begin{lemma}\label{lem:collapse}
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item Partition the vertices of $K_n$ into $k\ge2$ blocks of sizes
+  $a_1,\dots,a_k$. Let $\varphi\colon K_n\to K_k$ collapse each block to a
+  vertex. Then $\varphi$ is harmonic if and only if $k=2$ or all $a_i$ are
+  equal. If all $a_i=a$, then $m_\varphi(x)=a$ and $v_\varphi(x)=a-1$ for
+  every $x$, and $\deg\varphi=a^2$.
+\item Let $\Gamma$ be the complete multipartite graph with parts
+  $P_1,\dots,P_M$, where $M\ge2$. Let $\psi\colon\Gamma\to K_M$ collapse
+  each part to a vertex. Then $\psi$ is harmonic if and only if $M=2$ or all
+  $|P_j|$ are equal. If all $|P_j|=s$, then $m_\psi(x)=s$ and
+  $v_\psi(x)=0$ for every $x$, and $\deg\psi=s^2$.
+\end{enumerate}
+In both cases, when the blocks have equal size, the two sides of the
+Riemann--Hurwitz formula agree.
+\end{lemma}
+
+\begin{proof}
+(a) Let $x$ lie in block $j$. The edges at $x$ over the edge $\{j,l\}$ of
+$K_k$ are the edges from $x$ to block $l$, and there are $a_l$ of them. So
+$\varphi$ is harmonic at $x$ if and only if $a_l$ is the same for all $l\neq
+j$. If $k=2$ this is automatic. If $k\ge3$, the conditions for $j=1$ and
+$j=2$ force $a_2=\dots=a_k$ and $a_1=a_3$, so all blocks have equal size.
+The vertical edges at $x$ join $x$ to the rest of its block. Each edge of
+$K_k$ has $a\cdot a$ edges over it.
+
+(b) The argument is the same. A part is an independent set, so no edge is
+vertical. The edges at $x\in P_i$ over $\{i,j\}$ are the $|P_j|$ edges from
+$x$ to $P_j$.
+
+For Riemann--Hurwitz in (a), put $n=ak$. Then $2g(K_n)-2=n(n-3)$, and
+\[
+a^2k(k-3)+n\bigl(2(a-1)+(a-1)\bigr)=n^2-3an+3an-3n=n(n-3).
+\]
+In (b), put $n=Ms$. Then $\Gamma$ has $s^2M(M-1)/2$ edges, so
+$2g(\Gamma)-2=s^2M(M-1)-2Ms$, and
+\[
+s^2(M^2-3M)+Ms\cdot2(s-1)=s^2M^2-s^2M-2Ms.\qedhere
+\]
+\end{proof}
+
+\begin{example}\label{ex:harmbg}
+Collapse $K_4$ onto $K_2$ by $1,2\mapsto u$ and $3,4\mapsto w$. The edges
+$\{1,2\}$ and $\{3,4\}$ are vertical. The other four edges lie over
+$\{u,w\}$, so the map is harmonic with $m=2$ at every vertex and degree~$4$.
+Riemann--Hurwitz reads $4=4\cdot(-2)+4\cdot3$, since $g(K_4)=3$ and
+$g(K_2)=0$.
+
+Now collapse $K_4$ onto $K_3$ by $1,2\mapsto u$, $3\mapsto w$ and $4\mapsto
+z$. At vertex $3$ there are two edges over $\{w,u\}$ but only one over
+$\{w,z\}$. So this map is not harmonic. The blocks have unequal sizes, as
+Lemma~\ref{lem:collapse}(a) predicts.
+\end{example}
+
+%======================================================================
+\section{Notation}\label{sec:notation}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{>{$}l<{$}p{11.5cm}}
+\toprule
+\text{Symbol} & Meaning\\
+\midrule
+Z=Z(G) & center of $G$\\
+\Cent(g,G) & centralizer of $g$ in $G$\\
+N_G(H) & normalizer of the subgroup $H$\\
+W(C) & the quotient $N_G(C)/C$ (Section~\ref{sec:induced})\\
+\Conj(g,G) & conjugacy class $\{x^{-1}gx : x\in G\}$\\
+G_* & set of conjugacy classes of $G$\\
+\widehat C & group of characters $C\to\C^\times$ of an abelian group $C$\\
+\Ind_H^G,\ \Res_H & induction and restriction\\
+\triv,\ \triv_H^G & trivial character and permutation character
+$\Ind_H^G\triv$\\
+\langle\ ,\ \rangle_G & inner product of class functions on $G$\\
+\rho^s & conjugate representation $x\mapsto\rho(s^{-1}xs)$ on
+$sHs^{-1}\cap H$\\
+R(G) & character ring: $\Z$-linear combinations of irreducible characters\\
+\Gamma(G) & commuting graph on $G\setminus Z$ (Section~\ref{sec:graph})\\
+\Gamma^c(G) & non-commuting graph, the complement of $\Gamma(G)$\\
+\Delta(G) & commuting conjugacy class graph (Definition~\ref{def:ccc})\\
+\varphi_G & class map $\Gamma(G)\to\Delta(G)$, $x\mapsto$ class of $x$\\
+m_\varphi(x),\ v_\varphi(x) & horizontal multiplicity and number of vertical
+edges at $x$ (Definition~\ref{def:harmonic})\\
+g(\Gamma) & genus $|E|-|V|+1$ of a connected graph\\
+\supp(H),\ \tau(H) & support of $H$ in $G_*$ and its indicator vector in
+$\F_2^{G_*}$ (Section~\ref{sec:perm})\\
+\F_q & finite field with $q$ elements\\
+T,\ T',\ U & split torus, non-split torus, unipotent subgroup\\
+\phi & golden ratio $(1+\sqrt5)/2$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%======================================================================
+\section{Commutative transitive and commutation transitive groups}
+\label{sec:ct}
+
+This section defines the two classes of groups, gives examples and
+non-examples, and recalls the classification. It ends with three false
+claims from the 2000 draft, each refuted.
+
+\subsection{Definitions and first examples}\label{sec:defs}
+
+\begin{definition}\label{def:ct}
+A group $G$ is \emph{commutative transitive}, or CT, if for all non-identity
+$x,y,w\in G$, the equations $xy=yx$ and $yw=wy$ imply $xw=wx$. It is
+\emph{commutation transitive} if the same holds for all non-central
+$x,y,w$.
+\end{definition}
+
+CT groups are also called CA-groups. Commutation transitive groups are also
+called AC-groups (see Section~\ref{sec:lit}). We avoid the abbreviations
+except ``CT'', to keep the two notions apart.
+
+\begin{proposition}\label{prop:basic}
+Let $G$ be a group.
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item $G$ is commutation transitive if and only if $\Cent(g,G)$ is abelian
+  for every $g\notin Z$.
+\item $G$ is CT if and only if $\Cent(g,G)$ is abelian for every $g\neq1$.
+\item If $G$ is CT and non-abelian, then $Z=1$.
+\item Every CT group is commutation transitive. A commutation transitive
+  group with $Z=1$ is CT.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Suppose $G$ is commutation transitive, and let $g\notin Z$ and
+$x,y\in\Cent(g,G)$. If $x$ or $y$ is central, they commute. Otherwise $x$
+commutes with $g$ and $g$ commutes with $y$, so $x$ commutes with $y$.
+Conversely, suppose all these centralizers are abelian, and let $x,y,w$ be
+non-central with $xy=yx$ and $yw=wy$. Then $x,w\in\Cent(y,G)$, which is
+abelian, so $xw=wx$.
+
+(b) The proof is the same, with ``non-central'' replaced by
+``non-identity''.
+
+(c) Let $1\neq z\in Z$. Then $\Cent(z,G)=G$, which is abelian by (b).
+
+(d) The first claim follows from (a) and (b). The second holds because
+``non-central'' and ``non-identity'' mean the same thing when $Z=1$.
+\end{proof}
+
+\begin{example}\label{ex:ctexamples}
+These groups are CT.
+\begin{enumerate}[itemsep=1pt]
+\item Every abelian group.
+\item $S_3$. The centralizers are $A_3$ and the three subgroups of order
+  two.
+\item The Frobenius groups of Example~\ref{ex:frob}. This follows from
+  Proposition~\ref{prop:frobct} below.
+\item $A_5\cong\SL(2,\F_4)$ (Proposition~\ref{prop:psl2even}).
+\item Free groups. A centralizer of a non-trivial element of a free group is
+  infinite cyclic \cite{LR86,FGRS15}. (Cited.)
+\end{enumerate}
+\end{example}
+
+\begin{example}\label{ex:nonct}
+The quaternion group $Q_8$ and the dihedral group $D_8$ of order~$8$ are
+commutation transitive but not CT. Each has center of order~$2$. In $Q_8$
+the centralizer of $i$ is $\langle i\rangle$. In $D_8=\langle r,s\rangle$
+the centralizer of $r$ is $\langle r\rangle$, and that of $s$ is
+$\{1,s,r^2,sr^2\}$. All of these are abelian. By
+Proposition~\ref{prop:basic}(c), neither group is CT.
+
+The group $S_4$ is neither. Its center is trivial, and
+$\Cent((12)(34),S_4)$ is dihedral of order~$8$.
+\end{example}
+
+\begin{proposition}\label{prop:gl2}
+For every field $k$, the groups $\GL(2,k)$ and $\SL(2,k)$ are commutation
+transitive.
+\end{proposition}
+
+\begin{proof}
+The centers consist of scalar matrices. If $g$ is not central it is not
+scalar. By Lemma~\ref{lem:cyclicvector}, its centralizer is $k[g]^\times$
+or $k[g]^\times\cap\SL(2,k)$. Both are abelian. Now apply
+Proposition~\ref{prop:basic}(a).
+\end{proof}
+
+\subsection{The commuting graph}\label{sec:graph}
+
+The \emph{commuting graph} $\Gamma(G)$ has vertex set $G\setminus Z$. Two
+distinct vertices are joined by an edge when they commute.
+
+\begin{proposition}\label{prop:graph}
+Let $G$ be commutation transitive. Each connected component of $\Gamma(G)$
+is a complete graph. The map $K\mapsto K\cup Z$ is a bijection from the set
+of components to the set $\{\Cent(g,G): g\notin Z\}$. Its inverse is
+$C\mapsto C\setminus Z$.
+\end{proposition}
+
+\begin{proof}
+Transitivity of commuting on $G\setminus Z$ makes ``equal or adjacent'' an
+equivalence relation. Its classes are the components, and any two vertices
+in a class are adjacent. The class of $g$ is $\Cent(g,G)\setminus Z$, which
+proves the bijection.
+\end{proof}
+
+\begin{example}\label{ex:a5graph}
+For $A_5$ the graph has $59$ vertices. There are $5$ triangles, one for each
+Klein four-group: $5\cdot3=15$ involutions. There are $10$ edges, one for
+each subgroup of order~$3$: $20$ elements of order~$3$. And there are $6$
+copies of $K_4$, one for each subgroup of order~$5$: $24$ elements of
+order~$5$. Section~\ref{sec:harmonic} studies maps out of this graph.
+\end{example}
+
+\subsection{Centralizers are malnormal}\label{sec:malnormal}
+
+\begin{lemma}\label{lem:cent}
+Let $G$ be commutation transitive, $g_0\notin Z$ and $C=\Cent(g_0,G)$.
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item If $g_1\in C\setminus Z$, then $\Cent(g_1,G)=C$.
+\item The centralizer of the subgroup $C$ is $C$ itself.
+\item For every $x\in G$, either $xCx^{-1}=C$, or $C\cap xCx^{-1}=Z$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Since $C$ is abelian, $C\subseteq\Cent(g_1,G)$. Conversely, if $y$
+commutes with $g_1$ and $y\notin Z$, then $y$ commutes with $g_0$ by
+transitivity. Central $y$ lie in $C$ anyway.
+
+(b) Since $C$ is abelian, it centralizes itself. Anything centralizing $C$
+commutes with $g_0$, so it lies in $C$.
+
+(c) The set $C\cap xCx^{-1}$ contains $Z$. Suppose it contains some
+$c\notin Z$. By Lemma~\ref{lem:conjcent}, $xCx^{-1}=\Cent(xg_0x^{-1},G)$,
+and $xg_0x^{-1}\notin Z$. By (a), applied to both centralizers,
+$C=\Cent(c,G)=xCx^{-1}$.
+\end{proof}
+
+The 2000 draft states (c) as ``two centralizers are disjoint or equal''.
+That is false as written, since every subgroup contains~$1$ and $Z$.
+
+\begin{proposition}\label{prop:selfnorm}
+Let $G$ be commutation transitive, $g_0\notin Z$ and $C=\Cent(g_0,G)$.
+Suppose $N_G(C)=C$. Then $C/Z$ is a Frobenius complement in $G/Z$. In
+particular, $G/Z$ has a proper non-trivial normal subgroup, its Frobenius
+kernel.
+\end{proposition}
+
+\begin{proof}
+We have $Z\subsetneq C\subsetneq G$, because $g_0\in C\setminus Z$ and $C$
+is abelian while $G$ is not. Let $\bar x\in G/Z$ lie outside $C/Z$. Then
+$x\notin N_G(C)$, so $C\cap xCx^{-1}=Z$ by Lemma~\ref{lem:cent}(c). Both
+subgroups contain $Z$, so $(C/Z)\cap\bar x(C/Z)\bar x^{-1}=
+(C\cap xCx^{-1})/Z=1$. Now apply Theorem~\ref{thm:frobenius}.
+\end{proof}
+
+\begin{example}\label{ex:selfnorm}
+In $S_3$ the centralizer $\langle(12)\rangle$ is self-normalizing. Its
+Frobenius kernel is $A_3$. In $A_5$, Sylow counting gives the normalizers.
+There are $6$ Sylow $5$-subgroups, $10$ Sylow $3$-subgroups and $5$ Sylow
+$2$-subgroups. So the centralizers $C_5$, $C_3$ and $V_4$ have normalizers
+of orders $10$, $6$ and $12$. None is self-normalizing, as
+Proposition~\ref{prop:selfnorm} requires for a simple group.
+\end{example}
+
+\subsection{The classification of finite CT groups}\label{sec:classif}
+
+\begin{theorem}[Weisner, Suzuki, Brauer--Suzuki--Wall, Wu. Cited]
+\label{thm:classif}
+A finite group $G$ is CT if and only if one of the following holds.
+\begin{enumerate}[label=(\roman*),itemsep=1pt]
+\item $G$ is abelian.
+\item $G=N\rtimes H$ is a Frobenius group with abelian kernel $N$ and cyclic
+  complement $H\neq1$.
+\item $G\cong\PSL(2,\F_{2^f})$ for some $f\ge2$.
+\end{enumerate}
+\end{theorem}
+
+The sources are as follows. Weisner showed that a finite CT group is
+solvable or simple \cite{We25}. Wu gave a complete proof, and described the
+solvable case as the semidirect product of the Fitting subgroup by a
+fixed-point-free cyclic group \cite{Wu98}. Suzuki and Brauer--Suzuki--Wall
+identified the simple ones \cite{Su57,BSW58}. A cyclic group of prime order
+is abelian, so it falls under~(i).
+
+\begin{remark}\label{rem:weisnerk}
+Weisner states the simple case with $f>2$. But $\PSL(2,\F_4)$ has order
+$60$, so it is isomorphic to $A_5$, which is CT. This was already noted in
+the 2000 draft.
+\end{remark}
+
+Both directions of ``if'' can be checked directly.
+
+\begin{proposition}\label{prop:frobct}
+Let $N$ be a finite abelian group and $H\neq1$ a cyclic group acting
+fixed-point-freely on $N$. Then $G=N\rtimes H$ is CT. Its centralizers of
+non-identity elements are $N$ and the conjugates of $H$. Moreover $H$ is a
+Frobenius complement with kernel $N$.
+\end{proposition}
+
+\begin{proof}
+Let $1\neq n\in N$. If $n'h$ commutes with $n$ (with $n'\in N$, $h\in H$),
+then $hnh^{-1}=n$, because $N$ is abelian. So $h=1$, and $\Cent(n,G)=N$.
+
+Now let $g=n'h$ with $h\neq1$. Conjugation by $g$ on $N$ equals conjugation
+by $h$, which is fixed-point-free. So $\Cent(g,G)\cap N=1$. Hence
+$\Cent(g,G)$ maps injectively into $G/N\cong H$, and it is cyclic.
+
+Next, $H$ is malnormal. Let $x=nh'\notin H$, so that $n\neq1$ and
+$xHx^{-1}=nHn^{-1}$. If $h\in H\cap nHn^{-1}$, write $h=nh_2n^{-1}$.
+Reducing modulo $N$ gives $h=h_2$, so $h$ commutes with $n$, and therefore
+$h=1$. Finally, $g$ lies in a conjugate of $H$. The conjugates of $H$ cover
+$|N|(|H|-1)+1$ elements, and the remaining elements form $N$ by
+Theorem~\ref{thm:frobenius}. So $H\subseteq\Cent(g,G)$ up to conjugation,
+and the orders force equality.
+\end{proof}
+
+\begin{proposition}\label{prop:psl2even}
+Let $q=2^f\ge4$ and $G=\SL(2,\F_q)=\PSL(2,\F_q)$. Every non-identity
+element of $G$ is of exactly one of three kinds.
+\begin{enumerate}[label=(\roman*),itemsep=1pt]
+\item Unipotent. Its centralizer is a conjugate of $U\cong(\F_q,+)$, of
+  order $q$.
+\item Split semisimple. Its centralizer is a conjugate of
+  $T=\{\diag(a,a^{-1})\}\cong\F_q^\times$, of order $q-1$.
+\item Non-split semisimple. Its centralizer is a conjugate of $T'$, the
+  norm-one subgroup of $\F_{q^2}^\times$, cyclic of order $q+1$.
+\end{enumerate}
+In particular $G$ is CT. There are $q+1$ conjugacy classes. One is $\{1\}$,
+one is unipotent, $(q-2)/2$ are split and $q/2$ are non-split. The
+normalizers $N_G(U)$, $N_G(T)$, $N_G(T')$ have orders $q(q-1)$, $2(q-1)$ and
+$2(q+1)$.
+\end{proposition}
+
+\begin{proof}
+Let $g\neq1$ with trace $t$. Its characteristic polynomial is $x^2+tx+1$.
+
+If $t=0$, this polynomial is $(x+1)^2$ and $g$ is a non-trivial unipotent
+element. It is conjugate to $u=\left(\begin{smallmatrix}1&1\\0&1
+\end{smallmatrix}\right)$. A direct computation gives
+$\Cent(u,G)=\{\left(\begin{smallmatrix}a&b\\0&a\end{smallmatrix}\right):
+a^2=1\}=U$.
+
+If $t\neq0$ and the polynomial has roots $a,a^{-1}\in\F_q$, then $a\neq
+a^{-1}$, because $a^2=1$ forces $a=1$ in characteristic $2$. So $g$ is
+conjugate to $\diag(a,a^{-1})$. By Lemma~\ref{lem:cyclicvector}, its
+centralizer is $T$.
+
+If the polynomial is irreducible, then $\F_q[g]\cong\F_{q^2}$, and the
+centralizer is the norm-one subgroup $T'$.
+
+All three centralizers are abelian, so $G$ is CT by
+Proposition~\ref{prop:basic}(b).
+
+For the class count, the transvections $\left(\begin{smallmatrix}1&b\\0&1
+\end{smallmatrix}\right)$ with $b\ne0$ are all conjugate, since conjugating
+by $\diag(c,c^{-1})$ multiplies $b$ by $c^2$ and squaring is onto. A split
+element is determined up to conjugacy by the pair $\{a,a^{-1}\}$, which
+gives $(q-2)/2$ classes. A non-split element is determined by a pair
+$\{z,z^q\}=\{z,z^{-1}\}$ with $1\ne z\in T'$, which gives $q/2$ classes.
+
+For the normalizers, $U$ is a Sylow $2$-subgroup. Its conjugates correspond
+to the $q+1$ points of the projective line. Split tori correspond to the
+$q(q+1)/2$ unordered pairs of distinct points, and the non-split tori number
+$q(q-1)/2$. Dividing $|G|=q(q^2-1)$ by these numbers gives the stated
+orders. As a check, these subgroups partition the non-identity elements:
+\[
+(q+1)(q-1)+\tfrac{q(q+1)}{2}(q-2)+\tfrac{q(q-1)}{2}\,q=q^3-q-1=|G|-1.
+\qedhere
+\]
+\end{proof}
+
+\begin{example}\label{ex:a5classes}
+For $q=4$ we get $A_5$. There are five classes, of sizes $1,15,20,12,12$.
+The centralizers are $V_4$, $C_3$ and $C_5$, as in
+Example~\ref{ex:a5graph}. The two classes of $5$-cycles are the classes of
+$a$ and $a^2$, for a generator $a$ of $C_5$. We call them $5A$ and $5B$.
+\end{example}
+
+\subsection{Three false claims of the 2000 draft}\label{sec:false}
+
+\begin{counterexample}[$\PGL(2,\F_q)$ is not CT]\label{cex:pgl}
+The 2000 draft claimed that $\PGL(2,\F_q)$ is CT for odd $q$. This is false
+for every odd $q$. Let $t$ be the image of $\diag(-1,1)$ and $w$ the image
+of $\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$. Conjugation
+by $w$ sends $\diag(-1,1)$ to $\diag(1,-1)=-\diag(-1,1)$, so $w$ commutes
+with $t$ in $\PGL(2,\F_q)$. The image $\bar T$ of the diagonal torus also
+commutes with $t$. But $w$ inverts $\bar T$, which is cyclic of order
+$q-1$. So $\Cent(t)\supseteq\langle\bar T,w\rangle$, which is dihedral of
+order $2(q-1)$ and non-abelian when $q\ge5$. For $q=3$ the group is $S_4$,
+which is not CT by Example~\ref{ex:nonct}. The center of $\PGL(2,\F_q)$ is
+trivial, so the group is not commutation transitive either.
+
+Ironically, the draft's own footnote supplies this pair $t,w$.
+\end{counterexample}
+
+The same idea settles the odd case of $\PSL(2,\F_q)$.
+
+\begin{proposition}\label{prop:psl2odd}
+For odd $q$, $\PSL(2,\F_q)$ is CT if and only if $q\in\{3,5\}$.
+\end{proposition}
+
+\begin{proof}
+For $q=3,5$ the group is $A_4$ or $A_5$, which are CT
+(Example~\ref{ex:ctexamples}). Let $q\ge7$, and write bars for images in
+$\PSL(2,\F_q)$.
+
+Suppose first $q\equiv1\pmod4$. Choose $i\in\F_q$ with $i^2=-1$, let
+$\tilde t=\diag(i,-i)$ and $w=\left(\begin{smallmatrix}0&1\\-1&0
+\end{smallmatrix}\right)$. Then $w\tilde tw^{-1}=-\tilde t$, so $\bar w$
+commutes with $\bar t$. The image $\bar T$ of $\{\diag(a,a^{-1})\}$ is
+abelian, contains $\bar t$, and has order $(q-1)/2$. Conjugation by $w$
+sends $\diag(a,a^{-1})$ to its inverse. So $\bar w$ commutes with
+$\diag(a,a^{-1})$ only if $a^{-1}=\pm a$, that is $a^4=1$. At most two
+elements of $\bar T$ satisfy this. Since $|\bar T|\ge4$ when $q\ge9$,
+$\Cent(\bar t)$ is non-abelian.
+
+Suppose next $q\equiv3\pmod4$. Let $\tilde t=\left(\begin{smallmatrix}0&1\\
+-1&0\end{smallmatrix}\right)$. Since $\tilde t^2=-1$ and $-1$ is not a
+square, $\F_q[\tilde t]\cong\F_{q^2}$. Its norm-one group $S$ is cyclic of
+order $q+1$, and $\bar S$ is abelian of order $(q+1)/2\ge4$. Every element
+of $\F_q$ is a sum of two squares, so we can choose $a,b$ with
+$-a^2-b^2=1$. Then $x=\left(\begin{smallmatrix}a&b\\b&-a\end{smallmatrix}
+\right)$ lies in $\SL(2,\F_q)$ and satisfies $x\tilde t=-\tilde tx$. Hence
+$x$ acts on $\F_q[\tilde t]$ as the non-trivial field automorphism. That
+automorphism inverts $S$. As before, at most two elements of $\bar S$
+commute with $\bar x$. So $\Cent(\bar t)\supseteq\langle\bar S,\bar x
+\rangle$ is non-abelian.
+\end{proof}
+
+The accompanying script confirms that $\PSL(2,\F_7)$ is not CT, while
+$\PSL(2,\F_3)$ and $\PSL(2,\F_5)$ are.
+
+\begin{counterexample}[Commutation in $G/Z$ is not commutation in $G$]
+\label{cex:quotient}
+The 2000 draft transported the relation of commuting from $G\setminus Z$ to
+$(G\setminus Z)/Z$, by declaring $\bar x\sim\bar y$ when $x$ and $y$
+commute. That relation is transitive. But it is not the same as commuting in
+$G/Z$. For odd $q$, $\GL(2,\F_q)$ is commutation transitive
+(Proposition~\ref{prop:gl2}). Its quotient by the center is
+$\PGL(2,\F_q)$, which is not (Counterexample~\ref{cex:pgl}). So the class of
+commutation transitive groups is not closed under passing to $G/Z(G)$. By
+contrast, Wu shows that the class of locally finite CT groups is closed
+under quotients \cite{Wu98}. (Cited.)
+\end{counterexample}
+
+%======================================================================
+\section{Inducing characters from centralizers}\label{sec:induced}
+
+This section computes $\Ind_C^G\mu$ when $C$ is a centralizer, and decides
+exactly when it is irreducible.
+
+Throughout, $G$ is a finite commutation transitive group, $g_0\notin Z$,
+$C=\Cent(g_0,G)$, and $\mu\in\widehat C$. Since $C$ is abelian, $\mu$ is
+one-dimensional. The group $N_G(C)$ acts on $C$ by conjugation. Since $C$
+acts trivially, this is an action of $W(C)=N_G(C)/C$.
+
+\subsection{The character formula}
+
+\begin{proposition}\label{prop:indformula}
+Let $\chi=\Ind_C^G\mu$ and $g\in G$.
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item If $g\in Z$, then $\chi(g)=[G:C]\,\mu(g)$.
+\item If $g\notin Z$ and $\Conj(g,G)\cap C=\emptyset$, then $\chi(g)=0$.
+\item If $g\notin Z$ and $a\in\Conj(g,G)\cap C$, then $\Conj(g,G)\cap C$ is
+  the $W(C)$-orbit of $a$, and
+  \begin{equation}\label{eq:indformula}
+  \chi(g)=\sum_{n\in W(C)}\mu(n^{-1}an)
+  =\frac{1}{|C|}\sum_{n\in N_G(C)}\mu(n^{-1}an).
+  \end{equation}
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Use \eqref{eq:indchar}. In (a), $x^{-1}gx=g\in C$ for all $x$, so all
+$|G|$ terms equal $\mu(g)$. Part (b) is immediate. For (c), write
+$g=sas^{-1}$ and put $u=s^{-1}x$. Then $x^{-1}gx=u^{-1}au$. Since $a\in
+C\setminus Z$, Lemma~\ref{lem:cent}(a) gives $\Cent(a,G)=C$. If
+$u^{-1}au\in C$, then $u^{-1}au\in C\setminus Z$, and
+\[
+C=\Cent(u^{-1}au,G)=u^{-1}\Cent(a,G)u=u^{-1}Cu
+\]
+by Lemma~\ref{lem:conjcent}. So $u\in N_G(C)$. Conversely, every $u\in
+N_G(C)$ satisfies $u^{-1}au\in C$. Thus the $x$ in \eqref{eq:indchar} form
+the coset $sN_G(C)$, and the elements $u^{-1}au$ form the $W(C)$-orbit of
+$a$. The term $\mu(u^{-1}au)$ depends only on $uC$, because $C$ is abelian.
+\end{proof}
+
+\begin{counterexample}[The 2000 formula]\label{cex:formula}
+The 2000 draft stated \eqref{eq:indformula} with the sum over $N_G(C)$ and
+without the factor $|C|^{-1}$. It also gave $|N_G(C)|\mu(g)$ for central
+$g\neq1$, instead of (a). Take $G=S_3$, $C=A_3$ and $\mu$ non-trivial, as in
+Example~\ref{ex:s3ind}. At a $3$-cycle the true value is $-1$, while the
+draft's formula gives $\omega+\omega^2$ summed over $N_G(C)=S_3$, which is
+$-3$.
+\end{counterexample}
+
+\begin{example}\label{ex:a5ind}
+Let $G=A_5$ and $C=\langle a\rangle\cong C_5$, with $\mu_k(a)=\zeta^k$ and
+$\zeta=e^{2\pi i/5}$. Here $|W(C)|=10/5=2$, and $W(C)$ acts by $a\mapsto
+a^{-1}$. By \eqref{eq:indformula}, $\Ind_C^G\mu_1$ is $12$ at $1$, zero on
+the classes of orders $2$ and $3$, $\zeta+\zeta^{-1}=\phi-1$ on $5A$ and
+$\zeta^2+\zeta^{-2}=-\phi$ on $5B$. Here $\phi=(1+\sqrt5)/2$.
+\end{example}
+
+\subsection{Irreducibility}
+
+\begin{theorem}\label{thm:irred}
+Let $G$ be a finite non-abelian CT group, $1\neq g_0\in G$,
+$C=\Cent(g_0,G)$ and $\mu\in\widehat C$. Then $\Ind_C^G\mu$ is irreducible
+if and only if $C$ is normal in $G$ and $\mu\neq\triv$.
+\end{theorem}
+
+\begin{proof}
+Here $Z=1$ by Proposition~\ref{prop:basic}(c), and $C\neq G$ because $C$ is
+abelian. We use Mackey's criterion, Theorem~\ref{thm:mackey}(b).
+
+Suppose $C$ is not normal, and choose $s\notin N_G(C)$. By
+Lemma~\ref{lem:cent}(c), $sCs^{-1}\cap C=1$. The restrictions of $\mu^s$ and
+$\mu$ to the trivial group are both the trivial representation. So the
+criterion fails, and $\Ind_C^G\mu$ is reducible.
+
+Suppose $C$ is normal, and let $s\in G\setminus C$. Then $sCs^{-1}\cap C=C$
+and $\mu^s=\mu\circ\alpha$, where $\alpha(c)=s^{-1}cs$. This automorphism
+of $C$ is fixed-point-free. Indeed, if $1\neq c\in C$ commutes with $s$,
+then $s\in\Cent(c,G)=C$ by Lemma~\ref{lem:cent}(a), which is a
+contradiction. By Lemma~\ref{lem:brauerperm}, $\mu^s=\mu$ holds only for
+$\mu=\triv$. So for $\mu\neq\triv$ the criterion holds, and $\Ind_C^G\mu$
+is irreducible. For $\mu=\triv$, Frobenius reciprocity shows that
+$\Ind_C^G\triv$ contains $\triv$. Its degree $[G:C]$ is larger than $1$, so
+it is reducible.
+\end{proof}
+
+\begin{corollary}\label{cor:frobchars}
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item If $G\cong\PSL(2,\F_{2^f})$ with $f\ge2$, no character induced from a
+  centralizer is irreducible.
+\item Let $G=N\rtimes H$ be as in Theorem~\ref{thm:classif}(ii). The
+  irreducible characters of $G$ are the $|H|$ linear characters inflated
+  from $G/N\cong H$, together with the characters $\Ind_N^G\mu$. Here $\mu$
+  runs over representatives of the $H$-orbits on $\widehat N\setminus
+  \{\triv\}$. There are $(|N|-1)/|H|$ such orbits, and each of these
+  characters has degree $|H|$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(a) A simple group has no proper non-trivial normal subgroup, and
+centralizers are proper and non-trivial.
+
+(b) The characters $\Ind_N^G\mu$ with $\mu\ne\triv$ are irreducible by
+Theorem~\ref{thm:irred}, since $N=\Cent(n,G)$ is normal
+(Proposition~\ref{prop:frobct}). By Lemma~\ref{lem:brauerperm}, $H$ acts
+freely on $\widehat N\setminus\{\triv\}$. So there are $(|N|-1)/|H|$
+orbits. Since $N$ is normal, $\Res_N\Ind_N^G\mu=\sum_{h\in H}\mu^h$. By
+Frobenius reciprocity, $\langle\Ind_N^G\mu,\Ind_N^G\mu'\rangle$ is the
+number of $h$ with $\mu^h=\mu'$. So characters from different orbits are
+distinct. The degrees satisfy
+\[
+|H|\cdot1^2+\frac{|N|-1}{|H|}\,|H|^2=|N||H|=|G|.
+\]
+Hence the list is complete.
+\end{proof}
+
+\begin{example}\label{ex:frobchars}
+For $A_4=V_4\rtimes C_3$, Corollary~\ref{cor:frobchars} gives three linear
+characters and one character of degree~$3$, namely $\Ind_{V_4}^{A_4}\lambda$
+for any $\lambda\ne\triv$. For $\AGL(1,q)$ it gives $q-1$ linear characters
+and one irreducible character of degree $q-1$. The script verifies
+Theorem~\ref{thm:irred} exhaustively for $S_3$, $A_4$ and $A_5$, for every
+centralizer and every character.
+\end{example}
+
+\subsection{\texorpdfstring{Tori in $\PGL(2,\F_q)$}{Tori in PGL(2,Fq)}}
+
+The 2000 draft also stated a reducibility result for $\PGL(2,\F_q)$. Since
+that group is not CT for odd $q$, the results above do not apply to it. We
+compute the answer directly with Mackey's formula.
+
+\begin{proposition}\label{prop:pglnorm}
+Let $G=\PGL(2,\F_q)$. Let $T\le G$ be the image of a maximal torus of
+$\GL(2,\F_q)$, either split (with $q\ge3$) or non-split. Let $\pi\in
+\widehat T$, let $w$ be a generator of $N_G(T)/T$, and put $\delta=1$ if
+$\pi^w=\pi$ and $\delta=0$ otherwise. Then
+\[
+\langle\Ind_T^G\pi,\Ind_T^G\pi\rangle_G=
+\begin{cases}
+q+3+\delta, & T \text{ split},\\
+q-1+\delta, & T \text{ non-split}.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+Let $\tilde T\le\GL(2,\F_q)$ be the torus and $A=\F_q[\tilde T]$ its
+$\F_q$-span. This is $\F_q\times\F_q$ in the split case and $\F_{q^2}$ in
+the non-split case. The hypothesis $q\ge3$ in the split case ensures that
+$\tilde T$ spans~$A$.
+
+\emph{Step 1: $T$ is cyclic, and $[N_G(T):T]=2$.} We have $T\cong
+\F_q^\times$ (via $\diag(a,b)\mapsto a/b$) or $T\cong\F_{q^2}^\times/
+\F_q^\times$. Both are cyclic, of orders $q-1$ and $q+1$. The preimage of
+$T$ is $\tilde T$, because $\tilde T$ contains the scalars. So the preimage
+of $N_G(T)$ is $N(\tilde T)$, which normalizes $A$. By
+Lemma~\ref{lem:cyclicvector} the kernel of the action of $N(\tilde T)$ on
+$A$ is $\tilde T$. The image is the automorphism group of $A$ over $\F_q$,
+which has order~$2$. The non-trivial automorphism is realized by the swap
+matrix in the split case, and by the Frobenius map $z\mapsto z^q$ of
+$\F_{q^2}$ in the non-split case. The non-trivial
+automorphism acts on $T$ by inversion. So $N_G(T)$ is dihedral of order
+$2|T|$, and its elements outside $T$ are involutions.
+
+\emph{Step 2: if $s\notin N_G(T)$ then $T\cap sTs^{-1}=1$.} Suppose $1\neq
+t\in T\cap sTs^{-1}$, and lift $t$ to a non-scalar $\tilde t\in\tilde T$.
+If $x\in\GL(2,\F_q)$ maps to $\Cent(t,G)$, then $x\tilde tx^{-1}=\lambda
+\tilde t$ for some $\lambda\in\F_q^\times$. In either case $x\tilde tx^{-1}
+\in A$, so $x$ normalizes $A$ and hence $\tilde T$. Therefore $\Cent(t,G)
+\subseteq N_G(T)$. Both $T$ and $sTs^{-1}$ are abelian and contain $t$, so
+both lie in $N_G(T)$. If $|T|\ge3$, the cyclic group $sTs^{-1}$ has a
+generator of order at least $3$. That generator is not an involution, so it
+lies in $T$, and $sTs^{-1}=T$. If $|T|=2$ then $sTs^{-1}=\{1,t\}=T$. Either
+way $s\in N_G(T)$, which is a contradiction.
+
+\emph{Step 3: counting.} Apply Theorem~\ref{thm:mackey}(a). The double
+cosets inside $N_G(T)$ are $T$ and $wT$. They contribute
+$\langle\pi,\pi\rangle=1$ and $\langle\pi^w,\pi\rangle=\delta$. Every other
+double coset $TsT$ has $T_s=1$, so it has $|T|^2$ elements and contributes
+$1$. The number of such double cosets is $(|G|-2|T|)/|T|^2$. With
+$|G|=q(q-1)(q+1)$ this equals $q+2$ for $|T|=q-1$, and $q-2$ for $|T|=q+1$.
+\end{proof}
+
+\begin{counterexample}[The 2000 corollary]\label{cex:pglcor}
+The 2000 draft claimed that if $\pi\neq\pi^h$ for all $h\in N_G(T)\setminus
+T$, then $\Ind_T^G\pi$ is reducible. For $q\ge3$ this is true, but for a
+reason unrelated to the hypothesis. By Proposition~\ref{prop:pglnorm}, the
+norm is at least $q-1\ge2$ for every $\pi$. For $q=2$ it is false. Here
+$G\cong S_3$, the non-split torus is $T\cong A_3$, and for $\pi\neq\triv$ we
+have $\delta=0$. So the norm is $1$, and $\Ind_T^G\pi$ is the irreducible
+character of Example~\ref{ex:s3ind}. This agrees with
+Theorem~\ref{thm:irred}, since $\PGL(2,\F_2)\cong S_3$ is CT and $A_3$ is
+its Frobenius kernel. The script confirms the split formula for $q=3,5,7$
+and the non-split formula for $q=2,3$.
+\end{counterexample}
+
+%======================================================================
+\section{Permutation characters and supports}\label{sec:perm}
+
+This section corrects the main theorem of the 2000 draft. That theorem was
+about linear independence of the permutation characters $\triv_A^G$.
+
+\begin{definition}\label{def:supp}
+The \emph{support} of a subgroup $H\le G$ is $\supp(H)=\{\gamma\in G_*:
+\gamma\cap H\neq\emptyset\}$. Let $\tau(H)\in\F_2^{G_*}$ be its indicator
+vector. Note that $\supp(H)$ is the set of classes on which $\triv_H^G$ is
+non-zero.
+\end{definition}
+
+\begin{example}\label{ex:a5tau}
+Order the classes of $A_5$ as $(1,2A,3A,5A,5B)$. Then $\tau(V_4)=(1,1,0,0,0)$,
+$\tau(C_3)=(1,0,1,0,0)$, $\tau(C_5)=(1,0,0,1,1)$ and $\tau(A_5)=(1,1,1,1,1)$.
+Over $\F_2$ we have $\tau(V_4)+\tau(C_3)+\tau(C_5)=\tau(A_5)$.
+\end{example}
+
+\begin{counterexample}[Distinct supports do not imply independence]
+\label{cex:supports}
+The 2000 draft argued that functions ``supported on pairwise distinct
+sets'' cannot satisfy a linear relation. That is false. Take three classes
+$\alpha,\beta,\gamma$, with $f_1=\triv_\alpha+\triv_\beta$,
+$f_2=\triv_\alpha+\triv_\gamma$ and $f_3=2\cdot\triv_\alpha+\triv_\beta+
+\triv_\gamma$. The supports are distinct, and even independent over $\F_2$.
+Yet $f_3=f_1+f_2$. The converse fails too. In $A_5$ the four vectors of
+Example~\ref{ex:a5tau} are dependent over $\F_2$. But the four permutation
+characters are linearly independent over $\C$ (Table~\ref{tab:a5perm}).
+\end{counterexample}
+
+The correct statement needs no $\F_2$-linear algebra.
+
+\begin{proposition}\label{prop:indep}
+Let $G$ be a non-abelian commutation transitive group. Let $A_1,\dots,A_m$
+represent the conjugacy classes of centralizers of non-central elements.
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item The sets $D_i=\{\gamma\in\supp(A_i):\gamma\not\subseteq Z\}$ are
+  non-empty and pairwise disjoint, and their union is the set of
+  non-central classes.
+\item The characters $\triv_{A_1}^G,\dots,\triv_{A_m}^G,\triv$ are linearly
+  independent over $\C$.
+\item The vectors $\tau(A_1),\dots,\tau(A_m)$ are linearly independent over
+  $\F_2$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Let $g\notin Z$. The class of $g$ meets $A_i$ if and only if some
+conjugate $g'$ of $g$ lies in $A_i\setminus Z$. By Lemma~\ref{lem:cent}(a)
+this means $A_i=\Cent(g',G)$, which is conjugate to $\Cent(g,G)$. This
+happens for exactly one $i$.
+
+(b) Pick $g_i\in A_i\setminus Z$. By (a), $\triv_{A_j}^G(g_i)=0$ for
+$j\neq i$. By Proposition~\ref{prop:indformula}, $\triv_{A_i}^G(g_i)=
+|W(A_i)|$. Suppose $c_0\triv+\sum_jc_j\triv_{A_j}^G=0$. Evaluating at
+$g_i$ gives $c_i=-c_0/|W(A_i)|$. Evaluating at $1$ then gives
+$c_0(1-M)=0$, where $M=\sum_j[G:N_G(A_j)]$ is the number of distinct
+centralizers of non-central elements. Now $M\ge2$, because if there were
+only one, $G$ would equal $Z$ together with that abelian centralizer. So
+$c_0=0$, and then every $c_i=0$.
+
+(c) Write $e_Z$ for the indicator of the central classes. Then
+$\tau(A_i)=e_Z+\triv_{D_i}$. Suppose $\sum a_i\tau(A_i)=0$. Its coordinate
+on $D_i$ is $a_i$, so every $a_i$ is zero.
+\end{proof}
+
+\begin{table}[ht]
+\centering
+\caption{Permutation characters of $A_5$ and their decompositions. The
+irreducible characters $\chi_3,\chi_3',\chi_4,\chi_5$ are those of
+Table~\ref{tab:a5}.}\label{tab:a5perm}
+\begin{tabular}{lccccc l}
+\toprule
+& $1$ & $2A$ & $3A$ & $5A$ & $5B$ & decomposition\\
+\midrule
+$\triv_{V_4}^G$ & 15 & 3 & 0 & 0 & 0 & $\triv+\chi_4+2\chi_5$\\
+$\triv_{C_3}^G$ & 20 & 0 & 2 & 0 & 0 & $\triv+2\chi_4+\chi_5+\chi_3+\chi_3'$\\
+$\triv_{C_5}^G$ & 12 & 0 & 0 & 2 & 2 & $\triv+\chi_5+\chi_3+\chi_3'$\\
+$\triv_{G}^G$ & 1 & 1 & 1 & 1 & 1 & $\triv$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 2000 draft conjectured that the span of the vectors $\tau(\Cent(g,G))$
+has dimension at most~$4$ for simple CT groups. The following proposition
+settles this.
+
+\begin{proposition}\label{prop:taudim}
+Let $G$ be non-abelian and commutation transitive, with $m$ as in
+Proposition~\ref{prop:indep}. Then $\dim_{\F_2}\Span\{\tau(\Cent(g,G)):g
+\in G\}$ equals $m$ if $m$ is odd, and $m+1$ if $m$ is even. For a finite CT
+group, abelian or not, it equals $1$ (abelian), $3$ (Frobenius, $m=2$) or $3$
+($\PSL(2,\F_{2^f})$, $m=3$). In particular it is at most~$3$.
+\end{proposition}
+
+\begin{proof}
+The vectors are $\tau(A_1),\dots,\tau(A_m)$ together with
+$\tau(G)=e_Z+\sum_i\triv_{D_i}$, which comes from central $g$. Then
+$\sum_i\tau(A_i)=m\,e_Z+\sum_i\triv_{D_i}$. If $m$ is odd, this equals
+$\tau(G)$. If $m$ is even, writing $\tau(G)$ as a combination of the
+$\tau(A_i)$ would force every coefficient to be $1$ (by the $D_i$
+coordinates). The $e_Z$ coordinate would then be $m\equiv0$, which is a
+contradiction. Now use Proposition~\ref{prop:indep}(c). The values of $m$
+come from Propositions~\ref{prop:frobct} and~\ref{prop:psl2even}.
+\end{proof}
+
+The script confirms Proposition~\ref{prop:taudim} for $\PSL(2,\F_q)$ with
+$q=4,8,16$. In each case there are $4$ distinct vectors, of rank~$3$.
+
+\begin{yremark}\label{rem:gap}
+The 2000 conjecture was based on GAP computations for $\PSL(2,\F_{2^k})$
+with $2\le k\le5$, which suggested the bound~$4$. Our guess is that those
+computations counted the distinct vectors ($4$) rather than the rank ($3$).
+The original GAP code has not been available to check this.
+\end{yremark}
+
+%======================================================================
+\section{A spanning theorem}\label{sec:span}
+
+The 2000 draft concluded that ``all the representations in $G^*$ can be
+obtained from linear combinations of monomial representations'', and
+attributed this kind of result to Gelfand and Graev. That conclusion did not
+follow from its theorem. This section proves a correct version, using
+Brauer's induction theorem instead.
+
+A group is \emph{elementary} if it is the direct product of a cyclic group
+and a $p$-group, for some prime $p$. Elementary groups are nilpotent.
+
+\begin{theorem}[Brauer; cited from {\cite[Ch.~10]{Se77}}]\label{thm:brauer}
+Every virtual character of a finite group $G$ is a $\Z$-linear combination
+of characters $\Ind_E^G\lambda$, where $E$ is an elementary subgroup and
+$\lambda\in\widehat E$ is one-dimensional.
+\end{theorem}
+
+\begin{lemma}\label{lem:nilp}
+In a CT group, every nilpotent subgroup is abelian. Every non-trivial
+abelian subgroup $E$ lies in $\Cent(e,G)$ for any $1\neq e\in E$.
+\end{lemma}
+
+\begin{proof}
+Let $E$ be nilpotent and non-abelian. Then $Z(E)\neq1$. Pick $1\neq z\in
+Z(E)$. Then $E\subseteq\Cent(z,G)$, which is abelian, and this is a
+contradiction. The second claim is clear.
+\end{proof}
+
+\begin{theorem}\label{thm:span}
+Let $G\neq1$ be a finite CT group. Then $R(G)$ is the $\Z$-span of the
+characters $\Ind_C^G\mu$, where $C=\Cent(g,G)$ for some $g\neq1$ and
+$\mu\in\widehat C$.
+\end{theorem}
+
+\begin{proof}
+Let $E$ be elementary and $\lambda\in\widehat E$. By
+Lemma~\ref{lem:nilp}, $E$ is abelian. If $E\neq1$, choose $1\neq e\in E$
+and put $C=\Cent(e,G)\supseteq E$. If $E=1$, let $C$ be any such
+centralizer. Since $C$ is abelian, $\Ind_E^C\lambda$ is the sum of the
+characters $\mu\in\widehat C$ that extend $\lambda$. By transitivity of induction,
+$\Ind_E^G\lambda=\Ind_C^G(\Ind_E^C\lambda)$ is a non-negative integer
+combination of characters $\Ind_C^G\mu$. Now apply
+Theorem~\ref{thm:brauer}.
+\end{proof}
+
+\begin{table}[ht]
+\centering
+\caption{Character table of $A_5$, with $\phi=(1+\sqrt5)/2$. Class $5A$
+contains the generator $a$ of Example~\ref{ex:a5ind}, and $5B$ contains
+$a^2$.}\label{tab:a5}
+\begin{tabular}{lccccc}
+\toprule
+& $1$ & $2A$ & $3A$ & $5A$ & $5B$\\
+class size & 1 & 15 & 20 & 12 & 12\\
+\midrule
+$\triv$ & 1 & 1 & 1 & 1 & 1\\
+$\chi_3$ & 3 & $-1$ & 0 & $\phi$ & $1-\phi$\\
+$\chi_3'$ & 3 & $-1$ & 0 & $1-\phi$ & $\phi$\\
+$\chi_4$ & 4 & 0 & 1 & $-1$ & $-1$\\
+$\chi_5$ & 5 & 1 & $-1$ & 0 & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{example}\label{ex:a5span}
+In $A_5$, let
+\[
+b=\Ind_{C_5}^G\mu_1,\quad b'=\Ind_{C_5}^G\mu_2,\quad
+d=\Ind_{C_3}^G\omega,\quad f=\Ind_{V_4}^G\lambda,
+\]
+where $\omega$ and $\lambda$ are non-trivial characters of $C_3$ and $V_4$.
+Proposition~\ref{prop:indformula} gives their values, and inner products
+with Table~\ref{tab:a5} give
+\[
+b=\chi_4+\chi_5+\chi_3,\quad b'=\chi_4+\chi_5+\chi_3',\quad
+d=\chi_4+2\chi_5+\chi_3+\chi_3',\quad f=\chi_4+\chi_5+\chi_3+\chi_3'.
+\]
+Hence
+\[
+\chi_3=f-b',\qquad\chi_3'=f-b,\qquad\chi_5=d-f,\qquad\chi_4=b+b'-d.
+\]
+This is Theorem~\ref{thm:span} made explicit. The script checks that each
+of these four combinations has norm~$1$ and the right degree.
+
+Permutation characters alone are not enough. All four in
+Table~\ref{tab:a5perm} take equal values on $5A$ and $5B$, and so does every
+linear combination of them. But $\chi_3$ does not. So $\chi_3$ is not in
+their span, even over $\C$. The non-trivial characters $\mu$ are
+essential.
+\end{example}
+
+\begin{counterexample}[$Q_8$ and the role of the center]\label{cex:q8}
+Theorem~\ref{thm:span} fails for commutation transitive groups if we use
+only centralizers of non-central elements. In $Q_8$ these are
+$\langle i\rangle$, $\langle j\rangle$ and $\langle k\rangle$. Let
+$\chi_i,\chi_j,\chi_k$ be the non-trivial linear characters, with $\chi_i$
+trivial on $\langle i\rangle$, and let $\psi$ be the character of
+degree~$2$. Inducing from $\langle i\rangle$ gives $\triv+\chi_i$,
+$\chi_j+\chi_k$ and $\psi$ (twice). The same holds for $j$ and $k$ after
+permuting the letters. Consider the homomorphism $R(Q_8)\to\Z/2$ that sends
+a virtual character to the sum of its coefficients on the four linear
+characters, modulo~$2$. It vanishes on every induced character, but sends
+$\triv$ to~$1$. So $\triv$ is not in their $\Z$-span.
+\end{counterexample}
+
+%======================================================================
+\section{Harmonic morphisms and the commuting graph}\label{sec:harmonic}
+
+This section connects the note with graph theory. Conjugation maps the
+commuting graph onto a smaller graph, the commuting conjugacy class graph.
+We show that this map is a harmonic morphism. The proof rests on one fact:
+the group $W(C)$ acts freely on $C\setminus Z$. On the non-commuting graph
+the analogous map is almost never harmonic.
+
+Throughout, $G$ is a finite non-abelian commutation transitive group. As in
+Proposition~\ref{prop:indep}, $A_1,\dots,A_m$ represent the conjugacy
+classes of centralizers of non-central elements, and $D_i$ is the set of
+non-central classes meeting $A_i$.
+
+\subsection{The commuting conjugacy class graph}
+
+\begin{definition}[Herzog--Longobardi--Maj \cite{HLM09}]\label{def:ccc}
+The \emph{commuting conjugacy class graph} $\Delta(G)$ has the non-central
+conjugacy classes as vertices. Two distinct classes $\gamma,\gamma'$ are
+adjacent if some $x\in\gamma$ commutes with some $y\in\gamma'$.
+\end{definition}
+
+\begin{proposition}\label{prop:ccc}
+The connected components of $\Delta(G)$ are the complete graphs on
+$D_1,\dots,D_m$. In particular, $\Delta(G)$ has exactly $m$ components, and
+the dimension in Proposition~\ref{prop:taudim} is $m$ or $m+1$ according as
+$m$ is odd or even.
+\end{proposition}
+
+\begin{proof}
+Suppose $x\in\gamma$ and $y\in\gamma'$ commute, with $x,y\notin Z$. Then
+$\Cent(x,G)=\Cent(y,G)$ by Lemma~\ref{lem:cent}(a). So $\gamma$ and
+$\gamma'$ meet conjugates of the same $A_i$, and both lie in $D_i$.
+Conversely, let $\gamma,\gamma'\in D_i$. Choose $x\in\gamma\cap A_i$ and
+$y\in\gamma'\cap A_i$. Since $A_i$ is abelian, $x$ and $y$ commute. So $D_i$
+spans a complete graph, and there are no edges between different $D_i$.
+\end{proof}
+
+\begin{example}\label{ex:cccexamples}
+For $A_5$, the graph $\Delta(G)$ is $K_1\sqcup K_1\sqcup K_2$, with
+components $\{2A\}$, $\{3A\}$ and $\{5A,5B\}$. For $\PSL(2,\F_q)$ with
+$q=2^f\ge4$, it is $K_1\sqcup K_{(q-2)/2}\sqcup K_{q/2}$ by
+Proposition~\ref{prop:psl2even}. For a Frobenius group $N\rtimes H$ as in
+Theorem~\ref{thm:classif}(ii), it is $K_{(|N|-1)/|H|}\sqcup K_{|H|-1}$.
+\end{example}
+
+\subsection{The class map is harmonic}
+
+The \emph{class map} $\varphi_G\colon\Gamma(G)\to\Delta(G)$ sends $x$ to its
+conjugacy class. An edge $\{x,y\}$ of $\Gamma(G)$ joins commuting elements.
+If $x$ and $y$ are conjugate, the edge is vertical. Otherwise it maps to the
+edge joining their classes. So $\varphi_G$ is a morphism.
+
+\begin{lemma}\label{lem:free}
+Let $C=\Cent(g_0,G)$ with $g_0\notin Z$. Then $W(C)=N_G(C)/C$ acts freely
+on $C\setminus Z$ by conjugation. The fibers of $\varphi_G$ on $C\setminus
+Z$ are exactly the $W(C)$-orbits. So every fiber has $|W(C)|$ elements, and
+$C\setminus Z$ meets $(|C|-|Z|)/|W(C)|$ classes.
+\end{lemma}
+
+\begin{proof}
+Let $n\in N_G(C)$ and $c\in C\setminus Z$ with $n^{-1}cn=c$. Then
+$n\in\Cent(c,G)=C$ by Lemma~\ref{lem:cent}(a). So only the identity of
+$W(C)$ fixes $c$. For $c\in C\setminus Z$, the fiber of $\varphi_G$ through
+$c$, intersected with $C$, is $\Conj(c,G)\cap C$. This is the
+$W(C)$-orbit of $c$ by Proposition~\ref{prop:indformula}(c).
+\end{proof}
+
+\begin{theorem}\label{thm:harmonic}
+Let $G$ be a finite non-abelian commutation transitive group. Then the class
+map $\varphi_G\colon\Gamma(G)\to\Delta(G)$ is harmonic. More precisely, let
+$C=\Cent(g_0,G)$ with $g_0\notin Z$, put $a=|W(C)|$ and
+$k=(|C|-|Z|)/a$, and let $x\in C\setminus Z$.
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item The component $C\setminus Z$ of $\Gamma(G)$, a copy of $K_{ak}$, maps
+  onto the component of $\Delta(G)$ containing the class of $g_0$, a copy
+  of $K_k$. Its fibers all have size $a$.
+\item If $k\ge2$, then $m_{\varphi_G}(x)=a$ and $v_{\varphi_G}(x)=a-1$.
+  The restriction to $C\setminus Z$ has degree $a^2$, and satisfies the
+  Riemann--Hurwitz formula. If $k=1$, the component collapses to a single
+  vertex.
+\item Let $\Delta_i$ be the component of $\Delta(G)$ on $D_i$, and suppose
+  it has an edge. Its preimage is the union of the $[G:N_G(A_i)]$
+  components $xA_ix^{-1}\setminus Z$. Each edge of $\Delta_i$ has
+  $[G:N_G(A_i)]\cdot|W(A_i)|^2$ edges over it.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:graph}, the component of $x$ in $\Gamma(G)$ is
+$C\setminus Z$, a complete graph. By Lemma~\ref{lem:free} its image is a set
+of $k$ classes, all in one $D_i$. Every class in $D_i$ meets $C$, because
+$C$ is conjugate to $A_i$. So the image is the whole component $\Delta_i$,
+which is complete by Proposition~\ref{prop:ccc}. The fibers have size $a$ by
+Lemma~\ref{lem:free}. Now (a) and (b) follow from
+Lemma~\ref{lem:collapse}(a). The edges at $x$ all lie in $C\setminus Z$, so
+the restriction determines harmonicity at $x$. For (c), the distinct
+conjugates of $A_i$ number $[G:N_G(A_i)]$. Each contributes $|W(A_i)|^2$
+edges over a given edge of $\Delta_i$, by (b).
+\end{proof}
+
+\begin{table}[ht]
+\centering
+\caption{The class map $\varphi_G$ on the components of $\Gamma(G)$. Here
+$q=2^f\ge4$ for $\PSL(2,\F_q)$, and $q\ge3$ for $\GL(2,\F_q)$.}
+\label{tab:harmonic}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{llccc}
+\toprule
+$G$ & centralizer $C$ & component & image & $|W(C)|$\\
+\midrule
+$N\rtimes H$ (Frobenius) & $N$ & $K_{|N|-1}$ & $K_{(|N|-1)/|H|}$ & $|H|$\\
+& $H$ & $K_{|H|-1}$ & $K_{|H|-1}$ & $1$\\
+$\PSL(2,\F_q)$ & $U$ & $K_{q-1}$ & $K_1$ & $q-1$\\
+& $T$ & $K_{q-2}$ & $K_{(q-2)/2}$ & $2$\\
+& $T'$ & $K_{q}$ & $K_{q/2}$ & $2$\\
+$\GL(2,\F_q)$ & $ZU$ & $K_{(q-1)^2}$ & $K_{q-1}$ & $q-1$\\
+& $T$ (split) & $K_{(q-1)(q-2)}$ & $K_{(q-1)(q-2)/2}$ & $2$\\
+& $T'$ (non-split) & $K_{q(q-1)}$ & $K_{q(q-1)/2}$ & $2$\\
+$Q_8$, $D_8$ & each $C$ & $K_2$ & $K_1$ & $2$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The entries of Table~\ref{tab:harmonic} come from
+Propositions~\ref{prop:frobct} and~\ref{prop:psl2even}, and from the
+following facts about $\GL(2,\F_q)$. The normalizer of a split or non-split
+torus contains the torus with index~$2$, as in Step~1 of the proof of
+Proposition~\ref{prop:pglnorm}. The normalizer of $ZU$ is the group $B$ of
+upper triangular matrices, because $ZU$ fixes exactly one line. Conjugation
+by $\diag(\alpha,\delta)$ sends $z\left(\begin{smallmatrix}1&b\\0&1
+\end{smallmatrix}\right)$ to $z\left(\begin{smallmatrix}1&\alpha b/\delta\\
+0&1\end{smallmatrix}\right)$. So $W(ZU)\cong B/ZU$ has order $q-1$, and it
+permutes the $q-1$ values $b\ne0$ simply transitively.
+
+\begin{example}\label{ex:a5harm}
+In $A_5$, let $C=\langle a\rangle\cong C_5$. The component $C\setminus\{1\}$
+is a $K_4$. Its fibers are $\{a,a^{-1}\}\subset5A$ and $\{a^2,a^{-2}\}
+\subset5B$, so it maps onto the edge $\{5A,5B\}$ exactly as in
+Example~\ref{ex:harmbg}. The six subgroups of order~$5$ give six such
+components over the same edge. So that edge has $6\cdot4=24$ edges over it,
+as Theorem~\ref{thm:harmonic}(c) predicts. The components of order~$3$ and
+the Klein four-groups collapse to the single vertices $3A$ and $2A$.
+\end{example}
+
+The script checks Theorem~\ref{thm:harmonic} vertex by vertex for $S_3$,
+$A_4$, $A_5$, $\PSL(2,\F_8)$, $\GL(2,\F_3)$, $Q_8$ and $D_8$. It also checks
+$m_{\varphi_G}(x)=|W(\Cent(x,G))|$, $v_{\varphi_G}(x)=|W|-1$ and the
+Riemann--Hurwitz formula on each component.
+
+\subsection{The non-commuting graph}
+
+The complement $\Gamma^c(G)$ of $\Gamma(G)$ is the non-commuting graph of
+\cite{AAM06}. By Proposition~\ref{prop:graph}, it is the complete
+multipartite graph whose parts are the sets $C\setminus Z$, one for each
+centralizer $C$ of a non-central element. Let $M$ be the number of these
+centralizers. Then $M\ge3$, because $G$ is the union of these centralizers,
+and no group is a union of two proper subgroups.
+
+\begin{proposition}\label{prop:noncommharm}
+Let $\psi_G\colon\Gamma^c(G)\to K_M$ collapse each part $C\setminus Z$ to a
+vertex. Then $\psi_G$ is harmonic if and only if all centralizers of
+non-central elements have the same order $s+|Z|$. In that case $\deg
+\psi_G=s^2$, and the Riemann--Hurwitz formula holds.
+\end{proposition}
+
+\begin{proof}
+Apply Lemma~\ref{lem:collapse}(b), using $M\ge3$.
+\end{proof}
+
+\begin{corollary}\label{cor:noncommct}
+If $G$ is a finite non-abelian CT group, then $\psi_G$ is not harmonic.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:classif}, $G$ is a Frobenius group or
+$\PSL(2,\F_{2^f})$. In a Frobenius group $N\rtimes H$, the group $H$ acts
+freely on $N\setminus\{1\}$, so $|H|$ divides $|N|-1$, and $|H|<|N|$. In
+$\PSL(2,\F_q)$ the centralizers have orders $q$, $q-1$ and $q+1$.
+\end{proof}
+
+\begin{example}\label{ex:octahedron}
+For $Q_8$ and $D_8$ the non-commuting graph is the octahedron
+$K_{2,2,2}$, and $\psi_G$ folds it onto the triangle $K_3$ with degree $4$.
+Riemann--Hurwitz reads $12=4\cdot0+6\cdot2$, since the octahedron has
+genus~$7$ and the triangle has genus~$1$.
+
+For $A_5$ even the class map on $\Gamma^c(G)$ fails to be harmonic. Its
+target is the graph on the four non-trivial classes in which two classes are
+adjacent when they contain non-commuting elements, here $K_4$. An
+involution $x$ commutes with no element of order $3$ or $5$. So there are
+$20$ edges at $x$ over $\{2A,3A\}$, but only $12$ over $\{2A,5A\}$. The
+script finds that harmonicity fails at all $59$ vertices.
+\end{example}
+
+The contrast is the point of this section. Commutation transitivity makes
+the commuting graph a union of cliques on which $W(C)$ acts freely. That is
+exactly what harmonicity of the class map needs. The non-commuting graph
+sees the different sizes of the centralizers, and harmonicity is lost.
+
+%======================================================================
+\section{Summary of results and open questions}\label{sec:summary}
+
+This section lists the results with their status, and relates them to the
+2000 draft.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{>{\raggedright}p{4.6cm}>{\raggedright}p{2.2cm}>{\raggedright\arraybackslash}p{7cm}}
+\toprule
+Result & Status & Relation to the 2000 draft\\
+\midrule
+Thm.~\ref{thm:classif} (classification) & cited & Restated in full,
+attributions corrected\\
+Prop.~\ref{prop:gl2} ($\GL_2$, $\SL_2$) & proved & Was cited without proof\\
+Cex.~\ref{cex:pgl}, Prop.~\ref{prop:psl2odd} & proved & The draft's Example
+was false\\
+Lemma~\ref{lem:cent}, Prop.~\ref{prop:selfnorm} & proved & Corrected
+versions of draft statements\\
+Props.~\ref{prop:frobct}, \ref{prop:psl2even} & proved & New\\
+Prop.~\ref{prop:indformula} & proved & Draft formula off by $|C|$
+(Cex.~\ref{cex:formula})\\
+Thm.~\ref{thm:irred}, Cor.~\ref{cor:frobchars} & proved & New\\
+Prop.~\ref{prop:pglnorm} & proved & Replaces the draft's Corollary
+(Cex.~\ref{cex:pglcor})\\
+Prop.~\ref{prop:indep} & proved & Replaces the draft's main theorem
+(Cex.~\ref{cex:supports})\\
+Prop.~\ref{prop:taudim} & proved & Settles the draft's Conjecture
+(dimension $3$, not $4$)\\
+Thm.~\ref{thm:span} & proved & Correct form of the draft's final claim\\
+Prop.~\ref{prop:ccc}, Thm.~\ref{thm:harmonic} & proved & New (graph
+theory)\\
+Prop.~\ref{prop:noncommharm}, Cor.~\ref{cor:noncommct} & proved & New
+(graph theory)\\
+Remark~\ref{rem:gap} & unverified & Possible source of the bound $4$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{question}\label{q:psl}
+For $G=\PSL(2,\F_{2^f})$, give a uniform formula for the decomposition of
+$\Ind_C^G\mu$ into irreducibles, for every centralizer $C\in\{U,T,T'\}$ and
+every $\mu\in\widehat C$. Example~\ref{ex:a5span} does this for $f=2$. The
+character table of $\SL(2,\F_q)$ is classical, so this is an exercise. But a
+clean statement would make Theorem~\ref{thm:span} explicit for the whole
+family.
+\end{question}
+
+\begin{question}\label{q:gl2}
+For commutation transitive groups with non-trivial center, what is the right
+analogue of Theorem~\ref{thm:span}? Counterexample~\ref{cex:q8} shows that
+centralizers of non-central elements do not suffice in general. For
+$\GL(2,\F_q)$ the centralizers of non-central elements are $ZU$, $T$ and
+$T'$. Characters induced from them are close to the principal series and
+cuspidal representations. Is $R(\GL(2,\F_q))$ spanned by these characters
+together with the linear characters of $\GL(2,\F_q)$?
+\end{question}
+
+\begin{question}\label{q:equalcent}
+Which finite commutation transitive groups have all centralizers of
+non-central elements of the same order? By
+Proposition~\ref{prop:noncommharm}, these are exactly the groups for which
+the non-commuting graph folds harmonically onto a complete graph.
+Corollary~\ref{cor:noncommct} excludes every non-abelian CT group, while
+$Q_8$ and $D_8$ are examples.
+\end{question}
+
+\begin{question}\label{q:corry}
+The group $G$ acts on $\Gamma(G)$ by conjugation, through graph
+automorphisms. Is this a harmonic group action in the sense of Corry
+\cite{Co10}, and what do his genus bounds say for these graphs? The quotient
+by this action is a multigraph that maps onto $\Delta(G)$, so the question
+refines Theorem~\ref{thm:harmonic}.
+\end{question}
+
+\begin{question}\label{q:profinite}
+Wu classified the locally finite CT groups \cite{Wu98}. Is there a version
+of Theorem~\ref{thm:span} for profinite CT groups and their continuous
+finite-dimensional representations? Such a representation factors through a
+finite quotient. But a finite quotient of a CT group need not be CT
+(compare Counterexample~\ref{cex:quotient}), so the proof does not carry
+over directly.
+\end{question}
+
+%======================================================================
+\section{Glossary}\label{sec:glossary}
+
+\begin{description}[itemsep=2pt,leftmargin=0pt]
+\item[AC-group.] A group whose centralizers of non-central elements are all
+  abelian. Same as commutation transitive.
+\item[CA-group.] A group whose centralizers of non-identity elements are all
+  abelian. Same as CT.
+\item[Centralizer.] $\Cent(g,G)$, the elements commuting with $g$.
+\item[Character ring $R(G)$.] The $\Z$-linear combinations of irreducible
+  characters. Its elements are virtual characters.
+\item[Commutation transitive.] Commuting is transitive on non-central
+  elements (Definition~\ref{def:ct}).
+\item[Commutative transitive (CT).] Commuting is transitive on non-identity
+  elements (Definition~\ref{def:ct}).
+\item[Commuting conjugacy class graph.] The graph $\Delta(G)$ on the
+  non-central classes, with classes adjacent when they contain commuting
+  elements (Definition~\ref{def:ccc}).
+\item[Commuting graph.] The graph on $G\setminus Z$ whose edges join
+  commuting elements (Section~\ref{sec:graph}).
+\item[Complete multipartite graph.] A graph whose vertices are split into
+  parts, with two vertices adjacent exactly when they lie in different
+  parts.
+\item[Degree.] For a harmonic morphism, the number of edges over
+  any edge of the target (Theorem~\ref{thm:bn}).
+\item[Elementary group.] A direct product of a cyclic group and a
+  $p$-group.
+\item[Fixed-point-free automorphism.] An automorphism fixing only the
+  identity.
+\item[Frobenius group, kernel, complement.] See Definition~\ref{def:frob}
+  and Theorem~\ref{thm:frobenius}.
+\item[Genus of a graph.] $|E|-|V|+1$ for a connected graph.
+\item[Harmonic morphism.] A graph morphism with constant horizontal
+  multiplicity at each vertex (Definition~\ref{def:harmonic}).
+\item[Horizontal multiplicity.] The number $m_\varphi(x)$ of
+  Definition~\ref{def:harmonic}.
+\item[Induced representation.] See \eqref{eq:indchar}.
+\item[Mackey's criterion.] Theorem~\ref{thm:mackey}(b).
+\item[Malnormal subgroup.] A subgroup $H$ with $H\cap xHx^{-1}=1$ for all
+  $x\notin H$.
+\item[Monomial representation.] A representation induced from a
+  one-dimensional character.
+\item[Non-commuting graph.] The complement of the commuting graph.
+\item[Permutation character.] $\triv_H^G$, the number of fixed points on
+  $G/H$.
+\item[Riemann--Hurwitz formula.] Theorem~\ref{thm:bn}(b).
+\item[Split and non-split torus.] Conjugates of the diagonal subgroup and of
+  $\F_{q^2}^\times$ in $\GL(2,\F_q)$, and their images in quotients.
+\item[Support.] The conjugacy classes meeting a subgroup
+  (Definition~\ref{def:supp}).
+\item[Unipotent element.] A matrix $g\neq1$ with $(g-1)^2=0$.
+\item[Vertical edge.] An edge collapsed to a vertex by a morphism.
+\item[Weyl group $W(C)$.] Here, the quotient $N_G(C)/C$ for a centralizer
+  $C$.
+\end{description}
+
+%======================================================================
+\section*{Acknowledgments}
+
+The 2000 draft thanked Tony Gaglione, Dennis Spellman and Jill McGowan for
+helpful conversations, and those thanks stand.
+
+Claude (Anthropic, model Claude Opus 5.5) refereed the 2000 draft. It then
+drafted this corrected and expanded version. The new material includes the
+proofs of
+Propositions~\ref{prop:frobct}, \ref{prop:psl2even}, \ref{prop:psl2odd},
+\ref{prop:indformula}, \ref{prop:pglnorm}, \ref{prop:indep} and
+\ref{prop:taudim}, \ref{prop:ccc} and \ref{prop:noncommharm}, and of
+Theorems~\ref{thm:irred}, \ref{thm:span} and~\ref{thm:harmonic}. The
+connection with harmonic morphisms (Section~\ref{sec:harmonic}) was
+suggested by Claude and adopted by the author. The new material also
+includes the literature review and the computer checks in
+\texttt{comm\_tr\_checks.py}. AI review is not an independent certification
+of these results. Further details on the AI usage, the sources consulted
+and not consulted, and the split between original and new results are in
+the revision log.
+
+\begin{thebibliography}{FGRS00}
+
+\bibitem[AAM06]{AAM06} A.~Abdollahi, S.~Akbari, H.~R.~Maimani,
+Non-commuting graph of a group, \emph{J. Algebra} \textbf{298} (2006),
+468--492.
+
+\bibitem[BN09]{BN09} M.~Baker, S.~Norine, Harmonic morphisms and
+hyperelliptic graphs, \emph{Int. Math. Res. Not. IMRN} 2009, no.~15,
+2914--2955.
+
+\bibitem[BSW58]{BSW58} R.~Brauer, M.~Suzuki, G.~E.~Wall, A characterization
+of the one-dimensional unimodular projective groups over finite fields,
+\emph{Illinois J. Math.} \textbf{2} (1958), 718--745.
+
+\bibitem[Co10]{Co10} S.~Corry, Genus bounds for harmonic group actions on
+finite graphs, preprint (2010), \texttt{arXiv:1006.0446}.
+
+\bibitem[DKM09]{DKM09} D.~Dol\v{z}an, I.~Klep, P.~Moravec, Finite rings in
+which commutativity is transitive, preprint (2009),
+\url{https://users.fmf.uni-lj.si/moravec/Papers/ctrings23jun09.pdf}.
+
+\bibitem[DKR05]{DKR05} A.~J.~Duncan, I.~V.~Kazachkov, V.~N.~Remeslennikov,
+Centraliser dimension and universal classes of groups, preprint (2005),
+\texttt{arXiv:math/0502498}.
+
+\bibitem[FGRS00]{FGRS00} B.~Fine, A.~Gaglione, G.~Rosenberger,
+D.~Spellman, The commutative transitive kernel, cited in 2000 as ``to
+appear in \emph{Algebra Colloquium}''.
+
+\bibitem[FGRS15]{FGRS15} B.~Fine, A.~Gaglione, G.~Rosenberger,
+D.~Spellman, On CT and CSA groups and related ideas, preprint (2015),
+\texttt{arXiv:1506.02636}.
+
+\bibitem[Fi83]{Fi83} B.~Fine, Power conjugacy and SQ-universality in
+Fuchsian and Kleinian groups, in \emph{Modular Functions in Analysis and
+Number Theory}, University of Pittsburgh Press, 1983, 41--55.
+
+\bibitem[FR09]{FR09} B.~Fine, G.~Rosenberger, Reflections on commutative
+transitivity, in \emph{Aspects of Infinite Groups}, World Scientific, 2009.
+
+\bibitem[GM23]{GM23} V.~Grazian, C.~Monetta, A conjecture related to the
+nilpotency of groups with isomorphic non-commuting graphs, preprint (2023),
+\texttt{arXiv:2302.01770}.
+
+\bibitem[HLM09]{HLM09} M.~Herzog, P.~Longobardi, M.~Maj, On a commuting
+graph on conjugacy classes of groups, \emph{Comm. Algebra} (2009),
+\texttt{doi:10.1080/00927870802502779}.
+
+\bibitem[Is76]{Is76} I.~M.~Isaacs, \emph{Character Theory of Finite
+Groups}, Academic Press, 1976.
+
+\bibitem[JM17]{JM17} W.~D.~Joyner, C.~G.~Melles, \emph{Adventures in Graph
+Theory}, Applied and Numerical Harmonic Analysis, Birkh\"auser, 2017.
+
+\bibitem[Jo00]{Jo00} D.~Joyner, Representation theory of $A_5$ using GAP,
+preprint, 2000.
+
+\bibitem[LR86]{LR86} F.~Levin, G.~Rosenberger, On power-commutative and
+commutation-transitive groups, in \emph{Proceedings of Groups---St.\
+Andrews 1985}, London Math. Soc. Lecture Note Ser. \textbf{121}, Cambridge
+Univ. Press, 1986.
+
+\bibitem[MJ26]{MJ26} C.~G.~Melles, D.~Joyner, \emph{Exploring Graphs via
+Harmonic Morphisms}, Springer Nature, 2026.
+
+\bibitem[RF23]{RF23} M.~Rezaei, Z.~Foruzanfar, The commuting conjugacy
+class graphs of finite groups with a given property, \emph{Georgian Math.
+J.} (2023), \texttt{doi:10.1515/gmj-2023-2069}.
+
+\bibitem[Ro95]{Ro95} J.~J.~Rotman, \emph{An Introduction to the Theory of
+Groups}, 4th ed., Grad. Texts in Math. \textbf{148}, Springer, 1995.
+
+\bibitem[Sc70]{Sc70} R.~Schmidt, Zentralisatorverb\"ande endlicher
+Gruppen, \emph{Rend. Sem. Mat. Univ. Padova} \textbf{44} (1970), 97--131.
+
+\bibitem[Se77]{Se77} J.-P.~Serre, \emph{Linear Representations of Finite
+Groups}, Grad. Texts in Math. \textbf{42}, Springer, 1977.
+
+\bibitem[Su57]{Su57} M.~Suzuki, The nonexistence of a certain type of
+simple groups of odd order, \emph{Proc. Amer. Math. Soc.} \textbf{8}
+(1957), 686--695.
+
+\bibitem[Su86]{Su86} M.~Suzuki, \emph{Group Theory II}, Grundlehren der
+Math. Wiss. \textbf{248}, Springer, 1986.
+
+\bibitem[We25]{We25} L.~Weisner, Groups in which the normaliser of every
+element except identity is abelian, \emph{Bull. Amer. Math. Soc.}
+\textbf{31} (1925), 413--416.
+
+\bibitem[Ur00]{Ur00} H.~Urakawa, A discrete analogue of the harmonic
+morphism and Green kernel comparison theorems, \emph{Glasgow Math. J.}
+\textbf{42} (2000), 319--334.
+
+\bibitem[Wu98]{Wu98} Y.-F.~Wu, Groups in which commutativity is a
+transitive relation, \emph{J. Algebra} \textbf{207} (1998), 165--181.
+
+\end{thebibliography}
+
+\end{document}
