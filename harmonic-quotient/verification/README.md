@@ -17,4 +17,8 @@ subgroup enumeration; `passagemath-nauty` (geng) for the census checks; gcc for 
 | 8 | `python3 census.py` | The census statements (needs geng output files; see the script) |
 | 9 | `python3 patch.py` | Rebuilds rev 1 from the archived original (each edit must match exactly once) |
 
-Step 2 on rev 1 reports zero issues.
+| 10 | `python3 make_figures.py` | Draws every figure in TikZ, inside the `.tex` (`figlib.py` reads the data) |
+| 11 | `python3 check_figures.py [--reference OLD.tex]` | Checks every drawing against the edge lists and tables (does not use the code of step 10). With `--reference`, also checks that captions, labels and box sizes match an older `.tex` |
+
+Step 2 on rev 1 reports zero issues. Step 11 on Draft 3 reports no failures and one
+warning (concurrent edges in the two-row drawing of K₅,₅).
