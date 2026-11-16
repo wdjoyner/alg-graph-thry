@@ -8,6 +8,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{url}
 \usepackage{fancyvrb}
 \usepackage{makeidx}
@@ -15,6 +16,7 @@
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
 \def\UrlBreaks{\do\/\do\_\do\.\do\-}
+\input{figures/hq-style.tex}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}[theorem]{Corollary}
@@ -449,7 +451,8 @@ non-trivial harmonic morphism to $C_4$ or $K_4$.
 \subsection{How the graphs are described}
 \label{sec:graph-data}
 
-This subsection explains the names and formats used to specify graphs.
+This subsection explains the names and formats used to specify graphs,
+and how the figures are drawn.
 
 Each graph in the catalogue has a name of the form {\tt dKregNx}. Here
 $K$ is the degree, $N$ the number of vertices, and {\tt x} a letter that
@@ -467,6 +470,20 @@ Some small graphs are identified by their {\it graph6} string \cite{Mc26},
 printed in typewriter font, for example {\tt DrG}. Others are identified by
 their names in the ISGCI database \cite{dR26}, for example the paw, gem,
 bull, butterfly, banner and coantenna graphs.
+
+Each figure shows a harmonic morphism $\phi:\Gamma_2\to\Gamma_1$, with
+$\Gamma_2$ above $\Gamma_1$. Each vertex is labeled by its number. A vertex
+$y$ of $\Gamma_1$ and every vertex of its fiber $\phi^{-1}(y)$ in $\Gamma_2$
+have the same color. For example, in
+Figure~\ref{fig:harmonic-quotient_d3reg8a-K4_30213201} the vertices $0$ and
+$4$ of $\Gamma_2$ have the color of the vertex $3$ of $\Gamma_1=K_4$, because
+$\phi(0)=\phi(4)=3$. The colors of the vertices $0,1,2,3$ of $\Gamma_1$ are
+always white, green, blue and red. When $\Gamma_2$ or $\Gamma_1$ is
+Hamiltonian, its vertices are drawn on a circle in the order of a
+Hamiltonian cycle (for a graph in LCF notation, the cycle $0,1,\dots,n-1$).
+A script in the repository draws every figure from the edge lists and
+tables in the text, and another checks the figures against them
+(Section~\ref{sec:computations}).
 
 \subsection{How the data were computed}
 \label{sec:computations}
@@ -860,11 +877,11 @@ and  depicted in Figure \ref{fig:harmonic-quotient_d3reg8a-K4_30213201}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8a-K4_30213201.png}
+\input{figures/harmonic-quotient_d3reg8a-K4_30213201-G2.tex}
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/K4-0123b.png}
+\input{figures/harmonic-quotient_d3reg8a-K4_30213201-G1.tex}
 \end{center}
 \end{minipage}
 \caption{The cubic graph $\Gamma_2$, a degree two cover of $\Gamma_1=K_4$.}
@@ -1102,11 +1119,11 @@ and tabulated below.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/harmonic-quotient_d3reg8c-star4_33302010.png}
+\input{figures/harmonic-quotient_d3reg8c-star4_33302010-G2.tex}
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/star4-0123.png}
+\input{figures/harmonic-quotient_d3reg8c-star4_33302010-G1.tex}
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg8c}), a degree three harmonic quotient to the star graph, $St_4$.}
@@ -2329,17 +2346,17 @@ $\phi:\Gamma_2\to \Gamma_1$.
 \[
 \deg(\phi) =2.
 \]
-The uncolored graphs are depicted in Figure \ref{fig:harmonic-quotient_d3reg10k+house}.
+The graphs are depicted in Figure \ref{fig:harmonic-quotient_d3reg10k+house}.
 
 \begin{figure}[H]
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg10k.png}
+\input{figures/harmonic-quotient_d3reg10k+house-G2.tex}
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=4cm]{graphics/house-graph.png}
+\input{figures/harmonic-quotient_d3reg10k+house-G1.tex}
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg10k}), with a degree two harmonic quotient morphism to and quasicover of, the house graph, $\Gamma_1$.}
@@ -4726,7 +4743,7 @@ One of these quotients, for the subgroup
 \[
 G=\langle (0,3)(1,2)(4,5)(6,9)(7,8)(10,11) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d3reg12n+twinC5}.
 
 \begin{center}
@@ -4760,11 +4777,11 @@ Figure \ref{fig:harmonic-quotient_d3reg12n+twinC5}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d3reg12n.png}
+\input{figures/harmonic-quotient_d3reg12n+twinC5-G2.tex}
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/twinC5b-quotient-of-d3reg12n.png}
+\input{figures/harmonic-quotient_d3reg12n+twinC5-G1.tex}
 \end{center}
 \end{minipage}
 \caption{The cubic graph  $\Gamma_2$ ({\tt d3reg12n}), with a degree two harmonic quotient morphism to and quasicover of the twin-$C_5$ graph, $\Gamma_1=\Gamma_2/G$.}
@@ -7829,7 +7846,7 @@ $\pi: \Gamma_2\to $\verb+H??E\hw+$=\Gamma_1=\Gamma_2/G $ (in graph6 notation).
 All of the $12$ quotients $\Gamma_1=\Gamma_2/G$ having $9$ vertices
 are isomorphic to this graph, \verb+H??E\hw+.
 This example
-is tabulated below and the uncolored graphs are depicted in
+is tabulated below and the graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d4reg12a+v9e12ds444222222}. 
 Note this is a graph homomorphism.
 
@@ -7863,11 +7880,11 @@ Note this is a graph homomorphism.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d4reg12a.png}
+\input{figures/harmonic-quotient_d4reg12a+v9e12ds444222222-G2.tex}
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/v9e12ds444222222-quotient-of-d4reg12a.png}
+\input{figures/harmonic-quotient_d4reg12a+v9e12ds444222222-G1.tex}
 \end{center}
 \end{minipage}
 \caption{The quartic graph $\Gamma_2$ ({\tt d4reg12a}), with a degree two harmonic quotient morphism to the $9$ vertex graph $\Gamma_1=\Gamma_2/G$ described above.}
@@ -9810,7 +9827,7 @@ group of order $5$ acting on one side of the bipartition and fixing the other.}
 \[
 G=\langle (1,5,8,2,6) \rangle,
 \]
-is tabulated below. The uncolored graphs are depicted in
+is tabulated below. The graphs are depicted in
 Figure \ref{fig:harmonic-quotient_d5reg10d+St6}.
 
 \begin{center}
@@ -9842,11 +9859,11 @@ Figure \ref{fig:harmonic-quotient_d5reg10d+St6}.
 \begin{minipage}{\textwidth}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=5cm,width=5cm]{graphics/graph_d5reg10d.png}
+\input{figures/harmonic-quotient_d5reg10d+St6-G2.tex}
 \end{center}
 \begin{center}
 %\vspace{8.0 cm}
-\includegraphics[height=4cm,width=4cm]{graphics/St6-quotient-of-d5reg10d.png}
+\input{figures/harmonic-quotient_d5reg10d+St6-G1.tex}
 \end{center}
 \end{minipage}
 \caption{The quintic graph  $\Gamma_2$ ({\tt d5reg10d}) is a degree five quotient homomorphism to the star graph, $\Gamma_1=\Gamma_2/G=St_6$.}

@@ -6,3 +6,4 @@
 *.ilg
 *.ind
 *.cpt
+__pycache__/
