@@ -1,0 +1,306 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{courier}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xr}
+\externaldocument[N-]{commutation-transitive-groups}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Cent}{Cent}
+
+\title{Revision log\\[4pt]\large ``The representation theory of finite
+commutation transitive groups'', Draft 1\\(corrected and expanded expository
+version)}
+\author{David Joyner\\\texttt{wdjoyner@gmail.com}}
+\date{November 16, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Files}\label{sec:files}
+
+\begin{itemize}[itemsep=1pt]
+\item All files are in the folder \texttt{commutation-transitive} of the
+  repository \url{https://github.com/wdjoyner/alg-graph-thry}.
+\item Original: \texttt{comm\_tr6.tex}, ``preliminary version'' dated
+  8-5-2000, unpublished. It is kept unchanged in \texttt{archive/}.
+\item Draft 1: \texttt{commutation-transitive-groups.tex} and its PDF.
+\item Referee report on the original, November 16, 2026:
+  \texttt{referee/2026-11-16/}.
+\item Script: \texttt{verification/comm\_tr\_checks.py} (Python~3, standard
+  library and NumPy), with its output in
+  \texttt{verification/checks\_output.txt}. A full run takes about one
+  minute. It is exhaustive for the groups it treats. The folder's
+  \texttt{README.md} records the commits.
+\end{itemize}
+
+\section{AI usage}\label{sec:ai}
+
+All AI work on this draft was done by Claude (Anthropic, model Claude Opus
+5.5) on November 16, 2026, in a single session.
+\begin{enumerate}[itemsep=1pt]
+\item \emph{Referee.} Claude refereed \texttt{comm\_tr6.tex} for correctness,
+  readability and repairability. It wrote the referee report.
+\item \emph{Reviser and co-author of new material.} At the author's request,
+  Claude turned the paper into an expository note. It wrote all new text,
+  proofs, examples, the literature review, the notation table and the
+  glossary. The house style sheet \texttt{joyner-math-paper-style-guide.md}
+  (Draft~2) was applied.
+\item \emph{Computation.} Claude wrote and ran \texttt{comm\_tr\_checks.py}
+  (Section~\ref{sec:computations}).
+\item \emph{Literature.} Claude ran web searches to check bibliographic data
+  (Section~\ref{sec:sources}).
+\item \emph{Graph theory section.} Asked whether the subject connects to
+  graph theory, Claude proposed studying the class map on the commuting
+  graph as a harmonic morphism. The author asked for it to be added, and
+  Claude wrote Section~\ref{N-sec:harmonic} and Subsection~\ref{N-sec:harmbg}
+  and extended the script (items 10--12 of
+  Section~\ref{sec:computations}).
+\end{enumerate}
+No other AI system was involved. The author has not yet reviewed Draft~1.
+AI review is not an independent certification of the results.
+
+\section{Original results and new results}\label{sec:split}
+
+\paragraph{From the 2000 draft, kept (corrected where noted).}
+\begin{itemize}[itemsep=1pt]
+\item The definitions of CT and commutation transitive groups.
+\item The statement of the classification (Theorem~\ref{N-thm:classif}). It was extended
+  to the full classification, and the attributions were corrected.
+\item Commutation transitivity of $\GL(2,k)$. It was cited in 2000 and is
+  now proved (Proposition~\ref{N-prop:gl2}).
+\item The commuting graph lemma (Proposition~\ref{N-prop:graph}) and the centralizer lemma
+  (Lemma~\ref{N-lem:cent}). Part (c) of Lemma~\ref{N-lem:cent} corrects ``disjoint or equal''.
+\item The self-normalizing centralizer observation (Proposition~\ref{N-prop:selfnorm}). It is
+  corrected to pass to $G/Z$.
+\item The equivalence with abelian centralizers (Proposition~\ref{N-prop:basic}).
+\item The induced-character formula (Proposition~\ref{N-prop:indformula}), corrected by the
+  factor $|C|^{-1}$ and at central elements.
+\item The support map $\tau$ (Definition~\ref{N-def:supp}).
+\item Weisner's $k>2$ remark (Remark~\ref{N-rem:weisnerk}).
+\end{itemize}
+
+\paragraph{New in 2026.}
+\begin{itemize}[itemsep=1pt]
+\item Proposition~\ref{N-prop:frobct} (Frobenius groups are CT) and Proposition~\ref{N-prop:psl2even}
+  (structure of $\PSL(2,\F_{2^f})$).
+\item Proposition~\ref{N-prop:psl2odd} ($\PSL(2,\F_q)$, $q$ odd, is CT only for $q=3,5$).
+\item Theorem~\ref{N-thm:irred} (irreducibility criterion) and Corollary~\ref{N-cor:frobchars}.
+\item Proposition~\ref{N-prop:pglnorm} (Mackey norms for tori in $\PGL(2,\F_q)$).
+\item Proposition~\ref{N-prop:indep} (independence of permutation characters). This
+  replaces the 2000 main theorem.
+\item Proposition~\ref{N-prop:taudim} (dimension of the $\tau$-span). This settles the 2000
+  conjecture, with $3$ in place of $4$.
+\item Lemma~\ref{N-lem:nilp} and Theorem~\ref{N-thm:span} (spanning theorem via Brauer induction).
+  This replaces the 2000 claim about monomial representations.
+\item The graph theory: Lemma~\ref{N-lem:collapse},
+  Proposition~\ref{N-prop:ccc}, Lemma~\ref{N-lem:free},
+  Theorem~\ref{N-thm:harmonic} (the class map is harmonic),
+  Proposition~\ref{N-prop:noncommharm} and Corollary~\ref{N-cor:noncommct}.
+  The 2000 draft defined the commuting graph (its Lemma~4) but did not use
+  it further.
+\item All counterexamples, examples, the literature review, the notation
+  table, the glossary and Questions~\ref{N-q:psl}--\ref{N-q:profinite}.
+\end{itemize}
+
+\paragraph{From the 2000 draft, withdrawn.}
+\begin{itemize}[itemsep=1pt]
+\item Example~2 ($\PGL(2,\F_q)$ CT). False. It is now
+  Counterexample~\ref{N-cex:pgl}.
+\item Corollary~9. False for $q=2$, and true for $q\ge3$ for a different
+  reason. It is now Counterexample~\ref{N-cex:pglcor}.
+\item The proof of Theorem~11. Invalid. It is now Counterexample~\ref{N-cex:supports}.
+\item The statement that the main theorem yields all of $G^*$. It did not
+  follow. It is replaced by Theorem~\ref{N-thm:span}.
+\item The general (locally compact) Mackey criterion, Lemma~7 and
+  Remark~4. They are not needed for finite groups and were imprecise. The
+  finite criterion is Theorem~\ref{N-thm:mackey}(b).
+\item Section~5 (profinite groups). It had no content. It is now
+  Question~\ref{N-q:profinite}.
+\item The paragraph on the method of little groups (\S4.1). Corollary~\ref{N-cor:frobchars}
+  covers the solvable CT case directly.
+\end{itemize}
+
+\section{Concordance}\label{sec:concordance}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{>{\raggedright}p{5.2cm}>{\raggedright\arraybackslash}p{9cm}}
+\toprule
+2000 draft & Draft 1 (2026)\\
+\midrule
+Theorem 1 (classification) & Theorem \ref{N-thm:classif} and Remark \ref{N-rem:weisnerk}\\
+Remark 1 (Weisner, Wu) & Remark \ref{N-rem:weisnerk} and Section \ref{N-sec:lit}\\
+Example 2 ($\PGL(2,\F_q)$) & Counterexample \ref{N-cex:pgl} (refuted)\\
+Theorem 3 (free groups, $\GL_2$) & Example \ref{N-ex:ctexamples}(5), Proposition \ref{N-prop:gl2}\\
+Remark 2 (relation on $G/Z$) & Counterexample \ref{N-cex:quotient}\\
+Lemma 4 (commuting graph) & Proposition \ref{N-prop:graph}\\
+Lemma 5 (centralizer lemma) & Lemma \ref{N-lem:cent}\\
+Paragraph on $C=N_G(C)$ & Proposition \ref{N-prop:selfnorm}, Example \ref{N-ex:selfnorm}\\
+Lemma 6, Remark 3 (abelian centralizers) & Proposition \ref{N-prop:basic}\\
+Lemma 7, Remark 4 (Mackey criterion) & Theorem \ref{N-thm:mackey}\\
+Lemma 8 (Frobenius formula) & Proposition \ref{N-prop:indformula}, Counterexample \ref{N-cex:formula}\\
+Corollary 9 ($\PGL_2$ tori) & Proposition \ref{N-prop:pglnorm}, Counterexample \ref{N-cex:pglcor}\\
+Definition 10 (support) & Definition \ref{N-def:supp}\\
+Theorem 11 (main theorem) & Proposition \ref{N-prop:indep}, Counterexample \ref{N-cex:supports}\\
+Conjecture 12 & Proposition \ref{N-prop:taudim}, Remark \ref{N-rem:gap}\\
+Closing claim (monomial reps) & Theorem \ref{N-thm:span}, Example \ref{N-ex:a5span}, Counterexample \ref{N-cex:q8}\\
+Section 5 (profinite) & Question \ref{N-q:profinite}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Sources}\label{sec:sources}
+
+Verification levels follow the style sheet. Level~1 is an independent
+derivation. Level~2 is a check against a source actually consulted. Level~3
+is reliance on memory.
+
+\paragraph{Consulted (level 2, bibliographic data and abstracts or first
+pages only).}
+\begin{itemize}[itemsep=1pt]
+\item Weisner 1925: title, volume and pages from the AMS website.
+\item Suzuki 1957: title (``\emph{odd} order''), volume and pages from the
+  AMS website, and the first page from an online copy. The first page states
+  condition (W) and that $LF(2,2^n)$ are the only simple groups satisfying
+  it. The original's bibliography said ``even order''. That was an error.
+\item Brauer--Suzuki--Wall 1958: bibliographic data from the reference list
+  of Suzuki 1957 on the AMS website.
+\item Schmidt 1970: bibliographic data from Numdam. The description of its
+  later use comes from the abstract of a 2010 paper by Herzog and coauthors,
+  and from Grazian--Monetta 2023.
+\item Wu 1998: bibliographic data and the zbMATH review (via the MaRDI
+  portal). The review states the solvable result and the correction of
+  Weisner. The statements about locally finite CT groups, Tarski monsters and
+  closure under quotients come from secondary summaries (Wikipedia and a
+  paper summary site), not from the paper.
+\item Fine 1983: bibliographic data from the reference list of the 2015
+  arXiv paper by Fine, Gaglione, Rosenberger and Spellman. This replaces
+  ``preprint 1983''.
+\item The 2015 paper by Fine, Gaglione, Rosenberger and Spellman
+  (\texttt{arXiv:1506.02636}), and Fine--Rosenberger 2009: the introduction
+  and reference list of the arXiv paper. The page range of Fine--Rosenberger 2009 was not obtained.
+\item Abdollahi--Akbari--Maimani 2006: bibliographic data and abstract.
+\item Grazian--Monetta 2023: arXiv abstract and Section 2 excerpt.
+\item Duncan--Kazachkov--Remeslennikov 2005: arXiv abstract. The abstract
+  states the characterization by centralizer dimension~$2$. The author names
+  are from memory (level~3).
+\item Dol\v{z}an--Klep--Moravec: preprint first page. Publication details
+  were not found.
+\item Baker--Norine 2009: journal, issue and pages from the reference list
+  of a 2025 arXiv paper (\texttt{2504.08539}). Also the first pages of the
+  arXiv version of Baker--Norine itself (\texttt{0707.1309}).
+\item Herzog--Longobardi--Maj 2009: authors, title, year and DOI from a
+  paper summary site and the introductions of two later arXiv papers. The
+  volume and pages were not obtained.
+\item Rezaei--Foruzanfar 2023: authors, title, journal, DOI and the scope
+  ($G/Z$ Frobenius of order $pq$ or $p^2q$) from a paper summary site and
+  the zbMATH review on MaRDI.
+\item Corry 2010: arXiv abstract and introduction.
+\item Joyner--Melles 2017: bibliographic data from library and bookseller
+  records.
+\end{itemize}
+
+\paragraph{Not consulted (level 3).}
+\begin{itemize}[itemsep=1pt]
+\item The full texts of Weisner, Suzuki, Brauer--Suzuki--Wall, Schmidt and
+  Wu. Theorem~\ref{N-thm:classif} is cited on the strength of the abstracts, reviews and
+  secondary summaries listed above. Its statement agrees across all of
+  them.
+\item Serre 1977: the section numbers for the induced character formula
+  (\S7.2), Mackey (\S7.3--7.4) and Brauer's theorem (Chapter~10) are from
+  memory.
+\item Isaacs 1976, Theorem~7.2 (Frobenius' theorem): the theorem number is
+  from memory.
+\item Rotman 1995, Chapter~8 (simplicity of $\PSL(2,\F_q)$): from memory.
+\item Suzuki, \emph{Group Theory II} (1986): the page range 291--305 for the
+  classification is reported by Wikipedia. It is not cited by page in the
+  note.
+\item Levin--Rosenberger 1986: not located. The exact title (``commutation''
+  or ``commutative'') is unchecked.
+\item Fine--Gaglione--Rosenberger--Spellman, ``The commutative transitive
+  kernel'': not located. It is cited as in the 2000 draft.
+\item Joyner 2000, ``Representation theory of $A_5$ using GAP'': not
+  located.
+\item Baker--Norine 2009, Section~2: the statements of the degree lemma and
+  the Riemann--Hurwitz formula (Theorem~\ref{N-thm:bn}) are from memory.
+  The note never depends on them. Every degree and every Riemann--Hurwitz
+  identity it uses is verified directly in Lemma~\ref{N-lem:collapse}.
+\item Urakawa 2000: the bibliographic data are from memory.
+\item Melles--Joyner 2026: the data are as recorded by the author.
+\end{itemize}
+
+\section{Computational verification}\label{sec:computations}
+
+\texttt{comm\_tr\_checks.py} checks the following by exhaustive computation
+with explicit matrices and exact group tables.
+\begin{enumerate}[itemsep=1pt]
+\item Which of $\GL(2,q)$, $\PGL(2,q)$, $\PSL(2,q)$ ($q=3,5,7$) and
+  $\SL(2,q)$ ($q=4,8$) have abelian centralizers of non-central elements.
+  (Proposition~\ref{N-prop:gl2}, Counterexample~\ref{N-cex:pgl}, Propositions~\ref{N-prop:psl2even} and~\ref{N-prop:psl2odd}.)
+\item The induced-character value in $S_3$, and the irreducibility at
+  $q=2$. (Counterexamples~\ref{N-cex:formula} and~\ref{N-cex:pglcor}.)
+\item The Mackey norms for split tori in $\PGL(2,q)$, $q=3,5,7$, for every
+  character, and for the non-split torus in $\PGL(2,3)\cong S_4$. (Proposition~\ref{N-prop:pglnorm}.)
+\item The $\F_2$-rank of the $\tau$-vectors for $\PSL(2,q)$, $q=4,8,16$.
+  (Proposition~\ref{N-prop:taudim}.)
+\item The left and right coset maps of Lemma~\ref{N-lem:conjcent} in $S_3$.
+  (Example~\ref{N-ex:s3conj}.)
+\item The $\C$-rank of the permutation characters of $A_5$, with their
+  values. (Table~\ref{N-tab:a5perm}.)
+\item The four $\Z$-combinations of Example~\ref{N-ex:a5span} have norm~$1$ and degrees
+  $3,3,5,4$.
+\item Theorem~\ref{N-thm:irred} for every centralizer and every character of $S_3$, $A_4$
+  and $A_5$.
+\item Theorem~\ref{N-thm:harmonic}, vertex by vertex, for $S_3$, $A_4$,
+  $A_5$, $\PSL(2,\F_8)$, $\GL(2,\F_3)$, $Q_8$ and $D_8$: harmonicity, the
+  identities $m(x)=|W(\Cent(x,G))|$ and $v(x)=|W|-1$, and the
+  Riemann--Hurwitz identity on each component. The component and image
+  sizes agree with Table~\ref{N-tab:harmonic}.
+\item Failure of harmonicity of the class map on the non-commuting graph of
+  $A_5$, at all $59$ vertices (Example~\ref{N-ex:octahedron}).
+\item Proposition~\ref{N-prop:noncommharm} for the same seven groups. The
+  map is harmonic exactly for $Q_8$ and $D_8$, where Riemann--Hurwitz gives
+  $12=12$.
+\end{enumerate}
+No result of the note depends on the computations. All of them are proved by
+hand. The computations are independent checks.
+
+\section{Style-sheet notes}\label{sec:style}
+
+\begin{itemize}[itemsep=1pt]
+\item The document class \texttt{article} was kept from the original
+  (style sheet, default for revisions).
+\item The packages \texttt{newtxtext} and \texttt{newtxmath} are not
+  installed in the build environment. The fallback \texttt{mathptmx} was used, as the style sheet
+  allows.
+\item The author line lists only David Joyner. AI contributions are credited
+  in the Acknowledgments (style sheet, default).
+\item The title changed only by adding the subtitle required by rule~6.2,
+  with the words ``an expository note''.
+\item Citation keys use author initials plus a two-digit year. Two
+  Fine--Gaglione--Rosenberger--Spellman items are distinguished by year
+  (\texttt{FGRS00}, \texttt{FGRS15}).
+\item Adding Section~\ref{N-sec:harmonic} renumbered the summary and the
+  glossary. All references are generated by \verb|\ref|, so nothing needed
+  manual renumbering.
+\item One item is marked Remark~\ref{N-rem:gap} (the probable source of the bound $4$
+  in the 2000 conjecture). It is unverified because the GAP code is not
+  available.
+\end{itemize}
+
+\end{document}

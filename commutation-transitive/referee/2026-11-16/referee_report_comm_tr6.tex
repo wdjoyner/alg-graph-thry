@@ -1,0 +1,502 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{courier}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Cent}{\operatorname{Cent}}
+\newcommand{\Ind}{\operatorname{Ind}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\PGL}{\mathrm{PGL}}
+\newcommand{\PSL}{\mathrm{PSL}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+
+\theoremstyle{definition}
+\newtheorem*{fact}{Fact}
+\newtheorem*{claim}{Claim}
+
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+
+\title{Referee report on\\
+\emph{The representation theory of finite commutation transitive groups}\\
+(D.~Joyner, preliminary version dated 8-5-2000, file \texttt{comm\_tr6.tex})}
+\author{}
+\date{16 November 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Summary of the submission}
+
+The note considers finite groups $G$ in which commutation is an
+equivalence relation on $G\setminus\{1\}$ (``commutative transitive'',
+CT) or on $G\setminus Z(G)$ (``commutation transitive''). Equivalently
+(the Lemma of \S3), the centralizer of every non-central element is
+abelian. After recalling the classification of solvable and simple CT
+groups, it (i) records a Mackey irreducibility criterion, (ii) gives a
+formula for the character of $\Ind_C^G\mu$ when $C$ is a centralizer,
+(iii) states a corollary on the reducibility of $\Ind_T^G\pi$ for a
+torus $T$ in $\PGL(2,\F_q)$, (iv) defines a ``support map''
+$\tau\colon L(G)\to\F_2^{G_*}$ and proves (the main theorem in
+the source) that the permutation characters $\Ind_A^G 1$, for
+centralizers $A$ with $\F_2$-independent supports, are linearly
+independent, (v) conjectures that $\dim_{\F_2}\operatorname{Span}
+\{\tau(\Cent(g,G))\}\le 4$ for simple CT groups, and (vi) announces a
+profinite analogue.
+
+\section*{Overall assessment}
+
+The author is right that there are serious errors. I found:
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item one false example ($\PGL(2,\F_q)$, $q$ odd, is \emph{not} CT);
+\item a wrong character formula, off by a factor $|C|$ (and also wrong at
+  non-identity central elements);
+\item a corollary that refers to a non-existent Proposition, applies a
+  lemma outside its hypotheses, is false for $q=2$, and is trivially true
+  for $q\ge3$ for a reason unrelated to its hypothesis;
+\item an invalid proof of the main theorem. The result is true in a
+  corrected form, and the corrected proof is two lines long and needs no
+  $\F_2$-linear algebra;
+\item a conjecture that, with the definitions as written, is an easy
+  theorem. The dimension is exactly $3$ for every $\PSL(2,\F_{2^k})$ and
+  is at most $3$ for every finite CT group;
+\item a concluding claim (all of $G^*$ from linear combinations of
+  monomial representations) that does not follow and is false by a
+  dimension count;
+\item an empty final section.
+\end{itemize}
+All of these can be fixed. But once they are fixed, almost nothing new
+is left: the surviving statements are short exercises on top of the
+classical classification. In its present form the note is not
+publishable. Under \emph{Feasibility} below I suggest what a viable
+revision might look like.
+
+I checked the group-theoretic claims below by brute force in Python, for
+$\GL(2,q)$, $\PGL(2,q)$, $\PSL(2,q)$ with $q\in\{2,3,5,7\}$ and
+$\SL(2,2^k)$ with $k\in\{2,3,4\}$. The numbers quoted come from those
+runs.
+
+\section{Major mathematical issues}
+
+\subsection*{M1. Example (``$\PGL(2,\F_q)$, $q$ odd, is commutative transitive'') is false}
+
+The counterexample is the author's own footnote to the Remark after
+Theorem~2. Let $q$ be odd, $t=\overline{\mathrm{diag}(-1,1)}$,
+$w=\overline{\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)}$
+and $\overline{T}$ the image of the diagonal torus. Then
+$w^{-1}tw=\overline{\mathrm{diag}(1,-1)}=t$, so
+$\Cent(t,\PGL(2,\F_q))\supseteq\langle\overline T,w\rangle\cong
+D_{2(q-1)}$. This dihedral group is non-abelian once $q-1\ge3$. For
+$q=3$, $\PGL(2,\F_3)\cong S_4$ and $\Cent((12)(34))\cong D_8$. Since
+$Z(\PGL(2,\F_q))=1$, $\PGL(2,\F_q)$ is neither commutative transitive
+nor commutation transitive for any odd $q$. (Brute-force check:
+$\PGL(2,q)$ fails for $q=3,5,7$, while $\GL(2,q)$ passes; $\PSL(2,5)\cong
+A_5$ and $\PSL(2,3)\cong A_4$ pass, $\PSL(2,7)$ fails.)
+
+This is exactly the mechanism the Remark describes: commutation in
+$G/Z$ is not commutation in $G$. The Example should be deleted. If an
+example of a non-simple, non-solvable group is wanted, the correct
+statement is that $\GL(2,k)$ and $\SL(2,k)$ are commutation transitive
+for every field $k$. That is Theorem~2(2), whose one-line proof should
+be given: a non-scalar $g\in M_2(k)$ is cyclic, so its centralizer in
+$M_2(k)$ is the commutative algebra $k[g]$.
+
+The parenthetical facts in the Example are correct but beside the
+point:
+\[
+[\PGL(m,\F_q):\PSL(m,\F_q)]=\gcd(m,q-1),
+\]
+which equals $2$ when $m=2$ and $q$ is odd.
+
+\subsection*{M2. The induced-character formula (Lemma before the Corollary) is wrong}
+
+Let $C=\Cent(g_0,G)$ with $g_0\notin Z$, and $\mu\in C^*$. The standard
+formula is
+\[
+\chi(g)=\frac{1}{|C|}\sum_{\substack{x\in G\\ x^{-1}gx\in C}}\mu(x^{-1}gx).
+\]
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item \emph{Non-central $g$.} Suppose $a\in\operatorname{Conj}(g,G)\cap
+  C$, say $g=sas^{-1}$. Then $a\notin Z$, so $\Cent(a,G)=C$ by
+  the centralizer lemma of \S2. For $u=s^{-1}x$ we have $u^{-1}au\in C$ if
+  and only if $u^{-1}Cu=\Cent(u^{-1}au,G)=C$, that is, $u\in N_G(C)$.
+  Since $C$ is abelian,
+  \[
+  \tr\pi(g)=\frac1{|C|}\sum_{n\in N_G(C)}\mu(n^{-1}an)
+  =\sum_{w\in W}\mu(w^{-1}aw),\qquad W:=N_G(C)/C.
+  \]
+  The paper omits the factor $|C|^{-1}$. Concretely, take $G=S_3$,
+  $C=A_3$, $\mu$ nontrivial. At a $3$-cycle the true value is $-1$; the
+  paper's formula gives $-3$.
+\item \emph{Central $g\ne1$}, which occurs when $Z\ne1$ (for example in
+  $\GL(2,q)$). Here $\tr\pi(g)=\tfrac{|G|}{|C|}\mu(g)$, the same shape
+  as at $g=1$. The paper's first line instead gives $|N_G(C)|\mu(g)$.
+\item The argument in (a) also shows that the elements of
+  $\operatorname{Conj}(g,G)\cap C$ form one $W$-orbit. This is exactly
+  what makes ``$a=a_g$'' well defined, and the paper should say so.
+\end{enumerate}
+\emph{Fix:} replace the Lemma with the three-case formula above, using
+$W=N_G(C)/C$. The proof is the five lines in (a). Note that the
+``Proof'' cites \cite[Ch.~7]{Se}, but the result needs only the
+definition of the induced character.
+
+\subsection*{M3. The Corollary on $\PGL(2,\F_q)$}
+
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item It is labelled ``(of Proposition)'', but there is no Proposition
+  in the paper.
+\item Its proof uses the Frobenius-formula Lemma, which assumes $G$ is
+  commutation transitive. By M1, $\PGL(2,\F_q)$ is not when $q$ is odd.
+  The specific step that fails is $\Cent(a,G)=C$ for $a\in C\setminus
+  Z$: at the involution $t\in\overline T$ one has
+  $\Cent(t)=N(\overline T)\ne\overline T$.
+\item \emph{The statement is false for $q=2$.} $\PGL(2,\F_2)\cong S_3$,
+  the nonsplit torus is $T=A_3$, $N_G(T)=S_3$, and for nontrivial $\pi$
+  we have $\pi^h=\pi^{-1}\neq\pi$ for all $h\in H\setminus T$. Yet
+  $\Ind_{A_3}^{S_3}\pi$ is the irreducible $2$-dimensional
+  representation.
+\item For $q\ge3$ the conclusion holds for every $\pi$, without the
+  hypothesis, because of degrees: $[G:T]=q(q\pm1)>q+1$, the largest
+  irreducible degree. In fact Mackey's formula gives exact values. Every
+  $T$--$T$ double coset outside $N_G(T)$ has trivial intersection
+  $T\cap T^s$, and $[N_G(T):T]=2$. Writing $\delta=1$ if $\pi=\pi^w$
+  and $0$ otherwise,
+  \[
+  \langle\Ind_T^G\pi,\Ind_T^G\pi\rangle=
+  \begin{cases}
+  q+3+\delta, & T\text{ split},\\
+  q-1+\delta, & T\text{ nonsplit}.
+  \end{cases}
+  \]
+  I confirmed this numerically for split $T$ with $q=3,5,7$ and for
+  nonsplit $T$ with $q=2,3$.
+\item The proof itself is not an argument. It mixes $\pi$ and $\mu$.
+  The ``cancellation'' it asserts is not justified, since the double sum
+  is not a character sum over a group in any evident way. And the
+  assertion that the $g=1$ terms contribute more than $1$ fails exactly
+  at the counterexample: there $|G|/|T|^2=6/9$.
+\end{enumerate}
+\emph{Fix:} replace the Corollary and its proof with the Mackey
+computation in (d). This is routine, standard material (compare
+\cite{B} or any treatment of $\GL_2(\F_q)$). It belongs in a
+``non-example'' remark, since $\PGL(2,\F_q)$ is not in the class being
+studied.
+
+\subsection*{M4. The main theorem: invalid proof; the correct version is easier}
+
+\emph{The proof.} ``The functions are supported on pairwise distinct
+sets, so no linear combination can vanish'' is false as a principle.
+Take three classes $\alpha,\beta,\gamma$ and $f_1=1_\alpha+1_\beta$,
+$f_2=1_\alpha+1_\gamma$, $f_3=2\cdot1_\alpha+1_\beta+1_\gamma$. Their
+supports $\{\alpha,\beta\}$, $\{\alpha,\gamma\}$,
+$\{\alpha,\beta,\gamma\}$ are distinct, and even independent over $\F_2$
+(the $0/1$ matrix has determinant $-1$). But $f_3=f_1+f_2$. So
+$\F_2$-independence of the $\tau(A)$ neither implies nor is implied by
+$\C$-independence of the characters. For the latter direction: in
+$A_5\cong\PSL(2,\F_4)$ the four centralizer classes $V_4,C_3,C_5,G$
+satisfy $\tau(G)=\tau(V_4)+\tau(C_3)+\tau(C_5)$ over $\F_2$, yet the
+four permutation characters $1_A^G$ are $\C$-linearly independent
+(rank~$4$, computed).
+
+\emph{The statement.} Three problems:
+\begin{enumerate}[label=(\roman*),itemsep=1pt]
+\item The set $\mathcal C$ is indexed ambiguously. Conjugate centralizers
+  have equal $\tau$, and equal induced characters, so as written either
+  $\mathcal C$ contains repeats (and the conclusion is false) or the
+  indexing must be one centralizer per conjugacy class.
+\item $\chi_A$ is defined as the trivial character, while the theorem
+  writes ``$\chi=\chi_\gamma\in A^*$''. It is unclear whether arbitrary
+  characters are intended.
+\item The symbol $\chi$ already denotes a central character in the
+  Mackey lemma.
+\end{enumerate}
+
+\emph{A correct statement with a short proof.} Let $G$ be finite and
+commutation transitive, and let $A_1,\dots,A_m$ be representatives of
+the conjugacy classes of centralizers of non-central elements. A class
+$\gamma\not\subset Z$ meets $A_i$ if and only if $A_i$ is conjugate to
+$\Cent(g,G)$ for $g\in\gamma$. So the sets $D_i:=\supp(A_i)\setminus
+\{\text{central classes}\}$ are non-empty and pairwise disjoint. On
+$G\setminus Z$, the function $1_{A_i}^G$ is supported on $D_i$, where it
+is positive. Hence $1_{A_1}^G,\dots,1_{A_m}^G$ (and also the trivial
+character, by evaluating at $1$ or at a central element) are linearly
+independent. The same argument shows that the $\tau(A_i)$ are
+\emph{automatically} $\F_2$-independent. The $\F_2$ machinery can be
+dropped, and $\mathcal C$ is simply ``one centralizer from each
+conjugacy class''.
+
+The catch is that $m$ is tiny. One has $m=2$ for a Frobenius group with
+abelian kernel and cyclic complement, $m=3$ for $\PSL(2,\F_{2^k})$
+(unipotent $U$, split torus, nonsplit torus), and $m=3$ for $\GL(2,q)$
+($ZU$ and the two tori). So the theorem yields at most four independent
+characters.
+
+\subsection*{M5. The Conjecture is an easy theorem, with $3$ in place of $4$}
+
+Let $G=\PSL(2,\F_q)$ with $q=2^k\ge4$. Every non-identity element is
+exactly one of: unipotent, with centralizer a conjugate of $U$ (order
+$q$, since $-1=1$); split regular semisimple, with centralizer a
+conjugate of $T$ (order $q-1$); or nonsplit regular semisimple, with
+centralizer a conjugate of $T'$ (order $q+1$). So
+$\{\tau(\Cent(g,G))\}=\{\tau(G),\tau(U),\tau(T),\tau(T')\}$. Over
+$\F_2$, the identity class occurs three times in
+$\tau(U)+\tau(T)+\tau(T')$ and every other class once, giving
+\[
+\tau(U)+\tau(T)+\tau(T')=\tau(G).
+\]
+The first three are independent because their non-identity parts are
+disjoint and non-empty. Hence the dimension is exactly~$3$ for all~$k$.
+This agrees with brute force:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$G$ & $|G_*|$ & distinct $\tau$-vectors & $\F_2$-rank\\
+\midrule
+$\PSL(2,\F_4)$ & 5 & 4 & 3\\
+$\PSL(2,\F_8)$ & 9 & 4 & 3\\
+$\PSL(2,\F_{16})$ & 17 & 4 & 3\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The ``$\le4$'' observed in the GAP runs is probably the number of
+\emph{distinct} vectors rather than the rank; the author should recheck
+the code. More generally, the M4 argument gives $\dim=m$ when $m$ is odd
+and $m+1$ when $m$ is even. By the classification (abelian, Frobenius,
+$\PSL(2,\F_{2^k})$) this is at most $3$ for every finite CT group, not
+only the simple ones. The conjecture should become a proposition with
+this proof, and it is not deep.
+
+\subsection*{M6. ``All representations in $G^*$ can be obtained from linear combinations of monomial representations''}
+
+This does not follow from the main theorem, which asserts independence,
+not spanning. It is also false for the characters considered. They span
+a space of dimension at most $m+1\le4$, while $|G^*|=|G_*|=q+1$ for
+$\PSL(2,\F_q)$, which is already $5$ for $A_5$. The true statement in
+this direction is Brauer's induction theorem: every character is a
+$\Z$-combination of characters induced from linear characters of
+elementary subgroups. Brauer's subgroups are generally not centralizers.
+The attribution to Gelfand--Graev is inappropriate. Gelfand--Graev
+representations are induced from a non-degenerate character of a
+maximal unipotent subgroup and are multiplicity-free; that is a
+different phenomenon. The abstract's promise to determine ``which
+irreducible characters \dots\ are generated by certain monomial
+representations'' is not carried out anywhere.
+
+\subsection*{M7. Mackey's criterion and the profinite section}
+
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item In the $p$-adic setting the relevant induction is compact
+  induction $c\text{-}\Ind_H^G$, and the conclusion is usually stated as
+  ``irreducible and supercuspidal''. Condition~(2), on $|\chi|$
+  extending to $G$, is non-standard as stated, and its role should be
+  explained or a reference given. The conventions for $H^g$ and $\pi^g$
+  are never defined, and with the paper's $y^{-1}xy$ convention the
+  direction matters. ``Mauntner'' should be ``Mautner''.
+\item For finite groups the criterion is an \emph{if and only if}
+  \cite[\S7.4, Prop.~23]{Se}. That is what justifies concluding
+  reducibility in Remark~(b), and the paper should say so.
+\item Remark~(b): for $G=\GL(2,\F_q)$ the claim $T\cap T^g\in\{T,Z\}$
+  is correct, because non-central torus elements are regular. Note that
+  $T\cap T^g=T$ holds for $g\in N_G(T)\setminus T$, not only $g\in T$.
+  For $\PSL(2,\F_q)$, ``$Z\cong\F_q^\times$'' is wrong, since the center
+  is trivial. For odd $q\ge7$, $\PSL(2,\F_q)$ is not even in the class
+  under study. The footnote ``Disjoint groups do not have disjoint
+  representations!'' should be replaced by the plain statement that
+  $\pi$ and $\pi^g$ have the same restriction to $Z$.
+\item \S5 states, without formulation or proof, that ``there is an
+  analog'' for profinite CT groups. Either supply a theorem with a proof
+  (for example via continuous characters factoring through finite
+  quotients, being careful that centralizers in a profinite group are
+  closed but need not be open), or delete the section and the sentence
+  in the abstract.
+\end{enumerate}
+
+\section{Minor mathematical issues}
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \emph{After the centralizer lemma of \S2:} ``any two centralizers \dots\
+  are either disjoint groups or equal''. Subgroups are never disjoint.
+  The correct statement is $C_1\cap C_2=Z$ or $C_1=C_2$. This is also
+  what is needed for the Frobenius-complement argument.
+\item \emph{The bijection between $\operatorname{Conj}(g,G)$ and the
+  cosets of $\Cent(g,G)$:} with the convention $x^{-1}gx$, the map
+  $x^{-1}gx\mapsto x\Cent(g,G)$ is not well defined. The correct
+  bijection is with right cosets, $\Cent(g,G)x$. Alternatively, use
+  $xgx^{-1}\leftrightarrow x\Cent(g,G)$. (Checked in $S_3$.)
+\item \emph{Remark after Theorem~2:} the relation $\sim$ transported to
+  $(G-Z)/Z$ \emph{is} transitive, since it is equivalent to $\sim$ on
+  $G-Z$. What can fail is that commutation in $G/Z$ coincides with this
+  $\sim$, and transitivity of commutation in $G/Z$ (see M1). The
+  sentence ``so transitivity can fail'' should say which relation is
+  meant. The notation $x^y$ is used before it is defined.
+\item \emph{The Frobenius-subgroup paragraph in \S2.}
+  \begin{itemize}[itemsep=0pt]
+  \item The condition $C\cap C^x=1$ for $x\notin N_G(C)$ needs $Z=1$.
+    In general one should pass to $C/Z\le G/Z$, where it does hold.
+  \item ``A normal subgroup of size at least $2$'' is vacuous, since $G$
+    itself is normal. The intended statement is a proper nontrivial
+    normal subgroup: the Frobenius kernel.
+  \item Please give the precise location of Frobenius' theorem in
+    \cite{Se}.
+  \end{itemize}
+\item \emph{Theorem~1.}
+  \begin{itemize}[itemsep=0pt]
+  \item ``Cyclic'' should be ``cyclic of prime order''.
+  \item ``A cyclic group $H$ of fixed-point-free automorphisms'' should
+    require $H\ne1$ and every non-identity element of $H$ to act without
+    nontrivial fixed points; that is, $G$ is a Frobenius group with
+    abelian kernel and cyclic complement.
+  \item The paper treats a ``general case'', so it should also state the
+    nonsolvable case: as I understand the literature (Suzuki;
+    Brauer--Suzuki--Wall; Wu), a finite nonsolvable CT group is
+    isomorphic to $\PSL(2,\F_{2^k})$, $k\ge2$. The author should confirm
+    the exact statement in \cite{Wu}. With it, \S4.2 reduces to two
+    explicit families, which would make the paper much more concrete.
+  \end{itemize}
+\item \emph{\S4.1:} ``not cyclic'' should be ``non-abelian''. The
+  little-groups method of \cite[\S8.2]{Se} needs a semidirect product
+  with an \emph{abelian} normal factor. That is available for solvable
+  CT groups, but not for solvable commutation transitive groups in
+  general. For example, $\GL(2,\F_3)$ is solvable and commutation
+  transitive, but its only normal abelian subgroups are $1$ and $Z$,
+  neither of which has a complement.
+\item \emph{Terminology.} The two notions are used interchangeably in
+  several places:
+  \begin{itemize}[itemsep=0pt]
+  \item after the centralizer lemma of \S2;
+  \item the Remark in \S3;
+  \item \S4.1;
+  \item the main theorem, stated for commutation transitive groups,
+    versus the Conjecture, stated for CT groups.
+  \end{itemize}
+  Fix one name for each notion and use it consistently. Groups in which
+  every non-central centralizer is abelian are also widely called
+  \emph{AC-groups} (or CA-groups). The author should check the classical
+  work on them; I believe R.~Schmidt (1970) classified the finite ones,
+  but this should be verified. The graph $\Gamma$ of \S2 is the
+  \emph{commuting graph}, which has a substantial literature.
+\item \emph{Lemma in \S2(b):} state the bijection explicitly, $K\mapsto
+  K\cup Z$ with inverse $C\mapsto C\setminus Z$. Also, $\Cent$ is used
+  before it is defined.
+\end{enumerate}
+
+\section{Bibliography}
+
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \cite{S}: I believe the title of Suzuki's 1957 Proc.\ AMS paper is
+  ``\dots\ simple groups of \emph{odd} order'', not ``even order''.
+  Please check.
+\item ``Wall'' is credited in the introduction but not cited. Presumably
+  the intended reference is R.~Brauer, M.~Suzuki, G.~E.~Wall, \emph{A
+  characterization of the one-dimensional unimodular projective groups
+  over finite fields}, Illinois J.\ Math.\ \textbf{2} (1958).
+\item \cite{J}: ``Archiv der Math.\ 273(1999)'' cannot be right, since
+  the 1999 volumes are numbered in the 70s. Check the volume and pages.
+\item \cite{B} is never cited. \cite{FGRS} (``to appear'') and \cite{F}
+  (``preprint 1983'') should be updated.
+\item Typos: ``Klienian'' should be ``Kleinian''; ``N, Iwahori'' should
+  be ``N.~Iwahori''. In \cite{LR}, check whether the title reads
+  ``commutation-transitive''.
+\end{itemize}
+
+\section{Readability and presentation}
+
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \emph{Typos:} ``autmorphisms'', ``commutivity'', ``whcih'',
+  ``methif'', ``power set offfff'', ``this papers'', ``Mauntner''.
+  ``Commutative transitive'' and ``commutation transitive'' are also
+  swapped in places (see minor item~7).
+\item \emph{Undefined notation:} $H^g$, $\pi^g$, $x^y$, $a_g$, $L(G)$
+  (``subgroup lattice'' is mentioned only after first use), and
+  $\chi_\gamma$. The symbols $\pi$/$\mu$ and $\chi$ are overloaded.
+\item \emph{Structure.} The Lemma in \S3 is the working definition of
+  the paper and should come first, in \S1. The Remarks after Theorems~1
+  and~2 read as notes to self. ``Proof: Trivial'' and
+  ``immediate'' should be replaced by the one or two lines that are
+  actually needed.
+\item \emph{Abstract:} it should describe only what the paper proves.
+  At present the second and third sentences do not correspond to proved
+  results.
+\item \emph{\TeX:} \verb|\Bbb| is obsolete (use \verb|\mathbb|), the
+  class option \verb|amsfonts| is unused, there is a stray ``b'' after
+  \verb|\end{document}|, and there is a missing parenthesis in
+  ``$\mathbb{F}_q$-valued points of a maximal torus of $PGL(2)$''. The
+  file compiles, apart from these warnings.
+\end{itemize}
+
+\section{Feasibility of repair}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{>{\raggedright}p{2.7cm}>{\raggedright}p{6.8cm}p{3.6cm}}
+\toprule
+Item & Repair & Effort\\
+\midrule
+M1 Example & Delete; replace with $\GL(2,k)$, $\SL(2,k)$ (one-line proof). & Trivial\\
+M2 Formula & Replace with the corrected formula with $W=N_G(C)/C$ and central case. & Easy\\
+M3 Corollary & Replace with the Mackey count $q+3+\delta$, $q-1+\delta$; move to a remark on non-examples. & Easy\\
+M4 Main theorem & Restate (one centralizer per conjugacy class); two-line diagonal proof; drop the $\F_2$ map. & Easy, but the result becomes modest\\
+M5 Conjecture & Becomes a proposition: $\dim=3$ for $\PSL(2,\F_{2^k})$, $\le3$ for all CT groups. & Easy\\
+M6 Spanning claim & Delete, or replace by a discussion of Brauer induction. & Easy (delete); genuine work for a new result\\
+M7 Mackey / profinite & Fix the statement and conventions; either prove a profinite theorem or delete \S5. & Moderate to hard if kept\\
+Minor items, bibliography, presentation & As listed. & Easy\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{What would remain.} After these repairs, the note consists
+of the classification (quoted), the observation that the commuting
+graph on $G\setminus Z$ is a disjoint union of cliques, the corrected
+induced-character formula, and an easy independence result for at most
+four permutation characters. Every finite CT group is abelian, a
+Frobenius group $N\rtimes H$ with $N$ abelian and $H$ cyclic, or
+$\PSL(2,\F_{2^k})$. All of these have classically known character
+tables, so a paper whose aim is ``the representation theory of finite CT
+groups'' needs a sharper question to be new.
+
+One natural option is to decompose $\Ind_C^G\mu$ explicitly, for every
+centralizer $C$ and every $\mu\in C^*$, in the two nonabelian families.
+Then determine which irreducibles occur and with what multiplicity, and
+which $\Z$-combinations of these monomial characters give all of $G^*$.
+For $\PSL(2,\F_{2^k})$ this is a pleasant exercise with the known
+character table. It would give real content to the abstract's second
+sentence. A second option is a commutation transitive analogue, with
+$Z\ne1$, for $\GL(2,\F_q)$ and $\SL(2,\F_q)$. That is where the
+$p$-adic motivation (Mackey/Mautner) actually lives.
+
+\paragraph{Recommendation.} Not acceptable in its present form. The
+errors are real but local and quickly fixed. The main obstacle is
+content rather than correctness: the corrected main results are short
+exercises. I would encourage either (a) recasting the material as a
+short expository note, perhaps a blog post or a GAP/Sage worksheet,
+with the corrections above, or (b) developing one of the two
+directions in the preceding paragraph into a genuine paper.
+
+\begin{thebibliography}{FGRS}
+\bibitem[B]{B} A.~Borel et al., \emph{Seminar on algebraic groups and related finite groups}, LNM 131, Springer.
+\bibitem[F]{F} B.~Fine, preprint 1983 (as cited in the submission).
+\bibitem[FGRS]{FGRS} B.~Fine, A.~Gaglione, G.~Rosenberger, D.~Spellman, \emph{The commutative transitive kernel} (as cited).
+\bibitem[J1]{J} D.~Joyner, Archiv der Math.\ (as cited; volume to be checked).
+\bibitem[LR]{LR} F.~Levin, G.~Rosenberger, in \emph{Groups -- St.\ Andrews 1985}, LMS LN 121.
+\bibitem[S]{S} M.~Suzuki, Proc.\ AMS \textbf{8} (1957), 686--695.
+\bibitem[Se]{Se} J.-P.~Serre, \emph{Linear representations of finite groups}, GTM 42, Springer, 1977.
+\bibitem[Wu]{Wu} Y.-F.~Wu, \emph{Groups in which commutativity is a transitive relation}, J.\ Algebra \textbf{207} (1998), 165--181.
+\end{thebibliography}
+
+\noindent\emph{Note on labels.} References such as ``the centralizer lemma of \S2''
+and ``the main theorem'' are to the labels in the submitted source
+(the centralizer lemma in \S2 and the main theorem in \S4.2).
+
+\end{document}
