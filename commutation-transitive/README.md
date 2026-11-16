@@ -45,7 +45,7 @@ section checks.
 | --- | --- | --- |
 | 2000-08-05 | Preliminary version (original) | See `archive/` |
 | 2026-11-16 | Referee report | See `referee/2026-11-16/` |
-| 2026-11-16 | Draft 1 | Corrected and expanded expository version, including the new section on harmonic morphisms and the commuting graph; see `revision-log.pdf` |
+| 2026-11-16 | Draft 1 | Corrected and expanded expository version, including the new section on harmonic morphisms and the commuting graph; see `revision-log.pdf` (commit `dd94a1d`) |
 
 ## License
 
