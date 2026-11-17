@@ -23,6 +23,7 @@
 \newtheorem{counterexample}[theorem]{Counterexample}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{question}[theorem]{Question}
+\newtheorem{naiveconj}[theorem]{Naive conjecture}
 \newtheorem{yremark}{Remark}
 \renewcommand{\theyremark}{2026.\arabic{yremark}}
 
@@ -45,11 +46,12 @@
 \newcommand{\triv}{\mathbf{1}}
 
 \title{The representation theory of finite commutation transitive groups\\[4pt]
-\large Draft 1. Corrected and expanded version (an expository note)}
+\large Draft 2. Corrected and expanded version (an expository note)}
 \author{David Joyner\thanks{This note corrects and expands the unpublished
 manuscript ``The representation theory of finite commutation transitive
 groups, preliminary version'' (file \texttt{comm\_tr6.tex}, dated 8-5-2000).
-Revision prepared November 16, 2026.}\\
+Draft~1 of this revision was prepared on November 16, 2026, and Draft~2 on
+November 17, 2026.}\\
 \texttt{wdjoyner@gmail.com}}
 \date{Original draft: 2000. Corrected and expanded draft: 2026}
 
@@ -59,21 +61,25 @@ Revision prepared November 16, 2026.}\\
 \begin{abstract}
 This expository note was revised, corrected and expanded with the help of
 an AI system (Claude, by Anthropic). See the Acknowledgments for details.
+
 A finite group is commutative transitive (CT) if commuting is a transitive
 relation on its non-identity elements. It is commutation transitive if the
 same holds on its non-central elements. Equivalently, every centralizer of a
-non-identity (respectively non-central) element is abelian. We give detailed
+non-identity (respectively non-central) element is abelian.
+We give detailed
 definitions and examples, and we survey the classification of finite CT
-groups. We then study the representations obtained by inducing characters
-from centralizers. We prove a corrected induced-character formula and an
+groups.
+
+We then study the representations obtained by inducing characters
+from centralizers. We prove an induced-character formula and an
 exact irreducibility criterion. We also prove that, in a finite CT group,
 characters induced from centralizers span the full character ring over
-$\Z$. Finally, we connect the subject to graph theory. The map sending an
-element to its conjugacy class is a harmonic morphism, in the sense of Baker
+$\Z$.
+
+Finally, we connect the subject to graph theory. The map sending an
+element to its conjugacy class induces a harmonic morphism, in the sense of Baker
 and Norine, from the commuting graph onto the commuting conjugacy class
-graph. Several claims of the 2000 draft were false. We keep them as worked
-counterexamples. One example is the claim that $\PGL(2,\F_q)$, $q$ odd, is
-CT.
+graph. 
 \end{abstract}
 
 \tableofcontents
@@ -107,11 +113,11 @@ complement, or $\PSL(2,\F_{2^f})$ with $f\ge 2$.
 
 \subsection{What this note does}
 
-The 2000 draft asked how the representations of a CT group arise from its
-centralizers. This note answers that question with complete proofs. The
+A natural question asks: how do representations of a CT group arise from its
+centralizers? This note answers that question with complete proofs. The
 main results are the following.
 \begin{enumerate}[itemsep=1pt]
-\item A correct formula for the character of $\Ind_C^G\mu$, where $C$ is a
+\item A formula for the character of $\Ind_C^G\mu$, where $C$ is a
   centralizer and $\mu$ is a character of $C$
   (Proposition~\ref{prop:indformula}).
 \item An exact criterion: in a non-abelian finite CT group, $\Ind_C^G\mu$ is
@@ -120,7 +126,7 @@ main results are the following.
 \item Linear independence of the permutation characters $\triv_A^G$, with
   one $A$ from each conjugacy class of centralizers
   (Proposition~\ref{prop:indep}). We also give the exact dimension of the
-  span of the ``support vectors'' studied in 2000
+  span of the ``support vectors'' of centralizers
   (Proposition~\ref{prop:taudim}).
 \item A spanning theorem. In a finite CT group, every virtual character is a
   $\Z$-linear combination of characters induced from linear characters of
@@ -133,23 +139,27 @@ main results are the following.
   map is harmonic only when all centralizers of non-central elements have
   the same order (Proposition~\ref{prop:noncommharm}).
 \end{enumerate}
-Several statements of the 2000 draft were wrong. We do not hide them. Each
-one is stated and refuted as a counterexample, because each one teaches
-something. They are Counterexamples~\ref{cex:pgl}, \ref{cex:quotient},
-\ref{cex:formula}, \ref{cex:pglcor}, \ref{cex:supports} and~\ref{cex:q8}.
+Along the way we state several natural guesses as ``naive conjectures''.
+Each one teaches something, so we settle each one explicitly.
+Naive Conjectures~\ref{conj:pgl}, \ref{conj:psl}, \ref{conj:quotient}
+and~\ref{conj:pgltori} are false. They are refuted by
+Counterexamples~\ref{cex:pgl}, \ref{cex:quotient} and~\ref{cex:pglcor}, and by
+Proposition~\ref{prop:psl2odd}. Naive Conjectures~\ref{conj:tau}
+and~\ref{conj:span} are true, by Proposition~\ref{prop:taudim} and
+Theorem~\ref{thm:span}. Counterexample~\ref{cex:q8} shows that
+Theorem~\ref{thm:span} needs its hypothesis.
 
 \subsection{Scope and conventions}
 
 All groups are finite, except in the literature review and in
-Question~\ref{q:profinite}. The 2000 draft announced a profinite analogue,
-but stated and proved nothing. That section has been removed. All
+Question~\ref{q:profinite}. All
 representations are complex and finite-dimensional. We identify a
 representation with its character when no confusion can arise.
 
 Each result is labeled by its status. A statement with a proof is proved
-here. A statement marked ``cited'' is taken from the given source. Numbered
-remarks of the form ``Remark~2026.$n$'' contain material that we have not
-fully verified. Some claims were also checked by computer. The script
+here. A statement marked ``cited'' is taken from the given source. A
+numbered remark of the form ``Remark~2026.$n$'' contains material that we
+have not fully verified. Some claims were also checked by computer. The script
 \texttt{comm\_tr\_checks.py} accompanies this note. It is in the folder
 \texttt{commutation-transitive/verification} of the repository
 \url{https://github.com/wdjoyner/alg-graph-thry}. It is exhaustive for the
@@ -159,7 +169,8 @@ small groups it treats, and the note says when a claim depends on it.
 \section{Literature review}\label{sec:lit}
 
 This section summarizes the literature and says where the present note fits.
-We separate work before and after the original draft of 2000.
+We separate work before and after 2000, the year in which the first draft of
+this note was written.
 
 \subsection{Before 2000}
 
@@ -171,9 +182,9 @@ simple. Wu later observed that one of Weisner's arguments has a gap
 \cite{Wu98}.
 
 \paragraph{Suzuki (1957) and Brauer--Suzuki--Wall (1958).} Suzuki
-\cite{Su57} proved that a CA-group of odd order is solvable. This was the
-first serious attack on Burnside's conjecture, later proved as the
-Feit--Thompson theorem. His argument is character-theoretic. It applies the
+\cite{Su57} proved that a CA-group of odd order is solvable. This was an
+early step toward Burnside's conjecture that groups of odd order are
+solvable, later proved as the Feit--Thompson theorem. His argument is character-theoretic. It applies the
 orthogonality relations to the abelian centralizers and their
 normalizers. Combined with the work of Brauer, Suzuki and Wall
 \cite{BSW58}, it shows that the groups $\PSL(2,\F_{2^n})$ are the only
@@ -193,6 +204,11 @@ Fuchsian and Kleinian groups. This attribution follows \cite{FGRS15}. Levin
 and Rosenberger \cite{LR86} studied power-commutative and
 commutation-transitive groups.
 
+\paragraph{The commutative transitive kernel (1997).} Fine, Gaglione,
+Rosenberger and Spellman defined the commutative transitive kernel $T(G)$ of
+a group $G$ \cite{FGRS97}. It is a normal subgroup such that $G/T(G)$ is CT,
+and $G$ is CT exactly when $T(G)=1$.
+
 \paragraph{Wu (1998).} Wu \cite{Wu98} gave a correct proof of Weisner's
 solvable case. A finite solvable CT group is the semidirect product of its
 Fitting subgroup and a cyclic group acting fixed-point-freely. Wu also
@@ -206,14 +222,8 @@ For Frobenius groups we use Isaacs \cite{Is76}.
 
 \subsection{After 2000}
 
-\paragraph{The original draft.} The preliminary version of this note was
-circulated in 2000. A companion preprint computed examples for $A_5$ in GAP
-\cite{Jo00}.
-
 \paragraph{CT groups in combinatorial and model-theoretic group theory.}
-Fine, Gaglione, Rosenberger and Spellman studied the ``commutative
-transitive kernel'' \cite{FGRS00}. Fine and Rosenberger surveyed the subject
-in 2009 \cite{FR09}. In 2015, Fine, Gaglione, Rosenberger and Spellman
+Fine and Rosenberger surveyed the subject in 2009 \cite{FR09}. In 2015, Fine, Gaglione, Rosenberger and Spellman
 compared CT groups with CSA groups, in which maximal abelian subgroups are
 malnormal \cite{FGRS15}. They explain that commutative transitivity was
 important in the solution of the Tarski problems. Duncan, Kazachkov and
@@ -264,7 +274,8 @@ later. Each subsection has an example.
 
 \subsection{Centralizers, normalizers and conjugacy}\label{sec:conj}
 
-Let $G$ be a finite group. The \emph{centralizer} of $g\in G$ is
+Centralizers are the basic objects of this note. This subsection fixes the
+notation for them and for conjugacy classes. Let $G$ be a finite group. The \emph{centralizer} of $g\in G$ is
 $\Cent(g,G)=\{x\in G : xg=gx\}$. The \emph{center} is $Z=Z(G)=\{g : gx=xg
 \text{ for all }x\in G\}$. The \emph{normalizer} of a subgroup $H$ is
 $N_G(H)=\{x\in G: xHx^{-1}=H\}$. The \emph{conjugacy class} of $g$ is
@@ -291,9 +302,9 @@ Let $G=S_3$ and $g=(123)$. Then $\Cent(g,G)=A_3$ and $\Conj(g,G)=
 \{(123),(132)\}$, which has $2=[S_3:A_3]$ elements. For $g=(12)$ we get
 $\Cent(g,G)=\{1,(12)\}$ and three conjugates.
 
-The cosets in Lemma~\ref{lem:conjcent} must be \emph{right} cosets. The 2000
-draft used left cosets $x\Cent(g,G)$, and that map is not well defined. Take
-$g=(12)$, $x=(13)$ and $c=(12)\in\Cent(g,G)$. Then $x$ and $xc$ lie in the
+The cosets in Lemma~\ref{lem:conjcent} must be \emph{right} cosets. With
+left cosets $x\Cent(g,G)$ the map is not well defined. Take $g=(12)$,
+$x=(13)$ and $c=(12)\in\Cent(g,G)$. Then $x$ and $xc$ lie in the
 same left coset. But $x^{-1}gx=(23)$, while $(xc)^{-1}g(xc)=
 c^{-1}(23)c=(13)$.
 \end{example}
@@ -360,6 +371,10 @@ $|A/\varphi(A)|=|\ker\varphi|$.
 \end{proof}
 
 \subsection{Induced representations}\label{sec:induction}
+
+Most representations in this note are induced from abelian centralizers.
+This subsection recalls induction and the two theorems of Mackey that decide
+when an induced representation is irreducible.
 
 Let $H\le G$ and let $\rho$ be a representation of $H$ with character
 $\chi_\rho$. The \emph{induced representation} $\Ind_H^G\rho$ has character
@@ -551,6 +566,9 @@ Lemma~\ref{lem:collapse}(a) predicts.
 %======================================================================
 \section{Notation}\label{sec:notation}
 
+The table collects the symbols used repeatedly. Each symbol is also defined
+where it first appears.
+
 \begin{center}
 \renewcommand{\arraystretch}{1.15}
 \begin{tabular}{>{$}l<{$}p{11.5cm}}
@@ -592,8 +610,8 @@ T,\ T',\ U & split torus, non-split torus, unipotent subgroup\\
 \label{sec:ct}
 
 This section defines the two classes of groups, gives examples and
-non-examples, and recalls the classification. It ends with three false
-claims from the 2000 draft, each refuted.
+non-examples, and recalls the classification. It ends with three naive
+conjectures, each of which is false.
 
 \subsection{Definitions and first examples}\label{sec:defs}
 
@@ -702,7 +720,11 @@ copies of $K_4$, one for each subgroup of order~$5$: $24$ elements of
 order~$5$. Section~\ref{sec:harmonic} studies maps out of this graph.
 \end{example}
 
-\subsection{Centralizers are malnormal}\label{sec:malnormal}
+\subsection{Intersections of conjugate centralizers}\label{sec:malnormal}
+
+In a commutation transitive group, two conjugate centralizers are either
+equal or meet only in the center. This subsection proves that fact and draws
+a consequence for self-normalizing centralizers.
 
 \begin{lemma}\label{lem:cent}
 Let $G$ be commutation transitive, $g_0\notin Z$ and $C=\Cent(g_0,G)$.
@@ -727,8 +749,6 @@ and $xg_0x^{-1}\notin Z$. By (a), applied to both centralizers,
 $C=\Cent(c,G)=xCx^{-1}$.
 \end{proof}
 
-The 2000 draft states (c) as ``two centralizers are disjoint or equal''.
-That is false as written, since every subgroup contains~$1$ and $Z$.
 
 \begin{proposition}\label{prop:selfnorm}
 Let $G$ be commutation transitive, $g_0\notin Z$ and $C=\Cent(g_0,G)$.
@@ -756,6 +776,9 @@ Proposition~\ref{prop:selfnorm} requires for a simple group.
 
 \subsection{The classification of finite CT groups}\label{sec:classif}
 
+The finite CT groups are known completely. We state the classification and
+then check directly that the groups in the list are CT.
+
 \begin{theorem}[Weisner, Suzuki, Brauer--Suzuki--Wall, Wu. Cited]
 \label{thm:classif}
 A finite group $G$ is CT if and only if one of the following holds.
@@ -776,11 +799,11 @@ is abelian, so it falls under~(i).
 
 \begin{remark}\label{rem:weisnerk}
 Weisner states the simple case with $f>2$. But $\PSL(2,\F_4)$ has order
-$60$, so it is isomorphic to $A_5$, which is CT. This was already noted in
-the 2000 draft.
+$60$, so it is isomorphic to $A_5$, which is CT. 
 \end{remark}
 
-Both directions of ``if'' can be checked directly.
+The ``if'' direction of Theorem~\ref{thm:classif} can be checked directly
+for cases (ii) and~(iii).
 
 \begin{proposition}\label{prop:frobct}
 Let $N$ be a finite abelian group and $H\neq1$ a cyclic group acting
@@ -868,11 +891,22 @@ Example~\ref{ex:a5graph}. The two classes of $5$-cycles are the classes of
 $a$ and $a^2$, for a generator $a$ of $C_5$. We call them $5A$ and $5B$.
 \end{example}
 
-\subsection{Three false claims of the 2000 draft}\label{sec:false}
+\subsection{Three naive conjectures}\label{sec:false}
+
+The examples above suggest three plausible guesses. This subsection states
+each one and shows that it is false.
+
+For even $q$ the groups $\PGL(2,\F_q)$ and $\PSL(2,\F_q)$ coincide, and they
+are CT by Proposition~\ref{prop:psl2even}. For odd $q$ the two groups are
+closely related, since $\PSL(2,\F_q)$ has index~$2$ in $\PGL(2,\F_q)$. This
+suggests the following.
+
+\begin{naiveconj}\label{conj:pgl}
+For every odd prime power $q$, the group $\PGL(2,\F_q)$ is CT.
+\end{naiveconj}
 
 \begin{counterexample}[$\PGL(2,\F_q)$ is not CT]\label{cex:pgl}
-The 2000 draft claimed that $\PGL(2,\F_q)$ is CT for odd $q$. This is false
-for every odd $q$. Let $t$ be the image of $\diag(-1,1)$ and $w$ the image
+Naive Conjecture~\ref{conj:pgl} is false for every odd $q$. Let $t$ be the image of $\diag(-1,1)$ and $w$ the image
 of $\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$. Conjugation
 by $w$ sends $\diag(-1,1)$ to $\diag(1,-1)=-\diag(-1,1)$, so $w$ commutes
 with $t$ in $\PGL(2,\F_q)$. The image $\bar T$ of the diagonal torus also
@@ -881,11 +915,17 @@ $q-1$. So $\Cent(t)\supseteq\langle\bar T,w\rangle$, which is dihedral of
 order $2(q-1)$ and non-abelian when $q\ge5$. For $q=3$ the group is $S_4$,
 which is not CT by Example~\ref{ex:nonct}. The center of $\PGL(2,\F_q)$ is
 trivial, so the group is not commutation transitive either.
-
-Ironically, the draft's own footnote supplies this pair $t,w$.
 \end{counterexample}
 
-The same idea settles the odd case of $\PSL(2,\F_q)$.
+The groups $\PSL(2,\F_3)\cong A_4$ and $\PSL(2,\F_5)\cong A_5$ are CT. So
+one might guess that the parity of $q$ does not matter for $\PSL$.
+
+\begin{naiveconj}\label{conj:psl}
+For every odd prime power $q$, the group $\PSL(2,\F_q)$ is CT.
+\end{naiveconj}
+
+The same idea as in Counterexample~\ref{cex:pgl} shows that this holds only
+for $q=3$ and $q=5$.
 
 \begin{proposition}\label{prop:psl2odd}
 For odd $q$, $\PSL(2,\F_q)$ is CT if and only if $q\in\{3,5\}$.
@@ -922,18 +962,38 @@ commute with $\bar x$. So $\Cent(\bar t)\supseteq\langle\bar S,\bar x
 The accompanying script confirms that $\PSL(2,\F_7)$ is not CT, while
 $\PSL(2,\F_3)$ and $\PSL(2,\F_5)$ are.
 
+Central elements commute with everything, so one might expect the center
+to be irrelevant to commutation transitivity.
+
+\begin{naiveconj}\label{conj:quotient}
+If $G$ is commutation transitive, then so is $G/Z(G)$.
+\end{naiveconj}
+
 \begin{counterexample}[Commutation in $G/Z$ is not commutation in $G$]
 \label{cex:quotient}
-The 2000 draft transported the relation of commuting from $G\setminus Z$ to
-$(G\setminus Z)/Z$, by declaring $\bar x\sim\bar y$ when $x$ and $y$
-commute. That relation is transitive. But it is not the same as commuting in
-$G/Z$. For odd $q$, $\GL(2,\F_q)$ is commutation transitive
-(Proposition~\ref{prop:gl2}). Its quotient by the center is
-$\PGL(2,\F_q)$, which is not (Counterexample~\ref{cex:pgl}). So the class of
-commutation transitive groups is not closed under passing to $G/Z(G)$. By
-contrast, Wu shows that the class of locally finite CT groups is closed
-under quotients \cite{Wu98}. (Cited.)
+Naive Conjecture~\ref{conj:quotient} is false. For odd $q$, $\GL(2,\F_q)$
+is commutation transitive (Proposition~\ref{prop:gl2}). Its quotient by the
+center is $\PGL(2,\F_q)$, which is not (Counterexample~\ref{cex:pgl}).
+
+The source of the failure is this. One can transport commuting from
+$G\setminus Z$ to $(G\setminus Z)/Z$ by declaring $\bar x\sim\bar y$ when $x$
+and $y$ commute. That relation is transitive. But it is not the same as
+commuting in $G/Z$. Two cosets can commute in $G/Z$ even though their
+representatives do not commute in $G$. For example, the images of
+$\diag(-1,1)$ and $\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}
+\right)$ commute in $\PGL(2,\F_q)$, but the matrices do not commute in
+$\GL(2,\F_q)$.
 \end{counterexample}
+
+\begin{yremark}\label{rem:wu}
+For CT groups the analogue of Naive Conjecture~\ref{conj:quotient} says
+nothing, because a non-abelian CT group has trivial center
+(Proposition~\ref{prop:basic}(c)). The interesting question for CT groups
+is about arbitrary quotients. Wu shows that every quotient of a locally
+finite CT group is CT \cite{Wu98}. In particular, every quotient of a finite
+CT group is CT. We have this statement from secondary summaries of
+\cite{Wu98}, not from the paper itself.
+\end{yremark}
 
 %======================================================================
 \section{Inducing characters from centralizers}\label{sec:induced}
@@ -947,6 +1007,10 @@ one-dimensional. The group $N_G(C)$ acts on $C$ by conjugation. Since $C$
 acts trivially, this is an action of $W(C)=N_G(C)/C$.
 
 \subsection{The character formula}
+
+Because $C$ is abelian, and meets each conjugate other than itself only in
+$Z$ (Lemma~\ref{lem:cent}(c)), the general formula \eqref{eq:indchar}
+collapses to a short sum over $W(C)$.
 
 \begin{proposition}\label{prop:indformula}
 Let $\chi=\Ind_C^G\mu$ and $g\in G$.
@@ -977,15 +1041,6 @@ the coset $sN_G(C)$, and the elements $u^{-1}au$ form the $W(C)$-orbit of
 $a$. The term $\mu(u^{-1}au)$ depends only on $uC$, because $C$ is abelian.
 \end{proof}
 
-\begin{counterexample}[The 2000 formula]\label{cex:formula}
-The 2000 draft stated \eqref{eq:indformula} with the sum over $N_G(C)$ and
-without the factor $|C|^{-1}$. It also gave $|N_G(C)|\mu(g)$ for central
-$g\neq1$, instead of (a). Take $G=S_3$, $C=A_3$ and $\mu$ non-trivial, as in
-Example~\ref{ex:s3ind}. At a $3$-cycle the true value is $-1$, while the
-draft's formula gives $\omega+\omega^2$ summed over $N_G(C)=S_3$, which is
-$-3$.
-\end{counterexample}
-
 \begin{example}\label{ex:a5ind}
 Let $G=A_5$ and $C=\langle a\rangle\cong C_5$, with $\mu_k(a)=\zeta^k$ and
 $\zeta=e^{2\pi i/5}$. Here $|W(C)|=10/5=2$, and $W(C)$ acts by $a\mapsto
@@ -995,6 +1050,9 @@ $\zeta^2+\zeta^{-2}=-\phi$ on $5B$. Here $\phi=(1+\sqrt5)/2$.
 \end{example}
 
 \subsection{Irreducibility}
+
+Mackey's criterion takes a very simple form for centralizers in a CT group.
+The answer depends only on whether the centralizer is normal.
 
 \begin{theorem}\label{thm:irred}
 Let $G$ be a finite non-abelian CT group, $1\neq g_0\in G$,
@@ -1064,9 +1122,9 @@ centralizer and every character.
 
 \subsection{\texorpdfstring{Tori in $\PGL(2,\F_q)$}{Tori in PGL(2,Fq)}}
 
-The 2000 draft also stated a reducibility result for $\PGL(2,\F_q)$. Since
-that group is not CT for odd $q$, the results above do not apply to it. We
-compute the answer directly with Mackey's formula.
+This section proves a reducibility result for $\PGL(2,\F_q)$. Since
+that group is not CT for odd $q$, the results above do not apply to it.
+Instead, the answer is found directly using Mackey's formula.
 
 \begin{proposition}\label{prop:pglnorm}
 Let $G=\PGL(2,\F_q)$. Let $T\le G$ be the image of a maximal torus of
@@ -1120,9 +1178,17 @@ $1$. The number of such double cosets is $(|G|-2|T|)/|T|^2$. With
 $|G|=q(q-1)(q+1)$ this equals $q+2$ for $|T|=q-1$, and $q-2$ for $|T|=q+1$.
 \end{proof}
 
-\begin{counterexample}[The 2000 corollary]\label{cex:pglcor}
-The 2000 draft claimed that if $\pi\neq\pi^h$ for all $h\in N_G(T)\setminus
-T$, then $\Ind_T^G\pi$ is reducible. For $q\ge3$ this is true, but for a
+Proposition~\ref{prop:pglnorm} invites a comparison with the following
+guess, in which the hypothesis is the usual regularity condition on $\pi$.
+
+\begin{naiveconj}\label{conj:pgltori}
+Let $G$, $T$ and $\pi$ be as in Proposition~\ref{prop:pglnorm}. If
+$\pi\neq\pi^h$ for all $h\in N_G(T)\setminus T$, then $\Ind_T^G\pi$ is
+reducible.
+\end{naiveconj}
+
+\begin{counterexample}\label{cex:pglcor}
+For $q\ge3$ Naive Conjecture~\ref{conj:pgltori} is true, but for a
 reason unrelated to the hypothesis. By Proposition~\ref{prop:pglnorm}, the
 norm is at least $q-1\ge2$ for every $\pi$. For $q=2$ it is false. Here
 $G\cong S_3$, the non-split torus is $T\cong A_3$, and for $\pi\neq\triv$ we
@@ -1136,8 +1202,9 @@ and the non-split formula for $q=2,3$.
 %======================================================================
 \section{Permutation characters and supports}\label{sec:perm}
 
-This section corrects the main theorem of the 2000 draft. That theorem was
-about linear independence of the permutation characters $\triv_A^G$.
+This section proves that the permutation characters $\triv_A^G$, with one
+centralizer $A$ from each conjugacy class, are linearly independent. It then
+computes the span of the support vectors of the centralizers.
 
 \begin{definition}\label{def:supp}
 The \emph{support} of a subgroup $H\le G$ is $\supp(H)=\{\gamma\in G_*:
@@ -1152,19 +1219,6 @@ $\tau(C_3)=(1,0,1,0,0)$, $\tau(C_5)=(1,0,0,1,1)$ and $\tau(A_5)=(1,1,1,1,1)$.
 Over $\F_2$ we have $\tau(V_4)+\tau(C_3)+\tau(C_5)=\tau(A_5)$.
 \end{example}
 
-\begin{counterexample}[Distinct supports do not imply independence]
-\label{cex:supports}
-The 2000 draft argued that functions ``supported on pairwise distinct
-sets'' cannot satisfy a linear relation. That is false. Take three classes
-$\alpha,\beta,\gamma$, with $f_1=\triv_\alpha+\triv_\beta$,
-$f_2=\triv_\alpha+\triv_\gamma$ and $f_3=2\cdot\triv_\alpha+\triv_\beta+
-\triv_\gamma$. The supports are distinct, and even independent over $\F_2$.
-Yet $f_3=f_1+f_2$. The converse fails too. In $A_5$ the four vectors of
-Example~\ref{ex:a5tau} are dependent over $\F_2$. But the four permutation
-characters are linearly independent over $\C$ (Table~\ref{tab:a5perm}).
-\end{counterexample}
-
-The correct statement needs no $\F_2$-linear algebra.
 
 \begin{proposition}\label{prop:indep}
 Let $G$ be a non-abelian commutation transitive group. Let $A_1,\dots,A_m$
@@ -1217,9 +1271,16 @@ $\triv_{G}^G$ & 1 & 1 & 1 & 1 & 1 & $\triv$\\
 \end{tabular}
 \end{table}
 
-The 2000 draft conjectured that the span of the vectors $\tau(\Cent(g,G))$
-has dimension at most~$4$ for simple CT groups. The following proposition
-settles this.
+Computer experiments with $\PSL(2,\F_{2^k})$ for small $k$ suggest the
+following.
+
+\begin{naiveconj}\label{conj:tau}
+For a finite simple CT group $G$, the span of the vectors $\tau(\Cent(g,G))$,
+$g\in G$, has dimension at most~$4$ over~$\F_2$.
+\end{naiveconj}
+
+The following proposition shows that Naive Conjecture~\ref{conj:tau} is true.
+The sharp bound is~$3$, and it holds for every finite CT group.
 
 \begin{proposition}\label{prop:taudim}
 Let $G$ be non-abelian and commutation transitive, with $m$ as in
@@ -1243,21 +1304,24 @@ come from Propositions~\ref{prop:frobct} and~\ref{prop:psl2even}.
 The script confirms Proposition~\ref{prop:taudim} for $\PSL(2,\F_q)$ with
 $q=4,8,16$. In each case there are $4$ distinct vectors, of rank~$3$.
 
-\begin{yremark}\label{rem:gap}
-The 2000 conjecture was based on GAP computations for $\PSL(2,\F_{2^k})$
-with $2\le k\le5$, which suggested the bound~$4$. Our guess is that those
-computations counted the distinct vectors ($4$) rather than the rank ($3$).
-The original GAP code has not been available to check this.
-\end{yremark}
 
 %======================================================================
 \section{A spanning theorem}\label{sec:span}
 
-The 2000 draft concluded that ``all the representations in $G^*$ can be
-obtained from linear combinations of monomial representations'', and
-attributed this kind of result to Gelfand and Graev. That conclusion did not
-follow from its theorem. This section proves a correct version, using
-Brauer's induction theorem instead.
+Since the centralizers of a CT group are abelian, every character of a
+centralizer is one-dimensional. So the characters $\Ind_C^G\mu$ are
+monomial. This suggests the following.
+
+\begin{naiveconj}\label{conj:span}
+Let $G$ be a finite CT group. Every irreducible character of $G$ is a
+$\Z$-linear combination of characters $\Ind_C^G\mu$, where $C$ is the
+centralizer of a non-identity element and $\mu\in\widehat C$.
+\end{naiveconj}
+
+This section proves Naive Conjecture~\ref{conj:span}, as
+Theorem~\ref{thm:span}. The proof uses Brauer's induction theorem. For
+commutation transitive groups with non-trivial center the analogous
+statement can fail (Counterexample~\ref{cex:q8}).
 
 A group is \emph{elementary} if it is the direct product of a cyclic group
 and a $p$-group, for some prime $p$. Elementary groups are nilpotent.
@@ -1371,6 +1435,9 @@ classes of centralizers of non-central elements, and $D_i$ is the set of
 non-central classes meeting $A_i$.
 
 \subsection{The commuting conjugacy class graph}
+
+The target of the class map is a graph on conjugacy classes. For commutation
+transitive groups it is a disjoint union of complete graphs.
 
 \begin{definition}[Herzog--Longobardi--Maj \cite{HLM09}]\label{def:ccc}
 The \emph{commuting conjugacy class graph} $\Delta(G)$ has the non-central
@@ -1518,8 +1585,8 @@ and no group is a union of two proper subgroups.
 \begin{proposition}\label{prop:noncommharm}
 Let $\psi_G\colon\Gamma^c(G)\to K_M$ collapse each part $C\setminus Z$ to a
 vertex. Then $\psi_G$ is harmonic if and only if all centralizers of
-non-central elements have the same order $s+|Z|$. In that case $\deg
-\psi_G=s^2$, and the Riemann--Hurwitz formula holds.
+non-central elements have the same order $s+|Z|$. In that case
+$\deg \psi_G=s^2$, and the Riemann--Hurwitz formula holds.
 \end{proposition}
 
 \begin{proof}
@@ -1559,38 +1626,40 @@ sees the different sizes of the centralizers, and harmonicity is lost.
 %======================================================================
 \section{Summary of results and open questions}\label{sec:summary}
 
-This section lists the results with their status, and relates them to the
-2000 draft.
+This section lists the main results with their status. It then poses
+some open questions.
 
 \begin{center}
 \renewcommand{\arraystretch}{1.15}
 \begin{tabular}{>{\raggedright}p{4.6cm}>{\raggedright}p{2.2cm}>{\raggedright\arraybackslash}p{7cm}}
 \toprule
-Result & Status & Relation to the 2000 draft\\
+Result & Status & Content\\
 \midrule
-Thm.~\ref{thm:classif} (classification) & cited & Restated in full,
-attributions corrected\\
-Prop.~\ref{prop:gl2} ($\GL_2$, $\SL_2$) & proved & Was cited without proof\\
-Cex.~\ref{cex:pgl}, Prop.~\ref{prop:psl2odd} & proved & The draft's Example
-was false\\
-Lemma~\ref{lem:cent}, Prop.~\ref{prop:selfnorm} & proved & Corrected
-versions of draft statements\\
-Props.~\ref{prop:frobct}, \ref{prop:psl2even} & proved & New\\
-Prop.~\ref{prop:indformula} & proved & Draft formula off by $|C|$
-(Cex.~\ref{cex:formula})\\
-Thm.~\ref{thm:irred}, Cor.~\ref{cor:frobchars} & proved & New\\
-Prop.~\ref{prop:pglnorm} & proved & Replaces the draft's Corollary
-(Cex.~\ref{cex:pglcor})\\
-Prop.~\ref{prop:indep} & proved & Replaces the draft's main theorem
-(Cex.~\ref{cex:supports})\\
-Prop.~\ref{prop:taudim} & proved & Settles the draft's Conjecture
-(dimension $3$, not $4$)\\
-Thm.~\ref{thm:span} & proved & Correct form of the draft's final claim\\
-Prop.~\ref{prop:ccc}, Thm.~\ref{thm:harmonic} & proved & New (graph
-theory)\\
-Prop.~\ref{prop:noncommharm}, Cor.~\ref{cor:noncommct} & proved & New
-(graph theory)\\
-Remark~\ref{rem:gap} & unverified & Possible source of the bound $4$\\
+Thm.~\ref{thm:classif} & cited & Classification of finite CT groups\\
+Props.~\ref{prop:frobct}, \ref{prop:psl2even} & proved & The groups in the
+classification are CT\\
+Prop.~\ref{prop:gl2} & proved & $\GL(2,k)$ and $\SL(2,k)$ are commutation
+transitive\\
+Cex.~\ref{cex:pgl}, Prop.~\ref{prop:psl2odd} & proved & $\PGL(2,\F_q)$ and
+$\PSL(2,\F_q)$, $q$ odd\\
+Lemma~\ref{lem:cent}, Prop.~\ref{prop:selfnorm} & proved & Conjugate
+centralizers\\
+Prop.~\ref{prop:indformula} & proved & Characters induced from
+centralizers\\
+Thm.~\ref{thm:irred}, Cor.~\ref{cor:frobchars} & proved & Irreducibility
+criterion\\
+Prop.~\ref{prop:pglnorm} & proved & Norms of characters induced from tori
+in $\PGL(2,\F_q)$\\
+Prop.~\ref{prop:indep} & proved & Independence of permutation characters\\
+Prop.~\ref{prop:taudim} & proved & Dimension of the span of support
+vectors\\
+Thm.~\ref{thm:span} & proved & Spanning theorem\\
+Prop.~\ref{prop:ccc}, Thm.~\ref{thm:harmonic} & proved & The class map is
+harmonic\\
+Prop.~\ref{prop:noncommharm}, Cor.~\ref{cor:noncommct} & proved & The
+non-commuting graph\\
+Remark~\ref{rem:wu} & cited, not verified & Quotients of locally finite CT
+groups\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1635,13 +1704,16 @@ refines Theorem~\ref{thm:harmonic}.
 Wu classified the locally finite CT groups \cite{Wu98}. Is there a version
 of Theorem~\ref{thm:span} for profinite CT groups and their continuous
 finite-dimensional representations? Such a representation factors through a
-finite quotient. But a finite quotient of a CT group need not be CT
-(compare Counterexample~\ref{cex:quotient}), so the proof does not carry
-over directly.
+finite quotient. But a finite quotient of an infinite CT group need not be
+CT. For example, free groups are CT, and every finite group is a quotient of
+a free group. So the proof does not carry over directly.
 \end{question}
 
 %======================================================================
 \section{Glossary}\label{sec:glossary}
+
+Short definitions of the technical terms used in the note. The background
+and body give fuller explanations.
 
 \begin{description}[itemsep=2pt,leftmargin=0pt]
 \item[AC-group.] A group whose centralizers of non-central elements are all
@@ -1699,11 +1771,12 @@ over directly.
 %======================================================================
 \section*{Acknowledgments}
 
-The 2000 draft thanked Tony Gaglione, Dennis Spellman and Jill McGowan for
-helpful conversations, and those thanks stand.
+The author thanks Tony Gaglione, Dennis Spellman and Jill McGowan for
+helpful conversations.
 
-Claude (Anthropic, model Claude Opus 5.5) refereed the 2000 draft. It then
-drafted this corrected and expanded version. The new material includes the
+Claude (Anthropic, model Claude Opus 5.5) served as referee and as reviser.
+It refereed the earlier drafts, and it drafted much of this corrected and
+expanded version. The new material includes the
 proofs of
 Propositions~\ref{prop:frobct}, \ref{prop:psl2even}, \ref{prop:psl2odd},
 \ref{prop:indformula}, \ref{prop:pglnorm}, \ref{prop:indep} and
@@ -1712,12 +1785,14 @@ Theorems~\ref{thm:irred}, \ref{thm:span} and~\ref{thm:harmonic}. The
 connection with harmonic morphisms (Section~\ref{sec:harmonic}) was
 suggested by Claude and adopted by the author. The new material also
 includes the literature review and the computer checks in
-\texttt{comm\_tr\_checks.py}. AI review is not an independent certification
+\texttt{comm\_tr\_checks.py}.
+
+AI review is not an independent certification
 of these results. Further details on the AI usage, the sources consulted
 and not consulted, and the split between original and new results are in
 the revision log.
 
-\begin{thebibliography}{FGRS00}
+\begin{thebibliography}{FGRS97}
 
 \bibitem[AAM06]{AAM06} A.~Abdollahi, S.~Akbari, H.~R.~Maimani,
 Non-commuting graph of a group, \emph{J. Algebra} \textbf{298} (2006),
@@ -1742,9 +1817,9 @@ which commutativity is transitive, preprint (2009),
 Centraliser dimension and universal classes of groups, preprint (2005),
 \texttt{arXiv:math/0502498}.
 
-\bibitem[FGRS00]{FGRS00} B.~Fine, A.~Gaglione, G.~Rosenberger,
-D.~Spellman, The commutative transitive kernel, cited in 2000 as ``to
-appear in \emph{Algebra Colloquium}''.
+\bibitem[FGRS97]{FGRS97} B.~Fine, A.~M.~Gaglione, G.~Rosenberger,
+D.~Spellman, The commutative transitive kernel, \emph{Algebra Colloq.}
+\textbf{4} (1997), 141--152.
 
 \bibitem[FGRS15]{FGRS15} B.~Fine, A.~Gaglione, G.~Rosenberger,
 D.~Spellman, On CT and CSA groups and related ideas, preprint (2015),
@@ -1755,7 +1830,8 @@ Fuchsian and Kleinian groups, in \emph{Modular Functions in Analysis and
 Number Theory}, University of Pittsburgh Press, 1983, 41--55.
 
 \bibitem[FR09]{FR09} B.~Fine, G.~Rosenberger, Reflections on commutative
-transitivity, in \emph{Aspects of Infinite Groups}, World Scientific, 2009.
+transitivity, in \emph{Aspects of Infinite Groups}, World Scientific, 2009,
+112--130.
 
 \bibitem[GM23]{GM23} V.~Grazian, C.~Monetta, A conjecture related to the
 nilpotency of groups with isomorphic non-commuting graphs, preprint (2023),
@@ -1770,9 +1846,6 @@ Groups}, Academic Press, 1976.
 
 \bibitem[JM17]{JM17} W.~D.~Joyner, C.~G.~Melles, \emph{Adventures in Graph
 Theory}, Applied and Numerical Harmonic Analysis, Birkh\"auser, 2017.
-
-\bibitem[Jo00]{Jo00} D.~Joyner, Representation theory of $A_5$ using GAP,
-preprint, 2000.
 
 \bibitem[LR86]{LR86} F.~Levin, G.~Rosenberger, On power-commutative and
 commutation-transitive groups, in \emph{Proceedings of Groups---St.\

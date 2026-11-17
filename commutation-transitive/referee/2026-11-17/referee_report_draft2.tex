@@ -1,0 +1,175 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{courier}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Ind}{Ind}
+
+\title{Referee report on the hand-edited Draft 1 of\\
+\emph{The representation theory of finite commutation transitive groups}\\
+(file \texttt{commutation-transitive-groups2.tex})}
+\author{Referee: Claude (Anthropic, Claude Opus 5.5)}
+\date{November 17, 2026}
+
+\begin{document}
+\maketitle
+
+\section*{What was read}
+
+I read the whole uploaded file (1,810 lines) and compiled it with pdflatex.
+For comparison I used Draft~1 as it stands in the repository (commit
+\texttt{bd9e320}) and the house style sheet
+\texttt{joyner-math-paper-style-guide.md} (Draft~2). I did not consult the
+full texts of the cited papers. The revision log of Draft~2 lists the
+sources consulted for the bibliography.
+
+Line numbers below refer to the uploaded file. Each item has a verdict
+(correct, misprint, fixable gap or false) and a verification level. Level~1
+is an independent derivation. Level~2 is a check against a source I
+consulted. Level~3 is reliance on memory. Every item has been dealt with in
+Draft~2, as recorded in its revision log.
+
+\section*{Summary}
+
+The hand edits remove most comparisons with the 2000 manuscript and recast
+several results as answers to natural conjectures. That is a good
+expository device. The edits left three broken cross-references. They also
+left one false statement in the introduction (some of the ``false''
+conjectures are true), and one incorrect justification, in
+Question~10.5. The mathematics of the theorems and proofs is unchanged from
+Draft~1, and I found no new errors in it. The remaining points concern
+precision and style.
+
+\section{Correctness}
+
+\begin{enumerate}[label=\textbf{C\arabic*.},leftmargin=*,itemsep=4pt]
+\item \textbf{Broken references.} The introduction (line 144) cites
+  Counterexamples \verb|cex:formula| and \verb|cex:supports|. The summary
+  table (lines 1569, 1574, 1582) also cites \verb|rem:gap|. All three items
+  were deleted, so pdflatex prints ``??''. \emph{Verdict:} misprint.
+  \emph{Level:} 1 (compiled).
+
+\item \textbf{Question 10.5, the profinite question (lines 1623--1630).} It
+  says that a finite quotient of a CT group need not be CT, ``compare
+  Counterexample~5.18''. That counterexample is about commutation transitive
+  groups and the center, not about CT groups. Moreover every quotient of a
+  \emph{finite} CT group is CT, by the result of Wu cited in the same draft.
+  The claim itself is true for infinite CT groups, for the right reason.
+  Free groups are CT, and every finite group is a quotient of a free group.
+  \emph{Verdict:} false justification of a true statement. \emph{Level:} 1.
+
+\item \textbf{The introduction misdescribes the conjectures (lines
+  140--144).} It says the conjectural statements are false and each is
+  refuted by a counterexample. But the conjecture before
+  Proposition~7.4 (dimension at most~$4$) is true, and
+  Proposition~7.4 proves it with the sharp bound~$3$. The ``classification''
+  conjecture in Section~8 is also true (Theorem~8.3). The conjecture on
+  $\PSL(2,\F_q)$ is refuted by a proposition, not a counterexample.
+  \emph{Verdict:} false as written. \emph{Level:} 1.
+
+\item \textbf{The third conjecture of Section 5.5 (lines 932--934)}, that
+  ``commutation in $G/Z$ is `the same as' commutation in $G$'', is not a
+  mathematical statement. The counterexample that follows refutes a precise
+  statement: if $G$ is commutation transitive, then so is $G/Z(G)$.
+  \emph{Verdict:} fixable gap. \emph{Level:} 1.
+
+\item \textbf{The conjecture of Section 8 (lines 1244--1246)} uses the
+  symbol $G^*$, which the draft no longer defines. As stated (all
+  representations are linear combinations of monomial representations), it
+  holds for \emph{every} finite group, by Brauer's induction theorem. So it
+  says nothing specific about CT groups. The content of Theorem~8.3 is that
+  monomial characters induced from \emph{centralizers} suffice. The
+  conjecture should say this. \emph{Verdict:} fixable gap. \emph{Level:} 1
+  for the logic, 3 for the location of Brauer's theorem in Serre's book.
+
+\item \textbf{Wu's quotient-closure statement (Counterexample 5.18, lines
+  944--946).} The statement rests on secondary summaries of Wu's paper, not
+  on the paper itself. Its connection to the counterexample is also unclear.
+  For CT groups the analogue about $G/Z$ says nothing, because a non-abelian
+  CT group has trivial center. The meaningful statement is that every
+  quotient of a locally finite CT group is CT. It belongs in a
+  ``Remark~2026.$n$'' (style sheet, rule~6.6). \emph{Verdict:} fixable gap.
+  \emph{Level:} 2 (secondary sources only).
+
+\item \textbf{Title of Subsection 5.3, ``Centralizers are malnormal''
+  (line 708).} Lemma~5.8(c) shows that two conjugate centralizers are equal
+  or meet in~$Z$. A centralizer is malnormal only when $Z=1$ and the
+  centralizer is self-normalizing. \emph{Verdict:} misprint (inaccurate
+  title). \emph{Level:} 1.
+
+\item \textbf{Bibliography and literature review.}
+  \begin{itemize}[itemsep=1pt]
+  \item The ``commutative transitive kernel'' paper is cited as ``cited in
+    2000 as `to appear in Algebra Colloquium'\,''. It appeared in
+    \emph{Algebra Colloq.}\ \textbf{4} (1997), 141--152. So it belongs in
+    the pre-2000 part of the literature review. \emph{Level:} 2.
+  \item Fine--Rosenberger 2009 lacks its page range, 112--130.
+    \emph{Level:} 2.
+  \item The entry \texttt{Jo00} is no longer cited. \emph{Level:} 1.
+  \item ``The first serious attack on Burnside's conjecture'' (line 179)
+    overstates the claim. ``An early step toward'' is safe. \emph{Level:} 3.
+  \end{itemize}
+  \emph{Verdict:} misprints.
+\end{enumerate}
+
+\paragraph{Checked and correct.} I re-read every proof in the draft:
+Lemmas~3.1, 3.6, 3.9, 3.13, 5.8, 8.2 and~9.4, Propositions~5.2, 5.5, 5.6,
+5.9, 5.13, 5.14, 5.17, 6.1, 6.6, 7.3, 7.4, 9.2 and~9.7,
+Theorems~6.3, 8.3 and~9.5, and Corollaries~6.4 and~9.8. All are correct
+(level~1). The numbers are those of the uploaded file. I reran the
+verification script \texttt{comm\_tr\_checks.py}. Its output is identical to
+the output for Draft~1, and agrees with every computational claim in the
+draft (level~1).
+
+\section{Readability}
+
+\begin{enumerate}[label=\textbf{R\arabic*.},leftmargin=*,itemsep=4pt]
+\item \textbf{The conjectures are informal and unnumbered.} They appear as
+  ``here's a natural \emph{Conjecture}'', ``Is the following classification
+  true?'' and so on (lines 873, 891, 932, 1125, 1212, 1244), and cannot be
+  cross-referenced. One counterexample starts ``You can't transport\dots''
+  (line 938). I suggest a numbered environment, ``Naive conjecture'', with a
+  precise statement and a one-sentence motivation for each.
+\item \textbf{Lines 213--214.} ``draafted'' is a typo. The paragraph is a
+  single sentence, and it fits better in the opening of the literature
+  review, where it explains the split at 2000.
+\item \textbf{Line 783.} ``Both directions of `if' can be checked directly''
+  is unclear. The intended meaning is that the ``if'' direction of
+  Theorem~5.11 can be checked directly for cases (ii) and~(iii).
+\end{enumerate}
+
+\section{Style sheet}
+
+\begin{enumerate}[label=\textbf{S\arabic*.},leftmargin=*,itemsep=4pt]
+\item \textbf{Rule 6.2.} The subtitle still reads ``Draft 1''.
+\item \textbf{Rule 6.4 (revision history out of the body).} Comparisons with
+  the 2000 manuscript remain at lines 127 (``studied in 2000''), 297--298
+  (left cosets), 878 (Counterexample~5.16), 1552 and~1558 (summary table),
+  1691 and~1694 (Acknowledgments) and~1737 (bibliography). The title-page
+  footnote, the date line and the literature-review split at 2000 should
+  stay, since rules~6.2, 6.3 and~2.3 require them.
+\item \textbf{Rule 3.2 (orienting paragraphs).} The following begin without
+  one: Subsections~3.1 and~3.3, Section~4 (Notation), Subsections~5.3
+  and~5.4, Subsections~6.1 and~6.2, Subsection~9.1, and Section~11
+  (Glossary).
+\end{enumerate}
+
+\section*{Recommendation}
+
+All points are local and have been fixed in Draft~2. After these
+corrections I see no remaining mathematical errors. The ``naive
+conjecture'' framing makes the note easier to read than Draft~1.
+
+\end{document}

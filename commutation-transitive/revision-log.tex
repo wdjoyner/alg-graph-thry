@@ -15,46 +15,66 @@
 \newcommand{\F}{\mathbb{F}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\triv}{\mathbf{1}}
 \DeclareMathOperator{\PGL}{PGL}
 \DeclareMathOperator{\PSL}{PSL}
 \DeclareMathOperator{\GL}{GL}
 \DeclareMathOperator{\SL}{SL}
 \DeclareMathOperator{\Ind}{Ind}
 \DeclareMathOperator{\Cent}{Cent}
+\DeclareMathOperator{\Conj}{Conj}
 
 \title{Revision log\\[4pt]\large ``The representation theory of finite
-commutation transitive groups'', Draft 1\\(corrected and expanded expository
+commutation transitive groups'', Draft 2\\(corrected and expanded expository
 version)}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
-\date{November 16, 2026}
+\date{November 17, 2026}
 
 \begin{document}
 \maketitle
 
-\section{Files}\label{sec:files}
+\noindent This log records every change from the original 2000 manuscript
+to Draft~1, and from Draft~1 to Draft~2. Theorem numbers of Draft~2 are
+generated from the note's \texttt{.aux} file, so compile the note first.
+Numbers of the 2000 manuscript and of Draft~1 are historical and are typed
+by hand.
+
+\section{Files and drafts}\label{sec:files}
 
 \begin{itemize}[itemsep=1pt]
 \item All files are in the folder \texttt{commutation-transitive} of the
   repository \url{https://github.com/wdjoyner/alg-graph-thry}.
 \item Original: \texttt{comm\_tr6.tex}, ``preliminary version'' dated
-  8-5-2000, unpublished. It is kept unchanged in \texttt{archive/}.
-\item Draft 1: \texttt{commutation-transitive-groups.tex} and its PDF.
-\item Referee report on the original, November 16, 2026:
-  \texttt{referee/2026-11-16/}.
+  8-5-2000, unpublished. Draft~1 kept a frozen copy in \texttt{archive/}. At
+  the author's request, \texttt{archive/} was removed from the repository on
+  November 17, 2026. The original remains in the git history, in commit
+  \texttt{dd94a1d}, at the path
+  \nolinkurl{commutation-transitive/archive/comm_tr6_2000-08-05.tex}. The
+  command \texttt{git show dd94a1d:<path>} prints it.
+\item Draft 1 (November 16, 2026): commits \texttt{dd94a1d} and
+  \texttt{bd9e320}, merged as pull request~\#4.
+\item Draft 2 (November 17, 2026): \texttt{commutation-transitive-groups.tex}
+  and its PDF. Its starting point was the author's hand-edited copy of
+  Draft~1.
+\item Referee reports: on the original, \texttt{referee/2026-11-16/}. On the
+  author's hand-edited copy of Draft~1, \texttt{referee/2026-11-17/}.
 \item Script: \texttt{verification/comm\_tr\_checks.py} (Python~3, standard
   library and NumPy), with its output in
   \texttt{verification/checks\_output.txt}. A full run takes about one
-  minute. It is exhaustive for the groups it treats. The folder's
-  \texttt{README.md} records the commits.
+  minute. It is exhaustive for the groups it treats. It was not changed for
+  Draft~2, and it was rerun with identical output.
 \end{itemize}
 
 \section{AI usage}\label{sec:ai}
 
-All AI work on this draft was done by Claude (Anthropic, model Claude Opus
-5.5) on November 16, 2026, in a single session.
+All AI work was done by Claude (Anthropic, model Claude Opus 5.5). No other
+AI system was involved. AI review is not an independent certification of
+the results.
+
+\paragraph{Draft 1 (November 16, 2026).}
 \begin{enumerate}[itemsep=1pt]
 \item \emph{Referee.} Claude refereed \texttt{comm\_tr6.tex} for correctness,
-  readability and repairability. It wrote the referee report.
+  readability and repairability, and wrote the referee report.
 \item \emph{Reviser and co-author of new material.} At the author's request,
   Claude turned the paper into an expository note. It wrote all new text,
   proofs, examples, the literature review, the notation table and the
@@ -68,98 +88,340 @@ All AI work on this draft was done by Claude (Anthropic, model Claude Opus
   graph theory, Claude proposed studying the class map on the commuting
   graph as a harmonic morphism. The author asked for it to be added, and
   Claude wrote Section~\ref{N-sec:harmonic} and Subsection~\ref{N-sec:harmbg}
-  and extended the script (items 10--12 of
-  Section~\ref{sec:computations}).
+  and extended the script.
 \end{enumerate}
-No other AI system was involved. The author has not yet reviewed Draft~1.
-AI review is not an independent certification of the results.
+
+\paragraph{Draft 2 (November 17, 2026).}
+\begin{enumerate}[itemsep=1pt]
+\item \emph{Referee.} Claude refereed the author's hand-edited copy of
+  Draft~1 for correctness and readability. The report is in
+  \texttt{referee/2026-11-17/}.
+\item \emph{Reviser.} Claude made the changes listed in
+  Section~\ref{sec:d1d2}(b), moved all comparisons with the 2000 manuscript
+  out of the note into Section~\ref{sec:moved} of this log, and updated the
+  repository.
+\item \emph{Literature.} Claude located the published version of the
+  ``commutative transitive kernel'' paper and the page range of
+  Fine--Rosenberger 2009 (Section~\ref{sec:sources}).
+\end{enumerate}
+
+\section{Changes from Draft 1 to Draft 2}\label{sec:d1d2}
+
+\paragraph{(a) Changes made by the author, in his hand-edited copy.}
+\begin{itemize}[itemsep=1pt]
+\item Removed Counterexample~6.2 (the 2000 induced-character formula),
+  Counterexample~7.3 (the 2000 proof of the main theorem) and
+  Remark~2026.1 (the GAP origin of the bound~$4$). Their content is
+  preserved in Section~\ref{sec:moved}.
+\item Removed several references to the 2000 manuscript from the body, and
+  reduced the literature-review paragraph on the original draft to one
+  sentence.
+\item Reworded the abstract into three paragraphs, and the introduction's
+  ``What this note does'' paragraph.
+\item Introduced informal ``Conjecture'' statements before
+  Counterexamples~\ref{N-cex:pgl}, \ref{N-cex:quotient} and~\ref{N-cex:pglcor},
+  before Proposition~\ref{N-prop:psl2odd}, before
+  Proposition~\ref{N-prop:taudim}, and at the start of
+  Section~\ref{N-sec:span}.
+\item Reworded Counterexample~\ref{N-cex:quotient} and the opening of
+  Section~\ref{N-sec:perm}.
+\end{itemize}
+
+\paragraph{(b) Changes made by Claude.} Each change answers an item of the
+Draft~2 referee report (numbers in brackets).
+\begin{itemize}[itemsep=1pt]
+\item Subtitle changed to ``Draft 2'', and the title footnote dated
+  [S1].
+\item Repaired three broken references (\verb|cex:formula|,
+  \verb|cex:supports|, \verb|rem:gap|) left by the removals, in the
+  introduction and in the summary table [C1].
+\item Removed the remaining comparisons with the 2000 manuscript from the
+  body: the introduction, Example~\ref{N-ex:s3conj},
+  Counterexample~\ref{N-cex:pgl}, the summary table and the
+  Acknowledgments [S2]. They are recorded in Section~\ref{sec:moved}.
+\item Turned the informal conjectures into numbered ``Naive conjecture''
+  statements (Naive Conjectures~\ref{N-conj:pgl}, \ref{N-conj:psl},
+  \ref{N-conj:quotient}, \ref{N-conj:pgltori}, \ref{N-conj:tau}
+  and~\ref{N-conj:span}). Each has a precise statement and a short motivation
+  [R1]. The introduction now says which are false and which are true [C3].
+\item Made Naive Conjecture~\ref{N-conj:quotient} precise (``if $G$ is
+  commutation transitive, then so is $G/Z(G)$'') [C4].
+\item Made Naive Conjecture~\ref{N-conj:span} precise. The draft's version,
+  about ``linear combinations of monomial representations'', is true for
+  every finite group by Brauer's theorem, and used the undefined symbol
+  $G^*$ [C5].
+\item Corrected the justification in Question~\ref{N-q:profinite} [C2].
+\item Moved Wu's quotient-closure statement into Remark~\ref{N-rem:wu},
+  since it rests on secondary sources, and rewrote it so that it says
+  something non-trivial [C6].
+\item Retitled Subsection~\ref{N-sec:malnormal} [C7]. Reworded the sentence
+  introducing Propositions~\ref{N-prop:frobct} and~\ref{N-prop:psl2even}
+  [R3].
+\item Bibliography: the ``commutative transitive kernel'' paper is now
+  cited from its publication, \texttt{FGRS97}, and described in the
+  pre-2000 literature review. Added the page range of \texttt{FR09}. Removed
+  the uncited entry \texttt{Jo00}. Softened the claim about Suzuki's paper
+  [C8].
+\item Added orienting paragraphs to the subsections that lacked them (style
+  sheet, rule 3.2) [S3]. Fixed the typo ``draafted'' by merging that
+  sentence into the opening of the literature review [R2].
+\end{itemize}
+No theorem, proposition or lemma changed its mathematical content.
+
+\section{Material moved out of the note in Draft 2}\label{sec:moved}
+
+The style sheet keeps revision history out of the body (rule~6.4). The
+following comparisons with the 2000 manuscript appeared in Draft~1 and are
+recorded here instead.
+
+\subsection{The coset map (Example~\ref{N-ex:s3conj})}
+The 2000 manuscript stated the bijection between $\Conj(g,G)$ and the cosets
+of $\Cent(g,G)$ with \emph{left} cosets, $x^{-1}gx\leftrightarrow
+x\Cent(g,G)$. That map is not well defined. Example~\ref{N-ex:s3conj} still
+shows why, without the historical remark.
+
+\subsection{\texorpdfstring{$\PGL(2,\F_q)$ (Counterexample~\ref{N-cex:pgl})}{PGL(2,q)}}
+The 2000 manuscript (its Example~2) claimed that $\PGL(2,\F_q)$ is CT for odd
+$q$. Its own footnote to Remark~2 contained the pair of matrices that refutes
+the claim.
+
+\subsection{The induced-character formula (Draft 1, Counterexample 6.2)}
+The 2000 manuscript (its Lemma~8) stated the formula of
+Proposition~\ref{N-prop:indformula}(c) with the sum over $N_G(C)$ and without
+the factor $|C|^{-1}$. It also gave $|N_G(C)|\mu(g)$ for central $g\neq1$,
+instead of $[G:C]\mu(g)$. Draft~1 refuted it as follows. Take $G=S_3$,
+$C=A_3$ and $\mu$ non-trivial. At a $3$-cycle the true value is $-1$, while
+the 2000 formula gives $\omega+\omega^2$ summed over $N_G(C)=S_3$, which is
+$-3$.
+
+\subsection{The proof of the main theorem (Draft 1, Counterexample 7.3)}
+The 2000 manuscript (its Theorem~11) argued that functions ``supported on
+pairwise distinct sets'' cannot satisfy a linear relation. Draft~1 refuted
+this principle. Take three classes $\alpha,\beta,\gamma$, with
+$f_1=\triv_\alpha+\triv_\beta$, $f_2=\triv_\alpha+\triv_\gamma$ and
+$f_3=2\cdot\triv_\alpha+\triv_\beta+\triv_\gamma$. The supports are
+distinct, and even independent over $\F_2$. Yet $f_3=f_1+f_2$. The converse
+fails too. In $A_5$ the four vectors of Example~\ref{N-ex:a5tau} are
+dependent over $\F_2$, but the four permutation characters are linearly
+independent over $\C$ (Table~\ref{N-tab:a5perm}).
+Proposition~\ref{N-prop:indep} is the corrected statement.
+
+\subsection{The conjectured bound 4 (Draft 1, Remark 2026.1)}
+The 2000 manuscript (its Conjecture~12) was based on GAP computations for
+$\PSL(2,\F_{2^k})$ with $2\le k\le5$, which suggested the bound~$4$. Draft~1
+guessed that those computations counted the distinct vectors ($4$) rather
+than the rank ($3$). The original GAP code has not been available to check
+this. In Draft~2 the conjecture appears as Naive
+Conjecture~\ref{N-conj:tau}, and Proposition~\ref{N-prop:taudim} proves it
+with the sharp bound~$3$. Draft~2 reuses the label ``Remark~2026.1'' for a
+different statement (Remark~\ref{N-rem:wu}).
+
+\subsection{The closing claim (Section~\ref{N-sec:span})}
+The 2000 manuscript ended by asserting that its main theorem shows that all
+irreducible representations can be obtained from linear combinations of
+monomial representations, and attributed this kind of result to Gelfand and
+Graev. That did not follow from the theorem. Theorem~\ref{N-thm:span} is a
+correct version. The relevant tool is Brauer's induction theorem, not the
+Gelfand--Graev representations.
+
+\subsection{Literature and acknowledgments}
+\begin{itemize}[itemsep=1pt]
+\item Draft~1 described the original draft in the literature review and
+  cited a companion preprint, D.~Joyner, ``Representation theory of $A_5$
+  using GAP'' (2000), which has not been located. Draft~2 keeps one sentence
+  about the year 2000, because rule~2.3 of the style sheet splits the
+  literature review at the date of the original.
+\item The 2000 manuscript cited the commutative transitive kernel paper as
+  ``to appear in \emph{Algebra Colloquium}''. Draft~2 cites the published
+  version.
+\item The 2000 manuscript thanked Tony Gaglione, Dennis Spellman and Jill
+  McGowan. Draft~2 keeps the thanks without the historical remark.
+\end{itemize}
+
+\subsection{The summary table of Draft 1}
+Draft~1's summary table had a column ``Relation to the 2000 draft''. Draft~2
+replaces it with a column describing the content. The removed column read as
+follows.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{>{\raggedright}p{5.4cm}>{\raggedright\arraybackslash}p{8.6cm}}
+\toprule
+Result (Draft 2 number) & Relation to the 2000 manuscript\\
+\midrule
+Theorem~\ref{N-thm:classif} & Restated in full, attributions corrected\\
+Proposition~\ref{N-prop:gl2} & Was cited without proof\\
+Counterexample~\ref{N-cex:pgl}, Proposition~\ref{N-prop:psl2odd} & The 2000
+Example~2 was false\\
+Lemma~\ref{N-lem:cent}, Proposition~\ref{N-prop:selfnorm} & Corrected
+versions of 2000 statements\\
+Propositions~\ref{N-prop:frobct}, \ref{N-prop:psl2even} & New\\
+Proposition~\ref{N-prop:indformula} & The 2000 formula was off by $|C|$\\
+Theorem~\ref{N-thm:irred}, Corollary~\ref{N-cor:frobchars} & New\\
+Proposition~\ref{N-prop:pglnorm} & Replaces the 2000 Corollary~9\\
+Proposition~\ref{N-prop:indep} & Replaces the 2000 main theorem\\
+Proposition~\ref{N-prop:taudim} & Settles the 2000 conjecture (dimension
+$3$, not $4$)\\
+Theorem~\ref{N-thm:span} & Correct form of the 2000 closing claim\\
+Proposition~\ref{N-prop:ccc}, Theorem~\ref{N-thm:harmonic} & New (graph
+theory)\\
+Proposition~\ref{N-prop:noncommharm}, Corollary~\ref{N-cor:noncommct} & New
+(graph theory)\\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \section{Original results and new results}\label{sec:split}
 
-\paragraph{From the 2000 draft, kept (corrected where noted).}
+\paragraph{From the 2000 manuscript, kept (corrected where noted).}
 \begin{itemize}[itemsep=1pt]
 \item The definitions of CT and commutation transitive groups.
-\item The statement of the classification (Theorem~\ref{N-thm:classif}). It was extended
-  to the full classification, and the attributions were corrected.
+\item The statement of the classification (Theorem~\ref{N-thm:classif}). It
+  was extended to the full classification, and the attributions were
+  corrected.
 \item Commutation transitivity of $\GL(2,k)$. It was cited in 2000 and is
   now proved (Proposition~\ref{N-prop:gl2}).
-\item The commuting graph lemma (Proposition~\ref{N-prop:graph}) and the centralizer lemma
-  (Lemma~\ref{N-lem:cent}). Part (c) of Lemma~\ref{N-lem:cent} corrects ``disjoint or equal''.
-\item The self-normalizing centralizer observation (Proposition~\ref{N-prop:selfnorm}). It is
-  corrected to pass to $G/Z$.
-\item The equivalence with abelian centralizers (Proposition~\ref{N-prop:basic}).
-\item The induced-character formula (Proposition~\ref{N-prop:indformula}), corrected by the
-  factor $|C|^{-1}$ and at central elements.
+\item The commuting graph lemma (Proposition~\ref{N-prop:graph}) and the
+  centralizer lemma (Lemma~\ref{N-lem:cent}). Part (c) of
+  Lemma~\ref{N-lem:cent} corrects ``disjoint or equal''.
+\item The self-normalizing centralizer observation
+  (Proposition~\ref{N-prop:selfnorm}), corrected to pass to $G/Z$.
+\item The equivalence with abelian centralizers
+  (Proposition~\ref{N-prop:basic}).
+\item The induced-character formula (Proposition~\ref{N-prop:indformula}),
+  corrected by the factor $|C|^{-1}$ and at central elements.
 \item The support map $\tau$ (Definition~\ref{N-def:supp}).
 \item Weisner's $k>2$ remark (Remark~\ref{N-rem:weisnerk}).
+\item The bound in the 2000 conjecture, now Naive
+  Conjecture~\ref{N-conj:tau}.
 \end{itemize}
 
 \paragraph{New in 2026.}
 \begin{itemize}[itemsep=1pt]
-\item Proposition~\ref{N-prop:frobct} (Frobenius groups are CT) and Proposition~\ref{N-prop:psl2even}
-  (structure of $\PSL(2,\F_{2^f})$).
-\item Proposition~\ref{N-prop:psl2odd} ($\PSL(2,\F_q)$, $q$ odd, is CT only for $q=3,5$).
-\item Theorem~\ref{N-thm:irred} (irreducibility criterion) and Corollary~\ref{N-cor:frobchars}.
-\item Proposition~\ref{N-prop:pglnorm} (Mackey norms for tori in $\PGL(2,\F_q)$).
-\item Proposition~\ref{N-prop:indep} (independence of permutation characters). This
-  replaces the 2000 main theorem.
-\item Proposition~\ref{N-prop:taudim} (dimension of the $\tau$-span). This settles the 2000
-  conjecture, with $3$ in place of $4$.
-\item Lemma~\ref{N-lem:nilp} and Theorem~\ref{N-thm:span} (spanning theorem via Brauer induction).
-  This replaces the 2000 claim about monomial representations.
+\item Proposition~\ref{N-prop:frobct} (Frobenius groups are CT) and
+  Proposition~\ref{N-prop:psl2even} (structure of $\PSL(2,\F_{2^f})$).
+\item Proposition~\ref{N-prop:psl2odd} ($\PSL(2,\F_q)$, $q$ odd, is CT only
+  for $q=3,5$).
+\item Theorem~\ref{N-thm:irred} (irreducibility criterion) and
+  Corollary~\ref{N-cor:frobchars}.
+\item Proposition~\ref{N-prop:pglnorm} (Mackey norms for tori in
+  $\PGL(2,\F_q)$).
+\item Proposition~\ref{N-prop:indep} (independence of permutation
+  characters).
+\item Proposition~\ref{N-prop:taudim} (dimension of the $\tau$-span).
+\item Lemma~\ref{N-lem:nilp} and Theorem~\ref{N-thm:span} (spanning theorem
+  via Brauer induction).
 \item The graph theory: Lemma~\ref{N-lem:collapse},
   Proposition~\ref{N-prop:ccc}, Lemma~\ref{N-lem:free},
-  Theorem~\ref{N-thm:harmonic} (the class map is harmonic),
-  Proposition~\ref{N-prop:noncommharm} and Corollary~\ref{N-cor:noncommct}.
-  The 2000 draft defined the commuting graph (its Lemma~4) but did not use
-  it further.
-\item All counterexamples, examples, the literature review, the notation
-  table, the glossary and Questions~\ref{N-q:psl}--\ref{N-q:profinite}.
+  Theorem~\ref{N-thm:harmonic}, Proposition~\ref{N-prop:noncommharm} and
+  Corollary~\ref{N-cor:noncommct}. The 2000 manuscript defined the commuting
+  graph (its Lemma~4) but did not use it further.
+\item All counterexamples, examples, naive conjectures, the literature
+  review, the notation table, the glossary and
+  Questions~\ref{N-q:psl}--\ref{N-q:profinite}.
 \end{itemize}
 
-\paragraph{From the 2000 draft, withdrawn.}
+\paragraph{From the 2000 manuscript, withdrawn.}
 \begin{itemize}[itemsep=1pt]
-\item Example~2 ($\PGL(2,\F_q)$ CT). False. It is now
+\item Example~2 ($\PGL(2,\F_q)$ is CT). False. It is now Naive
+  Conjecture~\ref{N-conj:pgl}, refuted by
   Counterexample~\ref{N-cex:pgl}.
 \item Corollary~9. False for $q=2$, and true for $q\ge3$ for a different
-  reason. It is now Counterexample~\ref{N-cex:pglcor}.
-\item The proof of Theorem~11. Invalid. It is now Counterexample~\ref{N-cex:supports}.
-\item The statement that the main theorem yields all of $G^*$. It did not
-  follow. It is replaced by Theorem~\ref{N-thm:span}.
-\item The general (locally compact) Mackey criterion, Lemma~7 and
-  Remark~4. They are not needed for finite groups and were imprecise. The
-  finite criterion is Theorem~\ref{N-thm:mackey}(b).
+  reason. It is now Naive Conjecture~\ref{N-conj:pgltori}, settled by
+  Counterexample~\ref{N-cex:pglcor}.
+\item The proof of Theorem~11. Invalid (Section~\ref{sec:moved}).
+\item The closing claim about monomial representations. It did not follow.
+  It is replaced by Theorem~\ref{N-thm:span}.
+\item The general (locally compact) Mackey criterion, Lemma~7 and Remark~4.
+  They are not needed for finite groups and were imprecise. The finite
+  criterion is Theorem~\ref{N-thm:mackey}(b).
 \item Section~5 (profinite groups). It had no content. It is now
   Question~\ref{N-q:profinite}.
-\item The paragraph on the method of little groups (\S4.1). Corollary~\ref{N-cor:frobchars}
-  covers the solvable CT case directly.
+\item The paragraph on the method of little groups (\S4.1).
+  Corollary~\ref{N-cor:frobchars} covers the solvable CT case directly.
 \end{itemize}
 
-\section{Concordance}\label{sec:concordance}
+\section{Concordances}\label{sec:concordance}
+
+\subsection{From the 2000 manuscript to Draft 2}
 
 \begin{center}
 \renewcommand{\arraystretch}{1.12}
 \begin{tabular}{>{\raggedright}p{5.2cm}>{\raggedright\arraybackslash}p{9cm}}
 \toprule
-2000 draft & Draft 1 (2026)\\
+2000 manuscript & Draft 2\\
 \midrule
-Theorem 1 (classification) & Theorem \ref{N-thm:classif} and Remark \ref{N-rem:weisnerk}\\
-Remark 1 (Weisner, Wu) & Remark \ref{N-rem:weisnerk} and Section \ref{N-sec:lit}\\
-Example 2 ($\PGL(2,\F_q)$) & Counterexample \ref{N-cex:pgl} (refuted)\\
-Theorem 3 (free groups, $\GL_2$) & Example \ref{N-ex:ctexamples}(5), Proposition \ref{N-prop:gl2}\\
-Remark 2 (relation on $G/Z$) & Counterexample \ref{N-cex:quotient}\\
-Lemma 4 (commuting graph) & Proposition \ref{N-prop:graph}\\
-Lemma 5 (centralizer lemma) & Lemma \ref{N-lem:cent}\\
-Paragraph on $C=N_G(C)$ & Proposition \ref{N-prop:selfnorm}, Example \ref{N-ex:selfnorm}\\
-Lemma 6, Remark 3 (abelian centralizers) & Proposition \ref{N-prop:basic}\\
-Lemma 7, Remark 4 (Mackey criterion) & Theorem \ref{N-thm:mackey}\\
-Lemma 8 (Frobenius formula) & Proposition \ref{N-prop:indformula}, Counterexample \ref{N-cex:formula}\\
-Corollary 9 ($\PGL_2$ tori) & Proposition \ref{N-prop:pglnorm}, Counterexample \ref{N-cex:pglcor}\\
-Definition 10 (support) & Definition \ref{N-def:supp}\\
-Theorem 11 (main theorem) & Proposition \ref{N-prop:indep}, Counterexample \ref{N-cex:supports}\\
-Conjecture 12 & Proposition \ref{N-prop:taudim}, Remark \ref{N-rem:gap}\\
-Closing claim (monomial reps) & Theorem \ref{N-thm:span}, Example \ref{N-ex:a5span}, Counterexample \ref{N-cex:q8}\\
-Section 5 (profinite) & Question \ref{N-q:profinite}\\
+Theorem 1 (classification) & Theorem~\ref{N-thm:classif} and
+Remark~\ref{N-rem:weisnerk}\\
+Remark 1 (Weisner, Wu) & Remark~\ref{N-rem:weisnerk} and
+Section~\ref{N-sec:lit}\\
+Example 2 ($\PGL(2,\F_q)$) & Naive Conjecture~\ref{N-conj:pgl},
+Counterexample~\ref{N-cex:pgl}\\
+Theorem 3 (free groups, $\GL_2$) & Example~\ref{N-ex:ctexamples}(5),
+Proposition~\ref{N-prop:gl2}\\
+Remark 2 (relation on $G/Z$) & Naive Conjecture~\ref{N-conj:quotient},
+Counterexample~\ref{N-cex:quotient}\\
+Lemma 4 (commuting graph) & Proposition~\ref{N-prop:graph}\\
+Lemma 5 (centralizer lemma) & Lemma~\ref{N-lem:cent}\\
+Paragraph on $C=N_G(C)$ & Proposition~\ref{N-prop:selfnorm},
+Example~\ref{N-ex:selfnorm}\\
+Lemma 6, Remark 3 (abelian centralizers) & Proposition~\ref{N-prop:basic}\\
+Lemma 7, Remark 4 (Mackey criterion) & Theorem~\ref{N-thm:mackey}\\
+Lemma 8 (Frobenius formula) & Proposition~\ref{N-prop:indformula}, and
+Section~\ref{sec:moved} of this log\\
+Corollary 9 ($\PGL_2$ tori) & Proposition~\ref{N-prop:pglnorm}, Naive
+Conjecture~\ref{N-conj:pgltori}, Counterexample~\ref{N-cex:pglcor}\\
+Definition 10 (support) & Definition~\ref{N-def:supp}\\
+Theorem 11 (main theorem) & Proposition~\ref{N-prop:indep}, and
+Section~\ref{sec:moved} of this log\\
+Conjecture 12 & Naive Conjecture~\ref{N-conj:tau},
+Proposition~\ref{N-prop:taudim}\\
+Closing claim (monomial reps) & Naive Conjecture~\ref{N-conj:span},
+Theorem~\ref{N-thm:span}, Example~\ref{N-ex:a5span},
+Counterexample~\ref{N-cex:q8}\\
+Section 5 (profinite) & Question~\ref{N-q:profinite}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{From Draft 1 to Draft 2}
+
+Sections~1--4 and~9--11 keep their numbering. The changes are in
+Sections~5--8.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{>{\raggedright}p{6.2cm}>{\raggedright\arraybackslash}p{8cm}}
+\toprule
+Draft 1 & Draft 2\\
+\midrule
+Subsection 5.3, ``Centralizers are malnormal'' & Subsection~\ref{N-sec:malnormal},
+retitled\\
+Subsection 5.5, ``Three false claims of the 2000 draft'' & Subsection~\ref{N-sec:false}, retitled\\
+--- & Naive Conjectures~\ref{N-conj:pgl}, \ref{N-conj:psl},
+\ref{N-conj:quotient} (new)\\
+Counterexample 5.16 & Counterexample~\ref{N-cex:pgl}\\
+Proposition 5.17 & Proposition~\ref{N-prop:psl2odd}\\
+Counterexample 5.18 & Counterexample~\ref{N-cex:quotient}\\
+--- & Remark~\ref{N-rem:wu} (new; text from Counterexample 5.18)\\
+Counterexample 6.2 & Removed (Section~\ref{sec:moved})\\
+Example 6.3 & Example~\ref{N-ex:a5ind}\\
+Theorem 6.4, Corollary 6.5 & Theorem~\ref{N-thm:irred},
+Corollary~\ref{N-cor:frobchars}\\
+Example 6.6 & Example~\ref{N-ex:frobchars}\\
+Proposition 6.7 & Proposition~\ref{N-prop:pglnorm}\\
+--- & Naive Conjecture~\ref{N-conj:pgltori} (new)\\
+Counterexample 6.8 & Counterexample~\ref{N-cex:pglcor}\\
+Counterexample 7.3 & Removed (Section~\ref{sec:moved})\\
+Proposition 7.4 & Proposition~\ref{N-prop:indep}\\
+--- & Naive Conjecture~\ref{N-conj:tau} (new)\\
+Proposition 7.5 & Proposition~\ref{N-prop:taudim}\\
+Remark 2026.1 (GAP bound) & Removed (Section~\ref{sec:moved})\\
+--- & Naive Conjecture~\ref{N-conj:span} (new)\\
+Theorem 8.1, Lemma 8.2, Theorem 8.3 & Theorem~\ref{N-thm:brauer},
+Lemma~\ref{N-lem:nilp}, Theorem~\ref{N-thm:span}\\
+Example 8.4, Counterexample 8.5 & Example~\ref{N-ex:a5span},
+Counterexample~\ref{N-cex:q8}\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -177,7 +439,8 @@ pages only).}
 \item Suzuki 1957: title (``\emph{odd} order''), volume and pages from the
   AMS website, and the first page from an online copy. The first page states
   condition (W) and that $LF(2,2^n)$ are the only simple groups satisfying
-  it. The original's bibliography said ``even order''. That was an error.
+  it. The 2000 manuscript's bibliography said ``even order''. That was an
+  error.
 \item Brauer--Suzuki--Wall 1958: bibliographic data from the reference list
   of Suzuki 1957 on the AMS website.
 \item Schmidt 1970: bibliographic data from Numdam. The description of its
@@ -187,13 +450,23 @@ pages only).}
   portal). The review states the solvable result and the correction of
   Weisner. The statements about locally finite CT groups, Tarski monsters and
   closure under quotients come from secondary summaries (Wikipedia and a
-  paper summary site), not from the paper.
+  paper summary site), not from the paper. This is why
+  Remark~\ref{N-rem:wu} is marked unverified.
+\item Fine--Gaglione--Rosenberger--Spellman 1997 (Draft 2): journal, volume,
+  year and pages from G.~Rosenberger's publication list (Universit\"at
+  Hamburg) and from the reference list of a paper by Moravec and coauthors.
+  B.~Fine's own publication list gives ``No.~2 (1997) 141--152'', which is
+  the issue number. One Springer reference list gives volume~2, which
+  conflicts with the other two sources. The note follows the majority,
+  volume~4. The description of the kernel in Section~\ref{N-sec:lit} follows
+  a ResearchGate abstract that quotes the definition. The paper itself was
+  not consulted.
 \item Fine 1983: bibliographic data from the reference list of the 2015
-  arXiv paper by Fine, Gaglione, Rosenberger and Spellman. This replaces
-  ``preprint 1983''.
+  arXiv paper by Fine, Gaglione, Rosenberger and Spellman.
 \item The 2015 paper by Fine, Gaglione, Rosenberger and Spellman
-  (\texttt{arXiv:1506.02636}), and Fine--Rosenberger 2009: the introduction
-  and reference list of the arXiv paper. The page range of Fine--Rosenberger 2009 was not obtained.
+  (\texttt{arXiv:1506.02636}): introduction and reference list.
+\item Fine--Rosenberger 2009: the page range 112--130 (Draft 2) from
+  G.~Rosenberger's and B.~Fine's publication lists.
 \item Abdollahi--Akbari--Maimani 2006: bibliographic data and abstract.
 \item Grazian--Monetta 2023: arXiv abstract and Section 2 excerpt.
 \item Duncan--Kazachkov--Remeslennikov 2005: arXiv abstract. The abstract
@@ -218,9 +491,9 @@ pages only).}
 \paragraph{Not consulted (level 3).}
 \begin{itemize}[itemsep=1pt]
 \item The full texts of Weisner, Suzuki, Brauer--Suzuki--Wall, Schmidt and
-  Wu. Theorem~\ref{N-thm:classif} is cited on the strength of the abstracts, reviews and
-  secondary summaries listed above. Its statement agrees across all of
-  them.
+  Wu. Theorem~\ref{N-thm:classif} is cited on the strength of the abstracts,
+  reviews and secondary summaries listed above. Its statement agrees across
+  all of them.
 \item Serre 1977: the section numbers for the induced character formula
   (\S7.2), Mackey (\S7.3--7.4) and Brauer's theorem (Chapter~10) are from
   memory.
@@ -232,40 +505,42 @@ pages only).}
   note.
 \item Levin--Rosenberger 1986: not located. The exact title (``commutation''
   or ``commutative'') is unchecked.
-\item Fine--Gaglione--Rosenberger--Spellman, ``The commutative transitive
-  kernel'': not located. It is cited as in the 2000 draft.
-\item Joyner 2000, ``Representation theory of $A_5$ using GAP'': not
-  located.
 \item Baker--Norine 2009, Section~2: the statements of the degree lemma and
   the Riemann--Hurwitz formula (Theorem~\ref{N-thm:bn}) are from memory.
   The note never depends on them. Every degree and every Riemann--Hurwitz
   identity it uses is verified directly in Lemma~\ref{N-lem:collapse}.
 \item Urakawa 2000: the bibliographic data are from memory.
 \item Melles--Joyner 2026: the data are as recorded by the author.
+\item The claim in Section~\ref{N-sec:lit} that Suzuki's paper was an early
+  step toward the odd order theorem is standard, and from memory.
 \end{itemize}
 
 \section{Computational verification}\label{sec:computations}
 
 \texttt{comm\_tr\_checks.py} checks the following by exhaustive computation
-with explicit matrices and exact group tables.
+with explicit matrices and exact group tables. The output was identical when
+rerun for Draft~2.
 \begin{enumerate}[itemsep=1pt]
 \item Which of $\GL(2,q)$, $\PGL(2,q)$, $\PSL(2,q)$ ($q=3,5,7$) and
   $\SL(2,q)$ ($q=4,8$) have abelian centralizers of non-central elements.
-  (Proposition~\ref{N-prop:gl2}, Counterexample~\ref{N-cex:pgl}, Propositions~\ref{N-prop:psl2even} and~\ref{N-prop:psl2odd}.)
-\item The induced-character value in $S_3$, and the irreducibility at
-  $q=2$. (Counterexamples~\ref{N-cex:formula} and~\ref{N-cex:pglcor}.)
+  (Proposition~\ref{N-prop:gl2}, Counterexample~\ref{N-cex:pgl},
+  Propositions~\ref{N-prop:psl2even} and~\ref{N-prop:psl2odd}.)
+\item The induced-character value in $S_3$ that refutes the 2000 formula
+  (Section~\ref{sec:moved}), and the irreducibility at $q=2$
+  (Counterexample~\ref{N-cex:pglcor}).
 \item The Mackey norms for split tori in $\PGL(2,q)$, $q=3,5,7$, for every
-  character, and for the non-split torus in $\PGL(2,3)\cong S_4$. (Proposition~\ref{N-prop:pglnorm}.)
+  character, and for the non-split torus in $\PGL(2,3)\cong S_4$.
+  (Proposition~\ref{N-prop:pglnorm}.)
 \item The $\F_2$-rank of the $\tau$-vectors for $\PSL(2,q)$, $q=4,8,16$.
   (Proposition~\ref{N-prop:taudim}.)
 \item The left and right coset maps of Lemma~\ref{N-lem:conjcent} in $S_3$.
   (Example~\ref{N-ex:s3conj}.)
 \item The $\C$-rank of the permutation characters of $A_5$, with their
   values. (Table~\ref{N-tab:a5perm}.)
-\item The four $\Z$-combinations of Example~\ref{N-ex:a5span} have norm~$1$ and degrees
-  $3,3,5,4$.
-\item Theorem~\ref{N-thm:irred} for every centralizer and every character of $S_3$, $A_4$
-  and $A_5$.
+\item The four $\Z$-combinations of Example~\ref{N-ex:a5span} have norm~$1$
+  and degrees $3,3,5,4$.
+\item Theorem~\ref{N-thm:irred} for every centralizer and every character
+  of $S_3$, $A_4$ and $A_5$.
 \item Theorem~\ref{N-thm:harmonic}, vertex by vertex, for $S_3$, $A_4$,
   $A_5$, $\PSL(2,\F_8)$, $\GL(2,\F_3)$, $Q_8$ and $D_8$: harmonicity, the
   identities $m(x)=|W(\Cent(x,G))|$ and $v(x)=|W|-1$, and the
@@ -286,21 +561,20 @@ hand. The computations are independent checks.
 \item The document class \texttt{article} was kept from the original
   (style sheet, default for revisions).
 \item The packages \texttt{newtxtext} and \texttt{newtxmath} are not
-  installed in the build environment. The fallback \texttt{mathptmx} was used, as the style sheet
-  allows.
+  installed in the build environment. The fallback \texttt{mathptmx} was
+  used, as the style sheet allows.
 \item The author line lists only David Joyner. AI contributions are credited
   in the Acknowledgments (style sheet, default).
-\item The title changed only by adding the subtitle required by rule~6.2,
-  with the words ``an expository note''.
-\item Citation keys use author initials plus a two-digit year. Two
-  Fine--Gaglione--Rosenberger--Spellman items are distinguished by year
-  (\texttt{FGRS00}, \texttt{FGRS15}).
-\item Adding Section~\ref{N-sec:harmonic} renumbered the summary and the
-  glossary. All references are generated by \verb|\ref|, so nothing needed
-  manual renumbering.
-\item One item is marked Remark~\ref{N-rem:gap} (the probable source of the bound $4$
-  in the 2000 conjecture). It is unverified because the GAP code is not
-  available.
+\item The title page still identifies the 2000 manuscript, in the date line
+  and in a \verb|\thanks| footnote. Rules~6.2 and~6.3 of the style sheet
+  require this. All other comparisons with the 2000 manuscript were moved
+  here (rule~6.4).
+\item Citation keys use author initials plus a two-digit year.
+\item Semicolons appear only inside the optional arguments of cited
+  theorems, as in ``[Mackey; cited from \dots]''.
+\item Theorem labels are unchanged from Draft~1, except for the removed
+  items and the new naive conjectures. All references are generated by
+  \verb|\ref|.
 \end{itemize}
 
 \end{document}

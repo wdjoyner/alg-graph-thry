@@ -8,19 +8,18 @@ elements (commutative transitive, or CT, groups). It covers the classification
 of finite CT groups and the characters induced from centralizers, with an exact
 irreducibility criterion and a spanning theorem via Brauer induction. It also
 shows that the class map from the commuting graph onto the commuting conjugacy
-class graph is a harmonic morphism. Several false claims of the 2000 draft are
-kept as worked counterexamples.
+class graph is a harmonic morphism. Several natural "naive conjectures" are
+stated along the way and settled, most of them by explicit counterexamples.
 
-Current version: **Draft 1. Corrected and expanded version** (November 16, 2026).
+Current version: **Draft 2. Corrected and expanded version** (November 17, 2026).
 
 ## Files
 
 | File | What it is |
 | --- | --- |
 | `commutation-transitive-groups.tex` / `.pdf` | The note (current draft) |
-| `revision-log.tex` / `.pdf` | Changes from the 2000 draft, the numbering concordance, AI usage, and sources consulted and not consulted |
-| `archive/` | Frozen copy of the original preliminary version (`comm_tr6.tex`, dated 8-5-2000) |
-| `referee/` | The referee report on the original |
+| `revision-log.tex` / `.pdf` | Changes from the 2000 manuscript to Draft 1 and from Draft 1 to Draft 2, all comparisons with the 2000 manuscript, the numbering concordances, AI usage, and sources consulted and not consulted |
+| `referee/` | Referee reports: on the 2000 manuscript (`2026-11-16/`) and on the hand-edited Draft 1 (`2026-11-17/`) |
 | `verification/` | A script that rechecks the note's computational claims, and its output (MIT license) |
 
 To compile: run `pdflatex` three times on `commutation-transitive-groups.tex`,
@@ -43,9 +42,11 @@ section checks.
 
 | Date | Version | Notes |
 | --- | --- | --- |
-| 2000-08-05 | Preliminary version (original) | See `archive/` |
+| 2000-08-05 | Preliminary version (original) | Unpublished. The frozen copy formerly in `archive/` was removed on 2026-11-17; it remains in the git history at commit `dd94a1d` |
 | 2026-11-16 | Referee report | See `referee/2026-11-16/` |
 | 2026-11-16 | Draft 1 | Corrected and expanded expository version, including the new section on harmonic morphisms and the commuting graph; see `revision-log.pdf` (commit `dd94a1d`) |
+| 2026-11-17 | Referee report | On the author's hand-edited Draft 1; see `referee/2026-11-17/` |
+| 2026-11-17 | Draft 2 | Comparisons with the 2000 manuscript moved to the revision log, naive conjectures made precise and numbered, corrections from the referee report; see `revision-log.pdf` |
 
 ## License
 

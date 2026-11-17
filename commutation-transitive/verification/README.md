@@ -15,9 +15,9 @@ A full run takes about a minute.
 | Section | What it checks |
 | --- | --- |
 | 1 | Which of GL(2,q), PGL(2,q), PSL(2,q) (q = 3, 5, 7) and SL(2,q) (q = 4, 8) have abelian centralizers of non-central elements |
-| 2 | The induced-character value in S3 that refutes the 2000 formula, and irreducibility at q = 2 |
+| 2 | An induced-character value in S3 (see the revision log), and irreducibility at q = 2 |
 | 3 | Mackey norms for split tori in PGL(2,q), q = 3, 5, 7, against q + 3 + delta |
-| 4 | The F2-rank of the support vectors for PSL(2,q), q = 4, 8, 16 (the 2000 conjecture) |
+| 4 | The F2-rank of the support vectors for PSL(2,q), q = 4, 8, 16 |
 | 5 | Left versus right coset maps for conjugacy classes in S3 |
 | 6 | The permutation characters of A5 and their rank |
 | 7 | The explicit Z-combinations of induced characters giving the irreducible characters of A5 |
