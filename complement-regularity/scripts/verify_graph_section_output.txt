@@ -1,0 +1,61 @@
+A: basic + Aut + diameter
+3 2 V 6 conn True diam 3 floor(3k/2) 3 Aut 12 n!k! 12
+4 2 V 12 conn True diam 3 floor(3k/2) 3 Aut 48 n!k! 48
+4 3 V 24 conn True diam 4 floor(3k/2) 4 Aut 144 n!k! 144
+5 2 V 20 conn True diam 3 floor(3k/2) 3 Aut 240 n!k! 240
+5 3 V 60 conn True diam 4 floor(3k/2) 4 Aut 720 n!k! 720
+5 4 V 120 conn True diam 6 floor(3k/2) 6 Aut 2880 n!k! 2880
+6 2 V 30 conn True diam 3 floor(3k/2) 3 Aut 1440 n!k! 1440
+6 3 V 120 conn True diam 4 floor(3k/2) 4 Aut 4320 n!k! 4320
+6 4 V 360 conn True diam 6 floor(3k/2) 6 Aut 17280 n!k! 17280
+7 2 V 42 conn True diam 3 floor(3k/2) 3 Aut 10080 n!k! 10080
+7 3 V 210 conn True diam 4 floor(3k/2) 4 Aut 30240 n!k! 30240
+B: True True True
+E: T(n,2) spectra
+4 {4.0: 1, 2.0: 3, -0.0: 3, -2.0: 5} True
+5 {6.0: 1, 3.0: 4, 1.0: 4, -2.0: 11} True
+6 {8.0: 1, 4.0: 5, 2.0: 5, -2.0: 19} True
+7 {10.0: 1, 5.0: 6, 3.0: 6, -2.0: 29} True
+8 {12.0: 1, 6.0: 7, 4.0: 7, -2.0: 41} True
+9 {14.0: 1, 7.0: 8, 5.0: 8, -2.0: 55} True
+F: least eig & spectra
+5 3 {6.0: 1, 4.0: 8, 2.0: 6, 1.0: 14, -1.0: 12, -2.0: 5, -3.0: 14}
+6 3 {9.0: 1, 6.0: 10, 3.0: 15, 2.0: 18, -0.0: 20, -1.0: 9, -3.0: 47}
+6 4 {8.0: 1, 6.0: 15, 4.0: 48, 2.0: 42, 1.0: 48, -0.0: 45, -1.0: 32, -2.0: 39, -3.0: 48, -4.0: 42}
+5 4 {4.0: 1, 3.0: 12, 2.0: 28, 1.0: 4, -0.0: 30, -1.0: 4, -2.0: 28, -3.0: 12, -4.0: 1}
+7 3 {12.0: 1, 8.0: 12, 5.0: 6, 4.0: 15, 3.0: 28, 1.0: 30, -0.0: 14, -3.0: 104}
+G: Johnson inclusion, spanning trees
+3 2 J spec {2.0: 1, -1.0: 2} formula ok True included True
+4 2 J spec {4.0: 1, -0.0: 3, -2.0: 2} formula ok True included True
+5 2 J spec {6.0: 1, 1.0: 4, -2.0: 5} formula ok True included True
+5 3 J spec {6.0: 1, 1.0: 4, -2.0: 5} formula ok True included True
+6 2 J spec {8.0: 1, 2.0: 5, -2.0: 9} formula ok True included True
+6 3 J spec {9.0: 1, 3.0: 5, -1.0: 9, -3.0: 5} formula ok True included True
+trees 3 2 6 3 True 2
+trees 4 2 331776 384 True 864
+trees 5 2 21743271936000 2048000 True 10616832
+AGL1 5 D [(2, 0), (2, 4), (3, 0), (3, 3), (4, 0), (4, 2)] =union stabilizers True
+  Cayley iso via x->xv: True
+AGL1 7 D [(2, 0), (2, 6), (3, 0), (3, 5), (4, 0), (4, 4), (5, 0), (5, 3), (6, 0), (6, 2)] =union stabilizers True
+  Cayley iso via x->xv: True
+transl quotient 5 vertical 0 pairs 6 edges per pair /p: {2} 6
+transl quotient 7 vertical 0 pairs 15 edges per pair /p: {2} 15
+star 3 2 mult ok True RH 0 0 True
+star 4 2 mult ok True RH 24 24 True
+star 5 2 mult ok True RH 80 80 True
+star 5 3 mult ok True RH 240 240 True
+star 6 3 mult ok True RH 840 840 True
+F21 on pairs: 21 21 21
+AGL1(8) on 3-sets: 56 56 56
+AGammaL1(32) on 3-sets: 4960 4960 4960
+rank S_5 on pairs: 7 [1, 1, 3, 3, 3, 3, 6]
+|PSL2(8)| 504
+PSL2(8) x S3 on T(9,4): orbit 3024 |V| 3024 |L x M| 3024 regular: True
+PSL2(8) x S5 on T(9,6): orbit 60480 |V| 60480 |L x M| 60480 regular: True
+AGL1(8) x S5 on T(8,5): orbit 6720 |V| 6720 |L x M| 6720 regular: True
+AGL1(8) x S3 on T(8,3): orbit 336 |V| 336 |L x M| 336 regular: True
+|PGammaL2(32)| 163680 163680
+3-set stabilizer order 30 fixed-point-free off X: True
+4-set orbit 40920 40920
+4-set stabilizer order 4 regular on Y: True
+PGammaL2(32) x S3 on T(33,4): orbit 982080 |V| 982080 |L x M| 982080 regular: True
