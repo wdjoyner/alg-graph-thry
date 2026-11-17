@@ -351,3 +351,12 @@ def collapse_parts_report(name,G):
         a=sizes[0]; g=E-n+1; gp=M*(M-1)//2-M+1
         print(f"    genus {g}, target genus {gp}, degree {a*a}; RH: {2*g-2} vs {a*a*(2*gp-2)+n*2*(a-1)}")
 for nm,G in groups: collapse_parts_report(nm,G)
+
+print("\n=== 13. The Frobenius group F21 = C7 x| C3 (y x y^-1 = x^2): the class map ===")
+els=[(a,i) for i in range(3) for a in range(7)]
+idx={e:k for k,e in enumerate(els)}
+mul=lambda u,v: ((u[0]+pow(2,u[1],7)*v[0])%7,(u[1]+v[1])%3)
+F21=Group(21,[[idx[mul(u,v)] for v in els] for u in els])
+print(" CT (all centralizers of non-identity elements abelian):", commutation_transitive(F21) and len(F21.center())==1)
+print(" class sizes:", sorted(len(c) for c in F21.classes()))
+harmonic_report("F21",F21)

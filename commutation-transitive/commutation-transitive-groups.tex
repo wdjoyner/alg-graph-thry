@@ -8,7 +8,22 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
 \usepackage[hidelinks]{hyperref}
+
+% Figures: a vertex of the small graph and its fiber in the big graph have
+% the same color. Dashed gray edges are vertical (collapsed to a vertex).
+\tikzset{
+  vx/.style={circle,draw,inner sep=0pt,minimum size=7pt},
+  vred/.style={vx,fill=red!55},
+  vblue/.style={vx,fill=blue!45},
+  vgreen/.style={vx,fill=green!55!black},
+  vorange/.style={vx,fill=orange!70},
+  hor/.style={thick},
+  vrt/.style={dashed,gray,thick},
+  mapto/.style={-{Stealth[length=3mm]},very thick}
+}
 
 \numberwithin{equation}{section}
 
@@ -46,12 +61,12 @@
 \newcommand{\triv}{\mathbf{1}}
 
 \title{The representation theory of finite commutation transitive groups\\[4pt]
-\large Draft 2. Corrected and expanded version (an expository note)}
+\large Draft 3. Corrected and expanded version (an expository note)}
 \author{David Joyner\thanks{This note corrects and expands the unpublished
 manuscript ``The representation theory of finite commutation transitive
 groups, preliminary version'' (file \texttt{comm\_tr6.tex}, dated 8-5-2000).
-Draft~1 of this revision was prepared on November 16, 2026, and Draft~2 on
-November 17, 2026.}\\
+Draft~1 of this revision was prepared on November 16, 2026, and Drafts~2
+and~3 on November 17, 2026.}\\
 \texttt{wdjoyner@gmail.com}}
 \date{Original draft: 2000. Corrected and expanded draft: 2026}
 
@@ -551,17 +566,58 @@ s^2(M^2-3M)+Ms\cdot2(s-1)=s^2M^2-s^2M-2Ms.\qedhere
 \end{proof}
 
 \begin{example}\label{ex:harmbg}
-Collapse $K_4$ onto $K_2$ by $1,2\mapsto u$ and $3,4\mapsto w$. The edges
-$\{1,2\}$ and $\{3,4\}$ are vertical. The other four edges lie over
-$\{u,w\}$, so the map is harmonic with $m=2$ at every vertex and degree~$4$.
-Riemann--Hurwitz reads $4=4\cdot(-2)+4\cdot3$, since $g(K_4)=3$ and
-$g(K_2)=0$.
+Figure~\ref{fig:k4} shows two ways to collapse $K_4$. In both pictures a
+vertex of the small graph and its fiber in $K_4$ have the same color, and
+the dashed edges are vertical.
 
-Now collapse $K_4$ onto $K_3$ by $1,2\mapsto u$, $3\mapsto w$ and $4\mapsto
-z$. At vertex $3$ there are two edges over $\{w,u\}$ but only one over
-$\{w,z\}$. So this map is not harmonic. The blocks have unequal sizes, as
+(a) Collapse $K_4$ onto $K_2$ by $1,2\mapsto u$ and $3,4\mapsto w$. The
+edges $\{1,2\}$ and $\{3,4\}$ are vertical. The other four edges lie over
+$\{u,w\}$. Each vertex of $K_4$ has exactly two of them, so the map is
+harmonic with $m=2$ at every vertex and degree~$4$. Riemann--Hurwitz reads
+$4=4\cdot(-2)+4\cdot3$, since $g(K_4)=3$ and $g(K_2)=0$.
+
+(b) Collapse $K_4$ onto $K_3$ by $1,2\mapsto u$, $3\mapsto w$ and $4\mapsto
+z$. At vertex $3$ there are two edges over $\{w,u\}$, namely $\{3,1\}$ and
+$\{3,2\}$, but only one over $\{w,z\}$, namely $\{3,4\}$. So this map is not
+harmonic at~$3$. The blocks have unequal sizes, as
 Lemma~\ref{lem:collapse}(a) predicts.
 \end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.05]
+  % (a) K4 -> K2
+  \node[vred,label=left:$1$] (a1) at (0,1.4) {};
+  \node[vred,label=left:$2$] (a2) at (0,0) {};
+  \node[vblue,label=right:$3$] (a3) at (1.6,1.4) {};
+  \node[vblue,label=right:$4$] (a4) at (1.6,0) {};
+  \draw[vrt] (a1)--(a2); \draw[vrt] (a3)--(a4);
+  \draw[hor] (a1)--(a3) (a1)--(a4) (a2)--(a3) (a2)--(a4);
+  \draw[mapto] (2.4,0.7)--(3.4,0.7);
+  \node[vred,label=below:$u$] (u) at (3.9,0.7) {};
+  \node[vblue,label=below:$w$] (w) at (5.1,0.7) {};
+  \draw[hor] (u)--(w);
+  \node at (2.55,-0.9) {(a) harmonic, degree $4$};
+  % (b) K4 -> K3
+  \begin{scope}[xshift=7.4cm]
+  \node[vred,label=left:$1$] (b1) at (0,1.4) {};
+  \node[vred,label=left:$2$] (b2) at (0,0) {};
+  \node[vblue,label=right:$3$] (b3) at (1.6,1.4) {};
+  \node[vgreen,label=right:$4$] (b4) at (1.6,0) {};
+  \draw[vrt] (b1)--(b2);
+  \draw[hor] (b1)--(b3) (b1)--(b4) (b2)--(b3) (b2)--(b4) (b3)--(b4);
+  \draw[mapto] (2.4,0.7)--(3.4,0.7);
+  \node[vred,label=left:$u$] (bu) at (3.9,0.2) {};
+  \node[vblue,label=above:$w$] (bw) at (4.6,1.3) {};
+  \node[vgreen,label=right:$z$] (bz) at (5.3,0.2) {};
+  \draw[hor] (bu)--(bw)--(bz)--(bu);
+  \node at (2.65,-0.9) {(b) not harmonic at $3$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Two collapses of $K_4$ (Example~\ref{ex:harmbg}). Each vertex of
+the small graph has the color of its fiber. Dashed edges are vertical.}
+\label{fig:k4}
+\end{figure}
 
 %======================================================================
 \section{Notation}\label{sec:notation}
@@ -1558,11 +1614,81 @@ by $\diag(\alpha,\delta)$ sends $z\left(\begin{smallmatrix}1&b\\0&1
 0&1\end{smallmatrix}\right)$. So $W(ZU)\cong B/ZU$ has order $q-1$, and it
 permutes the $q-1$ values $b\ne0$ simply transitively.
 
+Here is a small example in which the fibers have size~$3$. It shows both
+kinds of component, one that is collapsed onto an edge and one that is
+mapped isomorphically.
+
+\begin{example}\label{ex:f21}
+Let $G=\langle x,y : x^7=y^3=1,\ yxy^{-1}=x^2\rangle$, the Frobenius group
+$C_7\rtimes C_3$ of order~$21$. Its kernel is $N=\langle x\rangle$ and a
+complement is $H=\langle y\rangle$. Conjugation by $y$ multiplies exponents
+of $x$ by~$2$, so the non-identity elements of $N$ fall into two classes,
+$\gamma_1=\{x,x^2,x^4\}$ and $\gamma_2=\{x^3,x^5,x^6\}$. The elements outside
+$N$ form two classes of size~$7$, the classes $\gamma_3$ of $y$ and
+$\gamma_4$ of~$y^2$.
+
+The commuting graph $\Gamma(G)$ has $20$ vertices. One component is
+$N\setminus\{1\}\cong K_6$. The other seven are the copies $\{y',y'^2\}\cong
+K_2$, one for each of the seven subgroups of order~$3$. The commuting
+conjugacy class graph is $\Delta(G)=K_2\sqcup K_2$, with edges
+$\{\gamma_1,\gamma_2\}$ and $\{\gamma_3,\gamma_4\}$.
+
+Figure~\ref{fig:f21}(a) shows the class map on the component $K_6$. Here
+$W(N)=G/N$ has order $a=3$, and the fibers are the two triangles. Each
+vertex has $m=3$ edges over $\{\gamma_1,\gamma_2\}$ and $v=2$ vertical
+edges. The degree is $a^2=9$, the number of solid edges.
+Riemann--Hurwitz reads $18=9\cdot(-2)+6\cdot(2\cdot2+2)$, since
+$g(K_6)=10$.
+
+Figure~\ref{fig:f21}(b) shows one of the seven components $\{y,y^2\}$. Here
+$W(H)=1$, so the class map is an isomorphism onto the edge
+$\{\gamma_3,\gamma_4\}$. Over that edge lie $7$ edges in all, one from each
+component, in agreement with Theorem~\ref{thm:harmonic}(c). The script
+checks all of this.
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.05]
+  % (a) K6 -> K2
+  \node[vred,label=above:$x$]    (p1) at (0,2.0) {};
+  \node[vred,label=left:$x^2$]   (p2) at (-0.8,1.0) {};
+  \node[vred,label=below:$x^4$]  (p4) at (0,0) {};
+  \node[vblue,label=above:$x^3$] (q3) at (2.6,2.0) {};
+  \node[vblue,label=right:$x^5$] (q5) at (3.4,1.0) {};
+  \node[vblue,label=below:$x^6$] (q6) at (2.6,0) {};
+  \draw[vrt] (p1)--(p2)--(p4)--(p1);
+  \draw[vrt] (q3)--(q5)--(q6)--(q3);
+  \foreach \s in {p1,p2,p4} \foreach \t in {q3,q5,q6} \draw[hor] (\s)--(\t);
+  \draw[mapto] (4.2,1.0)--(5.2,1.0);
+  \node[vred,label=below:$\gamma_1$] (g1) at (5.7,1.0) {};
+  \node[vblue,label=below:$\gamma_2$] (g2) at (6.9,1.0) {};
+  \draw[hor] (g1)--(g2);
+  \node at (3.0,-0.9) {(a) $K_6\to K_2$, degree $9$};
+  % (b) K2 -> K2
+  \begin{scope}[xshift=9.2cm]
+  \node[vgreen,label=left:$y$] (y1) at (0,1.6) {};
+  \node[vorange,label=left:$y^2$] (y2) at (0,0.4) {};
+  \draw[hor] (y1)--(y2);
+  \draw[mapto] (0.6,1.0)--(1.6,1.0);
+  \node[vgreen,label=right:$\gamma_3$] (g3) at (2.1,1.6) {};
+  \node[vorange,label=right:$\gamma_4$] (g4) at (2.1,0.4) {};
+  \draw[hor] (g3)--(g4);
+  \node at (1.1,-0.9) {(b) $K_2\to K_2$};
+  \end{scope}
+\end{tikzpicture}
+\caption{The class map of the Frobenius group of order~$21$
+(Example~\ref{ex:f21}). In (a) the two triangles are the fibers, and their
+dashed edges are vertical. All nine solid edges lie over the edge
+$\{\gamma_1,\gamma_2\}$.}
+\label{fig:f21}
+\end{figure}
+
 \begin{example}\label{ex:a5harm}
 In $A_5$, let $C=\langle a\rangle\cong C_5$. The component $C\setminus\{1\}$
 is a $K_4$. Its fibers are $\{a,a^{-1}\}\subset5A$ and $\{a^2,a^{-2}\}
 \subset5B$, so it maps onto the edge $\{5A,5B\}$ exactly as in
-Example~\ref{ex:harmbg}. The six subgroups of order~$5$ give six such
+Figure~\ref{fig:k4}(a), with $1,2,3,4$ replaced by $a,a^{-1},a^2,a^{-2}$. The six subgroups of order~$5$ give six such
 components over the same edge. So that edge has $6\cdot4=24$ edges over it,
 as Theorem~\ref{thm:harmonic}(c) predicts. The components of order~$3$ and
 the Klein four-groups collapse to the single vertices $3A$ and $2A$.
@@ -1607,8 +1733,11 @@ $\PSL(2,\F_q)$ the centralizers have orders $q$, $q-1$ and $q+1$.
 \begin{example}\label{ex:octahedron}
 For $Q_8$ and $D_8$ the non-commuting graph is the octahedron
 $K_{2,2,2}$, and $\psi_G$ folds it onto the triangle $K_3$ with degree $4$.
-Riemann--Hurwitz reads $12=4\cdot0+6\cdot2$, since the octahedron has
-genus~$7$ and the triangle has genus~$1$.
+Figure~\ref{fig:octa} shows this for $Q_8$. The parts are $\{\pm i\}$,
+$\{\pm j\}$ and $\{\pm k\}$. Each part is an independent set, so no edge is
+vertical. Each vertex has two edges over each of the two edges of the
+triangle at its image. Riemann--Hurwitz reads $12=4\cdot0+6\cdot2$, since the
+octahedron has genus~$7$ and the triangle has genus~$1$.
 
 For $A_5$ even the class map on $\Gamma^c(G)$ fails to be harmonic. Its
 target is the graph on the four non-trivial classes in which two classes are
@@ -1617,6 +1746,29 @@ involution $x$ commutes with no element of order $3$ or $5$. So there are
 $20$ edges at $x$ over $\{2A,3A\}$, but only $12$ over $\{2A,5A\}$. The
 script finds that harmonicity fails at all $59$ vertices.
 \end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.05]
+  \node[vred,label=above:$i$]       (i1) at (90:1.5) {};
+  \node[vblue,label=left:$j$]       (j1) at (150:1.5) {};
+  \node[vgreen,label=left:$k$]      (k1) at (210:1.5) {};
+  \node[vred,label=below:$-i$]      (i2) at (270:1.5) {};
+  \node[vblue,label=right:$-j$]     (j2) at (330:1.5) {};
+  \node[vgreen,label=right:$-k$]    (k2) at (30:1.5) {};
+  \foreach \s in {i1,i2} \foreach \t in {j1,j2,k1,k2} \draw[hor] (\s)--(\t);
+  \foreach \s in {j1,j2} \foreach \t in {k1,k2} \draw[hor] (\s)--(\t);
+  \draw[mapto] (2.3,0)--(3.3,0);
+  \node[vred,label=above:$\{\pm i\}$]  (ti) at (4.6,0.9) {};
+  \node[vblue,label=left:$\{\pm j\}$]  (tj) at (3.9,-0.6) {};
+  \node[vgreen,label=right:$\{\pm k\}$] (tk) at (5.3,-0.6) {};
+  \draw[hor] (ti)--(tj)--(tk)--(ti);
+\end{tikzpicture}
+\caption{The non-commuting graph of $Q_8$, an octahedron, folded onto a
+triangle (Example~\ref{ex:octahedron}). Opposite vertices form a part and are
+not adjacent. Each edge of the triangle has four edges over it.}
+\label{fig:octa}
+\end{figure}
 
 The contrast is the point of this section. Commutation transitivity makes
 the commuting graph a union of cliques on which $W(C)$ acts freely. That is
@@ -1715,57 +1867,104 @@ a free group. So the proof does not carry over directly.
 Short definitions of the technical terms used in the note. The background
 and body give fuller explanations.
 
-\begin{description}[itemsep=2pt,leftmargin=0pt]
-\item[AC-group.] A group whose centralizers of non-central elements are all
-  abelian. Same as commutation transitive.
-\item[CA-group.] A group whose centralizers of non-identity elements are all
-  abelian. Same as CT.
-\item[Centralizer.] $\Cent(g,G)$, the elements commuting with $g$.
-\item[Character ring $R(G)$.] The $\Z$-linear combinations of irreducible
-  characters. Its elements are virtual characters.
-\item[Commutation transitive.] Commuting is transitive on non-central
-  elements (Definition~\ref{def:ct}).
-\item[Commutative transitive (CT).] Commuting is transitive on non-identity
-  elements (Definition~\ref{def:ct}).
-\item[Commuting conjugacy class graph.] The graph $\Delta(G)$ on the
-  non-central classes, with classes adjacent when they contain commuting
-  elements (Definition~\ref{def:ccc}).
-\item[Commuting graph.] The graph on $G\setminus Z$ whose edges join
-  commuting elements (Section~\ref{sec:graph}).
+\begin{description}[itemsep=3pt,leftmargin=0pt]
+\item[AC-group.] A group in which the centralizer of every non-central
+  element is abelian. Another name for a commutation transitive group.
+\item[CA-group.] A group in which the centralizer of every non-identity
+  element is abelian. Another name for a CT group.
+\item[Centralizer.] For an element $g$ of a group $G$, the subgroup
+  $\Cent(g,G)$ of all elements of $G$ that commute with~$g$.
+\item[Character ring $R(G)$.] The set of all $\Z$-linear combinations of the
+  irreducible characters of $G$. Its elements are called virtual characters.
+  A virtual character is a genuine character when all its coefficients are
+  non-negative.
+\item[Class map.] The map from the commuting graph to the commuting
+  conjugacy class graph that sends each element to its conjugacy class.
+\item[Commutation transitive.] A group is commutation transitive if, for
+  non-central elements $x,y,w$, the relations $xy=yx$ and $yw=wy$ imply
+  $xw=wx$. Equivalently, every non-central element has an abelian
+  centralizer. Examples are $\GL(2,\F_q)$ and $Q_8$.
+\item[Commutative transitive (CT).] The same condition for non-identity
+  elements instead of non-central ones. Equivalently, every non-identity
+  element has an abelian centralizer. Examples are abelian groups, $S_3$,
+  $A_4$ and $A_5$.
+\item[Commuting conjugacy class graph.] The graph whose vertices are the
+  non-central conjugacy classes. Two classes are adjacent when some element
+  of one commutes with some element of the other.
+\item[Commuting graph.] The graph whose vertices are the non-central
+  elements of a group. Two elements are adjacent when they commute. For a
+  commutation transitive group it is a disjoint union of complete graphs,
+  one for each centralizer.
+\item[Complete graph $K_n$.] The graph on $n$ vertices in which every two
+  vertices are adjacent.
 \item[Complete multipartite graph.] A graph whose vertices are split into
-  parts, with two vertices adjacent exactly when they lie in different
-  parts.
-\item[Degree.] For a harmonic morphism, the number of edges over
-  any edge of the target (Theorem~\ref{thm:bn}).
-\item[Elementary group.] A direct product of a cyclic group and a
-  $p$-group.
-\item[Fixed-point-free automorphism.] An automorphism fixing only the
-  identity.
-\item[Frobenius group, kernel, complement.] See Definition~\ref{def:frob}
-  and Theorem~\ref{thm:frobenius}.
-\item[Genus of a graph.] $|E|-|V|+1$ for a connected graph.
-\item[Harmonic morphism.] A graph morphism with constant horizontal
-  multiplicity at each vertex (Definition~\ref{def:harmonic}).
-\item[Horizontal multiplicity.] The number $m_\varphi(x)$ of
-  Definition~\ref{def:harmonic}.
-\item[Induced representation.] See \eqref{eq:indchar}.
-\item[Mackey's criterion.] Theorem~\ref{thm:mackey}(b).
-\item[Malnormal subgroup.] A subgroup $H$ with $H\cap xHx^{-1}=1$ for all
-  $x\notin H$.
+  parts. Two vertices are adjacent exactly when they lie in different parts.
+\item[Degree of a harmonic morphism.] The number of edges of the source
+  graph lying over a single edge of the target. For a harmonic morphism
+  onto a connected graph it is the same for every target edge.
+\item[Elementary group.] A direct product of a cyclic group and a group of
+  prime-power order.
+\item[Fixed-point-free automorphism.] An automorphism that fixes no element
+  except the identity.
+\item[Frobenius group, kernel, complement.] A finite group $G$ is a Frobenius
+  group if it has a subgroup $H$, with $1\neq H\neq G$, that meets each
+  conjugate $xHx^{-1}$ with $x\notin H$ only in the identity. Such an $H$ is a
+  Frobenius complement. The elements lying in no conjugate of $H$, together
+  with the identity, form a normal subgroup $K$, the Frobenius kernel, and
+  $G$ is the semidirect product $K\rtimes H$. In $S_3$, the kernel is $A_3$
+  and a complement is $\{1,(12)\}$.
+\item[Genus of a graph.] For a connected graph, the number $|E|-|V|+1$. It
+  counts the independent cycles. For example $K_4$ has genus~$3$.
+\item[Harmonic morphism.] A map between graphs that sends vertices to
+  vertices. Each edge goes either to the edge joining the images of its two
+  ends, or, if both ends have the same image, to that single vertex. The map
+  is harmonic if, at every vertex $x$, each edge at the image of $x$ has the
+  same number of edges at $x$ lying over it. It is the graph analogue of a
+  holomorphic map between Riemann surfaces.
+\item[Horizontal multiplicity $m(x)$.] For a harmonic morphism, the common
+  number of edges at the vertex $x$ that lie over each edge at the image
+  of~$x$.
+\item[Induced representation.] A way to build a representation of $G$ from a
+  representation $\rho$ of a subgroup $H$. Its dimension is $[G:H]$ times
+  the dimension of $\rho$. Its character at $g$ is $|H|^{-1}$ times the sum
+  of $\chi_\rho(x^{-1}gx)$ over those $x\in G$ with $x^{-1}gx\in H$.
+\item[Mackey's criterion.] A representation induced from an irreducible
+  representation $\rho$ of $H$ is irreducible exactly when, for every
+  $s\notin H$, the representations $x\mapsto\rho(x)$ and
+  $x\mapsto\rho(s^{-1}xs)$ of the group $sHs^{-1}\cap H$ have no common
+  irreducible constituent.
+\item[Malnormal subgroup.] A subgroup $H$ that meets each conjugate
+  $xHx^{-1}$ with $x\notin H$ only in the identity.
 \item[Monomial representation.] A representation induced from a
-  one-dimensional character.
-\item[Non-commuting graph.] The complement of the commuting graph.
-\item[Permutation character.] $\triv_H^G$, the number of fixed points on
-  $G/H$.
-\item[Riemann--Hurwitz formula.] Theorem~\ref{thm:bn}(b).
-\item[Split and non-split torus.] Conjugates of the diagonal subgroup and of
-  $\F_{q^2}^\times$ in $\GL(2,\F_q)$, and their images in quotients.
-\item[Support.] The conjugacy classes meeting a subgroup
-  (Definition~\ref{def:supp}).
-\item[Unipotent element.] A matrix $g\neq1$ with $(g-1)^2=0$.
-\item[Vertical edge.] An edge collapsed to a vertex by a morphism.
-\item[Weyl group $W(C)$.] Here, the quotient $N_G(C)/C$ for a centralizer
-  $C$.
+  one-dimensional character of a subgroup.
+\item[Naive conjecture.] In this note, a natural guess that is stated
+  precisely and then settled. Some are true and some are false.
+\item[Non-commuting graph.] The graph whose vertices are the non-central
+  elements of a group. Two elements are adjacent when they do not commute.
+  It is the complement of the commuting graph.
+\item[Permutation character.] The character of $G$ acting on the cosets
+  $xH$ of a subgroup $H$. Its value at $g$ is the number of cosets fixed
+  by~$g$. It is the representation induced from the trivial character
+  of~$H$.
+\item[Riemann--Hurwitz formula.] For a harmonic morphism $\varphi$ of
+  connected graphs, with every $m(x)\ge1$, it relates the genera:
+  $2g(\Gamma)-2=\deg\varphi\,(2g(\Gamma')-2)+\sum_x\bigl(2(m(x)-1)+v(x)
+  \bigr)$, where $v(x)$ is the number of vertical edges at~$x$.
+\item[Split and non-split torus.] In $\GL(2,\F_q)$, a split torus is a
+  conjugate of the subgroup of diagonal matrices. A non-split torus is a
+  conjugate of the multiplicative group $\F_{q^2}^\times$, acting by
+  multiplication on $\F_{q^2}\cong\F_q^2$. The same names are used for their
+  images in $\SL$, $\PGL$ and $\PSL$.
+\item[Support of a subgroup.] The set of conjugacy classes of $G$ that meet
+  the subgroup. Its indicator vector over $\F_2$ is written $\tau(H)$.
+\item[Unipotent element.] A matrix $g\neq1$ with $(g-1)^2=0$. In $\GL(2,k)$
+  these are the conjugates of $\left(\begin{smallmatrix}1&b\\0&1
+  \end{smallmatrix}\right)$ with $b\neq0$.
+\item[Vertical edge.] An edge whose two ends have the same image under a
+  graph morphism. The morphism collapses it to that vertex.
+\item[Weyl group $W(C)$.] For a centralizer $C$, the quotient $N_G(C)/C$ of
+  its normalizer by $C$. It acts on $C$ by conjugation. In a commutation
+  transitive group it permutes the non-central elements of $C$ freely.
 \end{description}
 
 %======================================================================
@@ -1784,13 +1983,15 @@ Propositions~\ref{prop:frobct}, \ref{prop:psl2even}, \ref{prop:psl2odd},
 Theorems~\ref{thm:irred}, \ref{thm:span} and~\ref{thm:harmonic}. The
 connection with harmonic morphisms (Section~\ref{sec:harmonic}) was
 suggested by Claude and adopted by the author. The new material also
-includes the literature review and the computer checks in
-\texttt{comm\_tr\_checks.py}.
+includes the literature review, the examples and figures, and the computer
+checks in \texttt{comm\_tr\_checks.py}.
 
-AI review is not an independent certification
-of these results. Further details on the AI usage, the sources consulted
-and not consulted, and the split between original and new results are in
-the revision log.
+AI review is not an independent certification of these results. Further
+details on the AI usage, the sources consulted and not consulted, and the
+split between original and new results are in the revision log. The
+revision log, the verification script and the referee reports are in the
+folder \texttt{commutation-transitive} of the GitHub repository
+\url{https://github.com/wdjoyner/alg-graph-thry}.
 
 \begin{thebibliography}{FGRS97}
 

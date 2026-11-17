@@ -11,14 +11,14 @@ shows that the class map from the commuting graph onto the commuting conjugacy
 class graph is a harmonic morphism. Several natural "naive conjectures" are
 stated along the way and settled, most of them by explicit counterexamples.
 
-Current version: **Draft 2. Corrected and expanded version** (November 17, 2026).
+Current version: **Draft 3. Corrected and expanded version** (November 17, 2026).
 
 ## Files
 
 | File | What it is |
 | --- | --- |
 | `commutation-transitive-groups.tex` / `.pdf` | The note (current draft) |
-| `revision-log.tex` / `.pdf` | Changes from the 2000 manuscript to Draft 1 and from Draft 1 to Draft 2, all comparisons with the 2000 manuscript, the numbering concordances, AI usage, and sources consulted and not consulted |
+| `revision-log.tex` / `.pdf` | Changes from the 2000 manuscript to Draft 1, Draft 1 to Draft 2, and Draft 2 to Draft 3, all comparisons with the 2000 manuscript, the numbering concordances, AI usage, and sources consulted and not consulted |
 | `referee/` | Referee reports: on the 2000 manuscript (`2026-11-16/`) and on the hand-edited Draft 1 (`2026-11-17/`) |
 | `verification/` | A script that rechecks the note's computational claims, and its output (MIT license) |
 
@@ -46,7 +46,8 @@ section checks.
 | 2026-11-16 | Referee report | See `referee/2026-11-16/` |
 | 2026-11-16 | Draft 1 | Corrected and expanded expository version, including the new section on harmonic morphisms and the commuting graph; see `revision-log.pdf` (commit `dd94a1d`) |
 | 2026-11-17 | Referee report | On the author's hand-edited Draft 1; see `referee/2026-11-17/` |
-| 2026-11-17 | Draft 2 | Comparisons with the 2000 manuscript moved to the revision log, naive conjectures made precise and numbered, corrections from the referee report; see `revision-log.pdf` |
+| 2026-11-17 | Draft 2 | Comparisons with the 2000 manuscript moved to the revision log, naive conjectures made precise and numbered, corrections from the referee report; see `revision-log.pdf` (commit `d05ec8c`) |
+| 2026-11-17 | Draft 3 | Self-contained glossary, TikZ figures of harmonic collapses, new example (Frobenius group of order 21), repository named in the Acknowledgments; see `revision-log.pdf` |
 
 ## License
 

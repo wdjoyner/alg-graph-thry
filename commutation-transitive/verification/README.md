@@ -26,6 +26,7 @@ A full run takes about a minute.
 | 10 | The class map from the commuting graph is harmonic, with m(x) = \|W(C)\|, for S3, A4, A5, PSL(2,8), GL(2,3), Q8 and D8, together with the Riemann-Hurwitz identity |
 | 11 | The class map on the non-commuting graph of A5 is not harmonic |
 | 12 | Collapsing the parts of the non-commuting graph is harmonic exactly when all parts have equal size |
+| 13 | The Frobenius group of order 21: CT, its class sizes, and the harmonic class map (K6 -> K2 of degree 9, K2 -> K2) |
 
 Lines reading `False` in the output are expected negatives (for example,
 "PGL(2,3): CT? False"). Each section prints its prediction next to the computed

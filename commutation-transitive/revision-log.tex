@@ -25,7 +25,7 @@
 \DeclareMathOperator{\Conj}{Conj}
 
 \title{Revision log\\[4pt]\large ``The representation theory of finite
-commutation transitive groups'', Draft 2\\(corrected and expanded expository
+commutation transitive groups'', Draft 3\\(corrected and expanded expository
 version)}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
 \date{November 17, 2026}
@@ -34,10 +34,10 @@ version)}
 \maketitle
 
 \noindent This log records every change from the original 2000 manuscript
-to Draft~1, and from Draft~1 to Draft~2. Theorem numbers of Draft~2 are
-generated from the note's \texttt{.aux} file, so compile the note first.
-Numbers of the 2000 manuscript and of Draft~1 are historical and are typed
-by hand.
+to Draft~1, from Draft~1 to Draft~2, and from Draft~2 to Draft~3. Theorem numbers of the current draft
+are generated from the note's \texttt{.aux} file, so compile the note first.
+Numbers of the 2000 manuscript and of Drafts~1 and~2 are historical and are
+typed by hand.
 
 \section{Files and drafts}\label{sec:files}
 
@@ -53,16 +53,18 @@ by hand.
   command \texttt{git show dd94a1d:<path>} prints it.
 \item Draft 1 (November 16, 2026): commits \texttt{dd94a1d} and
   \texttt{bd9e320}, merged as pull request~\#4.
-\item Draft 2 (November 17, 2026): \texttt{commutation-transitive-groups.tex}
-  and its PDF. Its starting point was the author's hand-edited copy of
-  Draft~1.
+\item Draft 2 (November 17, 2026): commit \texttt{d05ec8c}. Its starting
+  point was the author's hand-edited copy of Draft~1.
+\item Draft 3 (November 17, 2026): \texttt{commutation-transitive-groups.tex}
+  and its PDF.
 \item Referee reports: on the original, \texttt{referee/2026-11-16/}. On the
   author's hand-edited copy of Draft~1, \texttt{referee/2026-11-17/}.
 \item Script: \texttt{verification/comm\_tr\_checks.py} (Python~3, standard
   library and NumPy), with its output in
   \texttt{verification/checks\_output.txt}. A full run takes about one
   minute. It is exhaustive for the groups it treats. It was not changed for
-  Draft~2, and it was rerun with identical output.
+  Draft~2, and it was rerun with identical output. Draft~3 added its
+  section~13 (the Frobenius group of order~$21$).
 \end{itemize}
 
 \section{AI usage}\label{sec:ai}
@@ -104,6 +106,47 @@ the results.
   ``commutative transitive kernel'' paper and the page range of
   Fine--Rosenberger 2009 (Section~\ref{sec:sources}).
 \end{enumerate}
+
+\paragraph{Draft 3 (November 17, 2026).} At the author's request, Claude
+rewrote the glossary, added Example~\ref{N-ex:f21} and
+Figures~\ref{N-fig:k4}--\ref{N-fig:octa}, added the repository to the
+Acknowledgments, and extended the script (Section~\ref{sec:d2d3}).
+
+\section{Changes from Draft 2 to Draft 3}\label{sec:d2d3}
+
+All changes were requested by the author on November 17, 2026.
+\begin{itemize}[itemsep=1pt]
+\item \emph{Glossary.} Rewritten so that each entry gives a short,
+  self-contained definition. Draft~2 had several entries that only pointed
+  to the body (``See Definition~\dots''), which defeats the purpose of a
+  glossary. Entries were added for the class map, complete graphs and naive
+  conjectures. The glossary no longer contains cross-references.
+\item \emph{Figures.} Three TikZ figures illustrate how a harmonic morphism
+  collapses a large graph onto a small one. In each figure, a vertex of the
+  small graph and its fiber have the same color, and vertical edges are
+  dashed.
+  Figure~\ref{N-fig:k4} accompanies Example~\ref{N-ex:harmbg} (a harmonic
+  and a non-harmonic collapse of $K_4$). Figure~\ref{N-fig:f21} accompanies
+  the new Example~\ref{N-ex:f21}. Figure~\ref{N-fig:octa} accompanies
+  Example~\ref{N-ex:octahedron} (the octahedron folded onto a triangle).
+  Example~\ref{N-ex:harmbg} and Example~\ref{N-ex:octahedron} were expanded
+  to describe their figures.
+  Example~\ref{N-ex:a5harm} now refers to Figure~\ref{N-fig:k4}(a).
+\item \emph{New Example~\ref{N-ex:f21}}: the class map of the Frobenius
+  group $C_7\rtimes C_3$ of order~$21$. One component, $K_6$, collapses onto
+  an edge with fibers of size~$3$ and degree~$9$. The seven other
+  components map isomorphically. Proved in the text, and checked by the new
+  section~13 of the script.
+\item \emph{Acknowledgments.} Now name the GitHub repository that holds the
+  revision log, the script and the referee reports.
+\item \emph{Title.} Subtitle changed to ``Draft 3''.
+\end{itemize}
+Adding Example~\ref{N-ex:f21} shifts by one the numbers of the later items
+in Section~\ref{N-sec:harmonic}. For example, Draft~2's
+Example~9.6, Proposition~9.7, Corollary~9.8 and Example~9.9 are now
+Example~\ref{N-ex:a5harm}, Proposition~\ref{N-prop:noncommharm},
+Corollary~\ref{N-cor:noncommct} and Example~\ref{N-ex:octahedron}. No
+theorem, proposition or lemma changed its mathematical content.
 
 \section{Changes from Draft 1 to Draft 2}\label{sec:d1d2}
 
@@ -519,7 +562,7 @@ pages only).}
 
 \texttt{comm\_tr\_checks.py} checks the following by exhaustive computation
 with explicit matrices and exact group tables. The output was identical when
-rerun for Draft~2.
+rerun for Draft~2. Draft~3 added item~12.
 \begin{enumerate}[itemsep=1pt]
 \item Which of $\GL(2,q)$, $\PGL(2,q)$, $\PSL(2,q)$ ($q=3,5,7$) and
   $\SL(2,q)$ ($q=4,8$) have abelian centralizers of non-central elements.
@@ -551,6 +594,10 @@ rerun for Draft~2.
 \item Proposition~\ref{N-prop:noncommharm} for the same seven groups. The
   map is harmonic exactly for $Q_8$ and $D_8$, where Riemann--Hurwitz gives
   $12=12$.
+\item (Draft 3.) Example~\ref{N-ex:f21}: the Frobenius group of order~$21$
+  is CT, with class sizes $1,3,3,7,7$. Its class map is harmonic, with
+  components $K_6\to K_2$ ($|W|=3$, degree~$9$) and $K_2\to K_2$ ($|W|=1$),
+  and the Riemann--Hurwitz identity holds.
 \end{enumerate}
 No result of the note depends on the computations. All of them are proved by
 hand. The computations are independent checks.
