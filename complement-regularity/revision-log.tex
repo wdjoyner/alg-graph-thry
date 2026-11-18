@@ -1,0 +1,430 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\IfFileExists{newtxtext.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}\usepackage{amssymb}}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{booktabs,array,longtable,calc,microtype}
+\usepackage[hidelinks]{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\emergencystretch}{3em}
+\title{Revision log\\\large \emph{Which $S_m$ have a complement in $S_n$?}}
+\author{David Joyner}
+\date{Current draft: Draft 6, November 17, 2026}
+\begin{document}\maketitle
+
+This log records every draft of the 2026 corrected and expanded edition. The newest entry comes first. The entries for Drafts 3 to 5 are reproduced from the earlier Markdown log, \texttt{revision\_log.md}, which this file replaces.
+
+\tableofcontents
+
+\section{Draft 6 (November 17, 2026)}
+Draft 6 was prepared by Anthropic's Claude in response to a referee report on Draft 5 by Google's Gemini. The report was written against Draft 2 of the house style guide for mathematical papers. Claude checked each of the referee's mathematical claims independently before acting on it.
+
+\subsection{Response to the referee: mathematics}
+\begin{longtable}{@{}p{0.09\linewidth}p{0.27\linewidth}p{0.58\linewidth}@{}}\toprule
+Item & Referee's verdict & Response\\\midrule\endhead
+M1 & Proposition \texttt{prop:actions}: false (projection labels) & Accepted in part. The proposition and its formulas were correct, as the referee's own derivation shows. The phrase ``for $G=HK$ and $G=HK$, respectively'' was redundant, not false. It now reads ``the coordinate projections for the decomposition $G=HK$''. The proof now writes out $R_xR_y=R_{xy}$ and $L_xL_y=L_{xy}$. The names of the coset spaces were swapped and are corrected: $H\backslash G$ is the right coset space and $G/K$ the left coset space.\\
+M2 & Proposition \texttt{prop:12}: fixable gap & Accepted. The proof is rewritten in left-action order with explicit elements, and the left-action convention is stated in the Notation section. Verified independently.\\
+M3 & Core proofs: correct & No change. One aside in the report transposes two rows of Table~3: the maps $x\mapsto ax$ fix $0$ and $\infty$, not $1$ and $\infty$. The table in the paper is correct.\\
+M4 & Proposition \texttt{prop:tq2}: displayed equation correct (after retraction) & Accepted as a presentation point. The display now shows the unsimplified squares and says where each term comes from.\\
+M5 & Example \texttt{ex:star}: misprint & Accepted as a clarification. The arithmetic was correct. The text now says that each of the twelve vertical edges is counted at both endpoints.\\
+M6 & Uncited bibliography entries & Accepted. \texttt{Ko97} is cited in the Introduction and Acknowledgments, \texttt{Jo97} in the title footnote and the literature review, and \texttt{Ro95} in the literature review.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Response to the referee: style guide}
+\begin{longtable}{@{}p{0.24\linewidth}p{0.70\linewidth}@{}}\toprule
+Point & Response\\\midrule\endhead
+Rule 1, Times package & Accepted. The preamble loads \texttt{newtxtext} and \texttt{newtxmath} when they are installed and falls back to \texttt{mathptmx} otherwise. \textbf{Only the fallback branch was compiled}, because newtx is not installed in the environment where Draft 6 was prepared.\\
+Rule 1.5, cross-references & Accepted. The Jacobians remark has the label \texttt{rem:jacobians}.\\
+Rule 1.6, numbering & Accepted for equations (\texttt{numberwithin}). Subsections 5.1 and 8.1 to 8.7 keep their numbers, because the section is long and several of them are cross-referenced. The subsections of the literature review and the background are unnumbered.\\
+Rule 1.7, citation keys & No change. All keys are author initials plus two-digit year.\\
+Rule 1.8, operators & Accepted. All operators are declared in the preamble.\\
+Rule 2, ten-part structure & Accepted. The paper now has Abstract, Introduction, Literature review (split at 1997), Background, Notation, body, Summary and open questions, Glossary, Acknowledgments, References.\\
+Rule 3.2, orienting paragraphs & Accepted. Every section and numbered subsection opens with one.\\
+Rule 3.3, examples & Accepted. New Examples \texttt{ex:n5m3}, \texttt{ex:s3actions}, \texttt{ex:n12}, \texttt{ex:coords}, and the four background examples.\\
+Rule 3.8, semicolons & Accepted. No semicolon remains in the prose. The only semicolons in the source are TikZ syntax.\\
+Rules 6.2, 6.3, title page & Accepted. Title footnote added, date line reworded.\\
+Rule 6.4, revision history in the body & Accepted. The statements listed in Section~\ref{sec:moved} were removed from the body and are recorded here.\\
+Rule 6.6, unverified items & Accepted. Six items are now Remarks 2026.1 to 2026.6.\\
+R1, Rubik's Cube motivation & Accepted. The Introduction explains the $12$ edges and $8$ corners, following the wording of the 1997 manuscript. No claim about the internals of Kociemba's algorithm was added, because the original makes none.\\
+R2, cosets and action order & Accepted.\\
+R3, compressed proofs & Accepted, all four points.\\
+R4, figures and tables & Table~2 now pairs each complement with its $m$. The table in Corollary \texttt{cor:converse} is now the numbered Table~4. The vertex labels in Figure~2 are unchanged, since longer labels would not fit the circles and the caption explains them.\\
+Summary section & Accepted. The open questions are now listed only in the Summary.\\
+\bottomrule
+\end{longtable}
+
+\subsection{Other changes in Draft 6}
+\begin{itemize}
+\item Theorem \texttt{thm:input}: the redundant clause ``or $n=10$'' in item (2) was dropped, since $10=9+1$. The sentence about $M_{10}$ follows the theorem.
+\item Theorem \texttt{thm:main}: the proof now says explicitly how the cases $4\leq n\leq 12$ follow.
+\item Lemma \texttt{lem:regular} and Corollary \texttt{cor:universal}: proofs rewritten in full sentences with no step skipped.
+\item Remark 2026.2 (label \texttt{rem:verification}) now reports the SymPy check of the degree $10$, $11$, and $12$ generators. Draft 5 still said that no computational verification was claimed, which contradicted the Draft 4 entry of this log. Claude reran \texttt{scripts/verify\_generators.py} for this draft. All three checks passed.
+\item Corollary \texttt{cor:coverconsequences}(2): one clause added on the number of edges.
+\item Open question 5 in the Summary restates the closing remark of the 1997 manuscript about the smallest number of complementary factors.
+\item The glossary entries were reworded so that each stands alone.
+\item Added at the author's request on November 18, 2026: a table of contents after the abstract, with entries for the Glossary, Acknowledgments, and References, a glossary entry for ``regular subgroup'', and three sentences in the Background section defining the term and noting that it is standard for permutation groups but depends on the action.
+\end{itemize}
+
+\subsection{Statements moved from the body to this log}\label{sec:moved}
+\begin{itemize}
+\item The original manuscript was written in 1997 and revised in 2007. The 2026 edition preserves its question and principal answer and corrects auxiliary arguments.
+\item The original manuscript's case-by-case order exclusions did not by themselves rule out regular subgroups of the groups considered. The 2026 edition replaces them with the cited classification.
+\item The original table treated degree $10$ as an additional exceptional degree outside the projective-line family. It is not, since $10=9+1$.
+\item Section 8 (graphs) is new to the 2026 edition. Drafts up to Draft 4 left open whether a Cayley representation of $T(n,k)$ must come from a complement. Draft 5 answered this from the literature.
+\item The questions listed in Draft 4 about $\operatorname{Aut}(T(n,k))$ and about which arrangement and Johnson graphs are Cayley graphs are answered by Yin, Feng, Zhou, and Guo (2021) and by Dobson and Malni\v{c} (2015).
+\end{itemize}
+
+\subsection{Original results and new results}
+\begin{itemize}
+\item \textbf{From the 1997 manuscript (revised 2007):} the complement criterion (Proposition 5.2), the classification (Theorem 6.2 and Table~2), the coordinate actions of an exact factorization (Proposition 5.5), and the three-factor decomposition of $S_{12}$ (Proposition 7.1).
+\item \textbf{New in the 2026 edition, proved in the paper:} Corollary 6.4 (density), all of Section 8 except the quoted theorems, and the worked examples added in Draft 6.
+\item \textbf{Quoted from the literature:} Theorem 6.1, Theorems 8.8 and 8.16, and the theorems of Livingstone and Wagner and of Kantor used in Proposition 8.26. That proposition is conditional on them.
+\end{itemize}
+
+\subsection{Sources not consulted in full}
+The list in the Draft 5 entry still applies. In addition, the attributions to Zassenhaus and Jordan in the literature review were written from memory, and the paper of Conway, Hulpke, and McKay was not consulted, so it is described only in general terms. The original 1997 source file in the repository was consulted for the motivation.
+
+\subsection{AI usage}
+ChatGPT (OpenAI) prepared Drafts 3 and 4 as referee and reviser. Claude (Anthropic) prepared Draft 5, expanding Section 8. Gemini (Google) refereed Draft 5. Claude prepared Draft 6 and this log. No AI system is listed as an author.
+
+\subsection{Computational and compilation status}
+\begin{itemize}
+\item \texttt{scripts/verify\_graph\_section.py} was run for Draft 5 and its output is in the repository. The mathematics it checks is unchanged in Draft 6.
+\item \texttt{scripts/verify\_generators.py} was rerun for Draft 6. The GAP script has not been run.
+\item \texttt{scripts/verify\_examples\_draft6.py} checks the new Examples 5.6 and 7.2 with SymPy.
+\item Draft 6 compiles with pdflatex with no errors, no undefined references, and no overfull or underfull boxes, using the \texttt{mathptmx} fallback. The newtx branch is untested.
+\end{itemize}
+
+\subsection{Numbering concordance, Draft 5 to Draft 6}
+Labels are unchanged. Items that are new in Draft 6 are not listed.
+\begin{longtable}{@{}lll@{}}\toprule
+Draft 5 & Draft 6 & label\\\midrule\endhead
+Table 1 & Table 2 & \texttt{tab:small}\\
+Figure 1 & Figure 1 & \texttt{fig:t32}\\
+Equation 1 & Equation 8.1 & \texttt{eq:regularmodule}\\
+Figure 2 & Figure 2 & \texttt{fig:t42}\\
+Table 2 & Table 3 & \texttt{tab:cayley}\\
+Figure 3 & Figure 3 & \texttt{fig:coset}\\
+Lemma 3.1 & Lemma 5.1 & \texttt{lem:regular}\\
+Proposition 3.2 & Proposition 5.2 & \texttt{prop:criterion}\\
+Corollary 3.3 & Corollary 5.3 & \texttt{cor:universal}\\
+Proposition 3.4 & Proposition 5.5 & \texttt{prop:actions}\\
+Section 4 & Section 6 & \texttt{sec:classification}\\
+Figure 4 & Figure 4 & \texttt{fig:fold}\\
+Theorem 4.1 & Theorem 6.1 & \texttt{thm:input}\\
+Theorem 4.3 & Theorem 6.2 & \texttt{thm:main}\\
+Remark 4.4 & Remark 2026.2 & \texttt{rem:verification}\\
+Corollary 4.5 & Corollary 6.4 & \texttt{cor:density}\\
+Proposition 5.1 & Proposition 7.1 & \texttt{prop:12}\\
+Section 6 & Section 8 & \texttt{sec:graphs}\\
+Proposition 6.2 & Proposition 8.2 & \texttt{prop:graphcriterion}\\
+Example 6.4 & Example 8.4 & \texttt{ex:c6}\\
+Example 6.5 & Example 8.5 & \texttt{ex:petersen}\\
+Section 6.5 & Section 8.5 & \texttt{subsec:johnson}\\
+Proposition 6.7 & Proposition 8.7 & \texttt{prop:arrbasic}\\
+Section 6.7 & Section 8.7 & \texttt{subsec:harmonic}\\
+Theorem 6.8 & Theorem 8.8 & \texttt{thm:aut}\\
+Example 6.9 & Example 8.9 & \texttt{ex:smallarr}\\
+Proposition 6.10 & Proposition 8.10 & \texttt{prop:arrangement}\\
+Example 6.11 & Example 8.11 & \texttt{ex:agl5}\\
+Example 6.13 & Example 8.13 & \texttt{ex:m12}\\
+Proposition 6.14 & Proposition 8.14 & \texttt{prop:lifting}\\
+Example 6.15 & Example 8.15 & \texttt{ex:twisted}\\
+Theorem 6.16 & Theorem 8.16 & \texttt{thm:yfzg}\\
+Corollary 6.17 & Corollary 8.17 & \texttt{cor:converse}\\
+Proposition 6.19 & Proposition 8.19 & \texttt{prop:coset}\\
+Example 6.20 & Example 8.20 & \texttt{ex:orbitals}\\
+Proposition 6.24 & Proposition 8.24 & \texttt{prop:johnson}\\
+Example 6.25 & Example 8.25 & \texttt{ex:homog}\\
+Proposition 6.26 & Proposition 8.26 & \texttt{prop:homogclass}\\
+Proposition 6.28 & Proposition 8.28 & \texttt{prop:spectrum}\\
+Example 6.29 & Example 8.29 & \texttt{ex:c6spec}\\
+Proposition 6.30 & Proposition 8.30 & \texttt{prop:projections}\\
+Proposition 6.31 & Proposition 8.31 & \texttt{prop:tq2}\\
+Lemma 6.34 & Lemma 8.34 & \texttt{lem:harmquot}\\
+Proposition 6.35 & Proposition 8.35 & \texttt{prop:cover}\\
+Corollary 6.36 & Corollary 8.36 & \texttt{cor:coverconsequences}\\
+Proposition 6.37 & Proposition 8.37 & \texttt{prop:cayleyquot}\\
+Example 6.38 & Example 8.38 & \texttt{ex:translation}\\
+Example 6.39 & Example 8.39 & \texttt{ex:star}\\
+Remark 6.42 & Remark 2026.6 & \texttt{rem:graphchecks}\\
+\bottomrule
+\end{longtable}
+
+\section{Earlier entries (Drafts 3 to 5)}
+\hypertarget{revision-log-draft-3-2026-11-17}{%
+\section*{Draft 3
+(2026-11-17)}\label{revision-log-draft-3-2026-11-17}}
+
+Source: \texttt{original-transtvy2.tex} (1997 manuscript, revised 2007).
+Corrected edition: \texttt{complement-regularity.tex}.
+
+\hypertarget{original-results-retained}{%
+\subsection*{Original results retained}\label{original-results-retained}}
+
+\begin{itemize}
+\tightlist
+\item
+  The complement--sharp-transitivity criterion.
+\item
+  The existence classification for standard symmetric subgroups.
+\item
+  The motivation from permutation storage and the three-factor
+  decomposition of S\_12.
+\end{itemize}
+
+\hypertarget{corrections}{%
+\subsection*{Corrections}\label{corrections}}
+
+\begin{itemize}
+\tightlist
+\item
+  Modernized LaTeX and typography to 12pt Times, letter paper, one-inch
+  margins.
+\item
+  Corrected the false claim that a point stabilizer in any subgroup G of
+  S\_n is S\_(n-k).
+\item
+  Replaced the defective right-translation proof with coset-action
+  constructions.
+\item
+  Distinguished unique ordered factorization from iterated subgroup
+  factorization.
+\item
+  Replaced incomplete case-by-case order exclusions by an explicitly
+  cited classification input.
+\item
+  Corrected the table to remove nonexistent prime-power cases in degrees
+  6, 10, and 12; in particular 6, 10, 12 are not prime powers.
+\item
+  Added a proof of the PGL\_2(11) C\_9 S\_8 factorization.
+\item
+  Replaced informal density language with a natural-density-zero
+  corollary.
+\end{itemize}
+
+\hypertarget{new-outline-not-claimed-as-completed-research}{%
+\subsection*{New outline (not claimed as completed
+research)}\label{new-outline-not-claimed-as-completed-research}}
+
+\begin{itemize}
+\tightlist
+\item
+  Arrangement graphs and regular Cayley representations.
+\item
+  Coset graphs and complements to vertex stabilizers.
+\item
+  Johnson graphs and sharply homogeneous actions.
+\item
+  Permutation-module and spectral questions.
+\end{itemize}
+
+\hypertarget{verification-and-limitations}{%
+\subsection*{Verification and
+limitations}\label{verification-and-limitations}}
+
+\begin{itemize}
+\tightlist
+\item
+  The LaTeX file was compiled twice with pdflatex successfully, with no
+  overfull boxes or unresolved citations/references in the final build.
+\item
+  External classification theorem was not checked against specific
+  source pages in this revision. Precise citations remain to be
+  verified.
+\item
+  The original GAP permutation-generator computations have not been
+  rerun.
+\item
+  AI review does not independently certify the mathematical results.
+\item
+  ChatGPT performed mathematical review, revision drafting, and the
+  graph outline.
+\end{itemize}
+
+\hypertarget{numbering-concordance}{%
+\subsection*{Numbering concordance}\label{numbering-concordance}}
+
+Original unsectioned theorem numbering was replaced by section-wise
+numbering. Central complement criterion is now Proposition 3.2;
+classification is now Theorem 4.2. Cross-references were updated.
+
+\hypertarget{draft-4-november-17-2026}{%
+\subsection*{Draft 4 --- November 17,
+2026}\label{draft-4-november-17-2026}}
+
+\begin{itemize}
+\tightlist
+\item
+  Archived the newly attached \texttt{transtvy2(1).tex} as
+  \texttt{transtvy2-\allowbreak original-\allowbreak 1997-\allowbreak revised-\allowbreak 2007.tex}; its differences
+  from the earlier attachment are minor textual edits, not a newly
+  verified mathematical revision.
+\item
+  Expanded graph theory with formal definitions, proved
+  Cayley/coset/Johnson criteria, examples, TikZ diagrams, a
+  Fourier-spectral proposition, and an expanded glossary.
+\item
+  Reconstructed generator verification scripts from the original
+  manuscript: \texttt{scripts/\allowbreak verify\_\allowbreak generators.py} (SymPy) and
+  \texttt{scripts/\allowbreak verify\_\allowbreak generators.g} (GAP).
+\item
+  Ran the Python/SymPy script: orders and full ordered-tuple orbits
+  confirmed for the manuscript's explicit degree 10, 11, and 12
+  generator pairs. GAP is not installed here; the GAP script remains
+  unexecuted.
+\item
+  The global classification input still needs precise independent
+  literature/theorem verification; no claim of complete independent
+  classification verification is made.
+\end{itemize}
+
+\hypertarget{draft-5-november-17-2026}{%
+\subsection*{Draft 5 --- November 17,
+2026}\label{draft-5-november-17-2026}}
+
+Changes made by Anthropic's Claude.
+
+\hypertarget{scope}{%
+\subsubsection*{Scope}\label{scope}}
+
+Only Section 6 (graphs) was rewritten. Sections 3--5 are unchanged.
+Outside Section 6 the edits are limited to keeping the paper consistent
+with the new section: title (Draft 5), abstract, one sentence each in
+Sections 1 and 2, the summary, the glossary (9 new entries), the
+acknowledgments, and the bibliography (14 new entries).
+
+\hypertarget{what-is-new-in-section-6}{%
+\subsubsection*{What is new in Section
+6}\label{what-is-new-in-section-6}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Item
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Prop. 6.2 (regular subgroup $\Rightarrow$ Cayley graph) & Proof rewritten; the Draft
+4 proof was garbled about left/right conventions. Attributed to
+Sabidussi. \\
+Examples 6.4, 6.5 (C\_6 has two regular groups; Petersen graph has none)
+& New, proved in the text. \\
+Prop. 6.7 (basic properties of T(n,k), arc-transitivity under S\_n $\times$
+S\_k) & New, proved in the text. \\
+Theorem 6.8 (Aut T(n,k) $\cong$ S\_n $\times$ S\_k) & Quoted from
+Yin--Feng--Zhou--Guo. \\
+Prop. 6.10 and Table 2 (connection set = union of k subgroups of order
+n$-$k+1) & New, proved in the text. Draft 4 had only the bare
+statement. \\
+Prop. 6.14 (regular subgroups L $\times$ M of S\_n $\times$ S\_k) & New, proved in the
+text. May overlap with constructions in Yin et al., which was not
+consulted in full. \\
+Theorem 6.16 (which T(n,k) are Cayley) & Quoted from
+Yin--Feng--Zhou--Guo. \\
+Cor. 6.17 (converse of Draft 4's Prop. 6.6 fails for six pairs) & New
+observation; the six regular subgroups were machine-checked. \\
+Prop. 6.19, Example 6.20 (D $\cap$ K as connection set; rank 7 for pairs) &
+New, proved in the text. Left/right coset wording of Draft 4
+corrected. \\
+Prop. 6.26 (complements of S\_k $\times$ S\_\{n$-$k\}) & New here; proof depends
+on Livingstone--Wagner and Kantor as external input. Agrees with
+Dobson--Malnič. \\
+Draft 4's J(5,2) example & Strengthened: J(5,2) is not a Cayley graph at
+all. \\
+Props. 6.30, 6.31 (projection formula; spectrum of T(q,2)) & New, proved
+in the text. \\
+Section 6.7 (harmonic morphisms) & New: quotient criterion, covering
+T(n,k) $\to$ J(n,k), quotients of Cayley graphs, a ramified quotient onto a
+star, a non-harmonic projection, Jacobians. \\
+\end{longtable}
+
+\hypertarget{draft-4-questions-for-a-later-draft-now-answered-by-the-literature}{%
+\subsubsection*{Draft 4 ``questions for a later draft'' now answered by
+the
+literature}\label{draft-4-questions-for-a-later-draft-now-answered-by-the-literature}}
+
+\begin{itemize}
+\tightlist
+\item
+  Aut(T(n,k)) and the classification of Cayley arrangement graphs:
+  Yin--Feng--Zhou--Guo (2021).
+\item
+  Which Johnson graphs are Cayley: Dobson--Malnič (2015), after Godsil
+  (1980).
+\end{itemize}
+
+\hypertarget{sources-not-consulted-in-full}{%
+\subsubsection*{Sources not consulted in
+full}\label{sources-not-consulted-in-full}}
+
+Statements were taken from abstracts, secondary sources, or memory, and
+need checking against the originals before publication:
+
+\begin{itemize}
+\tightlist
+\item
+  Yin--Feng--Zhou--Guo, J. Graph Theory 98 (2021): abstract only. Exact
+  hypotheses of Theorems 6.8 and 6.16 unverified.
+\item
+  Dobson--Malnič (2015), Godsil (1980): abstract and secondary
+  description only; treatment of n = 2k not checked.
+\item
+  Livingstone--Wagner (1965), Kantor (1972): quoted from memory.
+  Kantor's k = 2 case may belong to an earlier paper of his.
+\item
+  Day--Tripathi (1992), Chiang--Chen (1998), Zhou (2011): via secondary
+  description.
+\item
+  Chen--Ghorbani--Wong (2014): abstract only; volume and pages not
+  confirmed (DOI given).
+\item
+  Araujo--Bratten (arXiv 1612.04747): abstract only.
+\item
+  Baker--Norine (2009): definition, degree, Riemann--Hurwitz formula,
+  and Jacobian surjectivity quoted from memory.
+\item
+  Melles--Joyner (2026): cited as a general reference; conventions not
+  compared.
+\item
+  Brouwer--Cohen--Neumaier (1989): Johnson eigenvalues quoted from
+  memory, confirmed numerically for n $\leq$ 6.
+\end{itemize}
+
+\hypertarget{computational-status}{%
+\subsubsection*{Computational status}\label{computational-status}}
+
+Python only (NetworkX, python-igraph, NumPy, SymPy); no GAP or Sage. The
+checks are listed in Remark 6.42 of the paper and are reproduced by
+\texttt{scripts/verify\_graph\_section.py}; its output from the run for
+this draft is \texttt{scripts/verify\_graph\_section\_output.txt}.
+\texttt{scripts/make\_t42\_figure.py} generates the TikZ for Figure 2.
+Table 1 of the paper was not rechecked in this draft.
+
+\hypertarget{noticed-but-not-changed}{%
+\subsubsection*{Noticed but not changed}\label{noticed-but-not-changed}}
+
+\begin{itemize}
+\tightlist
+\item
+  Prop. 3.4: ``the coordinate projections for G = HK and G = HK,
+  respectively'' repeats the same factorization; both projections do use
+  G = HK, so the phrase is redundant rather than wrong.
+\item
+  Remark 4.4 still says that no computational verification of the table
+  is claimed, although the Draft 4 entry above records a SymPy check of
+  the degree 10, 11, and 12 generator pairs; the remark was left as it
+  stood.
+\item
+  Proof of Prop. 3.4 calls $H\backslash G$ the ``left coset space'' and G/K the
+  ``right coset space''; Section 6 now uses ``left cosets gH''.
+\end{itemize}
+
+\end{document}

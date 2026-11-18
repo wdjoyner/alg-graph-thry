@@ -1,96 +1,214 @@
 \documentclass[12pt,letterpaper]{article}
 \usepackage[T1]{fontenc}
-\usepackage{mathptmx}
+\usepackage{amsmath,amsthm}
+% Times for text and math: newtx when installed, mathptmx as the fallback.
+\IfFileExists{newtxtext.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}\usepackage{amssymb}}
 \usepackage[letterpaper,margin=1in]{geometry}
-\usepackage{amsmath,amssymb,amsfonts,amsthm,booktabs,array,microtype}
+\usepackage{booktabs,array,microtype}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,calc}
 \usepackage[hidelinks]{hyperref}
+\numberwithin{equation}{section}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
-\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}\newtheorem{example}[theorem]{Example}\newtheorem{remark}[theorem]{Remark}
-\DeclareMathOperator{\agll}{AGL}\DeclareMathOperator{\pgll}{PGL}\DeclareMathOperator{\autt}{Aut}\DeclareMathOperator{\cayy}{Cay}
-\title{Which $S_m$ have a complement in $S_n$?\\\large Draft 5: Corrected and expanded version}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+% Remarks recording items that are not fully verified are numbered 2026.1, 2026.2, ...
+\newtheorem{vremark}{Remark}
+\renewcommand{\thevremark}{2026.\arabic{vremark}}
+\DeclareMathOperator{\agll}{AGL}
+\DeclareMathOperator{\pgll}{PGL}
+\DeclareMathOperator{\agaml}{A\Gamma L}
+\DeclareMathOperator{\pgaml}{P\Gamma L}
+\DeclareMathOperator{\psll}{PSL}
+\DeclareMathOperator{\autt}{Aut}
+\DeclareMathOperator{\cayy}{Cay}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Jac}{Jac}
+\title{Which $S_m$ have a complement in $S_n$?\thanks{This is a corrected and expanded version of the author's manuscript of the same title \cite{Jo97}, written in 1997 and revised in 2007.}\\\large Draft 6: Corrected and expanded version}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
-\date{Original draft: 1997; revised 2007. Corrected and expanded draft: 2026}
+\date{Original draft: 1997 (revised 2007). Corrected and expanded draft: 2026}
 \begin{document}\maketitle
 \begin{abstract}
-This corrected edition was prepared with assistance from OpenAI's ChatGPT and Anthropic's Claude; see the acknowledgments and separate revision log. We characterize complements to standard symmetric subgroups in terms of sharply multiply transitive permutation groups and give the resulting classification, with explicit low-degree exceptions. We also explain an exact factorization motivated by permutation storage. A final section develops the graph-theoretic side: a complement to $S_{n-k}$ makes the arrangement graph on ordered $k$-tuples a Cayley graph with an explicit connection set, and we discuss coset graphs, Johnson graphs, adjacency spectra, and the harmonic morphisms (in the sense of Baker and Norine) that arise as group quotients, such as the $k!$-fold covering of the Johnson graph by the arrangement graph. Using the literature, we note that the converse fails: six arrangement graphs are Cayley graphs although the corresponding $S_{n-k}$ has no complement.
+This corrected edition was prepared with assistance from OpenAI's ChatGPT, Anthropic's Claude, and Google's Gemini, as described in the Acknowledgments. We characterize complements to the standard symmetric subgroups $S_m\leq S_n$ in terms of sharply multiply transitive permutation groups, and we give the resulting classification with its explicit low-degree exceptions. We also give an exact three-factor decomposition of $S_{12}$ motivated by permutation storage. A final section develops the graph-theoretic side. A complement to $S_{n-k}$ makes the arrangement graph on ordered $k$-tuples a Cayley graph with an explicit connection set. We discuss coset graphs, Johnson graphs, adjacency spectra, and the harmonic morphisms, in the sense of Baker and Norine, that arise as group quotients. One such morphism is the $k!$-fold covering of the Johnson graph by the arrangement graph. Using the literature, we note that six arrangement graphs are Cayley graphs although the corresponding $S_{n-k}$ has no complement.
 \end{abstract}
+
+\tableofcontents
+
 \section{Introduction}
-Herbert Kociemba's question about efficient representations of Rubik's Cube permutations motivates the following finite-group problem: for which $1<m<n$ does the subgroup $S_m\leq S_n$, fixing the final $n-m$ letters pointwise, admit a complement? The original manuscript was written in 1997 and revised in 2007. This edition preserves its question and principal answer and corrects auxiliary arguments. Section~\ref{sec:graphs}, which is new, translates complements into Cayley representations of arrangement graphs, coset graphs, and Johnson graphs, computes some spectra, and describes harmonic morphisms between these graphs; it separates what is proved here from what is quoted from the literature.
+This paper answers a question about subgroups of the symmetric group that arose from computing with the Rubik's Cube. The question was put to the author by Herbert Kociemba \cite{Ko97}, the author of a well-known cube-solving program.
 
-A subgroup $K\leq G$ is a \emph{complement} to $H\leq G$ when $G=HK$ and $H\cap K=1$. Normality is not required. Thus every $g\in G$ has a unique expression $hk$, but $G$ need not be a semidirect product. For example $S_n=A_nS_2$ for $n\geq3$, although $S_2$ is generally not normal.
+The Rubik's Cube has $12$ edge pieces and $8$ corner pieces. A position of the cube determines a permutation of the edges and a permutation of the corners, so a solving program must store and index elements of the symmetric groups $S_{12}$ and $S_8$ efficiently. One way to index a large group $G$ is to split it as a product $G=HK$ of two subgroups in which every element has exactly one expression $hk$. An element of $G$ is then stored as a pair of coordinates, one in $H$ and one in $K$. Kociemba asked whether $S_{12}$ splits in this way with $H=S_8$.
 
-\section{Literature and background}
-The link between complements and sharply transitive groups is elementary permutation-group theory; standard references include Cameron \cite{Ca99} and Dixon--Mortimer \cite{DM96}. The classification of finite sharply multiply transitive groups, including the Zassenhaus theory of sharply doubly transitive groups and the exceptional Mathieu groups, is an external classification input here. The original manuscript also cited Conway--Hulpke--McKay \cite{CHM98} for transitive groups. Section~\ref{sec:graphs} is new to this edition. Arrangement graphs were introduced by Day and Tripathi \cite{DT92}; their automorphism groups and the classification of those that are Cayley graphs are due to Yin, Feng, Zhou, and Guo \cite{YFZG21}, and the corresponding classification for Johnson graphs to Dobson and Malni\v{c} \cite{DM15}, building on Livingstone--Wagner \cite{LW65}, Kantor \cite{Ka72}, and Godsil \cite{Go80}. Harmonic morphisms of graphs are taken in the sense of Baker and Norine \cite{BN09}; see also \cite{MJ26}. No original classification theorem for graphs is claimed: the results of Section~\ref{sec:graphs} are elementary consequences of the complement criterion, or are quoted.
+A subgroup $K\leq G$ is a \emph{complement} to a subgroup $H\leq G$ when $G=HK$ and $H\cap K=1$. Normality is not required, so $G$ need not be a semidirect product. Write $S_m\leq S_n$ for the \emph{standard} subgroup, which fixes the last $n-m$ letters. The general problem is the following.
+\begin{quote}
+For which $1<m<n$ does the standard subgroup $S_m$ have a complement in $S_n$?
+\end{quote}
 
-\subsection*{Notation}
-Write $[n]=\{1,\ldots,n\}$, $S_n$ for its symmetric group, $A_n$ for the alternating group, and $C_n$ for a regular cyclic subgroup. For a finite set $X$, let
-\[
-X^{(k)}=\{(x_1,\ldots,x_k)\in X^k:x_i\ne x_j\ (i\ne j)\}.
-\]
-A permutation group is \emph{$k$-transitive} if it is transitive on $X^{(k)}$, and \emph{sharply $k$-transitive} if it acts regularly on $X^{(k)}$. In particular, a sharply $k$-transitive group of degree $n$ has order $n!/(n-k)!$.
+The answer is that complements are rare. Theorem~\ref{thm:main} shows that for $n>12$ the subgroup $S_m$ has a complement exactly when $m=n-1$, or $m=2$, or $m=n-2$ with $n$ a prime power, or $m=n-3$ with $n-1$ a prime power. Table~\ref{tab:small} lists the cases with $n\leq12$, where the Mathieu groups $M_{11}$ and $M_{12}$ contribute two more. In particular $S_8$ has no complement in $S_{12}$, so the answer to Kociemba's question is no. Section~\ref{sec:three} gives a substitute, a decomposition $S_{12}=PCS_8$ into three subgroups with unique expressions.
 
-\begin{example}
-The affine transformations $x\mapsto ax+b$ of $\mathbb F_q$, with $a\ne0$, form $\agll_1(q)$, a sharply $2$-transitive group of order $q(q-1)$. The fractional linear transformations on $\mathbb P^1(\mathbb F_q)$ form $\pgll_2(q)$, sharply $3$-transitive of degree $q+1$ and order $(q+1)q(q-1)$.
+The proof rests on one observation, Proposition~\ref{prop:criterion}. A complement to $S_m$ in $S_n$ is the same thing as a subgroup of $S_n$ that acts sharply $(n-m)$-transitively. The classification of such groups is classical and is used here as an external input.
+
+Section~\ref{sec:graphs} translates the problem into graph theory. The standard $S_{n-k}$ is the stabilizer of a vertex in the arrangement graph on ordered $k$-tuples, and a complement is a group acting regularly on the vertices. So a complement makes the arrangement graph a Cayley graph. We compute the connection sets, treat coset graphs and Johnson graphs in the same way, find some spectra, and describe harmonic morphisms between these graphs.
+
+The paper is organized as follows. Section~\ref{sec:literature} reviews the literature and Section~\ref{sec:background} the background. Section~\ref{sec:notation} collects notation. Sections~\ref{sec:complements} to~\ref{sec:three} contain the complement criterion, the classification, and the decomposition of $S_{12}$. Section~\ref{sec:graphs} contains the graph theory, and Section~\ref{sec:summary} summarizes the results and lists open questions.
+
+\section{Literature review}\label{sec:literature}
+This section places the results among related work. It is divided at 1997, the date of the original manuscript \cite{Jo97}. Most of the graph-theoretic literature on which Section~\ref{sec:graphs} depends appeared after that date.
+
+\subsection*{Work before 1997}
+The theory of multiply transitive permutation groups is classical. The sharply $2$-transitive and sharply $3$-transitive finite groups were described by Zassenhaus, and Jordan showed that the only sharply $4$-transitive and sharply $5$-transitive groups, apart from symmetric and alternating groups, are the Mathieu groups $M_{11}$ and $M_{12}$. The textbook of Dixon and Mortimer \cite{DM96} gives a complete account, and Rotman \cite{Ro95} covers the general group theory of complements and semidirect products. Theorem~\ref{thm:input} below is the consequence of this classification that we need.
+
+Livingstone and Wagner \cite{LW65} studied groups that are transitive on unordered $k$-subsets. They showed that such a group of degree $n\geq 2k$ is transitive on ordered $(k-1)$-tuples, and on ordered $k$-tuples once $k\geq5$. Kantor \cite{Ka72} then listed the groups that are transitive on $k$-subsets but not on ordered $k$-tuples. These two results give Proposition~\ref{prop:homogclass}, the analogue of our main theorem for unordered subsets.
+
+Sabidussi \cite{Sa58} proved that a graph is a Cayley graph of a group $K$ exactly when $K$ acts regularly on its vertices by automorphisms. Proposition~\ref{prop:graphcriterion} restates this in the language of complements. Godsil \cite{Go80} used the results of Livingstone, Wagner, and Kantor to decide which Kneser graphs are Cayley graphs. The monograph of Brouwer, Cohen, and Neumaier \cite{BCN89} contains the automorphism groups and the eigenvalues of Johnson graphs. Day and Tripathi \cite{DT92} introduced arrangement graphs as models for interconnection networks and computed their basic invariants, including the diameter.
+
+\subsection*{Work after 1997}
+Cameron's textbook \cite{Ca99} is a second standard reference for permutation groups. Conway, Hulpke, and McKay \cite{CHM98} studied transitive permutation groups of low degree, and the original manuscript cited their work for the groups appearing in Table~\ref{tab:small}.
+
+Arrangement graphs have been studied intensively since then. Chiang and Chen \cite{CC98} identified the arrangement graph on $(n-2)$-tuples with a Cayley graph of the alternating group. In our terms this is the complement $A_n$ of $S_2$. Zhou \cite{Zh11} determined the automorphism group of that graph. Yin, Feng, Zhou, and Guo \cite{YFZG21} determined the automorphism group of every arrangement graph and classified the arrangement graphs that are Cayley graphs. Their classification contains the pairs $(n,k)$ of our main theorem and six further pairs, which we explain in Proposition~\ref{prop:lifting}. Chen, Ghorbani, and Wong \cite{CGW14} proved that the eigenvalues of arrangement graphs are integers, and Araujo and Bratten \cite{AB16} gave a formula for them in terms of characters of symmetric groups. Proposition~\ref{prop:tq2} recovers the simplest case by a different route, through a complement.
+
+Dobson and Malni\v{c} \cite{DM15} extended Godsil's theorem to Johnson graphs and determined which of them are Cayley graphs. Proposition~\ref{prop:homogclass} agrees with their answer.
+
+Baker and Norine \cite{BN09} introduced harmonic morphisms of graphs as the analogue of holomorphic maps of Riemann surfaces, with a degree, a Riemann--Hurwitz formula, and induced maps on Jacobians. The book \cite{MJ26} is an introduction to the subject. Section~\ref{subsec:harmonic} applies these ideas to the graphs of this paper. No original classification theorem for graphs is claimed here. The results of Section~\ref{sec:graphs} are either elementary consequences of the complement criterion or are quoted from the works above.
+
+\section{Background}\label{sec:background}
+This section explains the four ideas the paper uses: complements, multiply transitive groups, graphs with a transitive group of automorphisms, and harmonic morphisms. Each is illustrated by an example. Formal definitions of the graph-theoretic terms are repeated in Section~\ref{sec:graphs} where they are used.
+
+\subsection*{Complements and exact factorizations}
+Let $G$ be a finite group with subgroups $H$ and $K$. The product set $HK$ consists of all products $hk$. If $G=HK$ and $H\cap K=1$, then every $g\in G$ has exactly one expression $g=hk$. Indeed $hk=h'k'$ gives $h'^{-1}h=k'k^{-1}\in H\cap K$. In this situation $K$ is a complement to $H$, the pair is an \emph{exact factorization} of $G$, and $|G|=|H|\,|K|$. Taking inverses shows that $G=KH$ as well, so $H$ is also a complement to $K$. When $H$ is normal, $G$ is the semidirect product of $H$ by $K$. In general neither factor is normal.
+\begin{example}\label{ex:s3}
+For $n\geq3$ we have $S_n=A_nS_2$, where $S_2$ is generated by one transposition. Here $A_n$ is normal. In $S_3$ there is also the factorization $S_3=S_2C_3$, with $S_2=\{1,(1\,2)\}$ and $C_3$ generated by $(1\,2\,3)$. For instance $(1\,3)=(1\,2)(1\,3\,2)$. For $n\geq4$ the factorization $S_n=S_{n-1}C_n$, with $C_n$ generated by an $n$-cycle, has neither factor normal.
 \end{example}
 
-\section{Complements and permutation actions}
-We first give the general mechanism behind the classification. It is independent of the classification of finite simple groups.
+\subsection*{Multiply transitive groups}
+Let a group $G$ act on a finite set $X$. The action is \emph{transitive} if any point can be moved to any other, and \emph{regular} if this can be done by exactly one element of $G$. Equivalently, a regular action is transitive and only the identity fixes a point. A subgroup $K$ of a permutation group is called a \emph{regular subgroup} when the action of $K$ itself is regular. This usage is standard for permutation groups \cite{DM96}. It describes how $K$ acts and is not a property of $K$ as an abstract group, so the same group can be a regular subgroup in one action and not in another. For $k\geq1$ let
+\[
+X^{(k)}=\{(x_1,\ldots,x_k)\in X^k:x_i\ne x_j\ (i\ne j)\}
+\]
+be the set of ordered $k$-tuples of distinct points. The group is \emph{$k$-transitive} if it is transitive on $X^{(k)}$, and \emph{sharply $k$-transitive} if it is regular on $X^{(k)}$. A sharply $k$-transitive group of degree $n=|X|$ therefore has order $n!/(n-k)!$. In the same way $G$ is \emph{$k$-homogeneous} if it is transitive on the unordered $k$-element subsets of $X$, and \emph{sharply $k$-homogeneous} if it is regular on them.
+\begin{example}\label{ex:aglpgl}
+The affine transformations $x\mapsto ax+b$ of the finite field $\mathbb F_q$, with $a\ne0$, form the group $\agll_1(q)$. Given distinct $x_1,x_2$ and distinct $y_1,y_2$, there is exactly one affine map with $x_1\mapsto y_1$ and $x_2\mapsto y_2$. So $\agll_1(q)$ is sharply $2$-transitive of degree $q$ and order $q(q-1)$. The fractional linear transformations $x\mapsto (ax+b)/(cx+d)$ of the projective line $\mathbb P^1(\mathbb F_q)=\mathbb F_q\cup\{\infty\}$ form $\pgll_2(q)$. This group is sharply $3$-transitive of degree $q+1$ and order $(q+1)q(q-1)$. The symmetric group $S_n$ is sharply $n$-transitive and sharply $(n-1)$-transitive on $[n]$, and $A_n$ is sharply $(n-2)$-transitive.
+\end{example}
+
+\subsection*{Graphs with a transitive group of automorphisms}
+An automorphism of a graph is a permutation of its vertices that preserves adjacency. A graph is vertex-transitive if its automorphism group is transitive on vertices. The simplest vertex-transitive graphs are Cayley graphs. The vertices of a Cayley graph are the elements of a group $K$, and $x$ is joined to $xd$ for each $d$ in a fixed set $D$ of nonidentity elements closed under inversion. Left multiplication by elements of $K$ then gives a regular group of automorphisms. More generally, any graph with a transitive group $G$ of automorphisms can be described on the cosets of a vertex stabilizer $H$. Such a description is a coset graph.
+\begin{example}\label{ex:hexagon}
+The six-cycle is the Cayley graph of the cyclic group $C_6=\langle a\rangle$ with $D=\{a,a^{-1}\}$. Its full automorphism group is dihedral of order $12$, and the stabilizer of a vertex has order $2$. The rotations form a regular subgroup, which is a complement to that stabilizer.
+\end{example}
+
+\subsection*{Harmonic morphisms}
+A harmonic morphism between graphs is a map that sends vertices to vertices and edges to edges or vertices, and that is balanced at each vertex in the following sense. For a vertex $x$, every edge at the image of $x$ is the image of the same number of edges at $x$. This number is the multiplicity of the map at $x$. Harmonic morphisms behave like holomorphic maps between Riemann surfaces \cite{BN09}. The basic examples are quotients of a graph by a group of automorphisms.
+\begin{example}\label{ex:antipodal}
+Label the vertices of the six-cycle by the integers modulo $6$ and map $i$ to $i$ modulo $3$. This sends the six-cycle onto the triangle. Each vertex $i$ has neighbors $i\pm1$, which map to the two neighbors of the image. So the map is harmonic with all multiplicities equal to $1$. It is the quotient by the rotation of order $2$, and it is a covering of degree $2$.
+\end{example}
+
+\section{Notation}\label{sec:notation}
+This section fixes conventions. Groups act on the left throughout, and a product $gh$ of permutations means that $h$ is applied first. For subgroups $H,K$ of a group $G$, a \emph{left coset} is a set $gH$ and a \emph{right coset} is a set $Hg$. Table~\ref{tab:notation} lists the symbols used.
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{@{}ll@{}}\toprule
+symbol & meaning\\\midrule
+$[n]$ & the set $\{1,\ldots,n\}$\\
+$S_n$, $A_n$ & the symmetric and alternating groups on $[n]$\\
+$S_m\leq S_n$ & the standard subgroup, fixing $m+1,\ldots,n$\\
+$C_n$ & a cyclic group of order $n$, usually generated by an $n$-cycle\\
+$X^{(k)}$ & ordered $k$-tuples of distinct elements of $X$\\
+$G_\alpha$, $G_v$ & the stabilizer of a point $\alpha$ or a vertex $v$\\
+$G/H$, $H\backslash G$ & the sets of left cosets $gH$ and of right cosets $Hg$\\
+$\agll_1(q)$, $\pgll_2(q)$ & affine group of $\mathbb F_q$, projective linear group of $\mathbb P^1(\mathbb F_q)$\\
+$\agaml_1(q)$, $\pgaml_2(q)$ & the same groups extended by the field automorphisms\\
+$M_{11}$, $M_{12}$ & the Mathieu groups of degrees $11$ and $12$\\
+$\autt(\Gamma)$ & the automorphism group of a graph $\Gamma$\\
+$\cayy(K,D)$ & the Cayley graph of $K$ with connection set $D$\\
+$\Gamma(G,H,D)$ & the coset graph on $G/H$ defined by $D$\\
+$T(n,k)$, $J(n,k)$ & the arrangement graph and the Johnson graph\\
+$K_n$, $K_{1,k}$ & the complete graph and the star with $k$ leaves\\
+$\widehat K$ & the set of irreducible complex representations of $K$\\
+$\Ind_H^G$, $\Res^G_K$ & induction and restriction of representations\\
+$m_\phi(x)$, $\deg\phi$ & multiplicity at $x$ and degree of a harmonic morphism $\phi$\\
+\bottomrule
+\end{tabular}
+\caption{Notation.}\label{tab:notation}
+\end{table}
+
+\section{Complements and permutation actions}\label{sec:complements}
+This section gives the mechanism behind the classification. Complements to a point stabilizer are the same as regular subgroups, and for the standard $S_m$ this means sharply multiply transitive subgroups. The argument is elementary and does not depend on the classification of finite simple groups.
 \begin{lemma}\label{lem:regular}
 Let $G$ act transitively on $\Omega$, and let $H=G_\alpha$ for $\alpha\in\Omega$. A subgroup $K\leq G$ complements $H$ if and only if $K$ acts regularly on $\Omega$.
 \end{lemma}
 \begin{proof}
-The equality $G=HK$ is equivalent to transitivity of $K$: for $g\in G$, write $g=hk$ and observe that $g^{-1}\alpha=k^{-1}\alpha$; conversely, if $K$ is transitive, choose $k$ with $k^{-1}\alpha=g^{-1}\alpha$, whence $gk^{-1}\in H$. The stabilizer of $\alpha$ in $K$ is $H\cap K$. Hence transitivity together with trivial intersection is precisely regularity.
+We first show that $G=KH$ if and only if $K$ is transitive. Suppose $G=KH$ and let $\beta\in\Omega$. Choose $g\in G$ with $g\alpha=\beta$ and write $g=kh$. Then $k\alpha=kh\alpha=\beta$, so $K$ is transitive. Conversely, suppose $K$ is transitive and let $g\in G$. Choose $k\in K$ with $k\alpha=g\alpha$. Then $k^{-1}g\in H$, so $g\in KH$. Taking inverses, $G=KH$ is equivalent to $G=HK$. Finally, the stabilizer of $\alpha$ in $K$ is $H\cap K$. Hence $G=HK$ together with $H\cap K=1$ says precisely that $K$ is transitive with trivial point stabilizer, that is, regular.
 \end{proof}
 \begin{proposition}\label{prop:criterion}
 For $1\leq m<n$, the standard $S_m\leq S_n$ has a complement if and only if $S_n$ contains a sharply $(n-m)$-transitive subgroup of degree $n$.
 \end{proposition}
 \begin{proof}
-Put $k=n-m$ and let $S_n$ act on $[n]^{(k)}$. The stabilizer of $(m+1,\ldots,n)$ is exactly the standard $S_m$. Apply Lemma~\ref{lem:regular}. A regular subgroup on the tuple space is precisely a sharply $k$-transitive subgroup on $[n]$.
+Put $k=n-m$ and let $S_n$ act on $[n]^{(k)}$. This action is transitive, and the stabilizer of the tuple $(m+1,\ldots,n)$ is exactly the standard $S_m$. By Lemma~\ref{lem:regular}, a complement is a subgroup acting regularly on $[n]^{(k)}$. Such a subgroup is by definition sharply $k$-transitive on $[n]$.
 \end{proof}
 \begin{corollary}\label{cor:universal}
 For every $n\geq3$, both $S_{n-1}$ and $S_2$ have complements in $S_n$, given respectively by $C_n$ and $A_n$.
 \end{corollary}
 \begin{proof}
-The cyclic group acts regularly on $[n]$. The alternating group acts sharply $(n-2)$-transitively on $[n]$, because an even permutation is uniquely determined by the images of $n-2$ distinct letters.
+The cyclic group generated by an $n$-cycle acts regularly on $[n]$. The alternating group acts sharply $(n-2)$-transitively on $[n]$. Indeed, there are exactly two permutations with prescribed images on $n-2$ distinct letters, they differ by the transposition of the two remaining images, and exactly one of them is even.
 \end{proof}
+\begin{example}\label{ex:n5m3}
+Take $n=5$ and $m=3$, so $k=2$. Label the five letters by $\mathbb F_5$. The group $\agll_1(5)$ of Example~\ref{ex:aglpgl} is sharply $2$-transitive of degree $5$ and order $20$. By Proposition~\ref{prop:criterion} it is a complement to $S_3$ in $S_5$, and indeed $|S_3|\cdot|\agll_1(5)|=6\cdot20=120$. For $n=6$ and $m=4$ there is no complement, because a sharply $2$-transitive group of degree $6$ would have order $30$ and Theorem~\ref{thm:input} below requires the degree to be a prime power.
+\end{example}
 
 \subsection{Exact factorizations and induced actions}
-For $G=HK$ with $H\cap K=1$, each $g$ has a unique ordered decomposition $hk$. This also implies $G=KH$ and a unique decomposition in the reverse order, but the two coordinate systems need not coincide.
+An exact factorization gives each element of $G$ two coordinates. This subsection records how $G$ acts on each coordinate, which is the form in which a factorization is used for storing group elements. Let $G=HK$ with $H\cap K=1$, and write $g=p_H(g)\,p_K(g)$ with $p_H(g)\in H$ and $p_K(g)\in K$. The factorization $G=KH$ gives a second pair of coordinates, with the factors in the other order. The two coordinate systems need not coincide.
 \begin{proposition}\label{prop:actions}
-If $G=HK$ is an exact factorization, there are homomorphisms $G\to S_K$ and $G\to S_H$ defined by
+If $G=HK$ is an exact factorization, there are homomorphisms $G\to S_K$ and $G\to S_H$, $x\mapsto R_x$ and $x\mapsto L_x$, defined by
 \[
 R_x(k)=p_K(kx^{-1}),\qquad L_x(h)=p_H(xh),
 \]
-where $p_H,p_K$ denote the coordinate projections for $G=HK$ and $G=HK$, respectively.
+where $p_H\colon G\to H$ and $p_K\colon G\to K$ are the coordinate projections for the decomposition $G=HK$.
 \end{proposition}
 \begin{proof}
-The map $R_x$ is the action on the left coset space $H\backslash G$ induced by right multiplication by $x^{-1}$, identified with $K$ using unique representatives. Thus $R_xR_y=R_{xy}$. Similarly $L_x$ is the action on the right coset space $G/K$ induced by left multiplication, identified with $H$; hence $L_xL_y=L_{xy}$. Both are permutations and both preserve products.
+Each right coset of $H$ has the form $Hk$ for a unique $k\in K$, and $Hg=Hp_K(g)$. So $R_x(k)$ is the element of $K$ determined by $Hkx^{-1}=HR_x(k)$. For $x,y\in G$ this gives
+\[
+HR_x(R_y(k))=HR_y(k)x^{-1}=Hky^{-1}x^{-1}=Hk(xy)^{-1}=HR_{xy}(k),
+\]
+so $R_xR_y=R_{xy}$. Thus $R$ is the action of $G$ on the right coset space $H\backslash G$ by right multiplication by the inverse, transported to $K$. Similarly each left coset of $K$ has the form $hK$ for a unique $h\in H$, and $gK=p_H(g)K$. So $L_x(h)$ is determined by $xhK=L_x(h)K$, and
+\[
+L_x(L_y(h))K=xL_y(h)K=xyhK=L_{xy}(h)K.
+\]
+Thus $L$ is the action of $G$ on the left coset space $G/K$ by left multiplication, transported to $H$. Since $R_1$ and $L_1$ are identity maps, each $R_x$ and $L_x$ is a permutation.
 \end{proof}
+\begin{example}\label{ex:s3actions}
+Let $G=S_3$, $H=S_2=\{1,t\}$ with $t=(1\,2)$, and $K=C_3=\{1,c,c^2\}$ with $c=(1\,2\,3)$, as in Example~\ref{ex:s3}. Take $x=(1\,3)$, so $x^{-1}=x$. The decompositions $x=tc^2$, $cx=tc$, and $c^2x=t$ give
+\[
+R_x(1)=c^2,\qquad R_x(c)=c,\qquad R_x(c^2)=1.
+\]
+So $R_x$ is a transposition of the three elements of $K$, and $x\mapsto R_x$ is an isomorphism $S_3\to S_K$. On the other side, $x=tc^2$ and $xt=c$ give $L_x(1)=t$ and $L_x(t)=1$. In general $L_x$ exchanges the two elements of $H$ exactly when $x$ is odd, so $x\mapsto L_x$ is the sign homomorphism.
+\end{example}
 \begin{remark}
-For more than two factors, a \emph{unique ordered factorization} means that $G_1\times\cdots\times G_r\to G$ is bijective. One may additionally require each suffix product $G_i\cdots G_r$ to be a subgroup (an iterated exact factorization). These are distinct conditions. We do not assert that products indexed by arbitrary reordered subsets are subgroups or have trivial complementary intersections.
+For more than two factors, a \emph{unique ordered factorization} means that the multiplication map $G_1\times\cdots\times G_r\to G$ is bijective. One may additionally require each product $G_i\cdots G_r$ to be a subgroup, which gives an iterated exact factorization. These are distinct conditions. We do not assert that products indexed by arbitrary reordered subsets are subgroups or have trivial complementary intersections.
 \end{remark}
 
 \section{Classification}\label{sec:classification}
-The proof uses the standard classification of finite sharply multiply transitive permutation groups, not merely the classification of transitive overgroups. We state the precise consequence needed here as an external input; see \cite{Ca99,DM96} for the underlying theory.
+This section classifies the pairs $(n,m)$ for which the standard $S_m$ has a complement in $S_n$. By Proposition~\ref{prop:criterion} the question is which sharply $k$-transitive groups of degree $n$ exist. The answer is classical. We state the precise consequence that we need and use it as an external input. The underlying theory is in \cite{Ca99,DM96}.
 \begin{theorem}[Classification input]\label{thm:input}
 For a sharply $k$-transitive permutation group of degree $n$, with $2\leq k\leq n-3$, the following restrictions hold:
 \begin{enumerate}
 \item If $k=2$, then $n$ is a prime power.
-\item If $k=3$, then $n-1$ is a prime power, or $n=10$ (the exceptional Mathieu-type action).
-\item If $k=4$, then $(n,k)=(11,4)$.
-\item If $k=5$, then $(n,k)=(12,5)$.
+\item If $k=3$, then $n-1$ is a prime power.
+\item If $k=4$, then $n=11$.
+\item If $k=5$, then $n=12$.
 \item There are no examples with $6\leq k\leq n-3$.
 \end{enumerate}
-The degree-$10$ exceptional case is also covered by the projective-line construction with $q=9$; its appearance here records the exceptional isomorphism types rather than an additional degree.
 \end{theorem}
-\begin{remark}
-The classification input is cited rather than reproved. A publication-ready version should give precise theorem/page references after checking the cited editions. The original manuscript's case-by-case order exclusions did not by themselves rule out regular subgroups of the groups considered.
-\end{remark}
+In degree $10$ there are two sharply $3$-transitive groups, $\pgll_2(9)$ and the group $M_{10}$. Both have degree $9+1$, so they are covered by item (2).
+\begin{vremark}\label{rem:input}
+Theorem~\ref{thm:input} is cited and not reproved. Its statement has not been checked against specific theorem and page numbers in \cite{Ca99,DM96}.
+\end{vremark}
 \begin{theorem}\label{thm:main}
 Let $n>12$ and $1<m<n$. The standard subgroup $S_m$ has a complement in $S_n$ precisely when one of the following holds:
 \[
@@ -100,55 +218,69 @@ m=n-1,\qquad m=2,\qquad
 \[
 \text{or}\qquad (m=n-3\ \text{and }n-1\text{ is a prime power}).
 \]
-For $4\leq n\leq12$, the additional possibilities are given in Table~\ref{tab:small}. The cases $n\leq3$ follow directly from the definition.
+For $4\leq n\leq12$, the values of $m$ for which a complement exists are given in Table~\ref{tab:small}. The cases $n\leq3$ follow directly from the definition.
 \end{theorem}
 \begin{proof}
-By Proposition~\ref{prop:criterion}, set $k=n-m$. The cases $k=1$ and $k=n-2$ are Corollary~\ref{cor:universal}. For $k=2$, the classification input forces $n$ to be a prime power, and $\agll_1(n)$ supplies a complement. For $k=3$, the classification input forces $n-1$ to be a prime power apart from degree $10$, already of the form $9+1$; $\pgll_2(n-1)$ supplies a complement. For $4\leq k\leq n-3$ there are no degrees $n>12$ by Theorem~\ref{thm:input}. This proves the claim.
+By Proposition~\ref{prop:criterion}, set $k=n-m$, so that $1\leq k\leq n-2$. The cases $k=1$ and $k=n-2$ are Corollary~\ref{cor:universal}. For $k=2$, Theorem~\ref{thm:input} forces $n$ to be a prime power, and then $\agll_1(n)$ supplies a complement. For $k=3$, Theorem~\ref{thm:input} forces $n-1$ to be a prime power, and then $\pgll_2(n-1)$ supplies a complement. For $4\leq k\leq n-3$ there are no degrees $n>12$ by Theorem~\ref{thm:input}. This proves the claim for $n>12$. For $4\leq n\leq 12$ the same argument applies, with the two additional groups $M_{11}$ for $(n,k)=(11,4)$ and $M_{12}$ for $(n,k)=(12,5)$.
 \end{proof}
 \begin{table}[ht]
 \centering\small
 \begin{tabular}{@{}cll@{}}\toprule
-$n$ & values of $m$ ($1<m<n$) & representative complements beyond $A_n,C_n$\\\midrule
-4 & 2,3 & none\\
-5 & 2,3,4 & $\agll_1(5)$ for $m=3$\\
-6 & 2,3,5 & $\pgll_2(5)$ for $m=3$\\
-7 & 2,5,6 & $\agll_1(7)$\\
-8 & 2,5,6,7 & $\pgll_2(7)$; $\agll_1(8)$\\
-9 & 2,6,7,8 & $\pgll_2(8)$; $\agll_1(9)$\\
-10 & 2,7,9 & $\pgll_2(9)$ (also $M_{10}$) for $m=7$\\
-11 & 2,7,9,10 & $M_{11}$; $\agll_1(11)$\\
-12 & 2,7,9,11 & $M_{12}$; $\pgll_2(11)$\\
+$n$ & values of $m$ ($1<m<n$) & representative complements beyond $A_n$ and $C_n$\\\midrule
+4 & 2, 3 & none\\
+5 & 2, 3, 4 & $\agll_1(5)$ ($m=3$)\\
+6 & 2, 3, 5 & $\pgll_2(5)$ ($m=3$)\\
+7 & 2, 5, 6 & $\agll_1(7)$ ($m=5$)\\
+8 & 2, 5, 6, 7 & $\pgll_2(7)$ ($m=5$), $\agll_1(8)$ ($m=6$)\\
+9 & 2, 6, 7, 8 & $\pgll_2(8)$ ($m=6$), $\agll_1(9)$ ($m=7$)\\
+10 & 2, 7, 9 & $\pgll_2(9)$ and $M_{10}$ ($m=7$)\\
+11 & 2, 7, 9, 10 & $M_{11}$ ($m=7$), $\agll_1(11)$ ($m=9$)\\
+12 & 2, 7, 9, 11 & $M_{12}$ ($m=7$), $\pgll_2(11)$ ($m=9$)\\
 \bottomrule
 \end{tabular}
-\caption{Small degrees. Entries $m=2$ and $m=n-1$ always correspond to $A_n$ and $C_n$. The table corrects the erroneous claim in the original text that degree 10 is an additional exceptional degree outside the projective-line family.}\label{tab:small}
+\caption{Small degrees. The entries $m=2$ and $m=n-1$ always correspond to $A_n$ and $C_n$.}\label{tab:small}
 \end{table}
-\begin{remark}\label{rem:verification}
-Table~\ref{tab:small} records existence, not an exhaustive list of nonisomorphic complements. The original explicit generators have not been rerun in GAP for this revision; no computational verification is claimed.
-\end{remark}
+\begin{example}\label{ex:n12}
+Take $n=12$. The possible values of $k=n-m$ are $1,\ldots,10$. The values $k=1$ and $k=10$ always occur. For $k=2$ we need $12$ to be a prime power, which fails. For $k=3$ we need $11$ to be a prime power, which holds and gives $\pgll_2(11)$ with $m=9$. For $k=4$ the degree would have to be $11$. For $k=5$ the degree $12$ is allowed and gives $M_{12}$ with $m=7$. No $k$ from $6$ to $9$ occurs. So $m\in\{2,7,9,11\}$, and in particular $m=8$ does not occur.
+\end{example}
+\begin{vremark}\label{rem:verification}
+Table~\ref{tab:small} records existence. It is not an exhaustive list of nonisomorphic complements. The explicit generators given in the original manuscript for degrees $10$, $11$, and $12$ were checked with the SymPy script \texttt{verify\_generators.py} in the folder \texttt{scripts} of the repository. They generate groups of orders $720$, $7920$, and $95040$ that act regularly on ordered $3$-, $4$-, and $5$-tuples. The corresponding GAP script has not been run.
+\end{vremark}
 \begin{corollary}\label{cor:density}
-The degrees $n$ for which there is a complement other than the universal cases $m=2,n-1$ form a set of natural density zero.
+The degrees $n$ for which there is a complement other than the universal cases $m=2$ and $m=n-1$ form a set of natural density zero.
 \end{corollary}
 \begin{proof}
-Outside finitely many exceptional degrees, such $n$ must be a prime power or one more than a prime power. The number of prime powers at most $x$ is $O(x/\log x)$, by the prime number theorem and the elementary bound on proper prime powers. Shifting by one preserves this estimate, so the set has density zero.
+Outside finitely many exceptional degrees, such $n$ must be a prime power or one more than a prime power. The number of prime powers at most $x$ is $O(x/\log x)$, by the prime number theorem and the elementary bound $O(\sqrt x\log x)$ on the number of proper prime powers. Shifting by one preserves this estimate, so the set has density zero.
 \end{proof}
 
-\section{A three-factor decomposition of $S_{12}$}
-The original motivation concerned the absence of a two-factor complement to $S_8$ in $S_{12}$. A three-factor decomposition provides a useful substitute.
+\section{A three-factor decomposition of \texorpdfstring{$S_{12}$}{S12}}\label{sec:three}
+This section returns to the motivating question. By Example~\ref{ex:n12} the subgroup $S_8$ has no complement in $S_{12}$, so the permutations of the $12$ edges of the cube cannot be stored as pairs with one coordinate in $S_8$. They can be stored as triples. We give a decomposition of $S_{12}$ into three subgroups, one of which is $S_8$, in which every element has a unique expression.
 \begin{proposition}\label{prop:12}
-There are embedded subgroups $P\cong\pgll_2(11)$, $C\cong C_9$, and $H\cong S_8$ such that multiplication $P\times C\times H\to S_{12}$ is bijective.
+There are subgroups $P\cong\pgll_2(11)$, $C\cong C_9$, and $H\cong S_8$ of $S_{12}$ such that the multiplication map $P\times C\times H\to S_{12}$ is bijective.
 \end{proposition}
 \begin{proof}
-Identify the 12 letters with $\mathbb P^1(\mathbb F_{11})$. Fix an ordered triple $(a,b,c)$ of distinct points, and let $C$ be generated by a 9-cycle on the other nine points, fixing $a,b,c$. Let $d$ be one of those nine points, and let $H$ fix $a,b,c,d$ pointwise. The group $P=\pgll_2(11)$ acts sharply transitively on ordered triples, so each ordered quadruple can be carried to $(a,b,c,e)$ by a unique element of $P$ as far as the first three coordinates are concerned. The cyclic group $C$ acts regularly on the nine choices of $e$ outside $\{a,b,c\}$. Thus the set $PC$ acts sharply transitively on ordered quadruples (using the order of factors in the action), and hence its elements are distinct modulo $H$. Finally $|P||C||H|=1320\cdot9\cdot8!=12!$. This proves bijectivity.
+Identify the $12$ letters with $\mathbb P^1(\mathbb F_{11})$, and let $P=\pgll_2(11)$. Fix distinct points $a,b,c$. Let $C$ be generated by a $9$-cycle $\sigma$ on the other nine points, so that $C$ fixes $a,b,c$ and acts regularly on the remaining nine points. Let $d$ be one of those nine points, and let $H\cong S_8$ be the pointwise stabilizer of $a,b,c,d$.
+
+We claim that every ordered quadruple $(x_1,x_2,x_3,x_4)$ of distinct points equals $u\tau(a,b,c,d)$ for exactly one pair $(u,\tau)\in P\times C$. Since $P$ is sharply $3$-transitive, there is a unique $u\in P$ with $u(a,b,c)=(x_1,x_2,x_3)$. Put $e=u^{-1}(x_4)$, which is not in $\{a,b,c\}$. There is a unique $\tau\in C$ with $\tau(d)=e$. Then
+\[
+u\tau(a,b,c,d)=u(a,b,c,e)=(x_1,x_2,x_3,x_4).
+\]
+Conversely, if $u\tau(a,b,c,d)=(x_1,x_2,x_3,x_4)$ with $u\in P$ and $\tau\in C$, then $u(a,b,c)=(x_1,x_2,x_3)$ because $\tau$ fixes $a,b,c$, and $\tau(d)=u^{-1}(x_4)$. So $u$ and $\tau$ are the elements just constructed.
+
+Now let $g\in S_{12}$ and apply the claim to the quadruple $g(a,b,c,d)$. This gives a unique pair $(u,\tau)$ with $u\tau(a,b,c,d)=g(a,b,c,d)$, that is, with $h=(u\tau)^{-1}g\in H$. Hence $g=u\tau h$ with $u,\tau,h$ uniquely determined. As a check, $|P|\,|C|\,|H|=1320\cdot9\cdot8!=12!$.
 \end{proof}
+\begin{example}\label{ex:coords}
+Take $(a,b,c)=(0,1,\infty)$ and $d=2$, and let $\sigma=(2\,3\,4\,5\,6\,7\,8\,9\,10)$. We compute the three coordinates of the transposition $g=(0\,1)$. First, $u$ is the element of $\pgll_2(11)$ with $u(0,1,\infty)=(1,0,\infty)$, namely $u(x)=1-x$. Next, $e=u^{-1}(g(2))=u^{-1}(2)=-1=10$, and $\sigma^{j}(2)=10$ for $j=8$, so $\tau=\sigma^8$. Finally $h=(u\tau)^{-1}g=(3\,10)(4\,9)(5\,8)(6\,7)$, which fixes $0,1,\infty,2$. So $g=u\tau h$ is stored as a triple of indices in ranges of sizes $1320$, $9$, and $40320$.
+\end{example}
 \begin{remark}
-The proof concerns a bijective three-factor multiplication map; it does not assert that $PC$ is a subgroup. This is the distinction from an iterated factorization discussed earlier.
+Proposition~\ref{prop:12} concerns a bijective multiplication map. It does not assert that $PC$ is a subgroup. This is the distinction between a unique ordered factorization and an iterated exact factorization made in Section~\ref{sec:complements}.
 \end{remark}
 
 \section{Complements, regularity, and graphs}\label{sec:graphs}
-This section develops the graph constructions attached to an exact factorization. Unless otherwise indicated, graphs are finite, simple, and undirected; multigraphs appear only as quotients in Section~\ref{subsec:harmonic}. Groups act on the left. We distinguish carefully between a regular subgroup of the natural $S_n$ action and a regular subgroup of the full automorphism group of a graph: Theorem~\ref{thm:yfzg} and Proposition~\ref{prop:lifting} show that the two notions really differ. Several statements below are known and are attributed to the literature; the numerical checks behind the examples are described in Remark~\ref{rem:graphchecks}.
+This section develops the graph constructions attached to an exact factorization. The guiding idea is that a complement to a vertex stabilizer is a group acting regularly on the vertices, and such a group makes the graph a Cayley graph. Unless otherwise indicated, graphs are finite, simple, and undirected. Multigraphs appear only as quotients in Section~\ref{subsec:harmonic}. We distinguish carefully between a regular subgroup of the natural $S_n$ action and a regular subgroup of the full automorphism group of a graph. Theorem~\ref{thm:yfzg} and Proposition~\ref{prop:lifting} show that the two notions really differ. Several statements below are known and are attributed to the literature. The numerical checks behind the examples are described in Remark~\ref{rem:graphchecks}.
 
 \subsection{Regular subgroups and Cayley graphs}
-A graph automorphism is a permutation of the vertices preserving adjacency. A graph is \emph{vertex-transitive} if its automorphism group is transitive on vertices. For a subgroup $G\leq\autt(\Gamma)$ and a vertex $v$, write $G_v=\{g\in G:gv=v\}$.
+This subsection recalls Cayley graphs and proves the basic dictionary: for a vertex-transitive group, complements of a vertex stabilizer correspond to Cayley representations of the graph. A graph automorphism is a permutation of the vertices preserving adjacency. A graph is \emph{vertex-transitive} if its automorphism group is transitive on vertices. For a subgroup $G\leq\autt(\Gamma)$ and a vertex $v$, write $G_v=\{g\in G:gv=v\}$.
 \begin{definition}
 For a finite group $K$ and an inverse-closed subset $D\subseteq K\setminus\{1\}$, the \emph{Cayley graph} $\cayy(K,D)$ has vertex set $K$ and edges $\{x,xd\}$, where $x\in K$ and $d\in D$. The set $D$ is the \emph{connection set}.
 \end{definition}
@@ -163,20 +295,21 @@ Let $G\leq\autt(\Gamma)$ be vertex-transitive and $H=G_v$. A subgroup $K\leq G$ 
 The equivalence is Lemma~\ref{lem:regular}. Suppose $K$ is regular, so that $x\mapsto xv$ is a bijection $K\to V(\Gamma)$. For $x,y\in K$, applying the automorphism $x^{-1}$ shows that $xv\sim yv$ if and only if $v\sim x^{-1}yv$, that is, if and only if $y=xd$ with $d\in D$. Hence the bijection carries the edges $\{x,xd\}$ of $\cayy(K,D)$ onto the edges of $\Gamma$. Applying $d^{-1}$ to $dv\sim v$ gives $v\sim d^{-1}v$, so $D=D^{-1}$, and $1\notin D$ because $\Gamma$ has no loops.
 \end{proof}
 \begin{remark}
-The assertion that a graph is Cayley only ensures a regular subgroup of $\autt(\Gamma)$. It does not automatically give a complement inside a previously specified proper subgroup $G$. Conversely, a vertex-transitive graph need not be Cayley at all; see Example~\ref{ex:petersen}.
+The assertion that a graph is Cayley only ensures a regular subgroup of $\autt(\Gamma)$. It does not automatically give a complement inside a previously specified proper subgroup $G$. Conversely, a vertex-transitive graph need not be Cayley at all, as Example~\ref{ex:petersen} shows.
 \end{remark}
 \begin{example}\label{ex:c6}
-The cycle $C_6$ is $\cayy(C_6,\{a,a^{-1}\})$, where $a$ generates $C_6$. Its automorphism group is dihedral of order $12$, and a vertex stabilizer $H$ has order two. The cyclic group $C_6$ is a regular subgroup, hence a complement to $H$. It is not the only one: the rotation of order $3$ and the three reflections that fix no vertex generate a subgroup isomorphic to $S_3$, which also acts regularly on the six vertices. Thus $C_6$ is also a Cayley graph of $S_3$; explicitly $C_6\cong\cayy(S_3,\{(1\,2),(1\,3)\})$. One graph, one stabilizer, two nonisomorphic complements.
+The cycle $C_6$ is $\cayy(C_6,\{a,a^{-1}\})$, where $a$ generates $C_6$. Its automorphism group is dihedral of order $12$, and a vertex stabilizer $H$ has order two. The cyclic group $C_6$ is a regular subgroup, hence a complement to $H$. It is not the only one: the rotation of order $3$ and the three reflections that fix no vertex generate a subgroup isomorphic to $S_3$, which also acts regularly on the six vertices. Thus $C_6$ is also a Cayley graph of $S_3$. Explicitly, $C_6\cong\cayy(S_3,\{(1\,2),(1\,3)\})$. One graph, one stabilizer, two nonisomorphic complements.
 \end{example}
 \begin{example}\label{ex:petersen}
 The Petersen graph has the $2$-subsets of $[5]$ as vertices, with disjoint subsets adjacent. Its automorphism group is $S_5$, acting naturally, and the stabilizer of a vertex is $S_2\times S_3$, of order $12$. A complement would be a subgroup of $S_5$ of order $10$ acting transitively on the ten $2$-subsets. Every subgroup of $S_5$ of order $10$ is dihedral, generated by a $5$-cycle and a reflection of the corresponding pentagon, and it has two orbits on $2$-subsets (sides and diagonals). So there is no complement, and the Petersen graph is vertex-transitive but not Cayley.
 \end{example}
 
 \subsection{Arrangement graphs}
+This subsection introduces the graphs on which the standard subgroups $S_{n-k}$ appear as vertex stabilizers. Their vertices are the ordered $k$-tuples that already occurred in Proposition~\ref{prop:criterion}. We record their basic properties and their automorphism groups.
 \begin{definition}
 For $1\leq k<n$, the \emph{arrangement graph} $T(n,k)$ has vertex set $[n]^{(k)}$. Two tuples are adjacent precisely when they differ in exactly one coordinate.
 \end{definition}
-These graphs were introduced by Day and Tripathi \cite{DT92} as interconnection networks; the usual notation in that literature is $A_{n,k}$ or $A(n,k)$. We keep the notation $T(n,k)$ of the earlier drafts.
+These graphs were introduced by Day and Tripathi \cite{DT92} as interconnection networks. The usual notation in that literature is $A_{n,k}$ or $A(n,k)$. We keep the notation $T(n,k)$ of the earlier drafts.
 
 \begin{figure}[ht]\centering
 \begin{tikzpicture}[scale=1.0, every node/.style={circle,draw,fill=white,inner sep=2pt,font=\small}]
@@ -200,19 +333,22 @@ and this action is transitive on arcs (ordered pairs of adjacent vertices).
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-(1) To move to a neighbor one chooses a coordinate and replaces its entry by one of the $n-k$ symbols absent from the tuple. (2) The entry in coordinate $i$ may be any of the $n-(k-1)$ symbols not used in the other coordinates, and any two such tuples differ only in coordinate $i$. An edge determines the coordinate in which its endpoints differ. (3) Let $x$ and $y$ be tuples; we walk from $x$ to $y$, correcting coordinates $1,2,\ldots,k$ in turn. Suppose coordinates $1,\ldots,i-1$ already agree with $y$. If $y_i$ is absent from the current tuple, replace the entry in coordinate $i$ by $y_i$. Otherwise $y_i$ sits in some coordinate $j>i$; since $k<n$ some symbol $c$ is absent, so first replace the entry in coordinate $j$ by $c$ and then the entry in coordinate $i$ by $y_i$. (4) Both factors preserve the number of coordinates in which two tuples differ, the two actions commute, and faithfulness is clear for $k<n$. The stabilizer of a tuple $x$ consists of the pairs $(g,\sigma)$ such that $g$ preserves the set of entries of $x$ and permutes them as $\sigma$ prescribes; it is isomorphic to $S_k\times S_{n-k}$ and acts transitively on the pairs (coordinate, absent symbol), that is, on the neighbors of $x$.
+(1) To move to a neighbor one chooses a coordinate and replaces its entry by one of the $n-k$ symbols absent from the tuple. (2) The entry in coordinate $i$ may be any of the $n-(k-1)$ symbols not used in the other coordinates, and any two such tuples differ only in coordinate $i$. An edge determines the coordinate in which its endpoints differ. (3) Let $x$ and $y$ be tuples. We walk from $x$ to $y$, correcting coordinates $1,2,\ldots,k$ in turn. Suppose coordinates $1,\ldots,i-1$ already agree with $y$. If $y_i$ is absent from the current tuple, replace the entry in coordinate $i$ by $y_i$. Otherwise $y_i$ sits in some coordinate $j>i$. Since $k<n$ some symbol $c$ is absent, so first replace the entry in coordinate $j$ by $c$ and then the entry in coordinate $i$ by $y_i$. (4) Both factors preserve the number of coordinates in which two tuples differ, the two actions commute, and faithfulness is clear for $k<n$. The stabilizer of a tuple $x$ consists of the pairs $(g,\sigma)$ such that $g$ preserves the set of entries of $x$ and permutes them as $\sigma$ prescribes. This stabilizer is isomorphic to $S_k\times S_{n-k}$ and acts transitively on the pairs (coordinate, absent symbol), that is, on the neighbors of $x$.
 \end{proof}
 Day and Tripathi also show that $T(n,k)$ has diameter $\lfloor 3k/2\rfloor$ \cite{DT92}. The full automorphism group is now known.
 \begin{theorem}[Yin--Feng--Zhou--Guo \cite{YFZG21}]\label{thm:aut}
 For $1\leq k\leq n-1$, $\autt(T(n,k))\cong S_n\times S_k$, acting as in Proposition~\ref{prop:arrbasic}(4).
 \end{theorem}
-The cases $k=n-1$ and $k=n-2$ are earlier; see \cite{YFZG21,Zh11} and the references there. We have not consulted the full text of \cite{YFZG21}; the statement is taken from its abstract, and the precise hypotheses should be checked before publication.
+The cases $k=n-1$ and $k=n-2$ are earlier, and are discussed in \cite{YFZG21,Zh11} and the references there.
+\begin{vremark}\label{rem:yfzg}
+Theorem~\ref{thm:aut} above and Theorem~\ref{thm:yfzg} below are quoted from the abstract of \cite{YFZG21}. The full text was not consulted, so the precise hypotheses are not verified. The order $|\autt(T(n,k))|=n!\,k!$ was confirmed numerically in the cases listed in Remark~\ref{rem:graphchecks}.
+\end{vremark}
 \begin{example}\label{ex:smallarr}
 \begin{enumerate}
 \item $T(n,1)$ is the complete graph $K_n$.
-\item $T(3,2)$ is the six-cycle of Figure~\ref{fig:t32}; here $\autt\cong S_3\times S_2$ is the dihedral group of order $12$ of Example~\ref{ex:c6}.
-\item $T(4,2)$ has $12$ vertices and valency $4$. It is the graph of the cuboctahedron, equivalently the line graph of the cube; see Figure~\ref{fig:t42}. The eight triangles of the cuboctahedron are the cliques of Proposition~\ref{prop:arrbasic}(2), and $|\autt|=48=|S_4\times S_2|$.
-\item $T(5,2)$ has $20$ vertices and valency $6$; its cliques are ten copies of $K_4$.
+\item $T(3,2)$ is the six-cycle of Figure~\ref{fig:t32}. Here $\autt\cong S_3\times S_2$ is the dihedral group of order $12$ of Example~\ref{ex:c6}.
+\item $T(4,2)$ has $12$ vertices and valency $4$. It is the graph of the cuboctahedron, equivalently the line graph of the cube, shown in Figure~\ref{fig:t42}. The eight triangles of the cuboctahedron are the cliques of Proposition~\ref{prop:arrbasic}(2), and $|\autt|=48=|S_4\times S_2|$.
+\item $T(5,2)$ has $20$ vertices and valency $6$. Its cliques are ten copies of $K_4$.
 \item $T(n,n-1)$: a tuple of length $n-1$ omits exactly one symbol, and appending that symbol identifies the vertices with the permutations of $[n]$. A neighbor is obtained by exchanging the appended symbol with one entry. This is the \emph{star graph} on $S_n$.
 \end{enumerate}
 \end{example}
@@ -232,20 +368,21 @@ The cases $k=n-1$ and $k=n-2$ are earlier; see \cite{YFZG21,Zh11} and the refere
 \node[fill=yellow!45] (c11) at (45:3.3) {$43$};
 \draw (c0)--(c7) (c0)--(c10) (c0)--(c1) (c0)--(c2) (c1)--(c4) (c1)--(c11) (c1)--(c2) (c2)--(c5) (c2)--(c8) (c3)--(c6) (c3)--(c9) (c3)--(c4) (c3)--(c5) (c4)--(c11) (c4)--(c5) (c5)--(c8) (c6)--(c9) (c6)--(c7) (c6)--(c8) (c7)--(c10) (c7)--(c8) (c9)--(c10) (c9)--(c11) (c10)--(c11);
 \end{tikzpicture}
-\caption{The arrangement graph $T(4,2)$, drawn as the cuboctahedron; the vertex $ab$ is the pair $(a,b)$. Vertices of the same color have the same underlying $2$-subset; the six color classes are the fibers of the covering $T(4,2)\to J(4,2)$ of Proposition~\ref{prop:cover}, and each fiber is a pair of antipodal vertices.}\label{fig:t42}
+\caption{The arrangement graph $T(4,2)$, drawn as the cuboctahedron. The vertex $ab$ is the pair $(a,b)$. Vertices of the same color have the same underlying $2$-subset. The six color classes are the fibers of the covering $T(4,2)\to J(4,2)$ of Proposition~\ref{prop:cover}, and each fiber is a pair of antipodal vertices.}\label{fig:t42}
 \end{figure}
 
 \subsection{Cayley representations of arrangement graphs}
+This subsection applies the dictionary of Proposition~\ref{prop:graphcriterion} to arrangement graphs. A complement to $S_{n-k}$ gives a Cayley representation of $T(n,k)$, and we compute its connection set. We then show that not every Cayley representation of $T(n,k)$ arises in this way.
 \begin{proposition}\label{prop:arrangement}
 If the standard $S_{n-k}$ has a complement $K$ in $S_n$, then $T(n,k)$ is a Cayley graph of $K$. More precisely, let $v=(v_1,\ldots,v_k)$ be any vertex and, for $1\leq i\leq k$, let $K_i$ be the pointwise stabilizer in $K$ of $\{v_j:j\neq i\}$. Then:
 \begin{enumerate}
-\item each $K_i$ has order $n-k+1$, and $K_i\cap K_j=1$ for $i\neq j$;
-\item $x\mapsto xv$ is an isomorphism $\cayy(K,D)\to T(n,k)$, where $D=\bigcup_{i=1}^k (K_i\setminus\{1\})$;
-\item the cosets $xK_i$ are the cliques of Proposition~\ref{prop:arrbasic}(2).
+\item Each $K_i$ has order $n-k+1$, and $K_i\cap K_j=1$ for $i\neq j$.
+\item The map $x\mapsto xv$ is an isomorphism $\cayy(K,D)\to T(n,k)$, where $D=\bigcup_{i=1}^k (K_i\setminus\{1\})$.
+\item The cosets $xK_i$ are the cliques of Proposition~\ref{prop:arrbasic}(2).
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-By Proposition~\ref{prop:criterion} the complement $K$ is sharply $k$-transitive, so it acts regularly on the vertices. Proposition~\ref{prop:graphcriterion} gives the isomorphism with $D=\{d\in K:dv\sim v\}$. Now $dv\sim v$ means that $d$ fixes all but exactly one of the $v_j$, so $D$ is the union of the sets $K_i\setminus\{1\}$. If $k\geq2$ and $i\neq j$, an element of $K_i\cap K_j$ fixes every $v_j$ and is trivial by sharpness. Finally $K_i$ acts regularly on the $n-k+1$ symbols outside $\{v_j:j\neq i\}$, again by sharp $k$-transitivity, which gives its order; and $xK_iv$ is the set of tuples agreeing with $xv$ outside coordinate $i$.
+By Proposition~\ref{prop:criterion} the complement $K$ is sharply $k$-transitive, so it acts regularly on the vertices. Proposition~\ref{prop:graphcriterion} gives the isomorphism with $D=\{d\in K:dv\sim v\}$. Now $dv\sim v$ means that $d$ fixes all but exactly one of the $v_j$, so $D$ is the union of the sets $K_i\setminus\{1\}$. If $k\geq2$ and $i\neq j$, an element of $K_i\cap K_j$ fixes every $v_j$ and is trivial by sharpness. Finally $K_i$ acts regularly on the $n-k+1$ symbols outside $\{v_j:j\neq i\}$, again by sharp $k$-transitivity, which gives its order. The set $xK_iv$ is the set of tuples agreeing with $xv$ outside coordinate $i$.
 \end{proof}
 Table~\ref{tab:cayley} lists the resulting connection sets for the complements of Theorem~\ref{thm:main}. Two of the rows are classical: the star graph, and the \emph{alternating group graph} $\cayy(A_n,\{(1\,2\,i)^{\pm1}:3\leq i\leq n\})$, whose identification with $T(n,n-2)$ is due to Chiang and Chen \cite{CC98}. In the present language these are simply the complements $S_n$ of $S_1$ and $A_n$ of $S_2$ from Corollary~\ref{cor:universal}.
 \begin{table}[ht]
@@ -261,7 +398,7 @@ $(11,4)$ & $M_{11}$ & any & four subgroups of order $8$, minus the identity\\
 $(12,5)$ & $M_{12}$ & any & five subgroups of order $8$, minus the identity\\
 \bottomrule
 \end{tabular}
-\caption{Cayley representations $T(n,k)\cong\cayy(K,D)$ from Proposition~\ref{prop:arrangement}; $q$ is a prime power. In each row $|D|=k(n-k)$. In the Mathieu rows the subgroups $K_i$ are pointwise stabilizers of $k-1$ points.}\label{tab:cayley}
+\caption{Cayley representations $T(n,k)\cong\cayy(K,D)$ from Proposition~\ref{prop:arrangement}. Here $q$ is a prime power. In each row $|D|=k(n-k)$. In the Mathieu rows the subgroups $K_i$ are pointwise stabilizers of $k-1$ points.}\label{tab:cayley}
 \end{table}
 \begin{example}\label{ex:agl5}
 For $n=5$, $k=2$, the affine group $\agll_1(5)$ acts sharply doubly transitively on $\mathbb F_5$, hence regularly on the $20$ vertices of $T(5,2)$. Write $f_{a,b}(x)=ax+b$ and use the base tuple $v=(0,1)$, so that $f_{a,b}v=(b,a+b)$. The neighbors of $v$ are $(c,1)$ and $(0,c)$ with $c\in\{2,3,4\}$, and solving $f_{a,b}v=(c,1)$ or $(0,c)$ gives
@@ -274,10 +411,10 @@ The first set is the stabilizer of $0$ and the second the stabilizer of $1$, eac
 For $q=4$ we have $\agll_1(4)\cong A_4$, and the rows $(q,2)$ and $(n,n-2)$ of Table~\ref{tab:cayley} coincide: the cuboctahedron $T(4,2)$ is $\cayy(A_4,\{(1\,2\,3)^{\pm1},(1\,2\,4)^{\pm1}\})$.
 \end{example}
 \begin{example}\label{ex:m12}
-The Mathieu group $M_{12}$ acts sharply five-transitively on $12$ points. Thus $T(12,5)$ is a Cayley graph of $M_{12}$ with $12\cdot11\cdot10\cdot9\cdot8=95040$ vertices and valency $5(12-5)=35$; the connection set is the union of five subgroups of order $8$ (four-point stabilizers) with the identity removed. Similarly $T(11,4)$ is a Cayley graph of $M_{11}$ with $7920$ vertices and valency $28$.
+The Mathieu group $M_{12}$ acts sharply five-transitively on $12$ points. Thus $T(12,5)$ is a Cayley graph of $M_{12}$ with $12\cdot11\cdot10\cdot9\cdot8=95040$ vertices and valency $5(12-5)=35$. The connection set is the union of five subgroups of order $8$ (four-point stabilizers) with the identity removed. Similarly $T(11,4)$ is a Cayley graph of $M_{11}$ with $7920$ vertices and valency $28$.
 \end{example}
 
-\paragraph{The converse fails.} Drafts of this paper left open whether a Cayley representation of $T(n,k)$ must come from a complement of $S_{n-k}$ in $S_n$. It need not: by Theorem~\ref{thm:aut} the relevant ambient group is $S_n\times S_k$, not $S_n$, and regular subgroups can use the second factor.
+\paragraph{The converse fails.} One may ask whether every Cayley representation of $T(n,k)$ comes from a complement of $S_{n-k}$ in $S_n$. It need not. By Theorem~\ref{thm:aut} the relevant ambient group is $S_n\times S_k$, not $S_n$, and regular subgroups can use the second factor.
 \begin{proposition}\label{prop:lifting}
 Let $L\leq S_n$ be transitive on the $k$-subsets of $[n]$, let $X=\{x_1,\ldots,x_k\}$ be a $k$-subset with setwise stabilizer $L_X$, and let $\pi\colon L_X\to S_k$ be the action on $X$, defined by $gx_i=x_{\pi(g)(i)}$. Suppose that
 \begin{enumerate}
@@ -287,21 +424,21 @@ Let $L\leq S_n$ be transitive on the $k$-subsets of $[n]$, let $X=\{x_1,\ldots,x
 Then $L\times M\leq S_n\times S_k$ acts regularly on $T(n,k)$, and $T(n,k)$ is a Cayley graph of $L\times M$.
 \end{proposition}
 \begin{proof}
-Let $x=(x_1,\ldots,x_k)$. A pair $(g,\sigma)$ fixes $x$ if and only if $gx_{\sigma^{-1}(i)}=x_i$ for all $i$, that is, $g\in L_X$ and $\pi(g)=\sigma$. Hence the stabilizer of $x$ in $L\times M$ is isomorphic to $\{g\in L_X:\pi(g)\in M\}$, which is the kernel of $\pi$ because $\pi(L_X)\cap M=1$, and this kernel is trivial by (1). The orbit of $x$ therefore has size
+Let $x=(x_1,\ldots,x_k)$. The map $\pi$ is a homomorphism, since $(gh)x_i=gx_{\pi(h)(i)}=x_{\pi(g)\pi(h)(i)}$. A pair $(g,\sigma)$ fixes $x$ if and only if $gx_{\sigma^{-1}(i)}=x_i$ for all $i$. This forces $g\in L_X$, and then $gx_{\sigma^{-1}(i)}=x_{\pi(g)\sigma^{-1}(i)}$, so the condition becomes $\pi(g)=\sigma$. Hence the stabilizer of $x$ in $L\times M$ is isomorphic to $\{g\in L_X:\pi(g)\in M\}$, which is the kernel of $\pi$ because $\pi(L_X)\cap M=1$, and this kernel is trivial by (1). The orbit of $x$ therefore has size
 \[
 |L|\,|M|=\tbinom nk\,|L_X|\,|M|=\tbinom nk\,|\pi(L_X)|\,|M|=\tbinom nk\,k!,
 \]
 the number of vertices. So $L\times M$ is transitive with trivial stabilizers, and Proposition~\ref{prop:graphcriterion} applies with $G=\autt(T(n,k))$.
 \end{proof}
-Two extreme cases are worth isolating. If $L$ is sharply $k$-transitive then $\pi(L_X)=S_k$ and $M=1$: this is Proposition~\ref{prop:arrangement}. If $L$ is sharply $k$-homogeneous (regular on $k$-subsets; see Section~\ref{subsec:johnson}) then $L_X=1$ and $M=S_k$. In between, Lemma~\ref{lem:regular} shows that whenever $\pi(L_X)$ is a regular subgroup of $S_k$ one may take $M=S_{k-1}$.
+Two extreme cases are worth isolating. If $L$ is sharply $k$-transitive then $\pi(L_X)=S_k$ and $M=1$: this is Proposition~\ref{prop:arrangement}. If $L$ is sharply $k$-homogeneous (regular on $k$-subsets, as in Section~\ref{subsec:johnson}) then $L_X=1$ and $M=S_k$. In between, Lemma~\ref{lem:regular} shows that whenever $\pi(L_X)$ is a regular subgroup of $S_k$ one may take $M=S_{k-1}$.
 \begin{example}\label{ex:twisted}
 \begin{enumerate}
-\item $T(3,2)=C_6$. Take $L=A_3$, which is regular on the three $2$-subsets, and $M=S_2$. Then $L\times M\cong C_6$ is the cyclic regular subgroup of Example~\ref{ex:c6}. It is not contained in $S_3$; the regular subgroup inside $S_3$ is $S_3$ itself.
+\item $T(3,2)=C_6$. Take $L=A_3$, which is regular on the three $2$-subsets, and $M=S_2$. Then $L\times M\cong C_6$ is the cyclic regular subgroup of Example~\ref{ex:c6}. It is not contained in $S_3$. The regular subgroup inside $S_3$ is $S_3$ itself.
 \item $T(8,5)$. The group $\agll_1(8)$, of order $56=\binom85$, is regular on the $5$-subsets of $\mathbb F_8$ (Example~\ref{ex:homog}). Hence $\agll_1(8)\times S_5$, of order $6720$, is regular on $T(8,5)$. But $S_3$ has no complement in $S_8$ by Theorem~\ref{thm:main}.
-\item $T(9,4)$. The group $L=\pgll_2(8)$, of order $504$, is transitive on the $126$ four-subsets of $\mathbb P^1(\mathbb F_8)$, and $L_X$ has order $4$. Its nonidentity elements are involutions, because the Sylow $2$-subgroups of $\pgll_2(8)$ are elementary abelian, and an involution fixes exactly one point of the projective line. Since $|X|$ is even, such an element fixes no point of $X$, and $\pi(L_X)$ is a regular subgroup of $S_4$. Hence $\pgll_2(8)\times S_3$, of order $3024=9\cdot8\cdot7\cdot6$, is regular on $T(9,4)$, although $S_5$ has no complement in $S_9$.
+\item $T(9,4)$. The group $L=\pgll_2(8)$, of order $504$, is transitive on the $126$ four-subsets of $\mathbb P^1(\mathbb F_8)$, and $L_X$ has order $4$. Its nonidentity elements are involutions, because the Sylow $2$-subgroups of $\pgll_2(8)$ are elementary abelian. Since $\mathbb F_8$ has characteristic $2$, every involution in $\pgll_2(8)$ is conjugate to $x\mapsto x+1$ and fixes exactly one point of the projective line. Since $|X|$ is even, such an element fixes no point of $X$, and $\pi(L_X)$ is a regular subgroup of $S_4$. Hence $\pgll_2(8)\times S_3$, of order $3024=9\cdot8\cdot7\cdot6$, is regular on $T(9,4)$, although $S_5$ has no complement in $S_9$.
 \end{enumerate}
 \end{example}
-The complete answer is in the literature.
+The complete answer is in the literature. It is quoted here subject to Remark~\ref{rem:yfzg}.
 \begin{theorem}[Yin--Feng--Zhou--Guo \cite{YFZG21}]\label{thm:yfzg}
 For $1\leq k\leq n-1$, the arrangement graph $T(n,k)$ is a Cayley graph if and only if $(n,k)$ is one of
 \[
@@ -313,36 +450,39 @@ with $q$ a prime power, or one of the six pairs
 \]
 \end{theorem}
 \begin{corollary}\label{cor:converse}
-The first list in Theorem~\ref{thm:yfzg} consists exactly of the pairs $(n,k)$ for which the standard $S_{n-k}$ has a complement in $S_n$. For the six pairs in the second list, $T(n,k)$ is a Cayley graph although $S_{n-k}$ has no complement in $S_n$. Each of the six is realized by Proposition~\ref{prop:lifting}:
-\begin{center}\small
+The first list in Theorem~\ref{thm:yfzg} consists exactly of the pairs $(n,k)$ for which the standard $S_{n-k}$ has a complement in $S_n$. For the six pairs in the second list, $T(n,k)$ is a Cayley graph although $S_{n-k}$ has no complement in $S_n$. Each of the six is realized by Proposition~\ref{prop:lifting}, with the groups $L$ and $M$ listed in Table~\ref{tab:sixexceptions}.
+\end{corollary}
+\begin{table}[ht]
+\centering\small
 \begin{tabular}{@{}lll@{}}\toprule
 $(n,k)$ & regular subgroup $L\times M$ & $\pi(L_X)$\\\midrule
 $(8,5)$ & $\agll_1(8)\times S_5$ & trivial\\
-$(32,29)$ & $\mathrm{A\Gamma L}_1(32)\times S_{29}$ & trivial\\
+$(32,29)$ & $\agaml_1(32)\times S_{29}$ & trivial\\
 $(9,4)$ & $\pgll_2(8)\times S_3$ & regular of order $4$\\
-$(33,4)$ & $\mathrm{P\Gamma L}_2(32)\times S_3$ & regular of order $4$\\
+$(33,4)$ & $\pgaml_2(32)\times S_3$ & regular of order $4$\\
 $(9,6)$ & $\pgll_2(8)\times S_5$ & regular of order $6$\\
-$(33,30)$ & $\mathrm{P\Gamma L}_2(32)\times S_{29}$ & regular of order $30$\\
+$(33,30)$ & $\pgaml_2(32)\times S_{29}$ & regular of order $30$\\
 \bottomrule
 \end{tabular}
-\end{center}
-\end{corollary}
+\caption{Regular subgroups $L\times M\leq S_n\times S_k$ on $T(n,k)$ for the six pairs of Corollary~\ref{cor:converse}. The last column describes the action of the setwise stabilizer $L_X$ on the $k$-subset $X$.}\label{tab:sixexceptions}
+\end{table}
 \begin{proof}
-Compare the first list with Theorem~\ref{thm:main} and Table~\ref{tab:small}; the pair $(n,n-1)$ corresponds to the trivial subgroup $S_1$, whose complement is $S_n$. Each of the six remaining pairs has $4\leq k\leq n-3$ and is different from $(11,4)$ and $(12,5)$, so Theorem~\ref{thm:input} excludes a sharply $k$-transitive group. The hypotheses of Proposition~\ref{prop:lifting} for the six rows were checked by machine (Remark~\ref{rem:graphchecks}); for $(8,5)$, $(9,4)$, $(9,6)$, and $(33,4)$ the regularity of $L\times M$ on $T(n,k)$ was also confirmed directly by computing the orbit of a tuple.
+Compare the first list with Theorem~\ref{thm:main} and Table~\ref{tab:small}. The pair $(n,n-1)$ corresponds to the trivial subgroup $S_1$, whose complement is $S_n$. Each of the six remaining pairs has $4\leq k\leq n-3$ and is different from $(11,4)$ and $(12,5)$, so Theorem~\ref{thm:input} excludes a sharply $k$-transitive group. The hypotheses of Proposition~\ref{prop:lifting} for the six rows of Table~\ref{tab:sixexceptions} were checked by machine, as recorded in Remark~\ref{rem:graphchecks}. For $(8,5)$, $(9,4)$, $(9,6)$, and $(33,4)$ the regularity of $L\times M$ on $T(n,k)$ was also confirmed directly by computing the orbit of a tuple.
 \end{proof}
-We do not know whether the constructions in the table coincide with those of \cite{YFZG21}, which we have not consulted beyond the abstract.
+We do not know whether the constructions in Table~\ref{tab:sixexceptions} coincide with those of \cite{YFZG21}.
 
 \subsection{Coset graphs and double cosets}
-Let $G$ be a group and $H\leq G$. We write $G/H$ for the set of left cosets $gH$, on which $G$ acts by left multiplication with point stabilizer $H$ at the base coset. A $G$-invariant adjacency relation on $G/H$ is determined by the set of neighbors of the base coset, and hence by a union $D$ of double cosets $HdH$ satisfying $D=D^{-1}$ and $D\cap H=\varnothing$.
+This subsection describes every graph with a vertex-transitive group $G$ in terms of $G$ alone. The description shows that an exact factorization of $G$ turns all such graphs into Cayley graphs at once, not only the arrangement graph. Let $G$ be a group and $H\leq G$. We write $G/H$ for the set of left cosets $gH$, on which $G$ acts by left multiplication with point stabilizer $H$ at the base coset. A $G$-invariant adjacency relation on $G/H$ is determined by the set of neighbors of the base coset, and hence by a union $D$ of double cosets $HdH$ satisfying $D=D^{-1}$ and $D\cap H=\varnothing$.
 \begin{definition}
 The \emph{coset graph} $\Gamma(G,H,D)$ has vertices $gH$ and edges $gH\sim g'H$ when $g^{-1}g'\in D$. Because $D=HDH$, the rule is independent of the coset representatives.
 \end{definition}
-Every graph on which $G$ acts vertex-transitively arises in this way, with $H$ a vertex stabilizer. The double cosets $HdH$ correspond to the orbits of $H$ on $G/H$, and to the orbits of $G$ on ordered pairs of vertices (the \emph{orbitals}); their number is the \emph{rank} of the action. Three standard facts translate graph properties into group theory:
+Every graph on which $G$ acts vertex-transitively arises in this way, with $H$ a vertex stabilizer. The double cosets $HdH$ correspond to the orbits of $H$ on $G/H$, and to the orbits of $G$ on ordered pairs of vertices, which are called \emph{orbitals}. Their number is the \emph{rank} of the action. Three standard facts translate graph properties into group theory:
 \begin{itemize}
-\item the valency of $\Gamma(G,H,D)$ is $|D|/|H|$;
-\item the connected component of the base coset is $\{gH:g\in\langle D\rangle\}$, so the graph is connected if and only if $\langle D\rangle H=G$;
-\item $G$ acts transitively on arcs if and only if $D$ is a single double coset.
+\item The valency of $\Gamma(G,H,D)$ is $|D|/|H|$.
+\item The connected component of the base coset is $\{gH:g\in\langle D\rangle\}$, so the graph is connected if and only if $\langle D\rangle H=G$.
+\item The group $G$ acts transitively on arcs if and only if $D$ is a single double coset.
 \end{itemize}
+In the next proposition the factorization is written $G=KH$, with the point stabilizer $H$ on the right, to match the left cosets $gH$. By Section~\ref{sec:background} this is equivalent to $G=HK$.
 \begin{proposition}\label{prop:coset}
 If $G=KH$ and $K\cap H=1$, then every coset graph $\Gamma(G,H,D)$ is a Cayley graph of $K$. Explicitly, $k\mapsto kH$ is an isomorphism
 \[
@@ -358,10 +498,10 @@ Let $G=S_n$ act on ordered pairs, so $H=S_{n-2}$ and $k=2$, and assume $n\geq4$.
 \[
 (a,b),\quad(b,a),\quad(a,\ast),\quad(\ast,b),\quad(b,\ast),\quad(\ast,a),\quad(\ast,\ast),
 \]
-with orbit sizes $1,1,n-2,n-2,n-2,n-2,(n-2)(n-3)$, which sum to $n(n-1)$. So the action has rank $7$. The orbitals $(b,\ast)$ and $(\ast,a)$ are interchanged by inversion and the other five are self-paired. The arrangement graph $T(n,2)$ is the coset graph for the union of the two double cosets $(a,\ast)$ and $(\ast,b)$. In particular $S_n$ is not arc-transitive on $T(n,2)$; arc-transitivity in Proposition~\ref{prop:arrbasic}(4) needs the factor $S_2$, which interchanges the two double cosets. In general, for $n\geq2k$ the orbits of $S_{n-k}$ on $[n]^{(k)}$ correspond to partial injections from $[k]$ to $[k]$, so the rank is $\sum_{j=0}^k\binom kj^2 j!$.
+with orbit sizes $1,1,n-2,n-2,n-2,n-2,(n-2)(n-3)$, which sum to $n(n-1)$. So the action has rank $7$. The orbitals $(b,\ast)$ and $(\ast,a)$ are interchanged by inversion and the other five are self-paired. The arrangement graph $T(n,2)$ is the coset graph for the union of the two double cosets corresponding to $(a,\ast)$ and $(\ast,b)$. In particular $S_n$ is not arc-transitive on $T(n,2)$. Arc-transitivity in Proposition~\ref{prop:arrbasic}(4) needs the factor $S_2$, which interchanges the two double cosets. In general, for $n\geq2k$ the orbits of $S_{n-k}$ on $[n]^{(k)}$ correspond to partial injections from $[k]$ to $[k]$, so the rank is $\sum_{j=0}^k\binom kj^2 j!$.
 \end{example}
 \begin{example}
-Take $G=S_5$, $H=S_3$ fixing $(0,1)$ (with the symbols of $\mathbb F_5$), and $K=\agll_1(5)$. By Example~\ref{ex:orbitals} there are six nontrivial double cosets, and Proposition~\ref{prop:coset} cuts each into a subset of $K\setminus\{1\}$; the sizes $1,3,3,3,3,6$ sum to $19$. The double cosets $(a,\ast)$ and $(\ast,b)$ meet $K$ in the two halves of the connection set $D$ of Example~\ref{ex:agl5}. The double coset $(b,a)$ meets $K$ in the single involution $x\mapsto 1-x$, and the corresponding Cayley graph is a perfect matching. The union of the four double cosets $(b,a)$, $(b,\ast)$, $(\ast,a)$, and $(\ast,\ast)$ is the graph on pairs differing in both coordinates, the complement of $T(5,2)$; it belongs to the family $A(n,k,r)$ of tuples differing in exactly $r$ coordinates studied in \cite{CGW14}, and it is a Cayley graph of $K$ of valency $13$.
+Take $G=S_5$, $H=S_3$ fixing $(0,1)$ (with the symbols of $\mathbb F_5$), and $K=\agll_1(5)$. By Example~\ref{ex:orbitals} there are six nontrivial double cosets, and Proposition~\ref{prop:coset} cuts each into a subset of $K\setminus\{1\}$. The sizes $1,3,3,3,3,6$ sum to $19$. The double cosets $(a,\ast)$ and $(\ast,b)$ meet $K$ in the two halves of the connection set $D$ of Example~\ref{ex:agl5}. The double coset $(b,a)$ meets $K$ in the single involution $x\mapsto 1-x$, and the corresponding Cayley graph is a perfect matching. The union of the four double cosets $(b,a)$, $(b,\ast)$, $(\ast,a)$, and $(\ast,\ast)$ is the graph on pairs differing in both coordinates, the complement of $T(5,2)$. It belongs to the family $A(n,k,r)$ of tuples differing in exactly $r$ coordinates studied in \cite{CGW14}, and it is a Cayley graph of $K$ of valency $13$.
 \end{example}
 \begin{figure}[ht]\centering
 \begin{tikzpicture}[node distance=12mm and 18mm, box/.style={draw,rounded corners,align=center,minimum width=34mm,minimum height=9mm},>=Latex]
@@ -375,6 +515,7 @@ Take $G=S_5$, $H=S_3$ fixing $(0,1)$ (with the symbols of $\mathbb F_5$), and $K
 \end{figure}
 
 \subsection{Johnson graphs and unordered configurations}\label{subsec:johnson}
+This subsection asks the complement question for unordered subsets instead of ordered tuples. The stabilizer of a $k$-subset is $S_k\times S_{n-k}$, the graph is the Johnson graph, and the regular groups are the sharply $k$-homogeneous groups. The answer, Proposition~\ref{prop:homogclass}, is even more restrictive than Theorem~\ref{thm:main}.
 \begin{definition}
 The \emph{Johnson graph} $J(n,k)$ has as vertices the $k$-element subsets of $[n]$. Two vertices are adjacent if they intersect in $k-1$ elements.
 \end{definition}
@@ -392,11 +533,11 @@ Apply Lemma~\ref{lem:regular} and Proposition~\ref{prop:graphcriterion} to the t
 \begin{enumerate}
 \item Let $q\equiv3\pmod4$ be a prime power and let $L\leq\agll_1(q)$ consist of the maps $x\mapsto ax+b$ with $a$ a nonzero square. Then $|L|=q(q-1)/2=\binom q2$. The stabilizer of $\{0,1\}$ in $\agll_1(q)$ is $\{x,\,1-x\}$, and $x\mapsto1-x$ is not in $L$ because $-1$ is not a square. So $L$ is sharply $2$-homogeneous. For $q=7$ this is the Frobenius group of order $21$, and $J(7,2)$, the triangular graph on $21$ vertices, is a Cayley graph of it.
 \item $\agll_1(8)$ has order $56=\binom83$ and is sharply $3$-homogeneous on $\mathbb F_8$. Hence $J(8,3)\cong J(8,5)$ is a Cayley graph of $\agll_1(8)$.
-\item $\mathrm{A\Gamma L}_1(32)$ has order $32\cdot31\cdot5=4960=\binom{32}3$ and is sharply $3$-homogeneous on $\mathbb F_{32}$.
+\item $\agaml_1(32)$ has order $32\cdot31\cdot5=4960=\binom{32}3$ and is sharply $3$-homogeneous on $\mathbb F_{32}$.
 \item $J(5,2)$ has ten vertices and valency six, and $\autt(J(5,2))=S_5$ as for its complement, the Petersen graph. By Example~\ref{ex:petersen} no subgroup of order $10$ is transitive on $2$-subsets, so $J(5,2)$ is not a Cayley graph. In particular the cyclic group $C_5$, which solves the complement problem for $S_4$, is of no help for $S_2\times S_3$: point-transitivity alone does not solve the Johnson complement problem.
 \end{enumerate}
 \end{example}
-The analogue of Theorem~\ref{thm:main} for unordered configurations follows from two classical theorems, which we use as external input: Livingstone and Wagner \cite{LW65} proved that a $k$-homogeneous group of degree $n\geq2k$ is $(k-1)$-transitive, and is $k$-transitive when $k\geq5$; Kantor \cite{Ka72} determined the $k$-homogeneous groups that are not $k$-transitive.
+The analogue of Theorem~\ref{thm:main} for unordered configurations follows from two classical theorems, which we use as external input: Livingstone and Wagner \cite{LW65} proved that a $k$-homogeneous group of degree $n\geq2k$ is $(k-1)$-transitive, and is $k$-transitive when $k\geq5$. Kantor \cite{Ka72} determined the $k$-homogeneous groups that are not $k$-transitive.
 \begin{proposition}\label{prop:homogclass}
 Let $2\leq k\leq n/2$. The subgroup $S_k\times S_{n-k}$ has a complement in $S_n$ if and only if
 \[
@@ -404,17 +545,20 @@ k=2\ \text{and $n$ is a prime power with } n\equiv3\pmod 4,\qquad\text{or}\qquad
 \]
 \end{proposition}
 \begin{proof}
-By Proposition~\ref{prop:johnson} a complement is a sharply $k$-homogeneous group $L$. Since $|L|=\binom nk<n!/(n-k)!$, the group $L$ is not $k$-transitive, so $k\leq4$ by \cite{LW65}, and $L$ appears in Kantor's list \cite{Ka72}: for $k=2$, $L\leq\mathrm{A\Gamma L}_1(q)$ with $n=q\equiv3\pmod4$; for $k=3$, either $\mathrm{PSL}_2(q)\leq L\leq\mathrm{P\Gamma L}_2(q)$ with $n=q+1$ and $q\equiv3\pmod4$, or $L$ is one of $\agll_1(8)$, $\mathrm{A\Gamma L}_1(8)$, $\mathrm{A\Gamma L}_1(32)$; for $k=4$, $L$ is one of $\mathrm{PSL}_2(8)$, $\mathrm{P\Gamma L}_2(8)$, $\mathrm{P\Gamma L}_2(32)$. Comparing orders with $\binom nk$ leaves, for $k=3$, only $\agll_1(8)$ and $\mathrm{A\Gamma L}_1(32)$, since $|\mathrm{PSL}_2(q)|=3\binom{q+1}3$ and $|\mathrm{A\Gamma L}_1(8)|=168$; and for $k=4$ nothing, since $504>126=\binom94$ and $163680>40920=\binom{33}4$. Existence in the surviving cases is Example~\ref{ex:homog}.
+By Proposition~\ref{prop:johnson} a complement is a sharply $k$-homogeneous group $L$. Since $|L|=\binom nk<n!/(n-k)!$, the group $L$ is not $k$-transitive, so $k\leq4$ by \cite{LW65}, and $L$ appears in Kantor's list \cite{Ka72}. For $k=2$ the list requires $L\leq\agaml_1(q)$ with $n=q\equiv3\pmod4$. For $k=3$, either $\psll_2(q)\leq L\leq\pgaml_2(q)$ with $n=q+1$ and $q\equiv3\pmod4$, or $L$ is one of $\agll_1(8)$, $\agaml_1(8)$, $\agaml_1(32)$. For $k=4$, $L$ is one of $\psll_2(8)$, $\pgaml_2(8)$, $\pgaml_2(32)$. Now compare orders with $\binom nk$. For $k=3$ this leaves only $\agll_1(8)$ and $\agaml_1(32)$, since $|\psll_2(q)|=3\binom{q+1}3$ and $|\agaml_1(8)|=168\neq56$. For $k=4$ it leaves nothing, since $504>126=\binom94$ and $163680>40920=\binom{33}4$. Existence in the surviving cases is Example~\ref{ex:homog}.
 \end{proof}
-This agrees with the theorem of Dobson and Malni\v{c} \cite{DM15}, extending Godsil \cite{Go80}, that for $2\leq k<n/2$ the graph $J(n,k)$ is a Cayley graph exactly for these parameters. Their result is stronger, since it concerns all regular subgroups of $\autt(J(n,k))$; for $n=2k$ that group is $S_n\times C_2$, the extra automorphism being complementation of subsets. The precise statements of \cite{LW65,Ka72,DM15} were quoted from memory and from secondary sources and should be checked against the originals.
+This agrees with the theorem of Dobson and Malni\v{c} \cite{DM15}, extending Godsil \cite{Go80}, that for $2\leq k<n/2$ the graph $J(n,k)$ is a Cayley graph exactly for these parameters. Their result is stronger, since it concerns all regular subgroups of $\autt(J(n,k))$. For $n=2k$ that group is $S_n\times C_2$, the extra automorphism being complementation of subsets.
+\begin{vremark}\label{rem:homogsources}
+The statements of \cite{LW65}, \cite{Ka72}, and \cite{DM15} used in this subsection were quoted from memory and from secondary sources. They have not been checked against the original papers. Proposition~\ref{prop:homogclass} is conditional on the first two.
+\end{vremark}
 \begin{remark}
-Propositions~\ref{prop:lifting} and~\ref{prop:homogclass} explain the shape of the exceptional list in Theorem~\ref{thm:yfzg}. The sharply $3$-homogeneous groups of degrees $8$ and $32$ give the pairs $(8,5)$ and $(32,29)$; the pairs $(8,3)$ and $(32,3)$ which they also give are already of the form $(q+1,3)$. The $4$-homogeneous groups of degrees $9$ and $33$ in Kantor's list give $(9,4)$ and $(33,4)$, and the same groups acting on $3$-subsets give $(9,6)$ and $(33,30)$.
+Propositions~\ref{prop:lifting} and~\ref{prop:homogclass} explain the shape of the exceptional list in Theorem~\ref{thm:yfzg}. The sharply $3$-homogeneous groups of degrees $8$ and $32$ give the pairs $(8,5)$ and $(32,29)$. The pairs $(8,3)$ and $(32,3)$ which they also give are already of the form $(q+1,3)$. The $4$-homogeneous groups of degrees $9$ and $33$ in Kantor's list give $(9,4)$ and $(33,4)$, and the same groups acting on $3$-subsets give $(9,6)$ and $(33,30)$.
 \end{remark}
 
 \subsection{Permutation modules and adjacency spectra}
-For a transitive $G$-set $G/H$, the complex permutation module is $\mathbb C[G/H]\cong\operatorname{Ind}_H^G\mathbf1$. If $K$ complements $H$, restriction to $K$ gives
+This subsection uses a complement to compute eigenvalues. A Cayley representation diagonalizes the adjacency operator into blocks indexed by the irreducible representations of the regular group. For arrangement graphs the blocks are sums of projections, which gives a bound on the eigenvalues and the full spectrum of $T(q,2)$. For a transitive $G$-set $G/H$, the complex permutation module is $\mathbb C[G/H]\cong\Ind_H^G\mathbf1$. If $K$ complements $H$, restriction to $K$ gives
 \begin{equation}\label{eq:regularmodule}
-\operatorname{Res}^{G}_{K}\operatorname{Ind}_{H}^{G}\mathbf1\cong\mathbb C[K],
+\Res^{G}_{K}\Ind_{H}^{G}\mathbf1\cong\mathbb C[K],
 \end{equation}
 the regular representation of $K$. This is the Mackey formula for the single double coset $KH=G$, or simply the statement that $K$ permutes $G/H$ regularly.
 \begin{proposition}\label{prop:spectrum}
@@ -424,7 +568,7 @@ For an undirected Cayley graph $\cayy(K,D)$, the adjacency operator decomposes o
 The adjacency operator is right convolution by the indicator of $D$ on $\mathbb C[K]$. The regular representation decomposes as $\bigoplus_{\rho\in\widehat K}(\dim\rho)\rho$. Convolution preserves these isotypic summands and acts by the displayed Fourier matrices. Since $D=D^{-1}$, the operator is self-adjoint.
 \end{proof}
 \begin{example}\label{ex:c6spec}
-The six-cycle has two Cayley representations (Example~\ref{ex:c6}), and so two Fourier decompositions of the same spectrum. For $C_6=\langle a\rangle$ and $D=\{a,a^{-1}\}$, the six characters $\chi_j(a)=e^{2\pi i j/6}$ give eigenvalues $2\cos(2\pi j/6)$: $2,1,-1,-2,-1,1$. For $S_3$ and $D=\{(1\,2),(1\,3)\}$, the trivial character gives $2$ and the sign character gives $-2$. In the two-dimensional representation $\rho(D)$ is the sum of two reflections in lines meeting at $60^\circ$; it has trace $0$ and square $2I+\rho((1\,2\,3))+\rho((1\,3\,2))=I$, so its eigenvalues are $\pm1$, each counted twice. Both computations give $\{2,1,1,-1,-1,-2\}$.
+The six-cycle has two Cayley representations (Example~\ref{ex:c6}), and so two Fourier decompositions of the same spectrum. For $C_6=\langle a\rangle$ and $D=\{a,a^{-1}\}$, the six characters $\chi_j(a)=e^{2\pi i j/6}$ give eigenvalues $2\cos(2\pi j/6)$: $2,1,-1,-2,-1,1$. For $S_3$ and $D=\{(1\,2),(1\,3)\}$, the trivial character gives $2$ and the sign character gives $-2$. In the two-dimensional representation $\rho(D)$ is the sum of two reflections in lines meeting at $60^\circ$. It has trace $0$ and square $2I+\rho((1\,2\,3))+\rho((1\,3\,2))=I$, so its eigenvalues are $\pm1$, each counted twice. Both computations give $\{2,1,1,-1,-1,-2\}$.
 \end{example}
 For arrangement graphs the connection set is a union of subgroups (Proposition~\ref{prop:arrangement}), and the Fourier blocks become sums of projections.
 \begin{proposition}\label{prop:projections}
@@ -434,13 +578,13 @@ Let $K$ be sharply $k$-transitive of degree $n$, with subgroups $K_1,\ldots,K_k$
 \]
 Consequently:
 \begin{enumerate}
-\item every eigenvalue $\lambda$ of $T(n,k)$ satisfies $-k\leq\lambda\leq k(n-k)$;
-\item a one-dimensional character $\chi$ of $K$ contributes the eigenvalue $(n-k+1)\,c(\chi)-k$, where $c(\chi)$ is the number of indices $i$ with $\chi|_{K_i}$ trivial;
-\item if $n\geq2k$, then $-k$ is an eigenvalue, of multiplicity at least $\bigl(1-\tfrac{k}{n-k+1}\bigr)\,n!/(n-k)!$.
+\item Every eigenvalue $\lambda$ of $T(n,k)$ satisfies $-k\leq\lambda\leq k(n-k)$.
+\item A one-dimensional character $\chi$ of $K$ contributes the eigenvalue $(n-k+1)\,c(\chi)-k$, where $c(\chi)$ is the number of indices $i$ with $\chi|_{K_i}$ trivial.
+\item If $n\geq2k$, then $-k$ is an eigenvalue, of multiplicity at least $\bigl(1-\tfrac{k}{n-k+1}\bigr)\,n!/(n-k)!$.
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-The displayed identity is $\sum_i\sum_{d\in K_i\setminus\{1\}}\rho(d)$ rewritten. Unitary projections are positive semidefinite, which gives (1), and (2) is the case $\dim\rho=1$. For (3) take $\rho$ regular: each $P_i$ has rank $|K|/(n-k+1)$, so $\sum_iP_i$ has rank at most $k|K|/(n-k+1)$, and its kernel is the $(-k)$-eigenspace.
+The displayed identity is $\sum_i\sum_{d\in K_i\setminus\{1\}}\rho(d)$ rewritten. Unitary projections are positive semidefinite, which gives (1), and (2) is the case $\dim\rho=1$. For (3) take $\rho$ to be the regular representation, of dimension $|K|=n!/(n-k)!$. Each $P_i$ has rank $|K|/(n-k+1)$, the number of cosets of $K_i$. So $\sum_iP_i$ has rank at most $k|K|/(n-k+1)$, and its kernel is the $(-k)$-eigenspace.
 \end{proof}
 The bound $\lambda\geq-k$ also follows directly from the clique structure of Proposition~\ref{prop:arrbasic}(2) and does not require a complement. Chen, Ghorbani, and Wong proved that all eigenvalues of arrangement graphs are integers \cite{CGW14}, and Araujo and Bratten gave a formula in terms of characters of symmetric groups \cite{AB16}. The following special case can be done by hand from the complement $\agll_1(q)$.
 \begin{proposition}\label{prop:tq2}
@@ -450,18 +594,19 @@ Let $q\geq3$ be a prime power. The spectrum of $T(q,2)$ is
 \]
 \end{proposition}
 \begin{proof}
-Let $K=\agll_1(q)$, with $K_1$ and $K_2$ the stabilizers of $1$ and $0$, both of order $q-1$. The group $K$ has $q-1$ one-dimensional characters, factoring through $f_{a,b}\mapsto a$, and one irreducible representation $\rho$ of dimension $q-1$, induced from a nontrivial character of the translation subgroup. By Proposition~\ref{prop:projections}(2) the trivial character gives $2(q-1)-2=2q-4$, and each of the $q-2$ nontrivial characters gives $-2$, because $K_1$ and $K_2$ both map onto $\mathbb F_q^\times$. The restriction of $\rho$ to either $K_i$ is the regular representation of $K_i$, so $P_1^\rho$ and $P_2^\rho$ are projections onto lines spanned by unit vectors $u_1,u_2$. With $c=|\langle u_1,u_2\rangle|$, the operator $P_1^\rho+P_2^\rho$ has eigenvalues $1\pm c$ and $0$ (with multiplicity $q-3$), so $\rho(D)$ has eigenvalues $q-3\pm(q-1)c$ and $-2$. To find $c$, compare $\operatorname{tr}(A^2)=2(q-2)\,q(q-1)$, the number of closed walks of length two, with the sum of the squares of the eigenvalues:
-\[
-(2q-4)^2+4(q-2)+(q-1)\bigl[2(q-3)^2+2(q-1)^2c^2+4(q-3)\bigr]=2q(q-1)(q-2),
-\]
-which simplifies to $(q-1)^2c^2=1$. Hence the block has eigenvalues $q-2$, $q-4$, and $-2$ ($q-3$ times), each occurring $q-1$ times in the regular representation.
+Let $K=\agll_1(q)$, with $K_1$ and $K_2$ the stabilizers of $1$ and $0$, both of order $q-1$. The group $K$ has $q-1$ one-dimensional characters, factoring through $f_{a,b}\mapsto a$, and one irreducible representation $\rho$ of dimension $q-1$, induced from a nontrivial character of the translation subgroup. By Proposition~\ref{prop:projections}(2) the trivial character gives $2(q-1)-2=2q-4$, and each of the $q-2$ nontrivial characters gives $-2$, because $K_1$ and $K_2$ both map onto $\mathbb F_q^\times$. The restriction of $\rho$ to either $K_i$ is the regular representation of $K_i$, so $P_1^\rho$ and $P_2^\rho$ are projections onto lines spanned by unit vectors $u_1,u_2$. With $c=|\langle u_1,u_2\rangle|$, the operator $P_1^\rho+P_2^\rho$ has eigenvalues $1\pm c$ and $0$ (with multiplicity $q-3$), so $\rho(D)$ has eigenvalues $q-3\pm(q-1)c$ and $-2$. To find $c$, compare $\tr(A^2)=2(q-2)\,q(q-1)$, the number of closed walks of length two, with the sum of the squares of the eigenvalues. The trivial character contributes $(2q-4)^2$, the $q-2$ other characters contribute $(-2)^2$ each, and the block of $\rho$ is counted $q-1$ times:
+\begin{multline*}
+(2q-4)^2+(q-2)(-2)^2\\
++(q-1)\bigl[(q-3+(q-1)c)^2+(q-3-(q-1)c)^2+(q-3)(-2)^2\bigr]=2q(q-1)(q-2).
+\end{multline*}
+The bracket equals $2(q-3)^2+2(q-1)^2c^2+4(q-3)$, and the equation simplifies to $(q-1)^2c^2=1$. Hence the block has eigenvalues $q-2$, $q-4$, and $-2$ ($q-3$ times), each occurring $q-1$ times in the regular representation.
 \end{proof}
 \begin{example}
-For $q=5$: the spectrum of $T(5,2)$ is $6,\,3^{(4)},\,1^{(4)},\,(-2)^{(11)}$. For $q=4$: the cuboctahedron has spectrum $4,\,2^{(3)},\,0^{(3)},\,(-2)^{(5)}$. For $q=3$ one recovers the six-cycle. Numerically the same four eigenvalues and multiplicities, with $n$ in place of $q$, occur for $T(n,2)$ for every $4\leq n\leq9$, including $n=6$ where no complement exists; this is consistent with \cite{CGW14,AB16}, where the general case is treated through $S_n$.
+For $q=5$: the spectrum of $T(5,2)$ is $6,\,3^{(4)},\,1^{(4)},\,(-2)^{(11)}$. For $q=4$: the cuboctahedron has spectrum $4,\,2^{(3)},\,0^{(3)},\,(-2)^{(5)}$. For $q=3$ one recovers the six-cycle. Numerically the same four eigenvalues and multiplicities, with $n$ in place of $q$, occur for $T(n,2)$ for every $4\leq n\leq9$, including $n=6$ where no complement exists. This is consistent with \cite{CGW14,AB16}, where the general case is treated through $S_n$.
 \end{example}
 
 \subsection{Harmonic morphisms}\label{subsec:harmonic}
-Harmonic morphisms of graphs, in the sense of Baker and Norine \cite{BN09} (see also \cite{MJ26}), arise naturally here, because the graphs of this section come with large groups of automorphisms and group quotients are the basic source of harmonic morphisms. For this subsection only, a \emph{multigraph} may have several edges joining the same two distinct vertices; loops are not allowed.
+Harmonic morphisms of graphs, in the sense of Baker and Norine \cite{BN09} (see also \cite{MJ26}), arise naturally here, because the graphs of this section come with large groups of automorphisms and group quotients are the basic source of harmonic morphisms. For this subsection only, a \emph{multigraph} may have several edges joining the same two distinct vertices. Loops are not allowed.
 \begin{definition}
 A \emph{morphism} $\phi\colon\Gamma\to\Gamma'$ of multigraphs is a map $V(\Gamma)\cup E(\Gamma)\to V(\Gamma')\cup E(\Gamma')$ sending vertices to vertices, such that each edge $e$ with endpoints $x,y$ is sent either to an edge with endpoints $\phi(x),\phi(y)$ ($e$ is \emph{horizontal}) or to the vertex $\phi(x)=\phi(y)$ ($e$ is \emph{vertical}). The morphism is \emph{harmonic} if, for every vertex $x$ of $\Gamma$, the number
 \[
@@ -471,7 +616,7 @@ is the same for all edges $e'$ of $\Gamma'$ incident with $\phi(x)$. When $\Gamm
 \end{definition}
 Let $M$ be a group of automorphisms of a simple graph $\Gamma$. The \emph{quotient multigraph} $\Gamma/M$ has the $M$-orbits of vertices as its vertices, and as its edges the $M$-orbits of those edges of $\Gamma$ whose endpoints lie in different vertex orbits. The quotient map $\phi_M\colon\Gamma\to\Gamma/M$ sends a vertex or such an edge to its orbit, and sends an edge joining two vertices of the same orbit to that orbit, so that these edges are vertical.
 \begin{lemma}\label{lem:harmquot}
-The quotient map $\phi_M$ is harmonic if and only if, for every vertex $x$, the index $|M_x:M_x\cap M_y|$ is the same for all neighbors $y$ of $x$ outside the orbit $Mx$; that common index is then $m_{\phi_M}(x)$. In particular, if $M$ acts freely on the vertices, then $\phi_M$ is harmonic of degree $|M|$ with $m\equiv1$, and it is a covering if and only if no edge joins two vertices of the same orbit.
+The quotient map $\phi_M$ is harmonic if and only if, for every vertex $x$, the index $|M_x:M_x\cap M_y|$ is the same for all neighbors $y$ of $x$ outside the orbit $Mx$. That common index is then $m_{\phi_M}(x)$. In particular, if $M$ acts freely on the vertices, then $\phi_M$ is harmonic of degree $|M|$ with $m\equiv1$, and it is a covering if and only if no edge joins two vertices of the same orbit.
 \end{lemma}
 \begin{proof}
 Let $y$ be a neighbor of $x$ with $y\notin Mx$. If $g\in M$ carries the edge $\{x,y\}$ to an edge at $x$, then $gx=x$, because $gy=x$ would put $y$ in $Mx$. So the edges at $x$ in the orbit of $\{x,y\}$ are the edges $\{x,gy\}$ with $g\in M_x$, and their number is $|M_x:M_x\cap M_y|$. Harmonicity says that this number is independent of the edge orbit. If the action is free the index is always $1$, and the fiber over a vertex of $\Gamma/M$ has $|M|$ elements.
@@ -490,14 +635,14 @@ This is the ``normal cover'' of $J(n,k)$ noted in \cite{YFZG21}. Figure~\ref{fig
 \end{enumerate}
 \end{corollary}
 \begin{proof}
-(1) If $f$ is an eigenfunction of the adjacency operator of $J(n,k)$, then $f\circ\phi$ is an eigenfunction on $T(n,k)$ with the same eigenvalue, since $\phi$ maps the neighbors of $x$ bijectively onto the neighbors of $\phi(x)$. The eigenvalues of Johnson graphs are standard \cite{BCN89}. (2) Both graphs have valency $k(n-k)$ and $|V(T(n,k))|=k!\,|V(J(n,k))|$; this is the Riemann--Hurwitz formula of \cite{BN09} for an unramified morphism.
+(1) If $f$ is an eigenfunction of the adjacency operator of $J(n,k)$, then $f\circ\phi$ is an eigenfunction on $T(n,k)$ with the same eigenvalue, since $\phi$ maps the neighbors of $x$ bijectively onto the neighbors of $\phi(x)$. The eigenvalues of Johnson graphs are standard \cite{BCN89}. (2) Both graphs have valency $k(n-k)$ and $|V(T(n,k))|=k!\,|V(J(n,k))|$, so $|E(T(n,k))|=k!\,|E(J(n,k))|$ as well. This is the Riemann--Hurwitz formula of \cite{BN09} for an unramified morphism.
 \end{proof}
-For example $J(5,2)$ has spectrum $6,\,1^{(4)},\,(-2)^{(5)}$, contained in the spectrum of $T(5,2)$ found above; the eigenvalue $3$ of $T(5,2)$ is new.
+For example $J(5,2)$ has spectrum $6,\,1^{(4)},\,(-2)^{(5)}$, contained in the spectrum of $T(5,2)$ found above. The eigenvalue $3$ of $T(5,2)$ is new.
 \begin{proposition}\label{prop:cayleyquot}
 Let $L$ be a subgroup of $K$, acting on $\cayy(K,D)$ by left multiplication. The quotient map $\cayy(K,D)\to\cayy(K,D)/L$ is harmonic of degree $|L|$ with $m\equiv1$. The edge $\{x,xd\}$ is vertical if and only if $xdx^{-1}\in L$, so the map is a covering if and only if $L$ contains no conjugate of an element of $D$. If $L$ is normal, the quotient is the Cayley multigraph of $K/L$ whose connection multiset is the image of $D$, with the elements of $D\cap L$ discarded.
 \end{proposition}
 \begin{proof}
-Left multiplication is a free action by automorphisms, so Lemma~\ref{lem:harmquot} applies; $xd\in Lx$ means $xdx^{-1}\in L$. If $L$ is normal, the orbits are the cosets $xL$, and the edge orbits from $xL$ to $xdL$ correspond to the elements $d\in D\setminus L$.
+Left multiplication is a free action by automorphisms, so Lemma~\ref{lem:harmquot} applies. The condition $xd\in Lx$ means $xdx^{-1}\in L$. If $L$ is normal, the orbits are the cosets $xL$, and the edge orbits from $xL$ to $xdL$ correspond to the elements $d\in D\setminus L$.
 \end{proof}
 \begin{example}\label{ex:translation}
 Let $K=\agll_1(q)$, $q\geq3$, and let $N$ be the translation subgroup. By Example~\ref{ex:agl5} and Table~\ref{tab:cayley} the connection set of $T(q,2)$ contains no translation, and each $a\neq0,1$ occurs as the multiplier of exactly two elements of $D$. By Proposition~\ref{prop:cayleyquot} the quotient $T(q,2)/N$ is the Cayley multigraph of $\mathbb F_q^\times$ in which every nonidentity element is used twice: the complete graph $K_{q-1}$ with every edge doubled. Concretely, the orbit of $(x,y)$ is recorded by the difference $y-x$. The quotient map is a covering of degree $q$. For $q=5$ this is a five-fold covering of the doubled $K_4$ by $T(5,2)$, and for $q=4$ a four-fold covering of the doubled triangle by the cuboctahedron.
@@ -511,7 +656,7 @@ In the notation of Lemma~\ref{lem:harmquot}, for $x\in O_i$ and a neighbor $y\in
 \[
 2g(\Gamma)-2=\deg(\phi)\,\bigl(2g(\Gamma')-2\bigr)+\sum_{x}\bigl(2(m_\phi(x)-1)+v_\phi(x)\bigr)
 \]
-of \cite{BN09} holds, where $v_\phi(x)$ is the number of vertical edges at $x$; for $T(4,2)$ it reads $24=6\cdot(-2)+12+24$: six vertices have $m=2$, and there are twelve vertical edges.
+of \cite{BN09} holds, where $v_\phi(x)$ is the number of vertical edges at $x$. For $T(4,2)$ it reads $24=6\cdot(-2)+12+24$. Here six vertices have $m=2$, which gives the term $12$. There are twelve vertical edges, and each is counted at both of its endpoints, which gives $\sum_xv_\phi(x)=24$.
 \end{example}
 \begin{figure}[ht]\centering
 \begin{tikzpicture}[every node/.style={circle,draw,inner sep=2pt,font=\small},>=Latex]
@@ -523,66 +668,83 @@ of \cite{BN09} holds, where $v_\phi(x)$ is the number of vertical edges at $x$; 
 \draw (p1)--(p0)--(p2);
 \draw[->,shorten >=3pt,shorten <=3pt] (b2)--(p0);
 \end{tikzpicture}
-\caption{The quotient of $T(3,2)=C_6$ by the stabilizer $S_2$ of the symbol $3$ is a harmonic morphism of degree $2$ onto a path. Vertices are colored by fibers; the two edges inside the outer fibers are vertical.}\label{fig:fold}
+\caption{The quotient of $T(3,2)=C_6$ by the stabilizer $S_2$ of the symbol $3$ is a harmonic morphism of degree $2$ onto a path. Vertices are colored by fibers. The two edges inside the outer fibers are vertical.}\label{fig:fold}
 \end{figure}
 \begin{remark}[A natural map that is not harmonic]
-Deleting the last coordinate defines a morphism $T(n,k)\to T(n,k-1)$ for $k\geq2$; it corresponds to the projection $G/H\to G/H'$ for the point stabilizers $H=S_{n-k}<H'=S_{n-k+1}$. It is not harmonic. At a tuple $x$, the edge of $T(n,k-1)$ that replaces $x_i$ by the deleted symbol $x_k$ has no preimage at $x$, while the edges replacing $x_i$ by a symbol absent from $x$ have exactly one. The fibers of this map are not the orbits of a group of automorphisms, in contrast with Propositions~\ref{prop:cover} and~\ref{prop:cayleyquot}.
+Deleting the last coordinate defines a morphism $T(n,k)\to T(n,k-1)$ for $k\geq2$. It corresponds to the projection $G/H\to G/H'$ for the point stabilizers $H=S_{n-k}<H'=S_{n-k+1}$. It is not harmonic. At a tuple $x$, the edge of $T(n,k-1)$ that replaces $x_i$ by the deleted symbol $x_k$ has no preimage at $x$, while the edges replacing $x_i$ by a symbol absent from $x$ have exactly one. The fibers of this map are not the orbits of a group of automorphisms, in contrast with Propositions~\ref{prop:cover} and~\ref{prop:cayleyquot}.
 \end{remark}
-\begin{remark}[Jacobians]
-A nonconstant harmonic morphism $\phi\colon\Gamma\to\Gamma'$ of connected graphs induces a surjection of Jacobians (critical groups) $\operatorname{Jac}(\Gamma)\to\operatorname{Jac}(\Gamma')$ \cite{BN09}. Since the order of the Jacobian is the number of spanning trees, the number of spanning trees of $J(n,k)$ divides that of $T(n,k)$. For instance $J(4,2)$ has $384$ spanning trees and $T(4,2)$ has $331776=384\cdot864$; and $J(3,2)=K_3$ has $3$ while $T(3,2)=C_6$ has $6$.
+\begin{remark}[Jacobians]\label{rem:jacobians}
+A nonconstant harmonic morphism $\phi\colon\Gamma\to\Gamma'$ of connected graphs induces a surjection of Jacobians (critical groups) $\Jac(\Gamma)\to\Jac(\Gamma')$ \cite{BN09}. Since the order of the Jacobian is the number of spanning trees, the number of spanning trees of $J(n,k)$ divides that of $T(n,k)$. For instance $J(4,2)$ has $384$ spanning trees and $T(4,2)$ has $331776=384\cdot864$. Similarly $J(3,2)=K_3$ has $3$ while $T(3,2)=C_6$ has $6$.
 \end{remark}
 
-\subsection{Verification status and remaining questions}
-\begin{remark}\label{rem:graphchecks}
-The following were checked numerically for this draft with short Python scripts (NetworkX, python-igraph, NumPy); no computer algebra system was used, and these checks are not a substitute for proofs or for consulting the cited sources. For the eleven pairs $(n,k)$ with $2\leq k<n\leq 7$ and at most $360$ vertices: vertex counts, valency, connectedness, diameter $\lfloor3k/2\rfloor$, and $|\autt(T(n,k))|=n!\,k!$. The isomorphism of $T(4,2)$ with the line graph of the cube. The connection sets of Example~\ref{ex:agl5} and its analogue for $q=7$. Spectra of $T(n,2)$ for $4\leq n\leq9$ and of $T(n,k)$ for $(n,k)=(5,3),(5,4),(6,3),(6,4),(7,3)$, with least eigenvalue $-k$ in each case. The containment of the Johnson spectrum for six pairs with $n\leq6$. Examples~\ref{ex:translation} ($q=5,7$) and~\ref{ex:star} (five pairs, including the Riemann--Hurwitz formula). Regularity on $k$-subsets in Example~\ref{ex:homog}(1)--(3), with $q=7$ in (1). The rank computation of Example~\ref{ex:orbitals} for $n=5$. The six rows of the table in Corollary~\ref{cor:converse}, as described in its proof. The spanning tree counts in the last remark of Section~\ref{subsec:harmonic}.
-\end{remark}
-\paragraph{Remaining questions.} The questions listed in earlier drafts about $\autt(T(n,k))$ and about which arrangement and Johnson graphs are Cayley are answered by \cite{YFZG21} and \cite{DM15}. The following appear to be open, at least within this manuscript.
+\begin{vremark}\label{rem:bn}
+The facts about harmonic morphisms used in this subsection, namely that the degree is well defined, the Riemann--Hurwitz formula, and the surjection of Jacobians, are quoted from memory of \cite{BN09}. They were not checked against the paper. The conventions of \cite{MJ26} were not compared with those used here.
+\end{vremark}
+
+\subsection*{Verification status}
+The examples of this section were checked by computer as well as by hand. The following remark records exactly what was computed, so that the checks can be repeated.
+\begin{vremark}\label{rem:graphchecks}
+The following were checked numerically with a Python script in the repository, \texttt{verify\_graph\_section.py} in the folder \texttt{scripts}. It uses NetworkX, python-igraph, NumPy, and SymPy. No computer algebra system was used, and these checks are not a substitute for proofs or for consulting the cited sources. For the eleven pairs $(n,k)$ with $2\leq k<n\leq 7$ and at most $360$ vertices: vertex counts, valency, connectedness, diameter $\lfloor3k/2\rfloor$, and $|\autt(T(n,k))|=n!\,k!$. The isomorphism of $T(4,2)$ with the line graph of the cube. The connection sets of Example~\ref{ex:agl5} and its analogue for $q=7$. Spectra of $T(n,2)$ for $4\leq n\leq9$ and of $T(n,k)$ for $(n,k)=(5,3),(5,4),(6,3),(6,4),(7,3)$, with least eigenvalue $-k$ in each case. The containment of the Johnson spectrum for six pairs with $n\leq6$. Examples~\ref{ex:translation} ($q=5,7$) and~\ref{ex:star} (five pairs, including the Riemann--Hurwitz formula). Regularity on $k$-subsets in Example~\ref{ex:homog}(1)--(3), with $q=7$ in (1). The rank computation of Example~\ref{ex:orbitals} for $n=5$. The six rows of Table~\ref{tab:sixexceptions}, as described in the proof of Corollary~\ref{cor:converse}. The spanning tree counts in Remark~\ref{rem:jacobians}.
+\end{vremark}
+
+\section{Summary and open questions}\label{sec:summary}
+This section collects the results and lists the questions that remain open.
+
+The complement problem for the standard subgroups $S_m\leq S_n$ is equivalent to the existence of sharply $(n-m)$-transitive groups of degree $n$. The affine groups, the projective groups, the alternating and cyclic groups, and the Mathieu groups $M_{11}$ and $M_{12}$ give all the complements, by Theorem~\ref{thm:main} and Table~\ref{tab:small}. The degrees with a complement beyond the two universal ones have density zero. The subgroup $S_8$ has no complement in $S_{12}$, but $S_{12}$ has the three-factor decomposition of Proposition~\ref{prop:12}.
+
+On the graph side, a complement $K$ to $S_{n-k}$ makes the arrangement graph $T(n,k)$ a Cayley graph of $K$ whose connection set is a union of $k$ subgroups of order $n-k+1$. It also makes every $S_n$-invariant graph on ordered $k$-tuples a Cayley graph of $K$. The converse fails for exactly six pairs $(n,k)$, by the classification of \cite{YFZG21}. Proposition~\ref{prop:lifting} realizes these six by regular subgroups of $S_n\times S_k$. The Johnson analogue of the complement problem has the short answer of Proposition~\ref{prop:homogclass}. The eigenvalues of $T(n,k)$ are at least $-k$, and Proposition~\ref{prop:tq2} gives the spectrum of $T(q,2)$. Harmonic morphisms enter as group quotients. Examples are the covering $T(n,k)\to J(n,k)$, the quotients of a Cayley graph by subgroups of the regular group, and ramified quotients such as the map of $T(n,k)$ onto a star.
+
+The following questions appear to be open.
 \begin{enumerate}
-\item Compute the Fourier blocks of Proposition~\ref{prop:projections} for $\pgll_2(q)$, $M_{11}$, and $M_{12}$, and compare the resulting description of the spectra of $T(q+1,3)$, $T(11,4)$, and $T(12,5)$ with the $S_n$-formula of \cite{AB16}.
-\item When $T(n,k)$ has several regular groups of automorphisms (for instance $\pgll_2(7)$ and $\agll_1(8)\times S_3$ on $T(8,3)$), compare the corresponding Fourier decompositions, as in Example~\ref{ex:c6spec}.
+\item Compute the Fourier blocks of Proposition~\ref{prop:projections} for $\pgll_2(q)$, $M_{11}$, and $M_{12}$. Compare the resulting description of the spectra of $T(q+1,3)$, $T(11,4)$, and $T(12,5)$ with the $S_n$-formula of \cite{AB16}.
+\item When $T(n,k)$ has several regular groups of automorphisms, compare the corresponding Fourier decompositions, as in Example~\ref{ex:c6spec}. An instance is $T(8,3)$, with the regular groups $\pgll_2(7)$ and $\agll_1(8)\times S_3$.
 \item Determine the subgroups $M\leq S_n\times S_k$ for which the quotient $T(n,k)\to T(n,k)/M$ is harmonic, using the index criterion of Lemma~\ref{lem:harmquot}, and identify the quotient multigraphs.
 \item Describe the Jacobians of $T(n,k)$ and the kernels of the surjections onto the Jacobians of $J(n,k)$ and of the quotients in Examples~\ref{ex:translation} and~\ref{ex:star}.
+\item For given $m<n$, find the smallest number of subgroups, the last of which is $S_m$, that give a unique ordered factorization of $S_n$ as in Proposition~\ref{prop:12}.
 \end{enumerate}
 
-\section{Summary and open questions}
-The original complement problem is equivalent to sharply multiply transitive actions. Standard affine, projective, alternating, and exceptional Mathieu actions give the classification. On the graph side, a complement $K$ to $S_{n-k}$ makes the arrangement graph $T(n,k)$ a Cayley graph of $K$ whose connection set is a union of $k$ subgroups of order $n-k+1$, and makes every $S_n$-invariant graph on ordered $k$-tuples a Cayley graph of $K$. The converse fails for exactly six pairs $(n,k)$, by the classification of \cite{YFZG21}; Proposition~\ref{prop:lifting} realizes these six by regular subgroups of $S_n\times S_k$. The Johnson analogue of the complement problem has the short answer of Proposition~\ref{prop:homogclass}. Harmonic morphisms enter as group quotients: the covering $T(n,k)\to J(n,k)$, the quotients of a Cayley graph by subgroups of the regular group, and ramified quotients such as the map of $T(n,k)$ onto a star. The questions left open are listed at the end of Section~\ref{sec:graphs}; they concern Fourier blocks for the projective and Mathieu complements, the comparison of spectral decompositions coming from distinct regular groups, the classification of harmonic quotients, and Jacobians.
-
 \section*{Glossary}
-\noindent\textbf{Arc-transitive graph}: a graph whose automorphism group is transitive on ordered adjacent vertex pairs.\par
-\noindent\textbf{Alternating group graph}: Cayley graph of $A_n$ whose connection set is the $3$-cycles $(1\,2\,i)$ and their inverses; it is the arrangement graph on $(n-2)$-tuples.\par
-\noindent\textbf{Arrangement graph}: graph on ordered distinct tuples with an edge for a change in exactly one coordinate.\par
-\noindent\textbf{Automorphism group}: permutations of the vertices preserving adjacency.\par
-\noindent\textbf{Cayley graph}: graph of a group with edges specified by an inverse-closed connection set.\par
-\noindent\textbf{Complement}: subgroup $K$ satisfying $G=HK$ and $H\cap K=1$.\par
-\noindent\textbf{Connection set}: the inverse-closed set of allowed group differences in a Cayley graph.\par
-\noindent\textbf{Coset graph}: graph with vertices $G/H$ and adjacency prescribed by $H$-double cosets.\par
-\noindent\textbf{Covering}: graph morphism mapping the edges at each vertex bijectively onto the edges at its image; a harmonic morphism with all multiplicities one and no vertical edges.\par
-\noindent\textbf{Double coset}: subset $HgH$ of a group $G$.\par
-\noindent\textbf{Exact factorization}: bijective ordered multiplication map of specified subgroup factors.\par
+\addcontentsline{toc}{section}{Glossary}
+\noindent\textbf{Alternating group graph}: Cayley graph of $A_n$ whose connection set is the $3$-cycles $(1\,2\,i)$ and their inverses. It is the arrangement graph on $(n-2)$-tuples.\par
+\noindent\textbf{Arc-transitive graph}: a graph whose automorphism group is transitive on ordered pairs of adjacent vertices.\par
+\noindent\textbf{Arrangement graph}: graph on ordered tuples of distinct symbols, with an edge for a change in exactly one coordinate.\par
+\noindent\textbf{Automorphism group}: the permutations of the vertices of a graph that preserve adjacency.\par
+\noindent\textbf{Cayley graph}: graph whose vertices are the elements of a group, with $x$ joined to $xd$ for each $d$ in an inverse-closed connection set.\par
+\noindent\textbf{Complement}: for a subgroup $H$ of $G$, a subgroup $K$ satisfying $G=HK$ and $H\cap K=1$.\par
+\noindent\textbf{Connection set}: the inverse-closed set of group elements that defines the edges of a Cayley graph.\par
+\noindent\textbf{Coset graph}: graph whose vertices are the left cosets of a subgroup $H$, with adjacency prescribed by a union of double cosets of $H$.\par
+\noindent\textbf{Covering}: graph morphism mapping the edges at each vertex bijectively onto the edges at its image. It is a harmonic morphism with all multiplicities one and no vertical edges.\par
+\noindent\textbf{Double coset}: a subset $HgH$ of a group $G$, for a subgroup $H$.\par
+\noindent\textbf{Exact factorization}: an expression $G=HK$ of a group as a product of two subgroups with trivial intersection, so that each element is $hk$ in exactly one way.\par
 \noindent\textbf{Harmonic morphism}: map of multigraphs, possibly collapsing some edges to vertices, under which each edge at the image of a vertex $x$ has the same number of preimages at $x$.\par
 \noindent\textbf{Horizontal and vertical edges}: under a morphism, an edge is horizontal if it maps to an edge and vertical if it is collapsed to a vertex.\par
-\noindent\textbf{Induced permutation module}: the representation $\operatorname{Ind}_H^G\mathbf1$ on the cosets $G/H$.\par
-\noindent\textbf{Johnson graph}: graph on fixed-cardinality subsets adjacent when one element is exchanged.\par
+\noindent\textbf{Induced permutation module}: the representation $\Ind_H^G\mathbf1$ of $G$ on functions on the cosets $G/H$.\par
 \noindent\textbf{Jacobian of a graph}: finite abelian group, also called the critical group, whose order is the number of spanning trees.\par
+\noindent\textbf{Johnson graph}: graph on the subsets of a fixed size, with two subsets adjacent when one element is exchanged.\par
 \noindent\textbf{$k$-homogeneous}: transitive on unordered $k$-subsets.\par
-\noindent\textbf{Orbital}: orbit of a transitive group on ordered pairs of points; orbitals correspond to double cosets of a point stabilizer, and their number is the rank.\par
+\noindent\textbf{Orbital}: orbit of a transitive group on ordered pairs of points. Orbitals correspond to double cosets of a point stabilizer, and their number is the rank.\par
 \noindent\textbf{Quotient multigraph}: for a group acting on a graph, the multigraph whose vertices are vertex orbits and whose edges are the orbits of edges joining different vertex orbits.\par
 \noindent\textbf{Regular action}: transitive action with trivial point stabilizers.\par
+\noindent\textbf{Regular subgroup}: a subgroup $K$ of a group acting on a set, such as a permutation group or the automorphism group of a graph, whose own action on that set is regular. Each point is then $kx$ for exactly one $k\in K$, where $x$ is a fixed base point, so $|K|$ equals the number of points. The term comes from permutation group theory and depends on the action, not only on $K$ as an abstract group.\par
 \noindent\textbf{Sharply $k$-homogeneous}: regular on unordered $k$-subsets.\par
-\noindent\textbf{Sharply $k$-transitive}: regular on ordered distinct $k$-tuples.\par
-\noindent\textbf{Spectrum}: multiset of eigenvalues of a graph adjacency matrix.\par
-\noindent\textbf{Star graph}: Cayley graph of $S_n$ whose connection set is the transpositions $(1\,i)$; it is the arrangement graph on $(n-1)$-tuples.\par
-\noindent\textbf{Vertex stabilizer}: subgroup fixing a specified vertex.\par
+\noindent\textbf{Sharply $k$-transitive}: regular on ordered $k$-tuples of distinct points.\par
+\noindent\textbf{Spectrum}: the multiset of eigenvalues of the adjacency matrix of a graph.\par
+\noindent\textbf{Star graph}: Cayley graph of $S_n$ whose connection set is the transpositions $(1\,i)$. It is the arrangement graph on $(n-1)$-tuples.\par
+\noindent\textbf{Vertex stabilizer}: the subgroup of a group of automorphisms that fixes a specified vertex.\par
 \noindent\textbf{Vertex-transitive graph}: graph whose automorphism group is transitive on vertices.\par
 
 \section*{Acknowledgments}
-The original author thanked Herbert Kociemba for motivating correspondence and reported using GAP for selected table entries. OpenAI's ChatGPT assisted with mathematical refereeing, correction, restructuring, and drafting the graph-theoretic outline for this 2026 edition. Anthropic's Claude expanded that outline into Section~\ref{sec:graphs} of Draft~5: it supplied the proofs, examples, tables, and figures there, added the material on harmonic morphisms and spectra, located the relevant literature on arrangement and Johnson graphs, and ran the numerical checks listed in Remark~\ref{rem:graphchecks}. AI review is not independent certification of the results. Details of the changes, unverified citations, and computational status appear in the separate revision log.
+\addcontentsline{toc}{section}{Acknowledgments}
+The author thanks Herbert Kociemba for the correspondence that motivated the original manuscript \cite{Ko97}. GAP was used for selected table entries in that manuscript.
+
+Several AI systems contributed to this edition. OpenAI's ChatGPT acted as referee and reviser of the original manuscript. It corrected the auxiliary arguments, restructured the paper, and drafted the outline of the graph-theoretic section. Anthropic's Claude acted as reviser. It expanded that outline into Section~\ref{sec:graphs}, supplying the proofs, examples, tables, and figures there, the material on harmonic morphisms and spectra, the references to the literature on arrangement and Johnson graphs, and the numerical checks of Remark~\ref{rem:graphchecks}. Google's Gemini acted as referee of the fifth draft. Claude then prepared the present draft in response to that report. AI review is not an independent certification of the results. Further details on the AI usage, the changes between drafts, and the sources that were not consulted can be found in the revision log.
 \begin{thebibliography}{99}
+\addcontentsline{toc}{section}{References}
 \bibitem{AB16} J. Araujo and T. Bratten, The spectra of arrangement graphs, preprint, arXiv:1612.04747, 2016.
 \bibitem{BN09} M. Baker and S. Norine, Harmonic morphisms and hyperelliptic graphs, \emph{Int. Math. Res. Not. IMRN} \textbf{2009}, no. 15, 2914--2955.
 \bibitem{BCN89} A. E. Brouwer, A. M. Cohen, and A. Neumaier, \emph{Distance-Regular Graphs}, Springer, 1989.
 \bibitem{Ca99} P. J. Cameron, \emph{Permutation Groups}, Cambridge University Press, 1999.
-\bibitem{CGW14} B. F. Chen, E. Ghorbani, and K. B. Wong, On the eigenvalues of certain Cayley graphs and arrangement graphs, \emph{Linear Algebra Appl.} (2014), doi:10.1016/j.laa.2013.11.035; arXiv:1310.8078.
+\bibitem{CGW14} B. F. Chen, E. Ghorbani, and K. B. Wong, On the eigenvalues of certain Cayley graphs and arrangement graphs, \emph{Linear Algebra Appl.} (2014), doi:10.1016/j.laa.2013.11.035, arXiv:1310.8078.
 \bibitem{CC98} W.-K. Chiang and R.-J. Chen, On the arrangement graph, \emph{Inform. Process. Lett.} \textbf{66} (1998), 215--219.
 \bibitem{CHM98} J. H. Conway, A. Hulpke, and J. McKay, On transitive permutation groups, \emph{LMS J. Comput. Math.} \textbf{1} (1998), 1--8.
 \bibitem{DT92} K. Day and A. Tripathi, Arrangement graphs: a class of generalized star graphs, \emph{Inform. Process. Lett.} \textbf{42} (1992), 235--241.
