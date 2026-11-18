@@ -11,7 +11,7 @@
 
 \title{Revision log for ``Harmonic quotient morphisms of regular graphs: examples''}
 \author{David Joyner and Caroline Melles}
-\date{Current draft: Draft 3, November 16, 2026}
+\date{Current draft: Draft 4, November 18, 2026}
 
 \begin{document}
 \maketitle
@@ -28,7 +28,8 @@ Draft & Date & File \\
 Draft 0 (original) & 2023-03-26 & \path{archive/regular-graph-harmonic-quotient-examples_2023-03-26.tex} \\
 Draft 1 & 2026-11-15 & git commit \texttt{295fd16} \\
 Draft 2 & 2026-11-16 & git commit \texttt{414803e} \\
-Draft 3 & 2026-11-16 & \path{regular-graph-harmonic-quotient-examples.tex} (this branch) \\
+Draft 3 & 2026-11-16 & git commit \texttt{158a315} \\
+Draft 4 & 2026-11-18 & \path{regular-graph-harmonic-quotient-examples.tex} (this branch) \\
 \hline
 \end{tabular}
 \end{center}
@@ -282,13 +283,68 @@ The agreement of every figure with the text is Level 1: it is checked by
 \path{check_figures.py} from the source. The layouts were also inspected by
 eye on a page with all $63$ figures.
 
+\section{Draft 3 to Draft 4 (literature for Section 5)}
+
+David Joyner asked Claude (Anthropic, model Claude Opus 5.5) to search the
+literature for the regular graph constructions of Section 5, which the
+original draft called ``(new?)''. Constructions (A), (B) and (C) turn out to
+be special cases of classical methods. No other section changed.
+
+\subsection{What changed}
+
+\begin{enumerate}
+\item Section 5 is retitled ``Three regular graph constructions''. The
+sentence calling the constructions original is replaced by two paragraphs
+after the list. They say that the new vertices in (B) form a perfect code
+[Bi73], so that (B) produces exactly the $k$-regular graphs with a perfect
+code, and that (B) adds the fewest possible new vertices. They say that
+(A) and (C) end with the doubling step in K\H{o}nig's proof [Ko36], and they
+cite the later work of [EK63] and [AEH83] on that problem, and [Dv88].
+\item In (B), ``assuming these sets are disjoint'' is now ``so that the $d$
+sets of $k$ vertices partition the vertex set of $\Gamma_1$''. Since
+$n=dk$ the two conditions are the same, but the new wording says that
+every vertex of $\Gamma_1$ is used.
+\item Remark 2026.2 used to say that novelty had not been checked. It now
+says that K\H{o}nig's book was not consulted, and that (A) and (C) were not
+found in exactly this form. Its number is unchanged, so no other remark is
+renumbered.
+\item The literature review (Section 2.1) has a new paragraph on regular
+supergraphs and perfect codes.
+\item New references: [AEH83], [Bi73], [Dv88], [EK63], [Ko36]. New glossary
+entry: perfect code.
+\item The title page and the \verb|\thanks| footnote say Draft 4.
+\end{enumerate}
+
+No numbering of sections, theorem-like environments or figures changed.
+
+\subsection{Verification levels}
+
+\begin{longtable}{p{0.40\textwidth}p{0.07\textwidth}p{0.45\textwidth}}
+\hline
+Item & Level & How \\
+\hline
+\endhead
+(B) gives a perfect code, and removing a perfect code leaves a
+$(k-1)$-regular graph & 1 & Proved in the text. \\
+(B) uses the fewest new vertices & 1 & Counting argument in the text. \\
+Definition of perfect code & 2 & [Bi73] and later papers using it. \\
+Main result of [Dv88] & 2 & The paper was read. \\
+Result of [EK63] & 2 & Read in the 1963 note and the 1967 version.
+The 1963 note shows page 1075. The first page, 1074, was not seen. \\
+Result of [AEH83] & 2 & As stated in later papers. Pages from the
+EuDML record. \\
+K\H{o}nig's doubling proof [Ko36] & 3 & From [EK63] and later papers. The
+book was not consulted. Publisher from memory. \\
+\hline
+\end{longtable}
+
 \section{Open items for the authors}
 
 \begin{enumerate}
 \item Is [MJ26] (\emph{Exploring Graphs via Harmonic Morphisms}) the
 published form of [MJ22]? If so, the references to [MJ22] can point to it.
 \item Remarks 2026.1 to 2026.5: the definitions of cover and its variants
-(2026.1), the novelty of the constructions in Section 5 (2026.2), the
+(2026.1), the attribution to K\H{o}nig in Section 5 (2026.2), the
 matchstick claims (2026.3), the term ``weed'' (2026.4), and the name
 $X_{37}$ (2026.5).
 \item The CC BY 4.0 license on the paper needs the agreement of both
