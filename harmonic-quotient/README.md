@@ -6,7 +6,7 @@ Many examples of harmonic morphisms from regular graphs (degree 3, 4 and 5, up t
 12 vertices) to small graphs, with emphasis on harmonic quotient morphisms
 Γ₂ → Γ₂/G for subgroups G of Aut(Γ₂).
 
-Current version: **Draft 3** (November 16, 2026).
+Current version: **Draft 4** (November 18, 2026).
 
 ## Files
 
@@ -49,6 +49,7 @@ In each figure, a vertex of Γ₁ and its fiber in Γ₂ have the same color.
 | 2026-11-15 | Draft 1 | Corrections from a computational referee check; see `referee/2026-11-15/` (commit `295fd16`) |
 | 2026-11-16 | Draft 2 | Revision to the authors' style guide; see `revision-log.pdf` |
 | 2026-11-16 | Draft 3 | All 63 figures redrawn in TikZ from the data in the text; see `revision-log.pdf` |
+| 2026-11-18 | Draft 4 | Section 5 constructions related to the literature (perfect codes, König's regular supergraph theorem); see `revision-log.pdf` |
 
 ## License
 

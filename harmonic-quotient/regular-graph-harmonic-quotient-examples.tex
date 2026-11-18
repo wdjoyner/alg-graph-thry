@@ -1,8 +1,9 @@
 \documentclass[12pt,letterpaper]{article}
-% Draft 3, 2026-11-16. Original draft: wdj and C. Melles, 2023-03-26.
+% Draft 4, 2026-11-18. Original draft: wdj and C. Melles, 2023-03-26.
 % Draft 1 (2026-11-15): corrections from a computational referee check.
 % Draft 2 (2026-11-16): revision to the authors' style guide. See revision-log.tex.
 % Draft 3 (2026-11-16): every figure redrawn in TikZ by verification/make_figures.py.
+% Draft 4 (2026-11-18): Section 5 related to the literature.
 %   Edit the layouts in that script, not the TikZ blocks below: it rewrites them.
 \usepackage[T1]{fontenc}
 \IfFileExists{newtxmath.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}}
@@ -70,12 +71,14 @@
 
 
 \title{Harmonic quotient morphisms of regular graphs: examples\\[4pt]
-{\large Draft 3. Corrected and expanded version}\thanks{The
+{\large Draft 4. Corrected and expanded version}\thanks{The
 original draft of this paper is an unpublished manuscript by the authors,
 dated March 26, 2023. Draft~1 (November 15, 2026) corrected errors found by
 a computational referee check. Draft~2 (November 16, 2026) revises the paper
 to the authors' style guide. Draft~3 (November 16, 2026) redraws every
-figure from the edge lists and tables in the text. The repository
+figure from the edge lists and tables in the text. Draft~4 (November 18,
+2026) relates the constructions of Section~\ref{sec:constructions} to the
+literature. The repository
 \url{https://github.com/wdjoyner/alg-graph-thry}, folder
 {\tt harmonic-quotient}, contains all drafts, a revision log and the
 verification scripts.}}
@@ -207,6 +210,12 @@ below. Bussemaker and Cvetkovi\'c \cite{BC76} showed that there are exactly
 $13$ connected cubic integral graphs. Some of them appear here. The authors'
 book \cite{JM17} contains background on graphs, Laplacians and critical
 groups. Their manuscript \cite{MJ22} develops harmonic morphisms in detail.
+
+The constructions in Section~\ref{sec:constructions} are related to two
+classical topics. The first is the problem of embedding a graph in a
+regular graph, which goes back to K\H{o}nig \cite{Ko36} and was studied by
+Erd\H{o}s and Kelly \cite{EK63} and by Akiyama, Era and Harary \cite{AEH83}.
+The second is perfect codes in graphs, introduced by Biggs \cite{Bi73}.
 
 \subsection{Work since 2023}
 
@@ -572,21 +581,14 @@ $(n,[a_1,\dots,a_r],m)$ & LCF notation \\
 \end{tabular}
 \end{center}
 
-\section{Several (new?) regular graph constructions}
+\section{Three regular graph constructions}
 \label{sec:constructions}
 
 This section gives three ways to build regular graphs from smaller regular
 graphs. They are not used later.
 
-These are, to the best of our knowledge, original. In any case, they are
-mentioned, as an aside, more for amusement of the interested reader than anything else.
-
-\begin{revremark}
-\label{rem:constructions}
-The claim that constructions (A), (B) and (C) are new was not checked
-against the literature in 2026. Each construction does produce a
-$k$-regular graph, with the stated number of vertices, when $k\leq n$.
-\end{revremark}
+The original draft called these constructions new. They are special
+cases of classical methods, as explained after the list.
 
 
 \begin{itemize}
@@ -601,9 +603,9 @@ $k$-regular, with $2n+2$ vertices.
 
 \item[(B)] Let $\Gamma_1$ be as before. Assume $n/k=d$ is an integer.
 Let $v_1, \dots, v_d$ be new vertices (not in $\Gamma_1$).
-Connect each $v_i$ to $k$ different vertices of
-$\Gamma_1$ (assuming these sets are disjoint from each other). The result is
-a $k$-regular graph with $n+d$ vertices.
+Connect each $v_i$ to $k$ vertices of
+$\Gamma_1$, so that the $d$ sets of $k$ vertices partition the vertex set of
+$\Gamma_1$. The result is a $k$-regular graph with $n+d$ vertices.
 
 \item[(C)] Let $\Gamma_1$ be as before. Assume $(n-r)/k=d$ is an integer
 for some small $0<r<k$.
@@ -615,6 +617,36 @@ to their mirror image in the $2^{nd}$ copy of $\Gamma_2$ (as in construction
 A). The result is a $k$-regular graph with $2n+2d$ vertices. 
   
 \end{itemize}
+
+Each construction produces a $k$-regular graph with the stated number of
+vertices. In (B) the new vertices $v_1,\dots,v_d$ are pairwise nonadjacent,
+and each vertex of $\Gamma_1$ is adjacent to exactly one of them. So
+$\{v_1,\dots,v_d\}$ is a perfect code, also called an efficient dominating
+set, in the sense of Biggs \cite{Bi73}. Conversely, removing a perfect code
+from a $k$-regular graph leaves a $(k-1)$-regular graph. Construction (B)
+therefore produces exactly the $k$-regular graphs that have a perfect code.
+It also uses as few new vertices as possible. In a $k$-regular graph that
+contains $\Gamma_1$ as an induced subgraph, each vertex of $\Gamma_1$ has
+exactly one neighbor outside $\Gamma_1$. So $n$ edges leave $\Gamma_1$, and at
+least $n/k$ new vertices are needed. Other constructions of regular graphs
+with perfect codes are in \cite{Dv88}.
+
+Constructions (A) and (C) end with the doubling step in K\H{o}nig's proof
+that every graph of maximum degree $k$ is an induced subgraph of a
+$k$-regular graph \cite{Ko36}. That step takes two copies of a graph and
+joins each vertex of degree less than $k$ to its copy. In (A) and (C) every
+such vertex has degree exactly $k-1$, so one step suffices. Erd\H{o}s and
+Kelly \cite{EK63} found the least number of new vertices needed in
+K\H{o}nig's theorem. Akiyama, Era and Harary \cite{AEH83} showed that at
+most $k+2$ new vertices are needed if $\Gamma_1$ need not be an induced
+subgraph.
+
+\begin{revremark}
+\label{rem:constructions}
+The description of K\H{o}nig's proof is taken from \cite{EK63} and later
+papers. K\H{o}nig's book was not consulted. We did not find (A) or (C)
+stated in exactly this form.
+\end{revremark}
 
 
 \section{Cubic cases}
@@ -13345,6 +13377,9 @@ harmonic (Section~\ref{sec:quotients}).
 \item[LCF notation] A description of a cubic Hamiltonian graph
 (Section~\ref{sec:graph-data}).
 \item[non-trivial] Of a harmonic morphism: not constant.
+\item[perfect code] A set $S$ of vertices such that each vertex not in $S$
+has exactly one neighbor in $S$, and no two vertices of $S$ are adjacent.
+Also called an efficient dominating set \cite{Bi73}.
 \item[standard form] Vertices $0,\dots,n-1$ and edges $(u,v)$ with $u<v$.
 \item[strongly regular] A regular graph in which adjacent vertices have
 $\lambda$ common neighbors and non-adjacent vertices have $\mu$ common
@@ -13374,6 +13409,11 @@ log in the repository.
 \begin{thebibliography}{99}
 \raggedright
 
+\bibitem[AEH83]{AEH83}
+J. Akiyama, H. Era and F. Harary,
+{\it Regular graphs containing a given graph},
+Elem. Math. 38 (1983), 15--17.
+
 \bibitem[AM25]{AM25}
 K. Archer and C. Melles,
 {\it Harmonic morphisms of arithmetical structures on graphs},
@@ -13384,6 +13424,11 @@ F. C. Bussemaker and D. M. Cvetkovi\'c,
 {\it There are exactly 13 connected, cubic, integral graphs},
 Univ. Beograd. Publ. Elektrotehn. Fak. Ser. Mat. Fiz. No.~544--576 (1976),
 43--48.
+
+\bibitem[Bi73]{Bi73}
+N. L. Biggs,
+{\it Perfect codes in graphs},
+J. Combin. Theory Ser. B 15 (1973), 289--296.
 
 \bibitem[BN09]{BN09}
 M. Baker and S. Norine,
@@ -13412,6 +13457,18 @@ H. N. de Ridder et al.,
 {\it Information System on Graph Classes and their Inclusions (ISGCI)},
 \url{https://www.graphclasses.org}, accessed November 2026.
 
+\bibitem[Dv88]{Dv88}
+I. Dvo\v{r}\'akov\'a-Ruli\v{c}ov\'a,
+{\it Perfect codes in regular graphs},
+Comment. Math. Univ. Carolin. 29 (1988), 79--83.
+
+\bibitem[EK63]{EK63}
+P. Erd\H{o}s and P. Kelly,
+{\it The minimal regular graph containing a given graph},
+Amer. Math. Monthly 70 (1963), 1074--1075.
+An expanded version is in {\it A Seminar on Graph Theory}, F. Harary (ed.),
+Holt, Rinehart and Winston, New York, 1967, 65--69.
+
 \bibitem[GAP]{GAP}
 The GAP Group,
 {\it GAP -- Groups, Algorithms, and Programming}, version 4.16.1,
@@ -13421,6 +13478,11 @@ The GAP Group,
 W. D. Joyner and C. G. Melles,
 {\it Adventures in Graph Theory},
 Applied and Numerical Harmonic Analysis, Birkh\"auser, Cham, 2017.
+
+\bibitem[Ko36]{Ko36}
+D. K\H{o}nig,
+{\it Theorie der endlichen und unendlichen Graphen},
+Akademische Verlagsgesellschaft, Leipzig, 1936.
 
 \bibitem[Mc26]{Mc26}
 B. D. McKay,
