@@ -1,7 +1,7 @@
-# SHA-256 checksums of the scripts and saved outputs (Draft 4, 2026-11-22).
+# SHA-256 checksums of the scripts and saved outputs (Draft 5, 2026-11-22).
 # Check with: grep -v '^#' CHECKSUMS.txt | sha256sum -c
 34ba1e6c2337bf0b9e8e063f9b71202cf0d1ad4bef3594f9e12a12aa23003441  LICENSE
-4c5498ada5c8b0cae22814d34140de190f76d2a8beaf9a58298deb1bfb53f9d4  README.md
+4d84d394a334a91b175790be2bc0ae7915fb6e67fa9a155eb0786847f6b2e7d4  README.md
 83533f5a1746c103843f963bacf7a9be806429694b27e2cbed99d0fcd9733093  automorphisms_principal.py
 155ff6db14c441d44d857b5fd47a5d451ea8c1ab258dd1db59d530a8d409972d  certify.c
 cdc97d5545109f3f63efea7fc9ef4214e6c2112f9f9c5d600a4e06b9754ad418  certify.py
@@ -30,6 +30,8 @@ ed5052e052b2f0b4a26d3c2317b72ca6746cd19c8f6cbaf58f31f52c8dba140e  resolve_fan.py
 69722f3c178b020cc2b2420fad830e25af8eb530a251fa9029e059d8057522ce  toric.py
 61320931b304ae2b09db4e6982153e0431b074d49d4707bab485e790ea775161  tropical_example.py
 caf35478eeb8873483bc31aaa1c2530bd68d65b81efa163fce62c19bddafbcd4  tropical_example_output.txt
+24ae6d3f970f6c05fd85594cd6017b1e205dd13671547b0dd769847683bc4108  verify_af.py
+6e28b41ae2bdfba2ec6e1f9ac5f24604cbd599749315ae044e40b5ffeaa0b93f  verify_af_output.txt
 be76e8111c7eec530937852ae0d6b73938063d68c41bbac9428ffc1321947ed3  verify_hansen.py
 13ea46a040cb33c0a22aa88adcd87e784d6f179848a9b9981b5e2851a149cb35  verify_hansen_output.txt
 92d1276ef716fb77fe0e9bad53cb43da7e20ce95a02f5aef1bb3046bcfdd7a73  verify_referee.py
