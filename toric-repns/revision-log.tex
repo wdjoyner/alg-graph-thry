@@ -4,7 +4,7 @@
 \usepackage{amsmath,amssymb,amsthm,array,booktabs,microtype,longtable}
 \IfFileExists{newtxtext.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}}
 \usepackage[hidelinks]{hyperref}
-\title{Revision Log: Representations of finite groups on the Riemann--Roch space of a toric variety\\\large Draft 3, corrected and expanded version}
+\title{Revision Log: Representations of finite groups on the Riemann--Roch space of a toric variety\\\large Draft 4, corrected and expanded version}
 \author{David Joyner (original manuscript); revision assistance by ChatGPT}
 \date{November 22, 2026}
 \begin{document}
@@ -92,6 +92,107 @@ No theorem, numerical formula, proof, or mathematical example was intentionally
 changed. The exact verification script was rerun and the manuscript and log
 were recompiled with \texttt{pdflatex}. AI review is not an independent
 certification of correctness.
+
+
+\section{Draft 4: response to Claude's November 22, 2026 report}
+This section records the changes made after Claude (Opus 5.5) reviewed Draft 3.
+The previous sections remain a historical record of earlier work. Draft 4
+continues to present the mathematical questions naturally, with discussion
+of past mistakes confined to this log.
+
+\subsection*{Required mathematical repairs (independently checked)}
+\begin{enumerate}
+\item \textbf{Inverse problem, Section 10 (false as phrased in Draft 3).}
+The pair $(1,5)$, $(2,3)$ on $\mathbb P^1\times\mathbb P^1$ gives equal
+section dimensions only for $q=1$: at $q=2$ the values are $33$ and $35$.
+It has been replaced by the nonequivalent bidegrees $(1,2)$ and $(2,1)$,
+for which both dimension sequences are $(q+1)(2q+1)$. These divisors
+are exchanged by a factor-swapping fan automorphism. The resulting natural
+open question now asks for recovery modulo appropriate normalizing
+fan automorphisms. Verification level 1 (direct calculation).
+\item \textbf{Affine symmetries and linearization, Sections 4, 7, 8.}
+The original theorem assumes a linear action on the character lattice
+preserving the divisor coefficients. Polytopes in an affine lattice,
+such as the hypersimplex, need the additional construction now stated
+as Theorem 4.3. Its proof uses the monomial graded section ring:
+in degree $q$ an affine map $u\mapsto A_gu+b_g$ acts by
+$u\mapsto A_gu+qb_g$. This produces the permutation basis for a
+specified monomial linearization. Other linearizations of the same
+line bundle and base action may twist the representation by a group
+character. Verification level 1 (direct proof).
+\end{enumerate}
+
+\subsection*{Other accepted corrections}
+\begin{enumerate}
+\item The third affine chart relation has been corrected to
+$z_1^3=z_2z_3$ in the specified monomial order, and the exponent
+relation is shown. The $K_3$ zonotope is translated by
+$-(1,1,1)$, not by $(1,1,1)$.
+\item The Johnson incidence-matrix proof now explains the standard
+eigenspace and injectivity of $R^{\mathsf T}$, and identifies
+$\ker R$ with the Specht module $S^{(n-2,2)}$. The $n\geq4$
+hypothesis is tied to the disjoint-pair orbital, not the rank claim.
+James (1978) is cited for the Specht module description.
+\item The invariant Weil-divisor basis formula now cites
+Cox--Little--Schenck, Proposition 4.3.3.
+Stanley (1991) is cited for graphic-zonotope enumeration.
+Delsarte (1973) is cited for the classical Johnson association scheme.
+The forest-counting identity is stated for arbitrary simple graphs;
+connectedness is retained only where full dimension of the graphic
+zonotope is required.
+\item The source now distinguishes $\rho$ (fan rays) from $\pi_D$
+(the representation), defines the adjacency eigenvalue set,
+removes a redundant $C_2$ example, repairs several glossary
+definitions, and gives a concrete representation count in the introduction.
+\end{enumerate}
+
+\subsection*{Accepted strengthenings}
+\begin{enumerate}
+\item A non-Cartier divisor $D'=2D_1+2D_2$, with $3D'=D$, now provides
+the exact period-three quasipolynomial
+\[
+\dim L(qD')=\frac{8q^2+6q+1}{3}+\frac23\mathbf1_{3\mid q},
+\qquad \operatorname{tr}(g\mid L(qD'))=2q+1.
+\]
+The paper includes a direct parity-and-floor-sum proof; exact enumeration
+was independently checked for $0\leq q\leq9$.
+\item The 31-vertex graph's even and odd adjacency characteristic
+polynomials were independently computed over the rationals.
+Each is squarefree, and their greatest common divisor is one.
+Thus all 31 eigenvalues are simple. This is an exact computational
+observation, not a new general spectral theorem.
+\item The root step set $B=\{e_i-e_j:i\ne j\}$ identifies $J(n,2)$
+as an affine lattice-point graph. A remark describes the classical
+$k$-subset and Johnson-scheme extension for $\Delta(k,n)$.
+No originality is claimed for these decompositions.
+\end{enumerate}
+
+\subsection*{Verification limits and editorial decisions}
+The displayed correction to the inverse example and the non-Cartier
+formula were checked by direct calculation. The characteristic-polynomial
+claim was checked independently using exact symbolic integer arithmetic,
+without floating-point eigenvalue approximations.
+The 14-page manuscript compiles with \texttt{pdflatex} (three passes),
+12pt Times-style text and math, US Letter, no undefined references
+and no overfull boxes. The verification script in the repository
+supports repeatable checks. Bibliographic metadata for Stanley (1991)
+were checked against his publication list, and Delsarte (1973) against
+catalog records. The full texts of James (1978), Cox--Little--Schenck (2011),
+and Delsarte (1973) were not independently examined line by line, so claims
+about their detailed contents are not represented as level-2 source checks.
+No material recommendation from Claude's latest report was rejected.
+The text retains the author's 2002 mathematical framework, while the
+graph-theoretic and affine-linearization developments are from the 2026
+revisions and should not be attributed to the original manuscript.
+
+\subsection*{AI assistance}
+Claude (Opus 5.5) supplied a Draft 3 referee report, including the
+scope gap, error diagnosis and proposed strengthenings.
+ChatGPT (OpenAI, GPT-6) independently recalculated the inverse example,
+the non-Cartier surface count and the adjacency characteristic-polynomial
+properties; prepared the Draft 4 revision, bibliography, proofs,
+scripts and repository updates. AI review does not constitute independent
+certification of mathematical correctness.
 
 \section{Suggested next review}
 A human referee should pay particular attention to the natural $S_n$-linearization on the hypersimplex line bundle, to the scope of the zonotope lattice-count identity in the intrinsic affine lattice, and to prior art before attributing originality to any graph-spectral generalization.
