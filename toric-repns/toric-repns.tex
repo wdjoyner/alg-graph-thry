@@ -429,13 +429,13 @@ In equation~\eqref{eq:normalizer}, the $u$th diagonal coefficient vanishes unles
 \end{proof}
 
 \begin{example}
-On $\mathbb P^1$ with the usual torus $\CC^\times$, consider $D=D_+$ and $P_D=\{-1,0\}$ in the convention of Example~\ref{ex:p1}. A torsion point $t\in T$ fixes both lattice exponents but has trace $\chi^{-1}(t^{-1})+1=t+1$, not necessarily $2$. Hence counting fixed lattice points would give the wrong trace for torus translations.
+On $\mathbb P^1$ with the usual torus $\CC^\times$, consider $D=D_+$ and $P_D=[-1,0]$, so $P_D\cap M=\{-1,0\}$ in the convention of Example~\ref{ex:p1}. Here $a=\mathrm{id}$, so both exponents are fixed, but a torsion point $t\in T$ has trace $\chi^{-1}(t^{-1})+1=t+1$, not necessarily $2$. Hence counting fixed lattice points would give the wrong trace for torus translations.
 \end{example}
 
 \section{Summary and open questions}\label{sec:summary}
 The orbit theorem, its character formula, and the weighted normalizer formula describe permutation and monomial actions on toric section spaces. The singular surface example provides explicit formulas for every $L(qD)$. The lattice-point graph construction adds commuting adjacency operators and twisted-walk traces. Graphic zonotopes connect toric section dimensions with forest enumeration, and the Johnson graph realizes a complete irreducible decomposition by adjacency eigenspaces.
 
-The following questions describe possible further work, not established results. First, for which naturally selected $G$-invariant graphs on $P_D\cap M$ do adjacency eigenspaces separate all irreducible constituents? Second, can additional canonical operators distinguish multiplicities when one adjacency matrix cannot? Third, to what extent does the sequence of representation classes $[L(qD)]$, for all $q\geq0$, determine the $G$-equivariant divisor class? Without extra assumptions the inverse problem fails even for trivial $G$: on $\mathbb P^1\times\mathbb P^1$, the non-linearly-equivalent divisors of bidegrees $(1,5)$ and $(2,3)$ both have twelve global sections. The problem becomes interesting only after specifying what information and hypotheses are retained.
+The following questions describe possible further work, not established results. First, for which naturally selected $G$-invariant graphs on $P_D\cap M$ do adjacency eigenspaces separate all irreducible constituents? Second, can additional canonical operators distinguish multiplicities when one adjacency matrix cannot? Third, to what extent does the sequence of representation classes $[L(qD)]$, for all $q\geq0$, determine the $G$-equivariant divisor class? Already for trivial $G$, the non-linearly-equivalent divisors of bidegrees $(1,2)$ and $(2,1)$ on $\mathbb P^1\times\mathbb P^1$ have the same sequence $h^0(\calO(qD))=(q+1)(2q+1)$ for all $q\geq0$. They are exchanged by the automorphism swapping the two factors. This suggests sharpening the question by taking divisor classes up to the action of fan automorphisms normalizing $G$, and by specifying whether the linearization and the geometric action are retained.
 
 \section{Glossary}
 This glossary supplies brief reminders of terminology introduced in the background; it is not a substitute for the statements and proofs.
@@ -443,27 +443,31 @@ This glossary supplies brief reminders of terminology introduced in the backgrou
 \item[Adjacency operator.] The linear operator sending each vertex basis vector to the sum of its neighbors.
 \item[Character lattice.] The lattice $M$ of algebraic characters of the dense torus.
 \item[Equivariant Ehrhart counting.] Counting lattice points in dilated polytopes while retaining their permutation characters under a symmetry group.
-\item[Fan automorphism.] A lattice automorphism preserving every cone of a fan as a collection.
+\item[Fan automorphism.] A lattice automorphism mapping every cone of the fan onto some cone of the same fan.
 \item[Graphic zonotope.] The Minkowski sum of edge segments of a finite graph.
 \item[Hypersimplex.] The convex hull of zero-one vectors of prescribed coordinate sum.
 \item[Induced permutation module.] The representation $\Ind_H^G\bfone\cong\CC[G/H]$.
 \item[Johnson graph.] The graph on subsets of fixed cardinality, with adjacency determined by intersection size.
 \item[Reflexive divisor sheaf.] The rank-one coherent sheaf $\calO_X(D)$ associated to a Weil divisor on a normal variety; it need not be locally free.
-\item[Toric linearization.] A compatible action on a line bundle lifting an action on the base variety.
-\item[Twisted-walk trace.] The trace $\tr(\rho(g)A^r)$, which counts length-$r$ walks from $u$ to $g(u)$.
+\item[Toric linearization.] A compatible action on a line bundle lifting an action on the base variety; changing this lift can twist the representation on sections by a group character.
+\item[Affine lattice symmetry.] A map $u\mapsto A_gu+b_g$ preserving an affine lattice and polytope; in degree $q$, its monomial action uses $qb_g$.
+\item[Twisted-walk trace.] The trace $\tr(\pi_D(g)A^r)$, which counts length-$r$ walks from $u$ to $g(u)$, summed over all starting vertices $u$.
 \end{description}
 
 \section*{Acknowledgments}
-This paper benefited from an AI-assisted mathematical review by Carbon (Claude) and from mathematical exposition, independent calculations, graph-theoretic development, verification scripts, and editorial assistance by ChatGPT (OpenAI, GPT-6) in November 2026. AI review is not an independent certification of correctness. The separate revision log records the historical changes, verification levels, and limitations of source checking.
+This paper benefited from an initial AI-assisted review by Carbon (Claude), a subsequent Draft 3 referee report by Claude (Opus 5.5), and mathematical exposition, independent calculations, graph-theoretic development, verification scripts, and revision assistance by ChatGPT (OpenAI, GPT-6) in November 2026. AI review is not an independent certification of correctness. Further details of AI usage, adopted and rejected recommendations, historical changes, verification levels, and limitations of source checking appear in the separate revision log.
 
 \begin{thebibliography}{99}
+\bibitem[CLS11]{CLS11} D. A. Cox, J. B. Little, and H. K. Schenck, \emph{Toric Varieties}, Graduate Studies in Mathematics 124, American Mathematical Society, Providence, RI, 2011.
 \bibitem[BH12]{BH12} A. E. Brouwer and W. H. Haemers, \emph{Spectra of Graphs}, Universitext, Springer, New York, 2012.
+\bibitem[De73]{De73} P. Delsarte, \emph{An Algebraic Approach to the Association Schemes of Coding Theory}, Philips Research Reports Supplements, no. 10, 1973.
 \bibitem[EKS24]{EKS24} S. Elia, D. Kim, and M. Supina, Techniques in equivariant Ehrhart theory, \emph{Ann. Comb.} \textbf{28} (2024), 819--870, doi:10.1007/s00026-023-00673-z.
 \bibitem[Fu93]{Fu93} W. Fulton, \emph{Introduction to Toric Varieties}, Annals of Mathematics Studies 131, Princeton University Press, Princeton, NJ, 1993.
 \bibitem[Ja78]{Ja78} G. D. James, \emph{The Representation Theory of the Symmetric Groups}, Lecture Notes in Mathematics 682, Springer, Berlin, 1978.
 \bibitem[JT02]{JT02} D. Joyner and W. Traves, Representations of finite groups on Riemann--Roch spaces, preprint (2002), arXiv:math/0210408.
 \bibitem[Od88]{Od88} T. Oda, \emph{Convex Bodies and Algebraic Geometry: An Introduction to the Theory of Toric Varieties}, Springer, Berlin, 1988.
 \bibitem[Se77]{Se77} J.-P. Serre, \emph{Linear Representations of Finite Groups}, Springer, New York, 1977.
+\bibitem[St91]{St91} R. P. Stanley, A zonotope associated with graphical degree sequences, in \emph{Applied Geometry and Discrete Mathematics: The Victor Klee Festschrift}, DIMACS Series in Discrete Mathematics and Theoretical Computer Science 4, American Mathematical Society, 1991, 555--570.
 \bibitem[St11]{St11} A. Stapledon, Equivariant Ehrhart theory, \emph{Adv. Math.} \textbf{226} (2011), 3622--3654.
 \end{thebibliography}
 \end{document}
