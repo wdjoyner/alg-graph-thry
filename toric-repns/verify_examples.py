@@ -15,6 +15,27 @@ def surface_points(q):
                      if 2*x-y >= -6*q and -x+2*y >= -6*q and x+y <= 0}
 
 
+def noncartier_points(q):
+    """P_{qD'} for D' = 2D_1 + 2D_2 (non-Cartier)."""
+    return {(x, y) for x in range(-2*q, q+1)
+                     for y in range(-2*q, q+1)
+                     if 2*x-y >= -2*q and -x+2*y >= -2*q and x+y <= 0}
+
+
+def verify_noncartier():
+    """Check the exact period-three formula and C2 character, q=0..30."""
+    for q in range(31):
+        S = noncartier_points(q)
+        dim = (8*q*q + 6*q + 1 + (2 if q % 3 == 0 else 0)) // 3
+        assert len(S) == dim, (q, len(S), dim)
+        fixed = sum(x == y for x, y in S)
+        assert fixed == 2*q + 1, (q, fixed)
+        assert (dim + fixed) % 2 == 0 and (dim - fixed) % 2 == 0
+        if q % 3 == 0:
+            assert dim == 24*(q//3)**2 + 6*(q//3) + 1
+    print("Non-Cartier surface: q=0..30 quasi-polynomial and traces OK")
+
+
 def graph_edges(S):
     """Undirected eight-neighbor lattice graph, without loops."""
     B = {(a, b) for a in (-1, 0, 1) for b in (-1, 0, 1) if a or b}
@@ -91,6 +112,7 @@ def verify_johnson():
 
 if __name__ == '__main__':
     verify_surface()
+    verify_noncartier()
     verify_k3()
     verify_johnson()
     print("ALL EXACT CHECKS PASSED")
