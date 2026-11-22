@@ -1,0 +1,8 @@
+projective minimum-weight words: 119 (x7 = 833 words)
+distinct zero sets: 119
+zero-set types (direction of the parallel lines, number of lines) -> count:
+   ((0, 1), 3) 35
+   ((1, 0), 3) 35
+   ((1, 1), 3) 35
+   ((1, 2), 3) 7
+   ((1, 4), 3) 7

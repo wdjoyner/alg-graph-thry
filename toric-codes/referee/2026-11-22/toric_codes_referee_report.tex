@@ -1,0 +1,324 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{newtxtext,newtxmath}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyhdr}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[enumerate]{topsep=3pt,itemsep=3pt}
+\setlist[itemize]{topsep=3pt,itemsep=3pt}
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Referee report: Toric codes over finite fields}
+\fancyhead[R]{Draft 1}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\DeclareMathOperator{\wt}{wt}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\vol}{vol}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\err}[1]{\textbf{#1}}
+\newcommand{\level}[1]{\textsf{Level #1}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Referee report on\\[3pt]
+\emph{Toric codes over finite fields}}\\[6pt]
+{\large Manuscript \texttt{toric\_code7.tex} (dated September 1, 2003)}\\[4pt]
+{\large Report Draft 1 \textemdash{} November 22, 2026}
+\end{center}
+
+\begin{abstract}
+This AI-aided referee report was prepared with OpenAI ChatGPT (GPT-6); the scope and verification level of each mathematical check are identified below, and this AI review is not independent certification of the results.  The manuscript presents an interesting toric-code construction and a notable example with parameters $[49,11,28]$ over $\F_8$.  However, two stated minimum-distance conjectures admit elementary counterexamples, a general evaluation-injectivity lemma is false as quantified, and the decoding argument has incompatible evaluation and divisor hypotheses.  Several further propositions, geometric examples, and tables require correction.  I recommend \emph{major mathematical revision}, with the decoding section treated as an unproved proposal until reconstructed.  The central $[49,11]$ dimension calculation checks independently; a consulted SageMath reference records distance $28$, but I have not independently certified that exact distance.
+\end{abstract}
+
+\section{Scope, decision, and verification protocol}\label{sec:scope}
+The review concerns the supplied 1,495-line \LaTeX{} file and the supplied \emph{Style guide for mathematical papers}, Draft 2 (November 11, 2026).  I read the entire manuscript and style guide.  I compiled the original manuscript twice with \texttt{pdflatex} without altering its source.  I independently checked selected finite-field evaluation arguments, fan determinants, lattice-point counts, and areas.  I consulted the public SageMath toric-code documentation, the arXiv record of the original paper, bibliographic information for J.~P.~Hansen's article, and later toric-code literature \cite{Jo04,Sa26,Ha00,Li11}.  I did \emph{not} have the original \texttt{toric.mag}/\texttt{toric.g} programs, any executable accompanying the manuscript, or an exhaustive distance certificate.  I did not re-run every numerical table or check every theorem and page number cited from books or preprints.
+
+The verdicts below use the guide's terminology: \emph{correct}, \emph{misprint}, \emph{fixable gap}, or \emph{false}.  \level{1} means an independent mathematical derivation or finite, exact hand-checkable enumeration; \level{2} means a comparison with a source actually consulted; \level{3} means background knowledge not checked against its original source.  References to ``lines'' mean the original file's physical line numbers, not PDF pages.  Issues labeled \textbf{critical} affect mathematical validity, not merely exposition.
+
+\textbf{Overall recommendation: major revision, not acceptance in the present form.}  The two conjectures should be withdrawn or replaced by genuinely qualified statements.  The decoding theorems cannot presently be invoked for the illustrated evaluation set.  The geometric construction and inclusion theorem can be substantially repaired.  The historical $[49,11,28]$ example deserves preservation and an independently reproducible verification.
+
+\section{Notation used in this report}\label{sec:notation}
+For clarity, I use the conventional toric notation throughout the checks.  This section fixes the symbols that recur in the counterexamples.
+\begin{center}
+\begin{tabular}{@{}p{0.23\textwidth}p{0.69\textwidth}@{}}\toprule
+Symbol & Meaning \\ \midrule
+$M\simeq\Z^r$ & Character lattice of the dense torus $T$.\\
+$N=\operatorname{Hom}(M,\Z)$ & Dual lattice; fans live in $N_{\mathbb R}$.\\
+$P_G\subset M_{\mathbb R}$ & Polytope associated with a torus-invariant divisor $G$.\\
+$S_a$ & Standard simplex $\{u_i\geq0:\sum u_i\leq a\}$.\\
+$T(\F_q)$ & Full evaluation torus $(\F_q^\times)^r$.\\
+$C_A$ & Span of evaluations of $\{x^u:u\in A\}$ on $T(\F_q)$.\\
+$d(C)$ & Minimum nonzero Hamming weight in code $C$.\\
+\bottomrule
+\end{tabular}
+\end{center}
+In particular, on the full torus the characters $x^u$ and $x^v$ induce the same function precisely when $u\equiv v\pmod{q-1}$ coordinatewise.  Distinct residue classes define linearly independent functions (a tensor product of the usual one-variable character bases).  This elementary observation is used repeatedly below.
+
+\section{Critical correctness issues}\label{sec:critical}
+This section supplies explicit counterexamples.  Each conclusion is therefore stronger than a concern about a missing proof.
+
+\subsection{The first distance conjecture is false}\label{sec:conjone}
+\textbf{Original lines 817--841, Conjecture \texttt{conj:shansen}.}\quad
+\err{Verdict: false.} \level{1}.
+
+Take $X=\PP^1\times\PP^1$ over $\F_9$, with $G$ the divisor corresponding to the square $P_G=[0,1]^2$.  Evaluate on the full torus.  Then $r=2$, $n=(9-1)^2=64$, and $\vol(P_G)=1$.  The integer $N=6$ satisfies exactly the displayed hypothesis
+\[
+2N\vol(P_G)=12\le64\le72=2N^2\vol(P_G).
+\]
+The conjecture predicts $d\ge64-12=52$.  But, for any $\alpha,\beta\in\F_9^\times$, the nonzero section
+\[
+f(x,y)=(x-\alpha)(y-\beta)
+\]
+has $8+8-1=15$ zeros on $(\F_9^\times)^2$.  Its evaluation has weight $64-15=49$.  Thus
+\[
+\boxed{d\le49<52,}
+\]
+contradicting the conjecture.  This is not a small-field exception: the same construction works for arbitrarily large prime powers $q$, with a suitable integer $N$ near $(q-1)/\sqrt2$.
+
+The preceding sentence in the conjecture, saying that a section has at most $n$ zeros in $X(\F_q)$, does not imply the much sharper estimate $2N\vol(P_G)$ for the number of zeros at evaluation points.  \textbf{Action:} remove the conjecture as stated and determine exactly which zero-count inequality was intended.
+
+\subsection{The second distance conjecture is false}\label{sec:conjtwo}
+\textbf{Original lines 867--896, Conjecture \texttt{conj:main}.}\quad
+\err{Verdict: false.} \level{1}.
+
+Let $X=\PP^2$, $G$ a torus-invariant hyperplane, and $P$ the sum of its torus's $\F_q$-points.  The associated simplex $P_G=S_1$ has exactly three lattice points; $G$ is very ample and $G^2=1$.  For $q=9$, all stated geometric hypotheses and $\deg(P)=64>1$ hold.  The conjecture claims
+\[
+d\ge n-2!\,|S_1\cap\Z^2|=64-6=58.
+\]
+However, $x-\alpha$ is a section whose evaluation has eight zeros on the torus, hence a codeword of weight $64-8=56$.  Therefore $d\le56<58$.  In fact, for any $q$ with $q-1>6$, the same contradiction follows from
+\[
+d\le(q-1)^2-(q-1)<(q-1)^2-6.
+\]
+
+There is also an independent algebraic error in the conjecture: for any evaluation map, its image has
+\[
+\dim C=\operatorname{rank}(\ev)\ \le\ \dim H^0(X,\OO(G))=|P_G\cap M|,
+\]
+whereas the manuscript writes $k\ge\dim H^0$.  Equality needs injectivity.  Finally, the last sentence merely repeats the identity $\dim H^0=|P_G\cap M|$; it presumably intended a conclusion about $\dim C$.
+
+\textbf{Action:} delete the proposed distance bound, reverse the dimension inequality, and introduce an independently proved injectivity criterion before claiming equality.
+
+\subsection{Evaluation injectivity cannot depend only on the fan}\label{sec:inject}
+\textbf{Original lines 378--388 and 436--448, Lemma \texttt{lemma:eval}.}\quad
+\err{Verdict: false as quantified; proof is a fixable gap.} \level{1}.
+
+The lemma proposes a threshold $q_0(\Delta)$ independent of $G$ and of the evaluation divisor.  Fix the fan of $\PP^2$.  For any sufficiently large $q$, evaluate on $T(\F_q)$ and take $G=(q-1)D_\infty$, where $D_\infty$ is a torus-invariant line disjoint from $T$.  The nonzero rational section
+\[
+f(x,y)=x^{q-1}-1\in L(G)
+\]
+vanishes at every evaluation point because $x^{q-1}=1$ on $\F_q^\times$.  Thus $\ev$ is not injective, however large $q$ is.  The manuscript's proof is only an assertion that a cited technique generalizes; it does not prove the new statement.
+
+A repair for full-torus evaluation is explicit: require that distinct $u,v\in P_G\cap M$ be distinct modulo $(q-1)M$.  Equivalently, restrict to a complete set of exponent residues and count their distinct classes.  A coordinate range of width at most $q-2$ in a suitable lattice basis is a convenient sufficient condition.  The assertion at lines 383--388 that $|a_i|<q$ permits identification of regular functions on $X$ with functions on its finite set of rational points is also false; this bound permits residues differing by $q-1$.
+
+\subsection{The decoding setup is incompatible with its example}\label{sec:decode}
+\textbf{Original lines 362--375, 1071--1124, 1139--1177 and 1238--1379.}\quad
+\err{Verdict: fixable only after substantial reconstruction; the claimed application is false.} \level{1}.
+
+The original evaluation code is defined under
+\[
+\Supp(P)\cap\Supp(G)=\varnothing.
+\]
+In the worked example (lines 1259--1262), $G=10D_3$; lines 1329--1331 explicitly place the third evaluation point $P_3$ on $D_3$.  Consequently $P_3\in\Supp(G)$, and evaluating general rational functions in $L(G)$ at $P_3$ is not defined by the paper's own construction.  This is a direct contradiction, not a technical detail about solving a linear system.
+
+More fundamentally, assumption (B)(a) requires each erroneous evaluation point to lie on a torus-invariant boundary divisor $D_i$.  No point of the dense torus lies on any such divisor.  Hence \emph{for a standard toric code evaluated on the entire torus, (B) cannot hold for a nonempty error set}.  The opening description as a general-purpose decoder for toric codes is therefore misleading.
+
+There is an additional divisor-theoretic problem.  Membership
+\[
+z\in L\bigl(G'-\textstyle\sum_{i\in I}D_i\bigr)
+\]
+does not by itself give well-defined values $z(P_i)$ or force $z(P_i)=0$ if $G'$ has a positive coefficient along the very same $D_i$.  Indeed, $G'=2(D_1+D_2+D_3)$ in the example permits poles along those boundary divisors.  Likewise the functions in $L(G-G')$ need not be regular at $P_i$.  The proof of Proposition \texttt{prop:errorlocator} consequently invokes expressions that are not justified as evaluations.
+
+Even setting regularity aside, the purported proof of (C) for $q\ge13$ (lines 1332--1347) uses a bound for the \emph{primal} evaluation code to infer a minimum-distance condition for the \emph{dual} code.  These are different invariants; no such inference follows.  The example therefore does not establish a valid decoding radius or a unique recovered error vector.
+
+\textbf{Action:} decide whether the result concerns full-torus evaluation or boundary-point evaluation.  For torus evaluation, replace invariant boundary divisors by regular functions or suitable effective divisors whose zero sets can contain torus points.  For boundary evaluation, first choose an evaluation divisor disjoint from all pole divisors and formulate the algorithm intrinsically in terms of line-bundle sections and local trivializations.  Reprove the locator and uniqueness statements with a verified bound on $d(C^\perp)$, not on $d(C)$.
+
+\section{Additional mathematical errors and gaps}\label{sec:additional}
+The following findings affect the construction, intermediate theorems, and numerical examples.  Several are readily repaired once the definitions are normalized.
+
+\subsection{Code inclusions and their distance inequalities}\label{sec:inclusions}
+\textbf{Original lines 399--413, Remark \texttt{remark:subcode}.}\quad
+\err{Verdict: false for the minimum-distance assertion.} \level{1}.
+
+If $C_1\subseteq C_2$ are linear codes of the same length, the correct inequality is
+\[
+\boxed{d(C_1)\ge d(C_2),}
+\]
+not $d(C_2)\ge d(C_1)$.  For instance, on $(\F_q^\times)^2$ and $q\ge3$, the code generated by $1$ has distance $(q-1)^2$, whereas that generated by $1,x$ has a word $x-\alpha$ of weight $(q-1)(q-2)$.  The minimum-distance sentence must be reversed.  This also makes the concluding proof of Theorem \texttt{thrm:subcode2} (lines 968--979) internally contradictory, although the intended \emph{direction} of the two-sided bound in item~(6) is compatible with the correct inclusion order.
+
+\subsection{Errors in the simplex-comparison theorem}\label{sec:simplex}
+\textbf{Original lines 909--960, Theorem \texttt{thrm:subcode2}.}\quad
+\err{Verdict: false in items (1) and (5), and incomplete as stated.} \level{1}.
+
+Item~(1) bounds the codimension of $C_{S_k}$ inside $C_{P_G}$ by $|P_{G_1}-S_k|=0$, since the preceding paragraph \emph{defines} $P_{G_1}=S_k$.  Take $P_G=[0,1]^2$, $k=1$ and $\ell=2$.  On the torus for $q\ge3$, the simplex subcode has dimension $3$, while the rectangle code has dimension $4$.  The alleged zero codimension is false.  Replace the bound by
+\[
+\codim_{C_{P_G}}C_{S_k}
+\le\bigl|(P_G\cap M)\setminus(S_k\cap M)\bigr|,
+\]
+with the analogous lattice-point formula for the upper inclusion.  Under injectivity, these inequalities are equalities.
+
+The loss in minimum distance from puncturing $\F_q^r$ down to $(\F_q^\times)^r$ is at most the \emph{actual} number of deleted positions,
+\[
+q^r-(q-1)^r,
+\]
+not $r(q-1)^{r-1}+1$ for general $r$.  The two numbers coincide for $r=2$, but not for $r\ge3$.  Item~(5) is actually false.  Take $r=3$, $q=5$, $a=1$, and $S_1$.  The claimed bound is
+\[
+d(C_{S_1})\ge(5-1)5^2-3(5-1)^2-1=51,
+\]
+whereas the section $x_1-1$ has $16$ zeros on the $64$-point torus and therefore produces a codeword of weight $48$.  Thus $d\le48<51$.  The puncturing argument would give the valid, albeit often weak, bound
+\[
+d(C_{S_a})\ge(q-a)q^{r-1}-\bigl[q^r-(q-1)^r\bigr]
+\]
+provided $0\le a<q$.  This degree restriction, together with an explicit account of puncturing versus subcoding, belongs in the theorem.
+
+\subsection{The proposed upper-bound theorem needs an evaluation hypothesis}\label{sec:upper}
+\textbf{Original lines 996--1024.}\quad
+\err{Verdict: fixable gap, false in unrestricted form.} \level{1}.
+
+The factorization argument requires $h\le q-1$, the presence of all $h+1$ exponents on the stated segment, and evaluation at points for which the chosen factors actually vanish.  The manuscript permits an arbitrary evaluation set $P$ and hence cannot conclude $d\le n-h$ from a segment alone.  On the \emph{full} torus, however, the same construction proves a stronger, clean statement:
+\[
+\boxed{d(C_{P_G})\le(q-1)^r-h(q-1)^{r-1}}
+\]
+whenever $P_G\cap M$ contains a consecutive axis-parallel lattice segment with $h+1$ points and $1\le h\le q-1$.  Indeed, choose $h$ distinct nonzero roots for that coordinate, and observe that each root produces $(q-1)^{r-1}$ zeros.  The proof's substitution $h=\max_i d_i$ has no basis in the theorem and should be deleted.
+
+\subsection{Lattices, cycles, and invariant divisors are misidentified}\label{sec:geometry}
+\textbf{Original lines 200--221, 336--388 and 450--457.}\quad
+\err{Verdict: fixable foundational errors.} \level{1} for the definitions, \level{3} for standard background terminology.
+
+The fan belongs in $N_{\mathbb R}$, not in $M_{\mathbb Q}$, and the characters labeling sections lie in $M$, not $N$.  The same symbol $L$ is inconsistently used for distinct lattices.  On a toric surface, a formal sum of closed points $P_1+\cdots+P_n$ is a \emph{zero-cycle}, not a positive one-cycle.  The formula
+\[
+D_i=\operatorname{Hom}(\tau_i^\perp\cap L^\perp,\overline{\F}^{\times})
+\]
+is not a definition of the invariant prime divisor $D_i$.  The appropriate geometric object is the \emph{closure of the codimension-one torus orbit} corresponding to the ray $\tau_i$.  The orbit itself has a character group, but its closure is not a torus.  In the surface discussion, specify primitive ray vectors, their cyclic order, and the nonsingularity criterion $|\det(v_i,v_{i+1})|=1$ without conflating a fan with its support polytope.
+
+\subsection{The worked fans reveal incorrect smoothness and area claims}\label{sec:fans}
+\textbf{Original lines 465--481, 595--618 and 731--758.}\quad
+\err{Verdict: false geometric claims, otherwise correctable.} \level{1}.
+
+For the ``refined'' fan in Example \texttt{example:fan5}, the consecutive vectors $(-1,1)$ and $(-1,-1)$ have determinant $2$, so the purported nonsingular resolution is still singular.  Moreover, for $a=1$, the divisor specified there yields only the characters at $(0,0)$ and $(0,1)$, rather than the four characters in Hansen's type-(a) polygon.  Both the refinement and the divisor coefficients require correction.
+
+In Example \texttt{example:fan6}, the fan rays $(2,-1),(-1,1),(-1,0)$ do define a smooth complete fan.  The polytope inequalities give vertices
+\[
+(-d_1-d_2,-d_1-2d_2),\quad
+(d_3,d_3-d_2),\quad
+(d_3,2d_3+d_1).
+\]
+It follows by taking the vertical side as a base that
+\[
+\vol(P_G)=\tfrac12(d_1+d_2+d_3)^2
+\]
+when the displayed triangle is nonempty.  This disagrees with the formula in lines 754--758.  For $d_1=d_2=1$, $d_3=3$, the actual area is $25/2$, whereas the printed formula gives $5/2$.
+
+The example yielding $[49,11,28]$ at lines 465--481 uses ray pairs with determinant magnitudes $24$, $6$, and $6$; thus its toric surface is singular.  This does \emph{not} invalidate the torus-evaluation code, but it conflicts with the blanket nonsingularity convention at lines 193--198 and with later smoothness-based claims.  Explain explicitly why singular fans are allowed for this example.
+
+\subsection{A duplicated table row has incompatible dimensions}\label{sec:table}
+\textbf{Original lines 566--590, Example \texttt{example:fan1}.}\quad
+\err{Verdict: one row is false or mislabeled.} \level{1}.
+
+The identical parameters $(q;d_1,d_2,d_3)=(5;2,3,3)$ appear in consecutive rows, once with $k=14$ and once with $k=15$.  Direct enumeration of
+\[
+\bigl\{(x,y)\in\Z^2:2x-y\ge-2,\ -x+2y\ge-3,\ -x-y\ge-3\bigr\}
+\]
+gives $15$ lattice points but only $14$ distinct residue classes modulo $4$.  The only collision is $(-1,0)\equiv(3,0)\pmod4$.  Thus full-torus evaluation over $\F_5$ has \emph{dimension $14$}, not $15$.  The latter row must be corrected or its divisor data recovered.  The table for Hansen's type-(b) code also includes $q=5$, $a=4,5$ (lines 308--310), outside the theorem's stated hypothesis $q>a+1$; identify these as separate computational examples.
+
+\subsection{The Reed--Muller example has inconsistent hypotheses}\label{sec:reedmuller}
+\textbf{Original lines 125--174.}\quad
+\err{Verdict: misprint and fixable gap.} \level{1}.
+
+The formula is introduced under $0\le\ell\le m$ although the stated example has $m=2$, $\ell=5$.  Generalized Reed--Muller distance formulas depend on the decomposition of the order into multiples of $q-1$ and apply through order $m(q-1)$, with endpoint conventions stated separately.  The manuscript's representation $\ell=a(q-1)+b$, $1\le b\le q-1$, also excludes $\ell=0$.  The assertion that all toric codes are \emph{subcodes} of a Reed--Muller code is dimensionally incorrect without puncturing the Reed--Muller code to the same evaluation set; monomial translations can also be needed.  Replace it by a precise statement for standard full-torus evaluation codes, after choosing a common exponent fundamental domain and a suitable ambient punctured Reed--Muller code.
+
+\section{The decoding proofs: repairable algebra versus missing geometry}\label{sec:proofs}
+The essential issue in \S\ref{sec:decode} is evaluation regularity, but a few local proof steps also need attention.  Recording them separately may help preserve a corrected linear-algebra argument.
+
+\begin{enumerate}[label=\textbf{D\arabic*.},leftmargin=*]
+\item \textbf{Locator existence (lines 1147--1163): misprint and gap, \level{1}.}  The line ``If $r=(r_1,\ldots,r_\ell)$'' is dimensionally wrong; $r$ has length $n$.  In the expansion of $[e,zg_j]$, the factor $f_i(P_v)$ should be $z(P_v)$.  The conclusion that $z(P_i)=0$ is unjustified until a legitimate vanishing/evaluation condition is supplied.
+\item \textbf{Locator contradiction (lines 1165--1177): misprint, \level{1}.}  The contradiction is with $[r,fg_j]=0$ for the chosen solution $f$, not with $[r,zg_j]=0$ for the auxiliary $z$.  The latter vanishing only establishes existence of a nontrivial kernel vector.  This local repair does not fix the divisor-theoretic problem.
+\item \textbf{Uniqueness in Proposition \texttt{prop:errors}: conditionally correct, \level{1}.}  Once all evaluations exist, the locator contains the true error support, and $d$ is explicitly defined as $d(C^\perp)$, the argument that two solutions supported on $N(f)$ differ by a codeword of weight below $d(C^\perp)$ is valid.  The comparison $|N(f)|\le\deg(G')<d$ must be assumed or proved for the \emph{dual} code.  On a surface, $\deg(G')$ is not intrinsically a scalar without an additional degree convention.
+\item \textbf{Worked example (lines 1353--1378): incomplete, \level{1}.}  The displayed five equations in ten unknowns show only that a kernel vector exists.  They do not determine a unique locator.  The chosen boundary points are not given in explicit field coordinates, and no actual nontrivial locator or corrected word is computed.  The index $a_jf_j$ in line 1370 should read $a_if_i$.
+\end{enumerate}
+
+A practical next draft should state a \emph{conditional error-locator theorem} solely in terms of well-defined evaluation function spaces and separating functions, prove it algebraically, and only then give a toric-geometric criterion ensuring its hypotheses.  An explicit example should fix a finite field, list the evaluation points, exhibit the parity-check and locator matrices, and decode a received word end to end.  The word ``efficient'' also requires a field-operation complexity bound, rather than an assertion that the method works equally fast for large and small $q$.
+
+\section{Checks on the principal example and external evidence}\label{sec:mainexample}
+The principal $[49,11,28]$ example is historically significant and is not refuted by the preceding findings.  It should be distinguished from the false general statements.
+
+\textbf{Original lines 465--481.}  For rays $(5,-1)$, $(-1,5)$, $(-1,-1)$ and $G=5D_3$, the lattice inequalities are
+\[
+5x-y\ge0,\qquad -x+5y\ge0,\qquad x+y\le5.
+\]
+Direct integer enumeration gives exactly
+\[
+\begin{split}
+P_G\cap\Z^2=\{&(0,0),(1,1),(1,2),(1,3),(1,4),\\
+&(2,1),(2,2),(2,3),(3,1),(3,2),(4,1)\}.
+\end{split}
+\]
+All eleven exponent pairs are distinct modulo $7$.  Character independence therefore proves $\dim C=11$ on $(\F_8^\times)^2$, and $n=7^2=49$ (\level{1}).  Moreover, since $(1,1),(1,2),(1,3),(1,4)$ are present, the section
+\[
+x y\,(y-\alpha)(y-\beta)(y-\gamma),
+\qquad \alpha,\beta,\gamma\in\F_8^\times\text{ distinct},
+\]
+has exactly $3\cdot7=21$ zeros on the torus.  Thus $d\le28$ independently (\level{1}).
+
+The SageMath reference manual gives these precise eleven points and explicitly records the parameters $[49,11,28]$ \cite{Sa26}.  This is a genuine consulted source (\level{2}); however, its prose note is \emph{not} an exhaustive computation reproduced in this review.  I have not independently proved the matching lower bound $d\ge28$.  Please preserve or recreate a deterministic, exact distance certificate, ideally with the underlying generator matrix and reproducible SageMath/GAP script.  Separate a proved claim from a cited computational verification in the revised manuscript.
+
+Historically, the paper appeared in \emph{Applicable Algebra in Engineering, Communication and Computing} \textbf{15} (2004), 63--79 \cite{Jo04}.  The claim that this code is ``new'' or better than contemporary online tables should be explicitly dated to the original paper, not treated as a current 2026 assertion.  Later work includes a $[49,12,28]$ generalized toric code over $\F_8$ \cite{Li11}.  That is an example of why modern contextualization should distinguish the historical contribution from subsequent progress; it does not invalidate the original $[49,11,28]$ construction.
+
+\section{Readability, structure, and style-guide compliance}\label{sec:style}
+The mathematics must be corrected before a line-editing pass, but several exposition and production changes can be planned now.  The manuscript is readable in broad outline yet switches between coding theory, toric divisor geometry, and algorithmic decoding before defining the interfaces rigorously.
+
+\begin{enumerate}[label=\textbf{S\arabic*.},leftmargin=*]
+\item \textbf{Early exposition: fixable gap.}  Add a short literature review distinguishing the 2003 state of the art from later work, followed by background with a small running polytope example.  Place a notation table near the beginning.  Define character lattice, one-dimensional cone, invariant prime divisor, Cartier divisor, polytope, evaluation divisor, and dual code before their first substantial use.  Distinguish the subset of torus points from arbitrary rational points throughout.
+\item \textbf{Status of claims: fixable gap.}  Label every numerical parameter as proved, obtained by a stated and reproducible exact computation, conditional, or conjectural.  Correct false assertions rather than retaining them as unqualified conjectures.  Cite precise propositions or pages only after consulting the cited source; the older Hansen theorem and the original computational tables remain unchecked here beyond the specific examples indicated.
+\item \textbf{Presentational problems: misprints.}  Correct ``Be begin,'' ``isoceles,'' ``trapazoid,'' ``In other,'' ``Must of this,'' ``an new,'' ``minumum,'' the repeated word ``a a,'' and the malformed symbols $x+1$ where $x_1$ was intended in the simplex definitions.  Replace informal ``$q$ large'' by an explicit inequality or a precise parameter-dependent threshold.  Distinguish \emph{puncturing} from \emph{shortening} and \emph{subcoding}.
+\item \textbf{Document requirements: fixable gap.}  The submitted file uses 12-point \texttt{article} but does not specify US Letter, one-inch margins, or Times text and math.  Keep \texttt{article} under the style guide's default rule for an existing manuscript, unless directed otherwise; add \texttt{newtxtext,newtxmath}, \texttt{geometry}, and modern font and cross-reference support.  Use declared math operators, section-numbered theorems, and author--year bibliography keys.
+\item \textbf{Compilation: verified misprints, \level{1}.}  Two \texttt{pdflatex} passes succeed with no remaining undefined citations or cross-references, but the second log has two overfull boxes: approximately $27.56$ points (lines 909--925) and $169.13$ points (line 990).  Reflow the long display at the latter location; do not conceal overflow with forced breaks alone.  The bibliography contains outdated URLs and a malformed final entry, \verb|\bibitem{VT}[VT]|.  Restore consistent formatting and the guide's citation-key convention.
+\item \textbf{Historical-edition policy: fixable gap.}  Treat this as a corrected and expanded edition of a paper published in 2004.  Retain the original title, identify the original publication on the title page, use a numbered draft subtitle, place detailed change history in a separate revision log, update the contact email to \texttt{wdjoyner@gmail.com}, and preserve the original contribution without silently replacing unproved claims.  A revised abstract needs the specified AI-aided opening sentence; acknowledgments should identify each AI contribution and state that AI review is not independent certification.  Check copyright before public release of a corrected published version.
+\item \textbf{Closing material: fixable gap.}  Add a short summary of established results and a separate list of open questions, followed by a glossary, acknowledgments, and checked references.  The current paper ends immediately after the decoding example and acknowledgments, without a synthesis of what is actually proved.
+\end{enumerate}
+
+\section{Prioritized revision program}\label{sec:actions}
+The following order minimizes the risk that exposition changes accidentally entrench incorrect mathematics.
+\begin{enumerate}[label=\textbf{R\arabic*.},leftmargin=*]
+\item \textbf{Immediate mathematical corrections.}  Remove or rewrite both false conjectures (\S\ref{sec:conjone}--\ref{sec:conjtwo}), correct the evaluation-injectivity statement (\S\ref{sec:inject}), reverse the inclusion--distance inequality (\S\ref{sec:inclusions}), and repair the simplex comparison theorem (\S\ref{sec:simplex}).
+\item \textbf{Normalize geometry and reproduce computations.}  Standardize $M,N,\Delta,G,P_G$, fix the divisor and zero-cycle terminology, check all fan determinants and polytope areas, and re-run the tables including the conflicting $q=5$ rows (\S\ref{sec:geometry}--\ref{sec:table}).
+\item \textbf{Salvage the decoding result as a separate project.}  Begin with mathematically meaningful evaluation maps and a conditional separator/locator lemma.  Establish actual hypotheses for the chosen toric points and prove a bound on the minimum distance of the dual.  Only then restore an unconditional theorem and example (\S\ref{sec:decode} and \S\ref{sec:proofs}).
+\item \textbf{Preserve the principal code with a certificate.}  Keep the verified dimension and $d\le28$ witness; supply a reproducible independent check of $d\ge28$ for the $[49,11,28]$ claim (\S\ref{sec:mainexample}).
+\item \textbf{Complete the corrected historical edition.}  Apply the guide's background, literature review, notation, examples, glossary, AI-disclosure, typography, and revision-log requirements (\S\ref{sec:style}).
+\end{enumerate}
+
+\section{Final assessment}\label{sec:conclusion}
+The manuscript contains useful constructions, distinctive small-field examples, and a central code that is supported by later computational documentation.  These strengths merit a careful corrected edition.  Nevertheless, the errors identified in \S\ref{sec:critical} are structural: they cannot be addressed by a cosmetic proofread.  The conjectural estimates are demonstrably false, while the decoding example violates the regularity conditions required even to define its evaluations.  My recommendation is to retain the historical construction and verified examples, rebuild the general estimates from valid zero-count results, and recast the decoder only after its geometric hypotheses have been repaired.  Once this is done, the style guide offers an appropriate framework for a rigorous and accessible expanded manuscript.
+
+\section*{Short glossary}
+\textbf{Character of the torus:} a group homomorphism $T\to\mathbb G_m$, indexed by $M$.  \textbf{Evaluation code:} the image of a vector space of functions or sections under evaluation at specified rational points.  \textbf{Puncturing:} deleting selected coordinates of a code.  \textbf{Invariant prime divisor:} the closure of a codimension-one torus orbit associated to a fan ray.  \textbf{Minimum-distance certificate:} a reproducible proof or exact computation that rules out all lower-weight nonzero codewords.
+
+\section*{Acknowledgments and AI-use statement}
+OpenAI ChatGPT (GPT-6) drafted this referee report and performed the independent algebraic and combinatorial checks described as Level~1.  It also consulted the external materials identified as Level~2, without executing the manuscript's original MAGMA/GAP implementation.  No human or AI-assisted referee report should be treated as an independent certification of mathematical truth.  A revision log for any subsequently revised manuscript should separately record AI use, the verification status of each result, and any source not consulted.
+
+\begingroup
+\setlength{\parskip}{0pt}
+\begin{thebibliography}{Sa26}
+\setlength{\itemsep}{1pt}
+\bibitem[Ha00]{Ha00}
+J.~P.~Hansen, ``Toric surfaces and error-correcting codes,'' in \emph{Coding Theory, Cryptography and Related Areas}, Springer, 2000, pp.~132--142.  Bibliographic metadata checked against the Aarhus University publication record; theorem statements not independently checked.
+\bibitem[Jo04]{Jo04}
+D.~Joyner, ``Toric codes over finite fields,'' \emph{Applicable Algebra in Engineering, Communication and Computing} \textbf{15} (2004), 63--79.  See also \href{https://arxiv.org/abs/math/0208155}{arXiv:math/0208155}.
+\bibitem[Li11]{Li11}
+J.~B.~Little, ``Remarks on generalized toric codes,'' arXiv:1107.4530 (2011).  Abstract and publication information consulted at \href{https://arxiv.org/abs/1107.4530}{arXiv:1107.4530}.
+\bibitem[Sa26]{Sa26}
+SageMath, \emph{Coding Theory Reference Manual}, entry ``ToricCode,'' documentation and source examples, consulted November 2026.  \href{https://doc-gitlab.sagemath.org/html/en/reference/coding/sage/coding/code_constructions.html}{ToricCode manual entry}.
+\end{thebibliography}
+\endgroup
+\end{document}

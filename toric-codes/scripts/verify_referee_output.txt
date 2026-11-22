@@ -1,0 +1,52 @@
+== 3.1 Conjecture conj:shansen, P^1 x P^1, P_G=[0,1]^2, q=9
+hypothesis 2N vol <= n <= 2N^2 vol: 12 <= 64 <= 72
+zeros of (x-a)(y-b): 15  weight: 49  conjectured d >= 52
+exact d of the square code: (64, 4, 49)
+== 3.2 Conjecture conj:main, P^2, P_G=S_1, q=9
+zeros of x-a: 8  weight 56  conjectured d >= 58
+exact: (64, 3, 56)
+== 3.3 Injectivity: x^{q-1}-1 vanishes on torus for every q (shown q=9,11,13)
+9 True
+11 True
+13 True
+== 4.2 Theorem thrm:subcode2 item (5), r=3, q=5, a=1
+claimed lower bound 51  weight of x1-1: 48
+exact d of C_{S_1} in dim 3, q=5: (64, 4, 48)
+== 4.2 item (1): P_G=[0,1]^2 contains S_1; dims on torus q=5
+dim C_{S_1} = 3  dim C_square = 4
+== 4.3 Upper bound theorem: h must be <= q-2 (h = q-1 gives the zero word)
+prod_{c in F7^*} (x-c) vanishes at 36 of 36 torus points (so it is the zero codeword)
+== Remark after Hansen's theorem: q=9, a=3
+d (Hansen b) = 40 ; d_RM - 2q + 1 = 37 (original text says 10)
+== 4.5 Fans: determinants of consecutive rays, relation, surface type
+fan7 (principal): rays [(-1, -1), (5, -1), (-1, 5)] dets [6, 24, 6] singular
+fan1: rays [(-1, -1), (2, -1), (-1, 2)] dets [3, 3, 3] singular
+fan5: rays [(-1, -1), (1, 0), (-1, 1)] dets [1, 1, 2] singular
+fan5 'refined' (original, v4=-e2): rays [(-1, -1), (0, -1), (1, 0), (-1, 1)] dets [1, 1, 1, 2] singular
+fan5 corrected refinement (v4=-e1): rays [(-1, -1), (1, 0), (-1, 1), (-1, 0)] dets [1, 1, 1, 1] smooth; D_i^2 = [0, 2, 0, -2], sum a_i = 0 (3s-12 = 0)
+fan4: rays [(-1, -1), (1, 0), (0, 1)] dets [1, 1, 1] smooth; D_i^2 = [1, 1, 1], sum a_i = -3 (3s-12 = -3)
+fan3: rays [(0, -1), (1, 0), (0, 1), (-1, 0)] dets [1, 1, 1, 1] smooth; D_i^2 = [0, 0, 0, 0], sum a_i = 0 (3s-12 = 0)
+fan2 m=3: rays [(0, -1), (1, 0), (-1, 3)] dets [1, 3, 1] singular
+fan2' m=3: rays [(0, -1), (1, 0), (0, 1), (-1, 3)] dets [1, 1, 1, 1] smooth; D_i^2 = [3, 0, -3, 0], sum a_i = 0 (3s-12 = 0)
+fan6: rays [(2, -1), (-1, 1), (-1, 0)] dets [1, 1, 1] smooth; D_i^2 = [1, 1, 1], sum a_i = -3 (3s-12 = -3)
+== 4.5 fan5 divisor (0,0,a) with original refinement d4=2a: lattice points for a=1
+[(0, 0), (0, 1)]
+Hansen (a) triangle a=1 needs: [(0, 0), (0, 1), (0, 2), (1, 1)]
+corrected: G = 2a D3 + a D4 on rays (1,0),(-1,1),(-1,-1),(-1,0), a=2: True
+== 4.5 fan6 area: vertices and area vs formulas
+(1, 1, 3) vertices [('-2', '-3'), ('3', '2'), ('3', '7')] area 25/2  (d1+d2+d3)^2/2 = 25/2  original formula 5/2
+(0, 0, 2) vertices [('0', '0'), ('2', '2'), ('2', '4')] area 2  (d1+d2+d3)^2/2 = 2  original formula 2
+(2, 1, 4) vertices [('-3', '-4'), ('4', '3'), ('4', '10')] area 49/2  (d1+d2+d3)^2/2 = 49/2  original formula 4
+(4, 1, 1) vertices [('-5', '-6'), ('1', '0'), ('1', '6')] area 18  (d1+d2+d3)^2/2 = 18  original formula -18
+fan6 polygon is lattice-equivalent to S_s, s=d1+d2+d3: check (1,1,3) 21 points vs 21
+== principal example polygon
+points: [(0, 0), (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (4, 1)]  count 11
+rational vertices: [('0', '0'), ('25/6', '5/6'), ('5/6', '25/6')]
+area of conv{(0,0),(4,1),(1,4)} = 15/2
+== 4.6 duplicated row fan1 (5;2,3,3)
+15 lattice points, 14 classes; collisions: [[(-1, 0), (3, 0)]]
+== Example fan2: Cartier condition and F_m ampleness (edge lengths)
+F_3 offsets (0, 0, 1, 1) vertices [('0', '0'), ('1', '0'), ('4', '1'), ('0', '1')]  test d2+d4>0 and d1+d3>m*d2: True
+F_3 offsets (0, 1, 2, 1) vertices [('0', '-2/3'), ('5', '1'), ('0', '1')]  test d2+d4>0 and d1+d3>m*d2: False
+F_3 offsets (0, 0, 0, 1) vertices [('0', '0'), ('3', '1'), ('0', '1')]  test d2+d4>0 and d1+d3>m*d2: False
+F_3 offsets (1, 1, 1, 0) vertices [('-1', '-2/3'), ('1', '0'), ('-1', '0')]  test d2+d4>0 and d1+d3>m*d2: False

@@ -1,0 +1,9 @@
+A = [(0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (2, 2), (3, 2)]
+B = [(0, 1), (0, 2), (0, 3), (1, 0), (1, 1), (1, 2), (1, 5), (1, 6), (2, 0), (2, 1), (2, 6), (3, 0), (4, 0), (5, 0), (6, 0)] |B| = 15
+dim A = 7  d(C_A) = 28  max zeros = 21 (< 28 needed)
+d(C_B^perp) = 7  => separates 6 points
+guaranteed t = 6
+errors 5 : 200 / 200 decoded correctly
+errors 6 : 200 / 200 decoded correctly
+errors 7 : 33 / 200 decoded correctly
+
