@@ -1,0 +1,190 @@
+**Referee Report on "Representations of finite groups on the Riemann-Roch space of a toric variety"**
+
+### Overall Assessment & Recommendation
+
+This short note investigates the representation of a finite group $G$ of automorphisms of a toric variety $X$ on the Riemann-Roch space $L(D)$ associated with a $G$-invariant divisor $D$. While the geometric motivation—extending classical results of Hurwitz, Chevalley, and Weil from curves to toric varieties—is natural and appealing, **I cannot recommend the manuscript for publication in its current form.**
+
+The central theorem (Theorem 1) contains fatal mathematical errors regarding both the representation theory of permutation modules and the structure of automorphisms of toric varieties. Furthermore, once the hypotheses are corrected so that the statements become true, the main results (Theorems 1 and 2) reduce to an immediate observation about permutation representations acting on the character basis of $L(D)$. Finally, the worked example in Section 2 contains numerous algebraic, geometric, and typographical errors, and the manuscript as a whole suffers from inconsistent hypotheses and incomplete references.
+
+---
+
+### Major Mathematical Issues
+
+1. **Fatal Error 1: Transitive permutation representations are not irreducible (Theorem 1).**
+Theorem 1 claims that if $S = P_D \cap L^\perp$ decomposes into disjoint $G$-orbits $S = S_1 \cup \dots \cup S_k$, then the representation $\pi$ on $L(D)$ decomposes into a direct sum of $k$ *irreducible* permutation representations $\pi_i$, each of dimension $\vert{}S_i\vert{}$. **This is false whenever $\vert{}S_i\vert{} > 1$.**
+
+
+* Every permutation representation on a transitive $G$-set $S_i$ of size $\vert{}S_i\vert{} \geq 2$ contains the $1$-dimensional trivial subrepresentation spanned by $\sum_{u \in S_i} \chi^u$. By Maschke's Theorem (under the assumed characteristic hypothesis), this trivial subrepresentation has a non-trivial invariant complement of dimension $\vert{}S_i\vert{} - 1$.
+* In the author's own example in Section 2 ($G \cong \mathbb{Z}/2\mathbb{Z}$), there are $12$ orbits of size $2$. Over a field of characteristic $\neq 2$, a $2$-dimensional faithful permutation representation of $\mathbb{Z}/2\mathbb{Z}$ is **reducible**: it splits into the $1$-dimensional trivial representation $\text{span}(\chi^u + \chi^{g(u)})$ and the $1$-dimensional sign representation $\text{span}(\chi^u - \chi^{g(u)})$. In fact, an abelian group over an algebraically closed field cannot have *any* irreducible representation of dimension greater than $1$.
+
+
+* Also note the terminology "primitive $G$-orbits" in Theorem 1: an orbit is simply transitive; *primitivity* means there are no non-trivial $G$-invariant equivalence relations (blocks) on the orbit, which is neither guaranteed for arbitrary $G$-orbits nor sufficient for irreducibility of the permutation module.
+
+
+* Note that Maschke's Theorem is invoked at the end of the proof of Theorem 1 ("every finite dimensional representation of $G$ is semi-simple... From these, the theorem follows"), which guarantees *complete reducibility*, not that the orbit subspaces $V_i$ themselves are irreducible.
+
+
+
+
+2. **Fatal Error 2: Missing hypotheses on $G$ and $D$ in Theorem 1.**
+* **General vs. Toric Automorphisms:** In the Abstract and Introduction, $G$ is restricted to "(toric) automorphisms", yet Theorem 1 merely states "Suppose $G \subset \mathrm{Aut}(X)$ is a finite subgroup". For a complete toric variety (such as $\mathbb{P}^n$, where $\mathrm{Aut}(\mathbb{P}^n) = \mathrm{PGL}_{n+1}(F)$), $\mathrm{Aut}(X)$ is typically much larger than the normalizer of the torus. A general automorphism in $\mathrm{Aut}(X)$ does not preserve the torus $T$ and therefore does not map character monomials $\chi^u$ to character monomials (nor is a general $G$-invariant divisor even torus-invariant!).
+
+
+* **Torus Translations vs. Lattice Automorphisms:** Even if $G$ normalizes the torus $T$ (so $G \subset N_{\mathrm{Aut}(X)}(T) = T \rtimes \mathrm{Aut}(\Delta)$) and $D$ is assumed to be a $T$-invariant Weil divisor ($\sum d_i D_i$), elements of $G$ that have a non-trivial component in the torus $T$ do **not** permute the basis $\{\chi^u \mid u \in S\}$ as a pure permutation representation! Rather, if $t \in T(F) \cap G$, then $t$ fixes $u \in L^\perp$ as a lattice point, while scaling the basis vector $\chi^u$ by the scalar $\chi^u(t^{-1}) \in F^\times$ (a *monomial* representation, not a permutation representation). Consequently, Theorem 2 ($\mathrm{tr}(\pi(g)) = \vert{}\mathrm{Fix}_S(g)\vert{}$) also fails whenever $G$ intersects $T$ non-trivially: for $g = t \in T \cap G$, every $u \in S$ is fixed in the lattice, yet $\mathrm{tr}(\pi(t)) = \sum_{u \in S} \chi^u(t^{-1}) \neq \vert{}S\vert{}$ in general.
+* For $G$ to act as a genuine permutation representation on $\{\chi^u \mid u \in S\}$, $G$ must specifically be a subgroup of $\mathrm{Aut}(\Delta) \subset \mathrm{GL}(L)$ acting via fan automorphisms (fixing the identity element of the torus $T$), and $D$ must be a **$T$-invariant** Weil divisor whose coefficients $d_i$ are invariant under the permutation of rays induced by $G$.
+
+
+3. **Mathematical Errors in Section 2 (The Example).**
+The worked example in Section 2 contains multiple concrete errors in toric geometry:
+* **Incorrect affine patches and equations:** A 2-dimensional cone $\sigma$ in a fan is generated by *two* rays. In the text and diagram, there are three maximal cones $\sigma_1, \sigma_2, \sigma_3$, and the author claims $g$ leaves $U_{\sigma_1}$ invariant while swapping $U_{\sigma_2}$ and $U_{\sigma_3}$. Thus $\sigma_1 = \mathrm{Cone}(v_1, v_2)$, $\sigma_2 = \mathrm{Cone}(v_2, v_3)$, and $\sigma_3 = \mathrm{Cone}(v_1, v_3)$ (though in the figure, $\sigma_2$ and $\sigma_3$ are placed satisfactorily, $\sigma_1$ is placed in the first quadrant, whereas $\mathrm{Cone}(v_1, v_2)$ spans across the first, second, and fourth quadrants from $(2,-1)$ counter-clockwise to $(-1,2)$, i.e., an angle $> 180^\circ$!Wait—let us check the cones!).
+
+
+* **The fan $\Delta$ is invalid as drawn/computed!** Look closely at the generators:
+
+$$v_1 = (2, -1), \quad v_2 = (-1, 2), \quad v_3 = (-1, -1)$$
+
+
+.
+Note that $v_1 + v_2 + v_3 = (0,0)$, and the determinant $\det(v_1, v_2) = 2(2) - (-1)(-1) = 3 > 0$. Thus each pair $(v_1, v_2)$, $(v_2, v_3)$, $(v_3, v_1)$ spans a strictly convex cone of index $3$ in $L = \mathbb{Z}^2$ (making $X(\Delta)$ the singular quotient $\mathbb{P}^2 / (\mathbb{Z}/3\mathbb{Z})$ with three $A_2$ singularities!). Let us check the dual cone $\sigma_1^\vee$ for $\sigma_1 = \mathrm{Cone}(v_1, v_2)$:
+
+
+
+$$u = (a,b) \in \sigma_1^\vee \iff 2a - b \geq 0 \text{ and } -a + 2b \geq 0.$$
+
+
+
+Adding these gives $a + b \geq 0$, and in fact the Hilbert basis of $\sigma_1^\vee \cap \mathbb{Z}^2$ consists of **four** generators, not three:
+
+$$m_1 = (1, 2), \quad m_2 = (1, 1), \quad m_3 = (2, 1), \quad \text{?}$$
+
+
+
+Wait: let's test $(1,2)$: $2(1) - 2 = 0 \geq 0$, $-1 + 4 = 3 \geq 0$. Test $(2,1)$: $4 - 1 = 3 \geq 0$, $-2 + 2 = 0 \geq 0$. Test $(1,1)$: $2 - 1 = 1 \geq 0$, $-1 + 2 = 1 \geq 0$. Are $(1,2), (1,1), (2,1)$ a Hilbert basis? Let's check! Any $(a,b)$ in the cone is a non-negative rational combination of $(1,2)$ and $(2,1)$:
+
+$$(a,b) = \frac{2b-a}{3}(1,2) + \frac{2a-b}{3}(2,1).$$
+
+
+
+Wait: if $a=1, b=1$, the coefficients are $1/3$ and $1/3$, summing to $2/3 < 1$. What if coefficients are $2/3$ and $2/3$? $\frac{2}{3}(1,2) + \frac{2}{3}(2,1) = (2, 2) = 2(1,1)$! Every $A_2$ singularity is given by $x_1^3 - x_2 x_3 = 0$! Let's check: $(t_1 t_2)^3 = t_1^3 t_2^3 = (t_1 t_2^2)(t_1^2 t_2)$! That *does* work for $U_{\sigma_1}$!
+Now check $U_{\sigma_2}$ and $U_{\sigma_3}$ in the paper!
+Since $v_1 + v_2 + v_3 = 0$ and $\det(v_2, v_3) = (-1)(-1) - (2)(-1) = 3$ and $\det(v_3, v_1) = (-1)(-1) - (-1)(2) = 3$, the fan has $\mathbb{Z}/3\mathbb{Z}$-symmetry permuting $v_1, v_2, v_3$! Therefore, **all three affine patches $U_{\sigma_1}, U_{\sigma_2}, U_{\sigma_3}$ must be isomorphic $A_2$ singularities ($u^3 - vw = 0$)**, NOT $A_1$ singularities ($y^2 - y_1 y_3 = 0$)!
+Let us verify the error in the author's $U_{\sigma_2}$: the author gives the torus embedding $(y_1, y_2, y_3) = (t_1^{-2} t_2^{-1}, t_1^{-1}, t_1^{-1} t_2)$. Let us pair those exponents $(-2,-1)$, $(-1,0)$, $(-1,1)$ against $v_2 = (-1,2)$ and $v_3 = (-1,-1)$:
+
+
+* $\langle (-2,-1), (-1,2) \rangle = 2 - 2 = 0$, and $\langle (-2,-1), (-1,-1) \rangle = 2 + 1 = 3 \geq 0$.
+* $\langle (-1,0), (-1,2) \rangle = 1 \geq 0$, and $\langle (-1,0), (-1,-1) \rangle = 1 \geq 0$.
+* $\langle (-1,1), (-1,2) \rangle = 1 + 2 = 3 > 0$, and $\langle (-1,1), (-1,-1) \rangle = 1 - 1 = 0$? Wait: $(-1)(-1) + (1)(-1) = 0$!
+Wait: is $(-1,0)$ enough to generate $\sigma_2^\vee \cap \mathbb{Z}^2$? Check $u = (-1, 0)$:
+
+$$\frac{1}{3}(-2,-1) + \frac{1}{3}(-1,1) = (-1, 0),$$
+
+
+
+and what about $\frac{2}{3}(-2,-1) + \frac{1}{3}(-1,1) = \frac{1}{3}(-5, -1)$ (not integral), whereas $\frac{2}{3}(-2,-1) + \frac{2}{3}(-1,1) = (-2, 0) = 2(-1,0)$! Wait—let's check the relation between $y_1 = t_1^{-2} t_2^{-1}$, $y_2 = t_1^{-1}$, and $y_3 = t_1^{-1} t_2$:
+
+$$y_1 y_3 = (t_1^{-2} t_2^{-1})(t_1^{-1} t_2) = t_1^{-3} = y_2^3 \neq y_2^2!$$
+
+
+
+Aha! Both $U_{\sigma_2}$ and $U_{\sigma_3}$ have **two typos/algebraic errors** in their defining equations:
+
+
+
+
+1. Missing subscripts ($x^3$ instead of $x_1^3$, $y^2$ instead of $y_2^3$, $z^2$ instead of $z_2^3$).
+
+
+2. Wrong exponents on $U_{\sigma_2}$ and $U_{\sigma_3}$: $(t_1^{-1})^3 = t_1^{-3} = (t_1^{-2} t_2^{-1})(t_1^{-1} t_2)$, so the equations are $y_2^3 - y_1 y_3 = 0$ and $z_2^3 - z_1 z_3 = 0$, **not** $y^2 - y_1 y_3 = 0$ and $z^2 - z_1 z_3 = 0$!
+
+
+3. In $U_{\sigma_3}$, the coordinates are introduced as $z_1, z_2, z_3$, but the torus embedding is written $(x_1, x_2, x_3) = (t_1^{-1}t_2^{-2}, t_2^{-1}, t_1 t_2^{-1})$ instead of $(z_1, z_2, z_3)$.
+
+
+
+
+* **Misuse of Dual Lattice / Orbit-Cone Correspondence Notation:** At the beginning of Section 2, the author writes:
+
+$$D_i = \mathrm{Hom}(\tau_i^\perp \cap L^\perp, \mathbb{C}^\times),$$
+
+
+
+"which maybe [sic] regarded as the closure of the orbit of $T$ acting on the edge $\tau_i$".
+First, if $L$ is the cocharacter lattice containing the fan, the dual character lattice is universally denoted $M = L^\vee = \mathrm{Hom}_\mathbb{Z}(L, \mathbb{Z})$, whereas $\perp$ denotes orthogonal annihilator of a subset (using $L^\perp$ for the dual lattice $L^\vee$ throughout Sections 2 and 3 is non-standard and makes $\tau_i^\perp \cap L^\perp$ self-contradictory). Second, the algebraic group $\mathrm{Hom}_{\text{sg}}(\tau_i^\perp \cap M, F^\times)$ is the **torus orbit $O_{\tau_i}$ itself** (isomorphic to $(F^\times)^{n-1}$), **not** its Zariski closure $D_i = V(\tau_i) = \overline{O_{\tau_i}}$! Moreover, the base field abruptly switches from an algebraically closed field $F$ in Section 1 to $\mathbb{C}$ in Section 2, and back to $F$ in Section 3.
+
+
+* **Smoothness / Cartier inconsistency:** The Abstract, Introduction, and Section 1 restrict exclusively to *smooth* projective/complete varieties (explicitly noting in Footnote 1 that Weil and Cartier divisors coincide). Yet Section 2 constructs a **singular** toric surface $X(\Delta)$ and specifically chooses $d_1 = 6, d_2 = 6, d_3 = 0$, which satisfies $6 \equiv 6 \equiv 0 \pmod 3$ and is therefore Cartier—making the digression on non-Cartier Weil divisors somewhat unmotivated unless the author explains that Theorem 1 actually holds for arbitrary normal toric varieties and $T$-invariant Weil divisors. Even more seriously, in the proof of Theorem 1 (where $X$ is not assumed smooth and $D$ is a Weil divisor!), the author cites Griffiths and Harris [GH, p. 136] (which treats complex manifolds!) for $L(D) \cong \Gamma(X, \mathcal{O}(D))$. On a normal toric variety with a non-Cartier Weil divisor $D$, $\mathcal{O}_X(D)$ is a reflexive rank-1 sheaf rather than an invertible sheaf, and Fulton [F, p. 66] directly proves $L(D) \cong \Gamma(X, \mathcal{O}_X(D)) = \bigoplus_{u \in P_D \cap M} F \cdot \chi^u$ without needing [GH].
+
+
+
+
+4. **Depth and Novelty Once Corrected.**
+Suppose we impose the required hypotheses ($G \subset \mathrm{Aut}(\Delta)$ acting via fan automorphisms, $D$ a $G$-invariant $T$-invariant Weil divisor on a normal toric variety $X(\Delta)$ over any field $F$). Then:
+* Fulton's standard theorem gives the $F$-basis $\{\chi^u \mid u \in P_D \cap M\}$ for $L(D)$.
+
+
+* Because $G \subset \mathrm{Aut}(\Delta)$ acts linearly on $L$ preserving $\Delta$ and $D$, the dual action on $M$ preserves $P_D \cap M$ and directly permutes the basis vectors $\{\chi^u\}$.
+* Hence $L(D)$ is literally the permutation module $F[P_D \cap M]$ (over *any* field $F$, with no restriction on $\mathrm{char}(F)$!), which splits into transitive permutation modules $\bigoplus_{i=1}^k F[S_i]$ along the $G$-orbits $S_i$, and the trace of $g \in G$ on any permutation module is $\vert{}\mathrm{Fix}_S(g)\vert{}$ (modulo $\mathrm{char}(F)$ if $\mathrm{char}(F) > 0$).
+
+
+To warrant publication as a research note, the paper would need to go beyond observing that $L(D) \cong F[P_D \cap M]$—for instance, by actually decomposing $F[S_i]$ into **irreducible** $G$-representations (e.g., via Burnside's/Frobenius reciprocity $\mathrm{Ind}_{G_u}^G \mathbf{1}$ or character inner products using Ehrhart/lattice-point counting on fixed-point subpolytopes $(P_D)^g$), by handling the full torus-normalizer $G \subset T \rtimes \mathrm{Aut}(\Delta)$ (where twisted monomial representations arise), or by answering the inverse question posed on page 4 ("Do the equivalence classes of representations of $G$ occurring in $L(D)$ determine $D$ up to linear equivalence?"). (Note: as stated, the answer to that question is easily **no** in general—for example, if $G = \{1\}$, the representation only records $\dim L(D) = \vert{}P_D \cap M\vert{}$, and distinct divisor classes on toric varieties can have equal $\ell(D)$, e.g., $L(D) = 0$ for all strictly negative divisors.)
+
+
+
+---
+
+### Readability, Exposition, and Minor/Typographical Comments
+
+1. **Abstract:**
+* "...then we can write the natural representation of $G$ on $L(D)$ **is** a direct sum..." $\rightarrow$ "...**as** a direct sum...".
+
+
+* The Abstract assumes $X$ is smooth, whereas Theorem 1 drops smoothness. Align the hypotheses across the Abstract, Introduction, and Section 3.
+
+
+
+
+2. **Introduction & Section 1:**
+* Page 1: "which (modular) representations arise in this way?" Calling them "(modular) representations" in the introduction is confusing because Theorem 1 explicitly excludes the modular case ($p \mid \vert{}G\vert{}$) by assuming $\mathrm{char}(F) = 0$ or $p \nmid \vert{}G\vert{}$, and Theorem 2 assumes $\mathrm{char}(F) = 0$.
+
+
+* Page 2: "It is easy to show that $(f^g) = g(f)$" $\rightarrow$ should be $(f^g) = g((f))$ (to distinguish applying $g$ to the divisor $(f)$ from evaluating $g$ or $f$). Let us also verify variance: if $f^g(x) = f(g^{-1}(x))$, and $f$ vanishes at $P$, then $f^g$ vanishes at $g(P)$, so indeed $\mathrm{div}(f^g) = g(\mathrm{div}(f))$.
+
+
+* Notation change: Section 1 denotes the representation on $L(D)$ by $\rho$, whereas Introduction and Section 3 switch to $\pi$ without comment.
+
+
+
+
+3. **Section 2:**
+* Page 2: "which **maybe** regarded" $\rightarrow$ "which **may be** regarded".
+
+
+* Page 3 (Picture): The label $v_1$ is placed at `(135.00, -75.00)` while the vector $\put(0,0){\vector(2,-1){129.00}}`ends near`(129, -64.5)`, which works reasonably well, though $\sigma_1, \sigma_2, \sigma_3$ should be defined explicitly in the text (e.g., $\sigma_1 = \mathrm{Cone}(v_1, v_2)$, $\sigma_2 = \mathrm{Cone}(v_2, v_3)$, $\sigma_3 = \mathrm{Cone}(v_3, v_1)$) and placed inside the interiors of their respective cones in the figure (currently $\sigma_3$ is at `(50, -100)`, which lies inside $\mathrm{Cone}(v_1, v_3)$, and $\sigma_2$ is at `(-128, 64)`, inside $\mathrm{Cone}(v_2, v_3)$, which matches!).
+* Page 3: "The automorphism $g$ does not act on $U_{\sigma_2}$." Better phrasing: "$U_{\sigma_2}$ is not $g$-stable (or $g$-invariant); rather, $g$ maps $U_{\sigma_2}$ isomorphically onto $U_{\sigma_3}$."
+
+
+
+
+4. **Section 3:**
+* Theorem 1 statement: "For each $m \geq 1$, the natural representation $\pi$ of $G$ on $L(D)$..." The variable $m$ never appears anywhere else in the theorem or proof! (Perhaps a remnant from considering $L(mD)$?)
+
+
+* Proof of Theorem 1: "Mascke's Theorem, Thrm 3.14" $\rightarrow$ "**Maschke's** Theorem, Theorem 3.14".
+
+
+* Page 4: "Question: Given $G$, $X$, and $D$ as above. Do the..." $\rightarrow$ "Given $G$, $X$, and $D$ as above, do the..." (sentence fragment).
+
+
+* Page 4: An inner product $(\dots, \dots)$ on $V = L(D)$ is defined right before Theorem 2, **and is never used anywhere in the paper**. Note also that over a general algebraically closed field $F$ (e.g., $F = \mathbb{C}$ or $\overline{\mathbb{F}}_p$), $\sum_{w \in S} a_w b_w$ is a symmetric bilinear form rather than a Hermitian inner product, and it is unnecessary for defining or computing the trace of a linear operator.
+
+
+* Example after Theorem 2: Since $G = \{1, g\} \cong \mathbb{Z}/2\mathbb{Z}$, writing $g = 1$ and $g \neq 1$ is fine, and the dimension $7 + 12 \times 2 = 31$ and fixed-point count $7$ are both arithmetically correct for the triangle with vertices $(-6,-6), (-2,2), (2,-2)$.
+
+
+
+
+5. **Bibliography and LaTeX:**
+* Reference `[JT]` has an empty `\verb++` URL and a double comma `,'',`. Provide complete publication or preprint details (e.g., arXiv identifier or URL).
+
+
+* Uncomment `\usepackage{amssymb}` and `\usepackage{amsthm}` in the preamble instead of manually defining `\def\pf{{\bf proof}:\ }` (lowercase "proof") and `\def\qed{$\Box$}` (which currently lacks `\hfill` and sits immediately adjacent to the period at the end of proofs).
