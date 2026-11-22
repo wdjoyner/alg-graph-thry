@@ -1,0 +1,128 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype,enumitem}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\title{Referee Report on \emph{Toric Codes over Finite Fields}}
+\author{OpenAI ChatGPT (GPT-6)}
+\date{November 22, 2026}
+\begin{document}
+\maketitle
+
+\noindent\textbf{Scope.} I examined the user-supplied Draft 1 (29 pages after compilation) and, because the target GitHub repository already contains a different and newer Draft 3 (34 pages), separately inspected the additional tropical-geometry claims in that source. Every finding below specifies its version. This referee report does not replace Draft 3 with Draft 1.
+
+\medskip
+\noindent\textbf{Recommendation.} Revise before calling Draft 3 mathematically final. The central coding-theoretic development is substantially sound, and the five-error example passes independent checks. A coordinate-change error in both drafts has a simple repair. The more important new issue is that Draft 3 confuses weights of tropical edges with metric slopes, and also reverses the convention for unbounded tropical normals.
+
+\section*{1. Correctness: required repairs}
+
+\paragraph{M1. Incorrect coordinate transformation (Drafts 1 and 3).}
+In Example \emph{A projective plane in disguise}, the affine map
+\[
+  (x,y)\longmapsto(x,y-x)
+\]
+does not carry the stated triangular polytope to a translate of the standard simplex \(S_s\). Indeed its translated image has vertices
+\((0,0),(s,0),(s,s)\), whereas \(S_s\) has vertices
+\((0,0),(s,0),(0,s)\). With \(s=d_1+d_2+d_3\), replace that map by the unimodular change
+\[
+   (x,y)\longmapsto (2x-y,y-x),\qquad
+   \det\begin{pmatrix}2&-1\\-1&1\end{pmatrix}=1 .
+\]
+The stated vertices become
+\[
+(-d_1,-d_2),\quad (d_2+d_3,-d_2),\quad (-d_1,d_1+d_3),
+\]
+and translation by \((d_1,d_2)\) gives \(S_s\). Thus the numerical conclusions can be retained after fixing the proof.
+
+\paragraph{M2. Edge weights are not the slopes of the projection (Draft 3).}
+The Draft 3 proposition about tropical projections equips an edge with its usual lattice-length metric, lets the coordinate projection be
+\(\pi(w_1,w_2)=w_1\), but assigns an edge of tropical multiplicity \(\mu_e\) and primitive direction \((a_e,b_e)\) the dilation factor
+\(\mu_e|a_e|\). The \emph{actual metric slope} of the specified coordinate projection is \(|a_e|\); multiplying by \(\mu_e\) changes the slope. Weighted balancing proves a statement about weighted degrees, not immediately a harmonic morphism of ordinary metric graphs with this prescribed map and metric.
+
+A concrete countercheck is \(f=(1+x+y)^2\) over a valued field of characteristic different from two. Its tropical curve as a set is the ordinary tropical line, all of whose edges have multiplicity two. Projection onto the first coordinate has metric slope one along a horizontal edge, not two. The proposition must specify a weighted harmonic-map formalism or construct an appropriate expanded/augmented skeleton that genuinely realizes the weighted local degrees. The displayed degree-two example has unit edge multiplicities and therefore does not expose the gap.
+
+\paragraph{M3. Reversed normal convention (Draft 3).}
+For the convention
+\[
+\operatorname{trop}(f)(w)=
+ \min_u\bigl(\operatorname{val}(c_u)+\langle u,w\rangle\bigr),
+\]
+unbounded rays point along \emph{outward}, rather than inward, normal directions of Newton-polygon edges. For \(1+x+y\) the rays are
+\((-1,0),(0,-1),(1,1)\), opposite to the inward normals of
+\(\operatorname{conv}\{(0,0),(1,0),(0,1)\}\). Amend the list of tropical facts and the subsequent degree proof's boundary-chain description.
+
+\paragraph{M4. Tropical rectangle label (Draft 3).}
+The example with Newton polygon \([0,2]^2\) is Hansen type (c) with \(a=b=2\), not \(a=b=1\). Correct the opening line.
+
+\paragraph{M5. The asymptotic conjecture needs an asymptotic counterexample (Draft 1).}
+The first historical conjecture is said to concern sufficiently large \(q\), but the counterexample explicitly uses only \(q=9\). Make the general claim precise. For \(P=[0,1]^2\) and \(n=(q-1)^2\), choose
+\(N=\lceil(q-1)/\sqrt2\rceil\).
+For sufficiently large prime powers \(q\), the conjectural hypotheses
+\(2N\le n\le2N^2\) hold. The conjecture predicts \(d\ge n-2N\), whereas the proved rectangle formula gives
+\[
+d=(q-2)^2=n-2(q-1)+1<n-2N
+\]
+for sufficiently large \(q\). This refutes an eventual assertion, not merely an instance at a small field size.
+
+\paragraph{M6. Generalized versus standard codes (both).}
+The Fourier proof that translation-invariant linear codes are exactly \(C_U\) for arbitrary residue subsets \(U\) is sound. The prose should say \emph{generalized full-torus} codes; a standard polygon code is a special case and need not realize every translation-invariant code. The notation \(C_{q-1}\) for the cycle factor also needs conventions when \(q=2\) or \(q=3\).
+
+\paragraph{M7. Certification level of computations (both).}
+The manuscript says that the exact minimum distance and distribution of the \([49,11,28]_8\) code, its six-error error-correcting pair, and all comparison tables were established exhaustively. The published scripts and outputs are valuable. Include reproducible commands and a compact verification certificate; none of these exhaustive enumerations has been independently rerun for the present report.
+
+\section*{2. Checks that support the main results}
+
+\paragraph{Character orthogonality, dimension, duality.}
+The character sum is valid because the characteristic does not divide \((q-1)^r\). Pairing an evaluation row with the inverse character row proves the claimed independence and
+\[
+ \dim C_U = |U\bmod(q-1)|,\qquad
+ C_U^\perp=C_{\Lambda_q\setminus(-U)}.
+\]
+The translation-invariance classification follows by the same Fourier decomposition.
+
+\paragraph{Grid counting and distances.}
+The grid-lemma induction uses the correct identity
+\[
+(c-\ell+e)(c-e)-c(c-\ell)=e(\ell-e)\ge0,
+ \qquad c=q-1 .
+\]
+The type-(a) substitution \(X=xy,\ Y=y\) turns \((i,j)\) into \((i,j-i)\) of total degree \(j\le2a\); the type-(b) and type-(c) lower bounds and the exhibited products are valid. The simplex-inclusion and primitive-segment estimates also have the correct inequality directions.
+
+\paragraph{Numerical checks for the principal code.}
+The eleven exponents of the principal example are distinct modulo seven, so its dimension really is eleven. The segment of length three gives
+\(d\le49-3\cdot7=28\). Independently checked the printed weight distribution against
+\[
+\sum_w A_w=8^{11}=8{,}589{,}934{,}592,\qquad
+\sum_w wA_w=49\cdot7\cdot8^{10},
+\]
+\[
+\sum_w w(w-1)A_w=49\cdot48\cdot7^2\cdot8^9,
+\qquad 7\mid A_w \quad(w>0).
+\]
+These tests establish internal consistency, not the nonexistence of words of weights below 28.
+
+\paragraph{Five-error decoding example.}
+Using \(\F_8=\F_2[\omega]/(\omega^3+\omega+1)\), recomputed all entries of the printed \(15\times6\) syndrome matrix from the five displayed positions and error values. They match. The proposed coefficient vector
+\((\omega^4,\omega,0,\omega^6,1,0)\) is in its kernel, and
+\[
+ f=xy+\omega^6x+\omega y+\omega^4
+\]
+has precisely those five zeros on \((\F_8^\times)^2\). Independently checked that \((1,1)+S_6\) is disjoint from \(-Q\bmod7\). The worked example is convincing. The general six-error computational claim remains unreplicated here.
+
+\section*{3. Readability and organization}
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+\item Keep the status labels distinguishing proved, cited, and computational claims; do not label the problematic tropical proposition proved until M2--M3 are repaired.
+\item Preserve the Draft 2--3 editorial choice to move criticisms of the 2004 paper into \texttt{revision-log.tex}; retain mathematical questions in the body without a correction narrative.
+\item Distinguish a rational polytope \(P_G\) of a Weil divisor from the integral convex hull of \(P_G\cap M\), whose normal fan can differ.
+\item Give the field polynomial, coordinate indexing, computational command lines, and deterministic seed or enumeration order beside the exact examples.
+\item Consider moving the expanded tropical subsection to a companion graph-theoretic note if the corrections make it disproportionately long.
+\end{enumerate}
+
+\section*{4. Disposition}
+The attached Draft 1 compiled successfully as a 29-page letter-size PDF using its \texttt{mathptmx} fallback. GitHub already contains the newer 34-page Draft 3 and its PDF. Replacing it with the attachment would silently downgrade the manuscript. Priority should go to M1--M3 while retaining the well-supported coding-theoretic results.
+
+\end{document}
