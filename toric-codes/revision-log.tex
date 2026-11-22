@@ -14,11 +14,12 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\PP}{\mathbb{P}}
 \DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\supp}{supp}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \setlength{\emergencystretch}{3em}
 
 \title{Revision log for \emph{Toric codes over finite fields}\\[4pt]
-\large Draft 1 of the corrected and expanded version}
+\large Drafts 1--3 of the corrected and expanded version}
 \author{Prepared for David Joyner by Claude (Anthropic), November 22, 2026}
 \date{}
 
@@ -29,7 +30,8 @@
 
 This log records the changes from the manuscript \texttt{toric\_code7.tex}
 (dated September 1, 2003) to \texttt{toric-codes.tex} (Draft 1, November
-22, 2026). The 2003 file is the version published as D.~Joyner, \emph{Appl.
+22, 2026), and the further changes in Drafts 2 and 3 (Sections~\ref{sec:draft2}
+and~\ref{sec:draft3}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
 Algebra Engrg. Comm. Comput.} \textbf{15} (2004), 63--79, arXiv:math/0208155.
 The arXiv and journal data were checked online.
 
@@ -191,6 +193,164 @@ Citation keys follow the initials-plus-year rule, with \texttt{GAP00} and
 errors, no undefined references, and no overfull or underfull boxes.
 \end{enumerate}
 
+\section{Draft 2 (November 22, 2026): error discussion moved here}\label{sec:draft2}
+
+At David's request, every passage of Draft~1 that discussed errors in the
+2004 version was removed from the paper and is recorded below. Where the
+mathematics was worth keeping, Draft~2 states it as a question that arises
+naturally from a nearby theorem or from trying to generalize an example. No
+theorem, example or computation was changed. Two short remarks were added:
+the non-strict form of the ampleness condition in Example~5.12 (global
+generation), and the positive statement $k\le|P_G\cap M|$ in Example~6.7. The
+numbering of theorems, examples and
+remarks is the same as in Draft~1. Subsection~6.3 is retitled ``Two estimates
+that fail''. The table gives each relocated statement about the 2004 version
+and where its content now lives.
+
+\begin{longtable}{@{}L{0.47\textwidth}L{0.45\textwidth}@{}}
+\toprule
+Statement about the 2004 version (removed from the paper) & How Draft 2
+treats the mathematics\\ \midrule
+\endhead
+Abstract and introduction: the two conjectures of 2004 are false; the tables
+were confirmed except one duplicated row; the decoding algorithm was repaired.
+& The abstract and introduction now state the results directly: two natural
+volume-type lower bounds fail, all parameters are computed exactly, and an
+error-locator algorithm is given.\\
+Literature review: S.~Hansen inspired the 2004 conjectures; Ruano (2007) gave
+counterexamples to them. & Some questions of Section~6.3 go back to
+S.~Hansen. Ruano showed that bounds of that kind fail in general.\\
+Remark~5.4: the 2004 Lemma~3.3, attributed to J.~Hansen, claimed injectivity of
+evaluation for $q>q_0(\Delta)$ with $q_0$ depending only on the fan. It is
+false ($x^{q-1}-1\in L((q-1)D_3)$ on $\PP^2$). The 2004 criterion $|a_i|<q$ is
+insufficient. & Posed as ``one might hope'' that a bound depending only on
+the fan exists. The same counterexample shows it does not, and the right
+condition depends on $G$.\\
+Proposition~5.6 and the following paragraph: the 2004 Remark~3.2 stated
+$d(C(P,G_2,X_2))\ge d(C(P,G_1,X_1))$ for $P_{G_1}\subseteq P_{G_2}$, which is
+reversed. & The correct inequality is stated, with the remark that it can be
+strict and the same example.\\
+Section~5.3: all rows agree with the 2004 tables except one. & Removed. The
+agreement is recorded in Section~\ref{sec:computations} of this log.\\
+Example~5.9: the 2004 table listed $(5;2,3,3)$ twice, with $k=14$ and
+$k=15$; the duplicate (with $k=15$) was removed. & The row is used to
+illustrate that $k$ can be smaller than $|P_G\cap M|$, via
+$(-1,0)\equiv(3,0)\pmod4$.\\
+Example~5.10: the 2004 text took $d_3=a$ instead of $2a$, and refined the fan
+by inserting $-e_2$, which leaves the singular cone unchanged. & $G=2aD_3$ is
+stated without comment. The paper observes that a new ray must lie inside the
+singular cone, and that a ray such as $-e_2$ in a smooth cone would not
+help.\\
+Example~5.12: the 2004 ampleness condition on $\F_m$
+(``$d'_2+d'_4\ge0$, $d'_1+d'_3\ge md'_1$'') was garbled. & The correct strict
+conditions are stated, with the remark that non-strict ones characterize
+global generation.\\
+Example~5.13: the 2004 area formula
+$\tfrac12(2d_1+d_3)(d_3-d_1-d_2)$ is wrong (e.g.\ $5/2$ instead of $25/2$ for
+$(1,1,3)$). & The correct area $\tfrac12s^2$ is stated, with the example
+$25/2$.\\
+Paragraph before Section~6: ``the original abstract said'' that many codes
+beat the GV bound. & Stated directly and made precise.\\
+Section~6 introduction: ``corrects the estimates of the original version''. &
+``Shows that two natural estimates in terms of coarser invariants fail.''\\
+Theorems~6.1 and 6.4: titled ``Corrected form of the original Theorem''. &
+Titled ``Proved here''.\\
+Remark~6.2: the 2004 Theorem~4.5(5) gave $d\ge(q-a)q^{r-1}-r(q-1)^{r-1}-1$ by
+counting punctures. It is false for $r\ge3$ ($51$ versus weight $48$ for
+$r=3$, $q=5$, $a=1$). Items (1) and (2) gave codimension bounds
+$|P_{G_1}-S_k|=0$. & Posed as a question: does the $r=2$ count
+$r(q-1)^{r-1}+1$ of deleted points generalize? The same example shows it does
+not. The codimension remark is dropped, since Theorem~6.1(1), (2) are
+exact.\\
+Remark~6.5: the 2004 Theorem~4.8 claimed only $d\le n-h$ for an arbitrary
+evaluation set, and its proof replaced $h$ by $\max_id_i$ without
+justification. The referee's repair allowed $h=q-1$. & Posed as a question:
+can the segment have length $q-1$? The answer is no, which shows $h\le q-2$
+is necessary.\\
+Section~6.3: titled ``The conjectures of the 2004 version''; Conjectures~4.1
+and 4.2 stated as the 2004 claims and called false; Example~6.7 said the
+inequality $k\ge|P_G\cap M|$ is reversed. & Retitled ``Two estimates that
+fail''. The two bounds are posed as natural candidates suggested by
+Theorems~6.1 and 6.4, and Examples~6.6 and 6.7 show they fail. The dimension
+inequality is stated positively.\\
+Section~7 introduction: the 2004 algorithm required error positions on
+invariant divisors $D_i$, impossible for torus points; its example placed
+points on $\supp(G)$. & Posed as a natural attempt to get separating
+functions from the divisors $D_i$, followed by the reason it cannot work on
+the torus.\\
+Text before Proposition~7.3: ``They correct the two propositions of the
+original version.'' & Removed.\\
+Remark~7.5: the 2004 worked example (fan1, $G=10D_3$,
+$G'=2(D_1+D_2+D_3)$) put $P_3$ on $D_3\subseteq\supp(G)$, so evaluation at
+$P_3$ was undefined. Its bound on $q$ used $d(C)$ instead of $d(C^\perp)$. &
+The same divisors are presented as a natural candidate pair, with the open
+question of what radius it guarantees.\\
+Summary table: ``corrected forms of original results'', ``Conjectures of the
+2004 version: false'', ``one duplicated row removed''. & ``Proved here'';
+``Estimates (i), (ii) of Section~6.3: false''; ``exhaustive exact
+computation''.\\
+Acknowledgments: the referee report ``identified the false conjectures, the
+false injectivity lemma, the reversed distance inequality and the problems
+with the decoding example''. & The acknowledgments name the referee's role
+only. The details are in Section~\ref{sec:referee} of this log.\\
+\bottomrule
+\end{longtable}
+
+What remains in the paper about the 2004 version is what the style guide
+requires: the title-page note identifying the publication, the date line,
+the split of the literature review at 2004, and the historical comparisons
+with Brouwer's 2003 tables.
+
+\section{Draft 3 (November 22, 2026)}\label{sec:draft3}
+
+Changes made at David's request.
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Section 8.5 removed} (Kitaev's toric code and CSS codes,
+Remark~2026.5 of Draft~2). It observed that Kitaev's quantum toric code lives
+on the edges of the grid graph $C_m\square C_m$ while the codes of the paper
+live on its vertices. It also noted that Theorem~5.7 gives CSS pairs, as used
+by J.~P.~Hansen. The reference [Ki03] was removed with it.
+\item \textbf{Section 8.6 removed} (the Hamming graph and optimality,
+Remark~2026.6 of Draft~2). It suggested certifying the ``best possible''
+table entries by Delsarte's linear programming bound. The corresponding open
+question was removed from Section~9.
+\item \textbf{Section 8.4 expanded} from one remark and one question to a
+full subsection:
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item tropicalization, with Definition~8.3 and the standard facts (T1)--(T4)
+cited from Maclagan--Sturmfels;
+\item Definition~8.4 (harmonic morphism of metric graphs);
+\item Proposition~8.5 (proved): a coordinate projection of a tropical curve
+is a harmonic morphism to the line, of degree equal to the vertical extent of
+the Newton polygon;
+\item Example~8.6 and Figure~1: the tropical curve of
+$f=\sum_{u\in[0,2]^2}t^{i^2+ij+j^2}x^iy^j$. It has $8$ vertices, $8$ bounded
+edges and $8$ ends, and its only cycle is a hexagon. Its projection is a
+degree-$2$ harmonic morphism to a tree that folds the hexagon two-to-one. A
+finite model $G\to T$ (14 vertices, path with 7 vertices) is a Baker--Norine
+harmonic morphism, and the Riemann--Hurwitz formula checks
+($0=2\cdot(-2)+4$). Everything was computed by
+\texttt{tropical\_example.py};
+\item Proposition~8.7 (proved): the fiber bound $h_v(q-1)$ on zeros of
+sections without binomial factors in the complementary direction;
+\item Example~8.8: for $[0,2]^2$ over $\F_8$ the fiber bound $14$ is attained
+in a random search, and for the principal triangle the lattice width is $4$
+(\texttt{lattice\_width.py});
+\item Remark~2026.4 (rewritten) and Question~8.9 (kept).
+\end{itemize}
+Remark labels are now 2026.1--2026.4, and theorem numbers in Section~8 after
+8.4 changed accordingly.
+\item \textbf{Glossary expanded} to about three sentences per entry, with new
+entries: combinatorial Nullstellensatz, dual subdivision, gonality, lattice
+width, metric graph, Newton polygon, Riemann--Hurwitz formula, tropical curve.
+\item New references: [ABBR15], [Ba08], [Ch13], [MS15]. Their bibliographic
+data were checked online (Level~2). The statements used are Level~2 for the
+abstracts of [ABBR15], [Ba08] and [Ch13], and Level~3 for the facts (T1)--(T4)
+from [MS15] and for the form of the Riemann--Hurwitz formula of [BN09]. The
+latter was checked numerically in Example~8.6. The page numbers of [BN09] are
+now confirmed (Level~2).
+\end{enumerate}
+
 \section{Original results versus results new in 2026}
 
 \textbf{Original results, retained (corrected where needed):}
@@ -284,6 +444,10 @@ during $q=8$.\\
 \texttt{gv\_check.py} & 21 of the 42 distinct parameter sets beat the finite
 Gilbert--Varshamov bound.\\
 \texttt{resolve\_fan.py} & Minimal resolutions and weighted cycle graphs.\\
+\texttt{tropical\_example.py} & Example~8.6 (Draft 3): tropical curve,
+balancing, harmonicity of the projection, finite model, Riemann--Hurwitz.\\
+\texttt{lattice\_width.py} & Lattice widths and the fiber-bound sample of
+Example~8.8 (Draft 3).\\
 \texttt{decode\_example.py} & Example~7.8: decodes all of 300 random trials
 for each number of errors $t\le5$; succeeds in 50 of 300 trials at $t=6$ and
 8 of 300 at $t=7$.\\
@@ -321,7 +485,7 @@ MacWilliams--Sloane Ch.~13, Pless--Huffman p.~920, Ha02 \S2.3 & 3 (not
 consulted)\\
 Alon--F\"uredi theorem as stated in Section~8.2 & 3. The paper proves the
 special case it needs (Lemma 4.2).\\
-Baker--Norine page numbers; Skorobogatov--Vl\u{a}du\c{t} data;
+Skorobogatov--Vl\u{a}du\c{t} data;
 Fitzgerald--Lax title; Brown--Kasprzyk~[BK13b] journal; years of
 \texttt{toric.g} and of Joyner--Verrill & 3\\
 Castryck--Cools gonality bound $\le$ lattice width & 2 (abstract and a

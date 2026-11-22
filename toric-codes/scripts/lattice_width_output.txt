@@ -1,0 +1,3 @@
+principal triangle: lattice width, directions: (4, [(0, 1), (1, 0)])
+square [0,2]^2:     lattice width, directions: (2, [(0, 1), (1, 0)])
+random sample: max torus zeros of f in V_[0,2]^2 over F_8 with no factor x - c: 14 (fiber bound 2*7 = 14)
