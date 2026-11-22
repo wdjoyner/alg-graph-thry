@@ -53,7 +53,7 @@
 \newcommand{\st}[1]{\textup{(\emph{#1})}}
 
 \title{Toric codes over finite fields\\[4pt]
-\large Draft 1. Corrected and expanded version}
+\large Draft 2. Corrected and expanded version}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}.
 The original version of this paper appeared as D.~Joyner, ``Toric codes over
 finite fields,'' \emph{Applicable Algebra in Engineering, Communication and
@@ -76,14 +76,14 @@ only on the residues modulo $q-1$ of the lattice points of a polygon. We show
 that its dimension is the number of these residues and that its dual is again
 a code of the same kind. We give short self-contained proofs of the
 minimum distances of three of J.~Hansen's families. The proofs use a
-grid-counting lemma of Alon--F\"uredi type, and we obtain from it upper and
-lower bounds on the minimum distance which replace two conjectures of the
-2004 version. Those conjectures are false, and we give counterexamples. We recompute every table of the
-original paper exactly. In particular we certify the $[49,11,28]$ code over
-$\F_8$, which was better than all codes in the tables of 2002, by two
-independent exhaustive computations. We repair the decoding algorithm of the
-original paper. It becomes an error-correcting-pair algorithm with explicit
-toric hypotheses. We use it to decode the $[49,11,28]$ code up to $5$
+grid-counting lemma of Alon--F\"uredi type, which also gives upper and lower
+bounds on the minimum distance. We show by examples that two natural lower
+bounds in terms of the volume or the number of lattice points of the polygon
+do not hold. We compute the parameters of many examples exactly. In
+particular we certify the $[49,11,28]$ code over $\F_8$, which was better than
+all codes in the tables of 2002, by two independent exhaustive computations.
+We give an error-locator decoding algorithm, in the form of an
+error-correcting-pair algorithm with explicit toric hypotheses. We use it to decode the $[49,11,28]$ code up to $5$
 errors in a fully worked example, and up to $6$ errors with a pair found by
 computer search. Finally we discuss graph-theoretic
 connections. These are the discrete torus as a Cayley graph, the
@@ -184,13 +184,14 @@ follow from a short grid lemma (Lemma~\ref{lem:grid},
 Proposition~\ref{prop:hansenabc}). The same lemma gives a two-sided estimate
 for any polygon between two simplices (Theorem~\ref{thrm:subcode2}). A
 segment bound gives the upper estimate (Theorem~\ref{thm:segment}).
-\item The two conjectural lower bounds of the 2004 version are false
-(Examples~\ref{ex:conj1} and~\ref{ex:conj2}).
-\item All tables of the 2004 version are confirmed by exact computation,
-except one duplicated row. The code $[49,11,28]_8$ is certified, and its full
-weight distribution is computed (Table~\ref{tab:wd}).
-\item The decoding algorithm of the 2004 version is repaired
-(Theorem~\ref{thm:decode}, Corollary~\ref{cor:toricECP}). It decodes the
+\item Two natural lower bounds for $d$ in terms of the volume or the number of
+lattice points of the polygon fail (Examples~\ref{ex:conj1}
+and~\ref{ex:conj2}).
+\item The parameters of all examples are computed exactly. The code
+$[49,11,28]_8$ is certified, and its full weight distribution is computed
+(Table~\ref{tab:wd}).
+\item An error-locator decoding algorithm is given, with explicit toric
+hypotheses (Theorem~\ref{thm:decode}, Corollary~\ref{cor:toricECP}). It decodes the
 $[49,11,28]_8$ code up to $5$ errors in a worked example, and up to $6$
 errors with a pair found by search (Example~\ref{ex:decode}).
 \item Section~\ref{sec:graphs} develops graph-theoretic connections.
@@ -210,8 +211,8 @@ $(\Fqs)^2$, and he used intersection theory on the surface to bound the number
 of zeros of a section. In~\cite{Ha02} he treated Hirzebruch surfaces in detail
 and determined the minimum distances recalled in Theorem~\ref{thrm:hansen}.
 S.~Hansen studied codes from higher-dimensional varieties in his theses
-\cite{SH96}, \cite{SH99} and in~\cite{SH01}. The conjectures of the original
-paper were inspired by his work. Fitzgerald and Lax~\cite{FL98} decoded affine
+\cite{SH96}, \cite{SH99} and in~\cite{SH01}. Some of the questions in
+Section~\ref{sec:fail} go back to his work. Fitzgerald and Lax~\cite{FL98} decoded affine
 variety codes with Gr\"obner bases. Little's papers~\cite{Li03a}, \cite{Li03b}
 treat decoding for codes from order domains, with Gr\"obner basis methods. The
 error-locator method of Section~\ref{sec:decode} follows Stichtenoth's account
@@ -231,9 +232,8 @@ Schwarz~\cite{LS07} used multivariate Vandermonde determinants to find the
 minimum distance for rectangles and simplices in all dimensions. They also
 showed that lattice-equivalent polytopes give monomially equivalent codes.
 Ruano~\cite{Ru07} studied $r$-dimensional toric codes with intersection theory
-and mixed volumes. He also gave counterexamples to the conjectures of the
-original paper, in agreement with Examples~\ref{ex:conj1}
-and~\ref{ex:conj2} below. Ruano~\cite{Ru09} studied the multicyclic structure
+and mixed volumes. He also gave examples showing that lower bounds of the
+kind discussed in Section~\ref{sec:fail} fail in general. Ruano~\cite{Ru09} studied the multicyclic structure
 of generalized toric codes and computed their duals.
 Theorem~\ref{thm:dual} below is a form of his result. Soprunov and
 Soprunova~\cite{SS09} proved lower bounds for $d$ in terms of the full
@@ -633,13 +633,12 @@ $q-1$ only if they are equal.
 \end{proof}
 
 \begin{remark}\label{rem:bound-q}
-Proposition~\ref{prop:dim} replaces the lemma attributed to J.~Hansen in the
-original version. That lemma claimed injectivity for $q>q_0(\Delta)$ with a
-bound depending only on the fan. Such a bound cannot exist. On $\PP^2$, for
+One might hope that the evaluation map is injective as soon as $q$ exceeds a
+bound depending only on the fan $\Delta$. This is not so. On $\PP^2$, for
 $G=(q-1)D_3$ the nonzero function $x^{q-1}-1\in L(G)$ vanishes on all of
-$T(\Fq)$, for every $q$. The condition $|a_i|<q$ on exponents is also not
-enough, since it allows exponents that differ by $q-1$. The correct
-requirement is the one in (iii).
+$T(\Fq)$, for every $q$. Nor is it enough that all exponents satisfy
+$|a_i|<q$, since two such exponents can differ by $q-1$. The right condition
+is the one in (iii), and it depends on $G$ as well as on $\Delta$.
 \end{remark}
 
 \begin{proposition}[Proved here]\label{prop:equiv}
@@ -661,8 +660,7 @@ T}i\rangle}=\omega^{\langle gu,i\rangle}=\chi^{gu}(\omega^i)$. So composing with
 $\pi_g$ maps $C_U$ onto $C_{gU}$.
 \end{proof}
 
-\begin{proposition}[Corrected form of a remark of the original; proved
-here]\label{remark:subcode}
+\begin{proposition}[Proved here]\label{remark:subcode}
 Let $U_1\subseteq U_2\subset M$ be finite. Then $C_{U_1}\subseteq C_{U_2}$,
 the codimension is at most $|U_2\setminus U_1|$, and $d(C_{U_1})\ge
 d(C_{U_2})$. If $\pi$ is injective on $U_2$, the codimension equals
@@ -678,9 +676,8 @@ equality case is Proposition~\ref{prop:dim}.
 In particular, if $X_1$ and $X_2$ are toric varieties for the same lattice $M$
 with divisors $G_1$ and $G_2$ such that $P_{G_1}\subseteq P_{G_2}$, then the
 standard toric code of $G_1$ is a subcode of that of $G_2$. The distance of
-the smaller code is at least the distance of the larger one. The original
-version stated the inequality in the opposite direction, and that is false.
-For example, the code spanned by $\ev(1)$ has distance $(q-1)^2$, while the
+the smaller code is at least the distance of the larger one, and the
+inequality can be strict. For example, the code spanned by $\ev(1)$ has distance $(q-1)^2$, while the
 code spanned by $\ev(1)$ and $\ev(x)$ contains the word of $x-1$, of weight
 $(q-1)(q-2)$.
 
@@ -702,12 +699,11 @@ a toric code.
 \subsection{Examples}\label{sec:examples}
 
 We now tabulate the parameters $(n,k,d)$ of several families of standard
-toric codes. In the original version they were computed with the
-\textbf{toric} package. In this version every row was recomputed exactly
-(script \texttt{verify\_tables.py}). The value of $k$ is the number of
-residues (Proposition~\ref{prop:dim}), and $d$ was computed by an exact
-information-set search. All rows agree with the original tables except one,
-noted in Example~\ref{example:fan1}. The tables use the inward normals $v_i$
+toric codes. They were first computed with the \textbf{toric} package. Every
+row was recomputed exactly for this version (script
+\texttt{verify\_tables.py}). The value of $k$ is the number of residues
+(Proposition~\ref{prop:dim}), and $d$ was computed by an exact
+information-set search. The tables use the inward normals $v_i$
 and the polytope \eqref{eq:PG} of $G=\sum d_iD_i$. For evaluation on the full
 torus, neither smoothness of $X$ nor the Cartier property of $G$ is needed.
 Only the set $P_G\cap M$ matters (see also Section~\ref{sec:fangraph}).
@@ -828,10 +824,9 @@ $q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (200
 \bottomrule
 \end{tabular}
 \end{center}
-The original table listed the data $(q;d_1,d_2,d_3)=(5;2,3,3)$ twice, once with
-$k=14$ and once with $k=15$. The polytope has $15$ lattice points, but
-$(-1,0)\equiv(3,0)\pmod4$. So it has only $14$ residues and $k=14$. The
-duplicate row has been removed.
+The row $(q;d_1,d_2,d_3)=(5;2,3,3)$ shows that $k$ can be smaller than
+$|P_G\cap M|$. The polytope has $15$ lattice points, but
+$(-1,0)\equiv(3,0)\pmod4$, so there are only $14$ residues and $k=14$.
 \end{example}
 
 \begin{example}[Hansen's type (a)]\label{example:fan5}
@@ -839,14 +834,13 @@ Let $\Delta$ have rays $v_1=(1,0)$, $v_2=(-1,1)$ and $v_3=(-1,-1)$. Since
 $\det(v_2,v_3)=2$, the surface is singular. It is the weighted projective
 plane $\PP(1,1,2)$, because $2v_1+v_2+v_3=0$. Hansen's triangle with vertices
 $(0,0)$, $(a,a)$ and $(0,2a)$ is cut out by $x\ge0$, $y\ge x$ and $x+y\le2a$.
-So it is $P_G$ for $G=2aD_3$. The original version wrote $d_3=a$, which gives
-a smaller triangle.
+So it is $P_G$ for $G=2aD_3$.
 
 To obtain a nonsingular surface, refine $\Delta$ by inserting the ray
 $v_4=(-1,0)$ between $v_2$ and $v_3$. All four successive determinants are then
-$1$, and the surface is the Hirzebruch surface $\F_2$. The original version
-inserted $-e_2$ instead, which lies in the cone between $v_3$ and $v_1$ and
-leaves the singular cone unchanged. The divisor $G=2aD_3+aD_4$ on the refined
+$1$, and the surface is the Hirzebruch surface $\F_2$. The new ray has to lie
+inside the singular cone. A ray in a smooth cone, such as $-e_2$ between $v_3$
+and $v_1$, would leave the singular cone unchanged. The divisor $G=2aD_3+aD_4$ on the refined
 surface has the same polytope, since the new inequality $x\le a$ is implied by
 the others. It gives Hansen's code of type (a).
 \end{example}
@@ -880,7 +874,8 @@ only if
 \[
 d'_2+d'_4>0\qquad\text{and}\qquad d'_1+d'_3>m\,d'_2 .
 \]
-The original version stated a garbled form of this condition. With
+With non-strict inequalities the same conditions say that $G'$ is generated by
+its global sections. With
 $d'_1=d'_2=0$, $d'_3=b$ and $d'_4=a$, the polytope has vertices $(0,0)$,
 $(b,0)$, $(b+ma,a)$ and $(0,a)$. Interchanging $x$ and $y$ gives exactly
 Hansen's trapezoid of type (d).
@@ -924,8 +919,7 @@ so
 \[
 \vol(P_G)=\tfrac12\,s^2 \qquad(s\ge0).
 \]
-The original version gave a different formula, which is incorrect. For
-example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$, not $5/2$. The linear
+For example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$. The linear
 map $(x,y)\mapsto(x,y-x)$ carries the triangle onto a translate of the simplex
 $S_s$. Hence $G$ is ample exactly when $s>0$. If $s\le q-2$, then
 Proposition~\ref{prop:hansenabc}(b) gives
@@ -968,9 +962,9 @@ $q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (200
 \end{center}
 \end{example}
 
-The original abstract said that, for small $q$, many of these codes have
-parameters beating the Gilbert--Varshamov bound. We checked this against the
-finite form of the bound. That form guarantees an $[n,k,d]_q$ code whenever
+For small $q$, many of these codes have parameters beating the
+Gilbert--Varshamov bound. To make this precise we use the finite form of the
+bound, which guarantees an $[n,k,d]_q$ code whenever
 $\sum_{i=0}^{d-2}\binom{n-1}{i}(q-1)^i<q^{n-k}$. Of the $42$ distinct parameter
 sets in the tables of this section, $21$ exceed the largest $d$ that it
 guarantees (script \texttt{gv\_check.py}). For instance, for $[49,11]_8$ the
@@ -981,19 +975,19 @@ bound guarantees only $d=26$.
 
 For toric codes, estimating $d$ comes down to a natural question. Given a
 polynomial $f$ whose exponents lie in a prescribed polygon, how many zeros can
-$f$ have on the torus? This section answers the question in some cases, and it
-corrects the estimates of the original version.
+$f$ have on the torus? This section answers the question in some cases. It
+also shows that two natural estimates in terms of coarser invariants of the
+polygon fail.
 
 \subsection{Two-sided bounds from simplices}
 
 Suppose that the polygon $P_G$ is contained in a translate of the simplex
-$S_\ell$ and contains a translate of the simplex $S_k$. In the language of the
-original paper, $S_k$ and $S_\ell$ are the polytopes of divisors $G_1$ and
+$S_\ell$ and contains a translate of the simplex $S_k$. In the language of
+Section~\ref{sec:toric}, $S_k$ and $S_\ell$ are the polytopes of divisors $G_1$ and
 $G_2$ on toric varieties $X_1$ and $X_2$ (both projective spaces). The codes
 $C(P,G_i,X_i)$ generalize Hansen's codes of type (b).
 
-\begin{theorem}[Corrected form of the original Theorem; proved
-here]\label{thrm:subcode2}
+\begin{theorem}[Proved here]\label{thrm:subcode2}
 Let $U\subset\Z^r$ be finite, and suppose there are $u,v\in\Z^r$ and integers
 $0\le k\le\ell\le q-2$ with
 \[
@@ -1027,13 +1021,13 @@ and $d(C_{v+S_\ell})=d(C_{S_\ell})$. Then \eqref{eq:subcode-d} and (4) give
 \end{proof}
 
 \begin{remark}\label{rem:oldsubcode}
-The original version gave the lower bound $(q-a)q^{r-1}-r(q-1)^{r-1}-1$ in
-(4), by counting punctures. The number of points of $\F^r$ outside the torus
-is $q^r-(q-1)^r$. This equals $r(q-1)^{r-1}+1$ only when $r=2$, and for $r\ge3$
-the original bound is false. For $r=3$, $q=5$ and $a=1$ it claims $d\ge51$,
-while the word of $x_1-1$ has weight $48$. The original first two items gave
-codimension bounds of the form $|P_{G_1}-S_k|$, which is $0$ by
-construction. The correct codimensions are those in (1) and (2).
+Puncturing gives a quicker but weaker lower bound. By (3), deleting the
+$q^r-(q-1)^r$ points of $\F^r$ outside the torus from $\RM(a,r,q)$ gives
+$d(C_{S_a})\ge(q-a)q^{r-1}-q^r+(q-1)^r$ (Example~\ref{example:RM}). For $r=2$
+the number of deleted points is $2(q-1)+1$. So one may ask whether
+$r(q-1)^{r-1}+1$ can replace $q^r-(q-1)^r$ for every $r$. It cannot. For
+$r=3$, $q=5$ and $a=1$ the replacement would give $d\ge51$, while the word of
+$x_1-1$ has weight $48$, in agreement with (4).
 \end{remark}
 
 \begin{example}\label{ex:sandwich}
@@ -1048,8 +1042,7 @@ $S_c\subseteq[0,c]^2\subseteq S_{2c}$, and Theorem~\ref{thrm:subcode2} gives
 
 \subsection{An upper bound from lattice segments}
 
-\begin{theorem}[Corrected form of the original Theorem; proved
-here]\label{thm:segment}
+\begin{theorem}[Proved here]\label{thm:segment}
 Let $U\subset\Z^r$ be finite. Suppose $U$ contains $h+1$ consecutive lattice
 points $u,u+w,\dots,u+hw$ on a line, where $w$ is primitive and $1\le h\le
 q-2$. Then
@@ -1070,48 +1063,53 @@ $h(q-1)^{r-1}$ points. It is nonzero elsewhere, so $\ev(f)\ne0$ because $h<q-1$.
 \begin{remark}\label{rem:segment}
 In particular, let $r=2$ and let $h$ be the largest integer with
 $\{(0,0),\dots,(0,h)\}\subseteq P_G$. Then $d\le n-h(q-1)$ if $h\le q-2$. This
-generalizes some cases of Hansen's theorem, where the bound is sharp. The
-original version claimed only $d\le n-h$, for an arbitrary evaluation set, and
-its proof replaced $h$ by $\max_i d_i$ without justification. The hypothesis
-$h\le q-2$ is necessary. For $h=q-1$ the product $\prod_{c\in\Fqs}(x_j-c)$
-vanishes on all of $T(\Fq)$ and gives the zero word. Products of segments in
+generalizes some cases of Hansen's theorem, where the bound is sharp. Can the
+segment have length $q-1$? No. For $h=q-1$ the product $\prod_{c\in\Fqs}(x_j-c)$
+vanishes on all of $T(\Fq)$ and gives the zero word, so the hypothesis $h\le
+q-2$ is necessary. Products of segments in
 several directions give the stronger upper bounds of Little and
 Schenck~\cite{LS06}.
 \end{remark}
 
-\subsection{The conjectures of the 2004 version}
+\subsection{Two estimates that fail}\label{sec:fail}
 
-The original version stated two conjectural lower bounds for $d$, inspired by
-S.~Hansen's work~\cite{SH96}. The first assumed that $X$ is nonsingular and
-projective of dimension $r$ and that $2N\vol(P_G)\le n\le2N^2\vol(P_G)$ for
-some integer $N>1$. It predicted $d\ge n-2N\vol(P_G)$ for large $q$. The
-second assumed in addition that the support function of $G$ is strictly
-convex and that $\deg(P)>\deg(G^r)$. It predicted $k\ge|P_G\cap M|$ and
-$d\ge n-r!\,|P_G\cap M|$. Both are false. Ruano~\cite{Ru07} gave
-counterexamples. The following ones are elementary.
+Theorems~\ref{thrm:subcode2} and~\ref{thm:segment} bound $d$ by means of
+simplices and segments inside the polygon. It is natural to ask whether $d$ is
+controlled by coarser invariants of $P_G$, such as its volume or its number of
+lattice points, in the spirit of S.~Hansen's work on higher-dimensional
+varieties~\cite{SH96}. Let $X$ be nonsingular and projective of dimension $r$,
+and let $q$ be large. Two natural candidates are the following.
+\begin{enumerate}[label=(\roman*)]
+\item If $N>1$ is an integer with $2N\vol(P_G)\le n\le2N^2\vol(P_G)$, then
+$d\ge n-2N\vol(P_G)$.
+\item If the support function of $G$ is strictly convex and $n>\deg(G^r)$, then
+$d\ge n-r!\,|P_G\cap M|$.
+\end{enumerate}
+Both fail. Ruano~\cite{Ru07} gave examples, and the following ones are
+elementary.
 
-\begin{example}[The first conjecture fails]\label{ex:conj1}
+\begin{example}[Estimate (i) fails]\label{ex:conj1}
 Let $X=\PP^1\times\PP^1$ over $\F_9$, with $P_G=[0,1]^2$, so that $n=64$ and
-$\vol(P_G)=1$. The integer $N=6$ satisfies $12\le64\le72$. The conjecture
-predicts $d\ge64-12=52$. But $(x-\alpha)(y-\beta)$ with
+$\vol(P_G)=1$. The integer $N=6$ satisfies $12\le64\le72$, so (i) would give
+$d\ge64-12=52$. But $(x-\alpha)(y-\beta)$ with
 $\alpha,\beta\in\F_9^\times$ has $8+8-1=15$ zeros on the torus. Its word has
 weight $49$, and in fact $d=49$ by Proposition~\ref{prop:hansenabc}(c). For
-general $q$ one has $d=(q-2)^2$, while the conjecture gives roughly
+general $q$ one has $d=(q-2)^2$, while (i) would give roughly
 $n-\sqrt2(q-1)$.
 \end{example}
 
-\begin{example}[The second conjecture fails]\label{ex:conj2}
+\begin{example}[Estimate (ii) fails]\label{ex:conj2}
 Let $X=\PP^2$ and $G=D_3$, so that $P_G=S_1$ has $3$ lattice points, $G$ is
-very ample and $G^2=1$. For $q=9$ we have $\deg(P)=64>1$. The conjecture
-predicts $d\ge64-2\cdot3=58$. But $x-\alpha$ has $8$ zeros on the torus, so
+very ample and $G^2=1$. For $q=9$ we have $n=64>1$, so (ii) would give
+$d\ge64-2\cdot3=58$. But $x-\alpha$ has $8$ zeros on the torus, so
 $d\le56$, and in fact $d=56$ by Theorem~\ref{thrm:subcode2}(4). The same
-failure occurs whenever $q-1>6$. Moreover, the inequality $k\ge|P_G\cap M|$
-is reversed in general, since $k=\dim C\le\dim L(G)$, with equality exactly in
-the situation of Proposition~\ref{prop:dim}(iii).
+failure occurs whenever $q-1>6$. For the dimension one always has
+$k=\dim C\le\dim L(G)=|P_G\cap M|$, with equality exactly in the situation of
+Proposition~\ref{prop:dim}(iii).
 \end{example}
 
-Theorems~\ref{thrm:subcode2} and~\ref{thm:segment} replace the conjectures.
-For large $q$ the sharp asymptotic answer is given by Minkowski length:
+So good lower bounds need finer invariants than the volume. For large $q$ the
+sharp asymptotic answer is given by Minkowski length:
 $d\ge(q-1)^2-L(q-1)-2\sqrt q+1$, where $L$ is the full Minkowski length of the
 polygon~\cite[Thm.~1]{SS09}. That bound holds above an explicit threshold
 for $q$.
@@ -1143,12 +1141,14 @@ relatively large $q$. Much of the Gr\"obner basis computation is one-time
 work, however.
 
 This section gives an error-locator algorithm in the style of
-\cite[pp.~217--218]{St93}. It uses only linear algebra. The original version
-tied the algorithm to error positions lying on $T$-invariant divisors $D_i$.
-That cannot work for evaluation on the torus, since no torus point lies on any
-$D_i$. Its worked example also placed evaluation points on $\supp(G)$, where
-the functions of $L(G)$ may have poles. We therefore restate the algorithm in
-terms of spaces of functions that are regular at all evaluation points. In
+\cite[pp.~217--218]{St93}. It uses only linear algebra. The method needs
+functions that separate the error positions. On a toric surface one might try
+to obtain them from the $T$-invariant divisors $D_i$, by asking that each
+error position lie on some $D_i$. For evaluation on the torus this is
+impossible, since no point of $T(\Fq)$ lies on any $D_i$. A boundary point on
+$\supp(G)$ is not an allowed evaluation point either, because the functions
+of $L(G)$ may have poles there. We therefore state the algorithm in terms of
+spaces of functions that are regular at all evaluation points. In
 this form it is Pellikaan's decoding by error-correcting pairs~\cite{Pe92}
 (see also~\cite{Ha17}). Toric geometry then supplies the hypotheses
 (Corollary~\ref{cor:toricECP}). By Theorem~\ref{thm:dual}, decoding the dual
@@ -1205,8 +1205,7 @@ Condition (B) holds if and only if $d(\ev(V_B)^\perp)>t$. Indeed, (B) fails
 for some $I$ exactly when $\ev(V_B)$ restricted to $I$ is not all of $\F^I$.
 That happens exactly when some nonzero vector supported in $I$ is orthogonal
 to $\ev(V_B)$. Condition (C) says that $n-d(\ev(V_A))<d(D)$. The proof
-consists of the next two propositions. They correct the two propositions of
-the original version.
+consists of the next two propositions.
 
 \begin{proposition}[Error locator]\label{prop:errorlocator}
 Under (A) and (B), with $I=\supp(e)$ and $|I|\le t$, the system
@@ -1252,16 +1251,15 @@ $b=e$.
 \end{proof}
 
 \begin{remark}\label{rem:oldexample}
-In the worked example of the original version, $X$ is the surface of
-Example~\ref{example:fan1}, with $G=10D_3$ and $G'=2(D_1+D_2+D_3)$. There $V_A$
-and $V_B$ are spanned by the $10$ lattice points of $P_{G'}$ and the $5$ lattice
-points of $P_{G-G'}$. The example placed the points $P_1$, $P_2$ and $P_3$ on
-$D_1$, $D_2$ and $D_3$. Since $P_3\in\supp(G)$, the evaluation at $P_3$ was not
-defined. The claimed bound on $q$ also used the minimum distance of $C$ in
-place of that of $D=C^\perp$. With all points taken in $T(\Fq)$ the example
-becomes an instance of Theorem~\ref{thm:decode}. Condition (B) can then hold
-only for $t\le5=\dim V_B$. We have not determined $d(D)$ for that example,
-and we replace it by Example~\ref{ex:decode}.
+Divisors give natural candidate pairs. On the surface of
+Example~\ref{example:fan1}, take $G=10D_3$ and $G'=2(D_1+D_2+D_3)$, and let
+$V_A$ and $V_B$ be spanned by the $10$ lattice points of $P_{G'}$ and the $5$
+lattice points of $P_{G-G'}$. Then $V_AV_B\subseteq L(G)$, and with evaluation
+on $T(\Fq)$ we are in the setting of Theorem~\ref{thm:decode}. Condition (B)
+can hold only for $t\le5=\dim V_B$. What radius does this pair guarantee? The
+answer depends on $d(D)$ for $D=C_{P_G\cap M}^\perp$, which we have not
+determined. Example~\ref{ex:decode} below uses a pair for which every
+condition can be checked.
 \end{remark}
 
 \subsection{Toric criteria}
@@ -1614,11 +1612,10 @@ Theorem~\ref{thrm:hansen}(a)--(c) & cited \cite{Ha02}; reproved here
 Theorem~\ref{thrm:hansen}(d) & cited \cite{Ha02}; checked numerically
 (Remark~\ref{rem:hansend})\\
 Lemma~\ref{lem:grid}, Theorems~\ref{thrm:subcode2}, \ref{thm:segment} &
-proved here (corrected forms of original results)\\
-Conjectures of the 2004 version & false (Examples~\ref{ex:conj1},
+proved here\\
+Estimates (i), (ii) of Section~\ref{sec:fail} & false (Examples~\ref{ex:conj1},
 \ref{ex:conj2}; also \cite{Ru07})\\
-Tables in Section~\ref{sec:examples} & exhaustive exact computation; one
-duplicated row removed\\
+Tables in Section~\ref{sec:examples} & exhaustive exact computation\\
 $[49,11,28]_8$ & $k$ and $d\le28$ proved; $d\ge28$ by two independent
 exhaustive computations\\
 Theorem~\ref{thm:decode}, Cor.~\ref{cor:toricECP}, Lemma~\ref{lem:separate}
@@ -1691,13 +1688,11 @@ I thank S{\o}ren Hansen, Johan Hansen and Amin Shokrollahi for answering many
 questions, and for helpful correspondence regarding their research.
 
 This corrected and expanded version was prepared with AI assistance. OpenAI
-ChatGPT (GPT-6) acted as referee. It wrote a report on the 2003 manuscript
-that identified the false conjectures, the false injectivity lemma, the
-reversed distance inequality and the problems with the decoding example.
+ChatGPT (GPT-6) acted as referee and wrote a report on the 2003 manuscript.
 Anthropic Claude (Claude Opus~5.5) acted as reviser. It checked each point of
 the report independently and wrote the revised text. It found the grid-lemma
-proofs, the duality and cyclic-code statements, the corrected decoding theorem
-and its worked example, and the graph-theoretic material of
+proofs, the duality and cyclic-code statements, the decoding theorem in its
+present form and its worked example, and the graph-theoretic material of
 Section~\ref{sec:graphs}. It also wrote and ran the verification scripts. AI
 review is not an independent certification of the results. Further details on
 the AI usage, including which sources could not be consulted, can be found in

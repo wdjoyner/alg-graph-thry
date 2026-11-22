@@ -4,7 +4,7 @@ Project for David Joyner's *Toric codes over finite fields*, published in
 *Applicable Algebra in Engineering, Communication and Computing* **15** (2004),
 63–79 (preprint arXiv:math/0208155).
 
-**Current version: Draft 1 of the corrected and expanded version
+**Current version: Draft 2 of the corrected and expanded version
 (2026-11-22).** `toric-codes.tex` and `toric-codes.pdf`.
 
 ## Contents
@@ -15,7 +15,8 @@ Project for David Joyner's *Toric codes over finite fields*, published in
   the 2003 manuscript by OpenAI's ChatGPT. It uses the newtx fonts, so no PDF
   is included here.
 - `revision-log.tex`, `revision-log.pdf`: the revision log. It contains the
-  point-by-point response to the referee report, the list of changes, a
+  point-by-point response to the referee report, the list of changes, the
+  error discussion moved out of the paper in Draft 2, a
   numbering concordance, the verification level of each main claim, and the
   sources not consulted.
 - `scripts/`: the verification scripts and their outputs (see `scripts/README.md`).
@@ -42,6 +43,15 @@ independently. Changes in brief:
 - New Section 8 covers graph-theoretic connections: the discrete torus as a
   Cayley graph, the Combinatorial Nullstellensatz, fans as weighted cycle
   graphs, tropical curves and harmonic morphisms, and Kitaev's toric code.
+
+## Draft 2
+
+At David's request, all discussion of errors in the 2004 version was moved
+out of the paper into the revision log (Section 5 of the log). Where the
+mathematics was worth keeping, it is now stated as a natural question arising
+from a nearby theorem or from generalizing an example. For instance,
+Section 6.3 is now "Two estimates that fail". No theorem, example or
+computation changed.
 
 ## Pending
 

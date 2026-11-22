@@ -14,11 +14,12 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\PP}{\mathbb{P}}
 \DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\supp}{supp}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \setlength{\emergencystretch}{3em}
 
 \title{Revision log for \emph{Toric codes over finite fields}\\[4pt]
-\large Draft 1 of the corrected and expanded version}
+\large Drafts 1 and 2 of the corrected and expanded version}
 \author{Prepared for David Joyner by Claude (Anthropic), November 22, 2026}
 \date{}
 
@@ -29,7 +30,7 @@
 
 This log records the changes from the manuscript \texttt{toric\_code7.tex}
 (dated September 1, 2003) to \texttt{toric-codes.tex} (Draft 1, November
-22, 2026). The 2003 file is the version published as D.~Joyner, \emph{Appl.
+22, 2026), and the further changes in Draft 2 (Section~\ref{sec:draft2}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
 Algebra Engrg. Comm. Comput.} \textbf{15} (2004), 63--79, arXiv:math/0208155.
 The arXiv and journal data were checked online.
 
@@ -190,6 +191,114 @@ Citation keys follow the initials-plus-year rule, with \texttt{GAP00} and
 \texttt{GUA02} for packages. The file compiles with \texttt{pdflatex} with no
 errors, no undefined references, and no overfull or underfull boxes.
 \end{enumerate}
+
+\section{Draft 2 (November 22, 2026): error discussion moved here}\label{sec:draft2}
+
+At David's request, every passage of Draft~1 that discussed errors in the
+2004 version was removed from the paper and is recorded below. Where the
+mathematics was worth keeping, Draft~2 states it as a question that arises
+naturally from a nearby theorem or from trying to generalize an example. No
+theorem, example or computation was changed. Two short remarks were added:
+the non-strict form of the ampleness condition in Example~5.12 (global
+generation), and the positive statement $k\le|P_G\cap M|$ in Example~6.7. The
+numbering of theorems, examples and
+remarks is the same as in Draft~1. Subsection~6.3 is retitled ``Two estimates
+that fail''. The table gives each relocated statement about the 2004 version
+and where its content now lives.
+
+\begin{longtable}{@{}L{0.47\textwidth}L{0.45\textwidth}@{}}
+\toprule
+Statement about the 2004 version (removed from the paper) & How Draft 2
+treats the mathematics\\ \midrule
+\endhead
+Abstract and introduction: the two conjectures of 2004 are false; the tables
+were confirmed except one duplicated row; the decoding algorithm was repaired.
+& The abstract and introduction now state the results directly: two natural
+volume-type lower bounds fail, all parameters are computed exactly, and an
+error-locator algorithm is given.\\
+Literature review: S.~Hansen inspired the 2004 conjectures; Ruano (2007) gave
+counterexamples to them. & Some questions of Section~6.3 go back to
+S.~Hansen. Ruano showed that bounds of that kind fail in general.\\
+Remark~5.4: the 2004 Lemma~3.3, attributed to J.~Hansen, claimed injectivity of
+evaluation for $q>q_0(\Delta)$ with $q_0$ depending only on the fan. It is
+false ($x^{q-1}-1\in L((q-1)D_3)$ on $\PP^2$). The 2004 criterion $|a_i|<q$ is
+insufficient. & Posed as ``one might hope'' that a bound depending only on
+the fan exists. The same counterexample shows it does not, and the right
+condition depends on $G$.\\
+Proposition~5.6 and the following paragraph: the 2004 Remark~3.2 stated
+$d(C(P,G_2,X_2))\ge d(C(P,G_1,X_1))$ for $P_{G_1}\subseteq P_{G_2}$, which is
+reversed. & The correct inequality is stated, with the remark that it can be
+strict and the same example.\\
+Section~5.3: all rows agree with the 2004 tables except one. & Removed. The
+agreement is recorded in Section~\ref{sec:computations} of this log.\\
+Example~5.9: the 2004 table listed $(5;2,3,3)$ twice, with $k=14$ and
+$k=15$; the duplicate (with $k=15$) was removed. & The row is used to
+illustrate that $k$ can be smaller than $|P_G\cap M|$, via
+$(-1,0)\equiv(3,0)\pmod4$.\\
+Example~5.10: the 2004 text took $d_3=a$ instead of $2a$, and refined the fan
+by inserting $-e_2$, which leaves the singular cone unchanged. & $G=2aD_3$ is
+stated without comment. The paper observes that a new ray must lie inside the
+singular cone, and that a ray such as $-e_2$ in a smooth cone would not
+help.\\
+Example~5.12: the 2004 ampleness condition on $\F_m$
+(``$d'_2+d'_4\ge0$, $d'_1+d'_3\ge md'_1$'') was garbled. & The correct strict
+conditions are stated, with the remark that non-strict ones characterize
+global generation.\\
+Example~5.13: the 2004 area formula
+$\tfrac12(2d_1+d_3)(d_3-d_1-d_2)$ is wrong (e.g.\ $5/2$ instead of $25/2$ for
+$(1,1,3)$). & The correct area $\tfrac12s^2$ is stated, with the example
+$25/2$.\\
+Paragraph before Section~6: ``the original abstract said'' that many codes
+beat the GV bound. & Stated directly and made precise.\\
+Section~6 introduction: ``corrects the estimates of the original version''. &
+``Shows that two natural estimates in terms of coarser invariants fail.''\\
+Theorems~6.1 and 6.4: titled ``Corrected form of the original Theorem''. &
+Titled ``Proved here''.\\
+Remark~6.2: the 2004 Theorem~4.5(5) gave $d\ge(q-a)q^{r-1}-r(q-1)^{r-1}-1$ by
+counting punctures. It is false for $r\ge3$ ($51$ versus weight $48$ for
+$r=3$, $q=5$, $a=1$). Items (1) and (2) gave codimension bounds
+$|P_{G_1}-S_k|=0$. & Posed as a question: does the $r=2$ count
+$r(q-1)^{r-1}+1$ of deleted points generalize? The same example shows it does
+not. The codimension remark is dropped, since Theorem~6.1(1), (2) are
+exact.\\
+Remark~6.5: the 2004 Theorem~4.8 claimed only $d\le n-h$ for an arbitrary
+evaluation set, and its proof replaced $h$ by $\max_id_i$ without
+justification. The referee's repair allowed $h=q-1$. & Posed as a question:
+can the segment have length $q-1$? The answer is no, which shows $h\le q-2$
+is necessary.\\
+Section~6.3: titled ``The conjectures of the 2004 version''; Conjectures~4.1
+and 4.2 stated as the 2004 claims and called false; Example~6.7 said the
+inequality $k\ge|P_G\cap M|$ is reversed. & Retitled ``Two estimates that
+fail''. The two bounds are posed as natural candidates suggested by
+Theorems~6.1 and 6.4, and Examples~6.6 and 6.7 show they fail. The dimension
+inequality is stated positively.\\
+Section~7 introduction: the 2004 algorithm required error positions on
+invariant divisors $D_i$, impossible for torus points; its example placed
+points on $\supp(G)$. & Posed as a natural attempt to get separating
+functions from the divisors $D_i$, followed by the reason it cannot work on
+the torus.\\
+Text before Proposition~7.3: ``They correct the two propositions of the
+original version.'' & Removed.\\
+Remark~7.5: the 2004 worked example (fan1, $G=10D_3$,
+$G'=2(D_1+D_2+D_3)$) put $P_3$ on $D_3\subseteq\supp(G)$, so evaluation at
+$P_3$ was undefined. Its bound on $q$ used $d(C)$ instead of $d(C^\perp)$. &
+The same divisors are presented as a natural candidate pair, with the open
+question of what radius it guarantees.\\
+Summary table: ``corrected forms of original results'', ``Conjectures of the
+2004 version: false'', ``one duplicated row removed''. & ``Proved here'';
+``Estimates (i), (ii) of Section~6.3: false''; ``exhaustive exact
+computation''.\\
+Acknowledgments: the referee report ``identified the false conjectures, the
+false injectivity lemma, the reversed distance inequality and the problems
+with the decoding example''. & The acknowledgments name the referee's role
+only. The details are in Section~\ref{sec:referee} of this log.\\
+\bottomrule
+\end{longtable}
+
+What remains in the paper about the 2004 version is what the style guide
+requires: the title-page note identifying the publication, the date line,
+the split of the literature review at 2004, and the historical comparisons
+with Brouwer's 2003 tables.
 
 \section{Original results versus results new in 2026}
 
