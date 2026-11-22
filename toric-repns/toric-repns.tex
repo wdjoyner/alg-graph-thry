@@ -440,18 +440,18 @@ The following questions describe possible further work, not established results.
 \section{Glossary}
 This glossary supplies brief reminders of terminology introduced in the background; it is not a substitute for the statements and proofs.
 \begin{description}
-\item[Adjacency operator.] The linear operator sending each vertex basis vector to the sum of its neighbors.
-\item[Character lattice.] The lattice $M$ of algebraic characters of the dense torus.
-\item[Equivariant Ehrhart counting.] Counting lattice points in dilated polytopes while retaining their permutation characters under a symmetry group.
-\item[Fan automorphism.] A lattice automorphism mapping every cone of the fan onto some cone of the same fan.
-\item[Graphic zonotope.] The Minkowski sum of edge segments of a finite graph.
-\item[Hypersimplex.] The convex hull of zero-one vectors of prescribed coordinate sum.
-\item[Induced permutation module.] The representation $\Ind_H^G\bfone\cong\CC[G/H]$.
-\item[Johnson graph.] The graph on subsets of fixed cardinality, with adjacency determined by intersection size.
-\item[Reflexive divisor sheaf.] The rank-one coherent sheaf $\calO_X(D)$ associated to a Weil divisor on a normal variety; it need not be locally free.
-\item[Toric linearization.] A compatible action on a line bundle lifting an action on the base variety; changing this lift can twist the representation on sections by a group character.
-\item[Affine lattice symmetry.] A map $u\mapsto A_gu+b_g$ preserving an affine lattice and polytope; in degree $q$, its monomial action uses $qb_g$.
-\item[Twisted-walk trace.] The trace $\tr(\pi_D(g)A^r)$, which counts length-$r$ walks from $u$ to $g(u)$, summed over all starting vertices $u$.
+\item[Adjacency operator.] The linear operator sending each vertex basis vector to the sum of its neighbors. In matrix form, its $(u,v)$-entry is $1$ when $u$ and $v$ are adjacent and $0$ otherwise. If a group preserves the graph, this operator commutes with its permutation action on the vertices.
+\item[Character lattice.] The lattice $M$ of algebraic characters of the dense torus. For $T=(\CC^\times)^d$, it is isomorphic to $\ZZ^d$: an element $(u_1,\ldots,u_d)$ defines the monomial $t_1^{u_1}\cdots t_d^{u_d}$. Such monomials form the standard basis of $L(D)$ when their exponents belong to $P_D$.
+\item[Equivariant Ehrhart counting.] Counting lattice points in dilated polytopes while retaining their permutation characters under a symmetry group. Ordinary Ehrhart counting remembers only the total number of lattice points. With a monomial permutation action, the trace of $g\in G$ counts the lattice points fixed by $g$, giving a character-valued refinement.
+\item[Fan automorphism.] A lattice automorphism mapping every cone of the fan onto some cone of the same fan. It may permute rays and cones; it need not fix each of them separately. It acts on the corresponding toric variety and, when it preserves the divisor $D$, permutes the monomial basis of $L(D)$.
+\item[Graphic zonotope.] The Minkowski sum of edge segments of a finite graph. For a graph on vertices $1,\ldots,n$, these segments are $[e_i,e_j]$ for edges $\{i,j\}$. The lattice points of its dilates are counted by a polynomial whose terms correspond to acyclic edge sets, as in Proposition~\ref{prop:forests}.
+\item[Hypersimplex.] The convex hull of zero-one vectors of prescribed coordinate sum. Explicitly, $\Delta(k,n)=\{x\in[0,1]^n:\sum_i x_i=k\}$. Its lattice points correspond to $k$-element subsets of $\{1,\ldots,n\}$, and permutations of coordinates give a natural permutation representation.
+\item[Induced permutation module.] The representation $\Ind_H^G\bfone\cong\CC[G/H]$. Its basis is indexed by the left cosets of $H$ in $G$, which $G$ permutes transitively. Transitivity of the basis action does not imply irreducibility: this module may split into several irreducible constituents.
+\item[Johnson graph.] The graph on subsets of fixed cardinality, with adjacency determined by intersection size. In $J(n,k)$, two $k$-subsets are adjacent when they differ in exactly one element. In particular, $J(n,2)$ is the line graph of $K_n$, with a vertex for each edge of $K_n$.
+\item[Reflexive divisor sheaf.] The rank-one coherent sheaf $\calO_X(D)$ associated to a Weil divisor on a normal variety; it need not be locally free. Its global sections can be described by rational functions whose poles are bounded by $D$. If $D$ is Cartier, the sheaf is a line bundle, whereas a non-Cartier divisor may produce a sheaf that is not locally free.
+\item[Toric linearization.] A compatible action on a line bundle lifting an action on the base variety; changing this lift can twist the representation on sections by a group character. The monomial linearization used here sends a section indexed by $u$ to the section indexed by its image under the affine lattice action. Specifying this choice is important when interpreting the graphic-zonotope and hypersimplex character formulas.
+\item[Affine lattice symmetry.] A map $u\mapsto A_gu+b_g$ preserving an affine lattice and polytope; in degree $q$, its monomial action uses $qb_g$. The translation term means that such an action need not fix the origin in an intrinsic affine coordinate system. Coordinate permutations of the hypersimplex illustrate this situation in the hyperplane $\sum_i x_i=2$.
+\item[Twisted-walk trace.] The trace $\tr(\pi_D(g)A^r)$, which counts length-$r$ walks from $u$ to $g(u)$, summed over all starting vertices $u$. At $r=0$, this is simply the number of vertices fixed by $g$. At $r=1$, it counts the oriented walks along edges from each vertex to its image under $g$.
 \end{description}
 
 \section*{Acknowledgments}
