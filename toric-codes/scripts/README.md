@@ -29,3 +29,5 @@ Saved outputs are in the `*_output.txt` and `*.json` files.
 | `decode_simplex_search.py` | Search for simplex-type error-correcting pairs | seconds |
 | `decode_search.py` | Search over convex sets A in [0,4]^2. The saved run was stopped before completion. | hours |
 | `decode_pair_check.py` | Verifies the t = 6 pair found by the search and tests the decoder with it | about 10 minutes |
+| `tropical_example.py` | The tropical curve of Example 8.6, harmonicity of its projection, the finite model and the Riemann–Hurwitz check | seconds |
+| `lattice_width.py` | Lattice widths and the fiber-bound sample of Example 8.8 | about a minute |

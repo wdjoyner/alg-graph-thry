@@ -19,7 +19,7 @@
 \setlength{\emergencystretch}{3em}
 
 \title{Revision log for \emph{Toric codes over finite fields}\\[4pt]
-\large Drafts 1 and 2 of the corrected and expanded version}
+\large Drafts 1--3 of the corrected and expanded version}
 \author{Prepared for David Joyner by Claude (Anthropic), November 22, 2026}
 \date{}
 
@@ -30,7 +30,8 @@
 
 This log records the changes from the manuscript \texttt{toric\_code7.tex}
 (dated September 1, 2003) to \texttt{toric-codes.tex} (Draft 1, November
-22, 2026), and the further changes in Draft 2 (Section~\ref{sec:draft2}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
+22, 2026), and the further changes in Drafts 2 and 3 (Sections~\ref{sec:draft2}
+and~\ref{sec:draft3}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
 Algebra Engrg. Comm. Comput.} \textbf{15} (2004), 63--79, arXiv:math/0208155.
 The arXiv and journal data were checked online.
 
@@ -300,6 +301,56 @@ requires: the title-page note identifying the publication, the date line,
 the split of the literature review at 2004, and the historical comparisons
 with Brouwer's 2003 tables.
 
+\section{Draft 3 (November 22, 2026)}\label{sec:draft3}
+
+Changes made at David's request.
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Section 8.5 removed} (Kitaev's toric code and CSS codes,
+Remark~2026.5 of Draft~2). It observed that Kitaev's quantum toric code lives
+on the edges of the grid graph $C_m\square C_m$ while the codes of the paper
+live on its vertices. It also noted that Theorem~5.7 gives CSS pairs, as used
+by J.~P.~Hansen. The reference [Ki03] was removed with it.
+\item \textbf{Section 8.6 removed} (the Hamming graph and optimality,
+Remark~2026.6 of Draft~2). It suggested certifying the ``best possible''
+table entries by Delsarte's linear programming bound. The corresponding open
+question was removed from Section~9.
+\item \textbf{Section 8.4 expanded} from one remark and one question to a
+full subsection:
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item tropicalization, with Definition~8.3 and the standard facts (T1)--(T4)
+cited from Maclagan--Sturmfels;
+\item Definition~8.4 (harmonic morphism of metric graphs);
+\item Proposition~8.5 (proved): a coordinate projection of a tropical curve
+is a harmonic morphism to the line, of degree equal to the vertical extent of
+the Newton polygon;
+\item Example~8.6 and Figure~1: the tropical curve of
+$f=\sum_{u\in[0,2]^2}t^{i^2+ij+j^2}x^iy^j$. It has $8$ vertices, $8$ bounded
+edges and $8$ ends, and its only cycle is a hexagon. Its projection is a
+degree-$2$ harmonic morphism to a tree that folds the hexagon two-to-one. A
+finite model $G\to T$ (14 vertices, path with 7 vertices) is a Baker--Norine
+harmonic morphism, and the Riemann--Hurwitz formula checks
+($0=2\cdot(-2)+4$). Everything was computed by
+\texttt{tropical\_example.py};
+\item Proposition~8.7 (proved): the fiber bound $h_v(q-1)$ on zeros of
+sections without binomial factors in the complementary direction;
+\item Example~8.8: for $[0,2]^2$ over $\F_8$ the fiber bound $14$ is attained
+in a random search, and for the principal triangle the lattice width is $4$
+(\texttt{lattice\_width.py});
+\item Remark~2026.4 (rewritten) and Question~8.9 (kept).
+\end{itemize}
+Remark labels are now 2026.1--2026.4, and theorem numbers in Section~8 after
+8.4 changed accordingly.
+\item \textbf{Glossary expanded} to about three sentences per entry, with new
+entries: combinatorial Nullstellensatz, dual subdivision, gonality, lattice
+width, metric graph, Newton polygon, Riemann--Hurwitz formula, tropical curve.
+\item New references: [ABBR15], [Ba08], [Ch13], [MS15]. Their bibliographic
+data were checked online (Level~2). The statements used are Level~2 for the
+abstracts of [ABBR15], [Ba08] and [Ch13], and Level~3 for the facts (T1)--(T4)
+from [MS15] and for the form of the Riemann--Hurwitz formula of [BN09]. The
+latter was checked numerically in Example~8.6. The page numbers of [BN09] are
+now confirmed (Level~2).
+\end{enumerate}
+
 \section{Original results versus results new in 2026}
 
 \textbf{Original results, retained (corrected where needed):}
@@ -393,6 +444,10 @@ during $q=8$.\\
 \texttt{gv\_check.py} & 21 of the 42 distinct parameter sets beat the finite
 Gilbert--Varshamov bound.\\
 \texttt{resolve\_fan.py} & Minimal resolutions and weighted cycle graphs.\\
+\texttt{tropical\_example.py} & Example~8.6 (Draft 3): tropical curve,
+balancing, harmonicity of the projection, finite model, Riemann--Hurwitz.\\
+\texttt{lattice\_width.py} & Lattice widths and the fiber-bound sample of
+Example~8.8 (Draft 3).\\
 \texttt{decode\_example.py} & Example~7.8: decodes all of 300 random trials
 for each number of errors $t\le5$; succeeds in 50 of 300 trials at $t=6$ and
 8 of 300 at $t=7$.\\
@@ -430,7 +485,7 @@ MacWilliams--Sloane Ch.~13, Pless--Huffman p.~920, Ha02 \S2.3 & 3 (not
 consulted)\\
 Alon--F\"uredi theorem as stated in Section~8.2 & 3. The paper proves the
 special case it needs (Lemma 4.2).\\
-Baker--Norine page numbers; Skorobogatov--Vl\u{a}du\c{t} data;
+Skorobogatov--Vl\u{a}du\c{t} data;
 Fitzgerald--Lax title; Brown--Kasprzyk~[BK13b] journal; years of
 \texttt{toric.g} and of Joyner--Verrill & 3\\
 Castryck--Cools gonality bound $\le$ lattice width & 2 (abstract and a

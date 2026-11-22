@@ -8,6 +8,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
+\usepackage{tikz}
 \usepackage[hidelinks]{hyperref}
 
 \numberwithin{equation}{section}
@@ -53,7 +54,7 @@
 \newcommand{\st}[1]{\textup{(\emph{#1})}}
 
 \title{Toric codes over finite fields\\[4pt]
-\large Draft 2. Corrected and expanded version}
+\large Draft 3. Corrected and expanded version}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}.
 The original version of this paper appeared as D.~Joyner, ``Toric codes over
 finite fields,'' \emph{Applicable Algebra in Engineering, Communication and
@@ -88,7 +89,8 @@ errors in a fully worked example, and up to $6$ errors with a pair found by
 computer search. Finally we discuss graph-theoretic
 connections. These are the discrete torus as a Cayley graph, the
 Combinatorial Nullstellensatz, fans as weighted cycle graphs, and tropical
-curves with harmonic morphisms.
+curves, with a worked example of a harmonic morphism from a tropical curve to
+a tree.
 \end{abstract}
 
 \tableofcontents
@@ -1524,23 +1526,269 @@ and its weighted cycle graph has self-intersections
 \]
 As a check, $\sum a_i=27=3\cdot13-12$.
 
-\subsection{Tropical curves, metric graphs and harmonic morphisms}
+\subsection{Tropical curves, metric graphs and harmonic morphisms}\label{sec:tropical}
+
+The zeros of a function $f\in V_U$ on the torus are the rational points of a
+curve whose Newton polygon lies in $\conv(U)$. Over a field with a valuation,
+such a curve has a tropicalization. This is a balanced metric graph in $\R^2$
+whose combinatorics is dual to a subdivision of the polygon. Projecting the
+plane onto a line maps this graph onto a tree by a harmonic morphism. The
+projections used in the proofs of Lemma~\ref{lem:grid} and
+Theorem~\ref{thm:segment} are the classical shadows of these morphisms. This
+subsection explains the connection, works out an example in full, and
+records what the degree of a projection says about toric codes.
+
+\paragraph{Tropicalization.}
+Let $K$ be an algebraically closed field with a nontrivial valuation
+$\operatorname{val}:K^\times\to\R$. An example is the field of Puiseux series
+over $\overline{\F}_q$, with $\operatorname{val}(t)=1$. For a Laurent polynomial
+$f=\sum_{u\in U}c_ux^u$ over $K$, put
+\[
+\operatorname{trop}(f)(w)=\min_{u\in U,\ c_u\ne0}\bigl(\operatorname{val}(c_u)+\langle
+u,w\rangle\bigr),\qquad w\in\R^2 .
+\]
+
+\begin{definition}\label{def:tropcurve}
+The \emph{tropical curve} $\Gamma=\operatorname{Trop}(f)$ is the set of
+$w\in\R^2$ at which the minimum defining $\operatorname{trop}(f)(w)$ is
+attained by at least two terms.
+\end{definition}
+
+We use the following standard facts~\cite[Ch.~3]{MS15}.
+\begin{enumerate}[label=(T\arabic*)]
+\item (Kapranov) $\Gamma$ is the closure of the image of the curve
+$\{f=0\}\subset(K^\times)^2$ under $(x,y)\mapsto(\operatorname{val}x,\operatorname{val}y)$.
+\item The heights $\operatorname{val}(c_u)$ induce a regular subdivision of the
+Newton polygon $\Delta$ of $f$, the projection of the lower faces of the convex
+hull of the lifted points $(u,\operatorname{val}(c_u))$. The vertices of $\Gamma$
+correspond to the two-dimensional cells of the subdivision. The bounded edges
+of $\Gamma$ correspond to its interior edges, and the unbounded ends to its
+boundary edges. Each edge of $\Gamma$ is perpendicular to the dual edge, and
+its weight is the lattice length of the dual edge. The end dual to a boundary
+edge $E$ points in the direction of the inward normal of $\Delta$ along $E$.
+\item (Balancing) At every vertex of $\Gamma$ the sum of the weighted primitive
+outgoing edge directions is $0$.
+\item If the subdivision is a unimodular triangulation, $\Gamma$ is trivalent,
+all weights are $1$, and the first Betti number of $\Gamma$ equals the number
+of interior lattice points of $\Delta$.
+\end{enumerate}
+We regard $\Gamma$ as a metric graph, giving an edge of primitive direction
+$p$ and Euclidean length $\lambda|p|$ the lattice length $\lambda$.
+
+\paragraph{Projections are harmonic morphisms.}
+Harmonic morphisms of graphs were introduced by Urakawa and developed by Baker
+and Norine~\cite{BN09} as a discrete analogue of holomorphic maps of Riemann
+surfaces. The version for metric graphs is used in~\cite{Ch13}
+and~\cite{ABBR15}.
+
+\begin{definition}\label{def:harmonic}
+Let $\Gamma$ and $\Gamma'$ be metric graphs. A continuous map
+$\varphi:\Gamma\to\Gamma'$ is a \emph{harmonic morphism} if it is linear on
+each edge with a nonnegative integer slope $d_e$, the \emph{dilation factor},
+and if for every point $x\in\Gamma$ the following holds. For each tangent
+direction $h'$ at $\varphi(x)$, the sum of $d_e$ over the tangent directions $h$
+at $x$ that map onto $h'$ is independent of $h'$. This common value is the
+\emph{local degree} $m_\varphi(x)$. Edges with $d_e=0$ are called
+\emph{vertical}.
+\end{definition}
+
+If $\Gamma'$ is connected, the \emph{degree}
+$\sum_{x\in\varphi^{-1}(y)}m_\varphi(x)$ does not depend on $y$, where the sum is
+over the points of the fiber with $m_\varphi(x)>0$.
+
+\begin{proposition}[Proved here, given (T2) and (T3)]\label{prop:projharmonic}
+Let $\Gamma=\operatorname{Trop}(f)$ and let $\pi(w_1,w_2)=w_1$. Give an edge
+$e$ of weight $\mu_e$ and primitive direction $(a_e,b_e)$ the dilation factor
+$d_e=\mu_e|a_e|$. Then $\pi:\Gamma\to\R$ is a harmonic morphism onto the line,
+which is a tree. Its degree is the vertical extent
+$\max_{u\in\Delta}u_2-\min_{u\in\Delta}u_2$ of the Newton polygon.
+\end{proposition}
+
+\begin{proof}
+At an interior point of an edge there is nothing to check. At a vertex $x$,
+the first coordinate of the balancing condition (T3) reads
+$\sum_{a_e>0}\mu_ea_e=\sum_{a_e<0}\mu_e|a_e|$, the sums running over the edges
+at $x$. The left side is the sum of the dilation factors over the edges
+leaving $x$ to the right, and the right side is the sum over those leaving to
+the left. So $\pi$ is harmonic. For the degree, take $y$ smaller than the
+first coordinate of every vertex. The fiber over $y$ consists of one point on
+each end with $a_e<0$. By (T2) these are the ends dual to the boundary edges
+$E$ of $\Delta$ whose inward normal has negative first coordinate, which form
+the boundary chain of $\Delta$ from its lowest point to its highest point on
+the right. An edge $E$ of lattice length $\ell_E$ and primitive direction
+$(\epsilon_1,\epsilon_2)$ gives an end with $\mu_e=\ell_E$ and
+$|a_e|=|\epsilon_2|$. The contributions $\ell_E|\epsilon_2|$ add up to the
+vertical extent of that chain, which is the vertical extent of $\Delta$.
+\end{proof}
+
+\begin{example}[A tropical curve with a degree-two harmonic morphism to a
+tree]\label{ex:tropical}
+Let $\Delta=[0,2]^2$, the polygon of Hansen's type (c) with $a=b=1$. Over the
+Puiseux series field $K$ above, let
+\[
+f=\sum_{(i,j)\in\Delta\cap\Z^2}t^{\,i^2+ij+j^2}\,x^iy^j .
+\]
+The heights $i^2+ij+j^2$ come from a positive definite quadratic form. They
+induce the unimodular triangulation of $\Delta$ cut out by the lines $i=1$,
+$j=1$ and $i+j\in\{1,2,3\}$. It has $8$ triangles, and the interior point
+$(1,1)$ is a vertex of $6$ of them. By (T2) and (T4), $\Gamma=\operatorname{Trop}(f)$
+is a trivalent graph with $8$ vertices, $8$ bounded edges, $8$ ends and first
+Betti number $1$. Solving the equations
+$\operatorname{val}(c_u)+\langle u,w\rangle=\operatorname{val}(c_{u'})+\langle
+u',w\rangle$ for the three vertices of each triangle gives the vertices of
+$\Gamma$:
+\[
+\begin{aligned}
+&(-1,-1),\ (-2,-2),\ (-2,-3),\ (-3,-2),\\
+&(-3,-4),\ (-4,-3),\ (-4,-4),\ (-5,-5).
+\end{aligned}
+\]
+The six vertices other than $(-1,-1)$ and $(-5,-5)$ form a hexagon, which is
+dual to the six triangles around $(1,1)$ and is the unique cycle of $\Gamma$.
+Its sides have directions $(0,1)$ (two sides, over $w_1=-4$ and $w_1=-2$),
+$(1,0)$ (two sides) and $(1,1)$ (two sides). Two diagonal tails join the
+hexagon to $(-5,-5)$ and to $(-1,-1)$. There are four horizontal ends: two going
+left, from $(-5,-5)$ and $(-4,-3)$, and two going right, from $(-2,-3)$ and
+$(-1,-1)$. There are also four vertical ends. Figure~\ref{fig:tropical} shows
+$\Gamma$.
+
+The projection $\pi(w)=w_1$ has degree $2$, the vertical extent of $\Delta$, by
+Proposition~\ref{prop:projharmonic}. All dilation factors are $0$ or $1$. The
+two vertical sides of the hexagon and the four vertical ends are contracted.
+The hexagon is folded two-to-one onto the segment $[-4,-2]$, since every
+$w_1\in(-4,-2)$ has one preimage on its upper path and one on its lower path.
+Over $(-5,-4)$ the two preimages lie on the tail from $(-5,-5)$ and on the left
+end from $(-4,-3)$. Over $(-2,-1)$ they lie on the tail to $(-1,-1)$ and on the
+right end from $(-2,-3)$.
+
+The same map can be seen in the setting of finite graphs. Let $T$ be the path
+with vertices $-6,-5,\dots,0$. Let $G$ be the finite graph obtained from
+$\Gamma$ in three steps: delete the four vertical ends, cut the horizontal ends
+at $w_1=-6$ and $w_1=0$, and subdivide the remaining edges at the preimages of
+the vertices of $T$. Then $G$ has $14$ vertices, $14$ edges and genus $1$, and
+$\pi:G\to T$ is a harmonic morphism of degree $2$ in the sense of Baker and
+Norine. Every vertex has $m_\pi(x)=1$, and the only vertical edges are the two
+vertical sides of the hexagon. The Riemann--Hurwitz formula
+of~\cite{BN09},
+\[
+2g(G)-2=\deg(\pi)\,\bigl(2g(T)-2\bigr)+\sum_{x\in V(G)}\bigl(2(m_\pi(x)-1)+v_\pi(x)\bigr),
+\]
+where $v_\pi(x)$ is the number of vertical edges at $x$, reads $0=2\cdot(-2)+4$.
+The four contributions come from the four endpoints of the two vertical
+sides. All of this was checked by computation (script
+\texttt{tropical\_example.py}).
+
+This is the tropical picture of the classical map $(x,y)\mapsto x$. A curve
+$\{f=0\}$ with Newton polygon $[0,2]^2$ has genus at most one, and the map has
+degree $2=\deg_yf$. Amini, Baker, Brugall\'e and Rabinoff showed that the
+tropicalization of a finite morphism of curves gives a harmonic morphism of
+skeleta~\cite{ABBR15}.
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.82]
+\tikzset{cont/.style={thick,dashed},edge/.style={thick}}
+% bounded edges
+\draw[edge] (-1,-1) -- (-2,-2);
+\draw[cont] (-2,-3) -- (-2,-2);
+\draw[edge] (-2,-3) -- (-3,-4);
+\draw[edge] (-2,-2) -- (-3,-2);
+\draw[edge] (-3,-4) -- (-4,-4);
+\draw[edge] (-3,-2) -- (-4,-3);
+\draw[cont] (-4,-4) -- (-4,-3);
+\draw[edge] (-4,-4) -- (-5,-5);
+% ends
+\draw[edge,->] (-1,-1) -- (0.4,-1);
+\draw[cont,->] (-1,-1) -- (-1,0.4);
+\draw[edge,->] (-2,-3) -- (-0.6,-3);
+\draw[cont,->] (-3,-4) -- (-3,-5.4);
+\draw[cont,->] (-3,-2) -- (-3,-0.6);
+\draw[edge,->] (-4,-3) -- (-5.4,-3);
+\draw[cont,->] (-5,-5) -- (-5,-6.4);
+\draw[edge,->] (-5,-5) -- (-6.4,-5);
+% vertices
+\foreach \p in {(-1,-1),(-2,-2),(-2,-3),(-3,-2),(-3,-4),(-4,-3),(-4,-4),(-5,-5)}
+  \fill \p circle (2pt);
+\node[above right] at (-1,-1) {\small$(-1,-1)$};
+\node[below left] at (-5,-5) {\small$(-5,-5)$};
+\node at (-3,-3) {\small hexagon};
+% projection
+\draw[thick,->] (-6.6,-7.6) -- (0.6,-7.6) node[right] {\small$\R$};
+\foreach \x in {-6,-5,-4,-3,-2,-1,0} {
+  \draw (\x,-7.5) -- (\x,-7.7) node[below] {\small$\x$};
+}
+\foreach \x/\y in {-1/-1,-2/-3,-3/-4,-4/-4,-5/-5} {
+  \draw[dotted] (\x,\y) -- (\x,-7.6);
+}
+\draw[very thick] (-4,-7.6) -- (-2,-7.6);
+\node[above] at (-3.5,-7.55) {\small$2{:}1$};
+\end{tikzpicture}
+\caption{The tropical curve $\Gamma$ of Example~\ref{ex:tropical} and its
+projection $\pi(w)=w_1$ to the line. Dashed segments are contracted by $\pi$.
+They are the two vertical sides of the hexagon and the four vertical ends.
+Dotted lines show where vertices project. Every point of the line other than
+$-4$ and $-2$ has exactly two preimages, so $\pi$ has degree $2$. The hexagon,
+the only cycle, is folded two-to-one onto $[-4,-2]$.}\label{fig:tropical}
+\end{figure}
+
+\paragraph{What the degree of a projection says about toric codes.}
+Over $\Fq$ the same projection gives a bound on zeros, by the fiber argument
+behind Lemma~\ref{lem:grid}.
+
+\begin{proposition}[Fiber bound; proved here]\label{prop:fiber}
+Let $f=\sum_{u\in U}c_ux^u$ be a nonzero Laurent polynomial over $\Fq$, and let
+$h=\max_{u\in U}u_2-\min_{u\in U}u_2$. If no binomial $x-c$ with $c\in\Fqs$
+divides $f$, then $f$ has at most $h(q-1)$ zeros on $T(\Fq)$. More generally,
+let $v\in\Z^2$ be primitive and let $v'$ be a primitive vector with $\langle
+v,v'\rangle=0$. If no binomial $\chi^{v'}-c$ with $c\in\Fqs$ divides $f$, then
+$f$ has at most $h_v(q-1)$ zeros, where
+$h_v=\max_{u\in U}\langle v,u\rangle-\min_{u\in U}\langle v,u\rangle$. The best
+choice of $v$ gives the lattice width of $\conv(U)$.
+\end{proposition}
+
+\begin{proof}
+Fix $c\in\Fqs$. The Laurent polynomial $f(c,y)$ in $y$ is not zero, because
+otherwise $x-c$ would divide $f$. It is $y^{\min u_2}$ times a polynomial of
+degree at most $h$, so it has at most $h$ zeros in $\Fqs$. Summing over the
+$q-1$ values of $c$ gives the bound. For the general statement, choose
+$g\in\GL_2(\Z)$ with $gv'=(1,0)$. Then $\langle v,u\rangle$ becomes $\pm$ the
+second coordinate of $gu$, and the monomial change of
+coordinates of Proposition~\ref{prop:equiv}(ii) turns $\chi^{v'}-c$ into $x-c$.
+This reduces the general case to the first.
+\end{proof}
+
+By Proposition~\ref{prop:projharmonic}, the number $h$ is the degree of the
+harmonic morphism obtained by projecting the tropical curve of a lift of $f$.
+Castryck and Cools showed that the gonality of a curve with Newton polygon
+$\Delta$ is at most the lattice width of $\Delta$~\cite{CC12}.
+
+\begin{example}\label{ex:fiberbound}
+For $U=[0,2]^2$ over $\F_8$, a section with no factor $x-c$ has at most
+$2\cdot7=14$ zeros on the torus, and a random search attains $14$ (script
+\texttt{lattice\_width.py}). A product $(x-a)(x-b)(y-c)(y-e)$ has $24$ zeros,
+which gives $d=25$ in agreement with Theorem~\ref{thrm:hansen}(c). So the
+minimum-weight words come from sections with binomial factors, and every
+irreducible section with Newton polygon $[0,2]^2$ gives a word of weight at
+least $49-14=35$. For the principal triangle $\conv\{(0,0),(4,1),(1,4)\}$ the
+lattice width is $4$, attained in the directions $(1,0)$ and $(0,1)$. Here the
+fiber bound gives $4\cdot7=28$ zeros, while the true maximum is $21$
+(Example~\ref{example:fan7}). A generic curve with this Newton polygon has
+genus $6$, and its tropical curve has first Betti number $6$.
+\end{example}
 
 \begin{remarkxxvi}\label{rem:tropical}
-The following connections are observations and have not been developed. The
-zero set of $f\in V_U$ on the torus is the set of $\Fq$-points of a curve
-whose Newton polygon lies in $\conv(U)$. For a nondegenerate irreducible
-curve, the genus is the number of interior lattice points (for the principal
-triangle this number is $6$). Castryck and Cools~\cite{CC12} showed that the
-gonality is at most the lattice width. Projection along a lattice direction
-realizes this bound, and on the tropical side it gives a harmonic morphism
-from the tropical curve, a metric graph whose first Betti number is the genus,
-to a tree. Baker and Norine developed the theory of harmonic morphisms of
-graphs~\cite{BN09}. Their specialization arguments relate gonality of curves
-to divisorial gonality of graphs. A curve with a degree-$\gamma$ map to
-$\PP^1$ defined over $\Fq$ has at most $\gamma(q+1)$ rational points, so such
-maps bound the number of zeros of irreducible sections. Reducible sections
-are already controlled by Minkowski length~\cite{SS09}.
+The following connection has not been developed. Baker's specialization
+lemma~\cite{Ba08} compares ranks of divisors on a curve and on the dual graph
+of a semistable model, and it implies that gonality can only drop under
+specialization to graphs. Chan characterized tropical hyperelliptic curves by
+harmonic morphisms of degree two to trees~\cite{Ch13}, and
+Example~\ref{ex:tropical} is a genus-one instance of that picture. A curve
+with a map of degree $\gamma$ to $\PP^1$ defined over $\Fq$ has at most
+$\gamma(q+1)$ rational points. So low-degree harmonic morphisms of skeleta,
+when they lift to maps defined over $\Fq$, bound the number of zeros of
+irreducible sections. Example~\ref{ex:fiberbound} shows that the coordinate
+projection alone is not sharp for the principal code.
 \end{remarkxxvi}
 
 \begin{question}\label{q:tropical}
@@ -1549,29 +1797,6 @@ graphs computed by chip-firing, give bounds for the number of torus points on
 irreducible sections that are sharper than those of~\cite{LS06}
 and~\cite{SS09} for small $q$, such as $q=8$?
 \end{question}
-
-\subsection{Kitaev's toric code and CSS codes}
-
-\begin{remarkxxvi}\label{rem:kitaev}
-The name ``toric code'' is also used for Kitaev's quantum code~\cite{Ki03}.
-That code is the CSS code built from the cycle space and the cut space of the
-grid graph $C_m\square C_m$ embedded in a torus. Its qubits sit on the edges
-of the graph. The codes of this paper sit on the vertices of the same graph,
-with $m=q-1$, as two-dimensional cyclic codes. We know of no deeper link than
-this shared graph and its translation symmetry. Theorem~\ref{thm:dual} does
-give CSS pairs directly. If $U_1\cap(-U_2)=\varnothing$, then
-$C_{U_1}\subseteq C_{U_2}^\perp$. J.~P.~Hansen built quantum codes from toric
-surfaces in this way~\cite{Ha13}.
-\end{remarkxxvi}
-
-\subsection{The Hamming graph and optimality}
-
-\begin{remarkxxvi}\label{rem:lp}
-Codes of length $n$ over $\Fq$ are subsets of the Hamming graph $H(n,q)$, a
-distance-regular graph. Delsarte's linear programming bound for its
-association scheme could certify the entries marked ``best possible'' in the
-tables independently of the online tables. We have not carried this out.
-\end{remarkxxvi}
 
 %======================================================================
 \section{Summary of results and open questions}\label{sec:summary}
@@ -1623,7 +1848,11 @@ Theorem~\ref{thm:decode}, Cor.~\ref{cor:toricECP}, Lemma~\ref{lem:separate}
 Example~\ref{ex:decode} & verified by computation\\
 Prop.~\ref{prop:cyclic} & proved here\\
 Example~\ref{ex:minwords} & exhaustive exact computation\\
-Remarks~\ref{rem:hansend}--\ref{rem:lp} (2026.$n$) & not fully verified, or
+Prop.~\ref{prop:projharmonic}, Prop.~\ref{prop:fiber} & proved here (using the
+cited facts (T2), (T3) for the first)\\
+Example~\ref{ex:tropical}, Example~\ref{ex:fiberbound} & verified by
+computation\\
+Remarks~\ref{rem:hansend}--\ref{rem:tropical} (2026.$n$) & not fully verified, or
 open\\
 \bottomrule
 \end{tabular}
@@ -1639,45 +1868,143 @@ decide whether permutation decoding is practical for it.
 in directions that are not edge directions, as for the trinomials of
 Example~\ref{ex:minwords}.
 \item Question~\ref{q:tropical} on graph gonality and point counts.
-\item Certify the ``best possible'' entries of the tables by Delsarte's linear
-programming bound (Remark~\ref{rem:lp}).
 \end{enumerate}
 
 %======================================================================
 \section{Glossary}\label{sec:glossary}
 
 \begin{description}[leftmargin=1.5em,labelindent=0pt,style=nextline]
-\item[Cartier divisor] A $T$-invariant divisor that is locally the divisor of
-a single monomial on each affine chart $U_\sigma$.
-\item[Cayley graph] The graph on a group whose edges join $s$ to $s+g$ for $g$
-in a fixed generating set.
-\item[Character] A homomorphism $T\to\overline{\F}^\times$. The characters of
-$T$ are the monomials $\chi^u=x^u$, $u\in M$.
-\item[Dual code] The code of all vectors orthogonal to $C$ under the standard
-dot product.
+\item[Cartier divisor] A torus-invariant divisor $G=\sum d_iD_i$ is Cartier if
+on each maximal cone $\sigma$ it is the divisor of a single character, that is,
+if there is $m_\sigma\in M$ with $\langle m_\sigma,v_i\rangle=-d_i$ for the
+rays of $\sigma$. On a nonsingular toric variety every torus-invariant divisor
+is Cartier. On a singular one the condition becomes a congruence, as in
+Example~\ref{example:fan1}.
+\item[Cayley graph] For a group $\Lambda$ and a generating set $S$, the Cayley
+graph has vertex set $\Lambda$ and an edge from $s$ to $s+g$ for each $g\in S$.
+The Cayley graph of $(\Z/(q-1))^r$ with $S=\{\pm e_i\}$ is the discrete torus,
+the product of $r$ cycles of length $q-1$. Its translations act transitively
+on the vertices, and every full-torus toric code inherits this symmetry
+(Proposition~\ref{prop:cyclic}).
+\item[Character] A character of the torus $T$ is a homomorphism
+$T\to\overline{\F}^\times$, and the characters are the monomials $\chi^u=x^u$,
+$u\in M$. On the finite group $T(\Fq)$ the character $\chi^u$ depends only on
+$u$ modulo $q-1$. Distinct characters of $T(\Fq)$ are linearly independent,
+which is the basis of Proposition~\ref{prop:dim}.
+\item[Combinatorial Nullstellensatz] Alon's theorem says that if $f$ has degree
+$t_1+\dots+t_r$ and a nonzero coefficient at $x_1^{t_1}\cdots x_r^{t_r}$, then
+$f$ does not vanish on all of a grid $A_1\times\dots\times A_r$ with
+$|A_i|>t_i$~\cite{Al99}. It is a standard tool for list coloring and other
+problems in graph theory. The related theorem of Alon and F\"uredi counts the
+nonzeros of a polynomial on a grid and contains Lemma~\ref{lem:grid} as a
+special case.
+\item[Dual code] The dual of $C\subseteq\Fq^n$ is
+$C^\perp=\{v:\ v\cdot c=0\ \text{for all}\ c\in C\}$, a code of dimension
+$n-\dim C$. A parity check matrix of $C$ is a generator matrix of $C^\perp$.
+For full-torus toric codes the dual is again a toric code,
+$C_U^\perp=C_{U^*}$ (Theorem~\ref{thm:dual}).
+\item[Dual subdivision] The heights $\operatorname{val}(c_u)$ of the
+coefficients of $f$ lift the lattice points of the Newton polygon to $\R^3$,
+and the lower faces of the convex hull project to a subdivision of the
+polygon. Its cells correspond to the vertices, edges and ends of the tropical
+curve of $f$, and each edge of the curve is perpendicular to the dual edge. A
+subdivision into triangles of area $1/2$ is a unimodular triangulation, as in
+Example~\ref{ex:tropical}.
 \item[Error-correcting pair] A pair of function spaces $(V_A,V_B)$ with
 $V_AV_B\subseteq V_P$ satisfying conditions (A)--(C) of
-Theorem~\ref{thm:decode}.
-\item[Fan] A finite collection of rational polyhedral cones, closed under faces
-and intersections, that defines a toric variety.
-\item[Generalized toric code] The code $C_U$ for an arbitrary finite set $U$ of
-exponents.
-\item[Harmonic morphism] A map of graphs that is locally a branched covering
-with well-defined degree, the graph analogue of a holomorphic map of Riemann
-surfaces~\cite{BN09}.
-\item[Minimum distance] The smallest weight of a nonzero codeword.
-\item[Minkowski length] The largest number of lattice segments whose
-Minkowski sum fits inside a polygon.
-\item[Monomial equivalence] Equality of codes up to permuting and rescaling
-coordinates.
-\item[Puncturing] Deleting a set of coordinates from all codewords.
-\item[Shortening] Keeping the codewords that vanish on a set of coordinates
-and then deleting those coordinates.
-\item[Standard toric code] The code of $L(G)$ evaluated at all points of
-$T(\Fq)$.
-\item[Toric variety] A normal variety containing a dense torus whose action on
-itself extends to the variety.
-\item[Weight] The number of nonzero coordinates of a vector.
+Theorem~\ref{thm:decode}. The notion is due to Pellikaan~\cite{Pe92}, who
+abstracted the error-locator algorithms for Reed--Solomon and
+algebraic-geometry codes. With such a pair, decoding up to $t$ errors needs
+only the solution of linear systems.
+\item[Fan] A finite collection of strongly convex rational polyhedral cones in
+$N_\R$, closed under taking faces, in which any two cones meet in a common
+face. A fan determines a toric variety, which is complete when the cones cover
+$N_\R$ and nonsingular when every cone is spanned by part of a basis of $N$.
+In dimension two a complete fan is a cyclically ordered list of rays
+(Section~\ref{sec:fangraph}).
+\item[Generalized toric code] The code $C_U$ spanned by the evaluation vectors
+of the monomials $x^u$, $u\in U$, at the points of $T(\Fq)$, for an arbitrary
+finite set $U$ of exponents. When $U$ is the set of lattice points of a
+polygon, it is a standard toric code. These codes are exactly the
+translation-invariant codes on the discrete torus
+(Proposition~\ref{prop:cyclic}).
+\item[Gonality] The gonality of an algebraic curve is the smallest degree of a
+nonconstant map from the curve to the projective line. For a curve with
+Newton polygon $\Delta$ it is at most the lattice width of $\Delta$~\cite{CC12}.
+The divisorial gonality of a graph is the analogous invariant defined with
+Baker--Norine divisors.
+\item[Harmonic morphism] A map of graphs that sends each edge to an edge or to
+a vertex, such that for every vertex $x$ the number of edges at $x$ mapping
+onto a given edge at the image of $x$ does not depend on that edge. It is the
+graph analogue of a holomorphic map of Riemann surfaces. It has a
+well-defined degree and satisfies a Riemann--Hurwitz formula~\cite{BN09}. For
+metric graphs one allows integer dilation factors on edges
+(Definition~\ref{def:harmonic}), and projections of tropical curves are
+examples (Proposition~\ref{prop:projharmonic}).
+\item[Lattice width] The width of a lattice polygon $\Delta$ in the direction
+of a primitive vector $v$ is $\max_{u\in\Delta}\langle v,u\rangle-
+\min_{u\in\Delta}\langle v,u\rangle$, and the lattice width is the minimum of
+these widths over all primitive $v$. It is
+invariant under unimodular changes of coordinates. The square $[0,2]^2$ has
+lattice width $2$, and the triangle $\conv\{(0,0),(4,1),(1,4)\}$ has lattice
+width $4$.
+\item[Metric graph] A finite graph in which each edge is identified with a
+segment of positive length, possibly together with unbounded ends. Tropical
+curves are metric graphs in which the length of an edge is its lattice
+length. The first Betti number of a metric graph plays the role of the genus.
+\item[Minimum distance] The smallest weight of a nonzero codeword of a linear
+code. A code of minimum distance $d$ corrects up to $\lfloor(d-1)/2\rfloor$
+errors by nearest-codeword decoding. For a toric code, $d$ is $n$ minus the
+largest number of zeros on $T(\Fq)$ of a nonzero function in $V_U$.
+\item[Minkowski length] The Minkowski length of a lattice polygon is the
+largest number of summands of positive dimension in a Minkowski decomposition
+of it. The full Minkowski length $L$ is the maximum over all lattice
+subpolygons. For large $q$, Soprunov and Soprunova proved
+$d\ge(q-1)^2-L(q-1)-2\sqrt q+1$ for toric surface codes~\cite{SS09}.
+\item[Monomial equivalence] Two codes are monomially equivalent if one is
+obtained from the other by permuting coordinates and multiplying coordinates
+by nonzero scalars. Equivalent codes have the same length, dimension and
+weight distribution. Lattice-equivalent exponent sets give monomially
+equivalent toric codes (Proposition~\ref{prop:equiv}).
+\item[Newton polygon] The Newton polygon of $f=\sum c_ux^u$ is the convex hull
+of the exponents $u$ with $c_u\ne0$. It governs the geometry of the curve
+$f=0$ in the torus. A generic curve with Newton polygon $\Delta$ has genus
+equal to the number of interior lattice points of $\Delta$.
+\item[Puncturing] Puncturing a code at a set $S$ of coordinates deletes those
+coordinates from every codeword. It lowers the minimum distance by at most
+$|S|$. A full-torus code of a simplex is a punctured generalized Reed--Muller
+code (Theorem~\ref{thrm:subcode2}(3)).
+\item[Riemann--Hurwitz formula] For a harmonic morphism $\varphi:G\to G'$ of
+degree $d$ between graphs of genera $g$ and $g'$, Baker and Norine proved
+$2g-2=d(2g'-2)+\sum_x\bigl(2(m_\varphi(x)-1)+v_\varphi(x)\bigr)$, where
+$v_\varphi(x)$ is the number of vertical edges at $x$~\cite{BN09}. It mirrors
+the classical formula for branched covers of Riemann surfaces.
+Example~\ref{ex:tropical} checks it for a map of degree two from a graph of
+genus one to a path.
+\item[Shortening] Shortening a code at a set $S$ of coordinates keeps the
+codewords that vanish on $S$ and then deletes $S$. The shortened code has
+dimension at least $\dim C-|S|$ and minimum distance at least $d(C)$. The dual
+of a shortened code is the punctured dual code.
+\item[Standard toric code] The code obtained by evaluating the functions of
+$L(G)$ at all $(q-1)^r$ points of $T(\Fq)$, for a torus-invariant divisor $G$.
+Its dimension is the number of residues of $P_G\cap M$ modulo $q-1$. Only the
+polytope $P_G$ matters, not the fan or the smoothness of $X$.
+\item[Toric variety] A normal variety containing a torus
+$T\cong(\overline{\F}^\times)^r$ as a dense open subset, such that the action
+of $T$ on itself extends to the variety. Toric varieties correspond to fans,
+and their geometry is encoded in the combinatorics of cones and polytopes.
+Projective space, products of projective lines and Hirzebruch surfaces are
+examples.
+\item[Tropical curve] The tropical curve of $f=\sum c_ux^u$ over a valued field
+is the set of $w\in\R^2$ where the minimum of
+$\operatorname{val}(c_u)+\langle u,w\rangle$ is attained at least twice. It is a
+balanced weighted planar graph with unbounded ends, dual to a subdivision of
+the Newton polygon. By Kapranov's theorem it is the closure of the image of
+the curve $f=0$ under coordinatewise valuation~\cite{MS15}.
+\item[Weight] The Hamming weight of a vector is the number of its nonzero
+coordinates. The Hamming distance between two vectors is the weight of their
+difference. The weight distribution of a code lists, for each $w$, the number
+$A_w$ of codewords of weight $w$ (Table~\ref{tab:wd}).
 \end{description}
 
 %======================================================================
@@ -1702,6 +2029,11 @@ the revision log.
 \begingroup\raggedright
 \begin{thebibliography}{GAP00}
 
+\bibitem[ABBR15]{ABBR15}
+O.~Amini, M.~Baker, E.~Brugall\'e and J.~Rabinoff, Lifting harmonic morphisms
+I: metrized complexes and Berkovich skeleta, \emph{Res. Math. Sci.}
+\textbf{2} (2015), Art.~7.
+
 \bibitem[Al99]{Al99}
 N.~Alon, Combinatorial Nullstellensatz, \emph{Combin. Probab. Comput.}
 \textbf{8} (1999), 7--29.
@@ -1709,6 +2041,10 @@ N.~Alon, Combinatorial Nullstellensatz, \emph{Combin. Probab. Comput.}
 \bibitem[AF93]{AF93}
 N.~Alon and Z.~F\"uredi, Covering the cube by affine hyperplanes,
 \emph{European J. Combin.} \textbf{14} (1993), 79--83.
+
+\bibitem[Ba08]{Ba08}
+M.~Baker, Specialization of linear systems from curves to graphs, \emph{Algebra
+Number Theory} \textbf{2} (2008), 613--653.
 
 \bibitem[BN09]{BN09}
 M.~Baker and S.~Norine, Harmonic morphisms and hyperelliptic graphs,
@@ -1734,6 +2070,10 @@ Comput. Math.} (2013), arXiv:1212.5197.
 \bibitem[CC12]{CC12}
 W.~Castryck and F.~Cools, Newton polygons and curve gonalities, \emph{J.
 Algebraic Combin.} \textbf{35} (2012), 345--366.
+
+\bibitem[Ch13]{Ch13}
+M.~Chan, Tropical hyperelliptic curves, \emph{J. Algebraic Combin.}
+\textbf{37} (2013), 331--359.
 
 \bibitem[DGM70]{DGM70}
 P.~Delsarte, J.-M.~Goethals and F.~J.~MacWilliams, On generalized Reed--Muller
@@ -1808,10 +2148,6 @@ Comput.} \textbf{15} (2004), 63--79.
 \bibitem[JV02]{JV02}
 D.~Joyner and H.~Verrill, Notes on toric varieties, preprint, circa 2002.
 
-\bibitem[Ki03]{Ki03}
-A.~Yu.~Kitaev, Fault-tolerant quantum computation by anyons, \emph{Ann.
-Physics} \textbf{303} (2003), 2--30.
-
 \bibitem[Li03a]{Li03a}
 J.~Little, A key equation and the computation of error values for codes from
 order domains, preprint, 2003, arXiv:math/0303299.
@@ -1836,6 +2172,10 @@ J. Discrete Math.} \textbf{20} (2006), 999--1014.
 J.~Little and R.~Schwarz, On toric codes and multivariate Vandermonde
 matrices, \emph{Appl. Algebra Engrg. Comm. Comput.} \textbf{18} (2007),
 349--367.
+
+\bibitem[MS15]{MS15}
+D.~Maclagan and B.~Sturmfels, \emph{Introduction to Tropical Geometry},
+Graduate Studies in Mathematics~161, American Mathematical Society, 2015.
 
 \bibitem[MS77]{MS77}
 F.~J.~MacWilliams and N.~J.~A.~Sloane, \emph{The Theory of Error-Correcting
