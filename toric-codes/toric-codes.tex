@@ -1,0 +1,1880 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}  % newtx not installed in the build environment; mathptmx is the style-guide fallback
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Remarks 2026.n: statements not fully verified in this revision
+\newcounter{remxxvi}
+\renewcommand{\theremxxvi}{2026.\arabic{remxxvi}}
+\newenvironment{remarkxxvi}{\refstepcounter{remxxvi}\par\medskip\noindent
+  \textbf{Remark~\theremxxvi.}\ }{\par\medskip}
+
+\DeclareMathOperator{\wt}{wt}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Span}{span}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Fq}{\mathbb{F}_q}
+\newcommand{\Fqs}{\mathbb{F}_q^{\times}}
+\newcommand{\RM}{\mathcal{R}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\Lq}{\Lambda_q}
+\newcommand{\st}[1]{\textup{(\emph{#1})}}
+
+\title{Toric codes over finite fields\\[4pt]
+\large Draft 1. Corrected and expanded version}
+\author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}.
+The original version of this paper appeared as D.~Joyner, ``Toric codes over
+finite fields,'' \emph{Applicable Algebra in Engineering, Communication and
+Computing} \textbf{15} (2004), 63--79, preprint arXiv:math/0208155. It was
+revised from the manuscript \texttt{toric\_code7.tex} dated September 1, 2003.
+This corrected and expanded version was prepared in November 2026.}}
+\date{November 22, 2026\\
+Original draft: 2004. Corrected and expanded draft: 2026.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This corrected and expanded version was prepared with substantial help from AI
+systems (Anthropic's Claude as reviser, OpenAI's ChatGPT as referee). The
+Acknowledgments give details. We associate error-correcting codes to toric
+surfaces over a finite field $\Fq$, in analogy with the Goppa codes of a
+curve. Evaluated on the full torus $T(\Fq)\cong(\Fqs)^2$, such a code depends
+only on the residues modulo $q-1$ of the lattice points of a polygon. We show
+that its dimension is the number of these residues and that its dual is again
+a code of the same kind. We give short self-contained proofs of the
+minimum distances of three of J.~Hansen's families. The proofs use a
+grid-counting lemma of Alon--F\"uredi type, and we obtain from it upper and
+lower bounds on the minimum distance which replace two conjectures of the
+2004 version. Those conjectures are false, and we give counterexamples. We recompute every table of the
+original paper exactly. In particular we certify the $[49,11,28]$ code over
+$\F_8$, which was better than all codes in the tables of 2002, by two
+independent exhaustive computations. We repair the decoding algorithm of the
+original paper. It becomes an error-correcting-pair algorithm with explicit
+toric hypotheses. We use it to decode the $[49,11,28]$ code up to $5$
+errors in a fully worked example, and up to $6$ errors with a pair found by
+computer search. Finally we discuss graph-theoretic
+connections. These are the discrete torus as a Cayley graph, the
+Combinatorial Nullstellensatz, fans as weighted cycle graphs, and tropical
+curves with harmonic morphisms.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+
+This section recalls the basic coding-theoretic vocabulary, gives the
+Reed--Muller codes as a guiding example, and summarizes the results of the
+paper.
+
+Some of the constructions discussed here were implemented in
+MAGMA~\cite{BCP97} and in GAP~\cite{GAP00} with the \textbf{toric}
+package~\cite{Jo02}. GUAVA version 1.7 and later contain the toric-code
+commands needed for the constructions~\cite{GUA02}. Every number in the
+present version was recomputed independently with the scripts described in
+Section~\ref{sec:summary}.
+
+Let $\F=\Fq$ denote the finite field with $q$ elements. A \emph{$q$-ary code}
+is, for us, a short exact sequence of vector spaces
+\begin{equation}\label{eqn:1}
+0 \longrightarrow C \xrightarrow{\ \gamma\ } \F^n
+\xrightarrow{\ \theta\ } \F^{n-k} \longrightarrow 0 .
+\end{equation}
+We identify $C$ with its image under $\gamma$. If $\F^n$ has its standard
+basis, then the matrix of $\gamma$ is a generator matrix of $C$ and the matrix
+of $\theta$ is a parity check matrix of $C$. The integer $n$ is the
+\emph{length} of $C$ and $k=\dim_{\F}C$ is its \emph{dimension}. A
+\emph{codeword} is an element of $C$. Since \eqref{eqn:1} is exact, a vector
+$v\in\F^n$ is a codeword if and only if $\theta(v)=0$. The \emph{Hamming
+distance} between two vectors is the number of coordinates where they differ.
+The \emph{weight} $\wt(v)$ of $v$ is its distance from $0$. The smallest
+nonzero weight of a codeword is the \emph{minimum distance} $d=d(C)$. We call
+$C$ an $[n,k,d]_q$ code.
+
+In this paper we use toric varieties to construct codes. For one particular
+choice of $n$, $k$ and $q$ the construction gave, in 2002, a value of $d$
+larger than any previously known (Example~\ref{example:fan7}). We begin with a
+related classical family.
+
+\begin{example}[Generalized Reed--Muller codes]\label{example:RM}
+Let $m\ge1$ and $0\le\ell\le m(q-1)$. Let $R=\F[x_1,\dots,x_m]_{\ell}$ be the
+space of polynomials of total degree at most $\ell$ in which every variable
+occurs with exponent at most $q-1$. Index the points of $\F^m$ as
+$p_1,\dots,p_n$, so that $n=q^m$. The code
+\[
+\RM(\ell,m,q)=\{(f(p_1),\dots,f(p_n)) : f\in R\}
+\]
+is the \emph{generalized Reed--Muller code}. It was studied in this polynomial
+form by Delsarte, Goethals and MacWilliams~\cite{DGM70}. Its dimension is the
+number of monomials in $R$,
+\[
+k=\sum_{i=0}^{\ell}\ \sum_{j=0}^{\lfloor i/q\rfloor}(-1)^j\binom{m}{j}
+\binom{m-1+i-qj}{m-1}.
+\]
+The inner sum counts the monomials of degree exactly $i$ with all exponents at
+most $q-1$, by inclusion and exclusion. Write $\ell=a(q-1)+b$ with
+$0\le b<q-1$. Then the minimum distance is
+\[
+d=(q-b)\,q^{\,m-a-1}
+\]
+by~\cite{DGM70} (see also \cite[Ch.~13, \S3]{MS77}). For example $\ell=0$
+gives $d=q^m$, and $\ell=1$ gives $d=(q-1)q^{m-1}$. There are easily
+constructed polynomials of minimum weight, namely products of linear factors
+in one variable (see~\cite{DGM70} or \cite[p.~920]{PH98}).
+
+Take $m=2$, $\ell=5$ and $q>5$. A basis of $R$ is given by the monomials
+$x_1^{e_1}x_2^{e_2}$ with $e_1+e_2\le5$. If we plot the exponents
+$(e_1,e_2)$, they fill the lattice triangle with vertices $(0,0)$, $(5,0)$ and
+$(0,5)$. The number of lattice points in this triangle, $21$, is the dimension
+of the code.
+\end{example}
+
+The toric codes of this paper replace the triangle by a lattice polygon $P$.
+They replace the set of all points of $\F^m$ by a set of $\Fq$-rational points
+of a toric surface $X$, most often by the points of the dense torus
+$T(\Fq)\cong(\Fqs)^2$. The polygon is attached to a torus-invariant divisor $G$
+on $X$ (see~\cite{Ew96}, \cite{Fu93} and \cite{JV02} for background). After a
+monomial change of coordinates, a standard toric code is a subcode of a
+punctured Reed--Muller code (Theorem~\ref{thrm:subcode2}).
+
+\paragraph{Main results.} The results below are each marked as proved here,
+cited, or computational. Section~\ref{sec:summary} has a status table.
+\begin{enumerate}[leftmargin=*]
+\item For evaluation on the full torus, the code $C_U$ of a set $U$ of lattice
+points has dimension equal to the number of residues of $U$ modulo $q-1$
+(Proposition~\ref{prop:dim}). Its dual is $C_{U^*}$, where $U^*$ is the
+complement of $-U$ (Theorem~\ref{thm:dual}). Such codes are exactly the
+translation-invariant codes on the discrete torus
+(Proposition~\ref{prop:cyclic}).
+\item Hansen's minimum distances for triangles, simplices and rectangles
+follow from a short grid lemma (Lemma~\ref{lem:grid},
+Proposition~\ref{prop:hansenabc}). The same lemma gives a two-sided estimate
+for any polygon between two simplices (Theorem~\ref{thrm:subcode2}). A
+segment bound gives the upper estimate (Theorem~\ref{thm:segment}).
+\item The two conjectural lower bounds of the 2004 version are false
+(Examples~\ref{ex:conj1} and~\ref{ex:conj2}).
+\item All tables of the 2004 version are confirmed by exact computation,
+except one duplicated row. The code $[49,11,28]_8$ is certified, and its full
+weight distribution is computed (Table~\ref{tab:wd}).
+\item The decoding algorithm of the 2004 version is repaired
+(Theorem~\ref{thm:decode}, Corollary~\ref{cor:toricECP}). It decodes the
+$[49,11,28]_8$ code up to $5$ errors in a worked example, and up to $6$
+errors with a pair found by search (Example~\ref{ex:decode}).
+\item Section~\ref{sec:graphs} develops graph-theoretic connections.
+\end{enumerate}
+
+%======================================================================
+\section{Literature review}\label{sec:lit}
+
+This section places the paper among related work. It is divided into work
+before the original paper (2004) and work after it.
+
+\subsection{Work before 2004}
+
+J.~Hansen introduced codes from toric surfaces in~\cite{Ha00}. He evaluated
+the monomials of a lattice polygon at the points of the torus
+$(\Fqs)^2$, and he used intersection theory on the surface to bound the number
+of zeros of a section. In~\cite{Ha02} he treated Hirzebruch surfaces in detail
+and determined the minimum distances recalled in Theorem~\ref{thrm:hansen}.
+S.~Hansen studied codes from higher-dimensional varieties in his theses
+\cite{SH96}, \cite{SH99} and in~\cite{SH01}. The conjectures of the original
+paper were inspired by his work. Fitzgerald and Lax~\cite{FL98} decoded affine
+variety codes with Gr\"obner bases. Little's papers~\cite{Li03a}, \cite{Li03b}
+treat decoding for codes from order domains, with Gr\"obner basis methods. The
+error-locator method of Section~\ref{sec:decode} follows Stichtenoth's account
+of the basic algorithm \cite[pp.~217--218]{St93}. That algorithm is due to
+Skorobogatov and Vl\u{a}du\c{t}~\cite{SV90}. Pellikaan~\cite{Pe92} then
+recast it as decoding by error-correcting pairs, a form that needs no
+algebraic geometry. Brouwer's tables~\cite{Br98} were the standard reference
+for best known linear codes in 2002. The present version uses Grassl's
+successor tables~\cite{Gr26}.
+
+\subsection{Work since 2004}
+
+Little and Schenck~\cite{LS06} bounded the minimum distance of toric surface
+codes from above and below using Minkowski decompositions of subpolygons. They
+showed that reducible sections dominate for large $q$. Little and
+Schwarz~\cite{LS07} used multivariate Vandermonde determinants to find the
+minimum distance for rectangles and simplices in all dimensions. They also
+showed that lattice-equivalent polytopes give monomially equivalent codes.
+Ruano~\cite{Ru07} studied $r$-dimensional toric codes with intersection theory
+and mixed volumes. He also gave counterexamples to the conjectures of the
+original paper, in agreement with Examples~\ref{ex:conj1}
+and~\ref{ex:conj2} below. Ruano~\cite{Ru09} studied the multicyclic structure
+of generalized toric codes and computed their duals.
+Theorem~\ref{thm:dual} below is a form of his result. Soprunov and
+Soprunova~\cite{SS09} proved lower bounds for $d$ in terms of the full
+Minkowski length of the polygon. Their bounds are sharp for $q$ large.
+Little~\cite{Li11} found a generalized toric code with parameters
+$[49,12,28]$ over $\F_8$, better than any code in Grassl's tables in 2011.
+Brown and Kasprzyk~\cite{BK13} classified small lattice polygons and found a
+record $[36,19,12]_7$ toric code. In~\cite{BK13b} they found seven record
+generalized toric codes over $\F_8$. Little~\cite{Li17} used affine geometry
+over the rings $\Z/(q-1)$, an idea related to Section~\ref{sec:cayley}. J.~P.
+Hansen built quantum codes from toric surfaces by the Calderbank--Shor--Steane
+method~\cite{Ha13}. He also described decoding of toric codes with
+error-correcting pairs~\cite{Ha17}, which is the viewpoint of
+Section~\ref{sec:decode}.
+
+%======================================================================
+\section{Background and notation}\label{sec:background}
+
+This section collects the facts about codes, toric surfaces and characters of
+the torus that the rest of the paper uses. Each subsection ends with an
+example.
+
+\subsection{Linear codes}
+
+Let $C\subseteq\F^n$ be a linear code. Deleting a set $S$ of coordinates from
+every codeword gives the \emph{punctured} code. Its minimum distance is at
+least $d(C)-|S|$. Taking the codewords that vanish on $S$ and then deleting $S$
+gives the \emph{shortened} code. A \emph{subcode} is a linear subspace of $C$.
+If $C_1\subseteq C_2$ then
+\begin{equation}\label{eq:subcode-d}
+d(C_1)\ \ge\ d(C_2),
+\end{equation}
+since every nonzero word of $C_1$ is a nonzero word of $C_2$. The \emph{dual
+code} is $C^\perp=\{v\in\F^n:\ v\cdot c=0\ \text{for all}\ c\in C\}$, where
+$v\cdot c=\sum_i v_ic_i$. Two codes are \emph{monomially equivalent} if one is
+obtained from the other by permuting coordinates and multiplying coordinates
+by nonzero scalars. Such codes have the same weights.
+
+\begin{example}\label{ex:smallcode}
+Over $\F_5$, evaluate the polynomials $1$, $x$ and $y$ at the $16$ points of
+$(\F_5^\times)^2$. The three evaluation vectors span a $[16,3]_5$ code. The
+word of $x-1$ vanishes exactly at the $4$ points with $x=1$, so it has weight
+$12$. Theorem~\ref{thrm:subcode2} below shows that $12$ is the minimum
+distance.
+\end{example}
+
+\subsection{Lattices, fans and toric surfaces}\label{sec:toricbg}
+
+We follow~\cite{Fu93}. Let $M\cong\Z^r$ be a lattice and $N=\Hom(M,\Z)$ its
+dual, with pairing $\langle\ ,\ \rangle$. The torus is
+$T=\Hom(M,\overline{\F}^\times)\cong(\overline{\F}^\times)^r$. Each $u\in M$
+defines a character $\chi^u:T\to\overline{\F}^\times$, $\chi^u(t)=t(u)$. In
+coordinates, $\chi^u(t)=t_1^{u_1}\cdots t_r^{u_r}=t^u$. A \emph{fan}
+$\Delta$ is a finite collection of strongly convex rational polyhedral cones
+in $N_\R=N\otimes\R$, closed under taking faces and intersections. It defines
+a toric variety $X=X(\Delta)$ containing $T$ as a dense open subset. The
+variety is complete when the cones cover $N_\R$. It is nonsingular when every
+cone is generated by part of a basis of $N$.
+
+Now let $r=2$. Let $\tau_1,\dots,\tau_s$ be the rays (one-dimensional cones)
+of a complete fan, in counterclockwise order, and let $v_i\in N$ be the
+primitive lattice vector on $\tau_i$. Write $v_{s+1}=v_1$. Completeness means
+that the angle between $v_i$ and $v_{i+1}$ lies in $(0,\pi)$ and that the
+cones $\sigma_i=\R_{\ge0}v_i+\R_{\ge0}v_{i+1}$ belong to $\Delta$. The surface
+is nonsingular exactly when
+\begin{equation}\label{eq:smooth}
+\det(v_i,v_{i+1})=1\qquad(1\le i\le s),
+\end{equation}
+that is, when each successive pair is a basis of $N$ (\cite[\S2.1]{Fu93}).
+
+Each ray $\tau_i$ determines a $T$-orbit $O(\tau_i)$ of dimension one. Its
+closure is a $T$-invariant prime divisor $D_i$. A $T$-invariant Weil divisor
+is $G=\sum_i d_iD_i$ with $d_i\in\Z$. Its \emph{polytope} is
+\begin{equation}\label{eq:PG}
+P_G=\{u\in M_\R:\ \langle u,v_i\rangle\ge-d_i\ \text{for all}\ i\}.
+\end{equation}
+The Riemann--Roch space
+$L(G)=\{0\}\cup\{f\in\F(X)^\times:\ \divisor(f)+G\ge0\}$ has the basis
+$\{\chi^u:\ u\in P_G\cap M\}$ (\cite[\S3.4]{Fu93}). Over $\F$ the same
+statement holds, because toric varieties and their invariant divisors are
+defined over $\Z$. The functions in $L(G)$ are functions on the variety, not on
+its finite set of rational points. Section~\ref{sec:torus} explains when
+distinct monomials give distinct functions on $T(\Fq)$.
+
+A divisor $G$ is Cartier when for every two-dimensional cone $\sigma$ there is
+$m_\sigma\in M$ with $\langle m_\sigma,v\rangle=-d_v$ for both rays $v$ of
+$\sigma$. On a nonsingular surface every $T$-invariant divisor is Cartier. A
+Cartier divisor is ample when the points $m_\sigma$ are the distinct vertices
+of $P_G$ and the normal fan of $P_G$ is $\Delta$ (\cite[\S3.4]{Fu93}).
+
+\begin{example}[Running example: the projective plane]\label{ex:P2}
+Let $v_1=(1,0)$, $v_2=(0,1)$ and $v_3=(-1,-1)$. The three determinants in
+\eqref{eq:smooth} equal $1$, and $X=\PP^2$. For $G=aD_3$ the inequalities
+\eqref{eq:PG} read $x\ge0$, $y\ge0$ and $x+y\le a$. So $P_G$ is the simplex
+$S_a$ with vertices $(0,0)$, $(a,0)$ and $(0,a)$, and $L(G)$ is spanned by the
+monomials of degree at most $a$.
+\end{example}
+
+\subsection{The torus and its characters}\label{sec:torus}
+
+Let $\omega$ be a primitive element of $\Fq$. Then
+\[
+\Lq=(\Z/(q-1))^r\ \longrightarrow\ T(\Fq)=(\Fqs)^r,\qquad
+i=(i_1,\dots,i_r)\longmapsto(\omega^{i_1},\dots,\omega^{i_r}),
+\]
+is a group isomorphism. In these coordinates
+$\chi^u(\omega^i)=\omega^{\langle u,i\rangle}$, where
+$\langle u,i\rangle=\sum_j u_ji_j$. As a function on $T(\Fq)$, the character
+$\chi^u$ depends only on the residue of $u$ modulo $(q-1)M$. We use $\Lq$ both
+for the points of the torus and for the residues of exponents.
+
+\begin{lemma}[Orthogonality; proved here]\label{lem:orth}
+For $u\in M$,
+\[
+\sum_{t\in T(\Fq)}\chi^u(t)=
+\begin{cases}(q-1)^r & \text{if } u\in(q-1)M,\\ 0 & \text{otherwise.}\end{cases}
+\]
+The value $(q-1)^r$ is nonzero in $\Fq$.
+\end{lemma}
+
+\begin{proof}
+The sum factors as $\prod_{j=1}^r\sum_{x\in\Fqs}x^{u_j}$. If
+$(q-1)\mid u_j$ the factor is $q-1$. Otherwise
+$\zeta=\omega^{u_j}\ne1$, and the factor is the geometric sum
+$\sum_{i=0}^{q-2}\zeta^i=(\zeta^{q-1}-1)/(\zeta-1)=0$. Finally
+$q-1\equiv-1$ modulo the characteristic, so $(q-1)^r=(-1)^r\ne0$ in $\Fq$.
+\end{proof}
+
+\begin{example}
+Over $\F_5$ with $\omega=2$, the character $\chi^{(4,0)}=x^4$ is the constant
+function $1$ on $(\F_5^\times)^2$, because $4=q-1$. So the monomials $1$ and
+$x^4$ give the same evaluation vector. This is the source of the collisions in
+Section~\ref{sec:examples}.
+\end{example}
+
+\subsection{Notation}\label{sec:notation}
+
+\begin{center}
+\begin{tabular}{@{}p{0.27\textwidth}p{0.67\textwidth}@{}}
+\toprule
+Symbol & Meaning\\ \midrule
+$\F=\Fq$, $\omega$ & finite field with $q$ elements, a primitive element\\
+$M$, $N$ & character lattice of $T$ and its dual; fans live in $N_\R$\\
+$v_i$, $D_i$ & primitive ray vector, invariant prime divisor of the ray\\
+$G$, $P_G$ & $T$-invariant divisor, its polytope \eqref{eq:PG}\\
+$T(\Fq)$, $\Lq$ & rational points of the torus, $(\Z/(q-1))^r$\\
+$n$ & length; $n=(q-1)^r$ for full-torus evaluation\\
+$\chi^u=x^u$ & character (monomial) of $u\in M$\\
+$C_U$ & span of $\ev(\chi^u)$, $u\in U$, on $T(\Fq)$
+(Definition~\ref{def:CU})\\
+$U^*$ & $\Lq\setminus(-U)$, the dual exponent set (Theorem~\ref{thm:dual})\\
+$S_\ell$ & lattice points $u\ge0$ with $u_1+\dots+u_r\le\ell$\\
+$\RM(\ell,m,q)$ & generalized Reed--Muller code (Example~\ref{example:RM})\\
+$[r,\varphi]$ & $\sum_i r_i\varphi(p_i)$ for a vector $r$ and a function
+$\varphi$\\
+$d(C)$, $\wt(v)$ & minimum distance, Hamming weight\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%======================================================================
+\section{Hansen codes}\label{sec:hansen}
+
+This section recalls the codes that J.~Hansen attached to lattice polygons
+\cite{Ha00}. It also gives short proofs of three of his minimum distances.
+As a general matter, a variety $X$ over an algebraically closed field is often
+identified with its set of points.
+
+Let $P\subset\R^2$ be a lattice polygon and $X(P)$ the toric surface of its
+normal fan. The torus $T_L=\Hom_\Z(L,\overline{\F}^\times)$ with $L=\Z^2$ is
+isomorphic to $\overline{\F}^\times\times\overline{\F}^\times$. For $\ell\in L$
+let $e(\ell):T_L\to\overline{\F}$ be $e(\ell)(t)=t(\ell)$. In coordinates,
+$e(\ell)(t)=t_1^{\ell_1}t_2^{\ell_2}$. Fix an ordering of $T_L(\F)$. A
+different ordering gives an equivalent code. The \emph{Hansen code} $C_P$ is
+the code generated by
+\begin{equation}\label{eqn:code}
+B=\{(e(\ell)(t))_{t\in T_L(\F)}:\ \ell\in L\cap P\},
+\end{equation}
+of length $n=(q-1)^2$. J.~Hansen gave the minimum distance in the following
+cases. His preprint~\cite{Ha00} contained upper bounds on $d$. Computations
+with the \textbf{toric} package suggested that these bounds are attained,
+and this was proved in~\cite{Ha02}.
+\begin{enumerate}[label=(\alph*)]
+\item $P$ is the isosceles triangle with vertices $(0,0)$, $(a,a)$, $(0,2a)$.
+\item $P$ is the isosceles triangle with vertices $(0,0)$, $(a,0)$, $(0,a)$.
+\item $P$ is the rectangle with vertices $(0,0)$, $(a,0)$, $(0,b)$, $(a,b)$.
+\item $P$ is the trapezoid with vertices $(0,0)$, $(a,0)$, $(0,b)$,
+$(a,b+am)$, where $m>0$.
+\end{enumerate}
+
+\begin{theorem}[Hansen~\cite{Ha02}; cited, and parts (a)--(c) reproved in
+Proposition~\ref{prop:hansenabc}]\label{thrm:hansen}
+Let $a$ and $b$ be positive integers and let $P$ be one of the polygons
+(a)--(d).
+\begin{enumerate}[label=(\alph*)]
+\item If $q>2a+1$, then $n=(q-1)^2$, $k=(a+1)^2$ and $d=n-2a(q-1)$.
+\item If $q>a+1$, then $n=(q-1)^2$, $k=(a+1)(a+2)/2$ and $d=n-a(q-1)$.
+\item If $q>\max(a,b)+1$, then $n=(q-1)^2$, $k=(a+1)(b+1)$ and
+$d=n-a(q-1)-b(q-1)+ab$.
+\item If $q>b+am+1$, then $n=(q-1)^2$, $k=(a+1)(b+1)+m\,a(a+1)/2$ and
+\[
+d=\min\bigl((q-a-1)(q-b-1),\ (q-1)(q-b-am-1)\bigr).
+\]
+\end{enumerate}
+\end{theorem}
+
+The hypotheses on $q$ cannot be dropped from the formula for $k$. For example,
+in case (b) with $a=q-1$ the lattice points $(0,0)$ and $(q-1,0)$ give the same
+function on the torus (Proposition~\ref{prop:dim}).
+
+\begin{remarkxxvi}\label{rem:hansend}
+Part (d) is cited from~\cite{Ha02}. The hypotheses $a<q-1$, $b<q-1$ and
+$b+am<q-1$ also appear in~\cite[Thm.~1.4 ff.]{Ha04}. We did not reprove (d).
+We checked the formula by exact computation in $35$ cases with $1\le m\le3$
+and at most $16$ lattice points allowed by the hypotheses (script
+\texttt{verify\_hansen.py}). These were all such cases for $q=5$ and $q=7$ and
+some of those for $q=8$. No exception was found.
+\end{remarkxxvi}
+
+The proofs of (a)--(c) rest on the following count. It is a special case of
+the theorem of Alon and F\"uredi on grids~\cite{AF93}, but the direct
+induction is short. Section~\ref{sec:nullstellensatz} discusses the
+connection.
+
+\begin{lemma}[Grid lemma; proved here]\label{lem:grid}
+Let $f\in\F[x_1,\dots,x_r]$ be a nonzero polynomial whose exponents in each
+variable are at most $q-2$.
+\begin{enumerate}[label=(\roman*)]
+\item If $f$ has total degree at most $\ell\le q-2$, then $f$ is nonzero at no
+fewer than $(q-1)^{r-1}(q-1-\ell)$ points of $(\Fqs)^r$.
+\item If $\deg_{x_j}f\le a_j\le q-2$ for each $j$, then $f$ is nonzero at no
+fewer than $\prod_{j=1}^r(q-1-a_j)$ points of $(\Fqs)^r$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We prove (i) by induction on $r$. For $r=1$, a nonzero polynomial of degree at
+most $\ell$ has at most $\ell$ roots, so it is nonzero at no fewer than
+$q-1-\ell$ points of $\Fqs$. Let $r\ge2$ and write
+$f=\sum_{j=0}^{e}g_j(x_1,\dots,x_{r-1})\,x_r^j$ with $g_e\ne0$. Then $e\le\ell$
+and $\deg g_e\le\ell-e$. By induction $g_e$ is nonzero at no fewer than
+$(q-1)^{r-2}(q-1-\ell+e)$ points $x'$ of $(\Fqs)^{r-1}$. At each such $x'$ the
+polynomial $f(x',x_r)$ in $x_r$ is nonzero of degree $e\le q-2$. So it is
+nonzero at no fewer than $q-1-e$ values of $x_r$. Hence $f$ is nonzero at no
+fewer than $(q-1)^{r-2}(q-1-\ell+e)(q-1-e)$ points. Put $c=q-1$. Then
+\[
+(c-\ell+e)(c-e)-c(c-\ell)=e(\ell-e)\ \ge\ 0,
+\]
+and the bound $(q-1)^{r-1}(q-1-\ell)$ follows. The proof of (ii) is the same,
+with $\deg_{x_r}f\le a_r$ in place of $e\le\ell$ and with the inductive bound
+$\prod_{j<r}(q-1-a_j)$ for $g_e$.
+\end{proof}
+
+\begin{proposition}[Proved here]\label{prop:hansenabc}
+Parts (a), (b) and (c) of Theorem~\ref{thrm:hansen} hold, and the stated
+values of $d$ are attained.
+\end{proposition}
+
+\begin{proof}
+In each case the lattice points have coordinates in $[0,q-2]$, so their
+residues modulo $q-1$ are distinct. By Proposition~\ref{prop:dim} below, $k$
+is the number of lattice points. This number is $(a+1)(a+2)/2$ for (b),
+$(a+1)(b+1)$ for (c), and $\sum_{i=0}^{a}(2a-2i+1)=(a+1)^2$ for (a).
+
+(b) Every $f\in L$ has total degree at most $a\le q-2$. By
+Lemma~\ref{lem:grid}(i), $\wt(\ev f)\ge(q-1)(q-1-a)=n-a(q-1)$. The polynomial
+$f=\prod_{i=1}^{a}(x-c_i)$ with distinct $c_i\in\Fqs$ lies in $L$ and vanishes
+on the $a(q-1)$ points with $x\in\{c_1,\dots,c_a\}$, so equality holds.
+
+(c) By Lemma~\ref{lem:grid}(ii) with $a_1=a$ and $a_2=b$, every nonzero word has
+weight at least $(q-1-a)(q-1-b)=n-a(q-1)-b(q-1)+ab$. The product
+$\prod_{i\le a}(x-c_i)\prod_{j\le b}(y-c'_j)$ attains this value.
+
+(a) The lattice points of the triangle are the $(i,j)$ with $0\le i\le a$ and
+$i\le j\le2a-i$. The substitution $X=xy$, $Y=y$ is a bijection of
+$(\Fqs)^2$ onto itself and sends $x^iy^j$ to $X^iY^{j-i}$. The new exponents
+$(i,j-i)$ satisfy $i\ge0$, $j-i\ge0$ and $i+(j-i)\le2a-i\le2a$. Since
+$2a\le q-2$, Lemma~\ref{lem:grid}(i) gives weight at least
+$(q-1)(q-1-2a)=n-2a(q-1)$. The polynomial $\prod_{i=1}^{2a}(y-c_i)$ uses the
+points $(0,0),\dots,(0,2a)$ of the triangle and attains this value.
+\end{proof}
+
+\begin{remark}\label{rem:RMcompare}
+One can compare the Hansen code of type (b) with the code obtained by
+puncturing $\RM(a,2,q)$ at the $2q-1$ points of $\F^2\setminus T(\F)$. For
+$1\le a<q-1$ the Reed--Muller code has $d_{RM}=(q-a)q$
+(Example~\ref{example:RM}). Each puncture lowers the distance by at most $1$,
+so the punctured code has $d\ge d_{RM}-2q+1$. The true value $n-a(q-1)$ is
+larger. For example, for $q=9$ and $a=3$ we have $d=40$ but
+$d_{RM}-2q+1=37$.
+\end{remark}
+
+\begin{example}\label{ex:hansenb}
+The following parameters of Hansen codes of type (b) were computed exactly
+(script \texttt{verify\_tables.py}). The last column records the comparison
+with Brouwer's tables made in 2003. It is historical and has not been
+rechecked (Remark~\ref{rem:historical}). The rows with $a\ge q-1$ lie outside
+the hypothesis of Theorem~\ref{thrm:hansen}(b). For them $k$ is the number of
+residues of $S_a$ modulo $q-1$.
+\begin{center}
+\begin{tabular}{@{}cccccl@{}}
+\toprule
+$q$ & $a$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (2003)\\
+\midrule
+5 & 2 & 16 & 6 & 8 & best known\\
+5 & 4 & 16 & 13 & 3 & best possible ($a=q-1$)\\
+5 & 5 & 16 & 15 & 2 & MDS ($a>q-1$)\\
+7 & 2 & 36 & 6 & 24 & $d=25$ is best known\\
+7 & 3 & 36 & 10 & 18 & $d=19$ is best known\\
+8 & 2 & 49 & 6 & 35 & $d=36$ is best known\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{example}
+
+%======================================================================
+\section{The construction}\label{sec:toric}
+
+This section defines toric codes in general. It shows that on the full torus
+they depend only on residues of lattice points, describes their duals, and
+works through the examples of the original paper. The construction is a
+little more general than Hansen's. It still lies in the framework of the codes
+of S.~Hansen~\cite{SH01} and of Fitzgerald and Lax~\cite{FL98}.
+
+\subsection{Goppa-type codes on toric varieties}
+
+Let $X=X(\Delta)$ be a toric variety over $\F$ of dimension $r$, with dense
+torus $T$. Let $P_1,\dots,P_n\in X(\Fq)$ be distinct points. We write the
+formal sum $P=P_1+\dots+P_n$, which is a zero-cycle on $X$. Let $G$ be a
+$T$-invariant divisor whose support contains none of the $P_i$,
+\[
+\supp(G)\cap\{P_1,\dots,P_n\}=\varnothing .
+\]
+Then no $f\in L(G)$ has a pole at a $P_i$, and the \emph{Goppa code associated
+to $X$, $P$ and $G$} is
+\begin{equation}\label{eqn:code2}
+C=C(P,G,X)=\{(f(P_1),\dots,f(P_n)):\ f\in L(G)\}.
+\end{equation}
+Its dual code is
+\begin{equation}\label{eqn:dualcode}
+C^\perp=\Bigl\{(c_1,\dots,c_n)\in\Fq^n:\ \sum_{i=1}^n c_if(P_i)=0\ \text{for all}\
+f\in L(G)\Bigr\}.
+\end{equation}
+A $T$-invariant divisor is supported on the boundary $X\setminus T$, so every
+point of $T(\Fq)$ is allowed. A point on the boundary can be used only when
+it avoids $\supp(G)$. Otherwise one must evaluate sections of $\OO(G)$ after
+choosing a local trivialization at the point.
+
+\begin{definition}\label{def:standard}
+If $P$ is the sum of all points of $T(\Fq)$, we call $C(P,G,X)$ a
+\emph{standard toric code}. Its length is $n=(q-1)^r$.
+\end{definition}
+
+\subsection{Evaluation on the full torus}
+
+\begin{definition}\label{def:CU}
+For a finite set $U\subset M$, let $V_U=\Span\{\chi^u: u\in U\}$ and let $C_U$
+be the image of the evaluation map
+\begin{equation}\label{eqn:evalmap}
+\ev:V_U\to\Fq^{\,n},\qquad f\mapsto(f(t))_{t\in T(\Fq)},\qquad n=(q-1)^r .
+\end{equation}
+For $U=P_G\cap M$ this is the standard toric code of $G$. For an arbitrary
+finite $U$ it is a \emph{generalized toric code} in the sense
+of~\cite{Ru09}, \cite{Li11}.
+\end{definition}
+
+It is natural to ask when \eqref{eqn:evalmap} is injective. S.~Hansen
+investigated this for varieties \cite[\S5.3]{SH99}, \cite{SH96}, and
+J.~Hansen did so for some toric surfaces~\cite[\S2.3]{Ha02}. For the full
+torus the answer is exact.
+
+\begin{proposition}[Proved here]\label{prop:dim}
+Let $\pi:M\to\Lq$ be reduction modulo $q-1$.
+\begin{enumerate}[label=(\roman*)]
+\item The vectors $\ev(\chi^u)$, for $u$ running over a set of
+representatives of distinct classes in $\Lq$, are linearly independent.
+\item $\dim C_U=|\pi(U)|$.
+\item The map \eqref{eqn:evalmap} is injective if and only if $\pi$ is
+injective on $U$. This holds, for example, when in some basis of $M$ the $j$-th
+coordinates of the points of $U$ lie in an interval of length at most $q-2$,
+for each $j$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) Let $u_1,\dots,u_k$ be pairwise incongruent modulo $q-1$. By
+Lemma~\ref{lem:orth},
+$\ev(\chi^{u_a})\cdot\ev(\chi^{-u_b})=\sum_t\chi^{u_a-u_b}(t)$ equals
+$(q-1)^r\ne0$ if $a=b$ and $0$ otherwise. A relation
+$\sum_a\lambda_a\ev(\chi^{u_a})=0$, paired with $\ev(\chi^{-u_b})$, gives
+$\lambda_b=0$. (ii) follows from (i), because $\ev(\chi^u)$ depends only on
+$\pi(u)$. (iii) If $\pi(u)=\pi(u')$ with $u\ne u'$, then
+$\chi^u-\chi^{u'}\ne0$ lies in the kernel. If $\pi$ is injective on $U$, then
+(i) gives injectivity. The coordinate condition makes $\pi$ injective, because
+two integers in an interval of length at most $q-2$ are congruent modulo
+$q-1$ only if they are equal.
+\end{proof}
+
+\begin{remark}\label{rem:bound-q}
+Proposition~\ref{prop:dim} replaces the lemma attributed to J.~Hansen in the
+original version. That lemma claimed injectivity for $q>q_0(\Delta)$ with a
+bound depending only on the fan. Such a bound cannot exist. On $\PP^2$, for
+$G=(q-1)D_3$ the nonzero function $x^{q-1}-1\in L(G)$ vanishes on all of
+$T(\Fq)$, for every $q$. The condition $|a_i|<q$ on exponents is also not
+enough, since it allows exponents that differ by $q-1$. The correct
+requirement is the one in (iii).
+\end{remark}
+
+\begin{proposition}[Proved here]\label{prop:equiv}
+Let $U\subset M$ be finite.
+\begin{enumerate}[label=(\roman*)]
+\item For $w\in M$, the code $C_{U+w}$ is monomially equivalent to $C_U$.
+\item For $g\in\GL_r(\Z/(q-1))$, the code $C_{gU}$ is permutation equivalent
+to $C_U$. In particular this holds for $g\in\GL_r(\Z)$, so lattice-equivalent
+polygons give equivalent codes (compare~\cite{LS07}).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) $\ev(\chi^{u+w})=\ev(\chi^w)\ast\ev(\chi^u)$, where $\ast$ is the
+coordinatewise product. The vector $\ev(\chi^w)$ has no zero entry. (ii)
+Define the permutation $\pi_g$ of $\Lq$ by $i\mapsto g^{\mathsf T}i$. Then
+$\chi^u(\omega^{g^{\mathsf T}i})=\omega^{\langle u,g^{\mathsf
+T}i\rangle}=\omega^{\langle gu,i\rangle}=\chi^{gu}(\omega^i)$. So composing with
+$\pi_g$ maps $C_U$ onto $C_{gU}$.
+\end{proof}
+
+\begin{proposition}[Corrected form of a remark of the original; proved
+here]\label{remark:subcode}
+Let $U_1\subseteq U_2\subset M$ be finite. Then $C_{U_1}\subseteq C_{U_2}$,
+the codimension is at most $|U_2\setminus U_1|$, and $d(C_{U_1})\ge
+d(C_{U_2})$. If $\pi$ is injective on $U_2$, the codimension equals
+$|U_2\setminus U_1|$.
+\end{proposition}
+
+\begin{proof}
+$C_{U_2}$ is spanned by $C_{U_1}$ and the vectors $\ev(\chi^u)$ with $u\in
+U_2\setminus U_1$. The distance inequality is \eqref{eq:subcode-d}, and the
+equality case is Proposition~\ref{prop:dim}.
+\end{proof}
+
+In particular, if $X_1$ and $X_2$ are toric varieties for the same lattice $M$
+with divisors $G_1$ and $G_2$ such that $P_{G_1}\subseteq P_{G_2}$, then the
+standard toric code of $G_1$ is a subcode of that of $G_2$. The distance of
+the smaller code is at least the distance of the larger one. The original
+version stated the inequality in the opposite direction, and that is false.
+For example, the code spanned by $\ev(1)$ has distance $(q-1)^2$, while the
+code spanned by $\ev(1)$ and $\ev(x)$ contains the word of $x-1$, of weight
+$(q-1)(q-2)$.
+
+\begin{theorem}[Duality; proved here, compare~\cite{Ru09}]\label{thm:dual}
+Let $U\subseteq\Lq$ and $U^*=\Lq\setminus(-U)$. Then $C_U^\perp=C_{U^*}$.
+\end{theorem}
+
+\begin{proof}
+For $u\in U$ and $v\in U^*$ we have $u+v\not\equiv0$, so
+$\ev(\chi^u)\cdot\ev(\chi^v)=0$ by Lemma~\ref{lem:orth}. Hence
+$C_{U^*}\subseteq C_U^\perp$. By Proposition~\ref{prop:dim},
+$\dim C_{U^*}=|U^*|=n-|U|=n-\dim C_U=\dim C_U^\perp$.
+\end{proof}
+
+Theorem~\ref{thm:dual} is used in Section~\ref{sec:decode}. There the dual of
+a toric code has to be decoded, and the theorem shows that this dual is again
+a toric code.
+
+\subsection{Examples}\label{sec:examples}
+
+We now tabulate the parameters $(n,k,d)$ of several families of standard
+toric codes. In the original version they were computed with the
+\textbf{toric} package. In this version every row was recomputed exactly
+(script \texttt{verify\_tables.py}). The value of $k$ is the number of
+residues (Proposition~\ref{prop:dim}), and $d$ was computed by an exact
+information-set search. All rows agree with the original tables except one,
+noted in Example~\ref{example:fan1}. The tables use the inward normals $v_i$
+and the polytope \eqref{eq:PG} of $G=\sum d_iD_i$. For evaluation on the full
+torus, neither smoothness of $X$ nor the Cartier property of $G$ is needed.
+Only the set $P_G\cap M$ matters (see also Section~\ref{sec:fangraph}).
+
+\begin{remarkxxvi}\label{rem:historical}
+The last column of each table records the comparison that the original paper
+made with Brouwer's online tables in 2003~\cite{Br98}. We have not rechecked
+these comparisons against the current tables~\cite{Gr26}, except for the
+principal example. They should be read as historical statements.
+\end{remarkxxvi}
+
+\begin{example}[The principal example]\label{example:fan7}
+Let $\Delta$ be the complete fan with rays
+\[
+v_1=(5,-1),\qquad v_2=(-1,5),\qquad v_3=(-1,-1).
+\]
+The determinants of successive rays are $24$, $6$ and $6$, so $X(\Delta)$ is
+singular. Singularity does no harm here, because only the polytope enters the
+code. For $G=5D_3$ the inequalities are $5x-y\ge0$, $-x+5y\ge0$ and $x+y\le5$.
+Their solution set is the rational triangle with vertices $(0,0)$,
+$(25/6,5/6)$ and $(5/6,25/6)$. It contains exactly the $11$ lattice points
+\[
+\begin{aligned}
+P_G\cap M=\{&(0,0),(1,1),(1,2),(1,3),(1,4),(2,1),\\
+&(2,2),(2,3),(3,1),(3,2),(4,1)\}.
+\end{aligned}
+\]
+Their convex hull is the lattice triangle $\conv\{(0,0),(4,1),(1,4)\}$, of
+area $15/2$. It has $6$ interior and $5$ boundary lattice points. Over $\F_8$
+we obtain the code $C_{P_G\cap M}$ with parameters $[49,11,28]_8$. Its status
+is as follows.
+\begin{enumerate}[leftmargin=*]
+\item $k=11$ \st{proved}. The $11$ points have coordinates in $[0,4]$, so they
+are distinct modulo $7$ (Proposition~\ref{prop:dim}).
+\item $d\le28$ \st{proved}. The four points $(1,1),\dots,(1,4)$ form a
+vertical lattice segment of length $3$. Theorem~\ref{thm:segment} below
+applies, with the polynomial $xy(y-\alpha)(y-\beta)(y-\gamma)$ for distinct
+$\alpha,\beta,\gamma\in\F_8^\times$.
+\item $d\ge28$ \st{exhaustive exact computation}. This was established by an
+information-set search (script \texttt{verify\_tables.py}). It was confirmed
+independently by enumerating all $8^{11}$ codewords with a binary Gray code
+(script \texttt{wd\_principal.py}), which gives the weight distribution in
+Table~\ref{tab:wd}.
+\end{enumerate}
+In 2002 this code was better than any code with the same $n$ and $k$ in
+Brouwer's tables~\cite{Br98}. Brouwer's table of 2007 still listed $d\ge28$
+for $[49,11]_8$. Grassl's tables, consulted on November 22, 2026, list a
+$[49,11,29]_8$ code obtained by Construction~X from algebraic-geometry codes,
+and the upper bound $d\le34$~\cite{Gr26}. Little later found a generalized
+toric $[49,12,28]_8$ code~\cite{Li11}.
+\end{example}
+
+\begin{table}[ht]
+\centering
+\caption{Weight distribution $A_w$ of the $[49,11,28]_8$ code of
+Example~\ref{example:fan7}. Here $A_0=1$ and $A_w=0$ for $0<w<28$. The total is
+$8^{11}$.}\label{tab:wd}
+\small
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+$w$ & $A_w$ & $w$ & $A_w$ & $w$ & $A_w$\\
+\midrule
+28 & 833 & 36 & 34\,115\,123 & 44 & 1\,397\,799\,774\\
+29 & 2\,058 & 37 & 82\,757\,668 & 45 & 1\,095\,370\,500\\
+30 & 21\,952 & 38 & 181\,602\,036 & 46 & 665\,332\,878\\
+31 & 105\,644 & 39 & 361\,137\,840 & 47 & 296\,872\,674\\
+32 & 412\,629 & 40 & 626\,918\,936 & 48 & 84\,948\,752\\
+33 & 1\,184\,036 & 41 & 969\,862\,341 & 49 & 13\,080\,725\\
+34 & 3\,980\,515 & 42 & 1\,290\,940\,427 & & \\
+35 & 11\,983\,293 & 43 & 1\,471\,503\,957 & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{example}\label{example:fan1}
+Let $\Delta$ be the fan with rays $v_1=(2,-1)$, $v_2=(-1,2)$ and
+$v_3=(-1,-1)$. The cone $\sigma_1$ spanned by $v_1$ and $v_2$ has
+$\det(v_1,v_2)=3$, so $v_1,v_2$ do not generate $\Z^2$ and $X$ is singular.
+Since $v_1+v_2+v_3=0$, the surface is the quotient of $\PP^2$ by a group of
+order $3$. The divisor $G=d_1D_1+d_2D_2+d_3D_3$ is Cartier if and only if
+\[
+d_1\equiv d_2\equiv d_3\pmod 3 .
+\]
+\emph{Proof.} On $\sigma_1$ we need $m\in\Z^2$ with $2x-y=-d_1$ and
+$-x+2y=-d_2$. The unique rational solution is
+$x=-(2d_1+d_2)/3$, $y=-(d_1+2d_2)/3$, which is integral if and only if
+$d_1\equiv d_2\pmod3$. The other two cones are similar. A Cartier divisor
+$G$ is ample if and only if $d_1+d_2+d_3>0$. Indeed, adding the three
+inequalities of $P_G$ gives $0\ge-(d_1+d_2+d_3)$, so $P_G$ is a
+nondegenerate triangle with normal fan $\Delta$ exactly when
+$d_1+d_2+d_3>0$. Here
+\[
+P_G=\{(x,y):\ 2x-y\ge-d_1,\ -x+2y\ge-d_2,\ -x-y\ge-d_3\}.
+\]
+Not all of the divisors in the table are Cartier.
+
+\begin{center}
+\small
+\begin{tabular}{@{}cccccccl@{}}
+\toprule
+$q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (2003)\\
+\midrule
+5 & 0 & 0 & 3 & 16 & 4 & 10 & $d=11$ is best possible\\
+5 & 1 & 1 & 2 & 16 & 5 & 8 & $d=9$ is best known\\
+5 & 1 & 1 & 3 & 16 & 7 & 6 & $d=7$ is best known\\
+5 & 1 & 1 & 4 & 16 & 10 & 4 & $d=5$ is best possible\\
+5 & 2 & 3 & 1 & 16 & 9 & 6 & best possible\\
+5 & 2 & 3 & 2 & 16 & 12 & 3 & $d=4$ is best possible\\
+5 & 2 & 3 & 3 & 16 & 14 & 2 & best possible\\
+7 & 1 & 2 & 0 & 36 & 3 & 30 & best possible\\
+7 & 1 & 2 & 2 & 36 & 7 & 21 & $d=22$ is best known\\
+7 & 1 & 2 & 3 & 36 & 9 & 20 & best known\\
+7 & 3 & 0 & 0 & 36 & 4 & 27 & $d=28$ is best known\\
+8 & 0 & 0 & 3 & 49 & 4 & 40 & best known\\
+8 & 0 & 1 & 2 & 49 & 3 & 42 & best possible\\
+8 & 0 & 3 & 3 & 49 & 10 & 28 & best known\\
+8 & 0 & 3 & 4 & 49 & 12 & 26 & best known\\
+\bottomrule
+\end{tabular}
+\end{center}
+The original table listed the data $(q;d_1,d_2,d_3)=(5;2,3,3)$ twice, once with
+$k=14$ and once with $k=15$. The polytope has $15$ lattice points, but
+$(-1,0)\equiv(3,0)\pmod4$. So it has only $14$ residues and $k=14$. The
+duplicate row has been removed.
+\end{example}
+
+\begin{example}[Hansen's type (a)]\label{example:fan5}
+Let $\Delta$ have rays $v_1=(1,0)$, $v_2=(-1,1)$ and $v_3=(-1,-1)$. Since
+$\det(v_2,v_3)=2$, the surface is singular. It is the weighted projective
+plane $\PP(1,1,2)$, because $2v_1+v_2+v_3=0$. Hansen's triangle with vertices
+$(0,0)$, $(a,a)$ and $(0,2a)$ is cut out by $x\ge0$, $y\ge x$ and $x+y\le2a$.
+So it is $P_G$ for $G=2aD_3$. The original version wrote $d_3=a$, which gives
+a smaller triangle.
+
+To obtain a nonsingular surface, refine $\Delta$ by inserting the ray
+$v_4=(-1,0)$ between $v_2$ and $v_3$. All four successive determinants are then
+$1$, and the surface is the Hirzebruch surface $\F_2$. The original version
+inserted $-e_2$ instead, which lies in the cone between $v_3$ and $v_1$ and
+leaves the singular cone unchanged. The divisor $G=2aD_3+aD_4$ on the refined
+surface has the same polytope, since the new inequality $x\le a$ is implied by
+the others. It gives Hansen's code of type (a).
+\end{example}
+
+\begin{example}[Hansen's types (b) and (c)]\label{example:fan4}
+For the fan of $\PP^2$ in Example~\ref{ex:P2} and $G=aD_3$, we get Hansen's
+code of type (b). For the fan with rays $e_1$, $e_2$, $-e_1$ and $-e_2$, the
+surface is $\PP^1\times\PP^1$. With $G=d_1D_1+\dots+d_4D_4$ and $d_1=d_2=0$,
+$d_3=a$, $d_4=b$, we get Hansen's code of type (c).
+\end{example}
+
+\begin{example}[Hansen's type (d)]\label{example:fan2}
+Let $\Delta$ have rays $v_1=e_1$, $v_2=-e_1+me_2$ and $v_3=-e_2$, with $m>1$.
+Then $\det(v_1,v_2)=m$ and the other determinants are $1$. Since
+$v_1+v_2+mv_3=0$, the surface is the weighted projective plane $\PP(1,1,m)$.
+It is singular for every $m>1$. The divisor $G=d_1D_1+d_2D_2+d_3D_3$ is Cartier
+if and only if $d_1+d_2\equiv0\pmod m$. Indeed, on the cone spanned by $v_1$
+and $v_2$ the equations $x=-d_1$ and $-x+my=-d_2$ have an integral solution
+exactly when $m\mid d_1+d_2$. Here
+\[
+P_G=\{(x,y):\ x\ge-d_1,\ -x+my\ge-d_2,\ -y\ge-d_3\}.
+\]
+
+Let $\Delta'$ be the refined fan with rays $v'_1=e_1$, $v'_2=e_2$,
+$v'_3=-e_1+me_2$ and $v'_4=-e_2$. All successive determinants are $1$, and the
+surface $X'$ is the Hirzebruch surface $\F_m$. For
+$G'=\sum d'_iD'_i$, the polytope is the quadrilateral with vertices
+$(-d'_1,-d'_2)$, $(-d'_1,d'_4)$, $(md'_4+d'_3,d'_4)$ and
+$(d'_3-md'_2,-d'_2)$. Its edges have positive length, and $G'$ is ample, if and
+only if
+\[
+d'_2+d'_4>0\qquad\text{and}\qquad d'_1+d'_3>m\,d'_2 .
+\]
+The original version stated a garbled form of this condition. With
+$d'_1=d'_2=0$, $d'_3=b$ and $d'_4=a$, the polytope has vertices $(0,0)$,
+$(b,0)$, $(b+ma,a)$ and $(0,a)$. Interchanging $x$ and $y$ gives exactly
+Hansen's trapezoid of type (d).
+
+The following values were computed exactly for the singular surface
+$X(\Delta)$.
+\begin{center}
+\small
+\begin{tabular}{@{}ccccccccl@{}}
+\toprule
+$m$ & $q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ &
+comparison with \cite{Br98} (2003)\\
+\midrule
+3 & 5 & 0 & 2 & 2 & 16 & 11 & 3 & $d=4$ is best known\\
+3 & 5 & 0 & 2 & 3 & 16 & 15 & 2 & MDS\\
+3 & 5 & 0 & 4 & 2 & 16 & 14 & 2 & best possible\\
+3 & 5 & 1 & 0 & 0 & 16 & 2 & 12 & $d=13$ is best possible\\
+3 & 7 & 0 & 1 & 0 & 36 & 2 & 30 & $d=31$ is best possible\\
+3 & 8 & 1 & 0 & 0 & 49 & 2 & 42 & $d=43$ is best possible\\
+3 & 9 & 0 & 1 & 0 & 64 & 2 & 56 & $d=57$ is best possible\\
+5 & 5 & 0 & 0 & 3 & 16 & 13 & 2 & $d=3$ is best possible\\
+5 & 5 & 3 & 3 & 2 & 16 & 14 & 2 & best possible\\
+\bottomrule
+\end{tabular}
+\end{center}
+Several of these polytopes are long and thin, and their lattice points wrap
+around modulo $q-1$. This explains why the parameters are similar to each
+other.
+\end{example}
+
+\begin{example}[A projective plane in disguise]\label{example:fan6}
+Let $\Delta$ have rays $v_1=(2,-1)$, $v_2=(-1,1)$ and $v_3=(-1,0)$. All three
+successive determinants are $1$, and $v_1+v_2+v_3=0$. So $X(\Delta)\cong\PP^2$,
+and every $G=\sum d_iD_i$ is Cartier. Let $s=d_1+d_2+d_3$. The polytope
+\[
+P_G=\{(x,y):\ 2x-y\ge-d_1,\ -x+y\ge-d_2,\ -x\ge-d_3\}
+\]
+is the lattice triangle with vertices $(-d_1-d_2,-d_1-2d_2)$, $(d_3,d_3-d_2)$
+and $(d_3,2d_3+d_1)$. Its vertical side and its horizontal width both equal $s$,
+so
+\[
+\vol(P_G)=\tfrac12\,s^2 \qquad(s\ge0).
+\]
+The original version gave a different formula, which is incorrect. For
+example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$, not $5/2$. The linear
+map $(x,y)\mapsto(x,y-x)$ carries the triangle onto a translate of the simplex
+$S_s$. Hence $G$ is ample exactly when $s>0$. If $s\le q-2$, then
+Proposition~\ref{prop:hansenabc}(b) gives
+\[
+k=\tfrac12(s+1)(s+2),\qquad d=(q-1)(q-1-s).
+\]
+The rows of the table with $s\le q-2$ agree with this formula. The other rows
+wrap around modulo $q-1$.
+\begin{center}
+\small
+\begin{tabular}{@{}cccccccl@{}}
+\toprule
+$q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (2003)\\
+\midrule
+5 & 0 & 0 & 1 & 16 & 3 & 12 & best possible\\
+5 & 0 & 0 & 2 & 16 & 6 & 8 & $d=9$ is best known\\
+5 & 0 & 0 & 3 & 16 & 10 & 4 & $d=5$ is best known\\
+5 & 0 & 0 & 4 & 16 & 13 & 3 & best possible\\
+7 & 0 & 0 & 1 & 36 & 3 & 30 & best possible\\
+7 & 0 & 0 & 2 & 36 & 6 & 24 & best known\\
+7 & 0 & 0 & 3 & 36 & 10 & 18 & best known\\
+7 & 0 & 0 & 4 & 36 & 15 & 12 & $d=14$ is best known\\
+7 & 4 & 1 & 1 & 36 & 26 & 5 & $d=6$ is best known\\
+7 & 4 & 1 & 2 & 36 & 30 & 4 & $d=5$ is best possible\\
+7 & 4 & 1 & 3 & 36 & 33 & 3 & best possible\\
+7 & 4 & 1 & 4 & 36 & 35 & 2 & MDS\\
+8 & 0 & 0 & 1 & 49 & 3 & 42 & best possible\\
+8 & 0 & 0 & 2 & 49 & 6 & 35 & $d=36$ is best known\\
+8 & 0 & 0 & 3 & 49 & 10 & 28 & best known\\
+8 & 0 & 0 & 4 & 49 & 15 & 21 & $d=23$ is best known\\
+8 & 0 & 4 & 4 & 49 & 39 & 5 & $d=6$ is best known\\
+8 & 2 & 4 & 4 & 49 & 46 & 3 & best possible\\
+8 & 3 & 4 & 4 & 49 & 48 & 2 & MDS\\
+8 & 4 & 1 & 4 & 49 & 43 & 4 & $d=5$ is best possible\\
+9 & 0 & 0 & 1 & 64 & 3 & 56 & best possible\\
+9 & 0 & 0 & 2 & 64 & 6 & 48 & $d=49$ is best known\\
+9 & 0 & 0 & 3 & 64 & 10 & 40 & $d=41$ is best known\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{example}
+
+The original abstract said that, for small $q$, many of these codes have
+parameters beating the Gilbert--Varshamov bound. We checked this against the
+finite form of the bound. That form guarantees an $[n,k,d]_q$ code whenever
+$\sum_{i=0}^{d-2}\binom{n-1}{i}(q-1)^i<q^{n-k}$. Of the $42$ distinct parameter
+sets in the tables of this section, $21$ exceed the largest $d$ that it
+guarantees (script \texttt{gv\_check.py}). For instance, for $[49,11]_8$ the
+bound guarantees only $d=26$.
+
+%======================================================================
+\section{Estimates on the parameters}\label{sec:estimate}
+
+For toric codes, estimating $d$ comes down to a natural question. Given a
+polynomial $f$ whose exponents lie in a prescribed polygon, how many zeros can
+$f$ have on the torus? This section answers the question in some cases, and it
+corrects the estimates of the original version.
+
+\subsection{Two-sided bounds from simplices}
+
+Suppose that the polygon $P_G$ is contained in a translate of the simplex
+$S_\ell$ and contains a translate of the simplex $S_k$. In the language of the
+original paper, $S_k$ and $S_\ell$ are the polytopes of divisors $G_1$ and
+$G_2$ on toric varieties $X_1$ and $X_2$ (both projective spaces). The codes
+$C(P,G_i,X_i)$ generalize Hansen's codes of type (b).
+
+\begin{theorem}[Corrected form of the original Theorem; proved
+here]\label{thrm:subcode2}
+Let $U\subset\Z^r$ be finite, and suppose there are $u,v\in\Z^r$ and integers
+$0\le k\le\ell\le q-2$ with
+\[
+u+S_k\ \subseteq\ U\ \subseteq\ v+S_\ell .
+\]
+Write $C=C_U$ for the full-torus code. Then:
+\begin{enumerate}[label=(\arabic*)]
+\item $C_{u+S_k}\subseteq C$, with codimension $|U|-\binom{k+r}{r}$.
+\item $C\subseteq C_{v+S_\ell}$, with codimension $\binom{\ell+r}{r}-|U|$.
+\item $C_{S_a}$ is the code obtained from $\RM(a,r,q)$ by puncturing at the
+points of $\F^r\setminus T(\F)$, for $0\le a\le q-1$.
+\item For $0\le a\le q-2$,
+\[
+d(C_{S_a})=(q-1)^{r-1}(q-1-a).
+\]
+\item $(q-1)^{r-1}(q-1-\ell)\ \le\ d(C)\ \le\ (q-1)^{r-1}(q-1-k)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Since $\ell\le q-2$, the residues of $v+S_\ell$ are distinct. So (1) and (2)
+follow from Proposition~\ref{remark:subcode}. For (3), puncturing $\RM(a,r,q)$
+at the points off the torus evaluates the same polynomials at the points of
+the torus. For $a\le q-1$ these polynomials are exactly the span of the
+monomials of $S_a$. For (4), the lower bound is Lemma~\ref{lem:grid}(i). It is
+attained by $\prod_{i=1}^{a}(x_1-c_i)$ with distinct $c_i\in\Fqs$, which
+vanishes at $a(q-1)^{r-1}$ points. For (5), multiplication by a monomial
+preserves weights (Proposition~\ref{prop:equiv}), so $d(C_{u+S_k})=d(C_{S_k})$
+and $d(C_{v+S_\ell})=d(C_{S_\ell})$. Then \eqref{eq:subcode-d} and (4) give
+(5).
+\end{proof}
+
+\begin{remark}\label{rem:oldsubcode}
+The original version gave the lower bound $(q-a)q^{r-1}-r(q-1)^{r-1}-1$ in
+(4), by counting punctures. The number of points of $\F^r$ outside the torus
+is $q^r-(q-1)^r$. This equals $r(q-1)^{r-1}+1$ only when $r=2$, and for $r\ge3$
+the original bound is false. For $r=3$, $q=5$ and $a=1$ it claims $d\ge51$,
+while the word of $x_1-1$ has weight $48$. The original first two items gave
+codimension bounds of the form $|P_{G_1}-S_k|$, which is $0$ by
+construction. The correct codimensions are those in (1) and (2).
+\end{remark}
+
+\begin{example}\label{ex:sandwich}
+Fix $c\ge1$ with $2c\le q-2$. Let $C$ be the Hansen code of type (c) with
+$(a,b)=(c,c)$, let $C_1$ be the Hansen code of type (b) with $a=c$, and let
+$C_2$ be the Hansen code of type (b) with $a=2c$. Then
+$S_c\subseteq[0,c]^2\subseteq S_{2c}$, and Theorem~\ref{thrm:subcode2} gives
+\[
+(q-1)(q-1-2c)=d(C_2)\ \le\ d(C)=(q-1-c)^2\ \le\ d(C_1)=(q-1)(q-1-c).
+\]
+\end{example}
+
+\subsection{An upper bound from lattice segments}
+
+\begin{theorem}[Corrected form of the original Theorem; proved
+here]\label{thm:segment}
+Let $U\subset\Z^r$ be finite. Suppose $U$ contains $h+1$ consecutive lattice
+points $u,u+w,\dots,u+hw$ on a line, where $w$ is primitive and $1\le h\le
+q-2$. Then
+\[
+d(C_U)\ \le\ (q-1)^{r-1}(q-1-h).
+\]
+\end{theorem}
+
+\begin{proof}
+Choose distinct $c_1,\dots,c_h\in\Fqs$ and let
+$f=\chi^u\prod_{j=1}^{h}(\chi^w-c_j)\in V_U$. Since $w$ is primitive, it is
+part of a basis of $\Z^r$. In the corresponding coordinates $\chi^w$ is a
+coordinate function, so each equation $\chi^w=c_j$ has exactly
+$(q-1)^{r-1}$ solutions in $T(\Fq)$. Hence $f$ vanishes at exactly
+$h(q-1)^{r-1}$ points. It is nonzero elsewhere, so $\ev(f)\ne0$ because $h<q-1$.
+\end{proof}
+
+\begin{remark}\label{rem:segment}
+In particular, let $r=2$ and let $h$ be the largest integer with
+$\{(0,0),\dots,(0,h)\}\subseteq P_G$. Then $d\le n-h(q-1)$ if $h\le q-2$. This
+generalizes some cases of Hansen's theorem, where the bound is sharp. The
+original version claimed only $d\le n-h$, for an arbitrary evaluation set, and
+its proof replaced $h$ by $\max_i d_i$ without justification. The hypothesis
+$h\le q-2$ is necessary. For $h=q-1$ the product $\prod_{c\in\Fqs}(x_j-c)$
+vanishes on all of $T(\Fq)$ and gives the zero word. Products of segments in
+several directions give the stronger upper bounds of Little and
+Schenck~\cite{LS06}.
+\end{remark}
+
+\subsection{The conjectures of the 2004 version}
+
+The original version stated two conjectural lower bounds for $d$, inspired by
+S.~Hansen's work~\cite{SH96}. The first assumed that $X$ is nonsingular and
+projective of dimension $r$ and that $2N\vol(P_G)\le n\le2N^2\vol(P_G)$ for
+some integer $N>1$. It predicted $d\ge n-2N\vol(P_G)$ for large $q$. The
+second assumed in addition that the support function of $G$ is strictly
+convex and that $\deg(P)>\deg(G^r)$. It predicted $k\ge|P_G\cap M|$ and
+$d\ge n-r!\,|P_G\cap M|$. Both are false. Ruano~\cite{Ru07} gave
+counterexamples. The following ones are elementary.
+
+\begin{example}[The first conjecture fails]\label{ex:conj1}
+Let $X=\PP^1\times\PP^1$ over $\F_9$, with $P_G=[0,1]^2$, so that $n=64$ and
+$\vol(P_G)=1$. The integer $N=6$ satisfies $12\le64\le72$. The conjecture
+predicts $d\ge64-12=52$. But $(x-\alpha)(y-\beta)$ with
+$\alpha,\beta\in\F_9^\times$ has $8+8-1=15$ zeros on the torus. Its word has
+weight $49$, and in fact $d=49$ by Proposition~\ref{prop:hansenabc}(c). For
+general $q$ one has $d=(q-2)^2$, while the conjecture gives roughly
+$n-\sqrt2(q-1)$.
+\end{example}
+
+\begin{example}[The second conjecture fails]\label{ex:conj2}
+Let $X=\PP^2$ and $G=D_3$, so that $P_G=S_1$ has $3$ lattice points, $G$ is
+very ample and $G^2=1$. For $q=9$ we have $\deg(P)=64>1$. The conjecture
+predicts $d\ge64-2\cdot3=58$. But $x-\alpha$ has $8$ zeros on the torus, so
+$d\le56$, and in fact $d=56$ by Theorem~\ref{thrm:subcode2}(4). The same
+failure occurs whenever $q-1>6$. Moreover, the inequality $k\ge|P_G\cap M|$
+is reversed in general, since $k=\dim C\le\dim L(G)$, with equality exactly in
+the situation of Proposition~\ref{prop:dim}(iii).
+\end{example}
+
+Theorems~\ref{thrm:subcode2} and~\ref{thm:segment} replace the conjectures.
+For large $q$ the sharp asymptotic answer is given by Minkowski length:
+$d\ge(q-1)^2-L(q-1)-2\sqrt q+1$, where $L$ is the full Minkowski length of the
+polygon~\cite[Thm.~1]{SS09}. That bound holds above an explicit threshold
+for $q$.
+
+\begin{example}[The principal example revisited]\label{ex:principal2}
+The triangle of Example~\ref{example:fan7} lies in $S_5$ and contains a
+translate of $S_1$. Theorem~\ref{thrm:subcode2}(5) gives $14\le d\le42$.
+Theorem~\ref{thm:segment} gives $d\le28$, and the exact value $28$ was found by
+computation. So the segment bound $28=49-3\cdot7$ is sharp here, even though
+$q=8$ is far below the thresholds of~\cite{LS06} and~\cite{SS09}.
+\end{example}
+
+%======================================================================
+\section{Decoding algorithm}\label{sec:decode}
+
+A number of decoding algorithms are possible for toric codes.
+\begin{itemize}[leftmargin=*]
+\item Use a general algorithm for decoding multidimensional cyclic codes, as
+in Little's papers~\cite{Li03a}, \cite{Li03b} and the references there. Most
+of these require Gr\"obner bases.
+\item Use a general algorithm for decoding affine variety codes~\cite{FL98},
+which also requires Gr\"obner bases.
+\item Since these codes are closely related to Reed--Muller codes, use a
+majority logic decoding algorithm valid for the larger Reed--Muller code. This
+does not always apply (see \cite[Ch.~13, \S7]{MS77}).
+\end{itemize}
+The first two can be impractical, since good error correction may require
+relatively large $q$. Much of the Gr\"obner basis computation is one-time
+work, however.
+
+This section gives an error-locator algorithm in the style of
+\cite[pp.~217--218]{St93}. It uses only linear algebra. The original version
+tied the algorithm to error positions lying on $T$-invariant divisors $D_i$.
+That cannot work for evaluation on the torus, since no torus point lies on any
+$D_i$. Its worked example also placed evaluation points on $\supp(G)$, where
+the functions of $L(G)$ may have poles. We therefore restate the algorithm in
+terms of spaces of functions that are regular at all evaluation points. In
+this form it is Pellikaan's decoding by error-correcting pairs~\cite{Pe92}
+(see also~\cite{Ha17}). Toric geometry then supplies the hypotheses
+(Corollary~\ref{cor:toricECP}). By Theorem~\ref{thm:dual}, decoding the dual
+of a toric code is the same as decoding a toric code, and the corollary is
+stated that way.
+
+\subsection{The algorithm}
+
+Let $p_1,\dots,p_n$ be points at which all functions below are defined. In
+this section they are the points of $T(\Fq)$. Let $V_A$, $V_B$ and $V_P$ be
+spaces of functions with $V_AV_B\subseteq V_P$. For example, take
+$V_A=V_{A_0}$, $V_B=V_{B_0}$ and $V_P=V_{P_0}$ for lattice point sets with
+$A_0+B_0\subseteq P_0$ modulo $q-1$. Let $C=\ev(V_P)$. The code to be decoded
+is $D=C^\perp$. For a vector $r$ and a function $\varphi$ put
+\[
+[r,\varphi]=\sum_{i=1}^n r_i\,\varphi(p_i).
+\]
+Then $[c,\varphi]=0$ for $c\in D$ and $\varphi\in V_P$.
+
+\begin{algorithm}\label{alg:decode}
+Input: a received vector $r=c+e$ with $c\in D$. Choose bases $f_1,\dots,f_\ell$
+of $V_A$, $g_1,\dots,g_m$ of $V_B$ and $h_1,\dots,h_s$ of $V_P$.
+\begin{enumerate}[label=\arabic*.]
+\item Find a nonzero solution $(a_1,\dots,a_\ell)$ of the $m$ linear
+equations
+\begin{equation}\label{eqn:coeffs1}
+\sum_{j=1}^{\ell}[r,f_jg_i]\,x_j=0\qquad(1\le i\le m),
+\end{equation}
+and put $f=a_1f_1+\dots+a_\ell f_\ell$.
+\item Let $N(f)=\{i:\ 1\le i\le n,\ f(p_i)=0\}$.
+\item Solve $\sum_{i\in N(f)}b_i\,h_j(p_i)=[r,h_j]$ for $1\le j\le s$. Put
+$\hat e_i=b_i$ for $i\in N(f)$ and $\hat e_i=0$ otherwise.
+\item Output $r-\hat e$.
+\end{enumerate}
+Each step is Gaussian elimination, so the cost is $O(n^3)$ field operations.
+\end{algorithm}
+
+\begin{theorem}[Proved here; the hypotheses are those of an error-correcting
+pair~\cite{Pe92}]\label{thm:decode}
+Let $t\ge1$ and assume:
+\begin{enumerate}[label=(\Alph*)]
+\item $\ev$ is injective on $V_A$, and $\dim V_A>t$.
+\item For every set $I$ of at most $t$ positions and every $i_0\in I$, there
+is $h\in V_B$ with $h(p_{i_0})\ne0$ and $h(p_i)=0$ for all $i\in
+I\setminus\{i_0\}$.
+\item Every nonzero $f\in V_A$ vanishes at fewer than $d(D)$ of the points
+$p_i$.
+\end{enumerate}
+Then for every $c\in D$ and every $e$ with $\wt(e)\le t$,
+Algorithm~\ref{alg:decode} applied to $r=c+e$ returns $c$.
+\end{theorem}
+
+Condition (B) holds if and only if $d(\ev(V_B)^\perp)>t$. Indeed, (B) fails
+for some $I$ exactly when $\ev(V_B)$ restricted to $I$ is not all of $\F^I$.
+That happens exactly when some nonzero vector supported in $I$ is orthogonal
+to $\ev(V_B)$. Condition (C) says that $n-d(\ev(V_A))<d(D)$. The proof
+consists of the next two propositions. They correct the two propositions of
+the original version.
+
+\begin{proposition}[Error locator]\label{prop:errorlocator}
+Under (A) and (B), with $I=\supp(e)$ and $|I|\le t$, the system
+\eqref{eqn:coeffs1} has a nonzero solution. Every nonzero solution gives a
+nonzero $f\in V_A$ with $f(p_i)=0$ for all $i\in I$.
+\end{proposition}
+
+\begin{proof}
+Existence. Vanishing at the points $p_i$, $i\in I$, imposes $|I|$ linear
+conditions on $V_A$. Since $\dim V_A>t\ge|I|$, there is a nonzero $z\in V_A$
+with $z(p_i)=0$ for $i\in I$. Write $z=\gamma_1f_1+\dots+\gamma_\ell f_\ell$.
+For each $i$ we have $zg_i\in V_P$, so
+\[
+\sum_{j=1}^{\ell}[r,f_jg_i]\gamma_j=[r,zg_i]=[e,zg_i]
+=\sum_{v\in I}e_v\,z(p_v)\,g_i(p_v)=0 .
+\]
+Thus $(\gamma_1,\dots,\gamma_\ell)$ is a nonzero solution of
+\eqref{eqn:coeffs1}.
+
+Vanishing. Let $(a_j)$ be any nonzero solution and $f=\sum a_jf_j$. By
+linearity, $[r,fh]=0$ for every $h\in V_B$, and $[r,fh]=[e,fh]$. Suppose
+$f(p_{i_0})\ne0$ for some $i_0\in I$. Choose $h$ as in (B). Then
+\[
+0=[e,fh]=\sum_{v\in I}e_v\,f(p_v)h(p_v)=e_{i_0}f(p_{i_0})h(p_{i_0})\ne0,
+\]
+a contradiction. Finally $f\ne0$ by (A).
+\end{proof}
+
+\begin{proposition}[Error values]\label{prop:errors}
+Let $f$ be as in Proposition~\ref{prop:errorlocator}. The values $b_i=e_i$,
+$i\in N(f)$, solve the system of step 3. Under (C) this solution is unique.
+\end{proposition}
+
+\begin{proof}
+Since $h_j\in V_P$ and $e_v=0$ for $v\notin I\subseteq N(f)$,
+\[
+[r,h_j]=[e,h_j]=\sum_{v\in N(f)}e_vh_j(p_v).
+\]
+Let $(b_i)$ be another solution, and extend $b$ by $0$ outside $N(f)$. Then
+$[b-e,h_j]=0$ for all $j$. Since the $h_j$ span $V_P$, the vector $b-e$ lies in
+$C^\perp=D$. It is supported in $N(f)$, and $|N(f)|<d(D)$ by (C). Hence
+$b=e$.
+\end{proof}
+
+\begin{remark}\label{rem:oldexample}
+In the worked example of the original version, $X$ is the surface of
+Example~\ref{example:fan1}, with $G=10D_3$ and $G'=2(D_1+D_2+D_3)$. There $V_A$
+and $V_B$ are spanned by the $10$ lattice points of $P_{G'}$ and the $5$ lattice
+points of $P_{G-G'}$. The example placed the points $P_1$, $P_2$ and $P_3$ on
+$D_1$, $D_2$ and $D_3$. Since $P_3\in\supp(G)$, the evaluation at $P_3$ was not
+defined. The claimed bound on $q$ also used the minimum distance of $C$ in
+place of that of $D=C^\perp$. With all points taken in $T(\Fq)$ the example
+becomes an instance of Theorem~\ref{thm:decode}. Condition (B) can then hold
+only for $t\le5=\dim V_B$. We have not determined $d(D)$ for that example,
+and we replace it by Example~\ref{ex:decode}.
+\end{remark}
+
+\subsection{Toric criteria}
+
+\begin{lemma}[Separation; proved here]\label{lem:separate}
+Let $b\ge0$ and $u\in\Z^r$. Any $b+1$ distinct points of $T(\Fq)$ are
+separated by $V_{u+S_b}$ in the sense of condition (B).
+\end{lemma}
+
+\begin{proof}
+Let $p_{i_0},p_{i_1},\dots,p_{i_b}$ be distinct points. For each $k\ge1$ choose a
+coordinate $j_k$ with $(p_{i_k})_{j_k}\ne(p_{i_0})_{j_k}$. Then
+$h=\chi^u\prod_{k=1}^{b}\bigl(x_{j_k}-(p_{i_k})_{j_k}\bigr)$ has exponents in
+$u+S_b$. It vanishes at $p_{i_1},\dots,p_{i_b}$ and not at $p_{i_0}$. For
+fewer points, use fewer factors.
+\end{proof}
+
+\begin{corollary}[Toric error-correcting pairs; proved here]\label{cor:toricECP}
+Let $Q\subseteq\Lq$ and let $D=C_Q$. Let $P_0=Q^*=\Lq\setminus(-Q)$, so that
+$D=C_{P_0}^\perp$ by Theorem~\ref{thm:dual}. Suppose there are integers $a,b$
+with $1\le a\le q-2$ and $b\ge0$, an element $g\in\GL_r(\Z/(q-1))$ and
+$u\in\Lq$ such that
+\[
+u+g(S_{a+b})\subseteq P_0\pmod{q-1}\qquad\text{and}\qquad a(q-1)^{r-1}<d(D).
+\]
+Put $A_0=g(S_a)$ and $B_0=u+g(S_b)$. Then Algorithm~\ref{alg:decode} corrects
+up to
+\[
+t=\min\Bigl(\tbinom{a+r}{r}-1,\ b+1\Bigr)
+\]
+errors in $C_Q$.
+\end{corollary}
+
+\begin{proof}
+Since $S_a+S_b=S_{a+b}$, we have $A_0+B_0=u+g(S_{a+b})\subseteq P_0$. By
+Proposition~\ref{prop:equiv}(ii) the permutation $\pi_g$ carries the
+situation for $g=1$ to the general one. It preserves the three conditions, so
+we may take $g=1$. (A) holds because $a\le q-2$ makes the residues of $S_a$
+distinct, and $\dim V_{S_a}=\binom{a+r}{r}>t$. (B) holds by
+Lemma~\ref{lem:separate}, since $t\le b+1$. (C) holds because a nonzero
+$f\in V_{S_a}$ has at most $n-(q-1)^{r-1}(q-1-a)=a(q-1)^{r-1}$ zeros, by
+Lemma~\ref{lem:grid}(i).
+\end{proof}
+
+\subsection{A worked example}
+
+\begin{example}[{Decoding the $[49,11,28]_8$ code}]\label{ex:decode}
+Let $q=8$ and let $\omega$ be a root of $x^3+x+1$. The points of the torus are
+$(\omega^i,\omega^j)$ with $(i,j)\in\Lambda_8=(\Z/7)^2$. Let $Q$ be the set of
+$11$ exponents of Example~\ref{example:fan7}, so that $D=C_Q$ is the
+$[49,11,28]_8$ code. Then $P_0=\Lambda_8\setminus(-Q)$ has $38$ elements. We
+take $a=2$, $b=4$, $g=1$ and $u=(1,1)$. One checks directly that $(1,1)+S_6$
+avoids $-Q$ modulo $7$. Corollary~\ref{cor:toricECP} applies, with $14<28$,
+and gives $t=\min(5,5)=5$. Explicitly,
+\[
+A_0=S_2=\{1,y,y^2,x,xy,x^2\},\qquad B_0=(1,1)+S_4\quad(15\text{
+monomials}).
+\]
+
+Transmit the codeword $c=\ev(1+xy^2)\in D$. Add the error $e$ supported at the
+five points $(\omega^i,\omega^j)$ listed below, with the given values:
+\begin{center}
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+$(i,j)$ & $(0,0)$ & $(2,5)$ & $(3,1)$ & $(4,4)$ & $(6,2)$\\
+$e_{(i,j)}$ & $1$ & $\omega^3$ & $\omega^6$ & $\omega^2$ & $\omega^5$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The syndromes $[r,\chi^w]$, $w\in P_0$, fill the $15\times6$ matrix of the
+system \eqref{eqn:coeffs1}. Its entry in row $b\in B_0$ and column $a\in A_0$
+is $[r,\chi^{a+b}]$.
+\begin{center}
+\small
+\begin{tabular}{@{}c|cccccc@{}}
+$b\backslash a$ & $1$ & $y$ & $y^2$ & $x$ & $xy$ & $x^2$\\ \hline
+$(1,1)$ & $\omega^{5}$ & $\omega^{4}$ & $\omega^{4}$ & $\omega^{6}$ & $\omega^{2}$ & $\omega^{2}$\\
+$(1,2)$ & $\omega^{4}$ & $\omega^{4}$ & $\omega^{5}$ & $\omega^{2}$ & $\omega^{5}$ & $\omega$\\
+$(1,3)$ & $\omega^{4}$ & $\omega^{5}$ & $\omega$ & $\omega^{5}$ & $1$ & $1$\\
+$(1,4)$ & $\omega^{5}$ & $\omega$ & $\omega$ & $1$ & $\omega^{6}$ & $\omega^{3}$\\
+$(1,5)$ & $\omega$ & $\omega$ & $1$ & $\omega^{6}$ & $\omega^{2}$ & $\omega^{3}$\\
+$(2,1)$ & $\omega^{6}$ & $\omega^{2}$ & $\omega^{5}$ & $\omega^{2}$ & $\omega$ & $\omega^{3}$\\
+$(2,2)$ & $\omega^{2}$ & $\omega^{5}$ & $1$ & $\omega$ & $1$ & $\omega^{6}$\\
+$(2,3)$ & $\omega^{5}$ & $1$ & $\omega^{6}$ & $1$ & $\omega^{3}$ & $\omega$\\
+$(2,4)$ & $1$ & $\omega^{6}$ & $\omega^{2}$ & $\omega^{3}$ & $\omega^{3}$ & $1$\\
+$(3,1)$ & $\omega^{2}$ & $\omega$ & $1$ & $\omega^{3}$ & $\omega^{6}$ & $\omega^{4}$\\
+$(3,2)$ & $\omega$ & $1$ & $\omega^{3}$ & $\omega^{6}$ & $\omega$ & $\omega^{3}$\\
+$(3,3)$ & $1$ & $\omega^{3}$ & $\omega^{3}$ & $\omega$ & $1$ & $\omega^{3}$\\
+$(4,1)$ & $\omega^{3}$ & $\omega^{6}$ & $\omega$ & $\omega^{4}$ & $\omega^{3}$ & $\omega^{2}$\\
+$(4,2)$ & $\omega^{6}$ & $\omega$ & $1$ & $\omega^{3}$ & $\omega^{3}$ & $\omega^{4}$\\
+$(5,1)$ & $\omega^{4}$ & $\omega^{3}$ & $\omega^{3}$ & $\omega^{2}$ & $\omega^{4}$ & $\omega^{4}$\\
+\end{tabular}
+\end{center}
+This matrix has rank $5$, and its kernel is spanned by
+$(\omega^4,\omega,0,\omega^6,1,0)$. So the error locator is
+\[
+f=xy+\omega^6x+\omega y+\omega^4=(x+\omega)(y+\omega^6)+\omega^5 .
+\]
+Its zero set on the torus is exactly the set of five error points. For example,
+$f(1,1)=1+\omega^6+\omega+\omega^4=0$, since $\omega^4=\omega^2+\omega$ and
+$\omega^6=\omega^2+1$. Step 3 is a system of $38$ equations in $5$ unknowns,
+and it returns the error values in the table above. The output is $c$.
+
+The scripts \texttt{decode\_example.py} and \texttt{gf.py} carry out this
+computation. For each $t\le5$ they also decode $300$ random codewords with $t$
+random errors, all correctly, as the corollary predicts. With $6$ and $7$
+errors, beyond the guaranteed radius, they succeed in $50$ and $8$ of $300$
+trials. The guaranteed radius $5$ is well below $\lfloor(28-1)/2\rfloor=13$. Pairs
+that are not built from simplices do better. A partial computer search over
+convex lattice sets $A_0\subset[0,4]^2$, each with the largest $B_0$ such
+that $A_0+B_0\subseteq P_0$, found
+\[
+A_0=\{1,\ y,\ y^2,\ xy,\ xy^2,\ x^2y^2,\ x^3y^2\}.
+\]
+Here $\dim V_{A_0}=7$ and $d(C_{A_0})=28$, so a nonzero $f\in V_{A_0}$ has at most
+$21<28$ zeros. The corresponding $B_0$ has $15$ elements and
+$d(C_{B_0}^\perp)=7$, so it separates any $6$ points. By
+Theorem~\ref{thm:decode} this pair corrects up to $t=6$ errors. These
+conditions were verified by exact computation, and the decoder succeeded in
+all of $200$ random trials with $6$ errors (script
+\texttt{decode\_pair\_check.py}). The search was stopped before it had tried every
+convex set in the box, and it ignored nonconvex sets, so better pairs may
+exist.
+\end{example}
+
+%======================================================================
+\section{Combinatorial and graph-theoretic connections}\label{sec:graphs}
+
+This section collects connections between toric codes and graph theory. Some
+of them were used above. Others are observations and open directions, and
+they are marked as such.
+
+\subsection{The discrete torus as a Cayley graph}\label{sec:cayley}
+
+Via $\omega$, the evaluation set $T(\Fq)$ is the group $\Lq=(\Z/(q-1))^r$. Its
+Cayley graph with respect to $\pm e_1,\dots,\pm e_r$ is the discrete torus
+$C_{q-1}\,\square\cdots\square\,C_{q-1}$, the Cartesian product of $r$ cycles.
+Translation by $s\in\Lq$ permutes the coordinates of $\Fq^{\,n}$.
+
+\begin{proposition}[Proved here]\label{prop:cyclic}
+A linear code $C\subseteq\Fq^{\,T(\Fq)}$ is invariant under all translations
+if and only if $C=C_U$ for some $U\subseteq\Lq$. Thus full-torus toric codes
+and generalized toric codes are exactly the $r$-dimensional cyclic codes of
+length $(q-1)^r$ over $\Fq$.
+\end{proposition}
+
+\begin{proof}
+Translation by $s$ multiplies $\ev(\chi^u)$ by $\chi^u(s)$, so each $C_U$ is
+invariant. Conversely, let $\tau_s$ denote translation, and for
+$u\in\Lq$ let
+\[
+e_u=\frac{1}{n}\sum_{s\in\Lq}\chi^u(s)^{-1}\tau_s .
+\]
+This makes sense because $n=(q-1)^r$ is invertible in $\Fq$. By
+Lemma~\ref{lem:orth}, $e_u$ is the projection onto the line spanned by
+$\ev(\chi^u)$ along the other character lines. The characters form a basis
+by Proposition~\ref{prop:dim}. A translation-invariant $C$ is preserved by
+every $e_u$, so $C=\bigoplus_u e_uC$, and each $e_uC$ is $0$ or the line of
+$\chi^u$.
+\end{proof}
+
+For $g\in\GL_r(\Z/(q-1))$ with $gU=U$, the permutation $\pi_g$ of
+Proposition~\ref{prop:equiv} is an automorphism of $C_U$. So the permutation
+automorphism group of $C_U$ contains $\Lq\rtimes\operatorname{Stab}(U)$. Raising
+coordinates to the $p$-th power, combined with $\pi_g$ for $g=p^{-1}I$, gives a
+further semilinear automorphism.
+
+\begin{example}[Minimum words of the principal code]\label{ex:minwords}
+For the $[49,11,28]_8$ code, the stabilizer of $Q$ in $\GL_2(\Z/7)$ consists
+of the identity and the swap of coordinates. So the permutation automorphism
+group has order at least $98$. Since $7$ is prime, $\Lambda_8$ is the affine
+plane $AG(2,7)$, and the cosets of cyclic subgroups of order $7$ are its
+lines. There are $833=7\cdot119$ words of weight $28$
+(Table~\ref{tab:wd}). Listing them (script \texttt{minwords\_principal.py})
+shows that the $119$ zero sets, one for each word up to scalars, are each a
+union of three parallel lines of $AG(2,7)$:
+\begin{itemize}[leftmargin=*]
+\item $3\cdot35=105$ come from products of three factors along the three
+edge directions of the triangle. These are the words of
+Theorem~\ref{thm:segment}.
+\item $14$ come from two further directions that exist only modulo $7$. They
+are the trinomials $\lambda(1+\mu t+\mu^3t^3)$ in $t=xy^3$ or $t=x^3y$. The
+exponents $(1,3)$ and $(3,2)\equiv3\cdot(1,3)$, respectively $(3,1)$ and
+$(2,3)$, lie in $Q$. The roots of $1+t+t^3$ in $\F_8$ are the three roots of
+the polynomial $x^3+x+1$ that defines $\F_8$.
+\end{itemize}
+\end{example}
+
+\begin{remarkxxvi}\label{rem:aut}
+The group of order $98$ is only a lower bound for the automorphism group. We
+have not computed the full group. A transitive automorphism group invites
+permutation decoding with PD-sets, which we have not explored.
+\end{remarkxxvi}
+
+\subsection{The Combinatorial Nullstellensatz}\label{sec:nullstellensatz}
+
+Lemma~\ref{lem:grid}(i) is the case $A_1=\dots=A_r=\Fqs$ of a theorem of Alon
+and F\"uredi~\cite{AF93}. In its general form the theorem bounds from below
+the number of points of a grid $A_1\times\dots\times A_r$ at which a
+polynomial of given degree does not vanish. The theorem grew out of the
+problem of covering all but one vertex of a cube by hyperplanes, and it is a
+relative of Alon's Combinatorial Nullstellensatz~\cite{Al99}. The
+Nullstellensatz is a standard tool in graph theory (list colorings,
+Alon--Tarsi orientations), and the same polynomial arguments give exact
+minimum distances here. In this language Theorem~\ref{thrm:subcode2}(4) says
+that a hyperplane-like family of $a$ parallel subtori is the most economical
+way to cover points of the grid with the zeros of a polynomial of degree $a$.
+Proposition~\ref{prop:hansenabc} shows that Hansen's types (a), (b) and (c)
+need nothing beyond this lemma and a unimodular change of coordinates.
+
+\subsection{Fans as weighted cycle graphs}\label{sec:fangraph}
+
+The rays of a complete two-dimensional fan, in cyclic order, are the vertices
+of a cycle graph $C_s$. Condition \eqref{eq:smooth} is a condition on its
+edges. When it holds, the integers $a_i$ defined by
+\[
+v_{i-1}+v_{i+1}=a_iv_i
+\]
+give $D_i^2=-a_i$, so the cycle becomes the weighted dual graph of the
+boundary $X\setminus T$, and $\sum_ia_i=3s-12$ (\cite[\S2.5]{Fu93}). Blowing
+up a torus-fixed point inserts the ray $v_i+v_{i+1}$. On the graph this
+subdivides an edge, gives the new vertex weight $-1$, and lowers the weights of
+its two neighbors by $1$. Resolving a singular cone inserts a path whose
+weights come from the Hirzebruch--Jung continued fraction of the cone
+(\cite[\S2.6]{Fu93}). The fans of this paper are identified as follows. Every
+claim was checked by computing determinants and weights (scripts
+\texttt{verify\_referee.py} and \texttt{resolve\_fan.py}).
+\begin{center}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Example & rays & surface\\
+\midrule
+\ref{example:fan7} & $(5,-1),(-1,5),(-1,-1)$ & singular, determinants $24,6,6$\\
+\ref{example:fan1} & $(2,-1),(-1,2),(-1,-1)$ & $\PP^2/\mu_3$, determinants $3,3,3$\\
+\ref{example:fan5} & $(1,0),(-1,1),(-1,-1)$ & $\PP(1,1,2)$; refinement $\F_2$\\
+\ref{ex:P2}, \ref{example:fan4} & $(1,0),(0,1),(-1,-1)$ & $\PP^2$, weights $(1,1,1)$\\
+\ref{example:fan4} & $\pm e_1,\pm e_2$ & $\PP^1\times\PP^1$, weights $(0,0,0,0)$\\
+\ref{example:fan2} & $(1,0),(-1,m),(0,-1)$ & $\PP(1,1,m)$; refinement $\F_m$\\
+\ref{example:fan6} & $(2,-1),(-1,1),(-1,0)$ & $\PP^2$, weights $(1,1,1)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For full-torus codes the graph explains why smoothness never restricts the
+construction. The code $C_U$ depends only on $U$. If $U$ is the set of lattice
+points of a lattice polygon $\Pi$, then $\Pi$ is the polytope of an ample
+divisor on the surface of its normal fan, and of the pullback of that divisor
+to any smooth refinement (\cite[\S3.4]{Fu93}). For the principal example, the
+normal fan of $\conv\{(0,0),(4,1),(1,4)\}$ has rays $(4,-1)$, $(-1,4)$,
+$(-1,-1)$, with determinants $15$, $5$, $5$. Its minimal resolution has $13$
+rays,
+\[
+\begin{aligned}
+&(-1,-1),\ (0,-1),\ (1,-1),\ (2,-1),\ (3,-1),\ (4,-1),\ (1,0),\\
+&(0,1),\ (-1,4),\ (-1,3),\ (-1,2),\ (-1,1),\ (-1,0),
+\end{aligned}
+\]
+and its weighted cycle graph has self-intersections
+\[
+(-1,-2,-2,-2,-2,-1,-4,-4,-1,-2,-2,-2,-2).
+\]
+As a check, $\sum a_i=27=3\cdot13-12$.
+
+\subsection{Tropical curves, metric graphs and harmonic morphisms}
+
+\begin{remarkxxvi}\label{rem:tropical}
+The following connections are observations and have not been developed. The
+zero set of $f\in V_U$ on the torus is the set of $\Fq$-points of a curve
+whose Newton polygon lies in $\conv(U)$. For a nondegenerate irreducible
+curve, the genus is the number of interior lattice points (for the principal
+triangle this number is $6$). Castryck and Cools~\cite{CC12} showed that the
+gonality is at most the lattice width. Projection along a lattice direction
+realizes this bound, and on the tropical side it gives a harmonic morphism
+from the tropical curve, a metric graph whose first Betti number is the genus,
+to a tree. Baker and Norine developed the theory of harmonic morphisms of
+graphs~\cite{BN09}. Their specialization arguments relate gonality of curves
+to divisorial gonality of graphs. A curve with a degree-$\gamma$ map to
+$\PP^1$ defined over $\Fq$ has at most $\gamma(q+1)$ rational points, so such
+maps bound the number of zeros of irreducible sections. Reducible sections
+are already controlled by Minkowski length~\cite{SS09}.
+\end{remarkxxvi}
+
+\begin{question}\label{q:tropical}
+Can divisorial gonality, or degrees of harmonic morphisms of the skeleton
+graphs computed by chip-firing, give bounds for the number of torus points on
+irreducible sections that are sharper than those of~\cite{LS06}
+and~\cite{SS09} for small $q$, such as $q=8$?
+\end{question}
+
+\subsection{Kitaev's toric code and CSS codes}
+
+\begin{remarkxxvi}\label{rem:kitaev}
+The name ``toric code'' is also used for Kitaev's quantum code~\cite{Ki03}.
+That code is the CSS code built from the cycle space and the cut space of the
+grid graph $C_m\square C_m$ embedded in a torus. Its qubits sit on the edges
+of the graph. The codes of this paper sit on the vertices of the same graph,
+with $m=q-1$, as two-dimensional cyclic codes. We know of no deeper link than
+this shared graph and its translation symmetry. Theorem~\ref{thm:dual} does
+give CSS pairs directly. If $U_1\cap(-U_2)=\varnothing$, then
+$C_{U_1}\subseteq C_{U_2}^\perp$. J.~P.~Hansen built quantum codes from toric
+surfaces in this way~\cite{Ha13}.
+\end{remarkxxvi}
+
+\subsection{The Hamming graph and optimality}
+
+\begin{remarkxxvi}\label{rem:lp}
+Codes of length $n$ over $\Fq$ are subsets of the Hamming graph $H(n,q)$, a
+distance-regular graph. Delsarte's linear programming bound for its
+association scheme could certify the entries marked ``best possible'' in the
+tables independently of the online tables. We have not carried this out.
+\end{remarkxxvi}
+
+%======================================================================
+\section{Summary of results and open questions}\label{sec:summary}
+
+This section lists the status of each result and the computations behind it.
+It ends with open questions. Every computation is exhaustive and exact over
+the stated finite field. The scripts are in the archive accompanying this
+draft.
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item \texttt{gf.py}: finite field arithmetic. \texttt{toric.py}: generator
+matrices of toric codes.
+\item \texttt{mindist.c}: exact minimum distance by an information-set search
+with disjoint information sets, and weight distributions for $q=2^e$.
+\item \texttt{verify\_tables.py}, \texttt{wd\_principal.py},
+\texttt{minwords\_principal.py}, \texttt{minwords\_explain.py},
+\texttt{automorphisms\_principal.py}: the tables and the principal example.
+\item \texttt{verify\_referee.py}, \texttt{verify\_hansen.py},
+\texttt{gv\_check.py}, \texttt{resolve\_fan.py}: counterexamples, Hansen's
+formulas, the Gilbert--Varshamov comparison and the fans.
+\item For decoding, the scripts \texttt{decode\_example.py},
+\texttt{decode\_pair\_check.py},
+\texttt{decode\_search.py} and \texttt{decode\_\allowbreak simplex\_\allowbreak search.py}
+give the worked example and the searches for pairs.
+\end{itemize}
+On $300$ random small codes, the script \texttt{test\_mindist.py} found
+that \texttt{mindist.c} agrees with brute force.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\toprule
+Result & Status\\
+\midrule
+Lemma~\ref{lem:orth}, Props.~\ref{prop:dim}, \ref{prop:equiv},
+\ref{remark:subcode}, Thm.~\ref{thm:dual} & proved here\\
+Theorem~\ref{thrm:hansen}(a)--(c) & cited \cite{Ha02}; reproved here
+(Prop.~\ref{prop:hansenabc})\\
+Theorem~\ref{thrm:hansen}(d) & cited \cite{Ha02}; checked numerically
+(Remark~\ref{rem:hansend})\\
+Lemma~\ref{lem:grid}, Theorems~\ref{thrm:subcode2}, \ref{thm:segment} &
+proved here (corrected forms of original results)\\
+Conjectures of the 2004 version & false (Examples~\ref{ex:conj1},
+\ref{ex:conj2}; also \cite{Ru07})\\
+Tables in Section~\ref{sec:examples} & exhaustive exact computation; one
+duplicated row removed\\
+$[49,11,28]_8$ & $k$ and $d\le28$ proved; $d\ge28$ by two independent
+exhaustive computations\\
+Theorem~\ref{thm:decode}, Cor.~\ref{cor:toricECP}, Lemma~\ref{lem:separate}
+& proved here\\
+Example~\ref{ex:decode} & verified by computation\\
+Prop.~\ref{prop:cyclic} & proved here\\
+Example~\ref{ex:minwords} & exhaustive exact computation\\
+Remarks~\ref{rem:hansend}--\ref{rem:lp} (2026.$n$) & not fully verified, or
+open\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Open questions.}
+\begin{enumerate}[leftmargin=*]
+\item Find error-correcting pairs, or other polynomial-time decoders, that
+decode the $[49,11,28]_8$ code beyond $6$ errors, ideally up to $13$.
+\item Determine the full automorphism group of the $[49,11,28]_8$ code, and
+decide whether permutation decoding is practical for it.
+\item Explain in general when wrap-around modulo $q-1$ creates minimum words
+in directions that are not edge directions, as for the trinomials of
+Example~\ref{ex:minwords}.
+\item Question~\ref{q:tropical} on graph gonality and point counts.
+\item Certify the ``best possible'' entries of the tables by Delsarte's linear
+programming bound (Remark~\ref{rem:lp}).
+\end{enumerate}
+
+%======================================================================
+\section{Glossary}\label{sec:glossary}
+
+\begin{description}[leftmargin=1.5em,labelindent=0pt,style=nextline]
+\item[Cartier divisor] A $T$-invariant divisor that is locally the divisor of
+a single monomial on each affine chart $U_\sigma$.
+\item[Cayley graph] The graph on a group whose edges join $s$ to $s+g$ for $g$
+in a fixed generating set.
+\item[Character] A homomorphism $T\to\overline{\F}^\times$. The characters of
+$T$ are the monomials $\chi^u=x^u$, $u\in M$.
+\item[Dual code] The code of all vectors orthogonal to $C$ under the standard
+dot product.
+\item[Error-correcting pair] A pair of function spaces $(V_A,V_B)$ with
+$V_AV_B\subseteq V_P$ satisfying conditions (A)--(C) of
+Theorem~\ref{thm:decode}.
+\item[Fan] A finite collection of rational polyhedral cones, closed under faces
+and intersections, that defines a toric variety.
+\item[Generalized toric code] The code $C_U$ for an arbitrary finite set $U$ of
+exponents.
+\item[Harmonic morphism] A map of graphs that is locally a branched covering
+with well-defined degree, the graph analogue of a holomorphic map of Riemann
+surfaces~\cite{BN09}.
+\item[Minimum distance] The smallest weight of a nonzero codeword.
+\item[Minkowski length] The largest number of lattice segments whose
+Minkowski sum fits inside a polygon.
+\item[Monomial equivalence] Equality of codes up to permuting and rescaling
+coordinates.
+\item[Puncturing] Deleting a set of coordinates from all codewords.
+\item[Shortening] Keeping the codewords that vanish on a set of coordinates
+and then deleting those coordinates.
+\item[Standard toric code] The code of $L(G)$ evaluated at all points of
+$T(\Fq)$.
+\item[Toric variety] A normal variety containing a dense torus whose action on
+itself extends to the variety.
+\item[Weight] The number of nonzero coordinates of a vector.
+\end{description}
+
+%======================================================================
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+I thank S{\o}ren Hansen, Johan Hansen and Amin Shokrollahi for answering many
+questions, and for helpful correspondence regarding their research.
+
+This corrected and expanded version was prepared with AI assistance. OpenAI
+ChatGPT (GPT-6) acted as referee. It wrote a report on the 2003 manuscript
+that identified the false conjectures, the false injectivity lemma, the
+reversed distance inequality and the problems with the decoding example.
+Anthropic Claude (Claude Opus~5.5) acted as reviser. It checked each point of
+the report independently and wrote the revised text. It found the grid-lemma
+proofs, the duality and cyclic-code statements, the corrected decoding theorem
+and its worked example, and the graph-theoretic material of
+Section~\ref{sec:graphs}. It also wrote and ran the verification scripts. AI
+review is not an independent certification of the results. Further details on
+the AI usage, including which sources could not be consulted, can be found in
+the revision log.
+
+%======================================================================
+\begingroup\raggedright
+\begin{thebibliography}{GAP00}
+
+\bibitem[Al99]{Al99}
+N.~Alon, Combinatorial Nullstellensatz, \emph{Combin. Probab. Comput.}
+\textbf{8} (1999), 7--29.
+
+\bibitem[AF93]{AF93}
+N.~Alon and Z.~F\"uredi, Covering the cube by affine hyperplanes,
+\emph{European J. Combin.} \textbf{14} (1993), 79--83.
+
+\bibitem[BN09]{BN09}
+M.~Baker and S.~Norine, Harmonic morphisms and hyperelliptic graphs,
+\emph{Int. Math. Res. Not. IMRN} (2009), no.~15, 2914--2955.
+
+\bibitem[BCP97]{BCP97}
+W.~Bosma, J.~Cannon and C.~Playoust, The Magma algebra system I: The user
+language, \emph{J. Symbolic Comput.} \textbf{24} (1997), 235--265.
+
+\bibitem[Br98]{Br98}
+A.~E.~Brouwer, Bounds on the size of linear codes, in \emph{Handbook of
+Coding Theory}, V.~Pless and W.~C.~Huffman, eds., North-Holland, 1998. Online
+tables formerly at \texttt{http://www.win.tue.nl/\~{}aeb/voorlincod.html}.
+
+\bibitem[BK13]{BK13}
+G.~Brown and A.~M.~Kasprzyk, Small polygons and toric codes, \emph{J.
+Symbolic Comput.} \textbf{51} (2013), doi:10.1016/j.jsc.2012.07.001.
+
+\bibitem[BK13b]{BK13b}
+G.~Brown and A.~M.~Kasprzyk, Seven new champion linear codes, \emph{LMS J.
+Comput. Math.} (2013), arXiv:1212.5197.
+
+\bibitem[CC12]{CC12}
+W.~Castryck and F.~Cools, Newton polygons and curve gonalities, \emph{J.
+Algebraic Combin.} \textbf{35} (2012), 345--366.
+
+\bibitem[DGM70]{DGM70}
+P.~Delsarte, J.-M.~Goethals and F.~J.~MacWilliams, On generalized Reed--Muller
+codes and their relatives, \emph{Inform. and Control} \textbf{16} (1970),
+403--442.
+
+\bibitem[Ew96]{Ew96}
+G.~Ewald, \emph{Combinatorial Convexity and Algebraic Geometry}, Springer,
+1996.
+
+\bibitem[FL98]{FL98}
+J.~Fitzgerald and R.~F.~Lax, Decoding affine variety codes using Gr\"obner
+bases, \emph{Des. Codes Cryptogr.} \textbf{13} (1998), 147--158.
+
+\bibitem[Fu93]{Fu93}
+W.~Fulton, \emph{Introduction to Toric Varieties}, Princeton University
+Press, 1993.
+
+\bibitem[GAP00]{GAP00}
+The GAP Group, \emph{GAP -- Groups, Algorithms, and Programming, Version
+4.3}, 2000, \texttt{http://www.gap-system.org}.
+
+\bibitem[GUA02]{GUA02}
+GUAVA, a GAP package for computing with error-correcting codes, Version 1.6,
+2002.
+
+\bibitem[Gr26]{Gr26}
+M.~Grassl, Bounds on the minimum distance of linear codes and quantum codes,
+\texttt{http://www.codetables.de}, consulted November 22, 2026.
+
+\bibitem[Ha00]{Ha00}
+J.~P.~Hansen, Toric surfaces and error-correcting codes, in \emph{Coding
+Theory, Cryptography and Related Areas} (Guanajuato, 1998), Springer, 2000,
+132--142.
+
+\bibitem[Ha02]{Ha02}
+J.~P.~Hansen, Toric varieties, Hirzebruch surfaces and error-correcting codes,
+\emph{Appl. Algebra Engrg. Comm. Comput.} \textbf{13} (2002), 289--300.
+
+\bibitem[Ha04]{Ha04}
+J.~P.~Hansen, Toric surfaces and codes, techniques and examples, Preprint
+Series No.~1, Department of Mathematics, University of Aarhus, 2004.
+
+\bibitem[Ha13]{Ha13}
+J.~P.~Hansen, Quantum codes from toric surfaces, \emph{IEEE Trans. Inform.
+Theory} \textbf{59} (2013), 1188--1192.
+
+\bibitem[Ha17]{Ha17}
+J.~P.~Hansen, Toric codes, multiplicative structure and decoding, preprint,
+2017, arXiv:1702.06569.
+
+\bibitem[SH96]{SH96}
+S.~H.~Hansen, Algebraic geometry over finite fields -- with a view towards
+applications, Master's thesis, University of Aarhus, 1996.
+
+\bibitem[SH99]{SH99}
+S.~H.~Hansen, The geometry of Deligne--Lusztig varieties: higher-dimensional
+AG codes, PhD thesis, University of Aarhus, 1999.
+
+\bibitem[SH01]{SH01}
+S.~H.~Hansen, Error-correcting codes from higher-dimensional varieties,
+\emph{Finite Fields Appl.} \textbf{7} (2001), 530--552.
+
+\bibitem[Jo02]{Jo02}
+D.~Joyner, \textbf{toric}: MAGMA and GAP code for toric codes
+(\texttt{toric.mag}, \texttt{toric.g}), circa 2002.
+
+\bibitem[Jo04]{Jo04}
+D.~Joyner, Toric codes over finite fields, \emph{Appl. Algebra Engrg. Comm.
+Comput.} \textbf{15} (2004), 63--79.
+
+\bibitem[JV02]{JV02}
+D.~Joyner and H.~Verrill, Notes on toric varieties, preprint, circa 2002.
+
+\bibitem[Ki03]{Ki03}
+A.~Yu.~Kitaev, Fault-tolerant quantum computation by anyons, \emph{Ann.
+Physics} \textbf{303} (2003), 2--30.
+
+\bibitem[Li03a]{Li03a}
+J.~Little, A key equation and the computation of error values for codes from
+order domains, preprint, 2003, arXiv:math/0303299.
+
+\bibitem[Li03b]{Li03b}
+J.~Little, The ubiquity of order domains for the construction of error
+control codes, preprint, 2003, arXiv:math/0304292.
+
+\bibitem[Li11]{Li11}
+J.~Little, Remarks on generalized toric codes, preprint, 2011,
+arXiv:1107.4530.
+
+\bibitem[Li17]{Li17}
+J.~B.~Little, Toric codes and finite geometries, \emph{Finite Fields Appl.}
+\textbf{45} (2017), arXiv:1504.07494.
+
+\bibitem[LS06]{LS06}
+J.~Little and H.~Schenck, Toric surface codes and Minkowski sums, \emph{SIAM
+J. Discrete Math.} \textbf{20} (2006), 999--1014.
+
+\bibitem[LS07]{LS07}
+J.~Little and R.~Schwarz, On toric codes and multivariate Vandermonde
+matrices, \emph{Appl. Algebra Engrg. Comm. Comput.} \textbf{18} (2007),
+349--367.
+
+\bibitem[MS77]{MS77}
+F.~J.~MacWilliams and N.~J.~A.~Sloane, \emph{The Theory of Error-Correcting
+Codes}, North-Holland, 1977.
+
+\bibitem[Pe92]{Pe92}
+R.~Pellikaan, On decoding by error location and dependent sets of error
+positions, \emph{Discrete Math.} \textbf{106/107} (1992), 369--381.
+
+\bibitem[PH98]{PH98}
+V.~Pless and W.~C.~Huffman, eds., \emph{Handbook of Coding Theory},
+North-Holland, 1998.
+
+\bibitem[Ru07]{Ru07}
+D.~Ruano, On the parameters of $r$-dimensional toric codes, \emph{Finite
+Fields Appl.} \textbf{13} (2007), 962--976.
+
+\bibitem[Ru09]{Ru09}
+D.~Ruano, On the structure of generalized toric codes, \emph{J. Symbolic
+Comput.} \textbf{44} (2009), 499--506.
+
+\bibitem[SV90]{SV90}
+A.~N.~Skorobogatov and S.~G.~Vl\u{a}du\c{t}, On the decoding of
+algebraic-geometric codes, \emph{IEEE Trans. Inform. Theory} \textbf{36}
+(1990), 1051--1060.
+
+\bibitem[SS09]{SS09}
+I.~Soprunov and J.~Soprunova, Toric surface codes and Minkowski length of
+polygons, \emph{SIAM J. Discrete Math.} \textbf{23} (2009), 384--400.
+
+\bibitem[St93]{St93}
+H.~Stichtenoth, \emph{Algebraic Function Fields and Codes}, Springer, 1993.
+
+\end{thebibliography}
+\endgroup
+
+\end{document}

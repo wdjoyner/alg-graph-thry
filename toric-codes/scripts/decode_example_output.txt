@@ -1,0 +1,11 @@
+errors 0 decoded correctly 300 / 300
+errors 1 decoded correctly 300 / 300
+errors 2 decoded correctly 300 / 300
+errors 3 decoded correctly 300 / 300
+errors 4 decoded correctly 300 / 300
+errors 5 decoded correctly 300 / 300
+errors 6 decoded correctly 50 / 300
+errors 7 decoded correctly 8 / 300
+explicit example decoded correctly: True
+kernel dimension 1 alpha (log w) [4, 1, None, 6, 0, None]
+zero set of locator: [(0, 0), (2, 5), (3, 1), (4, 4), (6, 2)]

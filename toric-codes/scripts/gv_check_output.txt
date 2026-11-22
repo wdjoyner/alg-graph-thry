@@ -1,0 +1,43 @@
+Hansen(b)        q=5 [16,6,8]  finite GV d=7  beats finite GV: True  above GV curve: True
+Hansen(b)        q=5 [16,13,3]  finite GV d=3  beats finite GV: False  above GV curve: True
+Hansen(b)        q=5 [16,15,2]  finite GV d=2  beats finite GV: False  above GV curve: True
+Hansen(b)        q=7 [36,6,24]  finite GV d=22  beats finite GV: True  above GV curve: True
+Hansen(b)        q=7 [36,10,18]  finite GV d=17  beats finite GV: True  above GV curve: True
+Hansen(b)        q=8 [49,6,35]  finite GV d=32  beats finite GV: True  above GV curve: True
+fan1             q=5 [16,4,10]  finite GV d=9  beats finite GV: True  above GV curve: True
+fan1             q=5 [16,5,8]  finite GV d=8  beats finite GV: False  above GV curve: True
+fan1             q=5 [16,7,6]  finite GV d=6  beats finite GV: False  above GV curve: True
+fan1             q=5 [16,10,4]  finite GV d=4  beats finite GV: False  above GV curve: True
+fan1             q=5 [16,9,6]  finite GV d=5  beats finite GV: True  above GV curve: True
+fan1             q=5 [16,12,3]  finite GV d=3  beats finite GV: False  above GV curve: True
+fan1             q=5 [16,14,2]  finite GV d=2  beats finite GV: False  above GV curve: True
+fan1             q=7 [36,3,30]  finite GV d=26  beats finite GV: True  above GV curve: True
+fan1             q=7 [36,7,21]  finite GV d=21  beats finite GV: False  above GV curve: True
+fan1             q=7 [36,9,20]  finite GV d=18  beats finite GV: True  above GV curve: True
+fan1             q=7 [36,4,27]  finite GV d=25  beats finite GV: True  above GV curve: True
+fan1             q=8 [49,4,40]  finite GV d=36  beats finite GV: True  above GV curve: True
+fan1             q=8 [49,3,42]  finite GV d=38  beats finite GV: True  above GV curve: True
+fan1             q=8 [49,10,28]  finite GV d=27  beats finite GV: True  above GV curve: True
+fan1             q=8 [49,12,26]  finite GV d=25  beats finite GV: True  above GV curve: True
+fan2 m=3         q=5 [16,11,3]  finite GV d=4  beats finite GV: False  above GV curve: True
+fan2 m=3         q=5 [16,2,12]  finite GV d=12  beats finite GV: False  above GV curve: True
+fan2 m=3         q=7 [36,2,30]  finite GV d=29  beats finite GV: True  above GV curve: True
+fan2 m=3         q=8 [49,2,42]  finite GV d=40  beats finite GV: True  above GV curve: True
+fan2 m=3         q=9 [64,2,56]  finite GV d=54  beats finite GV: True  above GV curve: True
+fan2 m=5         q=5 [16,13,2]  finite GV d=3  beats finite GV: False  above GV curve: True
+fan6             q=5 [16,3,12]  finite GV d=10  beats finite GV: True  above GV curve: True
+fan6             q=7 [36,15,12]  finite GV d=13  beats finite GV: False  above GV curve: True
+fan6             q=7 [36,26,5]  finite GV d=6  beats finite GV: False  above GV curve: True
+fan6             q=7 [36,30,4]  finite GV d=4  beats finite GV: False  above GV curve: True
+fan6             q=7 [36,33,3]  finite GV d=3  beats finite GV: False  above GV curve: True
+fan6             q=7 [36,35,2]  finite GV d=2  beats finite GV: False  above GV curve: True
+fan6             q=8 [49,15,21]  finite GV d=22  beats finite GV: False  above GV curve: True
+fan6             q=8 [49,39,5]  finite GV d=6  beats finite GV: False  above GV curve: True
+fan6             q=8 [49,46,3]  finite GV d=3  beats finite GV: False  above GV curve: True
+fan6             q=8 [49,48,2]  finite GV d=2  beats finite GV: False  above GV curve: True
+fan6             q=8 [49,43,4]  finite GV d=4  beats finite GV: False  above GV curve: True
+fan6             q=9 [64,3,56]  finite GV d=51  beats finite GV: True  above GV curve: True
+fan6             q=9 [64,6,48]  finite GV d=45  beats finite GV: True  above GV curve: True
+fan6             q=9 [64,10,40]  finite GV d=39  beats finite GV: True  above GV curve: True
+fan7 (principal) q=8 [49,11,28]  finite GV d=26  beats finite GV: True  above GV curve: True
+distinct parameter sets: 42  beating the finite GV bound: 21

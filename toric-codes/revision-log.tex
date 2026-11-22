@@ -1,0 +1,357 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs,longtable,array}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\PP}{\mathbb{P}}
+\DeclareMathOperator{\GL}{GL}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\setlength{\emergencystretch}{3em}
+
+\title{Revision log for \emph{Toric codes over finite fields}\\[4pt]
+\large Draft 1 of the corrected and expanded version}
+\author{Prepared for David Joyner by Claude (Anthropic), November 22, 2026}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Files and sources}
+
+This log records the changes from the manuscript \texttt{toric\_code7.tex}
+(dated September 1, 2003) to \texttt{toric-codes.tex} (Draft 1, November
+22, 2026). The 2003 file is the version published as D.~Joyner, \emph{Appl.
+Algebra Engrg. Comm. Comput.} \textbf{15} (2004), 63--79, arXiv:math/0208155.
+The arXiv and journal data were checked online.
+
+The reviser read three files in full. The first was the 2003 manuscript.
+The second was the referee report (ChatGPT, Report Draft 1, November 22,
+2026), file \path{toric_codes_referee_report.tex}. The third was the style
+guide (Draft 2, November 11, 2026), file
+\path{joyner-math-paper-style-guide.md}. The
+original MAGMA and GAP programs \texttt{toric.mag} and \texttt{toric.g} were not
+available. All computations were redone with new scripts.
+
+\section{AI usage}
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{OpenAI ChatGPT (GPT-6), referee.} It wrote the referee report on
+the 2003 manuscript. The report identified the false conjectures, the false
+injectivity lemma, the reversed distance inequality, the errors in the
+simplex theorem, the decoding problems, the fan and area errors, and the
+duplicated table row. It also asked for a minimum-distance certificate for
+the $[49,11,28]_8$ code.
+\item \textbf{Anthropic Claude (Claude Opus 5.5), reviser.} It checked every
+claim of the report independently (Section~\ref{sec:referee}) and recomputed
+every table. It wrote the revised paper and this log. The following material
+is Claude's: the grid-lemma proofs of Hansen's (a)--(c), the exact form of
+the simplex theorem, the duality and cyclic-code propositions, the repaired
+decoding theorem with its toric corollary and worked example, the search
+that found the decoding pairs, the analysis of the minimum words of the
+principal code, and the graph-theoretic section. It also wrote all scripts.
+\item \textbf{Verification levels} (style guide, Section~7). Level~1 means an
+independent derivation or an exhaustive exact computation. Level~2 means a
+check against a source actually consulted. Level~3 means reliance on memory.
+Section~\ref{sec:levels} lists the levels of the main claims.
+\item AI review is not an independent certification of the results.
+\end{itemize}
+
+\section{Response to the referee report}\label{sec:referee}
+
+Each item gives the referee's point, the reviser's independent verdict, and
+the action taken. ``Agree'' means that the point was rederived independently
+(Level~1), not merely accepted.
+
+\begin{longtable}{@{}L{0.27\textwidth}L{0.19\textwidth}L{0.46\textwidth}@{}}
+\toprule
+Referee item & Verdict & Action\\ \midrule
+\endhead
+3.1 First conjecture false & Agree (Level 1) & Counterexample recomputed: the
+square code over $\F_9$ has $d=49<52$. The conjecture is withdrawn and given as
+Example~6.6. Ruano (2007) had already published counterexamples, so the
+literature review cites him.\\
+3.2 Second conjecture false; $k\ge\dim H^0$ reversed & Agree (Level 1) & $d=56<58$
+for $S_1$ over $\F_9$. The dimension inequality is corrected. Example~6.7.\\
+3.3 Injectivity lemma false as quantified & Agree (Level 1) & Replaced by
+Proposition~5.3, an exact criterion: $\dim C_U$ equals the number of residues
+mod $q-1$. The ``$|a_i|<q$'' criterion is corrected to intervals of length
+$\le q-2$ (Remark~5.4).\\
+3.4 Decoding setup incompatible with its example & Agree (Level 1) & The
+algorithm is restated for functions regular at the evaluation points
+(Algorithm~7.1, Theorem~7.2). The hypotheses are now separation by $V_B$, as
+in Pellikaan's error-correcting pairs. The toric criteria are proved in
+Lemma~7.6 and Corollary~7.7. The old example is explained in Remark~7.5 and
+replaced by Example~7.8, which decodes the $[49,11,28]_8$ code end to end
+up to $5$ errors. A pair found by search raises the guaranteed radius to $6$.\\
+4.1 Subcode distance inequality reversed & Agree (Level 1) &
+Proposition~5.6 and the following paragraph.\\
+4.2 Simplex theorem: items (1) and (5) false & Agree (Level 1) & Replaced by
+Theorem~6.1 with exact codimensions and the exact distance
+$(q-1)^{r-1}(q-1-a)$ of $C_{S_a}$, proved by the grid lemma (Lemma~4.2). This
+is stronger than the referee's suggested puncturing bound. The $r=3$
+counterexample is recomputed ($d=48<51$).\\
+4.3 Upper bound needs a hypothesis & Agree, with one correction & Theorem~6.4.
+The referee's repaired statement allows $1\le h\le q-1$. This is wrong at
+$h=q-1$: the product of all $q-1$ factors vanishes on the whole torus and
+gives the zero word. The theorem requires $h\le q-2$. The statement is also
+extended to any primitive lattice direction.\\
+4.4 Lattices, cycles and divisors misidentified & Agree & Section~3.2:
+fans live in $N_\R$, characters in $M$, $P_1+\dots+P_n$ is a zero-cycle, and
+$D_i$ is the closure of a codimension-one orbit. The old formula for $D_i$ is
+removed.\\
+4.5 Fan5 refinement still singular, fan6 area wrong, principal fan singular
+& Agree (Level 1) & Fan5: the correct refinement inserts $(-1,0)$, and
+$G=2aD_3+aD_4$ (Example~5.10). The 2003 text also had $d_3=a$ instead of $2a$.
+Fan6: the area is $\tfrac12(d_1+d_2+d_3)^2$. The fan is $\PP^2$ in disguise,
+so the whole table follows from Hansen (b) (Example~5.13). Principal fan:
+determinants $24,6,6$. The paper explains that only the polytope matters
+(Section~5.3 and Section~8.3).\\
+4.6 Duplicated row $(5;2,3,3)$ & Agree (Level 1) & $k=14$; the row with
+$k=15$ is removed. Hansen-(b) rows with $a\ge q-1$ are labeled as outside the
+hypothesis.\\
+4.7 Reed--Muller hypotheses inconsistent; ``subcodes'' imprecise & Agree &
+Example~1.1 now uses $0\le\ell\le m(q-1)$ and $\ell=a(q-1)+b$ with $0\le
+b<q-1$. The subcode statement is made precise in Theorem~6.1(3).\\
+D1--D4 Local proof errors & Agree & Corrected in Propositions~7.3 and 7.4. The
+contradiction is now with $[r,fh]=0$ for the chosen $f$. The vector $r$ has
+length $n$, and indices are fixed. A complete example now exists
+(Example~7.8). Complexity is stated as $O(n^3)$.\\
+Section 7 of report: $[49,11,28]$ certificate & Done (Level 1) & $d\ge28$ by two independent
+exhaustive computations: an information-set search, and a Gray-code
+enumeration of all $8^{11}$ codewords giving the full weight distribution
+(Table~1). The claim of being better than the tables is dated to 2002. Grassl's
+tables (consulted November 22, 2026) now list $[49,11,29]_8$.\\
+S1--S7 Exposition and style & Agree & See Section~\ref{sec:changes}.\\
+\bottomrule
+\end{longtable}
+
+The referee did not recheck the numerical tables. All $55$ rows (including the duplicate and the principal example) were
+recomputed here (Section~\ref{sec:computations}). Apart from the duplicated
+row they all agree with the 2003 values, so the original computations were
+sound.
+
+\section{Changes from the 2003 manuscript}\label{sec:changes}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Front matter.} The title is kept. The subtitle is ``Draft 1.
+Corrected and expanded version''. The date line reads ``Original draft:
+2004. Corrected and expanded draft: 2026.'' The original publication is
+identified in a \verb|\thanks| footnote, and the address is now
+\texttt{wdjoyner@gmail.com}. The abstract opens with an AI-disclosure
+sentence. The phrase ``efficient list decoding'' is replaced by an accurate
+description, because the algorithm is not list decoding.
+\item \textbf{Structure.} New sections: literature review (before and after
+2004), background with examples, notation table, graph-theoretic connections,
+summary with status table and open questions, glossary. The acknowledgments
+now include the AI statement.
+\item \textbf{Section 2 (now 4).} Notation is clarified, and the misprints
+``isoceles'' and ``trapazoid'' are corrected. Hansen's theorem gets a status
+label. New Lemma~4.2 and Proposition~4.3 prove (a)--(c). Part (d) is marked
+as Remark~2026.1. The sentence ``The bounds on $q$ are best possible'' is
+replaced by a proved statement about $k$. In Remark~4.4 the old value
+$d_{RM}-2q+1=10$ (for $q=9$, $a=3$) is corrected to $37$.
+\item \textbf{Section 3 (now 5).} The lattice and divisor conventions are
+corrected (moved to Section~3). Lemma~3.3 (J.~Hansen) is replaced by
+Proposition~5.3. New: Propositions~5.5 and 5.6 and the duality
+Theorem~5.7. Example tables are recomputed. Proofs are given of the Cartier
+criteria for fan1 and fan2. The ampleness criterion on $\F_m$ is corrected to
+$d_2'+d_4'>0$ and $d_1'+d_3'>md_2'$. Fan identifications ($\PP^2/\mu_3$,
+$\PP(1,1,m)$, $\F_m$, $\PP^2$) are added. The correspondence with Hansen's
+type (d) is stated with $a$ and $b$ interchanged, as it must be.
+\item \textbf{Section 4 (now 6).} The conjectures are withdrawn and replaced
+by counterexamples (Examples~6.6 and 6.7) and proved bounds
+(Theorems~6.1 and 6.4). Definition~4.4 (standard toric code) moved to
+Definition~5.1. Example~4.7 has the corrected hypothesis $2c\le q-2$.
+\item \textbf{Section 5 (now 7).} The decoding section is rebuilt as
+described in Section~\ref{sec:referee}. The bullet list of alternative
+decoders is kept, and its unclosed parenthesis is fixed.
+\item \textbf{New Section 8.} Graph-theoretic connections. These are proved
+results (Proposition~8.1), computational results (Example~8.2, the
+resolution of the principal fan), and unverified observations (Remarks
+2026.3--2026.6, Question~8.3).
+\item \textbf{Misprints.} ``Be begin'', ``a a'', ``In other for'', ``Must of
+this'', ``an new'', ``minumum'', ``it's'', ``torii'', ``$x+1$'' for $x_1$, and
+``$P.G$'' are corrected.
+\item \textbf{Typesetting.} Class \texttt{article} is kept, following the
+style guide's default for an existing file. The paper uses 12pt Times, US
+Letter and one-inch margins. \texttt{newtx} is not installed in the build
+environment, so \texttt{mathptmx} is used, the style guide's fallback. All
+cross-references and citations use \verb|\label|/\verb|\ref| and \verb|\cite|.
+Citation keys follow the initials-plus-year rule, with \texttt{GAP00} and
+\texttt{GUA02} for packages. The file compiles with \texttt{pdflatex} with no
+errors, no undefined references, and no overfull or underfull boxes.
+\end{enumerate}
+
+\section{Original results versus results new in 2026}
+
+\textbf{Original results, retained (corrected where needed):}
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item the construction of toric codes from fans and divisors,
+\item the examples and tables (Examples~5.8--5.13), including the
+$[49,11,28]_8$ code,
+\item the comparison with punctured Reed--Muller codes (Remark~4.4),
+\item the inclusion statements (Proposition~5.6, Theorem~6.1(1)--(3)),
+\item the segment upper bound (Theorem~6.4, corrected),
+\item the error-locator algorithm and its two propositions
+(Algorithm~7.1, Propositions~7.3 and 7.4, repaired).
+\end{itemize}
+
+\textbf{Withdrawn:}
+\begin{itemize}[leftmargin=*,itemsep=0pt]
+\item Conjectures 4.1 and 4.2 (false),
+\item Lemma~3.3 (false as stated),
+\item the distance inequality of Remark~3.2 (reversed),
+\item items (1) and (5) of Theorem~4.5 (false),
+\item the old decoding example (ill-defined).
+\end{itemize}
+
+\textbf{New in 2026:} Lemma~3.3 (orthogonality), Lemma~4.2 (grid lemma),
+Proposition~4.3, Propositions~5.3, 5.5 and 5.6, Theorem~5.7, the exact
+items (4) and (5) of Theorem~6.1, Theorem~7.2 in its present form,
+Lemma~7.6, Corollary~7.7, Example~7.8, Proposition~8.1, Example~8.2, the
+weight distribution (Table~1), the Gilbert--Varshamov comparison, and the
+fan resolutions.
+
+\section{Concordance of numbering}
+
+\begin{longtable}{@{}ll|ll@{}}
+\toprule
+2003 & 2026 & 2003 & 2026\\ \midrule
+\endhead
+Eq.~(1) & (1.1) & Example 3.10 (fan6) & Example 5.13\\
+Example 1.1 & Example 1.1 & Conjecture 4.1 & withdrawn; Example 6.6\\
+Eq.~(2) & (4.1) & Conjecture 4.2 & withdrawn; Example 6.7\\
+Theorem 2.1 & Theorem 4.1 & Remark 4.3 & Example 6.7 (text)\\
+Remark 2.2 & Remark 4.4 & Definition 4.4 & Definition 5.1\\
+Example 2.3 & Example 4.5 & Theorem 4.5 & Theorem 6.1\\
+Remark 3.1 & Section 3.2 (text) & Remark 4.6 & Theorem 6.1 (hypothesis)\\
+Remark 3.2 & Proposition 5.6 & Example 4.7 & Example 6.3\\
+Eq.~(3) & (5.1) & Theorem 4.8 & Theorem 6.4\\
+Eq.~(4) & (5.2) & Remark 4.9 & Remark 6.5\\
+Eq.~(5) & (5.3) & Eq.~(7) & (7.1)\\
+Lemma 3.3 & Proposition 5.3 & Proposition 5.1 & Proposition 7.3\\
+Eq.~(6) & removed & Proposition 5.2 & Proposition 7.4\\
+Example 3.4 (fan7) & Example 5.8 & Remark 5.3 & Theorem 7.2 (hyp.\ (C))\\
+Example 3.5 (fan1) & Example 5.9 & Example 5.4 & Remark 7.5; Example 7.8\\
+Example 3.6 (fan5) & Example 5.10 & & \\
+Examples 3.7, 3.8 & Example 5.11 & & \\
+Example 3.9 (fan2) & Example 5.12 & & \\
+\bottomrule
+\end{longtable}
+
+\section{Computations}\label{sec:computations}
+
+All scripts are in the folder \texttt{scripts/}. They are licensed MIT. The
+LaTeX is CC BY 4.0. There is no git repository yet, so no commit hashes can be
+given. They should be added when the files are committed.
+
+\begin{longtable}{@{}L{0.34\textwidth}L{0.58\textwidth}@{}}
+\toprule
+Script & Purpose and result\\ \midrule
+\endhead
+\texttt{gf.py}, \texttt{toric.py} & Field arithmetic for $q\le27$ and
+generator matrices of full-torus codes.\\
+\texttt{mindist.c} & Exact minimum distance (information-set search with
+disjoint information sets), weight distributions for $q=2^e$, and listing of
+words of given weight. Compile: \texttt{gcc -O3 -o mindist mindist.c}.\\
+\texttt{test\_mindist.py} & Agrees with brute force on 300 random codes over
+$\F_q$, $q\le9$.\\
+\texttt{verify\_tables.py} & Recomputes all 55 table rows (including the duplicate and the principal example). All agree with the
+2003 values except the duplicated row (computed $k=14$). Output in
+\texttt{verify\_tables.json}.\\
+\texttt{wd\_principal.py} & Weight distribution of $[49,11,28]_8$ by
+enumerating all $2^{33}$ $\F_2$-combinations. Minimum weight $28$,
+$A_{28}=833$, total $8^{11}$.\\
+\texttt{minwords\_principal.py}, \texttt{minwords\_explain.py} & The $119$
+projective minimum words, their zero sets (three parallel lines of $AG(2,7)$),
+and the $14$ exceptional trinomials.\\
+\texttt{automorphisms\_\allowbreak principal.py} & Stabilizer of the exponent set in
+$\GL_2(\Z/7)$: order $2$.\\
+\texttt{verify\_referee.py} & All counterexamples, fan determinants and
+weights, areas, the fan5 correction, and the Cartier and ampleness checks.\\
+\texttt{verify\_hansen.py} & Hansen (a)--(d) against exact computation in 79
+cases (35 of type (d)), all agreeing. The run stopped at its time limit
+during $q=8$.\\
+\texttt{gv\_check.py} & 21 of the 42 distinct parameter sets beat the finite
+Gilbert--Varshamov bound.\\
+\texttt{resolve\_fan.py} & Minimal resolutions and weighted cycle graphs.\\
+\texttt{decode\_example.py} & Example~7.8: decodes all of 300 random trials
+for each number of errors $t\le5$; succeeds in 50 of 300 trials at $t=6$ and
+8 of 300 at $t=7$.\\
+\texttt{decode\_simplex\_\allowbreak search.py} & The largest simplex $u+g(S_s)$ inside
+$P_0$ has $s=6$, giving $t=5$.\\
+\texttt{decode\_search.py}, \texttt{decode\_pair\_check.py} & Search over
+convex shapes $A_0\subset[0,4]^2$ with maximal $B_0$, stopped before
+completion. The best pair found has
+$t=6$ ($|A_0|=7$, $d(C_{A_0})=28$, $|B_0|=15$, $d(C_{B_0}^\perp)=7$). Its
+decoder succeeded in 200 of 200 trials with 6 errors and 33 of 200 with 7.\\
+\bottomrule
+\end{longtable}
+
+\section{Verification levels of the main claims}\label{sec:levels}
+
+\begin{longtable}{@{}L{0.5\textwidth}L{0.42\textwidth}@{}}
+\toprule
+Claim & Level\\ \midrule
+\endhead
+All results labeled ``proved here'' & 1 (derived in the paper)\\
+All table entries, $[49,11,28]_8$, weight distribution, minimum words & 1
+(exhaustive exact computation)\\
+Hansen's Theorem 4.1(d) & 3 for the source statement; partial Level~1 by
+computation (Remark 2026.1)\\
+Publication data of Jo04, Ha00, Ha02, Ha13, Ha17, LS06, LS07, Ru07, Ru09, SS09, Li11,
+Li17, BK13, CC12, Pe92, AF93, Al99, Ki03, BCP97 & 2 (bibliographic records and
+abstracts consulted online)\\
+Current tables entry for $[49,11]_8$ ($d\ge29$, $d\le34$) & 2 (codetables.de,
+November 22, 2026)\\
+Brouwer's 2007 table value $d\ge28$ & 2 (as reported on codetables.de)\\
+Ruano (2007) gave counterexamples to the conjectures & 2 (abstract)\\
+Section-level citations of Fulton~[Fu93] (\S2.1, \S2.5, \S2.6, \S3.4) & 3\\
+Page citations kept from the 2003 text: Stichtenoth pp.~217--218,
+MacWilliams--Sloane Ch.~13, Pless--Huffman p.~920, Ha02 \S2.3 & 3 (not
+consulted)\\
+Alon--F\"uredi theorem as stated in Section~8.2 & 3. The paper proves the
+special case it needs (Lemma 4.2).\\
+Baker--Norine page numbers; Skorobogatov--Vl\u{a}du\c{t} data;
+Fitzgerald--Lax title; Brown--Kasprzyk~[BK13b] journal; years of
+\texttt{toric.g} and of Joyner--Verrill & 3\\
+Castryck--Cools gonality bound $\le$ lattice width & 2 (abstract and a
+citing paper)\\
+Seven-champions and $[36,19,12]_7$ results of Brown--Kasprzyk & 2
+(abstracts)\\
+\bottomrule
+\end{longtable}
+
+\section{Sources that could not be consulted}
+
+The reviser had no access to the full texts of Fulton's book, Stichtenoth's
+book, MacWilliams--Sloane, the Handbook of Coding Theory, J.~P.~Hansen's 2002
+paper, S.~Hansen's theses, or Alon--F\"uredi. Their page and theorem numbers
+in the paper are either the 2003 author's own citations, carried over, or
+section-level citations from memory. Nothing in the paper's proofs depends on
+them, except Hansen's Theorem 4.1(d) and the interpretive statements in
+Section~8.3.
+
+\section{Open items for David}
+
+\begin{enumerate}[leftmargin=*]
+\item Decide whether to keep the graph-theoretic Section~8 in the corrected
+edition or move it to a companion note, in the spirit of the style guide's
+rules for the 1981 and Satake papers.
+\item Install \texttt{newtx} and switch from \texttt{mathptmx} if preferred.
+\item Check the copyright position before posting this corrected version of
+the published paper (style guide 8.6).
+\item Commit the scripts to a repository and add the commit hash to
+Section~9.
+\end{enumerate}
+
+\end{document}
