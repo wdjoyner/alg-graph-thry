@@ -350,13 +350,13 @@ Let $n\geq4$. The \emph{second hypersimplex} is
 \Delta(2,n)=\operatorname{conv}\{e_i+e_j:1\leq i<j\leq n\}
 =\{x\in[0,1]^n:\sum_i x_i=2\}.
 \end{equation}
-Its lattice points are exactly the $\binom n2$ edge vectors of $K_n$. The normal fan yields a projective toric variety $X_n$ with an ample, $S_n$-linearized line bundle $\LL_n$. For clarity, the linearization can be obtained from the monomial projective embedding associated to the hypersimplex, on whose homogeneous coordinates $S_n$ acts by permuting the labels $\{i,j\}$. In particular,
+Its lattice points are exactly the $\binom n2$ edge vectors of $K_n$. The normal fan yields a projective toric variety $X_n$ with an ample, $S_n$-linearized line bundle $\LL_n$. For clarity, the linearization can be obtained from the monomial projective embedding associated to the hypersimplex, on whose homogeneous coordinates $S_n$ acts by permuting the labels $\{i,j\}$. The barycenter $(2/n,\ldots,2/n)$ is the only $S_n$-fixed point in its ambient affine hyperplane and is nonintegral. Thus one needs the affine version of the orbit theorem, Theorem~\ref{thm:affine}; no fixed integral origin has been assumed. In particular, with the specified monomial linearization,
 \begin{equation}\label{eq:edgeaction}
 H^0(X_n,\LL_n)\cong\CC[E(K_n)]
 \end{equation}
 with its untwisted edge-permutation action.
 
-The \emph{Johnson graph} $J(n,2)$ has vertex set $E(K_n)$, two edges being adjacent if they have exactly one endpoint in common. Equivalently, it is the line graph of $K_n$.
+The \emph{Johnson graph} $J(n,2)$ has vertex set $E(K_n)$, two edges being adjacent if they have exactly one endpoint in common. Equivalently, it is the line graph of $K_n$. It is also a lattice-point graph in the sense of Definition~\ref{def:latticegraph}, in its affine version: take the root step set $B=\{e_i-e_j:i\ne j\}$. Two distinct two-subset vectors differ by a root precisely when the corresponding edges share one endpoint. Therefore the commuting adjacency theorem applies.
 
 \begin{figure}[ht]
 \centering
@@ -395,9 +395,9 @@ R^{\mathsf T}R=A+2I_r,
 \qquad
 RR^{\mathsf T}=(n-2)I_n+J_n,
 \end{equation}
-where $J_n$ is the all-ones matrix. The second matrix has eigenvalue $2(n-1)$ on the constant vector and $n-2$ on its orthogonal complement. Since $n\geq4$, $R$ has rank $n$. The nonzero eigenvalues of $R^{\mathsf T}R$ are those of $RR^{\mathsf T}$ with the same multiplicities. Subtracting two proves the eigenvalues and multiplicities in equation~\eqref{eq:johnsoneigs}; the remaining $r-n=n(n-3)/2$ eigenvectors lie in $\ker R$.
+where $J_n$ is the all-ones matrix. The second matrix has eigenvalue $2(n-1)$ on the constant vector and $n-2$ on its orthogonal complement. Since $RR^{\mathsf T}$ is positive definite for $n\geq3$, $R$ has rank $n$. The restriction $n\geq4$ is used to ensure that the disjoint-pair orbital exists and the final eigenspace has positive dimension. The nonzero eigenvalues of $R^{\mathsf T}R$ are those of $RR^{\mathsf T}$ with the same multiplicities. Subtracting two proves the eigenvalues and multiplicities in equation~\eqref{eq:johnsoneigs}; the remaining $r-n=n(n-3)/2$ eigenvectors lie in $\ker R$.
 
-The action of $S_n$ on unordered pairs has exactly three orbits on \emph{ordered pairs} of unordered pairs: equal, meeting in one vertex, and disjoint. Hence the algebra of endomorphisms commuting with $S_n$ on $\CC[E(K_n)]$ has dimension three: a commuting matrix must be constant on each such orbit. Since complex representations are semisimple, its dimension is the sum of squares of irreducible multiplicities. The existence of the three distinct nonzero $S_n$-stable eigenspaces already found forces each eigenspace to be irreducible and pairwise nonisomorphic. The constant eigenspace is $S^{(n)}$; the image under $R^{\mathsf T}$ of the zero-sum coordinate subspace of $\CC^n$ is the standard module $S^{(n-1,1)}$. The remaining constituent is $S^{(n-2,2)}$, as follows also from the standard decomposition of the two-subset permutation module (Young's rule; see \cite{Se77} for the representation-theoretic framework).
+The action of $S_n$ on unordered pairs has exactly three orbits on \emph{ordered pairs} of unordered pairs: equal, meeting in one vertex, and disjoint. Hence the algebra of endomorphisms commuting with $S_n$ on $\CC[E(K_n)]$ has dimension three: a commuting matrix must be constant on each such orbit. Since complex representations are semisimple, its dimension is the sum of squares of irreducible multiplicities. The existence of the three distinct nonzero $S_n$-stable eigenspaces already found forces each eigenspace to be irreducible and pairwise nonisomorphic. The constant eigenspace is $S^{(n)}$. If $\sum_i x_i=0$, equation~\eqref{eq:Rrelations} implies $(A+2I_r)R^{\mathsf T}x=(n-2)R^{\mathsf T}x$, so $R^{\mathsf T}x$ belongs to the $(n-4)$-eigenspace. Because $R$ has rank $n$, the map $R^{\mathsf T}$ is injective, and this image is the standard module $S^{(n-1,1)}$. Finally, the kernel-intersection description of the two-row Specht module identifies $\ker R$ with $S^{(n-2,2)}$: the $S_n$-map $R$ is the usual pair-to-vertex incidence map from the two-subset permutation module to the vertex permutation module (see James \cite{Ja78}).
 \end{proof}
 
 \begin{example}\label{ex:n4}
@@ -405,7 +405,7 @@ When $n=4$, the Johnson graph is an octahedral graph (Figure~\ref{fig:johnson}).
 \end{example}
 
 \begin{remark}
-Theorem~\ref{thm:johnson} combines classical properties of hypersimplices, two-subset permutation modules, and Johnson-graph spectra. What is useful here is that the adjacency eigenspaces identify the irreducible constituents of a toric Riemann--Roch representation without computing its full character table.
+Theorem~\ref{thm:johnson} combines classical properties of hypersimplices, two-subset permutation modules, and Johnson-graph spectra. More generally, for $1\leq k\leq n/2$ the lattice points of $\Delta(k,n)$ index the $k$-subsets and the same root step set gives the Johnson graph $J(n,k)$. Classically, the $k$-subset permutation module is multiplicity-free with constituents $S^{(n-i,i)}$, $0\leq i\leq k$, and these are the eigenspaces of the Johnson adjacency operator (see Delsarte \cite{De73}). By replacing $k$ with $n-k$, the statement covers all $k$. The toric interpretation is an application of Theorem~\ref{thm:affine}, not a new decomposition theorem.
 \end{remark}
 
 \section{Beyond pure permutation actions: the torus normalizer}\label{sec:normalizer}
