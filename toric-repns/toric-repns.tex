@@ -226,6 +226,21 @@ L(qD)&\cong(12q^2+6q+1)\bfone\oplus
 The triangle $P_D$ has Euclidean area $24$. Its three edges have primitive lattice lengths $4$, $4$, and $4$, respectively. Pick's theorem gives $|qP_D\cap\ZZ^2|=24q^2+6q+1$ for every $q\geq1$, and the same expression equals $1$ at $q=0$. The fixed points under $g$ lie on $x=y$. In $qP_D$ these are precisely $(a,a)$ for $-6q\leq a\leq0$, giving $6q+1$ points. The two characters of $C_2$ have multiplicities $(\dim\pm\tr(g))/2$. Substitution yields equation~\eqref{eq:repsurf}.
 \end{proof}
 
+
+\begin{example}[A non-Cartier Weil divisor]\label{ex:noncartier}
+The same fan permits a test of the reflexive-sheaf generality of Theorem~\ref{thm:orbit}. Set $D'=2D_1+2D_2$. The Cartier criterion shows that $D'$ is not Cartier, although $3D'=D$. Its rational divisor polytope has vertices $(-2,-2)$, $(-2/3,2/3)$, and $(2/3,-2/3)$. The lattice-point count is the period-three quasipolynomial
+\begin{equation}\label{eq:noncartier}
+\dim L(qD')=\frac{8q^2+6q+1}{3}+\frac23\mathbf1_{3\mid q},\qquad
+\tr(g\mid L(qD'))=2q+1\quad(q\geq0),
+\end{equation}
+where $\mathbf1_{3\mid q}$ is one when $3$ divides $q$ and zero otherwise. Thus the trivial and sign multiplicities are one half of the sum and difference of the two quantities in \eqref{eq:noncartier}. This example gives a quasipolynomial, rather than the polynomial in Proposition~\ref{prop:cyclic}.
+\end{example}
+\begin{proof}
+Write $s=-x-y\geq0$ and $d=x-y$ for an integral point of $qP_{D'}$. The inequalities say $0\leq s\leq4q$, $|d|\leq\lfloor(4q-s)/3\rfloor$, and $d\equiv s\pmod2$. With $t=4q-s$, the number of allowed $d$ is
+$\lfloor t/3\rfloor+\mathbf1_{\,t\bmod3\in\{0,2\}}$.
+Summing this over $0\leq t\leq4q$ gives the first identity in \eqref{eq:noncartier}. The involution-fixed lattice points have $x=y=a$ with $-2q\leq a\leq0$, proving the second. At $q=3r$ the first formula reduces to $24r^2+6r+1$, as also follows from $3D'=D$.
+\end{proof}
+
 \begin{example}
 At $q=1$ there are $31$ lattice points, seven fixed points, and twelve two-element orbits. Accordingly $L(D)=19\bfone\oplus12\operatorname{sgn}$. This illustrates how the orbit decomposition leads to explicit irreducible multiplicities.
 \end{example}
