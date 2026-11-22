@@ -54,7 +54,7 @@
 \newcommand{\st}[1]{\textup{(\emph{#1})}}
 
 \title{Toric codes over finite fields\\[4pt]
-\large Draft 3. Corrected and expanded version}
+\large Draft 4. Corrected and expanded version}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}.
 The original version of this paper appeared as D.~Joyner, ``Toric codes over
 finite fields,'' \emph{Applicable Algebra in Engineering, Communication and
@@ -80,17 +80,15 @@ minimum distances of three of J.~Hansen's families. The proofs use a
 grid-counting lemma of Alon--F\"uredi type, which also gives upper and lower
 bounds on the minimum distance. We show by examples that two natural lower
 bounds in terms of the volume or the number of lattice points of the polygon
-do not hold. We compute the parameters of many examples exactly. In
-particular we certify the $[49,11,28]$ code over $\F_8$, which was better than
-all codes in the tables of 2002, by two independent exhaustive computations.
-We give an error-locator decoding algorithm, in the form of an
-error-correcting-pair algorithm with explicit toric hypotheses. We use it to decode the $[49,11,28]$ code up to $5$
-errors in a fully worked example, and up to $6$ errors with a pair found by
-computer search. Finally we discuss graph-theoretic
-connections. These are the discrete torus as a Cayley graph, the
-Combinatorial Nullstellensatz, fans as weighted cycle graphs, and tropical
-curves, with a worked example of a harmonic morphism from a tropical curve to
-a tree.
+do not hold. We give an error-locator decoding algorithm, in the form of an
+error-correcting-pair algorithm with explicit toric hypotheses. We compute the
+parameters of many examples exactly. In particular the $[49,11,28]$ code over
+$\F_8$, which was better than all codes in the tables of 2002, has minimum
+distance $28$ by exhaustive computer enumeration, for which we supply
+independent verification scripts. The decoding algorithm corrects up to $5$
+errors in this code in a fully worked example, and up to $6$ errors with a
+pair found by computer search. A final section discusses connections with
+graph theory.
 \end{abstract}
 
 \tableofcontents
@@ -178,9 +176,11 @@ cited, or computational. Section~\ref{sec:summary} has a status table.
 \item For evaluation on the full torus, the code $C_U$ of a set $U$ of lattice
 points has dimension equal to the number of residues of $U$ modulo $q-1$
 (Proposition~\ref{prop:dim}). Its dual is $C_{U^*}$, where $U^*$ is the
-complement of $-U$ (Theorem~\ref{thm:dual}). Such codes are exactly the
-translation-invariant codes on the discrete torus
-(Proposition~\ref{prop:cyclic}).
+complement of $-U$ (Theorem~\ref{thm:dual}). As $U$ runs over all sets of
+residues, these generalized toric codes are exactly the translation-invariant
+codes on the discrete torus (Proposition~\ref{prop:cyclic}). The standard
+toric codes, where $U$ is the set of lattice points of a polygon, are a
+subfamily of these.
 \item Hansen's minimum distances for triangles, simplices and rectangles
 follow from a short grid lemma (Lemma~\ref{lem:grid},
 Proposition~\ref{prop:hansenabc}). The same lemma gives a two-sided estimate
@@ -189,9 +189,10 @@ segment bound gives the upper estimate (Theorem~\ref{thm:segment}).
 \item Two natural lower bounds for $d$ in terms of the volume or the number of
 lattice points of the polygon fail (Examples~\ref{ex:conj1}
 and~\ref{ex:conj2}).
-\item The parameters of all examples are computed exactly. The code
-$[49,11,28]_8$ is certified, and its full weight distribution is computed
-(Table~\ref{tab:wd}).
+\item The parameters of all examples are computed exactly. For the code
+$[49,11,28]_8$ the bound $d\le28$ is proved, and $d\ge28$ and the full weight
+distribution (Table~\ref{tab:wd}) come from exhaustive enumeration, repeated
+by an independent verifier (Section~\ref{sec:repro}).
 \item An error-locator decoding algorithm is given, with explicit toric
 hypotheses (Theorem~\ref{thm:decode}, Corollary~\ref{cor:toricECP}). It decodes the
 $[49,11,28]_8$ code up to $5$ errors in a worked example, and up to $6$
@@ -734,8 +735,13 @@ P_G\cap M=\{&(0,0),(1,1),(1,2),(1,3),(1,4),(2,1),\\
 \end{aligned}
 \]
 Their convex hull is the lattice triangle $\conv\{(0,0),(4,1),(1,4)\}$, of
-area $15/2$. It has $6$ interior and $5$ boundary lattice points. Over $\F_8$
-we obtain the code $C_{P_G\cap M}$ with parameters $[49,11,28]_8$. Its status
+area $15/2$. It has $6$ interior and $5$ boundary lattice points. Two polygons
+should be kept apart here. The polytope $P_G$ is a rational triangle with
+normal fan $\Delta$, and $G$ is a Weil divisor on the singular surface
+$X(\Delta)$. The lattice triangle $\conv(P_G\cap M)$ is smaller, and its
+normal fan has the different rays $(4,-1)$, $(-1,4)$, $(-1,-1)$
+(Section~\ref{sec:fangraph}). The code sees only the common set of lattice
+points. Over $\F_8$ we obtain the code $C_{P_G\cap M}$ with parameters $[49,11,28]_8$. Its status
 is as follows.
 \begin{enumerate}[leftmargin=*]
 \item $k=11$ \st{proved}. The $11$ points have coordinates in $[0,4]$, so they
@@ -746,9 +752,12 @@ applies, with the polynomial $xy(y-\alpha)(y-\beta)(y-\gamma)$ for distinct
 $\alpha,\beta,\gamma\in\F_8^\times$.
 \item $d\ge28$ \st{exhaustive exact computation}. This was established by an
 information-set search (script \texttt{verify\_tables.py}). It was confirmed
-independently by enumerating all $8^{11}$ codewords with a binary Gray code
-(script \texttt{wd\_principal.py}), which gives the weight distribution in
-Table~\ref{tab:wd}.
+by enumerating all $8^{11}$ codewords with a binary Gray code (script
+\texttt{wd\_principal.py}), which gives the weight distribution in
+Table~\ref{tab:wd}. Both use the same program \texttt{mindist.c}. A separate
+verifier, \texttt{certify.py} with \texttt{certify.c}, shares no code with it
+and reproduces Table~\ref{tab:wd} exactly. Section~\ref{sec:repro} gives the
+conventions, commands and checksums. This is a computation, not a proof.
 \end{enumerate}
 In 2002 this code was better than any code with the same $n$ and $k$ in
 Brouwer's tables~\cite{Br98}. Brouwer's table of 2007 still listed $d\ge28$
@@ -762,7 +771,10 @@ toric $[49,12,28]_8$ code~\cite{Li11}.
 \centering
 \caption{Weight distribution $A_w$ of the $[49,11,28]_8$ code of
 Example~\ref{example:fan7}. Here $A_0=1$ and $A_w=0$ for $0<w<28$. The total is
-$8^{11}$.}\label{tab:wd}
+$8^{11}$. The distribution does not depend on the choice of primitive element
+or of the polynomial defining $\F_8$, since such choices only permute the
+coordinates or apply a field automorphism. The scripts use
+$\F_8=\F_2[\omega]/(\omega^3+\omega+1)$ (Section~\ref{sec:repro}).}\label{tab:wd}
 \small
 \begin{tabular}{@{}rrrrrr@{}}
 \toprule
@@ -921,9 +933,18 @@ so
 \[
 \vol(P_G)=\tfrac12\,s^2 \qquad(s\ge0).
 \]
-For example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$. The linear
-map $(x,y)\mapsto(x,y-x)$ carries the triangle onto a translate of the simplex
-$S_s$. Hence $G$ is ample exactly when $s>0$. If $s\le q-2$, then
+For example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$. The unimodular
+map
+\[
+(x,y)\longmapsto(2x-y,\ y-x),\qquad
+\begin{pmatrix}2&-1\\-1&1\end{pmatrix}\in\operatorname{SL}_2(\Z),
+\]
+sends the three vertices to $(-d_1,-d_2)$, $(d_2+d_3,-d_2)$ and
+$(-d_1,d_1+d_3)$. After translation by $(d_1,d_2)$ these become $(0,0)$,
+$(s,0)$ and $(0,s)$, so the triangle is lattice-equivalent to the simplex
+$S_s$. Hence $G$ is ample exactly when $s>0$, and by
+Proposition~\ref{prop:equiv}(ii) the code is permutation equivalent to
+$C_{S_s}$. If $s\le q-2$, then
 Proposition~\ref{prop:hansenabc}(b) gives
 \[
 k=\tfrac12(s+1)(s+2),\qquad d=(q-1)(q-1-s).
@@ -1095,9 +1116,16 @@ Let $X=\PP^1\times\PP^1$ over $\F_9$, with $P_G=[0,1]^2$, so that $n=64$ and
 $\vol(P_G)=1$. The integer $N=6$ satisfies $12\le64\le72$, so (i) would give
 $d\ge64-12=52$. But $(x-\alpha)(y-\beta)$ with
 $\alpha,\beta\in\F_9^\times$ has $8+8-1=15$ zeros on the torus. Its word has
-weight $49$, and in fact $d=49$ by Proposition~\ref{prop:hansenabc}(c). For
-general $q$ one has $d=(q-2)^2$, while (i) would give roughly
-$n-\sqrt2(q-1)$.
+weight $49$, and in fact $d=49$ by Proposition~\ref{prop:hansenabc}(c).
+
+Since (i) is meant for large $q$, a single field does not settle it. The same
+square gives a counterexample for every prime power $q\ge5$. Put
+$n=(q-1)^2$ and let $N=\lceil(q-1)/\sqrt2\,\rceil$, the least integer with
+$2N^2\ge n$. Then $N>1$, and $2N\le n\le2N^2$, so (i) would give
+$d\ge n-2N$. But $d=(q-2)^2=n-2(q-1)+1$ by
+Proposition~\ref{prop:hansenabc}(c). So (i) fails as soon as $2N<2q-3$. For
+$q\ge7$ this follows from $N<(q-1)/\sqrt2+1<q-\tfrac32$, and for $q=5$ we have
+$N=3<\tfrac72$. (For $q=3$ and $q=4$ the family is not a counterexample.)
 \end{example}
 
 \begin{example}[Estimate (ii) fails]\label{ex:conj2}
@@ -1396,17 +1424,31 @@ they are marked as such.
 
 \subsection{The discrete torus as a Cayley graph}\label{sec:cayley}
 
-Via $\omega$, the evaluation set $T(\Fq)$ is the group $\Lq=(\Z/(q-1))^r$. Its
-Cayley graph with respect to $\pm e_1,\dots,\pm e_r$ is the discrete torus
-$C_{q-1}\,\square\cdots\square\,C_{q-1}$, the Cartesian product of $r$ cycles.
-Translation by $s\in\Lq$ permutes the coordinates of $\Fq^{\,n}$.
+Via $\omega$, the evaluation set $T(\Fq)$ is the group $\Lq=(\Z/(q-1))^r$. For
+$q\ge4$ its Cayley graph with respect to $\pm e_1,\dots,\pm e_r$ is the
+discrete torus $C_{q-1}\,\square\cdots\square\,C_{q-1}$, the Cartesian product
+of $r$ cycles. (For $q=3$ the generators $e_j$ and $-e_j$ coincide, and the
+graph is the cube $K_2^{\,\square r}$. For $q=2$ the group is trivial.)
+Translation by $s\in\Lq$ permutes the coordinates of $\Fq^{\,n}$. The next
+proposition holds for every $q$.
 
 \begin{proposition}[Proved here]\label{prop:cyclic}
 A linear code $C\subseteq\Fq^{\,T(\Fq)}$ is invariant under all translations
-if and only if $C=C_U$ for some $U\subseteq\Lq$. Thus full-torus toric codes
-and generalized toric codes are exactly the $r$-dimensional cyclic codes of
-length $(q-1)^r$ over $\Fq$.
+if and only if $C=C_U$ for some $U\subseteq\Lq$. Thus the generalized toric
+codes $C_U$, with $U$ an arbitrary set of residues, are exactly the
+$r$-dimensional cyclic codes of length $(q-1)^r$ over $\Fq$.
 \end{proposition}
+
+The standard toric codes, where $U$ is the reduction of $P_G\cap M$ for a
+divisor $G$, are a subfamily, and the proposition does not say that they
+alone exhaust the translation-invariant codes. In dimension $r=1$ the
+subfamily is proper. There $P_G$ is a segment, its lattice points are
+consecutive integers, and their residues form a cyclic interval of
+$\Z/(q-1)$. For $q=8$ take $U=\{0,1,3\}\subset\Z/7$. Its six differences
+$\pm1,\pm2,\pm3$ are distinct, while a cyclic interval $\{c,c+1,c+2\}$ has the
+difference $1$ twice. Maps $u\mapsto au+b$ with $a\in(\Z/7)^\times$ preserve
+this distinction. So $C_U$ is a cyclic code that is not a standard toric code,
+nor obtained from one by the equivalences of Proposition~\ref{prop:equiv}.
 
 \begin{proof}
 Translation by $s$ multiplies $\ev(\chi^u)$ by $\chi^u(s)$, so each $C_U$ is
@@ -1572,8 +1614,27 @@ outgoing edge directions is $0$.
 all weights are $1$, and the first Betti number of $\Gamma$ equals the number
 of interior lattice points of $\Delta$.
 \end{enumerate}
-We regard $\Gamma$ as a metric graph, giving an edge of primitive direction
-$p$ and Euclidean length $\lambda|p|$ the lattice length $\lambda$.
+For example, take $f=1+x+y$ with all valuations $0$. Then
+$\operatorname{trop}(f)(w)=\min(0,w_1,w_2)$, and $\Gamma$ consists of the
+three rays from the origin in the directions $(1,0)$, $(0,1)$ and $(-1,-1)$.
+On the ray in direction $(0,1)$ the terms $1$ and $x$ tie, so it is dual to
+the edge from $(0,0)$ to $(1,0)$ of $\Delta=S_1$. Its direction $(0,1)$ is the
+inward normal of that edge, as (T2) says. (With the convention $\max$ in place
+of $\min$, the ends would point along outward normals.)
+
+\paragraph{The metric.}
+An edge $e$ of $\Gamma$ has a primitive direction $p_e$, a weight $\mu_e$ and
+a lattice length $\lambda_e$, so that its Euclidean length is
+$\lambda_e|p_e|$. We regard $\Gamma$ as a metric graph in which $e$ has
+length $\lambda_e/\mu_e$. With this metric the inclusion $\Gamma\to\R^2$ has
+slope $\mu_ep_e$ on $e$, an integer vector whose length in lattice units is
+the weight. This is the usual convention for parametrized tropical curves,
+in which the weight of an edge is recorded as the integer slope of the
+parametrization (compare~\cite{Mi05}). When all weights are $1$, for instance under the
+hypothesis of (T4), the length of $e$ is simply its lattice length. The
+weights matter. For $f=(1+x+y)^2$ over a field of characteristic other than
+$2$, the set $\Gamma$ is the same tropical line as for $1+x+y$, but every ray
+has weight $2$, because $\Delta=2S_1$.
 
 \paragraph{Projections are harmonic morphisms.}
 Harmonic morphisms of graphs were introduced by Urakawa and developed by Baker
@@ -1597,15 +1658,19 @@ $\sum_{x\in\varphi^{-1}(y)}m_\varphi(x)$ does not depend on $y$, where the sum i
 over the points of the fiber with $m_\varphi(x)>0$.
 
 \begin{proposition}[Proved here, given (T2) and (T3)]\label{prop:projharmonic}
-Let $\Gamma=\operatorname{Trop}(f)$ and let $\pi(w_1,w_2)=w_1$. Give an edge
-$e$ of weight $\mu_e$ and primitive direction $(a_e,b_e)$ the dilation factor
-$d_e=\mu_e|a_e|$. Then $\pi:\Gamma\to\R$ is a harmonic morphism onto the line,
-which is a tree. Its degree is the vertical extent
+Let $\Gamma=\operatorname{Trop}(f)$, with the metric just described, and let
+$\pi(w_1,w_2)=w_1$. On an edge $e$ of weight $\mu_e$ and primitive direction
+$(a_e,b_e)$ the map $\pi$ is linear with slope $d_e=\mu_e|a_e|$. With these
+dilation factors $\pi:\Gamma\to\R$ is a harmonic morphism onto the line, which
+is a tree. Its degree is the vertical extent
 $\max_{u\in\Delta}u_2-\min_{u\in\Delta}u_2$ of the Newton polygon.
 \end{proposition}
 
 \begin{proof}
-At an interior point of an edge there is nothing to check. At a vertex $x$,
+Moving a distance $s$ along $e$ in the metric of $\Gamma$ moves the image in
+$\R^2$ by $s\mu_e(a_e,b_e)$, so the first coordinate changes by $s\mu_ea_e$.
+This gives the slope $d_e=\mu_e|a_e|$, a nonnegative integer. At an interior
+point of an edge there is nothing more to check. At a vertex $x$,
 the first coordinate of the balancing condition (T3) reads
 $\sum_{a_e>0}\mu_ea_e=\sum_{a_e<0}\mu_e|a_e|$, the sums running over the edges
 at $x$. The left side is the sum of the dilation factors over the edges
@@ -1621,9 +1686,19 @@ $|a_e|=|\epsilon_2|$. The contributions $\ell_E|\epsilon_2|$ add up to the
 vertical extent of that chain, which is the vertical extent of $\Delta$.
 \end{proof}
 
+The metric matters for the statement. For $f=(1+x+y)^2$ the three rays have
+weight $2$, so $\pi$ has slope $2$ on the rays in the directions $(1,0)$ and
+$(-1,-1)$, and degree $2$, the vertical extent of $2S_1$. If instead each ray
+were given its lattice length, the slopes would be $1$ and the degree would be
+$1$. The projection is still harmonic for that metric, but its degree no
+longer matches the Newton polygon. When some weight exceeds $1$, the metric
+graph $\Gamma$ also need not be the skeleton of the curve $\{f=0\}$, and the
+comparison with skeleta in~\cite{ABBR15} applies directly only when all
+weights are $1$.
+
 \begin{example}[A tropical curve with a degree-two harmonic morphism to a
 tree]\label{ex:tropical}
-Let $\Delta=[0,2]^2$, the polygon of Hansen's type (c) with $a=b=1$. Over the
+Let $\Delta=[0,2]^2$, the polygon of Hansen's type (c) with $a=b=2$. Over the
 Puiseux series field $K$ above, let
 \[
 f=\sum_{(i,j)\in\Delta\cap\Z^2}t^{\,i^2+ij+j^2}\,x^iy^j .
@@ -1758,8 +1833,11 @@ coordinates of Proposition~\ref{prop:equiv}(ii) turns $\chi^{v'}-c$ into $x-c$.
 This reduces the general case to the first.
 \end{proof}
 
-By Proposition~\ref{prop:projharmonic}, the number $h$ is the degree of the
-harmonic morphism obtained by projecting the tropical curve of a lift of $f$.
+Lift $f$ to a polynomial over $K$ with the same support. By
+Proposition~\ref{prop:projharmonic}, the degree of the projection of its
+tropical curve is the vertical extent of the Newton polygon of $f$. This is at
+most $h$, with equality when $f$ has nonzero terms in the top and bottom rows
+of $U$.
 Castryck and Cools showed that the gonality of a curve with Newton polygon
 $\Delta$ is at most the lattice width of $\Delta$~\cite{CC12}.
 
@@ -1802,9 +1880,11 @@ and~\cite{SS09} for small $q$, such as $q=8$?
 \section{Summary of results and open questions}\label{sec:summary}
 
 This section lists the status of each result and the computations behind it.
-It ends with open questions. Every computation is exhaustive and exact over
-the stated finite field. The scripts are in the archive accompanying this
+It ends with open questions. Every computation is exact over the stated
+finite field. Every one is exhaustive except the searches for decoding pairs
+and the random trials, which are marked as such. The scripts are in the archive accompanying this
 draft.
+\begingroup\raggedright
 \begin{itemize}[leftmargin=*,itemsep=0pt]
 \item \texttt{gf.py}: finite field arithmetic. \texttt{toric.py}: generator
 matrices of toric codes.
@@ -1813,16 +1893,66 @@ with disjoint information sets, and weight distributions for $q=2^e$.
 \item \texttt{verify\_tables.py}, \texttt{wd\_principal.py},
 \texttt{minwords\_principal.py}, \texttt{minwords\_explain.py},
 \texttt{automorphisms\_principal.py}: the tables and the principal example.
-\item \texttt{verify\_referee.py}, \texttt{verify\_hansen.py},
-\texttt{gv\_check.py}, \texttt{resolve\_fan.py}: counterexamples, Hansen's
-formulas, the Gilbert--Varshamov comparison and the fans.
+\item \texttt{verify\_referee.py}, \texttt{verify\_referee2.py},
+\texttt{verify\_hansen.py}, \texttt{gv\_check.py} and
+\texttt{resolve\_fan.py}: counterexamples, Hansen's formulas, the Gilbert--Varshamov comparison, the
+fans, and the coordinate changes and moment checks of this draft.
+\item \texttt{certify.py} with \texttt{certify.c}: independent verifier for
+the principal code and the decoding pair (Section~\ref{sec:repro}).
+\item \texttt{tropical\_example.py}, \texttt{lattice\_width.py}: the
+tropical example and the fiber bound.
 \item For decoding, the scripts \texttt{decode\_example.py},
 \texttt{decode\_pair\_check.py},
 \texttt{decode\_search.py} and \texttt{decode\_\allowbreak simplex\_\allowbreak search.py}
 give the worked example and the searches for pairs.
 \end{itemize}
+\endgroup
 On $300$ random small codes, the script \texttt{test\_mindist.py} found
 that \texttt{mindist.c} agrees with brute force.
+
+\subsection{Reproducibility of the computations over \texorpdfstring{$\F_8$}{F8}}\label{sec:repro}
+
+The computer results are exact but are not proofs. This note records what is
+needed to repeat the ones for the principal code. An independent verifier
+repeats them with code that shares nothing with \texttt{mindist.c},
+\texttt{gf.py} or \texttt{toric.py}.
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \emph{Field and indexing.} $\F_8=\F_2[\omega]/(\omega^3+\omega+1)$, with
+$\omega$ primitive. An element $c_0+c_1\omega+c_2\omega^2$ is stored as the
+integer $c_0+2c_1+4c_2$. The torus point $(\omega^i,\omega^j)$ is indexed by
+$(i,j)\in(\Z/7)^2$, with $i$ the outer and $j$ the inner loop. The scripts use
+fixed primitive polynomials for all fields, listed in \texttt{gf.py}. In the
+syndrome array of Example~\ref{ex:decode}, rows are indexed by $B_0$ and
+columns by $A_0$, in the orders displayed there.
+\item \emph{Commands.} In the folder \texttt{scripts/}, run
+\begin{center}
+\texttt{gcc -O3 -o mindist mindist.c; python3 wd\_principal.py}\\
+\texttt{gcc -O3 -o certify certify.c; python3 certify.py}
+\end{center}
+The first line takes about $25$ seconds on one core, the second about $75$
+seconds. The second pair builds the
+generator matrices with its own field arithmetic. It enumerates all $8^{11}$
+codewords as $\F_2$-combinations of $33$ vectors in Gray-code order, storing
+each word as three $64$-bit masks.
+\item \emph{Results.} Both programs give exactly the distribution of
+Table~\ref{tab:wd}. The verifier also checks the three conditions of
+Theorem~\ref{thm:decode} for the pair with $t=6$ in Example~\ref{ex:decode}.
+It checks $A_0+B_0\subseteq P_0$ and $d(C_{A_0})=28$. It also checks that all
+$\binom{49}{6}=13{,}983{,}816$ sets of six columns of the generator matrix of
+$C_{B_0}$ are independent, so $d(C_{B_0}^\perp)>6$. Exactly $7$ of the
+$\binom{49}{7}$ sets of seven columns are dependent, so
+$d(C_{B_0}^\perp)=7$.
+\item \emph{Checksums.} The SHA-256 hash of the generator matrix of the
+principal code, as the nested list printed by \texttt{certify.py}, is
+\texttt{a2bdf90c\ldots57de50}. The file \texttt{CHECKSUMS.txt} in the same
+folder lists the SHA-256 hashes of all scripts and saved outputs.
+\item \emph{Consistency checks.} As further internal checks, the table
+satisfies $\sum_wA_w=8^{11}$, $\sum_wwA_w=49\cdot7\cdot8^{10}$ and
+$\sum_ww(w-1)A_w=49\cdot48\cdot7^2\cdot8^9$, and $7\mid A_w$ for $w>0$
+(script \texttt{verify\_referee2.py}). The first two moments hold for every
+$[49,11]_8$ code with no zero coordinate. The third holds because the dual
+code has minimum distance at least $3$.
+\end{itemize}
 
 \begin{center}
 \small
@@ -1841,11 +1971,13 @@ proved here\\
 Estimates (i), (ii) of Section~\ref{sec:fail} & false (Examples~\ref{ex:conj1},
 \ref{ex:conj2}; also \cite{Ru07})\\
 Tables in Section~\ref{sec:examples} & exhaustive exact computation\\
-$[49,11,28]_8$ & $k$ and $d\le28$ proved; $d\ge28$ by two independent
-exhaustive computations\\
+$[49,11,28]_8$ & $k$ and $d\le28$ proved; $d\ge28$ and
+Table~\ref{tab:wd} by exhaustive computation, repeated by an independent
+verifier (Section~\ref{sec:repro})\\
 Theorem~\ref{thm:decode}, Cor.~\ref{cor:toricECP}, Lemma~\ref{lem:separate}
 & proved here\\
-Example~\ref{ex:decode} & verified by computation\\
+Example~\ref{ex:decode} & verified by computation; the conditions for
+$t=6$ also by the independent verifier\\
 Prop.~\ref{prop:cyclic} & proved here\\
 Example~\ref{ex:minwords} & exhaustive exact computation\\
 Prop.~\ref{prop:projharmonic}, Prop.~\ref{prop:fiber} & proved here (using the
@@ -1885,7 +2017,8 @@ graph has vertex set $\Lambda$ and an edge from $s$ to $s+g$ for each $g\in S$.
 The Cayley graph of $(\Z/(q-1))^r$ with $S=\{\pm e_i\}$ is the discrete torus,
 the product of $r$ cycles of length $q-1$. Its translations act transitively
 on the vertices, and every full-torus toric code inherits this symmetry
-(Proposition~\ref{prop:cyclic}).
+(Proposition~\ref{prop:cyclic}). For $q-1\le2$ the cycles degenerate, and the
+graph is a single vertex or a cube.
 \item[Character] A character of the torus $T$ is a homomorphism
 $T\to\overline{\F}^\times$, and the characters are the monomials $\chi^u=x^u$,
 $u\in M$. On the finite group $T(\Fq)$ the character $\chi^u$ depends only on
@@ -1925,9 +2058,10 @@ In dimension two a complete fan is a cyclically ordered list of rays
 \item[Generalized toric code] The code $C_U$ spanned by the evaluation vectors
 of the monomials $x^u$, $u\in U$, at the points of $T(\Fq)$, for an arbitrary
 finite set $U$ of exponents. When $U$ is the set of lattice points of a
-polygon, it is a standard toric code. These codes are exactly the
-translation-invariant codes on the discrete torus
-(Proposition~\ref{prop:cyclic}).
+polygon, it is a standard toric code. As $U$ varies over all sets of
+residues, these codes are exactly the translation-invariant codes on the
+discrete torus (Proposition~\ref{prop:cyclic}). The standard toric codes are
+only some of them.
 \item[Gonality] The gonality of an algebraic curve is the smallest degree of a
 nonconstant map from the curve to the projective line. For a curve with
 Newton polygon $\Delta$ it is at most the lattice width of $\Delta$~\cite{CC12}.
@@ -1949,9 +2083,11 @@ invariant under unimodular changes of coordinates. The square $[0,2]^2$ has
 lattice width $2$, and the triangle $\conv\{(0,0),(4,1),(1,4)\}$ has lattice
 width $4$.
 \item[Metric graph] A finite graph in which each edge is identified with a
-segment of positive length, possibly together with unbounded ends. Tropical
-curves are metric graphs in which the length of an edge is its lattice
-length. The first Betti number of a metric graph plays the role of the genus.
+segment of positive length, possibly together with unbounded ends. A planar
+tropical curve becomes a metric graph when each edge is given its lattice
+length divided by its weight; when all weights are $1$ this is just the
+lattice length. The first Betti number of a metric graph plays the role of the
+genus.
 \item[Minimum distance] The smallest weight of a nonzero codeword of a linear
 code. A code of minimum distance $d$ corrects up to $\lfloor(d-1)/2\rfloor$
 errors by nearest-codeword decoding. For a toric code, $d$ is $n$ minus the
@@ -2015,9 +2151,10 @@ I thank S{\o}ren Hansen, Johan Hansen and Amin Shokrollahi for answering many
 questions, and for helpful correspondence regarding their research.
 
 This corrected and expanded version was prepared with AI assistance. OpenAI
-ChatGPT (GPT-6) acted as referee and wrote a report on the 2003 manuscript.
-Anthropic Claude (Claude Opus~5.5) acted as reviser. It checked each point of
-the report independently and wrote the revised text. It found the grid-lemma
+ChatGPT (GPT-6) acted as referee. It wrote a report on the 2003 manuscript,
+and a second report on the revised drafts that led to the corrections of
+Draft~4. Anthropic Claude (Claude Opus~5.5) acted as reviser. It checked each
+point of both reports independently and wrote the revised text. It found the grid-lemma
 proofs, the duality and cyclic-code statements, the decoding theorem in its
 present form and its worked example, and the graph-theoretic material of
 Section~\ref{sec:graphs}. It also wrote and ran the verification scripts. AI
@@ -2172,6 +2309,10 @@ J. Discrete Math.} \textbf{20} (2006), 999--1014.
 J.~Little and R.~Schwarz, On toric codes and multivariate Vandermonde
 matrices, \emph{Appl. Algebra Engrg. Comm. Comput.} \textbf{18} (2007),
 349--367.
+
+\bibitem[Mi05]{Mi05}
+G.~Mikhalkin, Enumerative tropical algebraic geometry in $\R^2$, \emph{J.
+Amer. Math. Soc.} \textbf{18} (2005), 313--377.
 
 \bibitem[MS15]{MS15}
 D.~Maclagan and B.~Sturmfels, \emph{Introduction to Tropical Geometry},

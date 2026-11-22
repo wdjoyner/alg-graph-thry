@@ -10,7 +10,9 @@ gcc -O3 -o mindist mindist.c
 ```
 
 Then run any script from this folder, for example `python3 verify_tables.py`.
-Saved outputs are in the `*_output.txt` and `*.json` files.
+Saved outputs are in the `*_output.txt` and `*.json` files. `CHECKSUMS.txt`
+lists SHA-256 hashes of every script and saved output; check them with
+`grep -v '^#' CHECKSUMS.txt | sha256sum -c`.
 
 | Script | What it does | Run time |
 | --- | --- | --- |
@@ -31,3 +33,5 @@ Saved outputs are in the `*_output.txt` and `*.json` files.
 | `decode_pair_check.py` | Verifies the t = 6 pair found by the search and tests the decoder with it | about 10 minutes |
 | `tropical_example.py` | The tropical curve of Example 8.6, harmonicity of its projection, the finite model and the Riemann–Hurwitz check | seconds |
 | `lattice_width.py` | Lattice widths and the fiber-bound sample of Example 8.8 | about a minute |
+| `verify_referee2.py` | Checks for the second referee report (Draft 4): the unimodular map of Example 5.13, the direction of tropical ends, weighted slopes for (1+x+y)^2, the family of Example 6.6, and the moment identities of Table 1 | seconds |
+| `certify.py`, `certify.c` | Independent verifier sharing no code with `mindist.c`, `gf.py` or `toric.py`: rebuilds the generator matrices, enumerates all 8^11 codewords of the [49,11,28]_8 code (bit-sliced Gray code), and checks the three error-correcting-pair conditions for the t = 6 pair. Compile with `gcc -O3 -o certify certify.c` | about 75 seconds |

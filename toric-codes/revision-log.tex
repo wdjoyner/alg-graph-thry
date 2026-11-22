@@ -19,7 +19,7 @@
 \setlength{\emergencystretch}{3em}
 
 \title{Revision log for \emph{Toric codes over finite fields}\\[4pt]
-\large Drafts 1--3 of the corrected and expanded version}
+\large Drafts 1--4 of the corrected and expanded version}
 \author{Prepared for David Joyner by Claude (Anthropic), November 22, 2026}
 \date{}
 
@@ -30,8 +30,8 @@
 
 This log records the changes from the manuscript \texttt{toric\_code7.tex}
 (dated September 1, 2003) to \texttt{toric-codes.tex} (Draft 1, November
-22, 2026), and the further changes in Drafts 2 and 3 (Sections~\ref{sec:draft2}
-and~\ref{sec:draft3}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
+22, 2026), and the further changes in Drafts 2, 3 and 4
+(Sections~\ref{sec:draft2}, \ref{sec:draft3} and~\ref{sec:draft4}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
 Algebra Engrg. Comm. Comput.} \textbf{15} (2004), 63--79, arXiv:math/0208155.
 The arXiv and journal data were checked online.
 
@@ -64,6 +64,10 @@ principal code, and the graph-theoretic section. It also wrote all scripts.
 independent derivation or an exhaustive exact computation. Level~2 means a
 check against a source actually consulted. Level~3 means reliance on memory.
 Section~\ref{sec:levels} lists the levels of the main claims.
+\item \textbf{Draft 4.} ChatGPT (GPT-6) wrote a second referee report, file
+\path{referee/2026-11-22/toric-codes-referee-2026-11-22.tex}, on Draft~1 and
+on the tropical material of Draft~3. Claude checked each finding
+independently and made Draft~4 from Draft~3 (Section~\ref{sec:draft4}).
 \item AI review is not an independent certification of the results.
 \end{itemize}
 
@@ -351,6 +355,111 @@ latter was checked numerically in Example~8.6. The page numbers of [BN09] are
 now confirmed (Level~2).
 \end{enumerate}
 
+\section{Draft 4 (November 22, 2026): response to the second referee report}\label{sec:draft4}
+
+The second report was written on the Draft~1 file and on selected passages
+of Draft~3. Draft~4 was made from Draft~3, the current version, so that both
+the findings common to all drafts and those about the Draft~3 tropical
+section could be acted on. Every finding was checked independently. The
+script \texttt{verify\_referee2.py} records the checks (Level~1). One finding,
+M3, was not accepted. Theorem, example and equation numbers are unchanged
+from Draft~3.
+
+\begin{longtable}{@{}L{0.22\textwidth}L{0.12\textwidth}L{0.58\textwidth}@{}}
+\toprule
+Finding & Verdict & Action in Draft 4\\ \midrule
+\endhead
+M1. The map $(x,y)\mapsto(x,y-x)$ in Example~5.13 does not carry the
+triangle to a translate of $S_s$. & Agree & Confirmed. The image is the
+triangle with vertices $(0,0),(s,0),(s,s)$ after translation, which is
+lattice-equivalent to $S_s$ but not a translate. Replaced by the referee's
+map $(x,y)\mapsto(2x-y,y-x)$ in $\mathrm{SL}_2(\Z)$, which was checked for all
+$(d_1,d_2,d_3)\in[-3,4]^3$ with $s>0$. Added that the code is permutation
+equivalent to $C_{S_s}$ by Proposition~5.5(ii). The values of $k$ and $d$ were
+already correct.\\
+M2. In Proposition~8.5 the dilation factor $\mu_e|a_e|$ is not the slope of
+$\pi$ for the lattice-length metric. & Agree & Confirmed with the referee's
+example $f=(1+x+y)^2$: with the lattice-length metric the projection has
+slope $1$ and degree $1$, not $2$. Repaired by changing the metric. An edge of
+weight $\mu_e$ and lattice length $\lambda_e$ now has length
+$\lambda_e/\mu_e$, the usual convention for parametrized tropical curves
+([Mi05] added). Then the slope of $\pi$ on $e$ is exactly $\mu_e|a_e|$, the
+proof's balancing argument applies verbatim, and the degree is still the
+vertical extent. The proof now derives the slope. A new paragraph after the
+proof works the $(1+x+y)^2$ example and notes that when some weight exceeds
+$1$ the metric graph need not be the skeleton, so [ABBR15] applies directly
+only when all weights are $1$. Example~8.6 has all weights $1$ and is
+unchanged. The glossary entry ``Metric graph'' was updated. The status
+``proved here, given (T2) and (T3)'' is kept, since the repaired statement is
+proved.\\
+M3. (T2) should say outward normals, not inward. & Disagree & With the
+convention $\operatorname{trop}(f)(w)=\min_u(\operatorname{val}(c_u)+\langle
+u,w\rangle)$ used in the paper, $\operatorname{Trop}(1+x+y)$ has rays in the
+directions $(1,0)$, $(0,1)$, $(-1,-1)$. For example, on the ray $(0,s)$,
+$s>0$, the terms $1$ and $x$ tie at the minimum $0$. These are the inward
+normals of $S_1$. The rays $(-1,0)$, $(0,-1)$, $(1,1)$ in the report are those
+of the $\max$ convention. Example~8.6 agrees: the triangle at $(0,0)$ gives
+the vertex $(-1,-1)$, whose ends go right and up. The degree proof, which
+uses inward normals, is correct. To prevent the same confusion for readers,
+Draft~4 adds the $1+x+y$ example right after (T1)--(T4), with a note on the
+$\max$ convention. Checked numerically in \texttt{verify\_referee2.py}.\\
+M4. In Example~8.6, $[0,2]^2$ is Hansen's type (c) with $a=b=2$, not $1$. &
+Agree & Corrected. Example~8.8 already used the value $d=25=(7-2)^2$.\\
+M5. A single $q$ does not refute an estimate stated for large $q$. & Agree &
+Example~6.6 now gives the family $P_G=[0,1]^2$,
+$N=\lceil(q-1)/\sqrt2\,\rceil$, which contradicts estimate (i) for every
+prime power $q\ge5$, with proof. For $q=3,4$ it is not a counterexample.
+Checked for all prime powers below $2000$.\\
+M6. Proposition~8.1 should not suggest that standard toric codes alone
+exhaust the translation-invariant codes; $C_{q-1}^{\square r}$ degenerates
+for small $q$. & Agree & The proposition now speaks of generalized toric codes
+with arbitrary residue sets. A new paragraph shows the standard codes are a
+proper subfamily in dimension $1$: for $q=8$, $U=\{0,1,3\}\subset\Z/7$ is not
+the residue set of a segment, nor equivalent to one under the maps of
+Proposition~5.5, because its differences are distinct. (The referee's general
+claim for polygons in dimension $2$ was not proved, so it is not asserted
+there.) The Cayley-graph description is restricted to $q\ge4$, with the cases
+$q=2,3$ described. Main result~1 and the glossary entries ``Cayley graph''
+and ``Generalized toric code'' were adjusted.\\
+M7. The exact computations need a machine-checkable certificate. & Agree,
+in part & New Section~9.1 records the field polynomial, indexing, commands,
+run times and a matrix checksum, and \texttt{scripts/CHECKSUMS.txt} lists
+SHA-256 hashes of all scripts and outputs. The weight distribution was rerun
+with \texttt{wd\_principal.py} and agrees (25 seconds). A new verifier,
+\texttt{certify.py} with \texttt{certify.c}, shares no code with
+\texttt{mindist.c}, \texttt{gf.py} or \texttt{toric.py}. It reproduces
+Table~1 exactly and checks the three error-correcting-pair conditions for
+the $t=6$ pair, including all $\binom{49}{6}$ column subsets for (B). The
+55-row table and the decoding trials were not rerun for Draft~4. The paper
+now says plainly that these are computations, not proofs.\\
+C1--C4 (checks made by the referee). & Noted & No action needed. The moment
+identities of C3 were added to Section~9.1 as consistency checks, with the
+reason each holds.\\
+III.1. Separate theorem, computation and commentary. & Agree & Status
+annotations kept. The status table now distinguishes the independent
+verifier.\\
+III.2. Keep the error discussion in the revision log. & Agree & Already done
+in Draft~2. The M1 repair is stated in the paper without reference to the
+earlier map, which is recorded only here.\\
+III.3. Distinguish the rational polytope $P_G$ from
+$\operatorname{conv}(P_G\cap M)$. & Agree & Added to Example~5.8, with the two
+normal fans.\\
+III.4. One reproducibility note with $\F_8$, indexing and row ordering. &
+Agree & Section~9.1, with a pointer from the caption of Table~1, which also
+notes that the distribution does not depend on these choices.\\
+III.5. Reduce secondary claims in the abstract. & Agree & The list of
+graph-theoretic topics was replaced by one sentence, and the certification
+claim was reworded. Whether Section~8 should become a companion note is left
+to David (Section~\ref{sec:open}).\\
+IV. Do not replace Draft~3 by the older Draft~1 PDF. & Agree & Draft~4 was
+made from Draft~3.\\
+\bottomrule
+\end{longtable}
+
+New reference: [Mi05], bibliographic data checked online (Level~2). The
+statement that weights appear as slopes of parametrized tropical curves is
+from memory (Level~3); the proof of Proposition~8.5 does not depend on it.
+
 \section{Original results versus results new in 2026}
 
 \textbf{Original results, retained (corrected where needed):}
@@ -411,8 +520,10 @@ Example 3.9 (fan2) & Example 5.12 & & \\
 \section{Computations}\label{sec:computations}
 
 All scripts are in the folder \texttt{scripts/}. They are licensed MIT. The
-LaTeX is CC BY 4.0. There is no git repository yet, so no commit hashes can be
-given. They should be added when the files are committed.
+LaTeX is CC BY 4.0. The files are in the repository
+\path{github.com/wdjoyner/alg-graph-thry}, folder \path{toric-codes}, and its
+history gives the commit of each draft. \path{scripts/CHECKSUMS.txt} lists
+SHA-256 hashes of all scripts and outputs as of Draft~4.
 
 \begin{longtable}{@{}L{0.34\textwidth}L{0.58\textwidth}@{}}
 \toprule
@@ -448,6 +559,13 @@ Gilbert--Varshamov bound.\\
 balancing, harmonicity of the projection, finite model, Riemann--Hurwitz.\\
 \texttt{lattice\_width.py} & Lattice widths and the fiber-bound sample of
 Example~8.8 (Draft 3).\\
+\texttt{verify\_referee2.py} & Draft~4 checks of findings M1--M5 of the
+second report and the moment identities of Table~1.\\
+\texttt{certify.py}, \texttt{certify.c} & Draft~4 independent verifier.
+Reproduces Table~1 from all $8^{11}$ codewords (22 seconds). For the $t=6$
+pair: $A_0+B_0\subseteq P_0$, $d(C_{A_0})=28$, no dependent set among the
+$13{,}983{,}816$ six-column subsets of the generator matrix of $C_{B_0}$, and
+exactly $7$ dependent seven-column subsets.\\
 \texttt{decode\_example.py} & Example~7.8: decodes all of 300 random trials
 for each number of errors $t\le5$; succeeds in 50 of 300 trials at $t=6$ and
 8 of 300 at $t=7$.\\
@@ -505,7 +623,7 @@ section-level citations from memory. Nothing in the paper's proofs depends on
 them, except Hansen's Theorem 4.1(d) and the interpretive statements in
 Section~8.3.
 
-\section{Open items for David}
+\section{Open items for David}\label{sec:open}
 
 \begin{enumerate}[leftmargin=*]
 \item Decide whether to keep the graph-theoretic Section~8 in the corrected
@@ -514,8 +632,9 @@ rules for the 1981 and Satake papers.
 \item Install \texttt{newtx} and switch from \texttt{mathptmx} if preferred.
 \item Check the copyright position before posting this corrected version of
 the published paper (style guide 8.6).
-\item Commit the scripts to a repository and add the commit hash to
-Section~9.
+\item Rerun \texttt{verify\_tables.py} and the decoding trials on a second
+machine if a fully independent check of the 55 table rows is wanted. Draft~4
+independently reverified only the principal code and the $t=6$ pair.
 \end{enumerate}
 
 \end{document}
