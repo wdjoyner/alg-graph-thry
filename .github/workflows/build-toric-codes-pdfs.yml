@@ -1,0 +1,38 @@
+name: Build toric-codes PDFs
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-toric-codes-pdfs.yml'
+      - 'toric-codes/toric-codes.tex'
+      - 'toric-codes/referee/2026-11-22/toric-codes-referee-2026-11-22.tex'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install LaTeX dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+      - name: Build current manuscript PDF
+        working-directory: toric-codes
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error toric-codes.tex
+      - name: Build referee PDF
+        working-directory: toric-codes/referee/2026-11-22
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error toric-codes-referee-2026-11-22.tex
+      - name: Commit generated PDFs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f toric-codes/toric-codes.pdf toric-codes/referee/2026-11-22/toric-codes-referee-2026-11-22.pdf
+          if ! git diff --cached --quiet; then
+            git commit -m "Compile toric codes Draft 3 and referee PDFs"
+            git push
+          fi
