@@ -54,7 +54,7 @@
 \newcommand{\st}[1]{\textup{(\emph{#1})}}
 
 \title{Toric codes over finite fields\\[4pt]
-\large Draft 4. Corrected and expanded version}
+\large Draft 5. Corrected and expanded version}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}.
 The original version of this paper appeared as D.~Joyner, ``Toric codes over
 finite fields,'' \emph{Applicable Algebra in Engineering, Communication and
@@ -1498,21 +1498,191 @@ have not computed the full group. A transitive automorphism group invites
 permutation decoding with PD-sets, which we have not explored.
 \end{remarkxxvi}
 
-\subsection{The Combinatorial Nullstellensatz}\label{sec:nullstellensatz}
+\subsection{The Alon--F\"uredi theorem and graph theory}\label{sec:nullstellensatz}
 
-Lemma~\ref{lem:grid}(i) is the case $A_1=\dots=A_r=\Fqs$ of a theorem of Alon
-and F\"uredi~\cite{AF93}. In its general form the theorem bounds from below
-the number of points of a grid $A_1\times\dots\times A_r$ at which a
-polynomial of given degree does not vanish. The theorem grew out of the
-problem of covering all but one vertex of a cube by hyperplanes, and it is a
-relative of Alon's Combinatorial Nullstellensatz~\cite{Al99}. The
-Nullstellensatz is a standard tool in graph theory (list colorings,
-Alon--Tarsi orientations), and the same polynomial arguments give exact
-minimum distances here. In this language Theorem~\ref{thrm:subcode2}(4) says
-that a hyperplane-like family of $a$ parallel subtori is the most economical
-way to cover points of the grid with the zeros of a polynomial of degree $a$.
-Proposition~\ref{prop:hansenabc} shows that Hansen's types (a), (b) and (c)
-need nothing beyond this lemma and a unimodular change of coordinates.
+Lemma~\ref{lem:grid} counts the points of the grid $(\Fqs)^r$ at which a
+polynomial does not vanish. Via $\omega$, this grid is the vertex set of the
+discrete torus of Section~\ref{sec:cayley}. Counting nonzeros of polynomials
+on grids is a central topic of the polynomial method in combinatorics. This
+subsection states the theorem of Alon and F\"uredi that answers the question
+in general, explains where it meets graph theory, and derives
+Lemma~\ref{lem:grid} from it.
+
+\paragraph{The theorem.}
+Let $F$ be a field. A \emph{grid} is a product $B=A_1\times\dots\times A_r$ of
+finite nonempty subsets $A_j\subseteq F$. Write $a_j=|A_j|$.
+
+\begin{theorem}[{Alon--F\"uredi~\cite[Thm.~5]{AF93}; cited}]\label{thm:AF}
+Let $f\in F[x_1,\dots,x_r]$ have total degree $d$, and suppose that $f$ does
+not vanish at every point of $B$. Then $f$ is nonzero at no fewer than
+\[
+\min\Bigl\{\,y_1y_2\cdots y_r\ :\ y_j\in\Z,\ 1\le y_j\le a_j,\
+\sum_{j=1}^r y_j\ \ge\ \sum_{j=1}^r a_j-d\Bigr\}
+\]
+points of $B$.
+\end{theorem}
+
+The bound is sharp. Given integers $y_j$ in the allowed range with
+$\sum_j y_j=\sum_j a_j-d$, choose subsets $S_j\subseteq A_j$ with
+$|S_j|=a_j-y_j$ and put $f=\prod_j\prod_{s\in S_j}(x_j-s)$. This polynomial
+has degree $d$ and is nonzero exactly on the subgrid
+$\prod_j(A_j\setminus S_j)$, which has $\prod_jy_j$ points. So the extremal
+polynomials are products of linear factors in single variables, whose zero
+sets are unions of parallel coordinate hyperplanes. Bishnoi, Clark,
+Potukuchi and Schmitt proved a version that also takes the degree in each
+variable into account~\cite{BCPS18}.
+
+\begin{theorem}[Generalized Alon--F\"uredi theorem~\cite{BCPS18};
+cited]\label{thm:BCPS}
+Let $f\ne0$ have total degree at most $d$ and $\deg_{x_j}f\le d_j<a_j$ for
+each $j$. Then $f$ is nonzero at no fewer than
+\[
+\min\Bigl\{\,y_1\cdots y_r\ :\ y_j\in\Z,\ a_j-d_j\le y_j\le a_j,\
+\sum_j y_j\ \ge\ \sum_j a_j-d\Bigr\}
+\]
+points of $B$.
+\end{theorem}
+
+The hypothesis $d_j<a_j$ already ensures that $f$ does not vanish on all of
+$B$, because a nonzero polynomial with $\deg_{x_j}f<a_j$ for all $j$ cannot
+vanish on the grid~\cite[Lemma~2.1]{Al99}. Bishnoi, Clark, Potukuchi and
+Schmitt also read the theorem as a statement about codes. Evaluating
+polynomials on a grid gives a Reed--Muller type code, and the theorem
+computes its minimum distance~\cite{BCPS18}.
+
+\paragraph{Origin: covering the vertices of a cube.}
+The theorem came out of a problem about the hypercube graph $Q_n$, whose
+vertices are the points of $\{0,1\}^n$ and whose edges join points that
+differ in one coordinate. Alon and F\"uredi solved a problem posed by
+B\'ar\'any, based on a result of Komj\'ath: how many affine hyperplanes are
+needed to cover every vertex of $Q_n$ except one~\cite{AF93}?
+
+\begin{example}[Covering all but one vertex of $Q_n$]\label{ex:cube}
+Suppose $m$ hyperplanes $\ell_i(x)=0$ cover every vertex of $Q_n$ except one.
+Then $f=\prod_{i=1}^m\ell_i$ has degree $m$ and is nonzero at exactly one
+point of the grid $\{0,1\}^n$, where $a_1=\dots=a_n=2$.
+Theorem~\ref{thm:AF} gives $1\ge\min\prod_jy_j$ over $y_j\in\{1,2\}$ with
+$\sum_jy_j\ge2n-m$. If $m<n$, then $\sum_jy_j\ge n+1$ forces some $y_j=2$,
+and the minimum is at least $2$. This is a contradiction, so $m\ge n$. The
+$n$ hyperplanes $x_j=1$ show that $n$ suffices, since they miss only the
+vertex $0$. The $n$ hyperplanes $x_1+\dots+x_n=k$, $k=1,\dots,n$, do the same
+in a different way. The first family is a product of linear factors in
+single variables, as in the sharpness statement above; the second is not.
+\end{example}
+
+\paragraph{Graph colorings.}
+The same grids carry the polynomial method for colorings. Let $G$ be a graph
+with vertices $v_1,\dots,v_n$ and edge set $E$, and let
+\[
+f_G=\prod_{\{v_i,v_k\}\in E,\ i<k}(x_i-x_k),
+\]
+the \emph{graph polynomial}, of degree $|E|$. Suppose each vertex $v_i$ has a
+list $L_i\subseteq F$ of allowed colors. A point of the grid
+$L_1\times\dots\times L_n$ is a choice of a color for each vertex, and $f_G$
+is nonzero there exactly when adjacent vertices get different colors. So the
+nonzeros of $f_G$ on the grid are the proper colorings from the lists. The
+Combinatorial Nullstellensatz~\cite{Al99} gives a condition for at least one
+nonzero. If $f_G$ has a nonzero coefficient at a monomial
+$x_1^{t_1}\cdots x_n^{t_n}$ with $\sum_it_i=|E|$ and $t_i<|L_i|$ for all
+$i$, then $G$ can be colored from the lists. Alon and Tarsi expressed such
+coefficients through orientations of $G$ with prescribed outdegrees, which
+turns the criterion into a statement about orientations~\cite{AT92}. Theorem~\ref{thm:AF} adds a count. If $G$ has
+at least one proper coloring from the lists, then it has no fewer than
+\[
+\min\Bigl\{\,\prod_iy_i\ :\ 1\le y_i\le|L_i|,\
+\sum_iy_i\ge\sum_i|L_i|-|E|\Bigr\}
+\]
+of them.
+
+\begin{example}[Counting colorings]\label{ex:colorings}
+For the triangle $K_3$ with three colors at each vertex, the bound is the
+minimum of $y_1y_2y_3$ with $1\le y_i\le3$ and $\sum y_i\ge6$. It is $6$,
+attained at $(3,2,1)$, and $K_3$ has exactly $6$ proper $3$-colorings. For a
+path with $n$ vertices and two colors at each vertex, $\sum y_i\ge n+1$
+forces one $y_i=2$, so the bound is $2$, which is again exact. The bound is
+not sharp in general. For the path with three vertices and three colors it
+gives $9$, while there are $3\cdot2\cdot2=12$ colorings.
+\end{example}
+
+\paragraph{The discrete torus.}
+In this paper the grid is $(\Fqs)^r$, the vertex set of the discrete torus
+$C_{q-1}^{\square r}$. The extremal polynomials $\prod_{i=1}^a(x_1-c_i)$ of
+Theorem~\ref{thrm:subcode2}(4) vanish on $a$ layers $x_1=c_i$. Each layer is
+a copy of $C_{q-1}^{\square(r-1)}$ inside the Cayley graph, the torus
+analogue of a coordinate hyperplane. Example~\ref{ex:minwords} shows the
+same shape modulo $7$. There every minimum-weight word of the principal code
+vanishes on three parallel lines of $AG(2,7)$, which are cosets of cyclic
+subgroups of $\Lambda_8$.
+
+\paragraph{Lemma~\ref{lem:grid} from the Alon--F\"uredi theorem.}
+Take $A_j=\Fqs$, so $a_j=q-1$, and put $c=q-1$. A nonzero $f$ whose exponents
+in each variable are at most $q-2$ does not vanish on all of $(\Fqs)^r$. One
+can see this from Proposition~\ref{prop:dim}(i), since the monomials of $f$
+have distinct residues modulo $q-1$.
+
+\begin{proposition}[Proved here]\label{prop:AFgrid}
+Lemma~\ref{lem:grid}(i) follows from Theorem~\ref{thm:AF}, and
+Lemma~\ref{lem:grid}(ii) follows from Theorem~\ref{thm:BCPS}.
+\end{proposition}
+
+\begin{proof}
+(i) Let $\deg f=d\le\ell\le c-1$. By Theorem~\ref{thm:AF}, $f$ is nonzero at
+no fewer than $\min\prod_jy_j$ points, over integers $1\le y_j\le c$ with
+$\sum_jy_j\ge rc-d$. Replacing $d$ by $\ell$ enlarges the set of admissible
+$y$ and can only lower the minimum, so we may use $\sum_jy_j\ge rc-\ell$. Write $y_j=c-\delta_j$. The \emph{deficits}
+$\delta_j$ satisfy $0\le\delta_j\le c-1$ and $\sum_j\delta_j\le\ell$. We claim
+that
+\[
+\prod_{j=1}^k(c-\delta_j)\ \ge\ c^{k-1}\Bigl(c-\sum_{j=1}^k\delta_j\Bigr)
+\qquad(1\le k\le r).
+\]
+For $k=1$ this is an equality. Suppose it holds for $k-1$, and put
+$D=\delta_1+\dots+\delta_{k-1}\le\ell\le c-1$. Multiplying by $c-\delta_k>0$
+gives $\prod_{j\le k}(c-\delta_j)\ge(c-\delta_k)c^{k-2}(c-D)$, and
+\[
+(c-\delta_k)\,c^{k-2}(c-D)-c^{k-1}(c-\delta_k-D)=c^{k-2}\,\delta_kD\ \ge\ 0 .
+\]
+This proves the claim. With $k=r$ it gives
+$\prod_jy_j\ge c^{r-1}(c-\ell)=(q-1)^{r-1}(q-1-\ell)$, which is
+Lemma~\ref{lem:grid}(i). Equality holds for $\delta=(\ell,0,\dots,0)$, which
+corresponds to the product of $\ell$ factors $x_1-c_i$. The inequality
+$\delta_kD\ge0$ is the identity $e(\ell-e)\ge0$ used in the direct proof of
+Lemma~\ref{lem:grid}: two partial deficits are always better combined in one
+variable.
+
+(ii) Write $d_j$ for the degree bound called $a_j$ in
+Lemma~\ref{lem:grid}(ii), since $a_j$ now denotes $|A_j|$. So
+$\deg_{x_j}f\le d_j\le c-1$, and $d=\sum_jd_j$ bounds the total degree. Theorem~\ref{thm:BCPS} gives the minimum of $\prod_jy_j$
+over $c-d_j\le y_j\le c$ with $\sum_jy_j\ge rc-d$. Every admissible $y$
+satisfies $\prod_jy_j\ge\prod_j(c-d_j)$, and $y_j=c-d_j$ is admissible. So
+the minimum is $\prod_j(q-1-d_j)$, which is Lemma~\ref{lem:grid}(ii).
+\end{proof}
+
+Theorem~\ref{thm:AF} alone, with only the total degree, does not give part
+(ii). For $r=2$ and $d_1=d_2=1$ it allows $(y_1,y_2)=(c,c-2)$, so it gives
+only $c(c-2)$, which is less than the true value $(c-1)^2$. The smaller
+number is attained by $(x-\alpha)(x-\beta)$, which has degree $2$ in $x$.
+This is why the per-variable constraints $y_j\ge a_j-d_j$ of
+Theorem~\ref{thm:BCPS} are needed.
+
+The same minimization gives the minimum distance of the generalized
+Reed--Muller codes of Example~\ref{example:RM}. In $m$ variables take
+$A_j=\Fq$, so $a_j=q$. A nonzero polynomial with all exponents at most $q-1$
+does not vanish on all of $\Fq^m$, and the deficits satisfy $0\le\delta_j\le q-1$ and $\sum_j\delta_j\le\ell$.
+For two deficits with a fixed sum $s$, the product
+$(q-\delta_1)(q-\delta_2)=q^2-qs+\delta_1\delta_2$ decreases as the split
+becomes more unequal. So the minimum makes as many deficits as possible equal
+to $q-1$. Writing $\ell=a(q-1)+b$ with $0\le b<q-1$, it takes $a$ deficits
+equal to $q-1$, one equal to $b$ and the rest $0$. The product is
+$(q-b)q^{m-a-1}$, the distance of $\RM(\ell,m,q)$ given there. The minimum
+words are again products of linear factors in single variables.
+
+So the minimum distances of the Reed--Muller codes, of the simplex codes of
+Theorem~\ref{thrm:subcode2}(4), and of Hansen's types (a), (b) and (c)
+(Proposition~\ref{prop:hansenabc}) all come down to the same principle. A
+polynomial of bounded degree has the most zeros on a grid when it is a
+product of linear factors in single variables, so that its zeros fill whole
+coordinate layers of the grid.
 
 \subsection{Fans as weighted cycle graphs}\label{sec:fangraph}
 
@@ -1901,6 +2071,8 @@ fans, and the coordinate changes and moment checks of this draft.
 the principal code and the decoding pair (Section~\ref{sec:repro}).
 \item \texttt{tropical\_example.py}, \texttt{lattice\_width.py}: the
 tropical example and the fiber bound.
+\item \texttt{verify\_af.py}: the Alon--F\"uredi minima, coloring counts and
+cube coverings of Section~\ref{sec:nullstellensatz}.
 \item For decoding, the scripts \texttt{decode\_example.py},
 \texttt{decode\_pair\_check.py},
 \texttt{decode\_search.py} and \texttt{decode\_\allowbreak simplex\_\allowbreak search.py}
@@ -1980,6 +2152,9 @@ Example~\ref{ex:decode} & verified by computation; the conditions for
 $t=6$ also by the independent verifier\\
 Prop.~\ref{prop:cyclic} & proved here\\
 Example~\ref{ex:minwords} & exhaustive exact computation\\
+Theorems~\ref{thm:AF}, \ref{thm:BCPS} & cited \cite{AF93}, \cite{BCPS18}\\
+Prop.~\ref{prop:AFgrid}; Examples~\ref{ex:cube}, \ref{ex:colorings} & proved
+here; numbers checked by \texttt{verify\_af.py}\\
 Prop.~\ref{prop:projharmonic}, Prop.~\ref{prop:fiber} & proved here (using the
 cited facts (T2), (T3) for the first)\\
 Example~\ref{ex:tropical}, Example~\ref{ex:fiberbound} & verified by
@@ -2006,6 +2181,14 @@ Example~\ref{ex:minwords}.
 \section{Glossary}\label{sec:glossary}
 
 \begin{description}[leftmargin=1.5em,labelindent=0pt,style=nextline]
+\item[Alon--F\"uredi theorem] A lower bound for the number of points of a grid
+$A_1\times\dots\times A_r$ at which a polynomial of total degree $d$ is
+nonzero, provided it is nonzero somewhere on the grid: the minimum of
+$y_1\cdots y_r$ over integers $1\le y_j\le|A_j|$ with
+$\sum_jy_j\ge\sum_j|A_j|-d$~\cite{AF93}. Products of linear factors in single
+variables attain it. A later version also bounds the degree in each variable,
+and both versions give Lemma~\ref{lem:grid} and the minimum distance of
+Reed--Muller codes (Section~\ref{sec:nullstellensatz}).
 \item[Cartier divisor] A torus-invariant divisor $G=\sum d_iD_i$ is Cartier if
 on each maximal cone $\sigma$ it is the divisor of a single character, that is,
 if there is $m_\sigma\in M$ with $\langle m_\sigma,v_i\rangle=-d_i$ for the
@@ -2029,7 +2212,7 @@ $t_1+\dots+t_r$ and a nonzero coefficient at $x_1^{t_1}\cdots x_r^{t_r}$, then
 $f$ does not vanish on all of a grid $A_1\times\dots\times A_r$ with
 $|A_i|>t_i$~\cite{Al99}. It is a standard tool for list coloring and other
 problems in graph theory. The related theorem of Alon and F\"uredi counts the
-nonzeros of a polynomial on a grid and contains Lemma~\ref{lem:grid} as a
+nonzeros of a polynomial on a grid and contains Lemma~\ref{lem:grid}(i) as a
 special case.
 \item[Dual code] The dual of $C\subseteq\Fq^n$ is
 $C^\perp=\{v:\ v\cdot c=0\ \text{for all}\ c\in C\}$, a code of dimension
@@ -2067,6 +2250,12 @@ nonconstant map from the curve to the projective line. For a curve with
 Newton polygon $\Delta$ it is at most the lattice width of $\Delta$~\cite{CC12}.
 The divisorial gonality of a graph is the analogous invariant defined with
 Baker--Norine divisors.
+\item[Graph polynomial] For a graph with vertices $v_1,\dots,v_n$, the
+product $f_G=\prod(x_i-x_k)$ over the edges $\{v_i,v_k\}$ with $i<k$. A choice
+of colors $x_i$ from lists $L_i$ is a proper coloring exactly when $f_G$ is
+nonzero there. So colorings from lists are the nonzeros of $f_G$ on a grid,
+and the Combinatorial Nullstellensatz and the Alon--F\"uredi theorem apply
+(Example~\ref{ex:colorings}).
 \item[Harmonic morphism] A map of graphs that sends each edge to an edge or to
 a vertex, such that for every vertex $x$ the number of edges at $x$ mapping
 onto a given edge at the image of $x$ does not depend on that edge. It is the
@@ -2182,6 +2371,15 @@ N.~Alon and Z.~F\"uredi, Covering the cube by affine hyperplanes,
 \bibitem[Ba08]{Ba08}
 M.~Baker, Specialization of linear systems from curves to graphs, \emph{Algebra
 Number Theory} \textbf{2} (2008), 613--653.
+
+\bibitem[AT92]{AT92}
+N.~Alon and M.~Tarsi, Colorings and orientations of graphs,
+\emph{Combinatorica} \textbf{12} (1992), 125--134.
+
+\bibitem[BCPS18]{BCPS18}
+A.~Bishnoi, P.~L.~Clark, A.~Potukuchi and J.~R.~Schmitt, On zeros of a
+polynomial in a finite grid, \emph{Combin. Probab. Comput.} \textbf{27}
+(2018), 310--333.
 
 \bibitem[BN09]{BN09}
 M.~Baker and S.~Norine, Harmonic morphisms and hyperelliptic graphs,

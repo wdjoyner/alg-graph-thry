@@ -4,12 +4,12 @@ Project for David Joyner's *Toric codes over finite fields*, published in
 *Applicable Algebra in Engineering, Communication and Computing* **15** (2004),
 63–79 (preprint arXiv:math/0208155).
 
-**Current version: Draft 4 of the corrected and expanded version
+**Current version: Draft 5 of the corrected and expanded version
 (2026-11-22).** `toric-codes.tex` and `toric-codes.pdf`.
 
 ## Contents
 
-- `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (37 pages).
+- `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (40 pages).
 - `original/toric_code7.tex`: the 2003 manuscript source (dated September 1, 2003).
 - `referee/2026-11-22/toric_codes_referee_report.tex`: the earlier referee report on
   the 2003 manuscript by OpenAI's ChatGPT; it uses newtx fonts and has no PDF here.
@@ -102,6 +102,23 @@ Section 8 of the revision log. Theorem numbers are unchanged.
   `mindist.c`. It reproduces Table 1 and checks the t = 6 decoding pair.
 - Exposition: shorter abstract, rational polytope versus lattice polygon in
   Example 5.8, Acknowledgments mention the second report.
+
+## Draft 5
+
+At David's request, Section 8.2 is expanded and retitled "The Alon–Füredi
+theorem and graph theory". It now states the Alon–Füredi theorem and its
+generalization by Bishnoi, Clark, Potukuchi and Schmitt, which also bounds
+the degree in each variable (Theorems 8.3, 8.4). It explains the graph-theory
+side: the theorem's origin in covering all but one vertex of the hypercube
+graph (Example 8.5), and graph polynomials, where list colorings are the
+nonzeros on a grid, so the theorem gives a lower bound for the number of
+colorings (Example 8.6). Proposition 8.7 derives Lemma 4.2(i) from
+Alon–Füredi and Lemma 4.2(ii) from the generalized version. A remark explains
+why total degree alone does not give (ii). The same minimization recovers the
+Reed–Muller minimum distance. New glossary entries: "Alon–Füredi theorem" and
+"Graph polynomial". New references: [AT92], [BCPS18]. New script
+`scripts/verify_af.py`. Items in Section 8 after Example 8.2 are renumbered
+(+5): for example, the tropical example is now Example 8.11.
 
 ## Pending
 

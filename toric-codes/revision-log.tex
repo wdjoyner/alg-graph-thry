@@ -19,7 +19,7 @@
 \setlength{\emergencystretch}{3em}
 
 \title{Revision log for \emph{Toric codes over finite fields}\\[4pt]
-\large Drafts 1--4 of the corrected and expanded version}
+\large Drafts 1--5 of the corrected and expanded version}
 \author{Prepared for David Joyner by Claude (Anthropic), November 22, 2026}
 \date{}
 
@@ -30,8 +30,9 @@
 
 This log records the changes from the manuscript \texttt{toric\_code7.tex}
 (dated September 1, 2003) to \texttt{toric-codes.tex} (Draft 1, November
-22, 2026), and the further changes in Drafts 2, 3 and 4
-(Sections~\ref{sec:draft2}, \ref{sec:draft3} and~\ref{sec:draft4}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
+22, 2026), and the further changes in Drafts 2--5
+(Sections~\ref{sec:draft2}, \ref{sec:draft3}, \ref{sec:draft4}
+and~\ref{sec:draft5}). The 2003 file is the version published as D.~Joyner, \emph{Appl.
 Algebra Engrg. Comm. Comput.} \textbf{15} (2004), 63--79, arXiv:math/0208155.
 The arXiv and journal data were checked online.
 
@@ -460,6 +461,52 @@ New reference: [Mi05], bibliographic data checked online (Level~2). The
 statement that weights appear as slopes of parametrized tropical curves is
 from memory (Level~3); the proof of Proposition~8.5 does not depend on it.
 
+\section{Draft 5 (November 22, 2026): the Alon--F\"uredi theorem}\label{sec:draft5}
+
+At David's request, Section~8.2 was expanded to explain how the theorem of
+Alon and F\"uredi relates to graph theory and how Lemma~4.2 follows from it.
+It is retitled ``The Alon--F\"uredi theorem and graph theory''. Nothing
+outside Section~8, the summary, the glossary and the bibliography changed.
+\begin{itemize}[leftmargin=*]
+\item Theorem~8.3 (Alon--F\"uredi, [AF93, Thm.~5]) and Theorem~8.4 (the
+generalization with per-variable degrees, [BCPS18]) are stated and cited,
+with the sharpness construction by products of linear factors.
+\item Example~8.5: the original problem of covering all vertices of the
+hypercube graph $Q_n$ but one needs $n$ hyperplanes, derived from
+Theorem~8.3.
+\item Graph polynomials: proper colorings from lists are the nonzeros of
+$f_G$ on a grid. The Combinatorial Nullstellensatz gives existence, with the
+Alon--Tarsi orientation criterion [AT92], and Theorem~8.3 gives a lower bound
+for the number of colorings once one exists. Example~8.6 checks the bound:
+exact for $K_3$ with three colors ($6$) and for paths with two colors ($2$),
+not exact for the path with three vertices and three colors ($9$ against
+$12$).
+\item Proposition~8.7 (proved): Lemma~4.2(i) from Theorem~8.3, by a deficit
+inequality that is the identity of the direct proof, and Lemma~4.2(ii) from
+Theorem~8.4. A remark shows that Theorem~8.3 alone gives only $c(c-2)$ in
+place of $(c-1)^2$ for (ii). The same minimization recovers the Reed--Muller
+distance $(q-b)q^{m-a-1}$ of Example~1.1.
+\item A paragraph relates the extremal zero sets (coordinate layers) to the
+discrete torus of Section~8.1 and to the minimum words of Example~8.2.
+\item Glossary: new entries ``Alon--F\"uredi theorem'' and ``Graph
+polynomial''. The entry ``Combinatorial Nullstellensatz'' now says that the
+Alon--F\"uredi theorem contains Lemma~4.2(i), since part (ii) needs the
+generalized version.
+\item Script \texttt{verify\_af.py} checks the minima behind Lemma~4.2 for
+$c\le8$, $r\le3$, the Reed--Muller formula for $q\le7$, $m\le3$, the coloring
+counts, and the cube covers for $n=2,3$ (Level~1).
+\item Numbering: Section~8 items after Example~8.2 shift by five. Definitions
+8.3, 8.4 become 8.8, 8.9; Proposition~8.5 becomes 8.10; Example~8.6 becomes
+8.11; Proposition~8.7 becomes 8.12; Example~8.8 becomes 8.13; Question~8.9
+becomes 8.14. References to these numbers in Sections~\ref{sec:draft3}
+and~\ref{sec:draft4} of this log use the older numbering.
+\item References: [BCPS18], bibliographic data checked online (Level~2); the
+statements of Theorems~8.3 and~8.4 and the Komj\'ath--B\'ar\'any history
+checked against the abstract and introduction of [BCPS18] and related
+sources (Level~2). [AT92] and the citation [Al99, Lemma~2.1] are from memory
+(Level~3).
+\end{itemize}
+
 \section{Original results versus results new in 2026}
 
 \textbf{Original results, retained (corrected where needed):}
@@ -523,7 +570,7 @@ All scripts are in the folder \texttt{scripts/}. They are licensed MIT. The
 LaTeX is CC BY 4.0. The files are in the repository
 \path{github.com/wdjoyner/alg-graph-thry}, folder \path{toric-codes}, and its
 history gives the commit of each draft. \path{scripts/CHECKSUMS.txt} lists
-SHA-256 hashes of all scripts and outputs as of Draft~4.
+SHA-256 hashes of all scripts and outputs as of the latest draft.
 
 \begin{longtable}{@{}L{0.34\textwidth}L{0.58\textwidth}@{}}
 \toprule
@@ -561,6 +608,8 @@ balancing, harmonicity of the projection, finite model, Riemann--Hurwitz.\\
 Example~8.8 (Draft 3).\\
 \texttt{verify\_referee2.py} & Draft~4 checks of findings M1--M5 of the
 second report and the moment identities of Table~1.\\
+\texttt{verify\_af.py} & Draft~5: Alon--F\"uredi minima (Lemma~4.2,
+Reed--Muller), coloring counts and cube covers of Section~8.2.\\
 \texttt{certify.py}, \texttt{certify.c} & Draft~4 independent verifier.
 Reproduces Table~1 from all $8^{11}$ codewords (22 seconds). For the $t=6$
 pair: $A_0+B_0\subseteq P_0$, $d(C_{A_0})=28$, no dependent set among the
