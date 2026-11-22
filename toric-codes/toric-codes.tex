@@ -337,11 +337,11 @@ monomials of degree at most $a$.
 
 \subsection{The torus and its characters}\label{sec:torus}
 
-Let $\omega$ be a primitive element of $\Fq$. Then
-\[
-\Lq=(\Z/(q-1))^r\ \longrightarrow\ T(\Fq)=(\Fqs)^r,\qquad
+Let $\omega$ be a primitive element of $\Fq$. Then the map
+\begin{equation}\label{eq:Omega}
+\Omega:\ \Lq=(\Z/(q-1))^r\ \longrightarrow\ T(\Fq)=(\Fqs)^r,\qquad
 i=(i_1,\dots,i_r)\longmapsto(\omega^{i_1},\dots,\omega^{i_r}),
-\]
+\end{equation}
 is a group isomorphism. In these coordinates
 $\chi^u(\omega^i)=\omega^{\langle u,i\rangle}$, where
 $\langle u,i\rangle=\sum_j u_ji_j$. As a function on $T(\Fq)$, the character
@@ -1424,7 +1424,8 @@ they are marked as such.
 
 \subsection{The discrete torus as a Cayley graph}\label{sec:cayley}
 
-Via $\omega$, the evaluation set $T(\Fq)$ is the group $\Lq=(\Z/(q-1))^r$. For
+Via the isomorphism $\Omega$ of \eqref{eq:Omega}, the evaluation set $T(\Fq)$
+is the group $\Lq=(\Z/(q-1))^r$. For
 $q\ge4$ its Cayley graph with respect to $\pm e_1,\dots,\pm e_r$ is the
 discrete torus $C_{q-1}\,\square\cdots\square\,C_{q-1}$, the Cartesian product
 of $r$ cycles. (For $q=3$ the generators $e_j$ and $-e_j$ coincide, and the
@@ -1501,7 +1502,8 @@ permutation decoding with PD-sets, which we have not explored.
 \subsection{The Alon--F\"uredi theorem and graph theory}\label{sec:nullstellensatz}
 
 Lemma~\ref{lem:grid} counts the points of the grid $(\Fqs)^r$ at which a
-polynomial does not vanish. Via $\omega$, this grid is the vertex set of the
+polynomial does not vanish. Via $\Omega$ (see \eqref{eq:Omega}), this grid is
+the vertex set of the
 discrete torus of Section~\ref{sec:cayley}. Counting nonzeros of polynomials
 on grids is a central topic of the polynomial method in combinatorics. This
 subsection states the theorem of Alon and F\"uredi that answers the question
