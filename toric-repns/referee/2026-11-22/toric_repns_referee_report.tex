@@ -1,0 +1,146 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{newtxtext,newtxmath}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyhdr}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[enumerate]{topsep=3pt,itemsep=3pt}
+\setlist[itemize]{topsep=3pt,itemsep=3pt}
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Referee report: Representations on toric Riemann--Roch spaces}
+\fancyhead[R]{Report Draft 1}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\tr}{tr}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\ZZ}{\mathbb Z}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\calO}{\mathcal O}
+\newcommand{\bfone}{\mathbf 1}
+\newcommand{\level}[1]{\textsf{Level #1}}
+\newcommand{\verdict}[1]{\textbf{[#1]}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Referee report on\\[3pt]
+\emph{Representations of finite groups on the\\[2pt] Riemann--Roch space of a toric variety}}\\[6pt]
+{\large Manuscript \texttt{toric-repns.tex}, Draft 3 (November 22, 2026)}\\[4pt]
+{\large Report Draft 1 \textemdash{} November 22, 2026}
+\end{center}
+
+\begin{abstract}
+This AI-aided referee report was prepared with Anthropic's Claude (Claude Opus 5.5); the verification level of each check is stated below, and this AI review is not an independent certification of the results.  The manuscript is a clear, well-organized expository synthesis, and nearly all of its formulas are correct: I rederived the orbit and character formulas, the fan and Cartier calculations, every number in the singular-surface example, the $S_3$ hexagon multiplicities, the Johnson-graph spectrum, and the weighted torus-normalizer trace.  I found one genuine mathematical error: the ``counterexample'' to the inverse problem in Section~10 does not answer the question as posed.  I also found a scope gap: Sections~7--8 apply the orbit theorem to polytopes that, in general, have no group-fixed lattice point, so the representation on sections depends on a choice of linearization that the paper should state.  Beyond these, there are two misprints, several citation repairs, and some readability items.  \textbf{Recommendation: minor revision.}  Items~1 and~2 of Section~\ref{sec:major} must be fixed; the rest are recommended.
+\end{abstract}
+
+\section{Scope and verification protocol}\label{sec:scope}
+I read the entire 445-line source and the companion \texttt{revision-log.tex}, \texttt{verify\_examples.py}, and \texttt{README.md} in this directory.  The manuscript compiles with \texttt{pdflatex} (three passes) with no warnings, no overfull boxes, and only Type~1 fonts (\texttt{newtx} Times).  The resulting 13-page PDF is committed alongside the source.  I ran \texttt{verify\_examples.py}; all of its checks pass.
+
+Verification levels follow the convention of the earlier reports in this repository.  \level{1} means an independent derivation or an exact finite computation.  The new exact computations are in \texttt{referee\_checks.py}, next to this report; it uses rational arithmetic in \texttt{sympy}, with no floating point.  \level{2} means comparison with a source I actually consulted.  \level{3} means background knowledge not checked against the original source.  Verdicts are \emph{correct}, \emph{misprint}, \emph{fixable gap}, or \emph{false}.  Line numbers refer to the source file.
+
+\section{Summary of the manuscript}
+The paper shows that for a finite group $G$ of fan automorphisms preserving a torus-invariant Weil divisor $D$, the Riemann--Roch space $L(D)$ is the permutation module on $P_D\cap M$.  This yields an induced-module decomposition and the fixed-point character formula.  The paper works out a singular toric surface with an involution for all multiples $qD$, adds lattice-point graphs whose adjacency operators commute with $G$, and treats graphic zonotopes (with the $K_3$ hexagon worked out) and the hypersimplex $\Delta(2,n)$.  For $\Delta(2,n)$, the three eigenspaces of $J(n,2)$ are shown to be the three irreducible constituents.  A final section gives a weighted trace formula for finite subgroups of $T\rtimes\Aut(\Delta)$.  The paper is candid that its results are standard; its value lies in the synthesis and the explicit examples, and on those terms it succeeds.
+
+\section{Results checked and found correct}\label{sec:correct}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.36\linewidth}>{\raggedright\arraybackslash}p{0.43\linewidth}l@{}}
+\toprule
+Item & What was checked & Level\\\midrule
+\endhead
+Eqs.~(3.3)--(3.4) & $a_{g\rho}=a_\rho$ implies $gP_D=P_D$; the pullback convention gives $g\cdot\chi^u=\chi^{g\cdot u}$. & 1\\
+Thm.~4.1, Cor.~4.2 & Orbit-basis proof; fixed-point trace; multiplicity formula. & 1\\
+Fan (5.1) & $v_1+v_2+v_3=0$; all three determinants equal $3$; each cone has type $\tfrac13(1,2)$, i.e.\ $A_2$. & 1\\
+Cartier criterion & $D$ is Cartier iff $d_1\equiv d_2\equiv d_3\pmod 3$ (exhaustive on $[-4,4]^3$). & 1\\
+Charts $U_{\sigma_1}$, $U_{\sigma_2}$ & Hilbert bases and relations $x_1^3=x_2x_3$, $y_2^3=y_1y_3$. & 1\\
+Swap $g$ & Exchanges $v_1,v_2$, fixes $v_3$ and $\sigma_1$, exchanges $\sigma_2,\sigma_3$. & 1\\
+Polytope (5.3) & Vertices $(-6,-6),(-2,2),(2,-2)$; area $24$; edge lattice lengths $4,4,4$. & 1\\
+Prop.~5.1 & $24q^2+6q+1$, trace $6q+1$, multiplicities $12q^2+6q+1$ and $12q^2$. & 1\\
+Thm.~6.2, Prop.~6.3 & Commutation; the reindexing $(A^r)_{g^{-1}u,u}\mapsto(A^r)_{w,gw}$. & 1\\
+Example~6.4 & $31$ vertices, $85$ edges, connected, $5$ swapped edges, $\tr(\rho_D(g)A)=10$. & 1\\
+Prop.~7.2 & Forest formula, via unimodularity of the incidence matrix. & 1/3\\
+Example~7.3 & Character values (7.4) and multiplicities (7.5), and their sum $3q^2+3q+1$; the $q=1$ case. & 1\\
+Thm.~8.1 & $R^{\mathsf T}R=A+2I$, $RR^{\mathsf T}=(n-2)I+J$; eigenvalues; three orbitals; commutant argument. & 1\\
+Figure~2 & Edges of $J(4,2)$ drawn correctly (octahedron; non-edges $12$--$34$, $13$--$24$, $14$--$23$). & 1\\
+Eq.~(9.1), Prop.~9.1 & $h^{-1}=a^{-1}t^{-1}$ gives the scalar $\chi^{a_Mu}(t^{-1})$; the trace follows. & 1\\
+Example~9.2 & $P_{D_+}\cap M=\{-1,0\}$; trace $t+1$. & 1\\
+\bottomrule
+\end{longtable}
+
+\section{Mathematical issues}\label{sec:major}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item \verdict{false} \textbf{The inverse-problem example in Section~10 (line~413).}  The question is whether the \emph{sequence} $[L(qD)]$, for all $q\ge0$, determines the class.  The divisors of bidegrees $(1,5)$ and $(2,3)$ on $\PP^1\times\PP^1$ agree only at $q=1$.  Their section counts are $(q+1)(5q+1)$ and $(2q+1)(3q+1)$, which are $33$ and $35$ at $q=2$ (\level{1}).  So the example does not show that the inverse problem fails.
+
+\emph{Fix:} use bidegrees $(1,2)$ and $(2,1)$.  These are not linearly equivalent, yet both give $(q+1)(2q+1)$ for every $q$.  More conceptually, $D$ and $\phi^*D$ always have equal sequences when $\phi$ is a fan automorphism outside $G$.  A sharper question would therefore ask for determination up to $N_{\Aut(\Delta)}(G)$.
+
+\item \verdict{fixable gap} \textbf{Scope of Theorem~4.1 in Sections~7 and~8; choice of linearization.}  Theorem~4.1 assumes $G$ acts \emph{linearly} on $M$ and preserves the coefficients $a_\rho$.  Equivalently, $P_D$ is $G$-stable as a subset of $M_{\mathbb R}$ with the origin fixed.
+\begin{itemize}
+\item The hypersimplex $\Delta(2,n)$ lies in $\{\sum x_i=2\}$, whose only $S_n$-fixed point is $(2/n,\dots,2/n)$.  This point is not integral for $n\ge3$.  Hence no lattice translate of $\Delta(2,n)$ is $S_n$-stable in the difference lattice, and Theorem~4.1 does not literally apply.
+\item The same issue arises for graphic zonotopes.  For $H=K_n$ with $G=S_n$, a fixed lattice point of $\{\sum x_i=\binom n2\}$ exists iff $n$ is odd.  It is present for the paper's $K_3$ example, which is why that example works as written (\level{1}).
+\item In the affine setting, the representation on $H^0(X,\mathcal L)$ depends on the chosen $G$-linearization.  On a complete toric variety any two linearizations differ by a character $G\to\CC^\times$ (\level{3}).  For $S_n$ the only alternative is a twist by $\operatorname{sgn}$, which would turn (8.4) into $\operatorname{sgn}\oplus S^{(2,1^{n-2})}\oplus S^{(2,2,1^{n-4})}$.
+\end{itemize}
+The paper does name the monomial-embedding linearization (lines 328--332) and says ``natural line-bundle linearization understood'' (line~289).  However, it neither acknowledges that the choice matters nor states the affine version of the orbit theorem it actually uses.
+
+\emph{Fix:} add a short ``affine version'' of Theorem~4.1.  Let $G$ act on $M$ by affine lattice automorphisms whose linear parts lie in $\Aut(\Delta)$ and which preserve a lattice polytope $P$.  For the linearization induced by the monomial embedding, $H^0(X_P,\mathcal L_P)\cong\CC[P\cap M]$ as permutation modules.  Then add one sentence noting that any other linearization twists this by a character of $G$.
+
+\item \verdict{misprint} \textbf{Third affine chart, eq.~(5.2) and line~196.}  With the exponents listed in the order $(0,-1)$, $(-1,-2)$, $(1,-1)$, the relation is $3(0,-1)=(-1,-2)+(1,-1)$, i.e.\ $z_1^3=z_2z_3$ rather than $z_2^3=z_1z_3$ (\level{1}).  Either reorder the list as $(-1,-2),(0,-1),(1,-1)$ to match charts~1 and~2, or change the equation.  Also give the relation explicitly, as is done for $U_{\sigma_2}$.
+
+\item \verdict{misprint} \textbf{Example~7.3, line~293.}  $Z_{K_3}$ has vertices at the permutations of $(2,1,0)$.  Translation by $-(1,1,1)$, not by $(1,1,1)$, gives the permutations of $(-1,0,1)$.
+
+\item \verdict{fixable gap} \textbf{Proof of Theorem~8.1: the last two identifications.}
+(a)~The claim that $R^{\mathsf T}(\{\text{zero-sum}\})$ is the $(n-4)$-eigenspace needs one line.  For $\sum x_i=0$ we have $(A+2I)R^{\mathsf T}x=R^{\mathsf T}RR^{\mathsf T}x=(n-2)R^{\mathsf T}x$.  Injectivity of $R^{\mathsf T}$ is also needed and follows from rank $n$.
+(b)~Serre's book does not treat Young's rule or Specht modules, so the citation at line~375 does not support the claim.  James \cite{Ja78} is in the bibliography but is never cited.  It supplies exactly what is needed: by the kernel intersection theorem, $S^{(n-2,2)}=\ker\bigl(M^{(n-2,2)}\to M^{(n-1,1)}\bigr)$, and this map is $R$.  So the third eigenspace $\ker R$ \emph{is} $S^{(n-2,2)}$, with no appeal to Young's rule (\level{3}).
+(c)~``Since $n\ge4$, $R$ has rank $n$'' holds already for $n\ge3$.  The hypothesis $n\ge4$ is needed instead for the third orbital (disjoint pairs) and for $n(n-3)/2>0$.  Say so.
+
+\item \verdict{fixable gap} \textbf{Citations for the two ``classical'' formulas.}
+(a)~Eq.~(3.2) for an arbitrary torus-invariant \emph{Weil} divisor on a complete normal toric variety is most cleanly stated in Cox--Little--Schenck, \emph{Toric Varieties}, Prop.~4.3.3 (\level{3}).  Fulton's \S3.4 is phrased mainly for Cartier divisors, so I suggest adding this reference.
+(b)~For Prop.~7.2, I consulted \cite[\S3.1]{EKS24} (\level{2}).  That subsection uses zonotopal decompositions and subforests of a ``$\sigma$-connectivity graph'' to count lattice points in the \emph{fixed subpolytopes} $Z^\sigma_\Gamma$.  The non-equivariant forest formula itself goes back to Stanley (1991), ``A zonotope associated with graphical degree sequences''; the half-open parallelepiped decomposition is due to Shephard and Stanley (\level{3}).  Cite Stanley directly and keep EKS24 for the equivariant refinement.
+(c)~The hypothesis ``connected'' in Prop.~7.2 is needed only for $Z_H$ to be full-dimensional in its hyperplane (hence for an ample bundle).  The count (7.2) holds for every simple graph.
+\end{enumerate}
+
+\section{Strengthenings the author may wish to adopt}\label{sec:strengthen}
+\begin{enumerate}[label=\textbf{S\arabic*.}]
+\item \textbf{Example~6.4 can be made exact and more informative.}  The characteristic polynomials of $A$ on the even ($19$-dimensional) and odd ($12$-dimensional) subspaces are each squarefree, and they are coprime (\level{1}, exact rational arithmetic).  Hence $A$ has $31$ simple eigenvalues: $19$ eigenlines carry $\bfone$ and $12$ carry $\operatorname{sgn}$.  In this example the adjacency eigenspaces do separate the constituents, if trivially, which is a useful data point for the first open question in Section~10.  The closing sentence ``no numerical eigenvalue approximation is used in the proof'' is confusing, since the example contains no proof; replace it with this exact statement.
+
+\item \textbf{A non-Cartier example.}  The paper's $D=6D_1+6D_2$ is Cartier (indeed ample), so the Weil-divisor and reflexive-sheaf generality of Theorem~4.1 is never exercised.  Take $D'=2D_1+2D_2$, which is not Cartier although $3D'=D$ is.  Then $P_{D'}$ has non-lattice vertices $(-2,-2)$, $(\pm\tfrac23,\mp\tfrac23)$.  For all $0\le q\le30$ (\level{1}),
+\[
+\dim L(qD')=\frac{8q^2+6q+1}{3}+\frac23\,[\,3\mid q\,],\qquad
+\tr(g\mid L(qD'))=2q+1,
+\]
+so the multiplicities are $(\dim L(qD')\pm(2q+1))/2$.  This is an Ehrhart \emph{quasi}-polynomial of period~$3$, consistent with $L(3qD')=L(qD)$.  It would be a two-paragraph addition showing genuinely new behavior.
+
+\item \textbf{Tie Sections~6 and~8 together.}  $J(n,2)$ is itself a lattice-point graph in the sense of Definition~6.1.  Take $B=\{e_i-e_j:i\ne j\}$, the root vectors of type $A_{n-1}$: two edge vectors differ by a root iff the edges share exactly one vertex (\level{1}).  Saying so makes Theorem~8.1 an instance of Theorem~6.2 and answers the question ``which step set?'' for the hypersimplex.
+
+\item \textbf{Generalize to $\Delta(k,n)$.}  The same argument works with no new ideas.  The lattice points of $\Delta(k,n)$ are the $k$-subsets, $J(n,k)=\Gamma(B)$ with the same $B$, and the permutation module on $k$-subsets is multiplicity-free with constituents $S^{(n-i,i)}$, $0\le i\le\min(k,n-k)$.  These coincide with the eigenspaces of $J(n,k)$; this is the classical theory of the Johnson scheme due to Delsarte (\level{3}).  Remark~8.3 should state explicitly that this identification is classical.
+\end{enumerate}
+
+\section{Readability and presentation}\label{sec:readability}
+\begin{enumerate}[label=\textbf{R\arabic*.}]
+\item \textbf{Notation clashes.}  $\rho$ denotes rays and $\rho_D$ the representation.  Consider $\pi_D$ for the representation.  In a toric paper, $\operatorname{Spec}(A)$ in (6.2) reads as the scheme-theoretic spectrum.  Write ``$\lambda$ an eigenvalue of $A$'' instead; $\sigma(A)$ is also unsuitable, because $\sigma_i$ already denotes cones.  $\widehat G$ is used without definition.  The macros \verb|\Fix| and \verb|\spanof| are unused.
+\item \textbf{Redundant examples.}  The $C_2$ example in \S3.2, Remark~4.3, and Example~4.4 make the same point three times, and Example~4.4 anticipates Example~5.2.  Keep one occurrence in \S3.2 and let Example~5.2 carry the numbers.
+\item \textbf{Introduction (house style).}  It has no example and does not mention the restriction $n\ge4$ of Section~8.  Calling the surface a ``running example'' overstates it, since it appears only in Sections~5--6.  One sentence on the $C_2$ count ($31=7+2\cdot12$) would supply the example.
+\item \textbf{Glossary.}  ``Fan automorphism: a lattice automorphism preserving every cone of a fan as a collection'' reads as if each cone were fixed.  Prefer ``a lattice automorphism that maps every cone of the fan onto a cone of the fan''.  ``Twisted-walk trace'' should say ``summed over all starting vertices $u$''.
+\item \textbf{Small wording points.}
+In (4.1), move ``$u\in\mathcal O$'' into the text (``where $u$ is any representative of $\mathcal O$'').
+Theorem~4.1: ``These are transitive permutation modules'' should read ``Each summand is a transitive permutation module''.
+Example~9.2: write $P_D\cap M=\{-1,0\}$ (since $P_D=[-1,0]$).  Replace ``A torsion point $t\in T$ fixes both lattice exponents'' by ``Here $a=\mathrm{id}$, so both exponents are fixed''.
+Section~2: the $K_3$ forest count sits oddly in the literature review; a forward reference to Example~7.3 suffices.
+\item \textbf{Bibliography.}  EKS24 metadata are correct: \emph{Ann.\ Comb.}\ \textbf{28} (2024), no.~3, 819--870, doi:10.1007/s00026-023-00673-z (\level{2}).  JT02 is correctly arXiv:math/0210408, revised through v4 in 2004 (\level{2}).  Stapledon, Fulton, Oda, Serre and Brouwer--Haemers were not checked (\level{3}).  Add Cox--Little--Schenck, Stanley (1991) and Delsarte (1973) as above, and cite \cite{Ja78}.
+\item \textbf{Repository consistency.}  The revision log lists James (1978) among consulted sources although the manuscript never cites it.  The README states that PDFs could not be uploaded; that note is now obsolete, since the compiled PDF accompanies this report.
+\end{enumerate}
+
+\section{Recommendation}
+Minor revision.  The paper's mathematics is sound apart from the Section~10 example, which is false as stated but easily repaired.  The linearization issue does not invalidate any displayed formula, given the paper's choice, but it should be stated, because Theorem~4.1 as written does not cover Section~8.  Items S1--S3 are cheap and would noticeably sharpen the paper; S4 is optional.
+
+\begin{thebibliography}{9}
+\bibitem[EKS24]{EKS24} S.~Elia, D.~Kim, and M.~Supina, Techniques in equivariant Ehrhart theory, \emph{Ann.\ Comb.}\ \textbf{28} (2024), 819--870.
+\bibitem[Ja78]{Ja78} G.~D.~James, \emph{The Representation Theory of the Symmetric Groups}, Lecture Notes in Math.\ 682, Springer, 1978.
+\end{thebibliography}
+\end{document}

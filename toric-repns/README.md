@@ -16,11 +16,14 @@ verification levels.
 ## Files
 
 - `toric-repns.tex`: editable manuscript, with draft number on the title page.
+- `toric-repns.pdf`: compiled Draft 3 (pdflatex, newtx Times, US Letter).
 - `revision-log.tex`: detailed changes, historical criticisms, and verification.
 - `verify_examples.py`: exact integer verification (Python standard library).
 - `original/rr_toric_2002.tex`: archival source.
 - `original/carbon_referee_report.txt`: archival referee report.
 - `Makefile`: PDF build and verification commands.
+- `referee/2026-11-22/`: Claude referee report on Draft 3 (`.tex`, `.pdf`) and its exact
+  checks (`referee_checks.py`, needs `sympy`).
 - `LICENSE-manuscript.txt`, `LICENSE-code.txt`: license declarations.
 
 ## Build
@@ -30,6 +33,5 @@ make pdf
 make check
 ```
 
-The compiled PDFs can be regenerated with `pdflatex`; the GitHub connector
-used for this update supports source files but not uploading binary PDFs.
+The compiled PDFs can be regenerated with `pdflatex`.
 Manuscript text is licensed CC BY 4.0; the verification script is MIT licensed.
