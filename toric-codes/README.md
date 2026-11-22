@@ -118,7 +118,9 @@ why total degree alone does not give (ii). The same minimization recovers the
 Reed–Muller minimum distance. New glossary entries: "Alon–Füredi theorem" and
 "Graph polynomial". New references: [AT92], [BCPS18]. New script
 `scripts/verify_af.py`. Items in Section 8 after Example 8.2 are renumbered
-(+5): for example, the tropical example is now Example 8.11.
+(+5): for example, the tropical example is now Example 8.11. Also, the map
+Λ_q → T(F_q), i ↦ (ω^{i_1}, …, ω^{i_r}), of Section 3.3 is now named Ω and
+labeled as equation (3.4), and Sections 8.1 and 8.2 refer to it.
 
 ## Pending
 
