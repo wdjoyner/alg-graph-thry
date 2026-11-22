@@ -146,6 +146,24 @@ Here $M^g=\{u\in M:g\cdot u=u\}$, and $m_\psi(D)$ is the multiplicity of $\psi$ 
 The matrix of $\pi_D(g)$ in the character basis is a permutation matrix. Its diagonal ones correspond exactly to fixed lattice points. This proves equation~\eqref{eq:fixedchar}. Complex representation theory gives the irreducible character inner product $m_\psi(D)=\langle\chi_D,\psi\rangle_G$, which is equation~\eqref{eq:mult}.
 \end{proof}
 
+
+\begin{theorem}[Affine lattice-action version]\label{thm:affine}
+Let $\Lambda=p_0+M_0$ be an affine lattice with difference lattice $M_0$, and let $P$ be a full-dimensional lattice polytope in $\Lambda_{\mathbb R}$. Suppose a finite group $G$ preserves $P$ and $\Lambda$ by affine maps $g(u)=A_gu+b_g$, with $A_g\in\operatorname{GL}(M_0)$. Let $(X_P,\LL_P)$ be the polarized normal toric variety associated with $P$, equipped with the \emph{monomial linearization} induced by this affine action. Then, as $G$-modules,
+\begin{equation}\label{eq:affine-orbits}
+H^0(X_P,\LL_P)\cong\CC[P\cap\Lambda]
+\cong\bigoplus_{\mathcal O\in(P\cap\Lambda)/G}\Ind_{G_u}^G\bfone,
+\end{equation}
+where $u$ is a representative of $\mathcal O$. Its character is the number of affine-fixed lattice points in $P$. More generally, the monomial linearization on $\LL_P^{\otimes q}$ acts on the basis indexed by $qP\cap(qp_0+M_0)$ via $u\mapsto A_gu+qb_g$.
+\end{theorem}
+\begin{proof}
+The graded section ring of the polarization has monomial basis elements indexed in degree $q$ by $u\in qP\cap(qp_0+M_0)$. Define the action in degree $q$ by $u\mapsto A_gu+qb_g$. The affine group law $b_{gh}=A_gb_h+b_g$ makes this an action, and
+$(A_gu+qb_g)+(A_gv+rb_g)=A_g(u+v)+(q+r)b_g$
+shows that it respects multiplication. Thus it induces a $G$-action on the polarized toric variety and a linearization on its line bundle. In degree one the action simply permutes monomials indexed by $P\cap\Lambda$. The orbit and fixed-point arguments of Theorem~\ref{thm:orbit} and Corollary~\ref{cor:character} now apply unchanged.
+\end{proof}
+\begin{remark}[Dependence on linearization]\label{rem:linearization}
+The permutation character in Theorem~\ref{thm:affine} refers to the specified monomial linearization, not merely to an unlinearized line bundle. For a fixed action of $G$ on a connected complete toric variety, any two linearizations of the same line bundle differ by a one-dimensional character of $G$, since global invertible regular functions are constant. Consequently another linearization character-twists the displayed representation. For $S_n$, the nontrivial possible twist is the sign character.
+\end{remark}
+
 \begin{remark}
 The fixed-point formula gives a character-valued refinement of the lattice-point count when $D$ is dilated, as in equivariant Ehrhart theory \cite{St11,EKS24}. The corresponding fixed-point count refines the ordinary lattice-point count for each multiple of a divisor.
 \end{remark}
