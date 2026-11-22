@@ -8,6 +8,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
+\usepackage{tikz}
 \usepackage[hidelinks]{hyperref}
 
 \numberwithin{equation}{section}
@@ -53,7 +54,7 @@
 \newcommand{\st}[1]{\textup{(\emph{#1})}}
 
 \title{Toric codes over finite fields\\[4pt]
-\large Draft 1. Corrected and expanded version}
+\large Draft 3. Corrected and expanded version}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}.
 The original version of this paper appeared as D.~Joyner, ``Toric codes over
 finite fields,'' \emph{Applicable Algebra in Engineering, Communication and
@@ -76,19 +77,20 @@ only on the residues modulo $q-1$ of the lattice points of a polygon. We show
 that its dimension is the number of these residues and that its dual is again
 a code of the same kind. We give short self-contained proofs of the
 minimum distances of three of J.~Hansen's families. The proofs use a
-grid-counting lemma of Alon--F\"uredi type, and we obtain from it upper and
-lower bounds on the minimum distance which replace two conjectures of the
-2004 version. Those conjectures are false, and we give counterexamples. We recompute every table of the
-original paper exactly. In particular we certify the $[49,11,28]$ code over
-$\F_8$, which was better than all codes in the tables of 2002, by two
-independent exhaustive computations. We repair the decoding algorithm of the
-original paper. It becomes an error-correcting-pair algorithm with explicit
-toric hypotheses. We use it to decode the $[49,11,28]$ code up to $5$
+grid-counting lemma of Alon--F\"uredi type, which also gives upper and lower
+bounds on the minimum distance. We show by examples that two natural lower
+bounds in terms of the volume or the number of lattice points of the polygon
+do not hold. We compute the parameters of many examples exactly. In
+particular we certify the $[49,11,28]$ code over $\F_8$, which was better than
+all codes in the tables of 2002, by two independent exhaustive computations.
+We give an error-locator decoding algorithm, in the form of an
+error-correcting-pair algorithm with explicit toric hypotheses. We use it to decode the $[49,11,28]$ code up to $5$
 errors in a fully worked example, and up to $6$ errors with a pair found by
 computer search. Finally we discuss graph-theoretic
 connections. These are the discrete torus as a Cayley graph, the
 Combinatorial Nullstellensatz, fans as weighted cycle graphs, and tropical
-curves with harmonic morphisms.
+curves, with a worked example of a harmonic morphism from a tropical curve to
+a tree.
 \end{abstract}
 
 \tableofcontents
@@ -184,13 +186,14 @@ follow from a short grid lemma (Lemma~\ref{lem:grid},
 Proposition~\ref{prop:hansenabc}). The same lemma gives a two-sided estimate
 for any polygon between two simplices (Theorem~\ref{thrm:subcode2}). A
 segment bound gives the upper estimate (Theorem~\ref{thm:segment}).
-\item The two conjectural lower bounds of the 2004 version are false
-(Examples~\ref{ex:conj1} and~\ref{ex:conj2}).
-\item All tables of the 2004 version are confirmed by exact computation,
-except one duplicated row. The code $[49,11,28]_8$ is certified, and its full
-weight distribution is computed (Table~\ref{tab:wd}).
-\item The decoding algorithm of the 2004 version is repaired
-(Theorem~\ref{thm:decode}, Corollary~\ref{cor:toricECP}). It decodes the
+\item Two natural lower bounds for $d$ in terms of the volume or the number of
+lattice points of the polygon fail (Examples~\ref{ex:conj1}
+and~\ref{ex:conj2}).
+\item The parameters of all examples are computed exactly. The code
+$[49,11,28]_8$ is certified, and its full weight distribution is computed
+(Table~\ref{tab:wd}).
+\item An error-locator decoding algorithm is given, with explicit toric
+hypotheses (Theorem~\ref{thm:decode}, Corollary~\ref{cor:toricECP}). It decodes the
 $[49,11,28]_8$ code up to $5$ errors in a worked example, and up to $6$
 errors with a pair found by search (Example~\ref{ex:decode}).
 \item Section~\ref{sec:graphs} develops graph-theoretic connections.
@@ -210,8 +213,8 @@ $(\Fqs)^2$, and he used intersection theory on the surface to bound the number
 of zeros of a section. In~\cite{Ha02} he treated Hirzebruch surfaces in detail
 and determined the minimum distances recalled in Theorem~\ref{thrm:hansen}.
 S.~Hansen studied codes from higher-dimensional varieties in his theses
-\cite{SH96}, \cite{SH99} and in~\cite{SH01}. The conjectures of the original
-paper were inspired by his work. Fitzgerald and Lax~\cite{FL98} decoded affine
+\cite{SH96}, \cite{SH99} and in~\cite{SH01}. Some of the questions in
+Section~\ref{sec:fail} go back to his work. Fitzgerald and Lax~\cite{FL98} decoded affine
 variety codes with Gr\"obner bases. Little's papers~\cite{Li03a}, \cite{Li03b}
 treat decoding for codes from order domains, with Gr\"obner basis methods. The
 error-locator method of Section~\ref{sec:decode} follows Stichtenoth's account
@@ -231,9 +234,8 @@ Schwarz~\cite{LS07} used multivariate Vandermonde determinants to find the
 minimum distance for rectangles and simplices in all dimensions. They also
 showed that lattice-equivalent polytopes give monomially equivalent codes.
 Ruano~\cite{Ru07} studied $r$-dimensional toric codes with intersection theory
-and mixed volumes. He also gave counterexamples to the conjectures of the
-original paper, in agreement with Examples~\ref{ex:conj1}
-and~\ref{ex:conj2} below. Ruano~\cite{Ru09} studied the multicyclic structure
+and mixed volumes. He also gave examples showing that lower bounds of the
+kind discussed in Section~\ref{sec:fail} fail in general. Ruano~\cite{Ru09} studied the multicyclic structure
 of generalized toric codes and computed their duals.
 Theorem~\ref{thm:dual} below is a form of his result. Soprunov and
 Soprunova~\cite{SS09} proved lower bounds for $d$ in terms of the full
@@ -633,13 +635,12 @@ $q-1$ only if they are equal.
 \end{proof}
 
 \begin{remark}\label{rem:bound-q}
-Proposition~\ref{prop:dim} replaces the lemma attributed to J.~Hansen in the
-original version. That lemma claimed injectivity for $q>q_0(\Delta)$ with a
-bound depending only on the fan. Such a bound cannot exist. On $\PP^2$, for
+One might hope that the evaluation map is injective as soon as $q$ exceeds a
+bound depending only on the fan $\Delta$. This is not so. On $\PP^2$, for
 $G=(q-1)D_3$ the nonzero function $x^{q-1}-1\in L(G)$ vanishes on all of
-$T(\Fq)$, for every $q$. The condition $|a_i|<q$ on exponents is also not
-enough, since it allows exponents that differ by $q-1$. The correct
-requirement is the one in (iii).
+$T(\Fq)$, for every $q$. Nor is it enough that all exponents satisfy
+$|a_i|<q$, since two such exponents can differ by $q-1$. The right condition
+is the one in (iii), and it depends on $G$ as well as on $\Delta$.
 \end{remark}
 
 \begin{proposition}[Proved here]\label{prop:equiv}
@@ -661,8 +662,7 @@ T}i\rangle}=\omega^{\langle gu,i\rangle}=\chi^{gu}(\omega^i)$. So composing with
 $\pi_g$ maps $C_U$ onto $C_{gU}$.
 \end{proof}
 
-\begin{proposition}[Corrected form of a remark of the original; proved
-here]\label{remark:subcode}
+\begin{proposition}[Proved here]\label{remark:subcode}
 Let $U_1\subseteq U_2\subset M$ be finite. Then $C_{U_1}\subseteq C_{U_2}$,
 the codimension is at most $|U_2\setminus U_1|$, and $d(C_{U_1})\ge
 d(C_{U_2})$. If $\pi$ is injective on $U_2$, the codimension equals
@@ -678,9 +678,8 @@ equality case is Proposition~\ref{prop:dim}.
 In particular, if $X_1$ and $X_2$ are toric varieties for the same lattice $M$
 with divisors $G_1$ and $G_2$ such that $P_{G_1}\subseteq P_{G_2}$, then the
 standard toric code of $G_1$ is a subcode of that of $G_2$. The distance of
-the smaller code is at least the distance of the larger one. The original
-version stated the inequality in the opposite direction, and that is false.
-For example, the code spanned by $\ev(1)$ has distance $(q-1)^2$, while the
+the smaller code is at least the distance of the larger one, and the
+inequality can be strict. For example, the code spanned by $\ev(1)$ has distance $(q-1)^2$, while the
 code spanned by $\ev(1)$ and $\ev(x)$ contains the word of $x-1$, of weight
 $(q-1)(q-2)$.
 
@@ -702,12 +701,11 @@ a toric code.
 \subsection{Examples}\label{sec:examples}
 
 We now tabulate the parameters $(n,k,d)$ of several families of standard
-toric codes. In the original version they were computed with the
-\textbf{toric} package. In this version every row was recomputed exactly
-(script \texttt{verify\_tables.py}). The value of $k$ is the number of
-residues (Proposition~\ref{prop:dim}), and $d$ was computed by an exact
-information-set search. All rows agree with the original tables except one,
-noted in Example~\ref{example:fan1}. The tables use the inward normals $v_i$
+toric codes. They were first computed with the \textbf{toric} package. Every
+row was recomputed exactly for this version (script
+\texttt{verify\_tables.py}). The value of $k$ is the number of residues
+(Proposition~\ref{prop:dim}), and $d$ was computed by an exact
+information-set search. The tables use the inward normals $v_i$
 and the polytope \eqref{eq:PG} of $G=\sum d_iD_i$. For evaluation on the full
 torus, neither smoothness of $X$ nor the Cartier property of $G$ is needed.
 Only the set $P_G\cap M$ matters (see also Section~\ref{sec:fangraph}).
@@ -828,10 +826,9 @@ $q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (200
 \bottomrule
 \end{tabular}
 \end{center}
-The original table listed the data $(q;d_1,d_2,d_3)=(5;2,3,3)$ twice, once with
-$k=14$ and once with $k=15$. The polytope has $15$ lattice points, but
-$(-1,0)\equiv(3,0)\pmod4$. So it has only $14$ residues and $k=14$. The
-duplicate row has been removed.
+The row $(q;d_1,d_2,d_3)=(5;2,3,3)$ shows that $k$ can be smaller than
+$|P_G\cap M|$. The polytope has $15$ lattice points, but
+$(-1,0)\equiv(3,0)\pmod4$, so there are only $14$ residues and $k=14$.
 \end{example}
 
 \begin{example}[Hansen's type (a)]\label{example:fan5}
@@ -839,14 +836,13 @@ Let $\Delta$ have rays $v_1=(1,0)$, $v_2=(-1,1)$ and $v_3=(-1,-1)$. Since
 $\det(v_2,v_3)=2$, the surface is singular. It is the weighted projective
 plane $\PP(1,1,2)$, because $2v_1+v_2+v_3=0$. Hansen's triangle with vertices
 $(0,0)$, $(a,a)$ and $(0,2a)$ is cut out by $x\ge0$, $y\ge x$ and $x+y\le2a$.
-So it is $P_G$ for $G=2aD_3$. The original version wrote $d_3=a$, which gives
-a smaller triangle.
+So it is $P_G$ for $G=2aD_3$.
 
 To obtain a nonsingular surface, refine $\Delta$ by inserting the ray
 $v_4=(-1,0)$ between $v_2$ and $v_3$. All four successive determinants are then
-$1$, and the surface is the Hirzebruch surface $\F_2$. The original version
-inserted $-e_2$ instead, which lies in the cone between $v_3$ and $v_1$ and
-leaves the singular cone unchanged. The divisor $G=2aD_3+aD_4$ on the refined
+$1$, and the surface is the Hirzebruch surface $\F_2$. The new ray has to lie
+inside the singular cone. A ray in a smooth cone, such as $-e_2$ between $v_3$
+and $v_1$, would leave the singular cone unchanged. The divisor $G=2aD_3+aD_4$ on the refined
 surface has the same polytope, since the new inequality $x\le a$ is implied by
 the others. It gives Hansen's code of type (a).
 \end{example}
@@ -880,7 +876,8 @@ only if
 \[
 d'_2+d'_4>0\qquad\text{and}\qquad d'_1+d'_3>m\,d'_2 .
 \]
-The original version stated a garbled form of this condition. With
+With non-strict inequalities the same conditions say that $G'$ is generated by
+its global sections. With
 $d'_1=d'_2=0$, $d'_3=b$ and $d'_4=a$, the polytope has vertices $(0,0)$,
 $(b,0)$, $(b+ma,a)$ and $(0,a)$. Interchanging $x$ and $y$ gives exactly
 Hansen's trapezoid of type (d).
@@ -924,8 +921,7 @@ so
 \[
 \vol(P_G)=\tfrac12\,s^2 \qquad(s\ge0).
 \]
-The original version gave a different formula, which is incorrect. For
-example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$, not $5/2$. The linear
+For example, for $(d_1,d_2,d_3)=(1,1,3)$ the area is $25/2$. The linear
 map $(x,y)\mapsto(x,y-x)$ carries the triangle onto a translate of the simplex
 $S_s$. Hence $G$ is ample exactly when $s>0$. If $s\le q-2$, then
 Proposition~\ref{prop:hansenabc}(b) gives
@@ -968,9 +964,9 @@ $q$ & $d_1$ & $d_2$ & $d_3$ & $n$ & $k$ & $d$ & comparison with \cite{Br98} (200
 \end{center}
 \end{example}
 
-The original abstract said that, for small $q$, many of these codes have
-parameters beating the Gilbert--Varshamov bound. We checked this against the
-finite form of the bound. That form guarantees an $[n,k,d]_q$ code whenever
+For small $q$, many of these codes have parameters beating the
+Gilbert--Varshamov bound. To make this precise we use the finite form of the
+bound, which guarantees an $[n,k,d]_q$ code whenever
 $\sum_{i=0}^{d-2}\binom{n-1}{i}(q-1)^i<q^{n-k}$. Of the $42$ distinct parameter
 sets in the tables of this section, $21$ exceed the largest $d$ that it
 guarantees (script \texttt{gv\_check.py}). For instance, for $[49,11]_8$ the
@@ -981,19 +977,19 @@ bound guarantees only $d=26$.
 
 For toric codes, estimating $d$ comes down to a natural question. Given a
 polynomial $f$ whose exponents lie in a prescribed polygon, how many zeros can
-$f$ have on the torus? This section answers the question in some cases, and it
-corrects the estimates of the original version.
+$f$ have on the torus? This section answers the question in some cases. It
+also shows that two natural estimates in terms of coarser invariants of the
+polygon fail.
 
 \subsection{Two-sided bounds from simplices}
 
 Suppose that the polygon $P_G$ is contained in a translate of the simplex
-$S_\ell$ and contains a translate of the simplex $S_k$. In the language of the
-original paper, $S_k$ and $S_\ell$ are the polytopes of divisors $G_1$ and
+$S_\ell$ and contains a translate of the simplex $S_k$. In the language of
+Section~\ref{sec:toric}, $S_k$ and $S_\ell$ are the polytopes of divisors $G_1$ and
 $G_2$ on toric varieties $X_1$ and $X_2$ (both projective spaces). The codes
 $C(P,G_i,X_i)$ generalize Hansen's codes of type (b).
 
-\begin{theorem}[Corrected form of the original Theorem; proved
-here]\label{thrm:subcode2}
+\begin{theorem}[Proved here]\label{thrm:subcode2}
 Let $U\subset\Z^r$ be finite, and suppose there are $u,v\in\Z^r$ and integers
 $0\le k\le\ell\le q-2$ with
 \[
@@ -1027,13 +1023,13 @@ and $d(C_{v+S_\ell})=d(C_{S_\ell})$. Then \eqref{eq:subcode-d} and (4) give
 \end{proof}
 
 \begin{remark}\label{rem:oldsubcode}
-The original version gave the lower bound $(q-a)q^{r-1}-r(q-1)^{r-1}-1$ in
-(4), by counting punctures. The number of points of $\F^r$ outside the torus
-is $q^r-(q-1)^r$. This equals $r(q-1)^{r-1}+1$ only when $r=2$, and for $r\ge3$
-the original bound is false. For $r=3$, $q=5$ and $a=1$ it claims $d\ge51$,
-while the word of $x_1-1$ has weight $48$. The original first two items gave
-codimension bounds of the form $|P_{G_1}-S_k|$, which is $0$ by
-construction. The correct codimensions are those in (1) and (2).
+Puncturing gives a quicker but weaker lower bound. By (3), deleting the
+$q^r-(q-1)^r$ points of $\F^r$ outside the torus from $\RM(a,r,q)$ gives
+$d(C_{S_a})\ge(q-a)q^{r-1}-q^r+(q-1)^r$ (Example~\ref{example:RM}). For $r=2$
+the number of deleted points is $2(q-1)+1$. So one may ask whether
+$r(q-1)^{r-1}+1$ can replace $q^r-(q-1)^r$ for every $r$. It cannot. For
+$r=3$, $q=5$ and $a=1$ the replacement would give $d\ge51$, while the word of
+$x_1-1$ has weight $48$, in agreement with (4).
 \end{remark}
 
 \begin{example}\label{ex:sandwich}
@@ -1048,8 +1044,7 @@ $S_c\subseteq[0,c]^2\subseteq S_{2c}$, and Theorem~\ref{thrm:subcode2} gives
 
 \subsection{An upper bound from lattice segments}
 
-\begin{theorem}[Corrected form of the original Theorem; proved
-here]\label{thm:segment}
+\begin{theorem}[Proved here]\label{thm:segment}
 Let $U\subset\Z^r$ be finite. Suppose $U$ contains $h+1$ consecutive lattice
 points $u,u+w,\dots,u+hw$ on a line, where $w$ is primitive and $1\le h\le
 q-2$. Then
@@ -1070,48 +1065,53 @@ $h(q-1)^{r-1}$ points. It is nonzero elsewhere, so $\ev(f)\ne0$ because $h<q-1$.
 \begin{remark}\label{rem:segment}
 In particular, let $r=2$ and let $h$ be the largest integer with
 $\{(0,0),\dots,(0,h)\}\subseteq P_G$. Then $d\le n-h(q-1)$ if $h\le q-2$. This
-generalizes some cases of Hansen's theorem, where the bound is sharp. The
-original version claimed only $d\le n-h$, for an arbitrary evaluation set, and
-its proof replaced $h$ by $\max_i d_i$ without justification. The hypothesis
-$h\le q-2$ is necessary. For $h=q-1$ the product $\prod_{c\in\Fqs}(x_j-c)$
-vanishes on all of $T(\Fq)$ and gives the zero word. Products of segments in
+generalizes some cases of Hansen's theorem, where the bound is sharp. Can the
+segment have length $q-1$? No. For $h=q-1$ the product $\prod_{c\in\Fqs}(x_j-c)$
+vanishes on all of $T(\Fq)$ and gives the zero word, so the hypothesis $h\le
+q-2$ is necessary. Products of segments in
 several directions give the stronger upper bounds of Little and
 Schenck~\cite{LS06}.
 \end{remark}
 
-\subsection{The conjectures of the 2004 version}
+\subsection{Two estimates that fail}\label{sec:fail}
 
-The original version stated two conjectural lower bounds for $d$, inspired by
-S.~Hansen's work~\cite{SH96}. The first assumed that $X$ is nonsingular and
-projective of dimension $r$ and that $2N\vol(P_G)\le n\le2N^2\vol(P_G)$ for
-some integer $N>1$. It predicted $d\ge n-2N\vol(P_G)$ for large $q$. The
-second assumed in addition that the support function of $G$ is strictly
-convex and that $\deg(P)>\deg(G^r)$. It predicted $k\ge|P_G\cap M|$ and
-$d\ge n-r!\,|P_G\cap M|$. Both are false. Ruano~\cite{Ru07} gave
-counterexamples. The following ones are elementary.
+Theorems~\ref{thrm:subcode2} and~\ref{thm:segment} bound $d$ by means of
+simplices and segments inside the polygon. It is natural to ask whether $d$ is
+controlled by coarser invariants of $P_G$, such as its volume or its number of
+lattice points, in the spirit of S.~Hansen's work on higher-dimensional
+varieties~\cite{SH96}. Let $X$ be nonsingular and projective of dimension $r$,
+and let $q$ be large. Two natural candidates are the following.
+\begin{enumerate}[label=(\roman*)]
+\item If $N>1$ is an integer with $2N\vol(P_G)\le n\le2N^2\vol(P_G)$, then
+$d\ge n-2N\vol(P_G)$.
+\item If the support function of $G$ is strictly convex and $n>\deg(G^r)$, then
+$d\ge n-r!\,|P_G\cap M|$.
+\end{enumerate}
+Both fail. Ruano~\cite{Ru07} gave examples, and the following ones are
+elementary.
 
-\begin{example}[The first conjecture fails]\label{ex:conj1}
+\begin{example}[Estimate (i) fails]\label{ex:conj1}
 Let $X=\PP^1\times\PP^1$ over $\F_9$, with $P_G=[0,1]^2$, so that $n=64$ and
-$\vol(P_G)=1$. The integer $N=6$ satisfies $12\le64\le72$. The conjecture
-predicts $d\ge64-12=52$. But $(x-\alpha)(y-\beta)$ with
+$\vol(P_G)=1$. The integer $N=6$ satisfies $12\le64\le72$, so (i) would give
+$d\ge64-12=52$. But $(x-\alpha)(y-\beta)$ with
 $\alpha,\beta\in\F_9^\times$ has $8+8-1=15$ zeros on the torus. Its word has
 weight $49$, and in fact $d=49$ by Proposition~\ref{prop:hansenabc}(c). For
-general $q$ one has $d=(q-2)^2$, while the conjecture gives roughly
+general $q$ one has $d=(q-2)^2$, while (i) would give roughly
 $n-\sqrt2(q-1)$.
 \end{example}
 
-\begin{example}[The second conjecture fails]\label{ex:conj2}
+\begin{example}[Estimate (ii) fails]\label{ex:conj2}
 Let $X=\PP^2$ and $G=D_3$, so that $P_G=S_1$ has $3$ lattice points, $G$ is
-very ample and $G^2=1$. For $q=9$ we have $\deg(P)=64>1$. The conjecture
-predicts $d\ge64-2\cdot3=58$. But $x-\alpha$ has $8$ zeros on the torus, so
+very ample and $G^2=1$. For $q=9$ we have $n=64>1$, so (ii) would give
+$d\ge64-2\cdot3=58$. But $x-\alpha$ has $8$ zeros on the torus, so
 $d\le56$, and in fact $d=56$ by Theorem~\ref{thrm:subcode2}(4). The same
-failure occurs whenever $q-1>6$. Moreover, the inequality $k\ge|P_G\cap M|$
-is reversed in general, since $k=\dim C\le\dim L(G)$, with equality exactly in
-the situation of Proposition~\ref{prop:dim}(iii).
+failure occurs whenever $q-1>6$. For the dimension one always has
+$k=\dim C\le\dim L(G)=|P_G\cap M|$, with equality exactly in the situation of
+Proposition~\ref{prop:dim}(iii).
 \end{example}
 
-Theorems~\ref{thrm:subcode2} and~\ref{thm:segment} replace the conjectures.
-For large $q$ the sharp asymptotic answer is given by Minkowski length:
+So good lower bounds need finer invariants than the volume. For large $q$ the
+sharp asymptotic answer is given by Minkowski length:
 $d\ge(q-1)^2-L(q-1)-2\sqrt q+1$, where $L$ is the full Minkowski length of the
 polygon~\cite[Thm.~1]{SS09}. That bound holds above an explicit threshold
 for $q$.
@@ -1143,12 +1143,14 @@ relatively large $q$. Much of the Gr\"obner basis computation is one-time
 work, however.
 
 This section gives an error-locator algorithm in the style of
-\cite[pp.~217--218]{St93}. It uses only linear algebra. The original version
-tied the algorithm to error positions lying on $T$-invariant divisors $D_i$.
-That cannot work for evaluation on the torus, since no torus point lies on any
-$D_i$. Its worked example also placed evaluation points on $\supp(G)$, where
-the functions of $L(G)$ may have poles. We therefore restate the algorithm in
-terms of spaces of functions that are regular at all evaluation points. In
+\cite[pp.~217--218]{St93}. It uses only linear algebra. The method needs
+functions that separate the error positions. On a toric surface one might try
+to obtain them from the $T$-invariant divisors $D_i$, by asking that each
+error position lie on some $D_i$. For evaluation on the torus this is
+impossible, since no point of $T(\Fq)$ lies on any $D_i$. A boundary point on
+$\supp(G)$ is not an allowed evaluation point either, because the functions
+of $L(G)$ may have poles there. We therefore state the algorithm in terms of
+spaces of functions that are regular at all evaluation points. In
 this form it is Pellikaan's decoding by error-correcting pairs~\cite{Pe92}
 (see also~\cite{Ha17}). Toric geometry then supplies the hypotheses
 (Corollary~\ref{cor:toricECP}). By Theorem~\ref{thm:dual}, decoding the dual
@@ -1205,8 +1207,7 @@ Condition (B) holds if and only if $d(\ev(V_B)^\perp)>t$. Indeed, (B) fails
 for some $I$ exactly when $\ev(V_B)$ restricted to $I$ is not all of $\F^I$.
 That happens exactly when some nonzero vector supported in $I$ is orthogonal
 to $\ev(V_B)$. Condition (C) says that $n-d(\ev(V_A))<d(D)$. The proof
-consists of the next two propositions. They correct the two propositions of
-the original version.
+consists of the next two propositions.
 
 \begin{proposition}[Error locator]\label{prop:errorlocator}
 Under (A) and (B), with $I=\supp(e)$ and $|I|\le t$, the system
@@ -1252,16 +1253,15 @@ $b=e$.
 \end{proof}
 
 \begin{remark}\label{rem:oldexample}
-In the worked example of the original version, $X$ is the surface of
-Example~\ref{example:fan1}, with $G=10D_3$ and $G'=2(D_1+D_2+D_3)$. There $V_A$
-and $V_B$ are spanned by the $10$ lattice points of $P_{G'}$ and the $5$ lattice
-points of $P_{G-G'}$. The example placed the points $P_1$, $P_2$ and $P_3$ on
-$D_1$, $D_2$ and $D_3$. Since $P_3\in\supp(G)$, the evaluation at $P_3$ was not
-defined. The claimed bound on $q$ also used the minimum distance of $C$ in
-place of that of $D=C^\perp$. With all points taken in $T(\Fq)$ the example
-becomes an instance of Theorem~\ref{thm:decode}. Condition (B) can then hold
-only for $t\le5=\dim V_B$. We have not determined $d(D)$ for that example,
-and we replace it by Example~\ref{ex:decode}.
+Divisors give natural candidate pairs. On the surface of
+Example~\ref{example:fan1}, take $G=10D_3$ and $G'=2(D_1+D_2+D_3)$, and let
+$V_A$ and $V_B$ be spanned by the $10$ lattice points of $P_{G'}$ and the $5$
+lattice points of $P_{G-G'}$. Then $V_AV_B\subseteq L(G)$, and with evaluation
+on $T(\Fq)$ we are in the setting of Theorem~\ref{thm:decode}. Condition (B)
+can hold only for $t\le5=\dim V_B$. What radius does this pair guarantee? The
+answer depends on $d(D)$ for $D=C_{P_G\cap M}^\perp$, which we have not
+determined. Example~\ref{ex:decode} below uses a pair for which every
+condition can be checked.
 \end{remark}
 
 \subsection{Toric criteria}
@@ -1526,23 +1526,269 @@ and its weighted cycle graph has self-intersections
 \]
 As a check, $\sum a_i=27=3\cdot13-12$.
 
-\subsection{Tropical curves, metric graphs and harmonic morphisms}
+\subsection{Tropical curves, metric graphs and harmonic morphisms}\label{sec:tropical}
+
+The zeros of a function $f\in V_U$ on the torus are the rational points of a
+curve whose Newton polygon lies in $\conv(U)$. Over a field with a valuation,
+such a curve has a tropicalization. This is a balanced metric graph in $\R^2$
+whose combinatorics is dual to a subdivision of the polygon. Projecting the
+plane onto a line maps this graph onto a tree by a harmonic morphism. The
+projections used in the proofs of Lemma~\ref{lem:grid} and
+Theorem~\ref{thm:segment} are the classical shadows of these morphisms. This
+subsection explains the connection, works out an example in full, and
+records what the degree of a projection says about toric codes.
+
+\paragraph{Tropicalization.}
+Let $K$ be an algebraically closed field with a nontrivial valuation
+$\operatorname{val}:K^\times\to\R$. An example is the field of Puiseux series
+over $\overline{\F}_q$, with $\operatorname{val}(t)=1$. For a Laurent polynomial
+$f=\sum_{u\in U}c_ux^u$ over $K$, put
+\[
+\operatorname{trop}(f)(w)=\min_{u\in U,\ c_u\ne0}\bigl(\operatorname{val}(c_u)+\langle
+u,w\rangle\bigr),\qquad w\in\R^2 .
+\]
+
+\begin{definition}\label{def:tropcurve}
+The \emph{tropical curve} $\Gamma=\operatorname{Trop}(f)$ is the set of
+$w\in\R^2$ at which the minimum defining $\operatorname{trop}(f)(w)$ is
+attained by at least two terms.
+\end{definition}
+
+We use the following standard facts~\cite[Ch.~3]{MS15}.
+\begin{enumerate}[label=(T\arabic*)]
+\item (Kapranov) $\Gamma$ is the closure of the image of the curve
+$\{f=0\}\subset(K^\times)^2$ under $(x,y)\mapsto(\operatorname{val}x,\operatorname{val}y)$.
+\item The heights $\operatorname{val}(c_u)$ induce a regular subdivision of the
+Newton polygon $\Delta$ of $f$, the projection of the lower faces of the convex
+hull of the lifted points $(u,\operatorname{val}(c_u))$. The vertices of $\Gamma$
+correspond to the two-dimensional cells of the subdivision. The bounded edges
+of $\Gamma$ correspond to its interior edges, and the unbounded ends to its
+boundary edges. Each edge of $\Gamma$ is perpendicular to the dual edge, and
+its weight is the lattice length of the dual edge. The end dual to a boundary
+edge $E$ points in the direction of the inward normal of $\Delta$ along $E$.
+\item (Balancing) At every vertex of $\Gamma$ the sum of the weighted primitive
+outgoing edge directions is $0$.
+\item If the subdivision is a unimodular triangulation, $\Gamma$ is trivalent,
+all weights are $1$, and the first Betti number of $\Gamma$ equals the number
+of interior lattice points of $\Delta$.
+\end{enumerate}
+We regard $\Gamma$ as a metric graph, giving an edge of primitive direction
+$p$ and Euclidean length $\lambda|p|$ the lattice length $\lambda$.
+
+\paragraph{Projections are harmonic morphisms.}
+Harmonic morphisms of graphs were introduced by Urakawa and developed by Baker
+and Norine~\cite{BN09} as a discrete analogue of holomorphic maps of Riemann
+surfaces. The version for metric graphs is used in~\cite{Ch13}
+and~\cite{ABBR15}.
+
+\begin{definition}\label{def:harmonic}
+Let $\Gamma$ and $\Gamma'$ be metric graphs. A continuous map
+$\varphi:\Gamma\to\Gamma'$ is a \emph{harmonic morphism} if it is linear on
+each edge with a nonnegative integer slope $d_e$, the \emph{dilation factor},
+and if for every point $x\in\Gamma$ the following holds. For each tangent
+direction $h'$ at $\varphi(x)$, the sum of $d_e$ over the tangent directions $h$
+at $x$ that map onto $h'$ is independent of $h'$. This common value is the
+\emph{local degree} $m_\varphi(x)$. Edges with $d_e=0$ are called
+\emph{vertical}.
+\end{definition}
+
+If $\Gamma'$ is connected, the \emph{degree}
+$\sum_{x\in\varphi^{-1}(y)}m_\varphi(x)$ does not depend on $y$, where the sum is
+over the points of the fiber with $m_\varphi(x)>0$.
+
+\begin{proposition}[Proved here, given (T2) and (T3)]\label{prop:projharmonic}
+Let $\Gamma=\operatorname{Trop}(f)$ and let $\pi(w_1,w_2)=w_1$. Give an edge
+$e$ of weight $\mu_e$ and primitive direction $(a_e,b_e)$ the dilation factor
+$d_e=\mu_e|a_e|$. Then $\pi:\Gamma\to\R$ is a harmonic morphism onto the line,
+which is a tree. Its degree is the vertical extent
+$\max_{u\in\Delta}u_2-\min_{u\in\Delta}u_2$ of the Newton polygon.
+\end{proposition}
+
+\begin{proof}
+At an interior point of an edge there is nothing to check. At a vertex $x$,
+the first coordinate of the balancing condition (T3) reads
+$\sum_{a_e>0}\mu_ea_e=\sum_{a_e<0}\mu_e|a_e|$, the sums running over the edges
+at $x$. The left side is the sum of the dilation factors over the edges
+leaving $x$ to the right, and the right side is the sum over those leaving to
+the left. So $\pi$ is harmonic. For the degree, take $y$ smaller than the
+first coordinate of every vertex. The fiber over $y$ consists of one point on
+each end with $a_e<0$. By (T2) these are the ends dual to the boundary edges
+$E$ of $\Delta$ whose inward normal has negative first coordinate, which form
+the boundary chain of $\Delta$ from its lowest point to its highest point on
+the right. An edge $E$ of lattice length $\ell_E$ and primitive direction
+$(\epsilon_1,\epsilon_2)$ gives an end with $\mu_e=\ell_E$ and
+$|a_e|=|\epsilon_2|$. The contributions $\ell_E|\epsilon_2|$ add up to the
+vertical extent of that chain, which is the vertical extent of $\Delta$.
+\end{proof}
+
+\begin{example}[A tropical curve with a degree-two harmonic morphism to a
+tree]\label{ex:tropical}
+Let $\Delta=[0,2]^2$, the polygon of Hansen's type (c) with $a=b=1$. Over the
+Puiseux series field $K$ above, let
+\[
+f=\sum_{(i,j)\in\Delta\cap\Z^2}t^{\,i^2+ij+j^2}\,x^iy^j .
+\]
+The heights $i^2+ij+j^2$ come from a positive definite quadratic form. They
+induce the unimodular triangulation of $\Delta$ cut out by the lines $i=1$,
+$j=1$ and $i+j\in\{1,2,3\}$. It has $8$ triangles, and the interior point
+$(1,1)$ is a vertex of $6$ of them. By (T2) and (T4), $\Gamma=\operatorname{Trop}(f)$
+is a trivalent graph with $8$ vertices, $8$ bounded edges, $8$ ends and first
+Betti number $1$. Solving the equations
+$\operatorname{val}(c_u)+\langle u,w\rangle=\operatorname{val}(c_{u'})+\langle
+u',w\rangle$ for the three vertices of each triangle gives the vertices of
+$\Gamma$:
+\[
+\begin{aligned}
+&(-1,-1),\ (-2,-2),\ (-2,-3),\ (-3,-2),\\
+&(-3,-4),\ (-4,-3),\ (-4,-4),\ (-5,-5).
+\end{aligned}
+\]
+The six vertices other than $(-1,-1)$ and $(-5,-5)$ form a hexagon, which is
+dual to the six triangles around $(1,1)$ and is the unique cycle of $\Gamma$.
+Its sides have directions $(0,1)$ (two sides, over $w_1=-4$ and $w_1=-2$),
+$(1,0)$ (two sides) and $(1,1)$ (two sides). Two diagonal tails join the
+hexagon to $(-5,-5)$ and to $(-1,-1)$. There are four horizontal ends: two going
+left, from $(-5,-5)$ and $(-4,-3)$, and two going right, from $(-2,-3)$ and
+$(-1,-1)$. There are also four vertical ends. Figure~\ref{fig:tropical} shows
+$\Gamma$.
+
+The projection $\pi(w)=w_1$ has degree $2$, the vertical extent of $\Delta$, by
+Proposition~\ref{prop:projharmonic}. All dilation factors are $0$ or $1$. The
+two vertical sides of the hexagon and the four vertical ends are contracted.
+The hexagon is folded two-to-one onto the segment $[-4,-2]$, since every
+$w_1\in(-4,-2)$ has one preimage on its upper path and one on its lower path.
+Over $(-5,-4)$ the two preimages lie on the tail from $(-5,-5)$ and on the left
+end from $(-4,-3)$. Over $(-2,-1)$ they lie on the tail to $(-1,-1)$ and on the
+right end from $(-2,-3)$.
+
+The same map can be seen in the setting of finite graphs. Let $T$ be the path
+with vertices $-6,-5,\dots,0$. Let $G$ be the finite graph obtained from
+$\Gamma$ in three steps: delete the four vertical ends, cut the horizontal ends
+at $w_1=-6$ and $w_1=0$, and subdivide the remaining edges at the preimages of
+the vertices of $T$. Then $G$ has $14$ vertices, $14$ edges and genus $1$, and
+$\pi:G\to T$ is a harmonic morphism of degree $2$ in the sense of Baker and
+Norine. Every vertex has $m_\pi(x)=1$, and the only vertical edges are the two
+vertical sides of the hexagon. The Riemann--Hurwitz formula
+of~\cite{BN09},
+\[
+2g(G)-2=\deg(\pi)\,\bigl(2g(T)-2\bigr)+\sum_{x\in V(G)}\bigl(2(m_\pi(x)-1)+v_\pi(x)\bigr),
+\]
+where $v_\pi(x)$ is the number of vertical edges at $x$, reads $0=2\cdot(-2)+4$.
+The four contributions come from the four endpoints of the two vertical
+sides. All of this was checked by computation (script
+\texttt{tropical\_example.py}).
+
+This is the tropical picture of the classical map $(x,y)\mapsto x$. A curve
+$\{f=0\}$ with Newton polygon $[0,2]^2$ has genus at most one, and the map has
+degree $2=\deg_yf$. Amini, Baker, Brugall\'e and Rabinoff showed that the
+tropicalization of a finite morphism of curves gives a harmonic morphism of
+skeleta~\cite{ABBR15}.
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.82]
+\tikzset{cont/.style={thick,dashed},edge/.style={thick}}
+% bounded edges
+\draw[edge] (-1,-1) -- (-2,-2);
+\draw[cont] (-2,-3) -- (-2,-2);
+\draw[edge] (-2,-3) -- (-3,-4);
+\draw[edge] (-2,-2) -- (-3,-2);
+\draw[edge] (-3,-4) -- (-4,-4);
+\draw[edge] (-3,-2) -- (-4,-3);
+\draw[cont] (-4,-4) -- (-4,-3);
+\draw[edge] (-4,-4) -- (-5,-5);
+% ends
+\draw[edge,->] (-1,-1) -- (0.4,-1);
+\draw[cont,->] (-1,-1) -- (-1,0.4);
+\draw[edge,->] (-2,-3) -- (-0.6,-3);
+\draw[cont,->] (-3,-4) -- (-3,-5.4);
+\draw[cont,->] (-3,-2) -- (-3,-0.6);
+\draw[edge,->] (-4,-3) -- (-5.4,-3);
+\draw[cont,->] (-5,-5) -- (-5,-6.4);
+\draw[edge,->] (-5,-5) -- (-6.4,-5);
+% vertices
+\foreach \p in {(-1,-1),(-2,-2),(-2,-3),(-3,-2),(-3,-4),(-4,-3),(-4,-4),(-5,-5)}
+  \fill \p circle (2pt);
+\node[above right] at (-1,-1) {\small$(-1,-1)$};
+\node[below left] at (-5,-5) {\small$(-5,-5)$};
+\node at (-3,-3) {\small hexagon};
+% projection
+\draw[thick,->] (-6.6,-7.6) -- (0.6,-7.6) node[right] {\small$\R$};
+\foreach \x in {-6,-5,-4,-3,-2,-1,0} {
+  \draw (\x,-7.5) -- (\x,-7.7) node[below] {\small$\x$};
+}
+\foreach \x/\y in {-1/-1,-2/-3,-3/-4,-4/-4,-5/-5} {
+  \draw[dotted] (\x,\y) -- (\x,-7.6);
+}
+\draw[very thick] (-4,-7.6) -- (-2,-7.6);
+\node[above] at (-3.5,-7.55) {\small$2{:}1$};
+\end{tikzpicture}
+\caption{The tropical curve $\Gamma$ of Example~\ref{ex:tropical} and its
+projection $\pi(w)=w_1$ to the line. Dashed segments are contracted by $\pi$.
+They are the two vertical sides of the hexagon and the four vertical ends.
+Dotted lines show where vertices project. Every point of the line other than
+$-4$ and $-2$ has exactly two preimages, so $\pi$ has degree $2$. The hexagon,
+the only cycle, is folded two-to-one onto $[-4,-2]$.}\label{fig:tropical}
+\end{figure}
+
+\paragraph{What the degree of a projection says about toric codes.}
+Over $\Fq$ the same projection gives a bound on zeros, by the fiber argument
+behind Lemma~\ref{lem:grid}.
+
+\begin{proposition}[Fiber bound; proved here]\label{prop:fiber}
+Let $f=\sum_{u\in U}c_ux^u$ be a nonzero Laurent polynomial over $\Fq$, and let
+$h=\max_{u\in U}u_2-\min_{u\in U}u_2$. If no binomial $x-c$ with $c\in\Fqs$
+divides $f$, then $f$ has at most $h(q-1)$ zeros on $T(\Fq)$. More generally,
+let $v\in\Z^2$ be primitive and let $v'$ be a primitive vector with $\langle
+v,v'\rangle=0$. If no binomial $\chi^{v'}-c$ with $c\in\Fqs$ divides $f$, then
+$f$ has at most $h_v(q-1)$ zeros, where
+$h_v=\max_{u\in U}\langle v,u\rangle-\min_{u\in U}\langle v,u\rangle$. The best
+choice of $v$ gives the lattice width of $\conv(U)$.
+\end{proposition}
+
+\begin{proof}
+Fix $c\in\Fqs$. The Laurent polynomial $f(c,y)$ in $y$ is not zero, because
+otherwise $x-c$ would divide $f$. It is $y^{\min u_2}$ times a polynomial of
+degree at most $h$, so it has at most $h$ zeros in $\Fqs$. Summing over the
+$q-1$ values of $c$ gives the bound. For the general statement, choose
+$g\in\GL_2(\Z)$ with $gv'=(1,0)$. Then $\langle v,u\rangle$ becomes $\pm$ the
+second coordinate of $gu$, and the monomial change of
+coordinates of Proposition~\ref{prop:equiv}(ii) turns $\chi^{v'}-c$ into $x-c$.
+This reduces the general case to the first.
+\end{proof}
+
+By Proposition~\ref{prop:projharmonic}, the number $h$ is the degree of the
+harmonic morphism obtained by projecting the tropical curve of a lift of $f$.
+Castryck and Cools showed that the gonality of a curve with Newton polygon
+$\Delta$ is at most the lattice width of $\Delta$~\cite{CC12}.
+
+\begin{example}\label{ex:fiberbound}
+For $U=[0,2]^2$ over $\F_8$, a section with no factor $x-c$ has at most
+$2\cdot7=14$ zeros on the torus, and a random search attains $14$ (script
+\texttt{lattice\_width.py}). A product $(x-a)(x-b)(y-c)(y-e)$ has $24$ zeros,
+which gives $d=25$ in agreement with Theorem~\ref{thrm:hansen}(c). So the
+minimum-weight words come from sections with binomial factors, and every
+irreducible section with Newton polygon $[0,2]^2$ gives a word of weight at
+least $49-14=35$. For the principal triangle $\conv\{(0,0),(4,1),(1,4)\}$ the
+lattice width is $4$, attained in the directions $(1,0)$ and $(0,1)$. Here the
+fiber bound gives $4\cdot7=28$ zeros, while the true maximum is $21$
+(Example~\ref{example:fan7}). A generic curve with this Newton polygon has
+genus $6$, and its tropical curve has first Betti number $6$.
+\end{example}
 
 \begin{remarkxxvi}\label{rem:tropical}
-The following connections are observations and have not been developed. The
-zero set of $f\in V_U$ on the torus is the set of $\Fq$-points of a curve
-whose Newton polygon lies in $\conv(U)$. For a nondegenerate irreducible
-curve, the genus is the number of interior lattice points (for the principal
-triangle this number is $6$). Castryck and Cools~\cite{CC12} showed that the
-gonality is at most the lattice width. Projection along a lattice direction
-realizes this bound, and on the tropical side it gives a harmonic morphism
-from the tropical curve, a metric graph whose first Betti number is the genus,
-to a tree. Baker and Norine developed the theory of harmonic morphisms of
-graphs~\cite{BN09}. Their specialization arguments relate gonality of curves
-to divisorial gonality of graphs. A curve with a degree-$\gamma$ map to
-$\PP^1$ defined over $\Fq$ has at most $\gamma(q+1)$ rational points, so such
-maps bound the number of zeros of irreducible sections. Reducible sections
-are already controlled by Minkowski length~\cite{SS09}.
+The following connection has not been developed. Baker's specialization
+lemma~\cite{Ba08} compares ranks of divisors on a curve and on the dual graph
+of a semistable model, and it implies that gonality can only drop under
+specialization to graphs. Chan characterized tropical hyperelliptic curves by
+harmonic morphisms of degree two to trees~\cite{Ch13}, and
+Example~\ref{ex:tropical} is a genus-one instance of that picture. A curve
+with a map of degree $\gamma$ to $\PP^1$ defined over $\Fq$ has at most
+$\gamma(q+1)$ rational points. So low-degree harmonic morphisms of skeleta,
+when they lift to maps defined over $\Fq$, bound the number of zeros of
+irreducible sections. Example~\ref{ex:fiberbound} shows that the coordinate
+projection alone is not sharp for the principal code.
 \end{remarkxxvi}
 
 \begin{question}\label{q:tropical}
@@ -1551,29 +1797,6 @@ graphs computed by chip-firing, give bounds for the number of torus points on
 irreducible sections that are sharper than those of~\cite{LS06}
 and~\cite{SS09} for small $q$, such as $q=8$?
 \end{question}
-
-\subsection{Kitaev's toric code and CSS codes}
-
-\begin{remarkxxvi}\label{rem:kitaev}
-The name ``toric code'' is also used for Kitaev's quantum code~\cite{Ki03}.
-That code is the CSS code built from the cycle space and the cut space of the
-grid graph $C_m\square C_m$ embedded in a torus. Its qubits sit on the edges
-of the graph. The codes of this paper sit on the vertices of the same graph,
-with $m=q-1$, as two-dimensional cyclic codes. We know of no deeper link than
-this shared graph and its translation symmetry. Theorem~\ref{thm:dual} does
-give CSS pairs directly. If $U_1\cap(-U_2)=\varnothing$, then
-$C_{U_1}\subseteq C_{U_2}^\perp$. J.~P.~Hansen built quantum codes from toric
-surfaces in this way~\cite{Ha13}.
-\end{remarkxxvi}
-
-\subsection{The Hamming graph and optimality}
-
-\begin{remarkxxvi}\label{rem:lp}
-Codes of length $n$ over $\Fq$ are subsets of the Hamming graph $H(n,q)$, a
-distance-regular graph. Delsarte's linear programming bound for its
-association scheme could certify the entries marked ``best possible'' in the
-tables independently of the online tables. We have not carried this out.
-\end{remarkxxvi}
 
 %======================================================================
 \section{Summary of results and open questions}\label{sec:summary}
@@ -1614,11 +1837,10 @@ Theorem~\ref{thrm:hansen}(a)--(c) & cited \cite{Ha02}; reproved here
 Theorem~\ref{thrm:hansen}(d) & cited \cite{Ha02}; checked numerically
 (Remark~\ref{rem:hansend})\\
 Lemma~\ref{lem:grid}, Theorems~\ref{thrm:subcode2}, \ref{thm:segment} &
-proved here (corrected forms of original results)\\
-Conjectures of the 2004 version & false (Examples~\ref{ex:conj1},
+proved here\\
+Estimates (i), (ii) of Section~\ref{sec:fail} & false (Examples~\ref{ex:conj1},
 \ref{ex:conj2}; also \cite{Ru07})\\
-Tables in Section~\ref{sec:examples} & exhaustive exact computation; one
-duplicated row removed\\
+Tables in Section~\ref{sec:examples} & exhaustive exact computation\\
 $[49,11,28]_8$ & $k$ and $d\le28$ proved; $d\ge28$ by two independent
 exhaustive computations\\
 Theorem~\ref{thm:decode}, Cor.~\ref{cor:toricECP}, Lemma~\ref{lem:separate}
@@ -1626,7 +1848,11 @@ Theorem~\ref{thm:decode}, Cor.~\ref{cor:toricECP}, Lemma~\ref{lem:separate}
 Example~\ref{ex:decode} & verified by computation\\
 Prop.~\ref{prop:cyclic} & proved here\\
 Example~\ref{ex:minwords} & exhaustive exact computation\\
-Remarks~\ref{rem:hansend}--\ref{rem:lp} (2026.$n$) & not fully verified, or
+Prop.~\ref{prop:projharmonic}, Prop.~\ref{prop:fiber} & proved here (using the
+cited facts (T2), (T3) for the first)\\
+Example~\ref{ex:tropical}, Example~\ref{ex:fiberbound} & verified by
+computation\\
+Remarks~\ref{rem:hansend}--\ref{rem:tropical} (2026.$n$) & not fully verified, or
 open\\
 \bottomrule
 \end{tabular}
@@ -1642,45 +1868,143 @@ decide whether permutation decoding is practical for it.
 in directions that are not edge directions, as for the trinomials of
 Example~\ref{ex:minwords}.
 \item Question~\ref{q:tropical} on graph gonality and point counts.
-\item Certify the ``best possible'' entries of the tables by Delsarte's linear
-programming bound (Remark~\ref{rem:lp}).
 \end{enumerate}
 
 %======================================================================
 \section{Glossary}\label{sec:glossary}
 
 \begin{description}[leftmargin=1.5em,labelindent=0pt,style=nextline]
-\item[Cartier divisor] A $T$-invariant divisor that is locally the divisor of
-a single monomial on each affine chart $U_\sigma$.
-\item[Cayley graph] The graph on a group whose edges join $s$ to $s+g$ for $g$
-in a fixed generating set.
-\item[Character] A homomorphism $T\to\overline{\F}^\times$. The characters of
-$T$ are the monomials $\chi^u=x^u$, $u\in M$.
-\item[Dual code] The code of all vectors orthogonal to $C$ under the standard
-dot product.
+\item[Cartier divisor] A torus-invariant divisor $G=\sum d_iD_i$ is Cartier if
+on each maximal cone $\sigma$ it is the divisor of a single character, that is,
+if there is $m_\sigma\in M$ with $\langle m_\sigma,v_i\rangle=-d_i$ for the
+rays of $\sigma$. On a nonsingular toric variety every torus-invariant divisor
+is Cartier. On a singular one the condition becomes a congruence, as in
+Example~\ref{example:fan1}.
+\item[Cayley graph] For a group $\Lambda$ and a generating set $S$, the Cayley
+graph has vertex set $\Lambda$ and an edge from $s$ to $s+g$ for each $g\in S$.
+The Cayley graph of $(\Z/(q-1))^r$ with $S=\{\pm e_i\}$ is the discrete torus,
+the product of $r$ cycles of length $q-1$. Its translations act transitively
+on the vertices, and every full-torus toric code inherits this symmetry
+(Proposition~\ref{prop:cyclic}).
+\item[Character] A character of the torus $T$ is a homomorphism
+$T\to\overline{\F}^\times$, and the characters are the monomials $\chi^u=x^u$,
+$u\in M$. On the finite group $T(\Fq)$ the character $\chi^u$ depends only on
+$u$ modulo $q-1$. Distinct characters of $T(\Fq)$ are linearly independent,
+which is the basis of Proposition~\ref{prop:dim}.
+\item[Combinatorial Nullstellensatz] Alon's theorem says that if $f$ has degree
+$t_1+\dots+t_r$ and a nonzero coefficient at $x_1^{t_1}\cdots x_r^{t_r}$, then
+$f$ does not vanish on all of a grid $A_1\times\dots\times A_r$ with
+$|A_i|>t_i$~\cite{Al99}. It is a standard tool for list coloring and other
+problems in graph theory. The related theorem of Alon and F\"uredi counts the
+nonzeros of a polynomial on a grid and contains Lemma~\ref{lem:grid} as a
+special case.
+\item[Dual code] The dual of $C\subseteq\Fq^n$ is
+$C^\perp=\{v:\ v\cdot c=0\ \text{for all}\ c\in C\}$, a code of dimension
+$n-\dim C$. A parity check matrix of $C$ is a generator matrix of $C^\perp$.
+For full-torus toric codes the dual is again a toric code,
+$C_U^\perp=C_{U^*}$ (Theorem~\ref{thm:dual}).
+\item[Dual subdivision] The heights $\operatorname{val}(c_u)$ of the
+coefficients of $f$ lift the lattice points of the Newton polygon to $\R^3$,
+and the lower faces of the convex hull project to a subdivision of the
+polygon. Its cells correspond to the vertices, edges and ends of the tropical
+curve of $f$, and each edge of the curve is perpendicular to the dual edge. A
+subdivision into triangles of area $1/2$ is a unimodular triangulation, as in
+Example~\ref{ex:tropical}.
 \item[Error-correcting pair] A pair of function spaces $(V_A,V_B)$ with
 $V_AV_B\subseteq V_P$ satisfying conditions (A)--(C) of
-Theorem~\ref{thm:decode}.
-\item[Fan] A finite collection of rational polyhedral cones, closed under faces
-and intersections, that defines a toric variety.
-\item[Generalized toric code] The code $C_U$ for an arbitrary finite set $U$ of
-exponents.
-\item[Harmonic morphism] A map of graphs that is locally a branched covering
-with well-defined degree, the graph analogue of a holomorphic map of Riemann
-surfaces~\cite{BN09}.
-\item[Minimum distance] The smallest weight of a nonzero codeword.
-\item[Minkowski length] The largest number of lattice segments whose
-Minkowski sum fits inside a polygon.
-\item[Monomial equivalence] Equality of codes up to permuting and rescaling
-coordinates.
-\item[Puncturing] Deleting a set of coordinates from all codewords.
-\item[Shortening] Keeping the codewords that vanish on a set of coordinates
-and then deleting those coordinates.
-\item[Standard toric code] The code of $L(G)$ evaluated at all points of
-$T(\Fq)$.
-\item[Toric variety] A normal variety containing a dense torus whose action on
-itself extends to the variety.
-\item[Weight] The number of nonzero coordinates of a vector.
+Theorem~\ref{thm:decode}. The notion is due to Pellikaan~\cite{Pe92}, who
+abstracted the error-locator algorithms for Reed--Solomon and
+algebraic-geometry codes. With such a pair, decoding up to $t$ errors needs
+only the solution of linear systems.
+\item[Fan] A finite collection of strongly convex rational polyhedral cones in
+$N_\R$, closed under taking faces, in which any two cones meet in a common
+face. A fan determines a toric variety, which is complete when the cones cover
+$N_\R$ and nonsingular when every cone is spanned by part of a basis of $N$.
+In dimension two a complete fan is a cyclically ordered list of rays
+(Section~\ref{sec:fangraph}).
+\item[Generalized toric code] The code $C_U$ spanned by the evaluation vectors
+of the monomials $x^u$, $u\in U$, at the points of $T(\Fq)$, for an arbitrary
+finite set $U$ of exponents. When $U$ is the set of lattice points of a
+polygon, it is a standard toric code. These codes are exactly the
+translation-invariant codes on the discrete torus
+(Proposition~\ref{prop:cyclic}).
+\item[Gonality] The gonality of an algebraic curve is the smallest degree of a
+nonconstant map from the curve to the projective line. For a curve with
+Newton polygon $\Delta$ it is at most the lattice width of $\Delta$~\cite{CC12}.
+The divisorial gonality of a graph is the analogous invariant defined with
+Baker--Norine divisors.
+\item[Harmonic morphism] A map of graphs that sends each edge to an edge or to
+a vertex, such that for every vertex $x$ the number of edges at $x$ mapping
+onto a given edge at the image of $x$ does not depend on that edge. It is the
+graph analogue of a holomorphic map of Riemann surfaces. It has a
+well-defined degree and satisfies a Riemann--Hurwitz formula~\cite{BN09}. For
+metric graphs one allows integer dilation factors on edges
+(Definition~\ref{def:harmonic}), and projections of tropical curves are
+examples (Proposition~\ref{prop:projharmonic}).
+\item[Lattice width] The width of a lattice polygon $\Delta$ in the direction
+of a primitive vector $v$ is $\max_{u\in\Delta}\langle v,u\rangle-
+\min_{u\in\Delta}\langle v,u\rangle$, and the lattice width is the minimum of
+these widths over all primitive $v$. It is
+invariant under unimodular changes of coordinates. The square $[0,2]^2$ has
+lattice width $2$, and the triangle $\conv\{(0,0),(4,1),(1,4)\}$ has lattice
+width $4$.
+\item[Metric graph] A finite graph in which each edge is identified with a
+segment of positive length, possibly together with unbounded ends. Tropical
+curves are metric graphs in which the length of an edge is its lattice
+length. The first Betti number of a metric graph plays the role of the genus.
+\item[Minimum distance] The smallest weight of a nonzero codeword of a linear
+code. A code of minimum distance $d$ corrects up to $\lfloor(d-1)/2\rfloor$
+errors by nearest-codeword decoding. For a toric code, $d$ is $n$ minus the
+largest number of zeros on $T(\Fq)$ of a nonzero function in $V_U$.
+\item[Minkowski length] The Minkowski length of a lattice polygon is the
+largest number of summands of positive dimension in a Minkowski decomposition
+of it. The full Minkowski length $L$ is the maximum over all lattice
+subpolygons. For large $q$, Soprunov and Soprunova proved
+$d\ge(q-1)^2-L(q-1)-2\sqrt q+1$ for toric surface codes~\cite{SS09}.
+\item[Monomial equivalence] Two codes are monomially equivalent if one is
+obtained from the other by permuting coordinates and multiplying coordinates
+by nonzero scalars. Equivalent codes have the same length, dimension and
+weight distribution. Lattice-equivalent exponent sets give monomially
+equivalent toric codes (Proposition~\ref{prop:equiv}).
+\item[Newton polygon] The Newton polygon of $f=\sum c_ux^u$ is the convex hull
+of the exponents $u$ with $c_u\ne0$. It governs the geometry of the curve
+$f=0$ in the torus. A generic curve with Newton polygon $\Delta$ has genus
+equal to the number of interior lattice points of $\Delta$.
+\item[Puncturing] Puncturing a code at a set $S$ of coordinates deletes those
+coordinates from every codeword. It lowers the minimum distance by at most
+$|S|$. A full-torus code of a simplex is a punctured generalized Reed--Muller
+code (Theorem~\ref{thrm:subcode2}(3)).
+\item[Riemann--Hurwitz formula] For a harmonic morphism $\varphi:G\to G'$ of
+degree $d$ between graphs of genera $g$ and $g'$, Baker and Norine proved
+$2g-2=d(2g'-2)+\sum_x\bigl(2(m_\varphi(x)-1)+v_\varphi(x)\bigr)$, where
+$v_\varphi(x)$ is the number of vertical edges at $x$~\cite{BN09}. It mirrors
+the classical formula for branched covers of Riemann surfaces.
+Example~\ref{ex:tropical} checks it for a map of degree two from a graph of
+genus one to a path.
+\item[Shortening] Shortening a code at a set $S$ of coordinates keeps the
+codewords that vanish on $S$ and then deletes $S$. The shortened code has
+dimension at least $\dim C-|S|$ and minimum distance at least $d(C)$. The dual
+of a shortened code is the punctured dual code.
+\item[Standard toric code] The code obtained by evaluating the functions of
+$L(G)$ at all $(q-1)^r$ points of $T(\Fq)$, for a torus-invariant divisor $G$.
+Its dimension is the number of residues of $P_G\cap M$ modulo $q-1$. Only the
+polytope $P_G$ matters, not the fan or the smoothness of $X$.
+\item[Toric variety] A normal variety containing a torus
+$T\cong(\overline{\F}^\times)^r$ as a dense open subset, such that the action
+of $T$ on itself extends to the variety. Toric varieties correspond to fans,
+and their geometry is encoded in the combinatorics of cones and polytopes.
+Projective space, products of projective lines and Hirzebruch surfaces are
+examples.
+\item[Tropical curve] The tropical curve of $f=\sum c_ux^u$ over a valued field
+is the set of $w\in\R^2$ where the minimum of
+$\operatorname{val}(c_u)+\langle u,w\rangle$ is attained at least twice. It is a
+balanced weighted planar graph with unbounded ends, dual to a subdivision of
+the Newton polygon. By Kapranov's theorem it is the closure of the image of
+the curve $f=0$ under coordinatewise valuation~\cite{MS15}.
+\item[Weight] The Hamming weight of a vector is the number of its nonzero
+coordinates. The Hamming distance between two vectors is the weight of their
+difference. The weight distribution of a code lists, for each $w$, the number
+$A_w$ of codewords of weight $w$ (Table~\ref{tab:wd}).
 \end{description}
 
 %======================================================================
@@ -1691,13 +2015,11 @@ I thank S{\o}ren Hansen, Johan Hansen and Amin Shokrollahi for answering many
 questions, and for helpful correspondence regarding their research.
 
 This corrected and expanded version was prepared with AI assistance. OpenAI
-ChatGPT (GPT-6) acted as referee. It wrote a report on the 2003 manuscript
-that identified the false conjectures, the false injectivity lemma, the
-reversed distance inequality and the problems with the decoding example.
+ChatGPT (GPT-6) acted as referee and wrote a report on the 2003 manuscript.
 Anthropic Claude (Claude Opus~5.5) acted as reviser. It checked each point of
 the report independently and wrote the revised text. It found the grid-lemma
-proofs, the duality and cyclic-code statements, the corrected decoding theorem
-and its worked example, and the graph-theoretic material of
+proofs, the duality and cyclic-code statements, the decoding theorem in its
+present form and its worked example, and the graph-theoretic material of
 Section~\ref{sec:graphs}. It also wrote and ran the verification scripts. AI
 review is not an independent certification of the results. Further details on
 the AI usage, including which sources could not be consulted, can be found in
@@ -1707,6 +2029,11 @@ the revision log.
 \begingroup\raggedright
 \begin{thebibliography}{GAP00}
 
+\bibitem[ABBR15]{ABBR15}
+O.~Amini, M.~Baker, E.~Brugall\'e and J.~Rabinoff, Lifting harmonic morphisms
+I: metrized complexes and Berkovich skeleta, \emph{Res. Math. Sci.}
+\textbf{2} (2015), Art.~7.
+
 \bibitem[Al99]{Al99}
 N.~Alon, Combinatorial Nullstellensatz, \emph{Combin. Probab. Comput.}
 \textbf{8} (1999), 7--29.
@@ -1714,6 +2041,10 @@ N.~Alon, Combinatorial Nullstellensatz, \emph{Combin. Probab. Comput.}
 \bibitem[AF93]{AF93}
 N.~Alon and Z.~F\"uredi, Covering the cube by affine hyperplanes,
 \emph{European J. Combin.} \textbf{14} (1993), 79--83.
+
+\bibitem[Ba08]{Ba08}
+M.~Baker, Specialization of linear systems from curves to graphs, \emph{Algebra
+Number Theory} \textbf{2} (2008), 613--653.
 
 \bibitem[BN09]{BN09}
 M.~Baker and S.~Norine, Harmonic morphisms and hyperelliptic graphs,
@@ -1739,6 +2070,10 @@ Comput. Math.} (2013), arXiv:1212.5197.
 \bibitem[CC12]{CC12}
 W.~Castryck and F.~Cools, Newton polygons and curve gonalities, \emph{J.
 Algebraic Combin.} \textbf{35} (2012), 345--366.
+
+\bibitem[Ch13]{Ch13}
+M.~Chan, Tropical hyperelliptic curves, \emph{J. Algebraic Combin.}
+\textbf{37} (2013), 331--359.
 
 \bibitem[DGM70]{DGM70}
 P.~Delsarte, J.-M.~Goethals and F.~J.~MacWilliams, On generalized Reed--Muller
@@ -1813,10 +2148,6 @@ Comput.} \textbf{15} (2004), 63--79.
 \bibitem[JV02]{JV02}
 D.~Joyner and H.~Verrill, Notes on toric varieties, preprint, circa 2002.
 
-\bibitem[Ki03]{Ki03}
-A.~Yu.~Kitaev, Fault-tolerant quantum computation by anyons, \emph{Ann.
-Physics} \textbf{303} (2003), 2--30.
-
 \bibitem[Li03a]{Li03a}
 J.~Little, A key equation and the computation of error values for codes from
 order domains, preprint, 2003, arXiv:math/0303299.
@@ -1841,6 +2172,10 @@ J. Discrete Math.} \textbf{20} (2006), 999--1014.
 J.~Little and R.~Schwarz, On toric codes and multivariate Vandermonde
 matrices, \emph{Appl. Algebra Engrg. Comm. Comput.} \textbf{18} (2007),
 349--367.
+
+\bibitem[MS15]{MS15}
+D.~Maclagan and B.~Sturmfels, \emph{Introduction to Tropical Geometry},
+Graduate Studies in Mathematics~161, American Mathematical Society, 2015.
 
 \bibitem[MS77]{MS77}
 F.~J.~MacWilliams and N.~J.~A.~Sloane, \emph{The Theory of Error-Correcting

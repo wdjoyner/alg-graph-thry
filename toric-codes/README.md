@@ -4,18 +4,19 @@ Project for David Joyner's *Toric codes over finite fields*, published in
 *Applicable Algebra in Engineering, Communication and Computing* **15** (2004),
 63–79 (preprint arXiv:math/0208155).
 
-**Current version: Draft 1 of the corrected and expanded version
+**Current version: Draft 3 of the corrected and expanded version
 (2026-11-22).** `toric-codes.tex` and `toric-codes.pdf`.
 
 ## Contents
 
-- `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (29 pages).
+- `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (34 pages).
 - `original/toric_code7.tex`: the 2003 manuscript source (dated September 1, 2003).
 - `referee/2026-11-22/toric_codes_referee_report.tex`: the referee report on
   the 2003 manuscript by OpenAI's ChatGPT. It uses the newtx fonts, so no PDF
   is included here.
 - `revision-log.tex`, `revision-log.pdf`: the revision log. It contains the
-  point-by-point response to the referee report, the list of changes, a
+  point-by-point response to the referee report, the list of changes, the
+  error discussion moved out of the paper in Draft 2, a
   numbering concordance, the verification level of each main claim, and the
   sources not consulted.
 - `scripts/`: the verification scripts and their outputs (see `scripts/README.md`).
@@ -42,6 +43,31 @@ independently. Changes in brief:
 - New Section 8 covers graph-theoretic connections: the discrete torus as a
   Cayley graph, the Combinatorial Nullstellensatz, fans as weighted cycle
   graphs, tropical curves and harmonic morphisms, and Kitaev's toric code.
+
+## Draft 2
+
+At David's request, all discussion of errors in the 2004 version was moved
+out of the paper into the revision log (Section 5 of the log). Where the
+mathematics was worth keeping, it is now stated as a natural question arising
+from a nearby theorem or from generalizing an example. For instance,
+Section 6.3 is now "Two estimates that fail". No theorem, example or
+computation changed.
+
+## Draft 3
+
+- Removed Section 8.5 (Kitaev's toric code) and Section 8.6 (the Hamming
+  graph and linear programming bounds).
+- Expanded Section 8.4 on tropical curves and harmonic morphisms. It now
+  proves that coordinate projections of tropical curves are harmonic
+  morphisms to a line, of degree equal to the vertical extent of the Newton
+  polygon. A worked example (with a figure) shows the tropical curve of a
+  polynomial with Newton polygon [0,2]^2, whose projection is a degree-2
+  harmonic morphism to a tree that folds its hexagonal cycle two-to-one; a
+  finite model satisfies the Baker–Norine Riemann–Hurwitz formula. A fiber
+  bound connects the degree of the projection to zeros of sections, hence to
+  minimum distances.
+- Expanded the glossary to about three sentences per entry, with new entries
+  for the tropical material.
 
 ## Pending
 
