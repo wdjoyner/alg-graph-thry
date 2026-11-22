@@ -339,8 +339,10 @@ monomials of degree at most $a$.
 
 Let $\omega$ be a primitive element of $\Fq$. Then the map
 \begin{equation}\label{eq:Omega}
-\Omega:\ \Lq=(\Z/(q-1))^r\ \longrightarrow\ T(\Fq)=(\Fqs)^r,\qquad
-i=(i_1,\dots,i_r)\longmapsto(\omega^{i_1},\dots,\omega^{i_r}),
+\begin{gathered}
+\Omega:\ \Lq=(\Z/(q-1))^r\ \longrightarrow\ T(\Fq)=(\Fqs)^r,\\
+\Omega(i)=(\omega^{i_1},\dots,\omega^{i_r}),
+\end{gathered}
 \end{equation}
 is a group isomorphism. In these coordinates
 $\chi^u(\omega^i)=\omega^{\langle u,i\rangle}$, where
@@ -1468,9 +1470,20 @@ $\chi^u$.
 
 For $g\in\GL_r(\Z/(q-1))$ with $gU=U$, the permutation $\pi_g$ of
 Proposition~\ref{prop:equiv} is an automorphism of $C_U$. So the permutation
-automorphism group of $C_U$ contains $\Lq\rtimes\operatorname{Stab}(U)$. Raising
-coordinates to the $p$-th power, combined with $\pi_g$ for $g=p^{-1}I$, gives a
-further semilinear automorphism.
+automorphism group of $C_U$ contains $\Lq\rtimes\operatorname{Stab}(U)$.
+
+There is also a semilinear automorphism coming from the Frobenius map. Write
+$q=p^e$, so that the prime $p$ is the characteristic of $\Fq$. (This prime $p$
+has nothing to do with the polygons $P$ and $P_G$, the evaluation points
+$p_i$ of Section~\ref{sec:decode} or the zero-cycle $P$.) Raising every coordinate
+of a codeword to the $p$-th power sends $\ev(\sum_uc_u\chi^u)$ to
+$\ev(\sum_uc_u^p\chi^{pu})$, so it maps $C_U$ onto $C_{pU}$. Since
+$q-1\equiv-1\pmod p$, the integer $p$ is invertible modulo $q-1$. So
+$g=p^{-1}I$ lies in $\GL_r(\Z/(q-1))$, and $\pi_g$ maps $C_{pU}$ back onto
+$C_U$. The composite is a semilinear automorphism of $C_U$. It is the
+identity when $q=p$ is prime, since then $c^p=c$ for all $c\in\Fq$ and
+$p\equiv1\pmod{p-1}$. So it gives something new only when $e>1$, as for the
+principal code over $\F_8$.
 
 \begin{example}[Minimum words of the principal code]\label{ex:minwords}
 For the $[49,11,28]_8$ code, the stabilizer of $Q$ in $\GL_2(\Z/7)$ consists
