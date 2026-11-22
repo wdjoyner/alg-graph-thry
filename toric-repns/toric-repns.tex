@@ -23,9 +23,6 @@
 \DeclareMathOperator{\Ind}{Ind}
 \DeclareMathOperator{\Hom}{Hom}
 \DeclareMathOperator{\tr}{tr}
-\DeclareMathOperator{\Spec}{Spec}
-\DeclareMathOperator{\Fix}{Fix}
-\DeclareMathOperator{\spanof}{span}
 \DeclareMathOperator{\divisor}{div}
 \newcommand{\CC}{\mathbb C}
 \newcommand{\ZZ}{\mathbb Z}
@@ -34,13 +31,13 @@
 \newcommand{\calO}{\mathcal O}
 \newcommand{\bfone}{\mathbf 1}
 \title{Representations of finite groups on the Riemann--Roch\\space of a toric variety\\[5pt]
-\large Draft 3: Corrected and expanded version}
-\author{David Joyner\thanks{Original unpublished manuscript dated June 23, 2002. This is a corrected and expanded draft prepared November 22, 2026.}\thanks{Email: \texttt{wdjoyner@gmail.com}.}}
+\large Draft 4: Corrected and expanded version}
+\author{David Joyner\thanks{Original unpublished manuscript dated June 23, 2002. This is Draft 4, revised November 22, 2026.}\thanks{Email: \texttt{wdjoyner@gmail.com}.}}
 \date{Original draft: 2002. Corrected and expanded draft: November 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-This AI-aided paper studies finite-group representations on toric Riemann--Roch spaces; details of AI assistance appear in the acknowledgments and a separate revision log. For a finite group of fan automorphisms preserving a torus-invariant Weil divisor on a complete normal toric variety, the Riemann--Roch space is a permutation module on the lattice points of the divisor polytope. We describe its induced-module decomposition and irreducible character multiplicities, and derive a weighted trace formula for finite subgroups of the torus normalizer. For an explicit singular toric surface with involution, we determine the representations associated with every nonnegative multiple of a divisor. We connect these modules with lattice-point graphs, commuting adjacency operators, equivariant Ehrhart counting, graphic zonotopes, and Johnson graphs. For the hypersimplex associated with the edges of a complete graph, we prove that the three Johnson-graph eigenspaces are the three irreducible constituents of the associated symmetric-group representation. The emphasis is on a self-contained synthesis of classical constructions and explicit examples.
+This AI-aided paper studies finite-group representations on toric Riemann--Roch spaces; details of AI assistance appear in the acknowledgments and a separate revision log. For a finite group of fan automorphisms preserving a torus-invariant Weil divisor on a complete normal toric variety, the Riemann--Roch space is a permutation module on the lattice points of the divisor polytope. We describe its induced-module decomposition and irreducible character multiplicities, and derive a weighted trace formula for finite subgroups of the torus normalizer. For an explicit singular toric surface with involution, we determine the representations associated with every nonnegative multiple of both a Cartier divisor and a non-Cartier Weil divisor. We distinguish linear fan actions from affine lattice actions and record the necessary choice of linearization. We connect these modules with lattice-point graphs, commuting adjacency operators, equivariant Ehrhart counting, graphic zonotopes, and Johnson graphs. For the hypersimplex associated with the edges of a complete graph, we prove that the three Johnson-graph eigenspaces are the three irreducible constituents of the associated symmetric-group representation. The emphasis is on a self-contained synthesis of classical constructions and explicit examples.
 \end{abstract}
 \tableofcontents
 
@@ -51,18 +48,18 @@ This description immediately raises two questions. What are the $G$-submodules g
 
 The graph-theoretic viewpoint enriches this calculation. A $G$-invariant step set on the character lattice defines a finite graph whose adjacency operator commutes with the representation. Conversely, edge polytopes and graphic zonotopes connect graph automorphisms with toric Riemann--Roch spaces. A particularly concrete instance involves the line graph of $K_n$, which is the Johnson graph $J(n,2)$.
 
-Throughout, irreducible character decompositions are taken over $\CC$, except where an arbitrary field is explicitly allowed. Our running example is a singular complete toric surface with an involution. The surface exhibits both the induced-module calculation and its graph-theoretic refinements.
+Throughout, irreducible character decompositions are taken over $\CC$, except where an arbitrary field is explicitly allowed. Sections~\ref{sec:surface} and \ref{sec:graphs} share an explicit singular complete toric surface with an involution. For its Cartier divisor, the 31 lattice points split into seven fixed points and twelve two-point orbits, giving $19\bfone\oplus12\operatorname{sgn}$. The hypersimplex discussion requires $n\geq4$ for the three-eigenspace decomposition.
 
 \section{Related literature}
 The two ingredients in our approach are the polytope description of toric global sections and the representation theory of finite permutation actions. Equivariant Ehrhart theory and spectral graph theory place these ingredients in a broader context.
 
-\subsection*{Toric geometry and character theory}
-The polytope description of global sections of torus-invariant divisors is standard in toric geometry; see Fulton \cite{Fu93} and Oda \cite{Od88}. Finite-group characters and induction from stabilizers are classical results of representation theory; see Serre \cite{Se77}. Related questions for Riemann--Roch spaces on curves were studied by Joyner and Traves \cite{JT02}. In the toric setting, character monomials make the corresponding group action especially concrete.
+\subsection*{Toric geometry and character theory (through 2002)}
+The polytope description of global sections of torus-invariant divisors is standard in toric geometry; see Fulton \cite{Fu93} and Oda \cite{Od88}. For arbitrary invariant Weil divisors, the precise sheaf formulation is given in Cox--Little--Schenck \cite[Proposition~4.3.3]{CLS11}. Finite-group characters and induction from stabilizers are classical results of representation theory; see Serre \cite{Se77}. Related questions for Riemann--Roch spaces on curves were studied by Joyner and Traves \cite{JT02}. In the toric setting, character monomials make the corresponding group action especially concrete.
 
-\subsection*{Equivariant Ehrhart and spectral graph theory}
-Stapledon's 2011 article \cite{St11} systematically develops equivariant Ehrhart theory. Elia, Kim, and Supina \cite{EKS24} explicitly study graphic zonotopes and hypersimplices, among other examples. The spectral theory of Johnson graphs is classical; an overview of related spectral graph theory appears in Brouwer and Haemers \cite{BH12}. The forest-counting formula for graphic zonotopes is established in this literature; see \cite[Section 3.1]{EKS24}. We use these results to connect lattice-point enumeration with toric representations, and give a direct graph-spectral argument for the Johnson-graph example.
+\subsection*{Developments after the original 2002 manuscript}
+Stapledon's 2011 article \cite{St11} systematically develops equivariant Ehrhart theory. Elia, Kim, and Supina \cite{EKS24} explicitly study graphic zonotopes and hypersimplices, among other examples. The spectral theory of Johnson graphs is classical; an overview of related spectral graph theory appears in Brouwer and Haemers \cite{BH12}. The graphic-zonotope forest formula is classical, going back to Stanley \cite{St91}; Elia--Kim--Supina study equivariant refinements \cite[Section~3.1]{EKS24}. Johnson association schemes also belong to the classical framework of Delsarte \cite{De73}. We use these results to connect lattice-point enumeration with toric representations, and give a direct graph-spectral argument for the Johnson-graph example.
 
-For example, the triangle graph has three single-edge forests and three two-edge forests. Its graphic zonotope has Ehrhart polynomial $1+3q+3q^2$. This simple case will reappear in Section~\ref{sec:zonotope}.
+The triangle-graph count appears as a worked example in Example~\ref{ex:K3}.
 
 \section{Background and notation}\label{sec:background}
 We recall the geometry and representation theory underlying the orbit and character formulas. Unless stated otherwise, every toric divisor considered below is invariant under the dense torus.
@@ -82,7 +79,7 @@ The sheaf $\calO_X(D)$ is in general reflexive of rank one, not necessarily inve
 L(D)=\{f\in\CC(X)^\times:\divisor(f)+D\geq0\}\cup\{0\}
 =\bigoplus_{u\in P_D\cap M}\CC\chi^u.
 \end{equation}
-The basis theorem is the usual toric character description \cite[Section 3.4]{Fu93}. Completeness makes the set $P_D\cap M$ finite; it may be empty.
+The basis theorem is the toric character description for invariant Weil divisors \cite[Proposition~4.3.3]{CLS11}; compare \cite[Section~3.4]{Fu93}. Completeness makes the set $P_D\cap M$ finite; it may be empty.
 
 \begin{example}\label{ex:p1}
 For $X=\mathbb P^1$, let $N=M=\ZZ$ and take the two rays with generators $1$ and $-1$. If $D=aD_++bD_-$, then $P_D=[-a,b]$. When $a+b\geq0$ and $a,b$ are integers, equation~\eqref{eq:rr} has $a+b+1$ character monomials.
@@ -104,7 +101,7 @@ If $G=C_2$ interchanges two basis vectors $e_1,e_2$, then $\CC e_1\oplus\CC e_2$
 \end{example}
 
 \subsection{Notation table}
-For reference, the symbols used most frequently are collected below. The running $C_2$ example uses $N=M=\ZZ^2$, with the natural pairing.
+For reference, the symbols used most frequently are collected below. In the surface example, $N=M=\ZZ^2$ via the standard coordinate pairing.
 \begin{center}
 \begin{tabular}{@{}p{0.26\linewidth}p{0.65\linewidth}@{}}
 \toprule
@@ -114,7 +111,7 @@ $T$ & Dense algebraic torus of $X(\Delta)$.\\
 $D$, $P_D$ & Torus-invariant Weil divisor and its polyhedron.\\
 $S_D$ & Finite set $P_D\cap M$ of character exponents.\\
 $G_u$ & Stabilizer of $u$ under a finite group $G$.\\
-$\rho_D$, $\chi_D$ & Representation on $L(D)$ and its character.\\
+$\pi_D$, $\chi_D$ & Representation on $L(D)$ and its character.\\
 $\Gamma_D(B)$, $A$ & Lattice-point graph for step set $B$, and its adjacency matrix.\\
 $J(n,2)$ & Johnson graph on the two-element subsets of $\{1,\ldots,n\}$.\\
 \bottomrule
@@ -128,10 +125,9 @@ The character basis of $L(D)$ is partitioned into finite $G$-orbits. It is natur
 Let $X=X(\Delta)$ be a complete normal toric variety over $\CC$. Let $G\leq\Aut(\Delta)$ be finite and let $D=\sum a_\rho D_\rho$ be a $G$-invariant torus-invariant Weil divisor. Put $S_D=P_D\cap M$. Then
 \begin{equation}\label{eq:induction}
 L(D)\cong\CC[S_D]\cong
-\bigoplus_{\mathcal O\in S_D/G}\Ind_{G_u}^G\bfone,
-\qquad u\in\mathcal O.
+\bigoplus_{\mathcal O\in S_D/G}\Ind_{G_u}^G\bfone.
 \end{equation}
-These are transitive permutation modules. Over $\CC$ they can be decomposed further into irreducible modules. The permutation-module and orbit-sum assertions remain true over any field.
+Here $u$ is any chosen representative of the orbit $\mathcal O$. Each summand is a transitive permutation module. Over $\CC$ these modules can be decomposed further into irreducibles. The permutation-module and orbit-sum assertions remain true over any field.
 \end{theorem}
 \begin{proof}
 Equation~\eqref{eq:rr} gives a basis indexed by $S_D$. Since $G$ preserves the rays and coefficients of $D$, the defining inequalities of $P_D$ are carried to one another, so $G$ preserves $S_D$. Equation~\eqref{eq:monomialaction} shows that it permutes the indicated basis without scalar factors. Therefore $L(D)\cong\CC[S_D]$. Each orbit span is a subrepresentation, and choosing a representative $u$ identifies its basis with the coset space $G/G_u$. The standard description of the induced trivial representation proves equation~\eqref{eq:induction}.
@@ -140,23 +136,19 @@ Equation~\eqref{eq:rr} gives a basis indexed by $S_D$. Since $G$ preserves the r
 \begin{corollary}[Fixed-point character and multiplicities]\label{cor:character}
 Under the hypotheses of Theorem~\ref{thm:orbit}, let $\psi$ be an irreducible complex character of $G$. For every $g\in G$,
 \begin{align}
-\chi_D(g)&=\tr(\rho_D(g))=\bigl|P_D\cap M^g\bigr|,\label{eq:fixedchar}\\
+\chi_D(g)&=\tr(\pi_D(g))=\bigl|P_D\cap M^g\bigr|,\label{eq:fixedchar}\\
  m_\psi(D)&=\frac1{|G|}\sum_{g\in G}
  \overline{\psi(g)}\bigl|P_D\cap M^g\bigr|.\label{eq:mult}
 \end{align}
 Here $M^g=\{u\in M:g\cdot u=u\}$, and $m_\psi(D)$ is the multiplicity of $\psi$ in $L(D)$.
 \end{corollary}
 \begin{proof}
-The matrix of $\rho_D(g)$ in the character basis is a permutation matrix. Its diagonal ones correspond exactly to fixed lattice points. This proves equation~\eqref{eq:fixedchar}. Complex representation theory gives the irreducible character inner product $m_\psi(D)=\langle\chi_D,\psi\rangle_G$, which is equation~\eqref{eq:mult}.
+The matrix of $\pi_D(g)$ in the character basis is a permutation matrix. Its diagonal ones correspond exactly to fixed lattice points. This proves equation~\eqref{eq:fixedchar}. Complex representation theory gives the irreducible character inner product $m_\psi(D)=\langle\chi_D,\psi\rangle_G$, which is equation~\eqref{eq:mult}.
 \end{proof}
 
 \begin{remark}
-The fixed-point formula gives a character-valued refinement of the lattice-point count when $D$ is dilated, as in equivariant Ehrhart theory \cite{St11,EKS24}. The distinction between orbit modules and irreducible modules is visible already for the action of $C_2$ on two points: the orbit module is the sum of the trivial and sign representations.
+The fixed-point formula gives a character-valued refinement of the lattice-point count when $D$ is dilated, as in equivariant Ehrhart theory \cite{St11,EKS24}. The corresponding fixed-point count refines the ordinary lattice-point count for each multiple of a divisor.
 \end{remark}
-
-\begin{example}
-For a $C_2$-set consisting of seven fixed points and twelve two-point orbits, equation~\eqref{eq:induction} gives $7\bfone+12(\bfone\oplus\operatorname{sgn})=19\bfone\oplus12\operatorname{sgn}$. This is the decomposition occurring in the next section.
-\end{example}
 
 \section{A singular toric surface with an involution}\label{sec:surface}
 We now study a complete toric surface with three cyclic quotient singularities and an involution that interchanges two rays. The geometry is simple enough to compute the Riemann--Roch character and its irreducible decomposition for every nonnegative multiple of a divisor.
@@ -190,10 +182,10 @@ Write $\rho_i=\RR_{\geq0}v_i$ and $D_i=V(\rho_i)$ for the invariant divisors. A 
 \begin{aligned}
 \CC[U_{\sigma_1}]&\cong\CC[x_1,x_2,x_3]/(x_1^3-x_2x_3),\\
 \CC[U_{\sigma_2}]&\cong\CC[y_1,y_2,y_3]/(y_2^3-y_1y_3),\\
-\CC[U_{\sigma_3}]&\cong\CC[z_1,z_2,z_3]/(z_2^3-z_1z_3).
+\CC[U_{\sigma_3}]&\cong\CC[z_1,z_2,z_3]/(z_1^3-z_2z_3).
 \end{aligned}
 \end{equation}
-For example, the three exponents on $U_{\sigma_2}$ are $(-2,-1)$, $(-1,0)$, and $(-1,1)$; their relation is $3(-1,0)=(-2,-1)+(-1,1)$. Similarly, the exponents on $U_{\sigma_1}$ are $(1,1)$, $(1,2)$, and $(2,1)$, and on $U_{\sigma_3}$ they are $(0,-1)$, $(-1,-2)$, and $(1,-1)$. The swap $g(x,y)=(y,x)$ exchanges $v_1$ and $v_2$, fixes $v_3$, fixes $U_{\sigma_1}$, and exchanges $U_{\sigma_2}$ and $U_{\sigma_3}$.
+For example, the three exponents on $U_{\sigma_2}$ are $(-2,-1)$, $(-1,0)$, and $(-1,1)$; their relation is $3(-1,0)=(-2,-1)+(-1,1)$. Similarly, the exponents on $U_{\sigma_1}$ are $(1,1)$, $(1,2)$, and $(2,1)$, and on $U_{\sigma_3}$ they are $(0,-1)$, $(-1,-2)$, and $(1,-1)$, with $3(0,-1)=(-1,-2)+(1,-1)$. The swap $g(x,y)=(y,x)$ exchanges $v_1$ and $v_2$, fixes $v_3$, fixes $U_{\sigma_1}$, and exchanges $U_{\sigma_2}$ and $U_{\sigma_3}$.
 
 Let $G=\langle g\rangle\cong C_2$ and choose
 \begin{equation}\label{eq:Dsurface}
@@ -230,7 +222,7 @@ Assume the hypotheses of Theorem~\ref{thm:orbit}. Let $B\subset M\setminus\{0\}$
 \begin{theorem}[Commuting adjacency theorem]\label{thm:commute}
 For $G$, $D$, and $B$ as in Definition~\ref{def:latticegraph}, every $g\in G$ is an automorphism of $\Gamma_D(B)$, and
 \begin{equation}\label{eq:commute}
-A\rho_D(g)=\rho_D(g)A.
+A\pi_D(g)=\pi_D(g)A.
 \end{equation}
 Consequently, every adjacency eigenspace is a $G$-subrepresentation. More precisely, over $\CC$ there is a decomposition
 \begin{equation}\label{eq:spectral}
@@ -239,19 +231,19 @@ L(D)=\bigoplus_{\lambda\in\Spec(A)}\ \bigoplus_{\psi\in\widehat G}E_{\lambda,\ps
 where $E_{\lambda,\psi}$ is the $\psi$-isotypic component of the $\lambda$-eigenspace. Some components can be zero.
 \end{theorem}
 \begin{proof}
-If $u-v\in B$, then $g(u)-g(v)=g(u-v)\in B$, so $g$ preserves edges. For a vertex basis vector $e_u$, the vector $Ae_u$ is the sum of its neighbors. Applying $g$ takes this sum to the neighbors of $g(u)$, which is $A\rho_D(g)e_u$. Thus equation~\eqref{eq:commute} holds on a basis. The adjacency matrix of an undirected finite graph is real symmetric, so it is diagonalizable over $\CC$. Its eigenspaces are $G$-stable by commutation and completely reducible as complex $G$-modules. This proves equation~\eqref{eq:spectral}.
+If $u-v\in B$, then $g(u)-g(v)=g(u-v)\in B$, so $g$ preserves edges. For a vertex basis vector $e_u$, the vector $Ae_u$ is the sum of its neighbors. Applying $g$ takes this sum to the neighbors of $g(u)$, which is $A\pi_D(g)e_u$. Thus equation~\eqref{eq:commute} holds on a basis. The adjacency matrix of an undirected finite graph is real symmetric, so it is diagonalizable over $\CC$. Its eigenspaces are $G$-stable by commutation and completely reducible as complex $G$-modules. This proves equation~\eqref{eq:spectral}.
 \end{proof}
 
 \begin{proposition}[Twisted walk trace]\label{prop:walks}
 For every integer $r\geq0$ and $g\in G$,
 \begin{equation}\label{eq:walks}
-\tr\bigl(\rho_D(g)A^r\bigr)=
+\tr\bigl(\pi_D(g)A^r\bigr)=
 \sum_{u\in S_D}(A^r)_{u,g(u)}.
 \end{equation}
 Thus the right-hand side counts ordered graph walks of length $r$ from a vertex to its $g$-translate, summed over all starting vertices. At $r=0$ it recovers the fixed-point character formula.
 \end{proposition}
 \begin{proof}
-The entries $(A^r)_{u,v}$ count walks of length $r$ from $u$ to $v$. In the basis indexed by $S_D$, the diagonal coefficient of $\rho_D(g)A^r$ at $e_u$ is $(A^r)_{g^{-1}u,u}$. Reindexing by $g^{-1}u$ gives the right-hand side of equation~\eqref{eq:walks}.
+The entries $(A^r)_{u,v}$ count walks of length $r$ from $u$ to $v$. In the basis indexed by $S_D$, the diagonal coefficient of $\pi_D(g)A^r$ at $e_u$ is $(A^r)_{g^{-1}u,u}$. Reindexing by $g^{-1}u$ gives the right-hand side of equation~\eqref{eq:walks}.
 \end{proof}
 
 \begin{example}[The graph on the triangle]\label{ex:graph31}
@@ -259,7 +251,7 @@ For the divisor of Section~\ref{sec:surface}, choose
 \[
 B=\{(a,b)\in\{-1,0,1\}^2:(a,b)\ne(0,0)\}.
 \]
-This is the eight-neighbor lattice graph and $B$ is invariant under coordinate swap. Its $31$ vertices form a connected graph with $85$ undirected edges. Under the involution its $31$-dimensional vertex space splits as an invariant adjacency block of dimension $19$ and an anti-invariant block of dimension $12$. Five edges are exchanged endpoint-by-endpoint by $g$, so equation~\eqref{eq:walks} gives $\tr(\rho_D(g)A)=10$. The edge count and last trace were independently checked by exhaustive integer enumeration in \texttt{verify\_examples.py}; no numerical eigenvalue approximation is used in the proof.
+This is the eight-neighbor lattice graph and $B$ is invariant under coordinate swap. Its $31$ vertices form a connected graph with $85$ undirected edges. Under the involution its $31$-dimensional vertex space splits as an invariant adjacency block of dimension $19$ and an anti-invariant block of dimension $12$. Five edges are exchanged endpoint-by-endpoint by $g$, so equation~\eqref{eq:walks} gives $\tr(\pi_D(g)A)=10$. The edge count and last trace were independently checked by exhaustive integer enumeration in \texttt{verify\_examples.py}; no numerical eigenvalue approximation is used in the proof.
 \end{example}
 
 \begin{remark}
