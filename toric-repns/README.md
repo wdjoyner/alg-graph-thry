@@ -1,45 +1,35 @@
-# Toric Riemann–Roch representations: corrected and graph-theoretic draft
+# Representations of finite groups on the Riemann--Roch space of a toric variety
 
-This is **Draft 2 (November 22, 2026)** of David Joyner's 2002 manuscript
-**“Representations of finite groups on the Riemann–Roch space of a toric variety.”**
+**Draft 3 (November 22, 2026)** by David Joyner. This directory belongs to
+`wdjoyner/alg-graph-thry` on the `main` branch.
+
+The manuscript studies finite-group actions on lattice-point bases of toric
+Riemann--Roch spaces, induced permutation modules, fixed-point and weighted
+character formulas, and graph-theoretic interpretations. Its examples include
+a singular toric surface with involution, graphic zonotopes, and the symmetric-
+group representations identified by Johnson-graph eigenspaces.
+
+The main paper reads as a self-contained mathematical article. The separate
+**revision log** records the history, referee criticisms, responses, and
+verification levels.
 
 ## Files
 
-- `toric-repns.tex`: corrected and expanded manuscript (the draft number appears on the title page).
-- `revision-log.tex`: corrections, provenance, verification, literature review, and theorem concordance.
-- `verify_examples.py`: exact integer tests of the worked examples (Python standard library only).
-- `original/rr_toric_2002.tex`: supplied original manuscript.
-- `original/carbon_referee_report.txt`: Carbon's referee report.
-- `LICENSE-manuscript.txt` and `LICENSE-code.txt`: licensing information.
-- `Makefile`: build the two PDFs and run the verification script.
+- `toric-repns.tex`: editable manuscript, with draft number on the title page.
+- `revision-log.tex`: detailed changes, historical criticisms, and verification.
+- `verify_examples.py`: exact integer verification (Python standard library).
+- `original/rr_toric_2002.tex`: archival source.
+- `original/carbon_referee_report.txt`: archival referee report.
+- `Makefile`: PDF build and verification commands.
+- `LICENSE-manuscript.txt`, `LICENSE-code.txt`: license declarations.
 
-The compiled PDF is reproducible from the LaTeX source; the GitHub text-file upload
-used for this revision did not include binary PDF files.
+## Build
 
-## Corrected results and graph theory
-
-The original orbit-sum is a decomposition into **induced permutation modules**,
-not irreducible representations. The manuscript proves irreducible multiplicity and
-weighted monomial trace formulas and repairs the singular toric surface example.
-New sections treat commuting adjacency operators, symmetry-twisted walks,
-graphic zonotopes, and the Johnson-graph decomposition of the edge permutation
-representation of the symmetric group. These classical connections are credited
-to the relevant literature and not claimed as new discoveries.
-
-## Compile and verify
-
-```bash
+```sh
 make pdf
 make check
 ```
 
-Alternatively, run `pdflatex -interaction=nonstopmode -halt-on-error toric-repns.tex`
-three times and `pdflatex -interaction=nonstopmode -halt-on-error revision-log.tex` twice.
-
-## Licensing
-
-- Manuscript and other prose: Creative Commons Attribution 4.0 International (CC BY 4.0).
-- `verify_examples.py`: MIT license.
-
-Original manuscript: June 23, 2002. Corrected and expanded Draft 2: November 22, 2026.
-Directory: `wdjoyner/alg-graph-thry/toric-repns` on `main`.
+The compiled PDFs can be regenerated with `pdflatex`; the GitHub connector
+used for this update supports source files but not uploading binary PDFs.
+Manuscript text is licensed CC BY 4.0; the verification script is MIT licensed.
