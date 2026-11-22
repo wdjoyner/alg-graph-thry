@@ -1,0 +1,75 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,array,booktabs,microtype,longtable}
+\IfFileExists{newtxtext.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}}
+\usepackage[hidelinks]{hyperref}
+\title{Revision Log: Representations of finite groups on the Riemann--Roch space of a toric variety\\\large Draft 2, corrected and expanded version}
+\author{David Joyner (original manuscript); revision assistance by ChatGPT}
+\date{November 22, 2026}
+\begin{document}
+\maketitle
+\section{Provenance and scope}
+The source was the original LaTeX manuscript \texttt{rr\_toric.tex}, dated June 23, 2002, supplied in the conversation, together with a referee report by Carbon (Claude), supplied as a text file. This revision preserves the paper's title, problem, induced action on the Riemann--Roch space, and its original two-dimensional toric example. It corrects mathematical errors and adds a graph-theoretic treatment. It is not represented as a peer-reviewed or fully novel research contribution.
+
+\section{Responses to Carbon's report}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.32\linewidth}>{\raggedright\arraybackslash}p{0.60\linewidth}@{}}
+\toprule
+Issue & Resolution in Draft 2\\\midrule
+\endhead
+Orbit representations falsely called irreducible & Replaced by the induced permutation module formula and a separate irreducible-character multiplicity formula.\\
+Theorem too broadly assumes arbitrary automorphisms & Restricted the permutation theorem to finite groups of fan automorphisms preserving a torus-invariant divisor. Added weighted fixed-point trace for finite subgroups of the torus normalizer.\\
+Smoothness versus singular example & Stated the theorem for complete normal toric varieties and arbitrary torus-invariant Weil divisors, using the reflexive sheaf $\mathcal O_X(D)$.\\
+Incorrect affine chart equations & Replaced all three with cubic $A_2$ hypersurface equations $u^3=vw$; clarified the invariant and exchanged charts.\\
+Dual lattice and orbit notation & Distinguished $N$ from its dual $M=N^\vee$, and distinguished the torus orbit $O(\rho)$ from its closure $D_\rho=V(\rho)$.\\
+Proof incorrectly invokes Maschke & Supplied a direct orbit-basis proof. Maschke is used only for subsequent irreducible decomposition over characteristic zero.\\
+Trace theorem insufficiently explained & Proved the fixed-lattice-point character formula and irreducible multiplicity formula using character inner products.\\
+Misprints, unused symbols and outdated bibliography & Replaced inconsistent $L^\perp$ notation, removed unused inner product and unused quantifier, corrected mathematical typos, and supplied updated bibliography with stable keys.\\
+Concern about novelty & Literature review acknowledges established equivariant Ehrhart theory and graph-zonotope work. The revision does not characterize standard formulas as new.\\
+\bottomrule
+\end{longtable}
+
+\section{Original mathematical results retained or corrected}
+The 2002 note contained the basic idea of decomposing the character basis by finite-group orbits and calculating the trace from fixed lattice points. That insight is preserved, but the asserted irreducibility of each orbit module is false. The original fan with rays $(2,-1),(-1,2),(-1,-1)$ is valid and complete, though singular. The original divisor $D=6D_1+6D_2$ and triangle with vertices $(-6,-6),(-2,2),(2,-2)$ are retained. The numbers of fixed and two-element orbits, $7$ and $12$, are correct.
+
+\section{Results and expositions introduced in the correction}
+\begin{enumerate}
+\item The decomposition $L(D)=\bigoplus\operatorname{Ind}_{G_u}^{G}\mathbf1$ is stated and proved correctly, followed by an irreducible multiplicity formula. These are standard consequences of toric monomial bases and character theory, not claims of first discovery.
+\item For all $q\geq0$, the original surface yields $\dim L(qD)=24q^2+6q+1$, involution trace $6q+1$, and multiplicities $12q^2+6q+1$ and $12q^2$.
+\item Lattice-point graphs with $G$-invariant symmetric step sets yield commuting adjacency operators and a twisted-walk trace formula. These consequences are proved directly and are presented as elementary graph-representation constructions.
+\item The $31$-vertex graph on the original triangle has $85$ edges and twisted adjacency trace $10$.
+\item A graphic-zonotope section relates toric section dimensions to forest enumerators. This is standard literature, cited explicitly.
+\item For $K_3$, character and irreducible multiplicity formulas for the hexagon and its dilates are derived.
+\item For the hypersimplex $\Delta(2,n)$, the $S_n$ edge-permutation representation is decomposed using the Johnson graph $J(n,2)$. The spectrum and irreducibility are established with an unsigned incidence-matrix identity and a three-dimensional commutant argument. These are classical facts organized as a toric example.
+\item The torus-normalizer trace is treated separately, to prevent confusing permutation with monomial actions.
+\end{enumerate}
+
+\section{Numbering concordance}
+\begin{center}
+\begin{tabular}{@{}p{0.46\linewidth}p{0.45\linewidth}@{}}
+\toprule
+2002 manuscript & Draft 2 manuscript\\\midrule
+Theorem 1 (incorrect irreducibility) & Theorem 4.1 (corrected orbit theorem) and Corollary 4.2\\
+Theorem 2 (trace for fan automorphisms) & Corollary 4.2 (character formula)\\
+Section 2 (toric surface example) & Section 5 (repaired surface example)\\
+Inverse question after Theorem 1 & Section 10 (summary and open questions)\\
+No original counterparts & Sections 6--9 (graph theory and monomial extension)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Verification and source checking}
+\begin{itemize}
+\item \textbf{Level 1: independent mathematical derivation.} The orbit-module and trace formulas, lattice area/boundary counts by Pick's theorem, $C_2$ multiplicities, commuting adjacency and twisted-walk identities, K3 fixed-point counts, weighted torus-normalizer trace, and Johnson incidence-matrix proof were derived from the specified definitions.
+\item \textbf{Level 1: exact computational checks.} The accompanying Python script (\path{verify_examples.py}) enumerates $P_{qD}\cap\mathbb Z^2$ and K3 hexagon lattice points for $0\leq q\leq12$, checks the graph's $85$ edges, connectedness, five swapped edges, and twisted trace $10$, and checks Johnson incidence-matrix identities for $4\leq n\leq12$.
+\item \textbf{Level 2: consulted sources.} The public full text of Elia--Kim--Supina (2024) was consulted for its account of equivariant Ehrhart theory, graphic zonotopes, and hypersimplices. Bibliographic metadata and abstracts were checked for Stapledon (2011), Joyner--Traves (2002), Brouwer--Haemers (2012), Oda (1988), and James (1978). A mathematical exposition of the forest-counting identity was also consulted.
+\item \textbf{Level 3: classical references not fully checked.} The full texts of Fulton (1993), Serre (1977), James (1978), and Brouwer--Haemers (2012) were not systematically checked line by line. The use of classical toric and representation facts is accompanied by self-contained arguments where feasible. Thus no source-checking claim beyond the material actually consulted is made.
+\item \textbf{Typesetting.} Draft 2 compiles with \texttt{pdflatex} using 12pt Times-style text and math, US Letter paper, and one-inch margins. Equation references and bibliography keys were checked by recompilation.
+\end{itemize}
+
+\section{AI usage and limitations}
+Carbon (Claude) supplied an initial referee report, which motivated the correction of the false irreducibility claim and erroneous affine equations. ChatGPT (OpenAI GPT-6) conducted the subsequent revision, developed the graph sections, checked mathematical derivations, wrote the exact verification script, checked bibliographic sources, and compiled the LaTeX. These AI activities are not an independent certification of the results. Responsibility for mathematical verification and any publication or submission remains with the human author.
+
+\section{Suggested next review}
+A human referee should pay particular attention to the natural $S_n$-linearization on the hypersimplex line bundle, to the scope of the zonotope lattice-count identity in the intrinsic affine lattice, and to prior art before attributing originality to any graph-spectral generalization.
+\end{document}
