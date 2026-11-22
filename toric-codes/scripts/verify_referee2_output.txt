@@ -1,0 +1,21 @@
+== M1: the triangle of Example 'A projective plane in disguise'
+old map, (d1,d2,d3)=(1,1,3): image [(-2, -1), (3, -1), (3, 4)] -> translate of S_s? False
+new map, (d1,d2,d3)=(1,1,3): image [(-1, -1), (4, -1), (-1, 4)] -> translate of S_s? True
+det of new map: 1
+== M3: direction of the ends of Trop(1+x+y), min convention
+  ray (-1, -1) dual to edge ((1, 0), (0, 1)) inward normal: True
+  ray (0, 1) dual to edge ((0, 0), (1, 0)) inward normal: True
+  ray (1, 0) dual to edge ((0, 0), (0, 1)) inward normal: True
+== M2: f=(1+x+y)^2; dual edges have lattice length 2, so every ray has weight 2
+  weighted slopes right/left at the vertex: 2 2 ; vertical extent of 2*S_1 = 2
+  lattice-length slopes right/left: 1 1 (degree 1, not 2)
+== M4: [0,2]^2 is Hansen type (c) with a=b=2
+  k=(a+1)(b+1) = 9 lattice points of [0,2]^2 = 9 ; d over F_8 = 25
+== M5: estimate (i) for P=[0,1]^2 and N = ceil((q-1)/sqrt 2)
+  prime powers 3 <= q < 2000 where the family is NOT a counterexample: [3, 4]
+  (for q-1 >= 10: N <= (q-1)/sqrt2 + 1 < q - 3/2, so d = n-2(q-1)+1 < n-2N)
+== C3: moment checks of Table 'weight distribution'
+  sum A_w = 8^11: True
+  sum w A_w = 49*7*8^10: True
+  sum w(w-1) A_w = 49*48*7^2*8^9: True
+  7 | A_w for w>0: True

@@ -4,19 +4,19 @@ Project for David Joyner's *Toric codes over finite fields*, published in
 *Applicable Algebra in Engineering, Communication and Computing* **15** (2004),
 63–79 (preprint arXiv:math/0208155).
 
-**Current version: Draft 3 of the corrected and expanded version
+**Current version: Draft 4 of the corrected and expanded version
 (2026-11-22).** `toric-codes.tex` and `toric-codes.pdf`.
 
 ## Contents
 
-- `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (34 pages).
+- `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (37 pages).
 - `original/toric_code7.tex`: the 2003 manuscript source (dated September 1, 2003).
 - `referee/2026-11-22/toric_codes_referee_report.tex`: the earlier referee report on
   the 2003 manuscript by OpenAI's ChatGPT; it uses newtx fonts and has no PDF here.
 - `referee/2026-11-22/toric-codes-referee-2026-11-22.tex` and `.pdf`:
   a new correctness and readability report on the attached Draft 1, with
   separate findings affecting the newer Draft 3 tropical section.
-- `.github/workflows/build-toric-codes-pdfs.yml`: builds the current Draft 3
+- `.github/workflows/build-toric-codes-pdfs.yml`: builds the current
   manuscript and the new referee report, then commits both compiled PDFs.
 - `revision-log.tex`, `revision-log.pdf`: the revision log. It contains the
   point-by-point response to the referee report, the list of changes, the
@@ -73,6 +73,36 @@ computation changed.
 - Expanded the glossary to about three sentences per entry, with new entries
   for the tropical material.
 
+## Draft 4
+
+Response to the second ChatGPT referee report
+(`referee/2026-11-22/toric-codes-referee-2026-11-22.tex`). Made from Draft 3.
+Every finding was checked independently; the point-by-point response is
+Section 8 of the revision log. Theorem numbers are unchanged.
+
+- M1: Example 5.13 now uses the unimodular map (x,y) -> (2x-y, y-x), which
+  takes the triangle to a translate of the simplex S_s. The old shear did not.
+- M2: Proposition 8.5 repaired. Tropical edges now get length
+  (lattice length)/(weight), so the dilation factor weight·|a| really is the
+  slope of the projection. A new paragraph works the referee's example
+  (1+x+y)^2.
+- M3 not accepted: with the min convention the paper uses, tropical ends do
+  point along inward normals (Trop(1+x+y) has rays (1,0), (0,1), (-1,-1)).
+  The report's rays belong to the max convention. This example is now in
+  the paper.
+- M4: Example 8.6 corrected to Hansen type (c) with a = b = 2.
+- M5: Example 6.6 now refutes estimate (i) for every prime power q >= 5, not
+  just q = 9.
+- M6: Proposition 8.1 now says generalized toric codes are the cyclic codes,
+  with an example showing standard toric codes are a proper subfamily (r = 1).
+  Cayley graph restricted to q >= 4.
+- M7: new Section 9.1 on reproducibility (field, indexing, commands,
+  checksums), `scripts/CHECKSUMS.txt`, and an independent verifier
+  (`scripts/certify.py`, `scripts/certify.c`) that shares no code with
+  `mindist.c`. It reproduces Table 1 and checks the t = 6 decoding pair.
+- Exposition: shorter abstract, rational polytope versus lattice polygon in
+  Example 5.8, Acknowledgments mention the second report.
+
 ## Pending
 
 - Check the copyright position before treating this corrected version of the
@@ -81,4 +111,7 @@ computation changed.
   been compiled.
 - Check the page citations carried over from 2003 (Fulton, Stichtenoth,
   MacWilliams–Sloane) against the sources.
-- Decide whether Section 8 stays in the paper or moves to a companion note.
+- Decide whether Section 8 stays in the paper or moves to a companion note
+  (the second referee report also raises this).
+- Optionally rerun `verify_tables.py` on a second machine. Draft 4
+  independently reverified only the principal code and the t = 6 pair.

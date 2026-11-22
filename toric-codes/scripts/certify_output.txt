@@ -1,0 +1,13 @@
+Field polynomial w^3 + w + 1; powers of w: [1, 2, 4, 3, 6, 7, 5]
+Q = [(0, 0), (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (4, 1)]
+SHA-256 of generator matrix of C_Q: a2bdf90c48f94e67e5e79fc34aac292481354581f92801df5d824d457b57de50
+1. weight distribution of C_Q (22 s): {0: 1, 28: 833, 29: 2058, 30: 21952, 31: 105644, 32: 412629, 33: 1184036, 34: 3980515, 35: 11983293, 36: 34115123, 37: 82757668, 38: 181602036, 39: 361137840, 40: 626918936, 41: 969862341, 42: 1290940427, 43: 1471503957, 44: 1397799774, 45: 1095370500, 46: 665332878, 47: 296872674, 48: 84948752, 49: 13080725}
+   total = 8589934592 = 8^11: True
+   minimum nonzero weight: 28
+   agrees with Table 1: True
+2. |P0| = 38  A0 + B0 inside P0: True
+   (A) dim V_A0 = 7 > 6, residues distinct: True
+   (C) d(C_A0) = 28, so at most 21 zeros; 21 < 28: True
+   (B) sep 6 checked 13983816 dependent 0 (7 s)
+   every 6 columns independent, so d(C_B0^perp) > 6: True
+   for comparison, 7 columns: sep 7 checked 85900584 dependent 7 (43 s)
