@@ -11,9 +11,13 @@ Project for David Joyner's *Toric codes over finite fields*, published in
 
 - `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (34 pages).
 - `original/toric_code7.tex`: the 2003 manuscript source (dated September 1, 2003).
-- `referee/2026-11-22/toric_codes_referee_report.tex`: the referee report on
-  the 2003 manuscript by OpenAI's ChatGPT. It uses the newtx fonts, so no PDF
-  is included here.
+- `referee/2026-11-22/toric_codes_referee_report.tex`: the earlier referee report on
+  the 2003 manuscript by OpenAI's ChatGPT; it uses newtx fonts and has no PDF here.
+- `referee/2026-11-22/toric-codes-referee-2026-11-22.tex` and `.pdf`:
+  a new correctness and readability report on the attached Draft 1, with
+  separate findings affecting the newer Draft 3 tropical section.
+- `.github/workflows/build-toric-codes-pdfs.yml`: builds the current Draft 3
+  manuscript and the new referee report, then commits both compiled PDFs.
 - `revision-log.tex`, `revision-log.pdf`: the revision log. It contains the
   point-by-point response to the referee report, the list of changes, the
   error discussion moved out of the paper in Draft 2, a
