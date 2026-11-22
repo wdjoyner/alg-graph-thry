@@ -4,7 +4,7 @@
 \usepackage{amsmath,amssymb,amsthm,array,booktabs,microtype,longtable}
 \IfFileExists{newtxtext.sty}{\usepackage{newtxtext,newtxmath}}{\usepackage{mathptmx}}
 \usepackage[hidelinks]{hyperref}
-\title{Revision Log: Representations of finite groups on the Riemann--Roch space of a toric variety\\\large Draft 2, corrected and expanded version}
+\title{Revision Log: Representations of finite groups on the Riemann--Roch space of a toric variety\\\large Draft 3, corrected and expanded version}
 \author{David Joyner (original manuscript); revision assistance by ChatGPT}
 \date{November 22, 2026}
 \begin{document}
@@ -69,6 +69,29 @@ No original counterparts & Sections 6--9 (graph theory and monomial extension)\\
 
 \section{AI usage and limitations}
 Carbon (Claude) supplied an initial referee report, which motivated the correction of the false irreducibility claim and erroneous affine equations. ChatGPT (OpenAI GPT-6) conducted the subsequent revision, developed the graph sections, checked mathematical derivations, wrote the exact verification script, checked bibliographic sources, and compiled the LaTeX. These AI activities are not an independent certification of the results. Responsibility for mathematical verification and any publication or submission remains with the human author.
+
+\section{Draft 3: expository separation}
+All historical criticism of the 2002 manuscript and the complete response to Carbon's
+referee report remain in the preceding sections of this log. Draft 3 presents the
+mathematical material without references to errors in earlier drafts, retaining
+the same results, examples, proofs, and bibliographic citations as Draft 2.
+
+The introduction now poses the natural question of how orbit modules on lattice
+points determine irreducible character multiplicities. The surface section
+introduces the singular fan and its explicit affine charts as independent
+calculations, without contrasting them with earlier equations. The graph-theory
+sections proceed directly from commuting operators to the Johnson-graph
+example. The torus-normalizer section asks how the fixed-point character formula
+changes when an action includes torus translations, leading to weighted traces.
+Historical reasons for distinguishing transitive permutation modules from
+irreducibles, and fan automorphisms from general toric automorphisms, remain
+recorded above rather than in the body of the paper.
+
+\noindent\textbf{Status and verification.} This is an editorial revision.
+No theorem, numerical formula, proof, or mathematical example was intentionally
+changed. The exact verification script was rerun and the manuscript and log
+were recompiled with \texttt{pdflatex}. AI review is not an independent
+certification of correctness.
 
 \section{Suggested next review}
 A human referee should pay particular attention to the natural $S_n$-linearization on the hypersimplex line bundle, to the scope of the zonotope lattice-count identity in the intrinsic affine lattice, and to prior art before attributing originality to any graph-spectral generalization.
