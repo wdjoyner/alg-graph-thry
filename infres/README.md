@@ -1,6 +1,6 @@
 # Notes on the inflation-restriction sequence in non-abelian cohomology
 
-David Joyner.
+David Joyner and Claude (an AI system developed by Anthropic).
 
 Let `1 -> N -> W -> Gamma -> 1` be a group extension with `N` abelian, for
 example the relative Weil group `W_{E/F}` of a finite Galois extension of
