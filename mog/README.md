@@ -1,6 +1,6 @@
 # MINIMOGs and Mathematical Blackjack
 
-**David Joyner — Draft 2, corrected and expanded version (2026).**
+**David Joyner — Draft 3, corrected and expanded version (2026).**
 
 Original manuscript: May 29, 2000.
 
@@ -28,3 +28,5 @@ The exposition is intended for readers familiar with elementary algebra and comb
 Run `python3 verify.py` with Python 3.8 or newer. The script checks the projective orbit, Steiner system axioms, kitten and MINIMOG constructions, signed patterns, and the classification of legal game positions. No SageMath installation is required.
 
 Compile the TeX files using `pdflatex` (three passes for the main paper to resolve the table of contents and references). A TeX distribution containing the newtx fonts and TikZ is required.
+
+Draft 3 incorporates Claude’s referee report, repairs the finite-geometry figures, states a unified equivalence theorem, strengthens the graph and game results, and expands the exact verification.

@@ -5,7 +5,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs,microtype}
 \usepackage[hidelinks]{hyperref}
-\title{Revision log: MINIMOGs and Mathematical Blackjack\\\large Draft 2}
+\title{Revision log: MINIMOGs and Mathematical Blackjack\\\large Draft 3}
 \author{David Joyner}
 \date{November 26, 2026}
 \begin{document}
@@ -36,14 +36,28 @@ The EJC article landing pages for Kahane--Ryba and Irie and the SageMath 10.8 do
 The original four sections are retained in the same order, with background and new graph material inserted as follows.
 \begin{center}\begin{tabular}{cll}\toprule
 Old section & Subject & New section(s)\\\midrule
-Unnumbered & Introduction and definitions & 1--3\\
-1 & Curtis's kitten and projective orbit & 4--5\\
-2 & MINIMOG and extremal sums & 6, 9.3\\
-3 & Shuffle kitten & 7\\
-4 & Mathematical blackjack & 9\\
-New & Graph theory & 8\\
-New & Summary and glossary & 10--11\\\bottomrule\end{tabular}\end{center}
-Original theorem numbers 1 and 2 (orbit and kitten) correspond to Lemma 4.1 and Section 7; the original Conway lemma to Lemma 6.1; the game proposition and probability lemma to Theorem 9.1 and Proposition 9.2. The earlier examples are integrated into the prose.
+Unnumbered & Introduction and definitions & 1--2\\
+1 & Curtis's kitten and projective orbit & 3--4\\
+2 & MINIMOG and extremal sums & 5, 8.3\\
+3 & Shuffle kitten & 6\\
+4 & Mathematical blackjack & 8\\
+New & Graph theory & 7\\
+New & Summary and glossary & 9--10\\\bottomrule\end{tabular}\end{center}
+Original theorem numbers 1 and 2 (orbit and kitten) correspond to Lemma 3.1 and Theorem 6.1; the original Conway lemma to Theorem 6.1; the game proposition and probability lemma to Theorem 8.1 and Proposition 8.2. The earlier examples are integrated into the prose.
+\section{Draft 3: response to Claude's referee report}
+Claude reviewed the mathematics and readability of Draft 2. ChatGPT inspected the local Draft 2 source, independently reran and extended the exact Python checks, and implemented the following changes.
+\begin{description}
+\item[C1.] Corrected the original-to-current concordance. Draft 2 Lemma 5.1 is now part of Theorem 6.1; the other theorem numbers remain unchanged.
+\item[C2.] Corrected the Fano circle radius to one, matching all three side midpoints, and moved the center label.
+\item[C3.] Attributed uniqueness to Witt and added his paper. The Hamburg departmental archive confirms volume 12 and pages 265--275 but gives 1937, whereas standard bibliographies give 1938. The latter year is retained. The original proof was not consulted in full.
+\item[C4.] Moved both MINIMOG arrays and the complete relabeling ahead of the membership test. Theorem 6.1 now states the equivalence of the orbit, both kittens, membership and signed constructions.
+\item[C5--C6.] Added the Sage redeal convention footnote and clarified the generator coordinates $(u,v)=(b,a)$ without repeating the matrix. Removed the repeated worked example.
+\item[S1--S4.] Verified the decreasing-completion criterion, the three winning moves, and the four disjoint signed families by exact enumeration. Proved that equality in the independent-set bound forces the Steiner property. Named Hoffman's ratio bound. These strengthenings are additions to the exposition, not claims of priority.
+\item[R1--R4.] Replaced the schematic with the triangular arrangement transcribed from the supplied 2006 Joyner--Casey source, \texttt{hexads\_sage.tex}. Moved historical revision language to this log, defined shuffle numbering at first use, and aligned the order of the views. The full historical group-generation claim was not needed and is not asserted.
+\item[R5--R7.] Removed redundant example language, expanded the glossary with five terms, and carried the worked hand through the introduction, membership test, kitten, graph and game.
+\item[R8.] Renamed the projective generators in the script, checked both kitten labelings, all Johnson graph neighbor counts, the decreasing-completion criterion, signed-family disjointness, and the six exchanges of the running example. The script passed locally.
+\end{description}
+The Sage documentation and bibliographic records were checked online. The original print sources remain subject to the limitations described above.
 \section{AI usage}
-ChatGPT performed the referee pass, wrote the revision, derived the new graph arguments, implemented the computational checks, and compiled the LaTeX files. This is not independent certification. The author should review the revised manuscript before treating it as final.
+Claude supplied the Draft 2 referee report. ChatGPT performed the referee pass, wrote the revision, derived the new graph arguments, implemented the computational checks, and compiled the LaTeX files. This is not independent certification. The author should review the revised manuscript before treating it as final.
 \end{document}

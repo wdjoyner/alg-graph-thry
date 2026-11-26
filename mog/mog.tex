@@ -17,7 +17,7 @@
 \DeclareMathOperator{\supp}{supp}
 \tikzset{mymat/.style={matrix of nodes,nodes in empty cells,nodes={minimum width=.75cm,minimum height=.75cm,anchor=center},column sep=-\pgflinewidth,row sep=-\pgflinewidth,ampersand replacement=\&}}
 
-\title{MINIMOGs and Mathematical Blackjack\\\large Draft 2: Corrected and expanded version}
+\title{MINIMOGs and Mathematical Blackjack\\\large Draft 3: Corrected and expanded version}
 \author{David Joyner\thanks{Original manuscript dated May 29, 2000. Corrected and expanded November 26, 2026.}\\\small\texttt{wdjoyner@gmail.com}}
 \date{Original draft: 2000. Corrected and expanded draft: 2026}
 
@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-This AI-aided paper used ChatGPT to referee, revise, and expand the original manuscript (see the acknowledgments). We describe the small Witt design using the projective line over $\F_{11}$, Curtis's kitten, and Conway's MINIMOG. The tetracode gives a compact membership test for hexads. We explain mathematical blackjack through a directed Johnson graph, prove an extremal independent-set result, and give an exact verification of the constructions and game strategy. We also compute the conditional probability of winning under the redealing rule.
+This AI-aided paper used ChatGPT to referee, revise, and expand the original manuscript and Claude to referee Draft 2 (see the acknowledgments). We describe the small Witt design using the projective line over $\F_{11}$, Curtis's kitten, and Conway's MINIMOG. The tetracode gives a compact membership test for hexads. We explain mathematical blackjack through a directed Johnson graph, prove an extremal independent-set result, and give an exact verification of the constructions and game strategy. We also compute the conditional probability of winning under the redealing rule.
 \end{abstract}
 
 \tableofcontents
@@ -33,7 +33,7 @@ This AI-aided paper used ChatGPT to referee, revise, and expand the original man
 \section{Introduction}
 A collection of six-element subsets of a twelve-element set can have the remarkable property that every five-element subset belongs to exactly one member. This is the small Witt design. Its blocks, called hexads, admit several descriptions which appear at first to have little in common. The purpose of this paper is to explain their equivalence and their application to a card game.
 
-For example, in the shuffle numbering, $\{1,2,3,4,5,6\}$ is a hexad. Its complement is also a hexad. In mathematical blackjack these two hands are losing positions for the player about to move, despite their very different totals. We explain this phenomenon using an orientation of a graph on six-element subsets.
+In the shuffle numbering (the special labeling by $0,\ldots,11$ adapted to the card game), $\{1,2,3,4,5,6\}$ is a hexad. Its complement is also a hexad. In mathematical blackjack these two hands are losing positions for the player about to move, despite their very different totals. We explain this phenomenon using an orientation of a graph on six-element subsets. Our running example is the nonhexad $A=\{0,2,4,6,7,11\}$ of total 30.
 
 The main results are the equivalence of the three explicit constructions (Sections~\ref{sec:projective}--\ref{sec:shuffle}), an equitable partition and sharp independence bound for the Johnson graph (Section~\ref{sec:graph}), and a kernel description of the game (Section~\ref{sec:game}). The finite computations used in the proofs are reproduced by the accompanying standard-library Python script \texttt{verify.py}.
 
@@ -41,13 +41,13 @@ The main results are the equivalence of the three explicit constructions (Sectio
 The historical constructions motivate both the geometric and coding-theoretic approaches. They also show why the small Witt design sits naturally at the meeting point of finite geometry, coding theory, and combinatorial game theory.
 
 \subsubsection*{Work before 2000}
-Curtis's construction of the MOG for the large Witt design \cite{Cu76} and his kitten for the small Witt design \cite{Cu84} provide explicit geometric descriptions of the Mathieu groups' designs. Conway's tetracode and MINIMOG \cite{Co84} encode the small design using a rectangular array. Conway and Sloane \cite[Chapter 11, p.~321]{CS99} describe these patterns in the context of codes and lattices. For example, a four-coordinate tetracode word specifies one cell in each MINIMOG column. The relationship between games and codes is developed in \cite{CS86}, while normal-play game terminology is treated in \cite{Co76}.
+Curtis's construction of the MOG for the large Witt design \cite{Cu76} and his kitten for the small Witt design \cite{Cu84} provide explicit geometric descriptions of the Mathieu groups' designs. Conway's tetracode and MINIMOG \cite{Co84} encode the small design using a rectangular array. Conway and Sloane \cite[Chapter 11, p.~321]{CS99} describe these patterns in the context of codes and lattices. A four-coordinate tetracode word specifies one cell in each MINIMOG column. The relationship between games and codes is developed in \cite{CS86}, while normal-play game terminology is treated in \cite{Co76}.
 
 \subsubsection*{Work after 2000}
-Kahane and Ryba's \emph{The Hexad Game} \cite{KR01} gives a non-enumerative proof of the hexad-game theorem and studies nim sums and Welter values. Irie \cite{Ir21} constructs games from Steiner systems and characterizes the shuffle design by minimizing the number of game positions among the 5040 labeled designs. This is a different, complementary perspective to our fixed Johnson graph orientation. The author's 2006 implementation, documented in the SageMath reference manual \cite{Jo06}, supplies the module \texttt{sage.games.hexad}, which implements hexad completion and blackjack moves. For instance, the method \texttt{find\_hexad} provides an alternative to searching the entire set of blocks. The present exposition uses a separate exhaustive Python verification so that no specialized mathematics software is required.
+Kahane and Ryba's \emph{The Hexad Game} \cite{KR01} gives a non-enumerative proof of the hexad-game theorem and studies nim sums and Welter values. Irie \cite{Ir21} constructs games from Steiner systems and characterizes the shuffle design by minimizing the number of game positions among the 5040 labeled designs. This is a different, complementary perspective to our fixed Johnson graph orientation. The author's 2006 implementation, documented in the SageMath reference manual \cite{Jo06}, supplies the module \texttt{sage.games.hexad}, which implements hexad completion and blackjack moves. The method \texttt{find\_hexad} provides an alternative to searching the entire set of blocks. The present exposition uses a separate exhaustive Python verification so that no specialized mathematics software is required.
 
 \subsection{Notation}
-The following notation distinguishes the abstract design from its numerical labelings. For example, the symbol $\infty$ belongs to the projective labeling, not to a card hand.
+The following notation distinguishes the abstract design from its numerical labelings. The symbol $\infty$ belongs to the projective labeling, not to a card hand.
 
 \begin{center}
 \begin{tabular}{ll}\toprule
@@ -66,7 +66,7 @@ $\mathcal P,\mathcal N$ & Losing and winning positions for the next player\\\bot
 We collect the elementary notions used in the constructions and the later graph interpretation. The two subsections of this background are meant to orient a reader who knows some algebra and combinatorics but has not worked specifically with the Witt design.
 
 \subsection{Designs and finite geometry}
-A Steiner system $S(t,k,n)$ consists of an $n$-element set $X$ and a family $\mathcal H$ of $k$-element subsets such that every $t$-element subset belongs to exactly one block. For example, the seven lines of the projective plane over $\F_2$ form an $S(2,3,7)$. The small Witt design is an $S(5,6,12)$. Its uniqueness up to relabeling is a classical fact \cite{Cu84}. Its automorphism group is the Mathieu group $M_{12}$.
+A Steiner system $S(t,k,n)$ consists of an $n$-element set $X$ and a family $\mathcal H$ of $k$-element subsets such that every $t$-element subset belongs to exactly one block. For example, the seven lines of the projective plane over $\F_2$ form an $S(2,3,7)$. The small Witt design is an $S(5,6,12)$. Its uniqueness up to relabeling is a classical theorem of Witt \cite{Wi38}. Its automorphism group is the Mathieu group $M_{12}$.
 
 The Fano plane in Figure~\ref{fig:fano} is the standard example of an $S(2,3,7)$. Every two points determine a unique line, and each line has three points. This is a useful model to keep in mind because it shows, on a very small scale, the design principle that also governs the Witt design. The kitten pictures below play a somewhat analogous role for $S(5,6,12)$: they make a highly symmetric Steiner system visible inside familiar finite geometry.
 
@@ -84,8 +84,8 @@ The Fano plane in Figure~\ref{fig:fano} is the standard example of an $S(2,3,7)$
 \draw (A)--(BC);
 \draw (B)--(CA);
 \draw (C)--(AB);
-\draw (0,0) circle (0.78);
-\foreach \P/\name/\pos in {A/1/above, B/2/below left, C/3/below right, AB/4/left, BC/5/below, CA/6/right, O/7/above right}{
+\draw (0,0) circle (1);
+\foreach \P/\name/\pos in {A/1/above, B/2/below left, C/3/below right, AB/4/left, BC/5/below, CA/6/right, O/7/right}{
   \fill (\P) circle (2pt);
   \node[draw=none,fill=none,inner sep=1pt,\pos=2pt] at (\P) {$\name$};}
 \end{tikzpicture}
@@ -179,31 +179,14 @@ The kitten replaces the twelve-point orbit by three pictures on the same nine or
 \label{fig:kitten-threeviews}
 \end{figure}
 
-Figure~\ref{fig:kitten-schematic} gives a second diagram, adapted from the kitten figure in the earlier exposition. It emphasizes the three distinguished points and the triangular way in which one passes among the three affine pictures.
-
+Figure~\ref{fig:kitten-schematic} displays the triangular arrangement of the kitten. Repeated labels denote the same point, not additional points.
 \begin{figure}[ht]
 \centering
-\begin{tikzpicture}[scale=1, every node/.style={font=\small}]
-\coordinate (Top) at (0,3.2);
-\coordinate (L) at (-3.2,-1.7);
-\coordinate (R) at (3.2,-1.7);
-\draw (Top)--(L)--(R)--cycle;
-\node[above] at (Top) {$\infty$};
-\node[below left] at (L) {$0$};
-\node[below right] at (R) {$1$};
-
-\node[draw,minimum width=2.4cm,minimum height=2.4cm,inner sep=0pt] (M) at (0,.2) {};
-\matrix[mymat] at (M.center) {
-6 \& 10 \& 3\\
-2 \& 7 \& 4\\
-5 \& 9 \& 8\\
-};
-\draw[dashed] (Top) -- (M.north);
-\draw[dashed] (L) -- (M.south west);
-\draw[dashed] (R) -- (M.south east);
-\node[align=center] at (0,-2.55) {A schematic kitten diagram: the three points $\infty,0,1$ are the distinguished points,\\ and the inner $3\times 3$ picture records one affine view.};
+\begin{tikzpicture}[x=.65cm,y=.65cm]
+\draw[gray] (-5.6,-.5) rectangle (5.6,6.5);
+\foreach \x/\y/\lab in {0/6/$\infty$,0/5/6,-1/4/2,1/4/10,-2/3/5,0/3/7,2/3/3,-3/2/6,-1/2/9,1/2/4,3/2/6,-4/1/2,-2/1/10,0/1/8,2/1/2,4/1/10,-5/0/0,5/0/1}{\node at (\x,\y) {\lab};}
 \end{tikzpicture}
-\caption{A schematic TikZ redrawing of Curtis's kitten.}
+\caption{Curtis's triangular kitten in the projective labeling.}
 \label{fig:kitten-schematic}
 \end{figure}
 
@@ -231,24 +214,34 @@ The first two collections are the same in all three pictures: their lines, as se
 \section{The MINIMOG and tetracode}\label{sec:minimog}
 Conway's MINIMOG encodes hexads in a $3\times4$ array. Its row labels are $0,1,2$, also written $0,+,-$. We first review the tetracode in a way adapted to the later membership test.
 
+The shuffle MINIMOG is
+\begin{equation}\label{eq:shuffle}
+\begin{array}{c|rrrr}0&6&3&0&9\\+&5&2&7&10\\-&4&1&8&11\end{array}.
+\end{equation}
+The projective MINIMOG is
+\[
+\begin{array}{rrrr}0&3&\infty&2\\5&9&8&10\\4&1&6&7\end{array}.
+\]
+Matching cells with the shuffle MINIMOG defines a bijection $\rho$ from projective labels to shuffle labels:
+\[
+\begin{array}{c|rrrrrrrrrrrr}
+x&\infty&0&1&2&3&4&5&6&7&8&9&10\\\hline
+\rho(x)&0&6&1&9&3&4&5&8&11&7&2&10
+\end{array}
+\]
+We call the images of the projective orbit under $\rho$ the shuffle hexads.
+
 \subsection{The tetracode}
 Define
 \begin{equation}\label{eq:tetracode}
 T=\{(b,a,a+b,a+2b):a,b\in\F_3\}.
 \end{equation}
-Using the ordered basis from \eqref{eq:tetrastandard}, the same code is generated by
-\[
-\begin{pmatrix}1&0&1&2\\0&1&1&1\end{pmatrix}.
-\]
+Taking $(u,v)=(b,a)$ identifies this description with the standard generator matrix \eqref{eq:tetrastandard}.
 Any two columns are linearly independent, so any two coordinate values determine a word. Every nonzero word has exactly one zero coordinate: if $b=0$ the first coordinate is zero, and otherwise exactly one of $a,a+b,a+2b$ vanishes. Hence $T$ is a $[4,2,3]$ code with weight enumerator $1+8z^3$. The generator rows have zero dot products with each other and themselves, so the dimension-two code is self-dual.
 
-For example, the message $(2,1)$ produces the word $(2,1,0,2)$. If the four row labels are read as $(0,+,-)$ for $(0,1,2)$, then this word means ``choose row $-$ in the first column, row $+$ in the second, row $0$ in the third, and row $-$ in the fourth.'' This is precisely the kind of row pattern that appears in the MINIMOG test.
+The three row labels $0,+,-$ encode the field elements $0,1,2$ in each of the four coordinates.
 
 \subsection{The membership test}
-The shuffle MINIMOG is
-\begin{equation}\label{eq:shuffle}
-\begin{array}{c|rrrr}0&6&3&0&9\\+&5&2&7&10\\-&4&1&8&11\end{array}.
-\end{equation}
 For a six-subset, the odd man out is the occupied row if a column has one selected cell, and the unoccupied row if it has two. A full or empty column contributes a wildcard (Figure~\ref{fig:odd}). The subset passes the test if the column counts are not a permutation of $(0,1,2,3)$ and the specified coordinates extend to a word in $T$.
 
 \begin{figure}[ht]
@@ -260,52 +253,45 @@ For a six-subset, the odd man out is the occupied row if a column has one select
 \label{fig:odd}
 \end{figure}
 
-\begin{lemma}\label{lem:minimog}
-The membership test selects precisely the 132 shuffle hexads, after the relabeling of Section~\ref{sec:shuffle}.
-\end{lemma}
-
-\begin{proof}
-The exact enumeration in \texttt{verify.py} loops over all 924 six-subsets, rejects the prohibited occupancy pattern, and tests the remaining specified rows against the nine words in \eqref{eq:tetracode}. It compares the resulting family with the relabeled orbit from Lemma~\ref{lem:orbit} and obtains equality. Section~\ref{sec:shuffle} specifies the bijection used in this comparison.
-\end{proof}
-
-For example, the first two full columns give $\{1,2,3,4,5,6\}$ with four wildcards, so the test accepts it. In contrast, a full column, a double column, a single column and an empty column are rejected regardless of their row labels.
+For example, the first two full columns give $\{1,2,3,4,5,6\}$ with four wildcards, so the test accepts it. For our running hand $A$, the occupancies are $(2,1,2,1)$ and the odd-man-out coordinates are $(1,1,2,2)$. The first two coordinates force the word $(1,1,2,0)$, so the test rejects $A$. In contrast, a full column, a double column, a single column and an empty column are rejected regardless of their row labels.
 
 \subsection{Signed patterns}
 The original signed construction \cite{CS99} uses a column vector $C_i$ with ones in column $i$ and a tetrad vector $U_t$ with ones in the four cells specified by $t\in T$. Regard the arrays as vectors over $\F_3$. Take the supports of
 \[
 C_i-C_j,\quad C_i+U_t,\quad U_t-U_u,\quad C_i+C_j-U_t,
 \]
-where $i\ne j$ and $t\ne u$ in the relevant expressions. These supports are precisely the 132 hexads, as checked by the same script. For instance, $C_1-C_2$ represents the signed entries $4,5,6,-1,-2,-3$. For $t=(0,1,1,1)$ the vector $C_2+U_t$ has support $\{1,2,3,6,7,10\}$, with coefficient $-1$ at 2 and coefficient $+1$ elsewhere. Signs are coefficients of cells, so the sign at card zero is meaningful even though its integer label is zero.
+where $i\ne j$ and $t\ne u$ in the relevant expressions. The four families of supports have sizes 6, 36, 36, and 54, respectively, and are pairwise disjoint, as verified below. For instance, $C_1-C_2$ represents the signed entries $4,5,6,-1,-2,-3$. For $t=(0,1,1,1)$ the vector $C_2+U_t$ has support $\{1,2,3,6,7,10\}$, with coefficient $-1$ at 2 and coefficient $+1$ elsewhere. Signs are coefficients of cells, so the sign at card zero is meaningful even though its integer label is zero.
 
 \section{The shuffle kitten}\label{sec:shuffle}
-The projective MINIMOG is
-\[
-\begin{array}{rrrr}0&3&\infty&2\\5&9&8&10\\4&1&6&7\end{array}.
-\]
-Matching cells with \eqref{eq:shuffle} defines a bijection from the projective labels to shuffle labels. In particular, $0\mapsto6$, $1\mapsto1$, and $\infty\mapsto0$. The corresponding pictures, with the distinguished point indicated below each, are
+The corresponding pictures, with the distinguished point indicated below each, are
 \[
 \begin{array}{c@{\qquad}c@{\qquad}c}
+\begin{array}{ccc}8&10&3\\9&11&4\\5&2&7\end{array}&
 \begin{array}{ccc}5&11&3\\8&2&4\\9&10&7\end{array}&
-\begin{array}{ccc}5&11&3\\2&4&8\\7&9&10\end{array}&
-\begin{array}{ccc}8&10&3\\9&11&4\\5&2&7\end{array}\\6&1&0
+\begin{array}{ccc}5&11&3\\2&4&8\\7&9&10\end{array}\\0&6&1
 \end{array}
 \]
-The script constructs the four kitten families by enumerating the twelve affine lines in each picture and the eighteen perpendicular pairs. It checks the counts $12,12,54,54$ and equality of their union with the relabeled projective orbit and with the MINIMOG family. This proves the equivalence of the explicit descriptions by exact finite enumeration.
+\begin{theorem}\label{lem:minimog}
+The projective orbit, the projective kitten, the shuffle kitten transported by $\rho^{-1}$, the MINIMOG membership test transported by $\rho^{-1}$, and the four signed-support families transported by $\rho^{-1}$ define the same Steiner system $S(5,6,12)$.
+\end{theorem}
+\begin{proof}[Proof by exact finite enumeration]
+The script \texttt{verify.py} constructs the kitten families separately in both labelings, enumerating the twelve affine lines and eighteen crosses in each picture. It checks their counts $12,12,54,54$ and equality with the corresponding orbit. It tests all 924 six-subsets against the nine tetracode words and the occupancy condition. Finally it enumerates the four signed-support families, checks their disjointness and sizes, and compares their union with the shuffle orbit. Each comparison is equality of finite sets, so together with Lemma~\ref{lem:orbit} these checks prove the assertion.
+\end{proof}
 
-For example, $\{2,4,5,11\}$ is the complement of a cross in the picture at 1, giving the hexad $\{0,2,4,5,6,11\}$. The cross $\{2,3,4,5,7\}$ in the picture at 0 gives the hexad $\{0,2,3,4,5,7\}$.
+Replacing 7 by 5 in the running hand gives a hexad: $\{2,4,5,11\}$ is the complement of a cross in the picture at 1, giving the hexad $\{0,2,4,5,6,11\}$. The cross $\{2,3,4,5,7\}$ in the picture at 0 gives the hexad $\{0,2,3,4,5,7\}$.
 
 \section{The Johnson graph and the Witt design}\label{sec:graph}
 The geometry of the design has a simple graph-theoretic expression. The Johnson graph $J(n,k)$ has the $k$-subsets of an $n$-set as vertices, with adjacency when two subsets differ in one element. For example, $\{1,2\}$ and $\{1,3\}$ are adjacent in $J(4,2)$. Here $J(12,6)$ has 924 vertices of degree 36.
 
 \begin{theorem}\label{thm:equitable}
-The hexads form a maximum independent set of $J(12,6)$. The partition into hexads and nonhexads is equitable with quotient matrix
+The hexads form a maximum independent set of $J(12,6)$. Every maximum independent set is a Steiner system $S(5,6,12)$. The partition into hexads and nonhexads is equitable with quotient matrix
 \begin{equation}\label{eq:quotient}
 B=\begin{pmatrix}0&36\\6&30\end{pmatrix}.
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Two distinct hexads cannot contain the same five-subset, so no two are adjacent. For a nonhexad $A$, each of its six five-subsets has a unique hexad completion. These completions are distinct, since a block containing two of the five-subsets would contain their union $A$ and hence equal $A$. Each completion is adjacent to $A$, and all hexad neighbors arise this way. The quotient matrix follows. Figure~\ref{fig:quotient} illustrates the partition. Any independent set of six-subsets uses disjoint collections of five-subsets. Its size is therefore at most $\binom{12}{5}/6=132$, attained by the design.
+Two distinct hexads cannot contain the same five-subset, so no two are adjacent. For a nonhexad $A$, each of its six five-subsets has a unique hexad completion. These completions are distinct, since a block containing two of the five-subsets would contain their union $A$ and hence equal $A$. Each completion is adjacent to $A$, and all hexad neighbors arise this way. The quotient matrix follows. Figure~\ref{fig:quotient} illustrates the partition. Any independent set of six-subsets uses disjoint collections of five-subsets. Its size is therefore at most $\binom{12}{5}/6=132$, attained by the design. Equality forces all 792 five-subsets to occur exactly once, proving the characterization.
 \end{proof}
 
 \begin{figure}[ht]
@@ -321,7 +307,9 @@ Two distinct hexads cannot contain the same five-subset, so no two are adjacent.
 \label{fig:quotient}
 \end{figure}
 
-There is also a spectral explanation. Let $W$ be the incidence matrix with rows indexed by five-subsets and columns by six-subsets, with entries 1 for containment and 0 otherwise. If $A_J$ is the adjacency matrix, then $W^\mathsf{T}W=6I+A_J$. Thus every eigenvalue of $A_J$ is at least $-6$. The quotient matrix has eigenvalues 36 and $-6$, which lift to the graph by taking vectors constant on each class. Hence $-6$ is the smallest eigenvalue. For an independent set of size $s$, subtract $(s/924)\mathbf 1$ from its indicator vector and apply the lower eigenvalue bound to its quadratic form. This gives
+The running hand $A$ has six hexad neighbors, obtained by the exchanges $0\to1$, $2\to10$, $4\to3$, $6\to8$, $7\to5$, and $11\to9$, as checked by the script. Exactly three decrease the total.
+
+There is also a spectral explanation using Hoffman's ratio bound. Let $W$ be the incidence matrix with rows indexed by five-subsets and columns by six-subsets, with entries 1 for containment and 0 otherwise. If $A_J$ is the adjacency matrix, then $W^\mathsf{T}W=6I+A_J$. Thus every eigenvalue of $A_J$ is at least $-6$. The quotient matrix has eigenvalues 36 and $-6$, which lift to the graph by taking vectors constant on each class. Hence $-6$ is the smallest eigenvalue. For an independent set of size $s$, subtract $(s/924)\mathbf 1$ from its indicator vector and apply the lower eigenvalue bound to its quadratic form. This gives
 \[
 -36s^2/924\ge -6(s-s^2/924),
 \]
@@ -331,7 +319,7 @@ so $s\le132$. The design attains the spectral bound as well as the elementary co
 The shuffle numbering makes the hexads the losing positions of a particular impartial game. We give precise rules and an exact proof of the strategy attributed to Conway and Ryba \cite{CS86,KR01}.
 
 \subsection{Rules and directed graph}
-There are twelve cards labeled $0,\ldots,11$. A hand is a six-subset $A$, visible to both players, with the remaining cards available in a shared pile. A legal position satisfies $w(A)=\sum_{a\in A}a\ge21$. Players alternate replacing $a\in A$ by $b\notin A$ with $b<a$ and with the new total at least 21. A player with no legal move loses. Equivalently, a move below 21 can be treated as an immediate loss for its maker. For random play of the initial deal, shuffle and redeal whenever the initial total is at most 21.
+There are twelve cards labeled $0,\ldots,11$. A hand is a six-subset $A$, visible to both players, with the remaining cards available in a shared pile. A legal position satisfies $w(A)=\sum_{a\in A}a\ge21$. Players alternate replacing $a\in A$ by $b\notin A$ with $b<a$ and with the new total at least 21. A player with no legal move loses. Equivalently, a move below 21 can be treated as an immediate loss for its maker. For a random initial deal, shuffle and redeal whenever the initial total is at most 21.\footnote{The SageMath documentation \cite{Jo06} describes redealing below 21, but its example with hand $\{0,1,2,3,6,9\}$ also requests a redeal. Both conventions are treated in the probability calculation.}
 
 Orient each edge of $J(12,6)$ from the larger total to the smaller total and delete all vertices of total less than 21. This gives a finite acyclic graph. A kernel is an independent set such that every outside vertex has an outgoing edge to the set. In an acyclic game graph, the kernel is exactly the set of $\mathcal P$-positions, since a player wins if and only if a move to a losing position exists.
 
@@ -340,19 +328,19 @@ The shuffle hexads are precisely the kernel of the blackjack graph, and hence pr
 \end{theorem}
 
 \begin{proof}[Proof by exact finite enumeration]
-By Theorem~\ref{thm:equitable}, the hexads are independent. The script enumerates all 905 legal positions in increasing total and applies the forced recursion just described. Since every legal move decreases the total, every possible successor has already been processed. The resulting kernel consists of exactly the 132 hexads from Lemma~\ref{lem:minimog}. This proves absorption and independence for the stated labeling. Independence alone would not imply absorption for an arbitrary labeling.
+By Theorem~\ref{thm:equitable}, the hexads are independent. The script enumerates all 905 legal positions in increasing total and applies the forced recursion just described. Since every legal move decreases the total, every possible successor has already been processed. The resulting kernel consists of exactly the 132 hexads from Theorem~\ref{lem:minimog}. This proves absorption and independence for the stated labeling. Independence alone would not imply absorption for an arbitrary labeling.
 \end{proof}
 
 \subsection{A worked game}
-The original example illustrates the strategy. The initial hand $\{0,2,4,6,7,11\}$ has total 30 and odd-man-out coordinates $(1,1,2,2)$, which do not form a tetracode word. The following moves are possible.
+The running example illustrates the strategy. The initial hand $\{0,2,4,6,7,11\}$ has total 30 and odd-man-out coordinates $(1,1,2,2)$, which do not form a tetracode word. Exactly three moves reach hexads: $4\to3$, $7\to5$, and $11\to9$. The following table gives one possible play.
 
 \begin{center}
-\begin{tabular}{clrl}\toprule
-Move&Hand&Total&Class\\\midrule
-Initial&$0,2,4,6,7,11$&30&$\mathcal N$\\
-$7\to5$&$0,2,4,5,6,11$&28&$\mathcal P$\\
-$11\to7$&$0,2,4,5,6,7$&24&$\mathcal N$\\
-$6\to3$&$0,2,3,4,5,7$&21&$\mathcal P$\\\bottomrule
+\begin{tabular}{cclrl}\toprule
+Player&Move&Hand&Total&Class\\\midrule
+--&Initial&$0,2,4,6,7,11$&30&$\mathcal N$\\
+1&$7\to5$&$0,2,4,5,6,11$&28&$\mathcal P$\\
+2&$11\to7$&$0,2,4,5,6,7$&24&$\mathcal N$\\
+1&$6\to3$&$0,2,3,4,5,7$&21&$\mathcal P$\\\bottomrule
 \end{tabular}
 \end{center}
 
@@ -391,7 +379,7 @@ Among the 924 hands, 19 have total below 21 and 11 have total exactly 21. These 
 If the deal is instead conditioned on total at least 21, the probability is $773/905$. Without conditioning, the probability of receiving a nonhexad is $6/7$, but nineteen of those nonhexads are below the legal threshold.
 
 \section{Summary and future directions}
-The projective orbit, kitten and MINIMOG describe the same small Witt design. The design is a maximum independent set of the Johnson graph and gives an equitable partition. The shuffle numbering also makes it the kernel of a natural acyclic orientation. For example, the six distinct hexad completions of a nonhexad in the undirected graph explain why many candidate moves are available, while the game theorem guarantees at least one decreasing completion for a legal nonhexad.
+The projective orbit, kitten and MINIMOG describe the same small Witt design. The design is a maximum independent set of the Johnson graph and gives an equitable partition. The shuffle numbering also makes it the kernel of a natural acyclic orientation. Every nonhexad has six hexad neighbors in the undirected graph. It has a decreasing hexad neighbor if and only if its total exceeds 21, since all hexads have total at least 21 and every nonhexad of total at least 21 is winning.
 
 The following are questions for further investigation rather than claims of novelty. Can the coefficients of $F(t)$ be derived without enumeration from the tetracode? Which permutations of the labels preserve the kernel property? Can a similar orientation produce useful games from other Steiner systems? For instance, the general $S(k-1,k,n)$ construction yields an independent set in $J(n,k)$ and $k$ block neighbors of every nonblock, but directed absorption requires further conditions.
 
@@ -402,7 +390,7 @@ The terms below summarize the concepts used above. Examples refer to the small d
 
 \item[Cross.] A union of two perpendicular lines in a kitten picture. It contains five points because the lines meet in one point. In the kitten construction, adjoining the corresponding distinguished point to a cross produces a hexad.
 
-\item[Equitable partition.] A vertex partition with constant interclass neighbor counts. Equation~\eqref{eq:quotient} is an example. This means that every hexad has the same number of nonhexad neighbors, and every nonhexad has the same number of hexad neighbors.
+\item[Equitable partition.] A vertex partition with constant interclass neighbor counts. The counts define a smaller quotient matrix. This means that every hexad has the same number of nonhexad neighbors, and every nonhexad has the same number of hexad neighbors.
 
 \item[Hexad.] A six-point block of the small Witt design. Five points determine its unique completion. In the shuffle labeling the 132 hexads are exactly the losing hands of mathematical blackjack.
 
@@ -416,9 +404,9 @@ The terms below summarize the concepts used above. Examples refer to the small d
 
 \item[Kitten.] Curtis's three affine pictures with three distinguished points. Lines, crosses, and squares generate its four block types. The kitten gives a very concrete finite-geometric model for the small Witt design.
 
-\item[Mathematical blackjack.] The impartial game played on six cards chosen from $\{0,1,\dots,11\}$. A legal move replaces one chosen card by a smaller unchosen card while keeping the total at least 21. If no legal move is available, the player to move loses; equivalently, positions of total 21 are terminal.
+\item[Mathematical blackjack.] The impartial game played on six cards chosen from $\{0,1,\dots,11\}$. A legal move replaces one chosen card by a smaller unchosen card while keeping the total at least 21. If no legal move is available, the player to move loses. Positions of total 21 are terminal.
 
-\item[Mathieu group.] One of the sporadic simple Mathieu groups. The group $M_{12}$ acts as the full automorphism group of the small Witt design. Its symmetry explains why the design admits several elegant coordinate models.
+\item[Mathieu group.] One of five exceptional finite simple groups discovered by Mathieu. The group $M_{12}$ acts as the full automorphism group of the small Witt design. Its symmetry explains why the design admits several elegant coordinate models.
 
 \item[MINIMOG.] Conway's three-by-four array for hexad recognition. It uses a tetracode test on column occupancies. The name reflects its role as a miniature analogue of the Miracle Octad Generator.
 
@@ -436,17 +424,23 @@ The terms below summarize the concepts used above. Examples refer to the small d
 
 \item[Steiner system.] A family of fixed-size blocks in which each subset of a prescribed smaller size lies in exactly one block. Here the parameters are $(5,6,12)$. The small Witt design is one of the classical exceptional Steiner systems.
 
-\item[Tetracode.] The ternary self-dual $[4,2,3]$ linear code of Equation~\eqref{eq:tetracode}. Any two coordinates determine a word. In the MINIMOG it records one distinguished row choice in each of four columns.
+\item[Tetracode.] The ternary self-dual $[4,2,3]$ linear code consisting of $(u,v,u+v,2u+v)$ for $u,v\in\F_3$. Any two coordinates determine a word. In the MINIMOG it records one distinguished row choice in each of four columns.
 
 \item[Witt design.] One of the exceptional Steiner systems associated with Mathieu groups. The small design has 132 blocks. It is unique up to relabeling and has unusually rich symmetry.
 
 \item[$\mathcal P$- and $\mathcal N$-positions.] Positions losing or winning, respectively, for the next player under optimal normal play. Terminal positions belong to $\mathcal P$. In mathematical blackjack, the shuffle hexads are exactly the $\mathcal P$-positions.
+\item[Wildcard.] An unspecified coordinate in a row pattern. Full and empty columns impose no restriction on the tetracode word.
+\item[Hexad completion.] The unique hexad containing a given five-subset. The extra point is uniquely determined by the Steiner property.
+\item[Quotient matrix.] The matrix of interclass neighbor counts for an equitable partition. Its eigenvalues are also eigenvalues of the original graph.
+\item[Normal play.] The convention that the player unable to move loses. In a finite acyclic game, backward recursion determines the losing positions.
+\item[Weight enumerator.] A polynomial counting objects by a specified weight. For the tetracode the weight counts nonzero coordinates, while for hands it is the sum of labels.
 \end{description}
 
 \section*{Acknowledgments}
-The author thanks Alex Ryba and Andy Buchanan for helpful comments on the original manuscript. ChatGPT refereed the manuscript, drafted the expanded exposition, derived the graph-theoretic arguments, and implemented and ran the finite verification. AI review is not an independent certification of the results. Further details on AI usage and source verification appear in the separate revision log.
+The author thanks Alex Ryba and Andy Buchanan for helpful comments on the original manuscript. Claude independently refereed Draft 2 and proposed corrections and strengthenings. ChatGPT checked and implemented these in Draft 3. ChatGPT also refereed the manuscript, drafted the expanded exposition, derived the graph-theoretic arguments, and implemented and ran the finite verification. AI review is not an independent certification of the results. Further details on AI usage and source verification appear in the separate revision log.
 
 \begin{thebibliography}{99}
+\bibitem[Wi38]{Wi38} E. Witt, \emph{\"Uber Steinersche Systeme}, Abh. Math. Sem. Univ. Hamburg \textbf{12} (1938), 265--275.
 \bibitem[Cu76]{Cu76} R. T. Curtis, A new combinatorial approach to $M_{24}$, Math. Proc. Cambridge Philos. Soc. \textbf{79} (1976), 25--42.
 \bibitem[Cu84]{Cu84} R. T. Curtis, The Steiner system $S(5,6,12)$, the Mathieu group $M_{12}$, and the kitten, in \emph{Computational Group Theory}, M. Atkinson (ed.), Academic Press, 1984, pp.~353--358.
 \bibitem[Co84]{Co84} J. H. Conway, Hexacode and tetracode---MOG and MINIMOG, in \emph{Computational Group Theory}, M. Atkinson (ed.), Academic Press, 1984, pp.~359--365.
