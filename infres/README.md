@@ -1,6 +1,6 @@
 # Notes on the inflation-restriction sequence in non-abelian cohomology
 
-David Joyner.
+David Joyner and Claude (an AI system developed by Anthropic).
 
 Let `1 -> N -> W -> Gamma -> 1` be a group extension with `N` abelian, for
 example the relative Weil group `W_{E/F}` of a finite Galois extension of
@@ -17,6 +17,10 @@ with coefficients in the centralizer of `phi(N)`, is neutral. It also
 describes the fibers of restriction, shows by examples that the centralizer
 cannot be replaced by `A`, and recasts the criterion in terms of voltage
 graphs and gain graphs on the Cayley graph of `Gamma`.
+
+A detailed running example, the Weil group of `Q_3(i)/Q_3` with coefficients
+in `C^x` and `SL_2(C)`, is carried through Sections 2 to 6 (Examples 2.12,
+3.7, 4.13, 5.12 and 6.4).
 
 Current version: **Draft 1. Corrected and expanded version** (November 26, 2026).
 

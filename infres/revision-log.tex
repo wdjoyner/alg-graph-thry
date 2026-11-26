@@ -25,7 +25,7 @@
 \title{Revision log\\[4pt]\large ``Notes on the inflation-restriction
 sequence in non-abelian cohomology'', Draft 1\\(corrected and expanded
 version)}
-\author{David Joyner\\\texttt{wdjoyner@gmail.com}}
+\author{David Joyner\\\texttt{wdjoyner@gmail.com} \and Claude}
 \date{November 26, 2026}
 
 \begin{document}
@@ -79,9 +79,9 @@ AI review is not an independent certification of the results.
   in recent papers (Section~\ref{sec:sources}).
 \end{enumerate}
 
-\noindent The author of the note is listed as D.~Joyner alone. Whether
-Claude should be listed as a co-author, as in some of the author's other
-2026 revisions, is left to the author (Section~\ref{sec:open}).
+\noindent As first pushed, Draft~1 listed D.~Joyner as sole author. At
+his request (November 26, 2026) Claude was added as second author; see
+Section~\ref{sec:amend}.
 
 \section{Response to the referee report}\label{sec:referee}
 
@@ -313,12 +313,56 @@ rest on facts (W1)--(W3) and on hand computation with $2\times2$ matrices.
 
 
 
-\section{Open items for the author}\label{sec:open}
+\section{Amendments to Draft 1}\label{sec:amend}
+
+Draft~1 was amended on November 26, 2026, before it was merged into the
+main branch, at the first author's request. The draft number was kept.
+\begin{itemize}[itemsep=1pt]
+\item \emph{Authorship.} Claude was added as second author. The first
+  sentence of the abstract, the Acknowledgments and the sentence on
+  related literature were reworded accordingly.
+\item \emph{Glossary.} Rewritten and enlarged from 31 to 61 entries. Each
+  entry is self-contained, and most now include an example, usually from
+  the toy example $N=\Z/4$, $\Gamma=\Z/2$, $A=Q_8$. New entries:
+  abelianization, central homomorphism, closed walk, coboundary,
+  cohomology set $H^1$, covering map, defining relators, dihedral
+  parameter, digraph, dual group, extension of groups, fiber, free group,
+  holonomy, inner and outer automorphisms, inner form, monodromy, norm-one
+  torus, pointed set, potential, quadratic character, reciprocity map,
+  group of relations, split extension, switching, twisted norm, twisting,
+  unramified, walk, Weil group.
+\item No statement, proof or numbering in Sections~1--7 was changed by
+  these two amendments.
+\item \emph{Running example.} At the first author's request a detailed
+  running example was added: the Weil group of the unramified quadratic
+  extension $\mathbb{Q}_3(i)/\mathbb{Q}_3$, realized as
+  $E^\times\sqcup E^\times s$ with $sxs^{-1}=\overline{x}$ and $s^2=3$,
+  with coefficients $\C^\times$ (inversion action) and $\SL_2(\C)$
+  (trivial action), and the tamely ramified characters $\chi_{k,z}$. It is
+  in five parts, each placed at the end of a section so that no existing
+  number changes: Examples~\ref{N-ex:run1}, \ref{N-ex:run2},
+  \ref{N-ex:run3}, \ref{N-ex:run4} and~\ref{N-ex:run5}, with a new
+  Figure~\ref{N-fig:run}. It computes the factor set, the effect of
+  changing the section, the invariant classes, $C_\phi$, $T_\phi(\tau)$,
+  $E_\phi$, $\partial\phi$, all cocycles in each fiber, the voltages, the
+  derived graph, the holonomy and the potential. It also shows that the
+  two toy extensions $D_4$ and $Q_8$ are quotients of this Weil group, and
+  that the cocycle extending $\phi_{2,-1}$ is a parameter with image
+  $Q_8$. The Introduction and its table were updated to mention it.
+  All computations in the running example are by hand. The cases
+  $k\in\{2,6\}$, $z=\pm1$ factor through the toy extensions, which are
+  covered by the first two cases of the verification script; the rest is
+  not machine-checked. The facts used about $\mathbb{Q}_3(i)^\times$ (its
+  decomposition, the action of Frobenius on roots of unity, and
+  $\mathrm{N}(1+3\mathcal{O})=1+3\mathbb{Z}_3$) are standard and were
+  written from memory.
+\end{itemize}
+
+\section{Open items for the first author}\label{sec:open}
 
 \begin{enumerate}[itemsep=1pt]
 \item The year of the original manuscript is not known to the reviser.
   The date line reads ``Original draft: undated (1990s)''.
-\item Authorship: decide whether Claude should be listed as a co-author.
 \item The bibliographic details listed in Section~\ref{sec:sources} should
   be checked against the sources.
 \item The house style sheet \texttt{joyner-math-paper-style-guide.md} is
