@@ -22,8 +22,9 @@
 \DeclareMathOperator{\SL}{SL}
 \DeclareMathOperator{\Cay}{Cay}
 
-\title{Revision log\\[4pt]\large ``Notes on the inflation-restriction
-sequence in non-abelian cohomology'', Draft 2\\(corrected and expanded
+\title{Revision log\\[4pt]\large ``Inflation-restriction in non-abelian
+cohomology: centralizer obstructions, Weil groups, and voltage graphs'',
+Draft 3\\(corrected and expanded
 version)}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com} \and Claude}
 \date{November 26, 2026}
@@ -32,12 +33,15 @@ version)}
 \maketitle
 
 \noindent This log records every change from the original manuscript to
-Draft~1 and from Draft~1 to Draft~2, the responses to the two referee
-reports, the AI usage, and the sources consulted and not consulted.
-Numbers of statements are those of the current draft (Draft~2) unless a
-draft is named; they are generated from the note's \texttt{.aux} file, so
-compile the note first. Section~\ref{sec:d1d2} has a concordance with the
-numbering of Draft~1.
+Draft~1, from Draft~1 to Draft~2 and from Draft~2 to Draft~3, the
+responses to the two referee reports, the AI usage, and the sources
+consulted and not consulted. Until Draft~2 the paper was called ``Notes
+on the inflation-restriction sequence in non-abelian cohomology'', and
+this log calls it ``the note'' in the sections written for those drafts.
+Numbers of statements are those of the current draft (Draft~3) unless a
+draft is named. They are generated from the paper's \texttt{.aux} file,
+so compile the paper first. Sections~\ref{sec:d1d2} and~\ref{sec:d2d3}
+have concordances with the numbering of Drafts~1 and~2.
 
 \section{Files and drafts}\label{sec:files}
 
@@ -55,8 +59,16 @@ numbering of Draft~1.
   (Section~\ref{sec:amend}; commits \texttt{2336a5f} and \texttt{d57e53e})
   was pushed to the same branch after the merge and so did not reach the
   main branch until Draft~2.
-\item Draft 2 (November 26, 2026): \texttt{infres.tex} and its PDF. It
-  starts from the amended Draft~1.
+\item Draft 2 (November 26, 2026): commit \texttt{1023575}, merged as
+  pull request~\#15. It starts from the amended Draft~1.
+\item Draft 3 (November 26, 2026): \texttt{infres.tex} and its PDF.
+\item Style guide: the first author's style guide for mathematical
+  papers, Draft~2 of November 11, 2026. It is the file
+  \nolinkurl{joyner-math-paper-style-guide.md} in the repository
+  \url{https://github.com/wdjoyner/trace-formulas}.
+\item Licenses: CC BY 4.0 for the paper and this log (see the file
+  \nolinkurl{LICENSE-manuscript.txt}), and MIT for the script (see
+  \nolinkurl{verification/LICENSE}).
 \item Referee report on the original, by Gemini (``Carbon''), as
   received: the file \nolinkurl{carbon_referee_report.md} in the folder
   \texttt{referee/2026-11-26/}.
@@ -106,6 +118,14 @@ AI review is not an independent certification of the results.
   verification script (Section~\ref{sec:d1d2}).
 \item No web search was made for Draft~2.
 \end{enumerate}
+
+\paragraph{Draft 3 (November 26, 2026).} Claude (same model) revised the
+paper at the first author's request, with three instructions: adopt the
+title suggested by the second referee, format the paper according to the
+style guide, and state that the paper is expository with no claim of
+originality. The first author also noted that some introductory
+paragraphs were missing or thin. No referee was involved and no web
+search was made. Details are in Section~\ref{sec:d2d3}.
 
 \noindent As first pushed, Draft~1 listed D.~Joyner as sole author. At
 his request (November 26, 2026) Claude was added as second author; see
@@ -326,7 +346,7 @@ rest on facts (W1)--(W3) and on hand computation with $2\times2$ matrices.
 \section{Sources consulted and not consulted}\label{sec:sources}
 
 \begin{itemize}[itemsep=2pt]
-\item \emph{Not consulted directly:} Springer \cite{Spr}. The definition
+\item \emph{Not consulted directly:} Springer \cite{Sp66}. The definition
   of $2$-cocycles, equivalence and neutral classes in
   Definition~\ref{N-def:H2} is written from memory of the standard
   definition. The reference ``1.13--1.17'' is taken from the way the paper
@@ -538,6 +558,109 @@ example) is 6.16. Draft~1 6.1--6.4 are now 7.1--7.4, and Questions
 7.1--7.4 are now 8.1--8.4, with a new Question~8.1. The running example
 parts 4 and 5 of Draft~1 are now parts 5 and 6.
 
+\section{Changes from Draft 2 to Draft 3}\label{sec:d2d3}
+
+Draft~3 changes no statement and no proof. It changes the title, the
+organization and the exposition.
+
+\paragraph{Requested changes.}
+\begin{itemize}[itemsep=1pt]
+\item \emph{Title.} Now ``Inflation-restriction in non-abelian
+  cohomology: centralizer obstructions, Weil groups, and voltage graphs'',
+  as suggested by the second referee and approved by the first author.
+  This overrides rule~6.2 of the style guide (keep the original title).
+  The original title is given in the footnote on the title page.
+\item \emph{Expository status.} Stated in the abstract, in \S1.1, in the
+  literature review and in the summary of results: the paper is
+  expository and no originality is claimed.
+\item \emph{Orienting paragraphs} (rule~3.2). Every section and
+  subsection now begins with a paragraph saying what it does and why.
+  About thirty such paragraphs were added, and the two subsections
+  called ``Examples'' were given distinct titles.
+\end{itemize}
+
+\paragraph{Conformance to the style guide, rule by rule.}
+\begin{itemize}[itemsep=1pt]
+\item \emph{1.1, 1.2, 1.4.} 12pt Times, letter paper, one-inch margins,
+  pdflatex, American spelling. The paper compiles with no errors, no
+  undefined references and no overfull boxes.
+\item \emph{Document class} (a rule marked DECIDE). The default is to
+  keep the class of the existing file, which is \texttt{article}.
+\item \emph{Times package} (DECIDE). The default is \texttt{newtx}, with
+  \texttt{mathptmx} as fallback when \texttt{newtx} is not installed. It
+  is not installed in the environment where the paper was compiled, so
+  \texttt{mathptmx} is used. To switch, load the packages
+  \texttt{newtxtext} and \texttt{newtxmath} in place of
+  \texttt{mathptmx} and recompile, checking for overfull boxes.
+\item \emph{1.5.} All cross-references and citations use \verb|\ref| and
+  \verb|\cite|. Chapter and section numbers inside citations of books are
+  typed, as they must be.
+\item \emph{1.6.} Numbering is within sections. Subsections are numbered,
+  because they are cited.
+\item \emph{1.7.} Citation keys and labels changed to initials plus
+  two-digit year: AT68, BN09, Bo79 (Borel), Bo93 (Borovoi), Br82, FSS98,
+  Gi71, GT87, HS53, La97, ML63, Se79 (\emph{Local fields}), Se80
+  (\emph{Trees}), Se97 (\emph{Galois cohomology}), Sp66, Ta79, Za89.
+\item \emph{2 (order of parts).} Abstract, Introduction, Literature
+  review (new Section~\ref{N-sec:literature}, divided into sources
+  earlier and later than the original manuscript, with summaries),
+  Background, Notation (moved from the Introduction to
+  \S\ref{N-ss:notation}), body, Summary of results and open questions
+  (Section~\ref{N-sec:questions}, summary new), Glossary, Acknowledgments
+  (moved after the glossary), References.
+\item \emph{3.3.} Every section has an example. New:
+  Example~\ref{N-ex:first} in the Introduction and
+  Example~\ref{N-ex:lit} in the literature review.
+\item \emph{3.8.} Semicolons were removed from the prose (fifty-nine
+  lines) by splitting sentences.
+\item \emph{4.1, 6.6.} New Remark~\ref{N-yrem:unverified} lists the
+  quoted statements whose sources could not be consulted. The paragraph
+  before the table in \S\ref{N-ss:proved} states that every result is
+  either proved or cited.
+\item \emph{5.2 to 5.5.} The abstract opens with the AI disclosure. The
+  Acknowledgments name each system and its role, state that AI review is
+  not an independent certification, and point to this log.
+\item \emph{AI on the author line} (DECIDE). Claude is listed as second
+  author at the first author's request. A version for arXiv or a journal
+  would need the credit moved to the Acknowledgments.
+\item \emph{6.2, 6.3.} Subtitle, date line and footnote as prescribed,
+  except for the title (see above).
+\item \emph{6.8.} Concordance below.
+\item \emph{8.4, 8.5.} The paper cites the verification script by commit
+  (\texttt{1023575}). The script was not changed for Draft~3, so its
+  internal comments use Draft~2 numbers. A CC BY 4.0 notice for the
+  manuscript was added.
+\end{itemize}
+
+\paragraph{New source.} Flicker, Scheiderer and Sujatha (1998) is cited
+in the literature review. It was not consulted. The one-sentence summary
+of it is based on a quotation from its introduction found in the web
+search of Draft~1, and its bibliographic data are from memory. It is
+listed in Remark~\ref{N-yrem:unverified}, with the summary of Borovoi
+(1993), which is also from memory.
+
+\paragraph{Concordance of numbering, Draft 2 to Draft 3.}
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Draft 2 & Draft 3 \\
+\midrule
+\S1.1 to \S1.2 & \S1.1, \S1.3 (new \S1.2 with new Example 1.1) \\
+\S1.3 (scope) & \S1.4, with new Remark 2026.1 \\
+\S1.4 (notation) & \S3.5 \\
+\S1.5 (proved and cited) & \S1.5 \\
+\S1.6 (related literature) & Section 2 (rewritten, new Example 2.1) \\
+\S1.7 (organization) & \S1.6 \\
+Section $n$, $2\le n\le 8$ & Section $n+1$ \\
+Statement $n.k$, $2\le n\le 7$ & Statement $(n+1).k$ \\
+Questions 8.1 to 8.4 & Questions 9.1 to 9.4 \\
+\S2.5 (running example, part 1) & \S3.6 \\
+\S4.5 and \S5.3 (``Examples'') & \S5.5 and \S6.3, retitled \\
+Equations $(n.k)$, $2\le n\le 7$ & Equations $((n+1).k)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \section{Open items for the first author}\label{sec:open}
 
 \begin{enumerate}[itemsep=1pt]
@@ -549,24 +672,20 @@ parts 4 and 5 of Draft~1 are now parts 5 and 6.
   relation sequence; Ch.~IV for extensions) and to Serre's \emph{Trees},
   both cited from memory. The determinant formula for an induced
   representation in Example~\ref{N-ex:dihedral} has no reference.
-\item Title. The second referee suggested, as an option,
-  \emph{Inflation-restriction in non-abelian cohomology: centralizer
-  obstructions, Weil groups, and voltage graphs}. The original title was
-  kept.
 \item Novelty. Neither referee nor the reviser made an exhaustive
   literature search. The note claims no novelty for
   Theorems~\ref{N-thm:main} and~\ref{N-thm:general}.
-\item The house style sheet \texttt{joyner-math-paper-style-guide.md} is
-  not in this repository. Draft~1 was written from the author's recorded
-  style rulings: 12pt Times, letter paper, pdflatex, American spelling, AI
-  disclosure at the head of the abstract, acknowledgments stating each
-  AI's role, examples in every section, a glossary with self-contained
-  entries, section-based numbering without lettered insertions, error
-  discussion moved to this log.
+\item Style guide: two rules marked DECIDE were settled by their defaults
+  (document class \texttt{article}, font package \texttt{mathptmx}), and
+  subsections were left numbered. See Section~\ref{sec:d2d3}.
+\item Rule~4.3 of the style guide asks that every citation be checked
+  against its source. This has not been done; see
+  Section~\ref{sec:sources} and Remark~\ref{N-yrem:unverified} of the
+  paper.
 \end{enumerate}
 
 \begin{thebibliography}{9}
-\bibitem[Spr]{Spr} T.~A.~Springer, Nonabelian $H^2$ in Galois cohomology,
+\bibitem[Sp66]{Sp66} T.~A.~Springer, Nonabelian $H^2$ in Galois cohomology,
 Proc.\ Sympos.\ Pure Math.\ 9, Amer.\ Math.\ Soc., 1966, 164--182.
 \end{thebibliography}
 

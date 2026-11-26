@@ -1,6 +1,10 @@
-# Notes on the inflation-restriction sequence in non-abelian cohomology
+# Inflation-restriction in non-abelian cohomology: centralizer obstructions, Weil groups, and voltage graphs
 
 David Joyner and Claude (an AI system developed by Anthropic).
+
+An expository paper. No originality is claimed for its results. Until Draft 2
+the title was "Notes on the inflation-restriction sequence in non-abelian
+cohomology", which is the title of the original manuscript.
 
 Let `1 -> N -> W -> Gamma -> 1` be a group extension with `N` abelian, for
 example the relative Weil group `W_{E/F}` of a finite Galois extension of
@@ -22,10 +26,12 @@ subgroup `N`, and the description of the extension `W` by its monodromy on the
 first homology of the Cayley graph of `Gamma` (the relation module).
 
 A detailed running example, the Weil group of `Q_3(i)/Q_3` with coefficients
-in `C^x` and `SL_2(C)`, is carried through Sections 2 to 6 (Examples 2.12,
-3.7, 4.14, 5.7, 6.16 and 7.4).
+in `C^x` and `SL_2(C)`, is carried through Sections 3 to 8 (Examples 3.12,
+4.7, 5.14, 6.7, 7.16 and 8.4).
 
-Current version: **Draft 2. Corrected and expanded version** (November 26, 2026).
+Current version: **Draft 3. Corrected and expanded version** (November 26, 2026).
+Draft 3 follows the house style guide `joyner-math-paper-style-guide.md` (Draft 2
+of the guide, in the repository `wdjoyner/trace-formulas`).
 Gemini refereed the original manuscript and ChatGPT refereed Draft 1.
 
 ## Files
@@ -33,10 +39,11 @@ Gemini refereed the original manuscript and ChatGPT refereed Draft 1.
 | File | What it is |
 | --- | --- |
 | `infres.tex` / `.pdf` | The note (current draft) |
-| `revision-log.tex` / `.pdf` | Responses to both referee reports, all comparisons with the original manuscript, changes from Draft 1 to Draft 2 with a numbering concordance, original versus new results, AI usage, sources consulted and not consulted, open items |
+| `revision-log.tex` / `.pdf` | Responses to both referee reports, all comparisons with the original manuscript, changes between drafts with numbering concordances, conformance to the style guide, original versus new results, AI usage, sources consulted and not consulted, open items |
 | `original/infres.tex` | The original, undated AMS-TeX manuscript, unchanged |
 | `referee/2026-11-26/` | Referee report on the original (Gemini, "Carbon"), as received |
 | `referee/2026-11-26-chatgpt/` | Referee report on Draft 1 (ChatGPT), as received |
+| `LICENSE-manuscript.txt` | CC BY 4.0 license for the manuscript, LaTeX sources and revision log |
 | `verification/` | A script that checks the main results by brute force on twenty-seven small examples, five of them with non-abelian `N`, and its output (MIT license) |
 
 To compile: run `pdflatex` three times on `infres.tex`, then twice on
