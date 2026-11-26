@@ -7,6 +7,16 @@ Project for David Joyner's *Toric codes over finite fields*, published in
 **Current version: Draft 5 of the corrected and expanded version
 (2026-11-22).** `toric-codes.tex` and `toric-codes.pdf`.
 
+## Summary
+
+The paper associates error-correcting codes to toric surfaces over a finite field 𝔽_q, in analogy with the Goppa codes of a curve. Evaluated on the full torus, such a code depends only on the residues modulo q − 1 of the lattice points of a polygon. Its dimension is the number of these residues, and its dual is again a toric code.
+
+- Short self-contained proofs of the minimum distances of three of J. Hansen's families, using a grid-counting lemma of Alon–Füredi type that also gives general upper and lower bounds.
+- Examples showing that two natural lower bounds, in terms of the area or the number of lattice points of the polygon, do not hold.
+- An error-locator decoding algorithm, as an error-correcting-pair algorithm with explicit toric hypotheses.
+- Exact parameters of many examples. The [49,11,28] code over 𝔽₈, better than all codes in the 2002 tables, has minimum distance 28 by exhaustive enumeration (with independent verification scripts); the decoding algorithm corrects up to 5 errors in it in a worked example, and up to 6 with a pair found by computer search.
+- A final section on connections with graph theory.
+
 ## Contents
 
 - `toric-codes.tex`, `toric-codes.pdf`: the corrected and expanded paper (40 pages).

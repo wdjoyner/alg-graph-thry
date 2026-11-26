@@ -4,6 +4,10 @@ Project for David Joyner's *Which S_m have a complement in S_n?* (original 1997,
 
 **Current version: Draft 6 (2026-11-18).** `complement-regularity.tex` and `complement-regularity.pdf`.
 
+## Summary
+
+The paper asks for which m the standard subgroup S_m of S_n has a complement: a subgroup H with S_n = S_m·H and S_m ∩ H trivial. It characterizes such complements through sharply multiply transitive permutation groups, and gives the resulting classification with its explicit exceptions in low degree. It also gives an exact three-factor decomposition of S₁₂, motivated by storing permutations. The last section turns to graphs: a complement to S_{n−k} makes the arrangement graph on ordered k-tuples a Cayley graph with an explicit connection set. It discusses coset graphs, Johnson graphs, adjacency spectra, and the harmonic morphisms (in the sense of Baker and Norine) that arise as group quotients, among them the k!-fold covering of the Johnson graph by the arrangement graph. From the literature, six arrangement graphs are Cayley graphs even though the corresponding S_{n−k} has no complement.
+
 ## Contents
 
 - `complement-regularity.tex`, `complement-regularity.pdf`: the corrected and expanded paper.
