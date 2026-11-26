@@ -1,0 +1,588 @@
+1
+00:00:00,480 --> 00:00:03,069
+How can a diagram tell you which card to
+play?
+
+2
+00:00:03,219 --> 00:00:05,518
+We’ll get there by starting with seven
+points.
+
+3
+00:00:05,668 --> 00:00:10,370
+In the Fano plane, the triangle’s sides,
+its three medians, and the circle are all
+
+4
+00:00:10,370 --> 00:00:10,718
+lines.
+
+5
+00:00:10,868 --> 00:00:13,504
+Each contains exactly three marked
+points.
+
+6
+00:00:17,480 --> 00:00:19,129
+Pick points one and four.
+
+7
+00:00:19,279 --> 00:00:22,622
+Only one line contains both, and it
+supplies point two.
+
+8
+00:00:22,772 --> 00:00:24,456
+Pick four and five instead.
+
+9
+00:00:24,606 --> 00:00:27,160
+Their line is the circle, and it supplies
+six.
+
+10
+00:00:27,310 --> 00:00:30,480
+The circle works just like any other line
+for this incidence rule.
+
+11
+00:00:34,480 --> 00:00:37,522
+Every pair appears exactly once among the
+seven triples.
+
+12
+00:00:37,672 --> 00:00:41,097
+That is what the notation S of two,
+three, seven means.
+
+13
+00:00:41,247 --> 00:00:44,231
+The first number tells us how many points
+we prescribe.
+
+14
+00:00:44,381 --> 00:00:46,273
+The second gives the block size.
+
+15
+00:00:46,423 --> 00:00:49,140
+The last gives the size of the entire
+point set.
+
+16
+00:00:51,480 --> 00:00:56,097
+Now ask for six-point blocks on twelve
+points, with every five points in exactly
+
+17
+00:00:56,097 --> 00:00:56,681
+one block.
+
+18
+00:00:56,831 --> 00:01:00,752
+There are seven hundred ninety-two five-
+point subsets, and each block accounts
+
+19
+00:01:00,752 --> 00:01:01,557
+for six of them.
+
+20
+00:01:01,707 --> 00:01:05,735
+So the design must contain a hundred
+thirty-two blocks, called hexads.
+
+21
+00:01:08,480 --> 00:01:12,969
+To construct the small Witt design, start
+with residues modulo eleven and one
+
+22
+00:01:12,969 --> 00:01:14,564
+additional point, infinity.
+
+23
+00:01:14,714 --> 00:01:17,349
+Highlight zero and the five nonzero
+squares.
+
+24
+00:01:17,499 --> 00:01:21,818
+Together they give our seed set, Q, on
+this twelve-point projective line.
+
+25
+00:01:25,480 --> 00:01:27,442
+There are two ways to move the seed.
+
+26
+00:01:27,592 --> 00:01:30,599
+The first adds one modulo eleven, fixing
+infinity.
+
+27
+00:01:30,749 --> 00:01:34,859
+The second takes the negative reciprocal,
+interchanging zero and infinity.
+
+28
+00:01:35,009 --> 00:01:39,566
+Each acts as a permutation of the twelve
+labels, so a six-point set remains a six-
+
+29
+00:01:39,566 --> 00:01:40,129
+point set.
+
+30
+00:01:42,480 --> 00:01:45,127
+Apply both permutations to each new set.
+
+31
+00:01:45,277 --> 00:01:48,961
+Keep a set when it appears for the first
+time, and queue it for the same
+
+32
+00:01:48,961 --> 00:01:49,480
+treatment.
+
+33
+00:01:49,630 --> 00:01:52,765
+The process stops at a hundred thirty-two
+distinct sets.
+
+34
+00:01:52,915 --> 00:01:54,586
+These are the orbit of the seed.
+
+35
+00:01:59,480 --> 00:02:03,776
+Now delete one point in each possible way
+from every block and count the results.
+
+36
+00:02:03,926 --> 00:02:08,289
+The verifier finds seven hundred ninety-
+two distinct five-point subsets, each
+
+37
+00:02:08,289 --> 00:02:09,139
+occurring once.
+
+38
+00:02:09,289 --> 00:02:13,703
+That exhausts the five-point subsets of
+twelve points and establishes the Steiner
+
+39
+00:02:13,703 --> 00:02:14,200
+property.
+
+40
+00:02:16,480 --> 00:02:20,451
+Curtis’s kitten gives us a geometric way
+to recognize those blocks.
+
+41
+00:02:20,601 --> 00:02:23,143
+The corners are infinity, zero, and one.
+
+42
+00:02:23,293 --> 00:02:25,824
+The other labels are repeated around the
+triangle.
+
+43
+00:02:25,974 --> 00:02:30,189
+Whenever a label appears twice, the two
+appearances represent the same point.
+
+44
+00:02:33,480 --> 00:02:37,429
+At each corner, arrange the same nine
+ordinary points into a three-by-three
+
+45
+00:02:37,429 --> 00:02:39,831
+affine plane over the field of three
+elements.
+
+46
+00:02:39,981 --> 00:02:41,722
+Rows and columns are lines.
+
+47
+00:02:41,872 --> 00:02:46,596
+The other two directions wrap around the
+grid, as the highlighted modular diagonal
+
+48
+00:02:46,596 --> 00:02:46,946
+shows.
+
+49
+00:02:50,480 --> 00:02:51,885
+Choose a row and a column.
+
+50
+00:02:52,035 --> 00:02:54,984
+Their union has five points because they
+share one point.
+
+51
+00:02:55,134 --> 00:02:59,697
+The two modular diagonal directions also
+give perpendicular pairs in this field.
+
+52
+00:02:59,847 --> 00:03:01,681
+Either kind of union is a cross.
+
+53
+00:03:01,831 --> 00:03:03,990
+The four points left over form a square.
+
+54
+00:03:07,480 --> 00:03:10,092
+A line plus all three corners gives a
+hexad.
+
+55
+00:03:10,242 --> 00:03:11,937
+So do two parallel lines.
+
+56
+00:03:12,087 --> 00:03:14,131
+A cross takes the corner of its own view.
+
+57
+00:03:14,281 --> 00:03:16,301
+A square takes the other two corners.
+
+58
+00:03:16,451 --> 00:03:20,978
+The four families have twelve, twelve,
+fifty-four, and fifty-four blocks,
+
+59
+00:03:20,978 --> 00:03:22,802
+exactly the projective orbit.
+
+60
+00:03:24,480 --> 00:03:27,975
+Conway’s MINIMOG puts the twelve points
+into a three-by-four array.
+
+61
+00:03:28,125 --> 00:03:30,923
+Match the projective and shuffle arrays
+cell by cell.
+
+62
+00:03:31,073 --> 00:03:33,476
+Infinity becomes zero, for example.
+
+63
+00:03:33,626 --> 00:03:37,656
+The geometry is carried along by this
+relabeling, and the new numbers will
+
+64
+00:03:37,656 --> 00:03:38,816
+serve as card values.
+
+65
+00:03:41,480 --> 00:03:45,474
+Each tetracode word specifies one row in
+each of the four columns.
+
+66
+00:03:45,624 --> 00:03:47,423
+Choose a and b modulo three.
+
+67
+00:03:47,573 --> 00:03:51,416
+The row indices are b, a, a plus b, and a
+plus twice b.
+
+68
+00:03:51,566 --> 00:03:55,537
+There are nine words, and any two
+coordinates determine the entire word.
+
+69
+00:03:58,480 --> 00:04:01,220
+In a column with one marked cell, read
+the marked row.
+
+70
+00:04:01,370 --> 00:04:03,750
+With two marked cells, read the missing
+row.
+
+71
+00:04:03,900 --> 00:04:06,327
+Full and empty columns give wildcards.
+
+72
+00:04:06,477 --> 00:04:09,135
+The specified rows must fit one codeword.
+
+73
+00:04:09,285 --> 00:04:13,802
+A hand with column counts zero, one, two,
+and three is always rejected.
+
+74
+00:04:15,480 --> 00:04:17,129
+Here is the hand we’ll play.
+
+75
+00:04:17,279 --> 00:04:19,798
+The columns specify one, one, two, two.
+
+76
+00:04:19,948 --> 00:04:22,816
+The first two entries force one, one,
+two, zero.
+
+77
+00:04:22,966 --> 00:04:26,112
+The last column disagrees, so the hand is
+a nonhexad.
+
+78
+00:04:26,262 --> 00:04:28,979
+We’ll look for a one-card exchange that
+repairs it.
+
+79
+00:04:32,480 --> 00:04:34,686
+Turn each six-card hand into a vertex.
+
+80
+00:04:34,836 --> 00:04:37,646
+Join two vertices if their hands share
+five cards.
+
+81
+00:04:37,796 --> 00:04:40,338
+This is the Johnson graph J of twelve,
+six.
+
+82
+00:04:40,488 --> 00:04:42,717
+It has nine hundred twenty-four vertices.
+
+83
+00:04:42,867 --> 00:04:47,163
+Each hand has thirty-six neighbors, from
+six choices out and six choices in.
+
+84
+00:04:49,480 --> 00:04:53,598
+Two hexads cannot share five cards,
+because those five would then have two
+
+85
+00:04:53,598 --> 00:04:54,276
+completions.
+
+86
+00:04:54,426 --> 00:04:56,751
+So the hexads form an independent set.
+
+87
+00:04:56,901 --> 00:05:01,954
+Any independent set uses six distinct
+five-subsets per vertex, with no overlap
+
+88
+00:05:01,954 --> 00:05:03,069
+between vertices.
+
+89
+00:05:03,219 --> 00:05:05,680
+The resulting upper bound is a hundred
+thirty-two.
+
+90
+00:05:06,480 --> 00:05:10,991
+For a nonhexad, remove any one of its six
+cards and complete the five remaining
+
+91
+00:05:10,991 --> 00:05:12,610
+cards to their unique hexad.
+
+92
+00:05:12,760 --> 00:05:14,525
+The six completions are distinct.
+
+93
+00:05:14,675 --> 00:05:19,063
+So every nonhexad has six hexad neighbors
+and thirty nonhexad neighbors.
+
+94
+00:05:19,213 --> 00:05:22,429
+Every hexad has thirty-six nonhexad
+neighbors.
+
+95
+00:05:23,480 --> 00:05:27,387
+The matrix records these counts per
+vertex, with rows for the starting class
+
+96
+00:05:27,387 --> 00:05:29,366
+and columns for the destination class.
+
+97
+00:05:29,516 --> 00:05:32,523
+For our hand, there are six exchanges to
+hexads.
+
+98
+00:05:32,673 --> 00:05:34,960
+Three increase the total and three
+decrease it.
+
+99
+00:05:35,110 --> 00:05:36,945
+The direction will matter in the game.
+
+100
+00:05:40,480 --> 00:05:44,741
+Both players see the same six cards, and
+the other six are in a shared pile.
+
+101
+00:05:44,891 --> 00:05:48,734
+On your turn, replace one card with a
+smaller card from the pile.
+
+102
+00:05:48,884 --> 00:05:50,916
+Keep the new total at least twenty-one.
+
+103
+00:05:51,066 --> 00:05:53,283
+If you have no legal move, you lose.
+
+104
+00:05:57,480 --> 00:05:59,082
+Our hand totals thirty.
+
+105
+00:05:59,232 --> 00:06:03,876
+The three decreasing moves to hexads are
+four to three, seven to five, and eleven
+
+106
+00:06:03,876 --> 00:06:04,341
+to nine.
+
+107
+00:06:04,491 --> 00:06:07,834
+Their new totals are twenty-nine, twenty-
+eight, and twenty-eight.
+
+108
+00:06:07,984 --> 00:06:10,237
+Each leaves the opponent a losing
+position.
+
+109
+00:06:10,387 --> 00:06:11,908
+Let’s play seven to five.
+
+110
+00:06:14,480 --> 00:06:17,139
+At twenty-eight, Player Two holds a
+hexad.
+
+111
+00:06:17,289 --> 00:06:21,724
+Its odd-man-out pattern extends to the
+codeword two, one, zero, two.
+
+112
+00:06:21,874 --> 00:06:24,823
+In this play, Player Two swaps eleven for
+seven.
+
+113
+00:06:24,973 --> 00:06:29,281
+The total falls to twenty-four, and the
+resulting hand has the prohibited column
+
+114
+00:06:29,281 --> 00:06:29,663
+counts.
+
+115
+00:06:31,480 --> 00:06:33,651
+Player One replaces six with three.
+
+116
+00:06:33,801 --> 00:06:37,946
+Now the total is exactly twenty-one, and
+the hand is a hexad again.
+
+117
+00:06:38,096 --> 00:06:41,486
+Every exchange to a smaller card would go
+below the threshold.
+
+118
+00:06:41,636 --> 00:06:44,817
+Player Two has no legal move, so Player
+One wins.
+
+119
+00:06:48,480 --> 00:06:52,565
+Direct every edge toward the smaller
+total and keep the vertices at twenty-one
+
+120
+00:06:52,565 --> 00:06:53,043
+or above.
+
+121
+00:06:53,193 --> 00:06:56,606
+Totals strictly decrease, so there are no
+directed cycles.
+
+122
+00:06:56,756 --> 00:06:58,602
+Process hands in increasing total.
+
+123
+00:06:58,752 --> 00:07:02,525
+A hand is losing exactly when none of its
+legal successors is losing.
+
+124
+00:07:05,480 --> 00:07:10,106
+Across all nine hundred five legal hands,
+the recursion finds exactly the hundred
+
+125
+00:07:10,106 --> 00:07:11,610
+thirty-two shuffle hexads.
+
+126
+00:07:11,760 --> 00:07:15,708
+There are no edges between them, and
+every other legal hand has a move into
+
+127
+00:07:15,708 --> 00:07:15,975
+them.
+
+128
+00:07:16,125 --> 00:07:20,815
+That makes them the kernel, and explains
+why repairing the design wins the game.
