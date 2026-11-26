@@ -1,0 +1,49 @@
+% SPDX-License-Identifier: CC-BY-4.0
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,newtxtext,newtxmath}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs,microtype}
+\usepackage[hidelinks]{hyperref}
+\title{Revision log: MINIMOGs and Mathematical Blackjack\\\large Draft 2}
+\author{David Joyner}
+\date{November 26, 2026}
+\begin{document}
+\maketitle
+\section{Scope and provenance}
+ChatGPT read the original LaTeX file, \texttt{mog1.tex}, dated May 29, 2000, and the attached mathematical paper style guide (Draft 2, November 11, 2026). The original manuscript is treated as Draft 1. No journal publication of that manuscript was identified in the material supplied. The author's explicit request authorized posting the revised draft. The original results are retained, but the proofs and presentation have been substantially expanded. The author line remains David Joyner, with AI credit in the abstract and acknowledgments. The default existing document class (modern \texttt{article}), newtx fonts, and end-of-paper glossary were used. The historical manuscript is not overwritten.
+\section{Responses to the referee report}
+\begin{description}
+\item[M1.] Corrected the sample space under the original redealing rule. Exhaustive enumeration independently confirms 19 hands below 21, 11 at 21, and 894 above 21. There are 121 eligible hexads. The conditional winning probability is $773/894$, not $6/7$.
+\item[M2.] Formalized the original game as normal play with moves below 21 excluded. Such a move can instead be treated as an immediate loss without changing which player has a winning strategy. Preserved redealing on totals at most 21.
+\item[M3.] Replaced the ambiguous description of the tetracode by its explicit generator matrix, proved the distance and self-duality claims, and retained the three-symbol notation.
+\item[M4.] Replaced the ambiguous odd-man-out rule by the unsigned membership test and checked it exhaustively against the projective orbit.
+\item[M5.] Reconstructed the signed examples as vectors over the field of three elements. The col-minus-col example in the original manuscript already had the correct signed set, contrary to the referee's implication. Its wildcard description was incorrect. In the second example, the displayed operation should have been addition rather than subtraction. All four signed construction types were checked exhaustively.
+\item[M6.] Corrected the square and cross examples, including the worked game. The square or cross is only the affine part of the hexad.
+\item[P1--P5.] Added the double-counting proof for design parameters, the complement and intersection counts, a finite proof of the projective orbit, a geometric cross count, and verification of the four kitten families.
+\item[E1--E4.] Corrected wording and row labels, updated the document class syntax, added numbered sections and an introductory overview, replaced repetitive diagrams with three TikZ figures, and expanded background, notation and glossary.
+\item[B1--B3.] Updated Kahane--Ryba's bibliographic entry, added Irie's 2021 work and the author's 2006 SageMath implementation, including a documented example.
+\end{description}
+\section{Original and added results}
+The original manuscript contains the projective orbit, Curtis's kitten, the two MINIMOG arrays, the tetracode membership and signed-pattern descriptions, the extremal hexad totals, the shuffle kitten, the blackjack strategy, and the worked game. These are historical results attributed to the original sources, not new claims of this revision.
+
+The revised exposition adds a double-counting derivation of design parameters, a proof of the complement property and intersection distribution, an explicit linear-algebra proof of tetracode properties, the Johnson graph equitable quotient and two proofs of the independence number, the directed kernel formulation, the full hexad weight enumerator, and the corrected probability theorem. These are new material relative to the 2000 manuscript. No claim of historical priority is made. The revised proof of the game theorem is exhaustive and computational; the historical non-enumerative proof is cited separately.
+\section{Verification and source limitations}
+The Python script was executed. It checks the full projective orbit, the uniqueness of five-subset completions, the equality of the MINIMOG, signed patterns and kitten families, the complement property, and the classification of all 905 legal game positions. The enumerator and deal counts are produced directly. All operations are exact and no randomized sampling is used. The graph results and tetracode properties were independently derived. The proof of uniqueness of the Witt design up to relabeling is not reproduced. The program verifies the explicit construction, not the historical uniqueness theorem.
+
+The EJC article landing pages for Kahane--Ryba and Irie and the SageMath 10.8 documentation were consulted. The EJC metadata dates Kahane--Ryba's online publication May 18, 2000, while the issue is dated 2001. The bibliography uses the issue year. The 1984 Curtis and Conway chapter page ranges were checked against the ATLAS bibliography. The 1986 article metadata was checked against bibliographic listings. The original books and chapters, including the specific page in Conway--Sloane (1999), were not fully consulted, and their original citations are retained with that limitation. The original publication status of the 2000 manuscript has not been independently established. The SageMath example was checked against its documentation, not executed in SageMath. A separate mathematical referee should review the new draft.
+\section{Concordance}
+The original four sections are retained in the same order, with background and new graph material inserted as follows.
+\begin{center}\begin{tabular}{cll}\toprule
+Old section & Subject & New section(s)\\\midrule
+Unnumbered & Introduction and definitions & 1--3\\
+1 & Curtis's kitten and projective orbit & 4--5\\
+2 & MINIMOG and extremal sums & 6, 9.3\\
+3 & Shuffle kitten & 7\\
+4 & Mathematical blackjack & 9\\
+New & Graph theory & 8\\
+New & Summary and glossary & 10--11\\\bottomrule\end{tabular}\end{center}
+Original theorem numbers 1 and 2 (orbit and kitten) correspond to Lemma 4.1 and Section 7; the original Conway lemma to Lemma 6.1; the game proposition and probability lemma to Theorem 9.1 and Proposition 9.2. The earlier examples are integrated into the prose.
+\section{AI usage}
+ChatGPT performed the referee pass, wrote the revision, derived the new graph arguments, implemented the computational checks, and compiled the LaTeX files. This is not independent certification. The author should review the revised manuscript before treating it as final.
+\end{document}
