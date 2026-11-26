@@ -1,0 +1,338 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{courier}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xr}
+\externaldocument[N-]{infres}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\act}[2]{{}^{#1}\!#2}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Cay}{Cay}
+
+\title{Revision log\\[4pt]\large ``Notes on the inflation-restriction
+sequence in non-abelian cohomology'', Draft 1\\(corrected and expanded
+version)}
+\author{David Joyner\\\texttt{wdjoyner@gmail.com}}
+\date{November 26, 2026}
+
+\begin{document}
+\maketitle
+
+\noindent This log records every change from the original manuscript to
+Draft~1, the response to the referee report, the AI usage, and the sources
+consulted and not consulted. Theorem numbers of Draft~1 are generated from
+the note's \texttt{.aux} file, so compile the note first.
+
+\section{Files and drafts}\label{sec:files}
+
+\begin{itemize}[itemsep=1pt]
+\item All files are in the folder \texttt{infres} of the repository
+  \url{https://github.com/wdjoyner/alg-graph-thry}.
+\item Original: \texttt{original/infres.tex}, an undated, unpublished
+  \AmS-\TeX\ manuscript of about four pages, written while the author was
+  at the U.S.\ Naval Academy. It is kept unchanged. It needs plain \TeX\
+  with \texttt{amstex} and \texttt{amsppt} to compile.
+\item Draft 1 (November 26, 2026): \texttt{infres.tex} and its PDF.
+\item Referee report on the original, by Gemini (``Carbon''), as
+  received: the file \nolinkurl{carbon_referee_report.md} in the folder
+  \texttt{referee/2026-11-26/}.
+\item Script: \texttt{verification/infres\_checks.py} (Python~3, standard
+  library only), with its output in
+  \texttt{verification/checks\_output.txt}. A full run takes about four
+  minutes.
+\end{itemize}
+
+\section{AI usage}\label{sec:ai}
+
+AI review is not an independent certification of the results.
+
+\begin{enumerate}[itemsep=1pt]
+\item \emph{Referee.} Gemini (Google), called ``Carbon'' by the author,
+  refereed the original manuscript. Its report is reproduced in
+  \texttt{referee/2026-11-26/}.
+\item \emph{Reviser and author of new material.} Claude (Anthropic, model
+  Claude Fable~5.2) prepared Draft~1 at the author's request, with the
+  instructions: revise according to the referee report, apply the house
+  style sheet, fill in details, look for graph-theoretic connections that
+  organize the point of view, and post the result to the repository.
+  Claude checked each referee item independently
+  (Section~\ref{sec:referee}), wrote all new text, proofs and examples, the
+  literature paragraph, the glossary and Sections~\ref{N-sec:graph}
+  and~\ref{N-sec:langlands} of the note.
+\item \emph{Computation.} Claude wrote and ran the verification script
+  (Section~\ref{sec:verification}).
+\item \emph{Literature.} Claude ran one web search to check how the
+  non-abelian inflation-restriction sequence and Springer's $H^2$ are cited
+  in recent papers (Section~\ref{sec:sources}).
+\end{enumerate}
+
+\noindent The author of the note is listed as D.~Joyner alone. Whether
+Claude should be listed as a co-author, as in some of the author's other
+2026 revisions, is left to the author (Section~\ref{sec:open}).
+
+\section{Response to the referee report}\label{sec:referee}
+
+Items are numbered in the order of the report.
+
+\begin{longtable}{@{}p{0.05\textwidth}p{0.40\textwidth}p{0.49\textwidth}@{}}
+\toprule
+No. & Referee's point & Response \\
+\midrule
+\endhead
+1.1 & $E^\times$ is $W_E/W_E^c$, not $W_F/W_F^c$. & Accepted. See the
+first paragraph of the Introduction and (W1). \\
+1.2 & The hypothesis $s(w^{-1}gw)=w^{-1}s(g)w$ on the section is
+ill-typed and too strong; require only $p(s(g))=g$, $s(1)=1$. The class of
+$\sigma$ is non-trivial only if $E\neq F$. & Accepted.
+Definition~\ref{N-def:section}; the hypothesis $E\neq F$ is stated in
+\S\ref{N-ss:scope} and after (W3). \\
+1.3 & $H^1(E^\times,A)^\Gamma$ is not
+$\Hom_\Gamma(E^\times,A)/A$: an invariant class need not contain an
+equivariant homomorphism, and conjugates of equivariant homomorphisms need
+not be equivariant. & Accepted. Definition~\ref{N-def:T} separates
+``invariant class'' from ``equivariant homomorphism'', and
+Example~\ref{N-ex:toy-noeq} and Example~\ref{N-ex:dihedral} give invariant
+classes with no equivariant representative. \\
+1.4 & Fix: keep Springer's full definition, with elements $b_g$ and a
+twisted action; define the $W$-action on $\Hom(E^\times,A)$ by
+$(w\star\phi)(x)=\act{w}{\phi(w^{-1}xw)}$; the restriction of a cocycle
+satisfies $f(wxw^{-1})=f(w)\,\act{w}{\phi(x)}\,f(w)^{-1}$. & Accepted,
+with one essential change: the twisted cocycle must be taken in the
+centralizer $C_\phi$, not in $A$ (see item 1.8). The action is
+\eqref{N-eq:gphi}; the formula for the restriction is
+Lemma~\ref{N-lem:restrict}. The displayed formula in the report has a
+misplaced parenthesis, but its conclusion is correct. \\
+1.5 & In the definition of cohomologous $2$-cocycles, a prime is missing
+on $\alpha'$. & Moot. The definition was replaced by Springer's
+(Definition~\ref{N-def:H2}). \\
+1.6 & The conjugation conventions $w^{-1}i(x)w=i(gx)$ and
+$s(g)xs(g)^{-1}=gx$ are inconsistent; use left conjugation. & Accepted.
+\eqref{N-eq:actN}. The report itself uses two conventions for $\sigma$
+(once $s(g_1)s(g_2)s(g_1g_2)^{-1}$, once its inverse); Draft~1 uses the
+first throughout. \\
+1.7 & In the proof of semi-exactness, $w_i$ must be $s(g_i)$. & Moot. That
+proof was replaced by Theorem~\ref{N-thm:main}, (b)$\Rightarrow$(c). \\
+1.8 & The ``Conjecture'' (exactness at $H^1(E^\times,A)^\Gamma$) becomes a
+theorem once the kernel of $\partial$ is defined as the set of classes with
+neutral image in $H^2(\Gamma,A,\overline{\alpha})$; attributed to Springer,
+Prop.~1.20. & \textbf{Not accepted as stated.} The two conditions on
+$c(g)$ listed in the report are correct, and they are condition (c) of
+Theorem~\ref{N-thm:main}; the formula $f'(i(x)s(g))=\phi(x)c(g)$ is
+\eqref{N-eq:fc}. But these conditions are not equivalent to neutrality of
+a class in $H^2(\Gamma,A,\overline{\alpha})$. Neutrality in $A$ allows the
+elements $b_g$ to be changed by arbitrary elements of $A$, which destroys
+the condition $b_g\in T_\phi(g)$. The correct target is
+$H^2(\Gamma,C_\phi,\kappa_\phi)$. Example~\ref{N-ex:needed} gives
+counterexamples to the statement with $A$ (the dihedral group of order
+$8$ mapping to $Q_8$, and dihedral parameters in $\SL_2(\C)$). The
+attribution to Springer's Prop.~1.20 could not be checked
+(Section~\ref{sec:sources}) and is not used. \\
+1.9 & In the conjecture, $f'(wi(x))=f'(w)f(gx)$ is not the cocycle
+condition, which needs $\act{g}{f(x)}$, and a conjugation by $c(g)$ is
+missing. & Accepted. The correct relations are \eqref{N-eq:fxw} and the
+definition \eqref{N-eq:T} of $T_\phi(g)$. \\
+2.1 & Add a remark on topology and continuity. & Accepted.
+Proposition~\ref{N-prop:cont}. The relevant fact is that $E^\times$ is
+open in $W_{E/F}$. \\
+2.2 & Define neutral elements of $H^2$ and state exactness with respect
+to them. & Accepted. Definition~\ref{N-def:H2},
+Example~\ref{N-ex:H2}(c), Theorem~\ref{N-thm:main}(d). \\
+3.1 & Convert from \AmS-\TeX\ to \LaTeX, remove unused macros and the old
+affiliation. & Accepted. \\
+3.2 & Misprints: ``p-adic'', ``pull-pack'', ``(semi-)exact'',
+$\Aut(A)/A$ for $\Aut(A)/\Int(A)$, the broken sentence in the proof of
+(1), ``an notions'', ``cocyles'', $r$ for $p$, ``$A$-groups'' for
+``$\Gamma$-groups'', $g\in G$ for $g\in\Gamma$, ``cohomlogous'',
+``particlar'', ``choosen''. & All accepted. The text was rewritten, so
+most of these sentences no longer occur. \\
+\bottomrule
+\end{longtable}
+
+\section{Comparison with the original manuscript}\label{sec:comparison}
+
+\subsection{Statements of the original which were wrong or ill-posed}
+
+These are recorded here and not in the note. Where a point is worth
+keeping, the note presents it as a natural question followed by an
+example.
+
+\begin{enumerate}[itemsep=2pt]
+\item \emph{Introduction.} ``$E^\times$ is isomorphic to $W_F/W_F^c$''
+  should be $W_E/W_E^c$ (referee).
+\item \emph{Introduction.} ``If $G$ is $E$-split but not $F$-split then
+  $\Gamma$ acts on $\widehat{G}(\C)$ non-trivially'' is false for
+  non-split inner forms of split groups. The action is trivial exactly
+  when $G$ is an inner form of a split group. (Found in this revision.)
+\item \emph{Lemma, hypothesis on $s$.} The condition
+  $s(w^{-1}gw)=w^{-1}s(g)w$ is not meaningful and was removed (referee).
+\item \emph{Lemma (1).} ``Non-trivial class'' needs $E\neq F$ (referee).
+  The proof contained a broken sentence.
+\item \emph{Claim under ``Restriction''.} The action $w^*f(x)=f(wx)$ is
+  not defined on functions on $E^\times$, and the identification
+  $H^1(E^\times,A)^\Gamma=\Hom_\Gamma(E^\times,A)/A$ is false (referee).
+  In the note: the question after Example~\ref{N-ex:torus1} and
+  Example~\ref{N-ex:toy-noeq}.
+\item \emph{Definition of $\partial$.} The original put
+  $\partial f=f\circ\sigma$ for $\Gamma$-equivariant $f$, with the given
+  action $\alpha$, as a $2$-cocycle of $\Gamma$ in $A$. Its definition of
+  a $2$-cocycle omitted Springer's condition
+  $\alpha(g)\alpha(h)=\Int(u(g,h))\alpha(gh)$. With that condition,
+  $(f\circ\sigma,\alpha)$ is a $2$-cocycle only when $f\circ\sigma$ is
+  central in $A$. So the original $\partial$ is defined only for
+  homomorphisms with $f\circ\sigma$ central. (Found in this revision.) The
+  case of central $f$ is Corollary~\ref{N-cor:central}, where the original
+  formula is correct up to the convention for $\sigma$.
+\item \emph{Lemma (2), ``semi-exact at $H^1(E^\times,A)^\Gamma$''.} As a
+  consequence of the previous two items the statement was not well posed.
+  Its proof replaced $s(g_i)$ by arbitrary $w_i$ (referee). The correct
+  statement is Theorem~\ref{N-thm:main}, (b)$\Rightarrow$(d).
+\item \emph{Conjecture (exactness at $H^1(E^\times,A)^\Gamma$).} With
+  target $H^2(\Gamma,A,\overline{\alpha})$ the conjecture is false, even
+  when $\phi\circ\sigma$ is central: Example~\ref{N-ex:needed}. With
+  target $H^2(\Gamma,C_\phi,\kappa_\phi)$ it is true:
+  Theorem~\ref{N-thm:main}. For central $\phi$, and in particular for
+  abelian $A$, the original conjecture is true as stated:
+  Corollary~\ref{N-cor:central}. The proposed formula
+  $f'(w)=c(g)f(ws(g)^{-1})$ has the factors in the wrong order; the
+  correct one is \eqref{N-eq:fc}.
+\end{enumerate}
+
+\subsection{Original results and new results}
+
+\begin{center}
+\begin{tabular}{@{}p{0.5\textwidth}p{0.44\textwidth}@{}}
+\toprule
+Draft 1 & Status \\
+\midrule
+Lemma~\ref{N-lem:factor}(i)--(iii) & Original Lemma (1), corrected \\
+Lemma~\ref{N-lem:factor}(iv), Example~\ref{N-ex:toy},
+Example~\ref{N-ex:weil-quad} & New (standard) \\
+Lemmas~\ref{N-lem:semidirect}, \ref{N-lem:ext-class}, \ref{N-lem:twist}
+& New (standard) \\
+Theorem~\ref{N-thm:exact} & Original Lemma (2), first three terms;
+proofs kept, with corrections \\
+Lemmas~\ref{N-lem:actions}, \ref{N-lem:restrict}, \ref{N-lem:T} & New \\
+Definition~\ref{N-def:partial}, Proposition~\ref{N-prop:welldef},
+Theorem~\ref{N-thm:main} & New; replaces the original connecting map and
+settles the original conjecture \\
+Corollary~\ref{N-cor:central} & Original formula for $\partial$, now
+proved in the case where it applies \\
+Proposition~\ref{N-prop:fiber} & New \\
+Section~\ref{N-sec:graph} (Proposition~\ref{N-prop:derived},
+Theorem~\ref{N-thm:graph}, Corollary~\ref{N-cor:cyclic}) & New \\
+Section~\ref{N-sec:langlands}, Section~\ref{N-sec:questions}, glossary &
+New \\
+All examples & New \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent ``New'' means new relative to the original manuscript. No claim
+of novelty relative to the literature is made; see the paragraph ``Related
+literature'' of the note.
+
+\subsection{Changes of notation and convention}
+
+\begin{itemize}[itemsep=1pt]
+\item $\sigma(g,h)=s(g)s(h)s(gh)^{-1}$ replaces the original
+  $s(gh)s(h)^{-1}s(g)^{-1}$ (its inverse). Noted in a footnote of the
+  note.
+\item Springer's conventions for $2$-cocycles are used. The original
+  remarked that its $2$-cocycles differed from Springer's by an inversion.
+\item The action of $g$ on $a$ is written $\act{g}{a}$ throughout; the
+  original mixed $ga$ and $g(a)$.
+\item Cohomologous: $f'(g)=a^{-1}f(g)\,\act{g}{a}$ (the original wrote the
+  same relation with $f$ and $f'$ exchanged).
+\item The general extension is written $1\to N\to W\to\Gamma\to1$; the
+  original worked with $N=E^\times$ and remarked that $A$ could be any
+  algebraic $\Gamma$-group over $\C$. Algebraicity is not used.
+\item The original had a single unnumbered Lemma. Draft~1 numbers
+  statements by section, in order of appearance.
+\end{itemize}
+
+\section{Verification}\label{sec:verification}
+
+The script \texttt{verification/infres\_checks.py} treats twenty triples
+(extension $W$, normal abelian subgroup $N$, $\Gamma$-group $A$) with
+$|W|\le24$ and $|A|\le24$, with $\Gamma$ of order $2$, $3$, $4$ (Klein) and
+$6$ (non-abelian), split and non-split, with trivial and non-trivial
+actions. For each it enumerates all $1$-cocycles of $W$, $\Gamma$ and $N$
+by brute force and checks: the factor set identity~\eqref{N-eq:2coc};
+Theorem~\ref{N-thm:exact}; Lemma~\ref{N-lem:T}(ii);
+Proposition~\ref{N-prop:welldef}(i),(ii); the equivalences (a), (b), (c),
+(d) of Theorem~\ref{N-thm:main} and the bijection $f\leftrightarrow c$;
+Proposition~\ref{N-prop:fiber}; and Theorem~\ref{N-thm:graph} for a
+standard presentation of $\Gamma$. All checks pass. The output table also
+confirms the counts in Examples~\ref{N-ex:toy-noeq}
+and~\ref{N-ex:toy-obstruction}.
+
+The examples over $p$-adic fields (Examples~\ref{N-ex:torus2},
+\ref{N-ex:dihedral}, \ref{N-ex:unramified}) are not machine-checked. They
+rest on facts (W1)--(W3) and on hand computation with $2\times2$ matrices.
+
+\section{Sources consulted and not consulted}\label{sec:sources}
+
+\begin{itemize}[itemsep=2pt]
+\item \emph{Not consulted directly:} Springer \cite{Spr}. The definition
+  of $2$-cocycles, equivalence and neutral classes in
+  Definition~\ref{N-def:H2} is written from memory of the standard
+  definition. The reference ``1.13--1.17'' is taken from the way the paper
+  is cited in M.~Borovoi and D.~A.~Timashev, arXiv:2106.14871, \S5. The
+  original manuscript's reference to Springer's Prop.~1.19 and the
+  referee's reference to Prop.~1.20 were not checked and are not used. All
+  statements about $H^2$ that the note needs are proved in the note
+  (Lemmas~\ref{N-lem:ext-class} and~\ref{N-lem:twist}).
+\item \emph{Not consulted directly:} Serre, \emph{Galois cohomology}. That
+  \S I.5.8 contains the three-term sequence for a closed normal subgroup
+  is taken from its citation in arXiv:2011.08773, \S4.1. The note cites
+  ``Ch.~I, \S5''.
+\item \emph{Not consulted directly, cited from memory:} Serre,
+  \emph{Local fields} (Ch.~VII \S6 is the original manuscript's citation;
+  Ch.~VIII \S4 for the cohomology of cyclic groups); Tate; Artin--Tate;
+  Borel; Borovoi; Giraud; Hochschild--Serre; Langlands; Mac~Lane;
+  Gross--Tucker; Zaslavsky; Baker--Norine. Section and chapter numbers for
+  these should be checked before any submission.
+\item \emph{Web search (one query, November 26, 2026)} on the non-abelian
+  inflation-restriction sequence and neutral classes in Springer's $H^2$.
+  No reference stating Theorem~\ref{N-thm:main} in this form was found,
+  but the search was not exhaustive.
+\end{itemize}
+
+
+
+\section{Open items for the author}\label{sec:open}
+
+\begin{enumerate}[itemsep=1pt]
+\item The year of the original manuscript is not known to the reviser.
+  The date line reads ``Original draft: undated (1990s)''.
+\item Authorship: decide whether Claude should be listed as a co-author.
+\item The bibliographic details listed in Section~\ref{sec:sources} should
+  be checked against the sources.
+\item The house style sheet \texttt{joyner-math-paper-style-guide.md} is
+  not in this repository. Draft~1 was written from the author's recorded
+  style rulings: 12pt Times, letter paper, pdflatex, American spelling, AI
+  disclosure at the head of the abstract, acknowledgments stating each
+  AI's role, examples in every section, a glossary with self-contained
+  entries, section-based numbering without lettered insertions, error
+  discussion moved to this log.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem[Spr]{Spr} T.~A.~Springer, Nonabelian $H^2$ in Galois cohomology,
+Proc.\ Sympos.\ Pure Math.\ 9, Amer.\ Math.\ Soc., 1966, 164--182.
+\end{thebibliography}
+
+\end{document}
