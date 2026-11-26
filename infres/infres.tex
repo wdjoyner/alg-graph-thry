@@ -36,6 +36,10 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Fq}{\mathbb{F}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\pmat}[4]{\bigl(\begin{smallmatrix}#1&#2\\#3&#4\end{smallmatrix}\bigr)}
 \newcommand{\Gh}{\widehat{G}}
 \newcommand{\Th}{\widehat{T}}
 \newcommand{\act}[2]{{}^{#1}\!#2}          % action of #1 on #2
@@ -61,21 +65,26 @@
 \newcommand{\Nm}{\mathrm{N}_{E/F}}
 
 \title{Notes on the inflation-restriction sequence\\ in non-abelian cohomology\\[4pt]
-\large Draft 1. Corrected and expanded version}
+\large Draft 2. Corrected and expanded version}
 \author{David Joyner\thanks{This note corrects and expands an undated,
 unpublished manuscript of the same title (file \texttt{infres.tex}, written
-in \AmS-\TeX\ while the author was at the U.S.\ Naval Academy). Draft~1 of
-this revision was prepared on November 26, 2026.}\\
-\texttt{wdjoyner@gmail.com}}
+in \AmS-\TeX\ while the author was at the U.S.\ Naval Academy). Drafts~1
+and~2 of this revision were prepared on November 26, 2026.}\\
+\texttt{wdjoyner@gmail.com}
+\and Claude\thanks{An AI system developed by Anthropic (model Claude
+Fable~5.2). Its contributions are described in the Acknowledgments.}}
 \date{Original draft: undated (1990s). Corrected and expanded draft: 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This note was revised, corrected and expanded with the help of AI systems
-(Claude, by Anthropic, and Gemini, by Google). See the Acknowledgments for
-details.
+The second author of this note is an AI system (Claude, by Anthropic),
+which revised, corrected and expanded the first author's original
+manuscript. Two other AI systems acted as referees: Gemini (by Google)
+for the original manuscript and ChatGPT (by OpenAI) for Draft~1; several
+results of this draft were proposed in ChatGPT's report. See the
+Acknowledgments for details.
 
 Let $1\to N\to W\to\Gamma\to 1$ be an extension of groups with $N$ abelian,
 for example the relative Weil group $W_{E/F}$ of a finite Galois extension
@@ -92,11 +101,17 @@ of a $1$-cocycle of $W$ if and only if a class $\partial\phi$ is neutral, where
 $\partial\phi$ lies in Springer's non-abelian $H^2$ of $\Gamma$ with
 coefficients in the \emph{centralizer} of $\phi(N)$ in $A$. The fibers of the
 restriction map are described by twisting. We show by examples that the
-centralizer cannot be replaced by $A$. Finally we recast the criterion in
+centralizer cannot be replaced by $A$. The class $\partial\phi$ is the
+class of a canonical extension of $\Gamma$ by the centralizer, built
+without choices, and in this form the criterion holds for an arbitrary
+normal subgroup $N$, abelian or not. Finally we recast the criterion in
 terms of voltage and gain graphs: the Cayley graph of $W$ is the derived
-graph of a voltage assignment on the Cayley graph of $\Gamma$, and $\phi$
-extends exactly when a gain function on the Cayley graph of $\Gamma$ has the
-holonomy prescribed by $\phi$ around each defining relator of $\Gamma$.
+graph of a voltage assignment on the Cayley graph of $\Gamma$, the
+extension $W$ is recovered from the monodromy of this covering on the
+first homology of the Cayley graph of $\Gamma$, and $\phi$ extends exactly
+when a gain function on the Cayley graph of $\Gamma$ has the holonomy
+prescribed by $\phi$ around each defining relator of $\Gamma$. A running
+example, the Weil group of $\Q_3(i)/\Q_3$, is computed in detail.
 \end{abstract}
 
 \tableofcontents
@@ -119,8 +134,11 @@ theory.
 
 Let $G$ be a connected reductive group over $F$ which splits over $E$, and
 let $\Gh=\Gh(\C)$ be its complex dual group. The group $\Gamma$ acts on
-$\Gh$, and the action is trivial exactly when $G$ is an inner form of a
-split group. Through $p$, the group $W$ acts on $\Gh$, and the subgroup
+$\Gh$ by the action used to form the $L$-group: fix a pinning of $\Gh$;
+then $\Gamma$ acts on the based root datum of $G$, and each element of
+$\Gamma$ acts on $\Gh$ by the unique automorphism that preserves the
+pinning and induces the dual action on the root datum. This pinned action
+is trivial exactly when $G$ is an inner form of a split group. Through $p$, the group $W$ acts on $\Gh$, and the subgroup
 $E^\times$ acts trivially because $p\circ i$ is trivial. Langlands
 parameters of $G$ whose restriction to $W_E$ has abelian image give classes
 in the cohomology set $H^1(W,\Gh)$ (Section~\ref{sec:langlands}). It is
@@ -135,6 +153,19 @@ cohomology, but the result has some content: the obstruction to extending a
 homomorphism $\phi:E^\times\to\Gh$ to a parameter does not live in a
 cohomology set of $\Gh$. It lives in a cohomology set of the centralizer of
 the image of $\phi$.
+
+Here is why the centralizer must appear. Let $f$ and $f'$ be two
+$1$-cocycles of $W$ with the same restriction $\phi$ to $E^\times$. For
+each $w\in W$, both $f(w)$ and $f'(w)$ conjugate $\act{w}{\phi(x)}$ to
+$\phi(wxw^{-1})$ for all $x$ (Lemma~\ref{lem:restrict}). So
+\[
+f'(w)\,f(w)^{-1}\in C_\phi=\Cent_{\Gh}\bigl(\phi(E^\times)\bigr).
+\]
+The centralizer measures the freedom in extending $\phi$. Accordingly, a
+first cohomology set of $\Gamma$ in $C_\phi$ classifies the extensions of
+$\phi$ when there is one (Proposition~\ref{prop:fiber}), and a second
+cohomology set of $\Gamma$ in $C_\phi$ contains the obstruction to the
+existence of an extension (Theorem~\ref{thm:main}).
 
 \subsection{Results}
 
@@ -159,6 +190,16 @@ $H^2(\Gamma,C_\phi,\kappa_\phi)$ such that $\phi$ is the restriction of a
 $1$-cocycle of $W$ if and only if $\partial\phi$ is neutral. Equivalently,
 $\phi$ extends to a morphism from the extension $W$ to the stabilizer
 extension $E_\phi$ of $\Gamma$ by $C_\phi$.
+\item \emph{Proposition~\ref{prop:canonical}.} The class $\partial\phi$
+is the class of a canonical extension $\mathcal{O}_\phi$ of $\Gamma$ by
+$C_\phi$, the quotient of the fiber product $W\times_\Gamma E_\phi$ by the
+graph of $\phi$. So $\phi$ extends if and only if $\mathcal{O}_\phi$
+splits.
+\item \emph{Theorem~\ref{thm:general}.} The same criterion holds when $N$
+is an arbitrary normal subgroup of $W$: $\phi$ extends if and only if the
+extension $B_\phi/D_\phi$ of $\Gamma$ by $C_\phi$ splits, where $B_\phi$ is
+the stabilizer of $\phi$ in $A\rtimes W$ and $D_\phi$ is the graph of
+$\phi$.
 \item \emph{Proposition~\ref{prop:fiber}.} The fiber of the restriction map
 through the class of a cocycle $f$ is in bijection with
 $H^1(\Gamma,C_\phi)$, where $\phi=f|_N$ and $\Gamma$ acts on $C_\phi$
@@ -174,10 +215,23 @@ cocycle if and only if there is a $\Gamma$-equivariant gain function on the
 Cayley graph $\Cay(\Gamma,\overline{S})$ whose net gain around each
 defining relator of $\Gamma$ is the image under $\phi$ of the net
 $N$-voltage of that relator. For cyclic $\Gamma$ this is a single
-``twisted norm'' equation (Corollary~\ref{cor:cyclic}).
+``twisted norm'' equation (Corollary~\ref{cor:cyclic}); for non-cyclic
+$\Gamma$ the relators impose simultaneous conditions
+(Example~\ref{ex:klein}).
+\item \emph{Propositions~\ref{prop:reconstruct} and~\ref{prop:lifts}.}
+The extension $W$ is recovered from the $\Gamma$-module $N$ and the
+monodromy $\nu$ of the covering $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$,
+which is a $\Gamma$-equivariant homomorphism from the first homology of
+$\Cay(\Gamma,\overline{S})$ to $N$. Changing the lifts of the generators
+changes $\nu$ by the restriction of a derivation.
 \end{itemize}
 
-Three running examples are used throughout: a toy extension of $\Z/2$ by
+A detailed running example, the Weil group of $\Q_3(i)/\Q_3$ with
+coefficients in $\C^\times$ and in $\SL_2(\C)$, is carried through the
+whole note: Examples~\ref{ex:run1}, \ref{ex:run2}, \ref{ex:run3},
+\ref{ex:runH}, \ref{ex:run4} and~\ref{ex:run5}, at the ends of
+Sections~\ref{sec:background} to~\ref{sec:langlands}. In it every object
+of the note is computed explicitly. Three shorter examples recur as well: a toy extension of $\Z/2$ by
 $\Z/4$, which is either the dihedral or the quaternion group of order~$8$
 (Examples~\ref{ex:toy}, \ref{ex:toy-noeq}, \ref{ex:toy-obstruction},
 \ref{ex:toy-graph}); the norm-one torus of a quadratic extension
@@ -187,9 +241,17 @@ values in $\SL_2(\C)$ (Example~\ref{ex:dihedral}).
 \subsection{Standing assumptions and scope}\label{ss:scope}
 
 \begin{itemize}[itemsep=2pt]
-\item \emph{$N$ is abelian.} This is used in Lemma~\ref{lem:factor} and to
-know that $\phi(N)$ lies in the center of $C_\phi$. Theorem~\ref{thm:exact}
-does not need it.
+\item \emph{$N$ is abelian} in Sections~\ref{sec:background}
+to~\ref{sec:obstruction} and in Section~\ref{sec:graph}. This is used in
+Lemma~\ref{lem:factor} and to know that $\phi(N)$ lies in the center of
+$C_\phi$. Section~\ref{sec:nonabelian} removes the hypothesis.
+\item \emph{Non-abelian $H^2$ is used in its abstract sense.} A kernel is
+a homomorphism from $\Gamma$ to the outer automorphism group of an
+abstract group, and classes in $H^2$ are classes of extensions of abstract
+groups. No algebraic or topological structure on the kernel is used, in
+contrast with Springer's Galois-cohomological setting \cite{Spr}. In the
+applications to Weil groups, $\Gamma$ is finite and discrete, so
+continuity imposes no condition on cochains of $\Gamma$.
 \item \emph{Groups are discrete} in Sections~\ref{sec:background}
 to~\ref{sec:graph}. Section~\ref{sec:langlands} shows that every statement
 holds verbatim for continuous cocycles when $N$ is open in $W$, which is
@@ -197,12 +259,57 @@ the case for $W_{E/F}$.
 \item \emph{In statements about $W_{E/F}$ we assume $E\neq F$} whenever we
 say that the extension~\eqref{eq:weil} does not split.
 Examples~\ref{ex:weil-quad}, \ref{ex:torus1}, \ref{ex:torus2}
-and~\ref{ex:dihedral} assume $[E:F]=2$.
+and~\ref{ex:dihedral} assume $[E:F]=2$, and the running example is the
+unramified quadratic extension of $\Q_3$.
 \item No Weil--Deligne group, and no condition of semisimplicity or
 relevance, enters this note. Its subject is the cohomology set
 $H^1(W_{E/F},\Gh)$, which contains the relevant set of Langlands parameters
 (Remark~\ref{rem:parameters}).
 \end{itemize}
+
+\subsection{Notation}\label{ss:notation}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$1\to N\overset{i}{\to}W\overset{p}{\to}\Gamma\to1$ & the extension;
+$N$ its kernel, $\Gamma$ its quotient \\
+$A$, $\alpha$, $\act{g}{a}$ & coefficient group; action of $\Gamma$ on $A$;
+$\alpha(g)(a)$ \\
+$\overline{\alpha}$ & class of $\alpha$ modulo inner automorphisms \\
+$s$, $\sigma$ & section of $p$ with $s(1)=1$; its factor set
+$\sigma(g,h)=s(g)s(h)s(gh)^{-1}$ \\
+$Z^1(G,A)$, $H^1(G,A)$, $[f]$ & $1$-cocycles; cohomology set; class of $f$ \\
+$\infl$, $\res$ & inflation and restriction \\
+$\phi$, $[\phi]$ & a homomorphism $N\to A$; its conjugacy class \\
+$g\cdot\phi$ & $x\mapsto\act{g}{\phi(\act{g^{-1}}{x})}$ \\
+$C_\phi$ & centralizer of $\phi(N)$ in $A$ \\
+$T_\phi(g)$ & transporter:
+$\{b: b\,\act{g}{\phi(x)}\,b^{-1}=\phi(\act{g}{x})\ \forall x\}$ \\
+$E_\phi$ & stabilizer of $\phi$ in $A\rtimes\Gamma$; an extension of
+$\Gamma$ by $C_\phi$ \\
+$\kappa_\phi$ & kernel (outer action) of $\Gamma$ on $C_\phi$ \\
+$(u_b,\beta_b)$ & $2$-cocycle of $E_\phi$ for a choice $b(g)\in T_\phi(g)$ \\
+$\partial\phi$ & obstruction class in $H^2(\Gamma,C_\phi,\kappa_\phi)$ \\
+$\mathcal{O}_\phi$ & obstruction extension of $\Gamma$ by $C_\phi$ \\
+$B_\phi$, $D_\phi$ & stabilizer of $\phi$ in $A\rtimes W$; graph of $\phi$
+(Section~\ref{sec:nonabelian}) \\
+$\beta_f$, ${}_fC_\phi$ & action of $\Gamma$ on $C_\phi$ twisted by a
+cocycle $f$ \\
+$\overline{S}$, $s_t$, $S$ & generators of $\Gamma$; lifts to $W$;
+$S=\{s_t\}$ \\
+$\fr$, $\rel$, $\rel_{\mathrm{ab}}$ & free group on $\overline{S}$;
+relations $\ker(\fr\to\Gamma)$; its abelianization \\
+$\lambda_W$, $\nu$ & $\fr\to W$, $t\mapsto s_t$; monodromy
+$\nu=\lambda_W|_{\rel}:\rel\to N$ \\
+$\theta_c$ & gain function $\theta_c(g,t)=\act{g}{c(t)}$ on
+$\Cay(\Gamma,\overline{S})$ \\
+$D_4$, $Q_8$ & dihedral and quaternion groups of order $8$ \\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \subsection{What is proved here and what is cited}
 
@@ -212,43 +319,67 @@ $H^1(W_{E/F},\Gh)$, which contains the relevant set of Langlands parameters
 Proved in this note & Cited \\
 \midrule
 Lemmas \ref{lem:factor}, \ref{lem:semidirect}, \ref{lem:ext-class},
-\ref{lem:twist}, \ref{lem:actions}, \ref{lem:restrict}, \ref{lem:T} &
+\ref{lem:twist}, \ref{lem:actions}, \ref{lem:restrict}, \ref{lem:T},
+\ref{lem:BD} &
 Structure of $W_{E/F}$: facts (W1)--(W3) of \S\ref{ss:weil}
 \cite{Ta,AT} \\
-Theorems \ref{thm:exact}, \ref{thm:main}, \ref{thm:graph} &
+Theorems \ref{thm:exact}, \ref{thm:main}, \ref{thm:general},
+\ref{thm:graph} &
 $H^2(\Z/2,C)$ for abelian $C$ (Example~\ref{ex:H2}) \cite{Se} \\
-Propositions \ref{prop:welldef}, \ref{prop:fiber}, \ref{prop:derived},
-\ref{prop:cont} &
+Propositions \ref{prop:welldef}, \ref{prop:canonical},
+\ref{prop:fiber}, \ref{prop:fiber-general}, \ref{prop:derived},
+\ref{prop:reconstruct}, \ref{prop:lifts}, \ref{prop:cont} &
 Langlands' correspondence for tori (Example~\ref{ex:torus2}, comparison
 only) \cite{La} \\
 Corollaries \ref{cor:central}, \ref{cor:cyclic} &
 Coverings are harmonic morphisms (Remark~\ref{rem:harmonic}) \cite{BN} \\
-All computations in the examples & \\
+ & Structure of $\Q_3(i)^\times$ and its norm group
+(Example~\ref{ex:run1}(a),(b)) \cite{Se} \\
+All computations in the examples & The relation sequence~\eqref{eq:relseq}
+and the presentation formula~\eqref{eq:H2pres} for $H^2$ \cite{Br} \\
+ & The determinant of an induced representation
+(Example~\ref{ex:dihedral}) \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\noindent The finite examples, and the main results for twenty small
-extensions and coefficient groups, were also checked by exhaustive
+\noindent The finite examples, and the main results for twenty-seven small
+extensions and coefficient groups (five of them with non-abelian $N$), were also checked by exhaustive
 computer enumeration; see the script in the folder \texttt{verification}
 of the repository named in the Acknowledgments.
 
 \subsection{Related literature}
 
-The definitions of non-abelian $H^0$ and $H^1$, twisting, and the exact
-sequence of Theorem~\ref{thm:exact} are in Serre's book
-\cite[Ch.~I, \S5]{Se2}. The second cohomology set with coefficients in a
-non-abelian group, defined relative to a ``kernel'' (or ``band''), and its
-neutral classes are due to Springer \cite{Spr} and Giraud \cite{Gi}; see
-also Borovoi \cite{Bor}. The underlying obstruction theory for group
-extensions with non-abelian kernel goes back to Eilenberg and Mac~Lane; see
-\cite[Ch.~IV, \S8]{ML}. Theorem~\ref{thm:main} is an instance of that
-theory and is presumably known to experts, but the author has not found it
-stated in the form needed here. The abelian case is in \cite{HS}. For Weil
-groups see \cite{Ta} and \cite[Ch.~XV]{AT}, and for $L$-groups and
-parameters see \cite{Bo}. Voltage graphs and derived graphs are treated in
+\emph{Inflation-restriction and group extensions.} For abelian
+coefficients the five-term exact sequence is due to Hochschild and Serre
+\cite{HS}; see also \cite[Ch.~VII, \S6]{Se}. The classification of
+extensions by $H^2$, the obstruction theory for extensions with
+non-abelian kernel (Eilenberg and Mac~Lane), and the description of $H^2$
+in terms of a presentation are in \cite[Ch.~IV]{ML} and
+\cite[Ch.~II and~IV]{Br}.
+
+\emph{Non-abelian cohomology and neutral classes.} The definitions of
+non-abelian $H^0$ and $H^1$, twisting, and the exact sequence of
+Theorem~\ref{thm:exact} are in Serre's book \cite[Ch.~I, \S5]{Se2}. The
+second cohomology set with coefficients in a non-abelian group, defined
+relative to a ``kernel'' (or ``band''), and its neutral classes are due
+to Springer \cite{Spr} and Giraud \cite{Gi}; see also Borovoi \cite{Bor}.
+Theorems~\ref{thm:main} and~\ref{thm:general} are instances of this
+obstruction theory and are presumably known to experts, but the authors
+have not found them stated in the form needed here, and no claim of
+novelty is made.
+
+\emph{Weil groups and Langlands parameters.} For Weil groups see
+\cite{Ta} and \cite[Ch.~XV]{AT}; for $L$-groups and parameters see
+\cite{Bo}; for the correspondence for tori see \cite{La}.
+
+\emph{Graphs.} Voltage graphs and derived graphs are treated in
 \cite{GT}, gain graphs in \cite{Za}, and harmonic morphisms of graphs in
-\cite{BN}.
+\cite{BN}. The relation module of a presentation and its identification
+with the first homology of the Cayley graph are in \cite[Ch.~II, \S5]{Br}.
+Group actions on graphs that are not free, which are relevant to
+Question~\ref{q:harmonic}, are the subject of Bass--Serre theory
+\cite{Se3}.
 
 \subsection{Organization}
 
@@ -256,10 +387,11 @@ Section~\ref{sec:background} collects background: factor sets, the relative
 Weil group, non-abelian $H^1$, and Springer's $H^2$.
 Section~\ref{sec:infres} treats inflation and restriction.
 Section~\ref{sec:obstruction} constructs the obstruction class and proves
-the main theorem. Section~\ref{sec:graph} gives the graph-theoretic
-formulation. Section~\ref{sec:langlands} discusses topology and Langlands
-parameters, and Section~\ref{sec:questions} lists some questions. A
-glossary is at the end.
+the main theorem. Section~\ref{sec:nonabelian} extends it to non-abelian
+$N$. Section~\ref{sec:graph} gives the graph-theoretic formulation. Section~\ref{sec:langlands} discusses topology and Langlands
+parameters, and Section~\ref{sec:questions} lists some questions. Each of
+Sections~\ref{sec:background} to~\ref{sec:langlands} ends with the
+corresponding part of the running example. A glossary is at the end.
 
 \section{Background and conventions}\label{sec:background}
 
@@ -541,6 +673,95 @@ extensions $Q_8\times\Z/2$ and $Q_8\rtimes\Z/2$, with $\tau$ acting by
 $\Int(i)$.
 \end{example}
 
+\subsection{Running example: the Weil group of \texorpdfstring{$\Q_3(i)/\Q_3$}{Q3(i)/Q3}}\label{ss:run1}
+
+The following example is continued at the end of each of
+Sections~\ref{sec:infres} to~\ref{sec:langlands}. Everything in it is
+computed by hand.
+
+\begin{example}[Running example, part 1: the group $W$]\label{ex:run1}
+Let $F=\Q_3$ and $E=\Q_3(i)$ with $i^2=-1$. Since $-1$ is not a square
+modulo $3$, this is the unramified quadratic extension of $\Q_3$. Its ring
+of integers is $\cO=\Z_3[i]$, with uniformizer $3$ and residue field
+$\Fq_9=\Fq_3[i]$. The group $\Gamma=\{1,\tau\}$ is generated by complex
+conjugation $\tau(x)=\overline{x}$, which is the Frobenius automorphism.
+
+\smallskip\noindent\emph{(a) The group $E^\times$.} The roots of unity of
+order prime to $3$ in $E$ form the group $\mu_8$, which maps
+isomorphically onto $\Fq_9^\times$. Let $\zeta\in\mu_8$ be the root of
+unity with $\zeta\equiv1-i$ modulo $3$. Since
+$(1-i)^2=-2i\equiv i$, we have $\zeta^2=i$ and $\zeta^4=-1$, so $\zeta$
+generates $\mu_8$. Put $U^1=1+3\cO$. Then
+\begin{equation}\label{eq:run-E}
+E^\times=3^{\Z}\times\mu_8\times U^1,\qquad
+\tau(3)=3,\quad\tau(\zeta)=\zeta^3,\quad\tau(U^1)=U^1 .
+\end{equation}
+The formula $\tau(\zeta)=\zeta^3$ holds because Frobenius raises roots of
+unity of order prime to $3$ to the third power; one can also check it
+modulo $3$, where $\zeta^3=\zeta\cdot i\equiv(1-i)i=1+i=\overline{1-i}$.
+
+\smallskip\noindent\emph{(b) Norms.} We have $\Nm(3)=9$,
+$\Nm(\zeta)=\zeta\cdot\zeta^3=\zeta^4=-1$ and $\Nm(U^1)=1+3\Z_3$. Since
+$\Q_3^\times=3^{\Z}\times\{\pm1\}\times(1+3\Z_3)$, the norm group is
+\[
+\Nm E^\times=9^{\Z}\times\{\pm1\}\times(1+3\Z_3)
+=\{x\in\Q_3^\times:\val_3(x)\ \text{even}\}.
+\]
+It has index $2$, and $3$ is not a norm. So
+$H^2(\Gamma,E^\times)\cong\Q_3^\times/\Nm E^\times=\{1,3\}$
+(Example~\ref{ex:H2}(b)).
+
+\smallskip\noindent\emph{(c) A model for $W$.} Let $W$ be the set of
+symbols $x$ and $xs$ with $x\in E^\times$, with the multiplication
+\begin{equation}\label{eq:run-W}
+x\cdot y=xy,\qquad x\cdot(ys)=(xy)s,\qquad
+(xs)\cdot y=(x\overline{y})s,\qquad (xs)\cdot(ys)=3x\overline{y}.
+\end{equation}
+In other words $W=E^\times\sqcup E^\times s$ with $sxs^{-1}=\overline{x}$
+and $s^2=3$. This is a group: it is the normalizer of $E^\times$ in the
+multiplicative group of the quaternion algebra $E\oplus Es$ over $\Q_3$
+defined by the same relations. It is an extension of $\Gamma$ by
+$E^\times$ in which $\Gamma$ acts on $E^\times$ by the Galois action. For
+the section $s(\tau)=s$ the factor set is
+\[
+\sigma(1,1)=\sigma(1,\tau)=\sigma(\tau,1)=1,\qquad\sigma(\tau,\tau)=s^2=3,
+\]
+and~\eqref{eq:run-W} is~\eqref{eq:mult}. By (b) the class of $\sigma$ is
+the non-trivial element of $H^2(\Gamma,E^\times)$, which is the
+fundamental class. By (W3), and because an extension is determined up to
+isomorphism by the class of its factor set (Lemma~\ref{lem:factor}(ii)
+and (iv)), $W$ is isomorphic to $W_{E/F}$. From now on $W$ denotes this
+model.
+
+\smallskip\noindent\emph{(d) Other sections.} Any other section is
+$s'(\tau)=ys$ with $y\in E^\times$, and $(ys)^2=3\,y\overline{y}$. So the
+new factor set has $\sigma'(\tau,\tau)=3\Nm(y)$, in accordance with
+Lemma~\ref{lem:factor}(iv). For instance $y=\zeta$ gives $-3$ and $y=1+i$
+gives $6$. The possible values are exactly the elements of $\Q_3^\times$
+of odd valuation. None of them is $1$, so no section is a homomorphism
+and $W$ does not split. More precisely, every element of $W$ outside
+$E^\times$ has a square of odd valuation, hence has infinite order.
+
+\smallskip\noindent\emph{(e) Two finite quotients: the toy extensions.}
+Let $N_0=\langle\rho\rangle$ be cyclic of order $4$ as in
+Example~\ref{ex:toy}. For $z\in\{1,-1\}$ let $q_z:E^\times\to N_0$ be the
+homomorphism with
+\[
+q_z(\zeta)=\rho,\qquad q_z(U^1)=1,\qquad
+q_z(3)=\begin{cases}1,&z=1,\\ \rho^2,&z=-1.\end{cases}
+\]
+By~\eqref{eq:run-E}, $q_z(\tau x)=q_z(x)^{-1}$, so $q_z$ is
+$\Gamma$-equivariant and its kernel $K_z$ is normal in $W$. The quotient
+$W/K_z$ is generated by $\rho$ and the image of $s$, with
+$s\rho s^{-1}=\rho^{-1}$ and $s^2=q_z(3)$. Hence
+\[
+W/K_{+1}\cong W_1=D_4,\qquad W/K_{-1}\cong W_{\rho^2}=Q_8 .
+\]
+Both toy extensions of Example~\ref{ex:toy} are quotients of the Weil
+group of $\Q_3(i)/\Q_3$. The first is split although $W$ is not: the
+non-norm $3$ has been killed.
+\end{example}
+
 \section{Inflation and restriction}\label{sec:infres}
 
 From now on $A$ is a $\Gamma$-group, with action $\alpha$. Through $p$ it
@@ -655,9 +876,10 @@ $[f]=\infl[f_0]$.
 \begin{example}[Norm-one torus, first part]\label{ex:torus1}
 Let $[E:F]=2$, $\Gamma=\{1,\tau\}$, $W=W_{E/F}$, and let $T$ be the torus
 of elements of norm one in $E^\times$, so that $T(F)=E^1=\ker\Nm$. Its dual
-group is $\Th=\C^\times$ with $\act{\tau}{z}=z^{-1}$. By
-Example~\ref{ex:H1}(b), $H^1(\Gamma,\Th)=1$, so $\res$ is injective on the
-fiber of the base point. Since $\Th$ is abelian,
+group is $\Th=\C^\times$ with $\act{\tau}{z}=z^{-1}$. Since
+$\Th$ is abelian, the sequence of Theorem~\ref{thm:exact} is a sequence of
+abelian groups. By Example~\ref{ex:H1}(b), $H^1(\Gamma,\Th)=1$, so the
+restriction map is injective. Moreover
 $H^1(E^\times,\Th)=\Hom(E^\times,\C^\times)$ and, by~\eqref{eq:gphi},
 $(\tau\cdot\chi)(x)=\chi(\tau x)^{-1}$. Hence
 \[
@@ -681,6 +903,86 @@ $\Gamma$-equivariant $\phi'$ satisfies $\phi'(\rho^{-1})=\phi'(\rho)$, so
 $\phi'(\rho)^2=1$. Every conjugate of $\phi$ sends $\rho$ to $\pm i$, of
 order~$4$. So $[\phi]$ contains no $\Gamma$-equivariant homomorphism. Here
 $C_\phi=\langle i\rangle$ and $T_\phi(\tau)=\{\pm j,\pm k\}$.
+\end{example}
+
+\subsection{Running example: invariant classes}\label{ss:run2}
+
+\begin{example}[Running example, part 2]\label{ex:run2}
+Keep the notation of Example~\ref{ex:run1}. Let
+$\varepsilon=e^{2\pi i/8}\in\C$. For $k\in\Z/8$ and $z\in\C^\times$ let
+$\chi_{k,z}$ be the character of $E^\times$ with
+\[
+\chi_{k,z}(\zeta)=\varepsilon^{k},\qquad\chi_{k,z}(3)=z,\qquad
+\chi_{k,z}(U^1)=1 .
+\]
+These are the tamely ramified characters of $E^\times$. By~\eqref{eq:run-E},
+\begin{equation}\label{eq:run-tau}
+\chi_{k,z}\circ\tau=\chi_{3k,z},\qquad
+\chi_{k,z}^{-1}=\chi_{-k,z^{-1}},\qquad
+\chi_{k,z}|_{\Q_3^\times}:\ 3\mapsto z,\ \ -1=\zeta^4\mapsto(-1)^k .
+\end{equation}
+
+\smallskip\noindent\emph{(a) Coefficients $\Th=\C^\times$ with
+$\act{\tau}{u}=u^{-1}$} (the norm-one torus, Example~\ref{ex:torus1}).
+Classes are single characters and
+$(\tau\cdot\chi)(x)=\chi(\tau x)^{-1}$. So
+\[
+\tau\cdot\chi_{k,z}=\chi_{-3k,z^{-1}},\qquad
+\chi_{k,z}\ \text{is $\Gamma$-invariant}\iff 4k=0\ \text{and}\ z^2=1
+\iff k\in\{0,2,4,6\},\ z=\pm1 .
+\]
+This agrees with Example~\ref{ex:torus1}: the invariant characters are
+those trivial on $\Nm E^\times$, that is, with $\chi(9)=z^2=1$ and
+$\chi(-1)=(-1)^k=1$. There are eight of them in this family. By
+Theorem~\ref{thm:exact} no other $\chi_{k,z}$ is the restriction of a
+cocycle. Also $H^1(\Gamma,\Th)=1$ by Example~\ref{ex:H1}(b), so inflation
+contributes nothing.
+
+\smallskip\noindent\emph{(b) Coefficients $A=\SL_2(\C)$ with trivial
+action} (the dual group of $\PGL_2$). Write $d_u=\diag(u,u^{-1})$, let $T$
+be the diagonal torus, and
+\[
+c_t=\pmat{0}{t}{-t^{-1}}{0},\qquad w_0=c_1,\qquad
+c_t^{\,2}=-1,\qquad c_t\,d_u\,c_t^{-1}=d_{u^{-1}},\qquad
+d_u\,c_t\,d_u^{-1}=c_{u^2t}.
+\]
+Let $\phi_{k,z}=\diag(\chi_{k,z},\chi_{k,z}^{-1})$, so that
+$\phi_{k,z}(\zeta)=d_{\varepsilon^k}$ and $\phi_{k,z}(3)=d_z$. Two of
+these homomorphisms are conjugate in $\SL_2(\C)$ exactly when they are
+equal or exchanged by $w_0$, so
+$[\phi_{k,z}]=[\phi_{k',z'}]$ if and only if $(k',z')=\pm(k,z)$, where
+$-(k,z)=(-k,z^{-1})$. Since $\Gamma$ acts trivially on $A$,
+$\tau\cdot\phi_{k,z}=\phi_{k,z}\circ\tau=\phi_{3k,z}$
+by~\eqref{eq:run-tau}. Therefore:
+\begin{itemize}[itemsep=1pt]
+\item $\phi_{k,z}$ is $\Gamma$-equivariant if and only if $3k=k$, that is,
+$k\in\{0,4\}$. Then $\chi_{k,z}=\chi\circ\tau$ and $1\in T_\phi(\tau)$.
+\item $[\phi_{k,z}]$ is $\Gamma$-invariant but $\phi_{k,z}$ is not
+equivariant if and only if $(3k,z)=(-k,z^{-1})\neq(k,z)$, that is,
+$k\in\{2,6\}$ and $z=\pm1$. Then $\chi_{k,z}\circ\tau=\chi_{k,z}^{-1}$,
+$\chi_{k,z}(\zeta)=\pm i$, and
+$w_0\,\phi_{k,z}(x)\,w_0^{-1}=\phi_{k,z}(\tau x)$, so
+$w_0\in T_\phi(\tau)$.
+\item In all other cases ($k$ odd, or $k\in\{2,6\}$ and $z\neq\pm1$) the
+class is not $\Gamma$-invariant, and $\phi_{k,z}$ is not the restriction
+of a cocycle by Theorem~\ref{thm:exact}.
+\end{itemize}
+For $k\in\{2,6\}$ and $z=\pm1$ the centralizer is $C_\phi=T$, because
+$\phi(\zeta)=d_{\pm i}$ has distinct eigenvalues, and
+$T_\phi(\tau)=Tw_0=\{c_t:t\in\C^\times\}$. These four homomorphisms form
+two classes, $[\phi_{2,1}]=[\phi_{6,1}]$ and
+$[\phi_{2,-1}]=[\phi_{6,-1}]$. Composing with the maps of
+Example~\ref{ex:run1}(e): $\phi_{2,z}=\phi\circ q_z$, where
+$\phi:N_0\to Q_8\subset\SL_2(\C)$ is the homomorphism
+$\rho\mapsto i=d_i$ of Example~\ref{ex:toy-noeq}, and $Q_8$ is embedded
+in $\SL_2(\C)$ by $i\mapsto d_i$, $j\mapsto w_0$.
+
+\smallskip\noindent\emph{(c) Inflation.} Since $\Gamma$ acts trivially,
+$H^1(\Gamma,\SL_2(\C))$ is the set of conjugacy classes of elements of
+order at most $2$, which is $\{1,-1\}$. The two inflated cocycles are the
+homomorphisms $W\to\SL_2(\C)$ which are trivial on $E^\times$ and send $s$
+to $1$ or to $-1$. By Theorem~\ref{thm:exact} they are, up to conjugacy,
+the only homomorphisms $W\to\SL_2(\C)$ trivial on $E^\times$.
 \end{example}
 
 \section{The obstruction to extending a homomorphism}\label{sec:obstruction}
@@ -734,6 +1036,21 @@ $C_\phi\times\{1\}$ of $E_\phi$. So $\Int(b)\circ\alpha(g)$ preserves
 $C_\phi$ and equals $\Int((b,g))|_{C_\phi}$. The rest follows from
 Lemma~\ref{lem:ext-class} and~\eqref{eq:conjphi}.
 \end{proof}
+
+Lemma~\ref{lem:T} puts the problem in the following form. There are two
+extensions of $\Gamma$, and a $\Gamma$-equivariant homomorphism between
+their kernels with central image:
+\begin{equation}\label{eq:diagram}
+\begin{array}{ccccccccc}
+1&\longrightarrow&N&\longrightarrow&W&\overset{p}{\longrightarrow}&\Gamma&\longrightarrow&1\\[2pt]
+&&\big\downarrow{\scriptstyle\phi}&&\big\downarrow{\scriptstyle ?}&&\big\|&&\\[2pt]
+1&\longrightarrow&C_\phi&\longrightarrow&E_\phi&\longrightarrow&\Gamma&\longrightarrow&1 .
+\end{array}
+\end{equation}
+We will see that $\phi$ is the restriction of a cocycle exactly when the
+middle arrow can be filled in by a homomorphism making the diagram
+commute. The obstruction is the difference between the class of the
+bottom row and the image under $\phi$ of the class of the top row.
 
 \begin{definition}\label{def:partial}
 Let $\phi\in\Hom(N,A)$ have a $\Gamma$-invariant class. Choose a section
@@ -882,6 +1199,68 @@ H^2(\Gamma,Z(C_\phi))$. This is the form in which obstruction theory for
 extensions appears in \cite[Ch.~IV, \S8]{ML}.
 \end{remark}
 
+\subsection{The obstruction extension}
+
+The class $\partial\phi$ was defined using a section $s$ and a choice of
+elements $b(g)$. It is the class of an extension which involves no
+choices.
+
+\begin{proposition}\label{prop:canonical}
+Let $\phi\in\Hom(N,A)$ have a $\Gamma$-invariant class. Let
+\begin{align*}
+P_\phi&=W\times_\Gamma E_\phi=\{(w,e)\in W\times E_\phi:
+\ w \text{ and } e \text{ have the same image in } \Gamma\},\\
+D_\phi&=\{(x,(\phi(x),1)):x\in N\}\subseteq P_\phi .
+\end{align*}
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item $D_\phi$ is a normal subgroup of $P_\phi$.
+\item Let $\mathcal{O}_\phi=P_\phi/D_\phi$. The map
+$z\mapsto(1,(z,1))D_\phi$ identifies $C_\phi$ with the kernel of
+$\mathcal{O}_\phi\to\Gamma$, so there is an extension
+\[
+1\longrightarrow C_\phi\longrightarrow\mathcal{O}_\phi\longrightarrow
+\Gamma\longrightarrow1 .
+\]
+\item The kernel of this extension is $\kappa_\phi$ and its class in
+$H^2(\Gamma,C_\phi,\kappa_\phi)$ is $\partial\phi$.
+\item $\phi$ is the restriction of a $1$-cocycle of $W$ if and only if the
+extension $\mathcal{O}_\phi$ splits.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) $D_\phi$ is a subgroup because $\phi$ is a homomorphism. Let
+$(w,(b,g))\in P_\phi$, so $p(w)=g$ and $b\in T_\phi(g)$. Conjugating
+$(x,(\phi(x),1))$ by it gives $(\act{g}{x},(\phi(\act{g}{x}),1))$,
+by~\eqref{eq:actN} and~\eqref{eq:conjphi}.
+
+(ii) The kernel of $P_\phi\to\Gamma$ is $N\times C_\phi$, the set of pairs
+$(x,(z,1))$. Since $\phi(N)$ is central in $C_\phi$, the map
+$(x,(z,1))\mapsto z\,\phi(x)^{-1}$ is a homomorphism from $N\times C_\phi$
+onto $C_\phi$. Its kernel is $D_\phi$, and it sends $(1,(z,1))$ to $z$.
+
+(iii) Choose $s$ and $b$ as in Definition~\ref{def:partial} and let
+$e(g)$ be the class of $(s(g),(b(g),g))$ in $\mathcal{O}_\phi$. Then
+$e(g)e(h)e(gh)^{-1}$ is the class of $(\sigma(g,h),(u_b(g,h),1))$, which
+corresponds to $u_b(g,h)\,\phi(\sigma(g,h))^{-1}\in C_\phi$ under (ii).
+Conjugation by $e(g)$ acts on $C_\phi$ by $\beta_b(g)$. Now apply
+Lemma~\ref{lem:ext-class}.
+
+(iv) By Lemma~\ref{lem:ext-class}, $\mathcal{O}_\phi$ splits if and only
+if its class is neutral. Now use (iii) and Theorem~\ref{thm:main}.
+\end{proof}
+
+Since $\mathcal{O}_\phi$ is defined without $s$ or $b$,
+Proposition~\ref{prop:canonical}(iii) gives a second proof that
+$\partial\phi$ is independent of these choices. It also explains the
+inverse in Definition~\ref{def:partial}: dividing by $D_\phi$ identifies
+$x\in N$ with $\phi(x)^{-1}\in C_\phi$. One can see (iv) directly. A
+homomorphism $\Phi:W\to E_\phi$ as in Theorem~\ref{thm:main}(e) gives the
+subgroup $\{(w,\Phi(w))\}$ of $P_\phi$, which contains $D_\phi$ and maps
+isomorphically onto $W$; its image in $\mathcal{O}_\phi$ is a complement
+to $C_\phi$.
+
+
 \begin{corollary}[Central homomorphisms]\label{cor:central}
 Let $\phi\in\Hom(N,A)$ with $\phi(N)\subseteq Z(A)$.
 \begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
@@ -892,8 +1271,9 @@ $\kappa_\phi=\overline{\alpha}$, and
 \partial\phi=\bigl[(\phi\circ\sigma)^{-1},\alpha\bigr]\in
 H^2(\Gamma,A,\overline{\alpha}).
 \]
-\item $\phi$ is the restriction of a cocycle of $W$ if and only if there
-is a map $c:\Gamma\to A$ with
+\item Suppose, in addition, that $\phi$ is $\Gamma$-equivariant. Then
+$\phi$ is the restriction of a cocycle of $W$ if and only if there is a
+map $c:\Gamma\to A$ with
 \[
 c(g)\,\act{g}{c(h)}\,c(gh)^{-1}=\phi(\sigma(g,h))\qquad(g,h\in\Gamma).
 \]
@@ -911,7 +1291,11 @@ c(g)\,\act{g}{c(h)}\,c(gh)^{-1}=\phi(\sigma(g,h))\qquad(g,h\in\Gamma).
 (i) The class of a central $\phi$ is $\{\phi\}$, so invariance means
 $g\cdot\phi=\phi$. Then $b=1$ is allowed in Definition~\ref{def:partial},
 which gives $u_b=1$ and $\beta_b=\alpha$. (ii) is
-Theorem~\ref{thm:main}(c). (iii) follows from (i), (ii),
+Theorem~\ref{thm:main}(c), since $T_\phi(g)=A$. The equivariance
+hypothesis cannot be dropped: for $W=S_3$, $N$ its subgroup of order $3$
+and $A=N$ with trivial action of $\Gamma$, the identity map $\phi$ of $N$
+is central but not equivariant, and it does not extend to $S_3$, although
+$\sigma=1$ and $c=1$ satisfy the displayed equation. (iii) follows from (i), (ii),
 Theorem~\ref{thm:exact} and Example~\ref{ex:H2}(a); the maps are
 homomorphisms.
 \end{proof}
@@ -989,8 +1373,16 @@ H^1(W_{E/F},\Th)\ \cong\ \{\chi\in\Hom(E^\times,\C^\times):
 the last isomorphism coming from $E^\times/F^\times\cong E^1$,
 $x\mapsto x/\tau(x)$ (Hilbert's Theorem~90). For continuous cocycles and
 characters (Section~\ref{sec:langlands}) this is Langlands' correspondence
-for the torus $T$ \cite{La}. In terms of obstruction classes,
-$\partial\chi\in H^2(\Gamma,\Th)=\{\pm1\}$ is $\chi(a)$.
+for the torus $T$ \cite{La}. In terms of obstruction classes, the
+connecting map of Corollary~\ref{cor:central}(iii) is the homomorphism
+\[
+\partial:\ H^1(E^\times,\Th)^\Gamma
+=\Hom\bigl(E^\times/\Nm E^\times,\C^\times\bigr)
+\longrightarrow H^2(\Gamma,\Th)=\{\pm1\},\qquad\chi\longmapsto\chi(a).
+\]
+Its kernel is $\Hom(E^\times/F^\times,\C^\times)$, of index $2$.
+Invariance of $\chi$ means that $\chi$ is trivial on $\Nm E^\times$;
+extendibility means that $\chi$ is trivial on $F^\times$.
 \end{example}
 
 \begin{example}[The toy extensions, continued]\label{ex:toy-obstruction}
@@ -1012,6 +1404,13 @@ For $W=Q_8$ the four solutions give four homomorphisms, in two conjugacy
 classes ($s\mapsto\pm j$ and $s\mapsto\pm k$). This agrees with
 Proposition~\ref{prop:fiber}: $H^1(\Gamma,{}_fC_\phi)$ is
 $\langle i\rangle$ modulo squares, of order~$2$.
+
+Note what happened: $\phi$ extends over the non-split extension $Q_8$ and
+does not extend over the split extension $D_4$. The obstruction does not
+measure whether $W$ splits. It compares $W$ with the stabilizer extension
+$E_\phi$, which here is the non-split extension $Q_8$ of $\Gamma$ by
+$\langle i\rangle$: by~\eqref{eq:diagram}, $\phi$ extends exactly when it
+carries the class of $W$ to the class of $E_\phi$.
 \end{example}
 
 \begin{example}[Dihedral parameters in $\SL_2$]\label{ex:dihedral}
@@ -1048,8 +1447,19 @@ $\chi\circ\tau\neq\chi$, then $T_\phi(\tau)$ is the set of all
 anti-diagonal matrices
 $c=\bigl(\begin{smallmatrix}0&p\\q&0\end{smallmatrix}\bigr)$, and
 $c^2=pq\cdot1$ can be made equal to $\phi(a)=\chi(a)\cdot1$. So in
-$\GL_2(\C)$ there is no obstruction. The resulting homomorphism has
-determinant $-\chi(a)$ at $s$, which recovers the condition above.
+$\GL_2(\C)$ there is no obstruction. The resulting homomorphism is the
+induced representation $\Ind_{E^\times}^{W}\chi$. Its determinant is
+trivial on $E^\times$ when $\chi\circ\tau=\chi^{-1}$, and equals
+$\det c=-\chi(a)$ at $s$. This is an instance of the familiar formula
+\[
+\det\bigl(\Ind_{W_E}^{W_F}\chi\bigr)=\omega_{E/F}\cdot\chi|_{F^\times},
+\]
+in which characters of $W_F$ are identified with characters of $F^\times$
+by class field theory: the element $s$ corresponds to $a$ modulo norms,
+$\omega_{E/F}(a)=-1$, and so the right side takes the value $-\chi(a)$ at
+$s$. The induced representation has values in $\SL_2(\C)$ exactly when
+$\chi|_{F^\times}=\omega_{E/F}$, which recovers the condition above
+independently of the obstruction theory.
 \end{example}
 
 \subsection{Why the centralizer is needed}
@@ -1080,6 +1490,431 @@ $H^2(\Gamma,A,\overline{\alpha})$ only records data in the center of $A$,
 whereas $\phi\circ\sigma$ is in general not central in $A$. It is central
 in $C_\phi$.
 \end{remark}
+
+\subsection{Running example: the obstruction classes}\label{ss:run3}
+
+\begin{example}[Running example, part 3]\label{ex:run3}
+Keep the notation of Examples~\ref{ex:run1} and~\ref{ex:run2}. Recall
+that $\sigma(\tau,\tau)=3$ is the only non-trivial value of the factor
+set. So condition~\eqref{eq:c} is a single equation for $c=c(\tau)$:
+\begin{equation}\label{eq:run-c}
+c\in T_\phi(\tau),\qquad c\cdot\act{\tau}{c}=\phi(3),
+\end{equation}
+and the cocycle~\eqref{eq:fc} is $f(x)=\phi(x)$, $f(xs)=\phi(x)\,c$.
+
+\smallskip\noindent\emph{(a) Coefficients $\Th=\C^\times$ with inversion.}
+Let $\chi=\chi_{k,z}$ with $k$ even and $z=\pm1$. Here $C_\chi=\Th$ and
+$T_\chi(\tau)=\Th$, and the left side of~\eqref{eq:run-c} is
+$c\cdot c^{-1}=1$. So $\chi$ extends if and only if $\chi(3)=z=1$. The
+obstruction class is
+$\partial\chi=\chi(3)^{-1}=z\in H^2(\Gamma,\Th)=\{\pm1\}$. When $z=1$,
+every $c\in\C^\times$ gives a cocycle $f_c(x)=\chi(x)$,
+$f_c(xs)=\chi(x)c$. One checks~\eqref{eq:1coc} on the product
+$(xs)(ys)=3x\overline{y}$: the left side is $\chi(3x\overline{y})
+=\chi(x)\chi(y)^{-1}$ and the right side is
+$\chi(x)c\cdot(\chi(y)c)^{-1}$. All $f_c$ are cohomologous, since
+$a^{-1}f_c(xs)\,\act{\tau}{a}=f_{ca^{-2}}(xs)$, as predicted by
+Proposition~\ref{prop:fiber} and $H^1(\Gamma,\Th)=1$. Hence the part of
+$H^1(W,\Th)$ lying over tamely ramified characters is
+\[
+\{\chi_{0,1},\ \chi_{2,1},\ \chi_{4,1},\ \chi_{6,1}\},
+\]
+the four characters $\chi_{k,z}$ trivial on $\Q_3^\times$. Under
+$x\mapsto x/\overline{x}$ the generator $\zeta$ maps to
+$\zeta^{-2}=-i$, so these are the four characters of
+$E^1/(E^1\cap U^1)\cong\mu_4$, as in Example~\ref{ex:torus2}. The other
+four invariant characters, $\chi_{k,-1}$ with $k$ even, have
+$\partial\chi=-1$ and do not extend.
+
+\smallskip\noindent\emph{(b) Coefficients $\SL_2(\C)$, $k\in\{2,6\}$,
+$z=\pm1$.} Let $\phi=\phi_{2,z}$, so $\phi(\zeta)=d_i$, $\phi(3)=z\cdot1$
+and $T_\phi(\tau)=\{c_t\}$. Since $c_t^{\,2}=-1$, equation
+\eqref{eq:run-c} reads $-1=z$. So
+\[
+\phi_{2,-1}\ \text{extends to a cocycle of } W,\qquad
+\phi_{2,1}\ \text{does not}.
+\]
+In terms of Definition~\ref{def:partial}: take $b(\tau)=w_0$. Then
+$\beta_b(\tau)=\Int(w_0)$ is inversion on $C_\phi=T$,
+$u_b(\tau,\tau)=w_0^2=-1$, and
+\[
+\partial\phi_{2,z}=u_b(\tau,\tau)\,\phi(3)^{-1}=-z\ \in\
+H^2(\Gamma,T)=T^\Gamma/\{u\,\act{\tau}{u}\}=\{\pm1\}.
+\]
+The stabilizer extension is
+$E_\phi=\{(d,1):d\in T\}\sqcup\{(c_t,\tau)\}$. Projection to the first
+coordinate identifies it with the normalizer $N(T)=T\sqcup Tw_0$ of $T$
+in $\SL_2(\C)$, as an extension of $\Gamma$ by $T$. This extension does
+not split, because every element of $Tw_0$ has square $-1$. So
+Theorem~\ref{thm:main}(e) asks for a morphism between two non-split
+extensions of $\Z/2$,
+\[
+\begin{array}{ccccccccc}
+1&\to&E^\times&\to&W&\to&\Gamma&\to&1\\
+&&\downarrow{\scriptstyle\phi}&&\downarrow&&\|&&\\
+1&\to&T&\to&N(T)&\to&\Gamma&\to&1 ,
+\end{array}
+\]
+and such a morphism exists exactly when $\phi$ carries the class of the
+top row, represented by $s^2=3$, to the class of the bottom row,
+represented by $w_0^2=-1$ (Remark~\ref{rem:baer}).
+
+The obstruction extension of Proposition~\ref{prop:canonical} can also be
+written down. The group $\mathcal{O}_\phi$ is generated by $T$ and the
+class $e$ of $(s,(w_0,\tau))$. It satisfies $e\,d\,e^{-1}=d^{-1}$ for
+$d\in T$, and $e^2$ is the class of $(3,(-1,1))$, which is identified with
+$-\phi(3)^{-1}=-z\in T$. For $z=-1$ we get $e^2=1$ and
+$\mathcal{O}_\phi=T\rtimes\Z/2$ splits. For $z=1$ we get $e^2=-1$, every
+element $de$ outside $T$ has square $d\,d^{-1}e^2=-1$, and
+$\mathcal{O}_\phi\cong N(T)$ does not split.
+
+For $z=-1$ the cocycles restricting to $\phi_{2,-1}$ are the
+homomorphisms
+\[
+f_t:W\to\SL_2(\C),\qquad f_t(\zeta)=d_i,\quad f_t(3)=-1,\quad
+f_t(U^1)=1,\quad f_t(s)=c_t\qquad(t\in\C^\times).
+\]
+One can check the relations of $W$ directly:
+$f_t(s)f_t(\zeta)f_t(s)^{-1}=c_td_ic_t^{-1}=d_{-i}=d_i^{\,3}=f_t(\zeta^3)$
+and $f_t(s)^2=-1=f_t(3)$. Since $d_uc_td_u^{-1}=c_{u^2t}$, all $f_t$ are
+conjugate under $T=C_\phi$. So the fiber of $\res$ over $[\phi_{2,-1}]$ is
+one point, in accordance with Proposition~\ref{prop:fiber}: the twisted
+action $\beta_f(\tau)=\Int(c_t)$ is inversion on $T$, and
+$H^1(\Gamma,T)=1$ for that action. The image of $f_1$ is the group
+generated by $d_i$ and $w_0$, which is $Q_8$. In fact $f_1$ is the
+composite
+\[
+W\longrightarrow W/K_{-1}\cong Q_8\hookrightarrow\SL_2(\C)
+\]
+of Example~\ref{ex:run1}(e), and it is the representation of $W$ induced
+from the character $\chi_{2,-1}$ of $E^\times$.
+
+For $z=1$ there is no extension in $\SL_2(\C)$. In $\GL_2(\C)$ there is
+one: $c=\pmat{0}{1}{1}{0}$ satisfies $c\,d_i\,c^{-1}=d_{-i}$ and $c^2=1$.
+It gives the representation induced from $\chi_{2,1}$, which factors
+through $W/K_{+1}\cong D_4$ and has determinant $-1$ at $s$.
+
+\smallskip\noindent\emph{(c) Coefficients $\SL_2(\C)$, $k\in\{0,4\}$.}
+Now $\phi=\phi_{k,z}$ is $\Gamma$-equivariant, $\phi(\zeta)=\pm1$ and
+$\phi(3)=d_z$. If $z\neq\pm1$ then $C_\phi=T=T_\phi(\tau)$,
+and~\eqref{eq:run-c} reads $c^2=d_z$ with $c\in T$; the solutions are
+$c=\pm d_{\sqrt z}$. If $z=\pm1$ then $\phi$ is central,
+$C_\phi=T_\phi(\tau)=\SL_2(\C)$, and~\eqref{eq:run-c} reads $c^2=z$,
+which has solutions ($c=\pm1$ for $z=1$, and the conjugates of $d_i$ for
+$z=-1$). So every $\phi_{k,z}$ with $k\in\{0,4\}$ extends. For $k=0$ these
+are the unramified homomorphisms $x\mapsto d_z^{\,\val(x)}$.
+
+\smallskip\noindent\emph{(d) Summary.} For the homomorphisms
+$\phi_{k,z}:E^\times\to\SL_2(\C)$:
+\begin{center}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+$k$ & $z$ & class of $\phi_{k,z}$ & $C_\phi$ & $T_\phi(\tau)$ &
+restriction of a cocycle? \\
+\midrule
+$0,4$ & $z\neq\pm1$ & equivariant & $T$ & $T$ & yes: $c^2=d_z$ \\
+$0,4$ & $z=\pm1$ & equivariant, central & $\SL_2(\C)$ & $\SL_2(\C)$ &
+yes: $c^2=z$ \\
+$2,6$ & $z=-1$ & invariant, not equivariant & $T$ & $Tw_0$ &
+yes: $c_t^{\,2}=-1=z$ \\
+$2,6$ & $z=1$ & invariant, not equivariant & $T$ & $Tw_0$ &
+no: $c_t^{\,2}=-1\neq z$ \\
+$2,6$ & $z\neq\pm1$ & not invariant & & $\emptyset$ & no \\
+odd & any & not invariant & & $\emptyset$ & no \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\smallskip\noindent\emph{(e) The centralizer is needed.} For
+$\phi_{2,1}$ and $\phi_{2,-1}$ the value $\phi(\sigma(\tau,\tau))=z$ is
+central in $\SL_2(\C)$, and by (c) both equations $c^2=1$ and $c^2=-1$
+are solvable in $\SL_2(\C)$. So the class of
+$((\phi\circ\sigma)^{-1},\alpha)$ in
+$H^2(\Gamma,\SL_2(\C),\overline{\alpha})$ is neutral in both cases
+(Example~\ref{ex:needed}). The difference between $\phi_{2,1}$ and
+$\phi_{2,-1}$ is only visible when $c$ is required to lie in
+$T_\phi(\tau)=Tw_0$, that is, in $H^2(\Gamma,T)$.
+\end{example}
+
+\section{Extensions with non-abelian kernel}\label{sec:nonabelian}
+
+In this section $N$ is an arbitrary normal subgroup of a group $W$, with
+quotient $\Gamma=W/N$ and projection $p:W\to\Gamma$, and $A$ is a
+$\Gamma$-group. The construction of the obstruction extension in
+Proposition~\ref{prop:canonical} suggests how to proceed without the
+hypothesis that $N$ is abelian: work in $A\rtimes W$ instead of
+$A\rtimes\Gamma$.
+
+\subsection{The stabilizer in \texorpdfstring{$A\rtimes W$}{A x| W}}
+
+The group $W$ acts on $\Hom(N,A)$ by
+$(w\cdot\phi)(x)=\act{w}{\bigl(\phi(w^{-1}xw)\bigr)}$, and as in
+Lemma~\ref{lem:actions} this combines with conjugation by $A$ to an action
+of $A\rtimes W$: $(a,w)\cdot\phi=a\cdot(w\cdot\phi)$. For $n\in N$ we have
+$n\cdot\phi=\phi(n)^{-1}\cdot\phi$, so $N$ fixes every conjugacy class, and
+$\Gamma$ acts on $H^1(N,A)=\Hom(N,A)/A$. When $N$ is abelian this is the
+action of Section~\ref{sec:infres}. The statement and proof of
+Theorem~\ref{thm:exact} hold without change. For $w\in W$ put
+\[
+T_\phi(w)=\{b\in A:\ b\,\act{w}{\phi(x)}\,b^{-1}=\phi(wxw^{-1})
+\ \text{for all } x\in N\},
+\]
+so that $T_\phi(1)=C_\phi$ and $T_\phi(xw)=\phi(x)\,T_\phi(w)$ for
+$x\in N$. The proof of Lemma~\ref{lem:restrict} shows that a cocycle
+$f\in Z^1(W,A)$ with $f|_N=\phi$ satisfies $f(xw)=\phi(x)f(w)$ and
+$f(w)\in T_\phi(w)$.
+
+\begin{lemma}\label{lem:BD}
+Let $\phi\in\Hom(N,A)$ have a $\Gamma$-invariant class, and let
+\[
+B_\phi=\Stab_{A\rtimes W}(\phi)=\{(b,w):b\in T_\phi(w)\},\qquad
+D_\phi=\{(\phi(x),x):x\in N\}.
+\]
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item $B_\phi$ is a subgroup of $A\rtimes W$, the projection
+$B_\phi\to W$ is surjective, and its kernel is $C_\phi\times\{1\}$. Each
+$T_\phi(w)$ is a coset $C_\phi\,b$.
+\item $D_\phi$ is a normal subgroup of $B_\phi$, isomorphic to $N$, and
+for $(b,w)\in B_\phi$,
+\begin{equation}\label{eq:conjD}
+(b,w)\,(\phi(x),x)\,(b,w)^{-1}=(\phi(wxw^{-1}),\,wxw^{-1}).
+\end{equation}
+\item The inverse image of $N$ in $B_\phi$ is the direct product of
+$C_\phi\times\{1\}$ and $D_\phi$. Hence
+$\mathcal{O}_\phi=B_\phi/D_\phi$ is an extension
+\[
+1\longrightarrow C_\phi\longrightarrow\mathcal{O}_\phi\longrightarrow
+\Gamma\longrightarrow1 .
+\]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) A stabilizer is a subgroup. The fiber of $B_\phi$ over $w$ is
+$T_\phi(w)$, which is non-empty because the class of $\phi$ is fixed by
+$w$. If $b,b'\in T_\phi(w)$ then $(b',w)(b,w)^{-1}=(b'b^{-1},1)$ lies in
+the kernel $C_\phi\times\{1\}$.
+
+(ii) $(\phi(x),x)\in B_\phi$ because
+$\phi(x)\phi(y)\phi(x)^{-1}=\phi(xyx^{-1})$, and $D_\phi$ is a subgroup
+because $N$ acts trivially on $A$. Using the multiplication of
+$A\rtimes W$ and the triviality of the action of $N$ on $A$, the left side
+of~\eqref{eq:conjD} is $(b\,\act{w}{\phi(x)}\,b^{-1},wxw^{-1})$, which
+equals the right side since $b\in T_\phi(w)$.
+
+(iii) The fiber of $B_\phi$ over $x\in N$ is $\phi(x)C_\phi$, so the
+inverse image of $N$ is the product of $C_\phi\times\{1\}$ and $D_\phi$.
+These two subgroups commute elementwise and meet trivially. So the kernel
+of $\mathcal{O}_\phi\to W/N$ is $C_\phi$.
+\end{proof}
+
+\subsection{The general criterion}
+
+\begin{theorem}\label{thm:general}
+Let $N$ be a normal subgroup of $W$, $\Gamma=W/N$, and $A$ a
+$\Gamma$-group. Let $\phi\in\Hom(N,A)$ have a $\Gamma$-invariant class,
+and let $s$ be a section of $p$ with
+$\sigma(g,h)=s(g)s(h)s(gh)^{-1}\in N$. The following are equivalent.
+\begin{enumerate}[label=\textup{(\alph*)},itemsep=1pt]
+\item $[\phi]$ is in the image of $\res:H^1(W,A)\to H^1(N,A)^\Gamma$.
+\item There is a cocycle $f\in Z^1(W,A)$ with $f|_N=\phi$.
+\item There is a map $c:\Gamma\to A$ with $c(g)\in T_\phi(s(g))$ for all
+$g$ and
+\begin{equation}\label{eq:cgen}
+c(g)\,\act{g}{c(h)}=\phi\bigl(\sigma(g,h)\bigr)\,c(gh)\qquad(g,h\in\Gamma).
+\end{equation}
+\item The extension $\mathcal{O}_\phi=B_\phi/D_\phi$ of $\Gamma$ by
+$C_\phi$ splits.
+\end{enumerate}
+The cocycles in \textup{(b)} correspond bijectively to the maps in
+\textup{(c)} by $c(g)=f(s(g))$ and $f(x\,s(g))=\phi(x)\,c(g)$, and to the
+homomorphic sections of $\mathcal{O}_\phi\to\Gamma$ by
+$g\mapsto(c(g),s(g))D_\phi$.
+\end{theorem}
+
+\begin{proof}
+(a)$\Leftrightarrow$(b) is proved as in Theorem~\ref{thm:main}.
+
+(b)$\Leftrightarrow$(c). If $f$ is given, $c(g)=f(s(g))\in T_\phi(s(g))$,
+and applying $f$ to $s(g)s(h)=\sigma(g,h)s(gh)$ gives~\eqref{eq:cgen}.
+Conversely, given $c$, define $f(x\,s(g))=\phi(x)c(g)$. For $w_1=x\,s(g)$
+and $w_2=y\,s(h)$ we have
+$w_1w_2=x\cdot s(g)ys(g)^{-1}\cdot\sigma(g,h)\,s(gh)$, so
+\[
+f(w_1w_2)=\phi(x)\,\phi\bigl(s(g)ys(g)^{-1}\bigr)\,\phi(\sigma(g,h))\,c(gh),
+\]
+while, because $c(g)\in T_\phi(s(g))$,
+\[
+f(w_1)\,\act{g}{f(w_2)}=\phi(x)\,c(g)\,\act{g}{\phi(y)}\,\act{g}{c(h)}
+=\phi(x)\,\phi\bigl(s(g)ys(g)^{-1}\bigr)\,c(g)\,\act{g}{c(h)} .
+\]
+These agree by~\eqref{eq:cgen}.
+
+(c)$\Leftrightarrow$(d). An element of $B_\phi$ over $x\,s(g)$ has the
+form $(\phi(x)b,x\,s(g))=(\phi(x),x)(b,s(g))$ with $b\in T_\phi(s(g))$. So
+the elements of $\mathcal{O}_\phi$ over $g\in\Gamma$ are the classes
+$e_c(g)=(c(g),s(g))D_\phi$ with $c(g)\in T_\phi(s(g))$, and $c(g)$ is
+determined by the class. Now
+\begin{align*}
+(c(g),s(g))\,(c(h),s(h))&=\bigl(c(g)\,\act{g}{c(h)},\ \sigma(g,h)s(gh)\bigr)\\
+&=\bigl(\phi(\sigma(g,h)),\sigma(g,h)\bigr)\cdot
+\bigl(\phi(\sigma(g,h))^{-1}c(g)\,\act{g}{c(h)},\ s(gh)\bigr).
+\end{align*}
+So $e_c(g)e_c(h)=e_c(gh)$ if and only if~\eqref{eq:cgen} holds: a
+set-theoretic section $e_c$ of $\mathcal{O}_\phi\to\Gamma$ is a
+homomorphism exactly when $c$ satisfies (c).
+\end{proof}
+
+The implication (d)$\Rightarrow$(b) can also be seen without sections. If
+$t:\Gamma\to\mathcal{O}_\phi$ is a homomorphic section, let $L$ be the
+inverse image of $t(\Gamma)$ in $B_\phi$. Then $L\supseteq D_\phi$, and
+the projection $L\to W$ is an isomorphism: it is onto because its image
+contains $N$ and maps onto $\Gamma$, and it is injective because
+$L\cap(C_\phi\times\{1\})$ maps injectively to
+$t(\Gamma)\cap C_\phi=\{1\}$. Its inverse is $w\mapsto(f(w),w)$ for a
+cocycle $f$ (Lemma~\ref{lem:semidirect}), and $f|_N=\phi$ because
+$D_\phi\subseteq L$.
+
+\begin{remark}\label{rem:compare}
+If $N$ is abelian, $(w,(b,g))\mapsto(b,w)$ is an isomorphism from
+$P_\phi=W\times_\Gamma E_\phi$ onto $B_\phi$ which carries the subgroup
+$D_\phi$ of Proposition~\ref{prop:canonical} onto the subgroup $D_\phi$ of
+Lemma~\ref{lem:BD}. So the two definitions of $\mathcal{O}_\phi$ agree,
+and Theorem~\ref{thm:general} contains Theorem~\ref{thm:main}. What is
+lost for non-abelian $N$ is the stabilizer extension $E_\phi$ and
+diagram~\eqref{eq:diagram}: the transporter $T_\phi(w)$ depends on $w$ and
+not only on $p(w)$, and $\phi(N)$ need not lie in $C_\phi$. The kernel
+$\kappa_\phi:\Gamma\to\Out(C_\phi)$ is still defined, as the kernel of the
+extension $\mathcal{O}_\phi$ (Lemma~\ref{lem:ext-class}), and the class of
+$\mathcal{O}_\phi$ in $H^2(\Gamma,C_\phi,\kappa_\phi)$ is the obstruction
+class.
+\end{remark}
+
+\begin{proposition}\label{prop:fiber-general}
+Proposition~\ref{prop:fiber} holds for an arbitrary normal subgroup $N$:
+if $f\in Z^1(W,A)$ and $\phi=f|_N$, then~\eqref{eq:betaf} defines an
+action of $\Gamma$ on $C_\phi$, and $h\mapsto h\cdot f$ induces a
+bijection from $H^1(\Gamma,{}_fC_\phi)$ onto the fiber
+$\res^{-1}([\phi])$.
+\end{proposition}
+
+\begin{proof}
+The proof of Proposition~\ref{prop:fiber} used three facts about $N$:
+that $z\mapsto f(w)\,\act{w}{z}\,f(w)^{-1}$ preserves $C_\phi$; that for
+$w=x\in N$ this automorphism, which is conjugation by $\phi(x)$, is
+trivial on $C_\phi$; and that two cocycles with the same restriction
+$\phi$ differ at each $w$ by an element of $C_\phi$. The first holds
+because $f(w)\,\act{w}{\phi(x)}\,f(w)^{-1}=\phi(wxw^{-1})$ and
+$wNw^{-1}=N$. The second holds by the definition of $C_\phi$. The third is
+Lemma~\ref{lem:BD}(i).
+\end{proof}
+
+\subsection{Examples}
+
+\begin{example}[A non-abelian analog of the toy example]\label{ex:pauli}
+Let $N=Q_8$, $\Gamma=\{1,\gamma\}$, and $A=Q_8$ with trivial action. Let
+$W$ be generated by $Q_8$ and a central element $z$, with either $z^2=1$
+or $z^2=-1$. In the first case $W=Q_8\times\Z/2$. In the second case $W$
+is the central product of $Q_8$ and $\Z/4$, a group of order $16$. Let
+$\phi:N\to A$ be the identity map. Its class is $\Gamma$-invariant since
+$z$ acts trivially on $N$. Here $C_\phi=\{\pm1\}$, and for the section
+$s(\gamma)=z$ we get $T_\phi(z)=\{b:bxb^{-1}=x\ \forall x\}=\{\pm1\}$ and
+$\sigma(\gamma,\gamma)=z^2$. Equation~\eqref{eq:cgen} reads
+\[
+c^2=\phi(z^2),\qquad c\in\{\pm1\}.
+\]
+If $z^2=1$ both $c=1$ and $c=-1$ are solutions; they give the two
+homomorphisms $Q_8\times\Z/2\to Q_8$ extending the identity, which are not
+conjugate, in accordance with
+$H^1(\Gamma,C_\phi)=\Hom(\Z/2,\{\pm1\})$
+(Proposition~\ref{prop:fiber-general}). If $z^2=-1$ there is no solution:
+a homomorphism extending the identity would send $z$ to a central element
+of $Q_8$ whose square is $-1$. The obstruction extension
+$\mathcal{O}_\phi$ is generated by $C_\phi=\{\pm1\}$ and the class $e$ of
+$(1,z)$, with $e^2=(1,z^2)D_\phi=\phi(z^2)^{-1}$. So $\mathcal{O}_\phi$ is
+$\Z/2\times\Z/2$ in the first case and $\Z/4$ in the second.
+\end{example}
+
+\begin{example}[Invariant irreducible representations]\label{ex:clifford}
+Let $A=\GL_m(\C)$ with trivial action, so that cocycles are
+$m$-dimensional representations. Let $\phi$ be an irreducible
+representation of $N$ whose isomorphism class is invariant under
+conjugation by $W$. By Schur's lemma $C_\phi=\C^\times$, the scalar
+matrices. Conjugation by any element of $A$ is trivial on scalars, so
+$\kappa_\phi$ is the trivial action and $\mathcal{O}_\phi$ is a central
+extension of $\Gamma$ by $\C^\times$, with class in the ordinary group
+$H^2(\Gamma,\C^\times)$. By Theorem~\ref{thm:general}, $\phi$ extends to a
+representation of $W$ if and only if this class is trivial, and by
+Proposition~\ref{prop:fiber-general} the extensions are then permuted
+simply transitively by $H^1(\Gamma,\C^\times)=\Hom(\Gamma,\C^\times)$,
+acting by twisting. This is a classical fact of Clifford theory. If
+$\Gamma$ is cyclic of order $n$, then
+$H^2(\Gamma,\C^\times)=\C^\times/(\C^\times)^n=1$ (Example~\ref{ex:H2}(b)
+for $n=2$), so $\phi$ always extends, in exactly $n$ ways. For
+non-cyclic $\Gamma$ the obstruction can be non-trivial: see
+Example~\ref{ex:klein}. With $N=W_E$, $W=W_F$ and continuous
+representations (Section~\ref{sec:langlands}), this is the statement that
+a Galois-invariant irreducible representation of $W_E$ extends to $W_F$
+when $E/F$ is cyclic.
+\end{example}
+
+\subsection{Running example: a non-abelian normal subgroup}\label{ss:runH}
+
+\begin{example}[Running example, part 4]\label{ex:runH}
+Keep the notation of Examples~\ref{ex:run1} to~\ref{ex:run3}. Let
+$E_0=3^{\Z}\times\mu_4\times U^1$, a subgroup of index $2$ in $E^\times$
+stable under $\tau$, and let
+\[
+H=E_0\sqcup E_0s\subset W .
+\]
+By~\eqref{eq:run-W}, $H$ is a subgroup of index $2$ in $W$, hence normal.
+It is not abelian, since $s\,i\,s^{-1}=-i$. The quotient
+$\Gamma'=W/H=\{1,\gamma\}$ is generated by the image of $\zeta$. Take the
+section $s'(\gamma)=\zeta$, so that $\sigma'(\gamma,\gamma)=\zeta^2=i\in H$.
+Conjugation by $\zeta$ is trivial on $E_0$, and
+$\zeta(ys)\zeta^{-1}=y\,\zeta\,\tau(\zeta)^{-1}s=(-iy)s$ because
+$\zeta\cdot\zeta^{-3}=\zeta^{-2}=-i$.
+
+Let $A=\SL_2(\C)$ with trivial action and let $\psi=f_1|_H$, where $f_1$
+is the cocycle of Example~\ref{ex:run3}(b). Explicitly, since
+$f_1(\zeta)=d_i$,
+\[
+\psi(i)=d_i^{\,2}=-1,\qquad\psi(3)=-1,\qquad\psi(U^1)=1,\qquad\psi(s)=w_0 .
+\]
+The image of $\psi$ is the cyclic group $\{\pm1,\pm w_0\}$ of order $4$.
+We now forget $f_1$ and ask which cocycles of $W$ restrict to $\psi$.
+\begin{itemize}[itemsep=1pt]
+\item \emph{Centralizer.} $C_\psi=\Cent(w_0)=T'$, the torus of matrices
+$a+bw_0$ with $a^2+b^2=1$.
+\item \emph{Transporter.} $b\in T_\psi(\zeta)$ means
+$b\,\psi(x)\,b^{-1}=\psi(\zeta x\zeta^{-1})$ for $x\in H$. For $x\in E_0$
+both sides are $\psi(x)=\pm1$. For $x=ys$ the right side is
+$\psi(-i)\psi(y)w_0=-\psi(y)w_0$. So the condition is
+$b\,w_0\,b^{-1}=-w_0$, and $T_\psi(\zeta)=T'd_i$, since
+$d_iw_0d_i^{-1}=c_{-1}=-w_0$. In particular $[\psi]$ is
+$\Gamma'$-invariant, and $\psi$ is not equivariant.
+\item \emph{Equation~\eqref{eq:cgen}.} It reads $c^2=\psi(i)=-1$ with
+$c\in T'd_i$. Conjugation by $d_i$ inverts $T'$, so
+$(t\,d_i)^2=t\,t^{-1}d_i^{\,2}=-1$ for every $t\in T'$. Every element of
+the transporter is a solution.
+\item \emph{Conclusion.} $\psi$ extends, and the cocycles extending it
+are $f(h)=\psi(h)$, $f(\zeta h)=c\,\psi(h)$ for $h\in H$, with
+$c\in T'd_i$. They are all conjugate under $C_\psi=T'$, because
+$t\,(t'd_i)\,t^{-1}=t^2t'd_i$. So the fiber of $\res$ over $[\psi]$ is one
+point, in accordance with Proposition~\ref{prop:fiber-general}: the
+twisted action of $\gamma$ on $T'$ is inversion and $H^1(\Gamma',T')=1$.
+The choice $c=d_i$ recovers $f_1$.
+\item \emph{The obstruction extension.} $\mathcal{O}_\psi$ is generated by
+$T'$ and the class $e$ of $(d_i,\zeta)$, with $e\,t\,e^{-1}=t^{-1}$ and
+$e^2=(d_i^{\,2},\zeta^2)D_\psi=(-1,i)D_\psi=1$, because
+$(\psi(i),i)=(-1,i)\in D_\psi$. So $\mathcal{O}_\psi=T'\rtimes\Z/2$ splits.
+\end{itemize}
+Thus the same parameter $f_1$ is recovered from its restriction to two
+different normal subgroups of $W$: from the abelian subgroup $E^\times$,
+where the obstruction lives in $H^2(\Gamma,T)$ with $T$ the diagonal
+torus, and from the non-abelian subgroup $H$, where it lives in
+$H^2(\Gamma',T')$.
+\end{example}
 
 \section{A graph-theoretic formulation}\label{sec:graph}
 
@@ -1117,7 +1952,7 @@ $e_t\mapsto t$. The group $\Gamma$ acts on $\Cay(\Gamma,\overline{S})$ by
 left multiplication.
 \end{example}
 
-Fix a generating set $\overline{S}$ of $\Gamma$ and, for each
+Fix a generating set $\overline{S}$ of $\Gamma$ not containing $1$ and, for each
 $t\in\overline{S}$, a lift $s_t\in W$ with $p(s_t)=t$. Let
 $S=\{s_t:t\in\overline{S}\}$. Let $\fr$ be the free group on
 $\overline{S}$, and let
@@ -1172,32 +2007,218 @@ $W=N\langle S\rangle$, so $W/\langle S\rangle\cong N/(N\cap\langle
 S\rangle)$, and $N\cap\lambda_W(\fr)=\lambda_W(\rel)$.
 \end{proof}
 
-Thus the extension $W$ is encoded by the covering
-$\Cay(W,S)\to\Cay(\Gamma,\overline{S})$, and the homomorphism $\nu$
-of~\eqref{eq:nu} is its monodromy.
+The homomorphism $\nu$ of~\eqref{eq:nu} is the monodromy of the covering
+$\Cay(W,S)\to\Cay(\Gamma,\overline{S})$: the lift of the closed walk
+spelled by $r$ which starts at the vertex $x\in N$ ends at $x\,\nu(r)$.
+The covering alone, as a map of unlabeled graphs, does not determine the
+group $W$. For instance $\Cay(D_4,\{s\})$ in Figure~\ref{fig:toy} is
+isomorphic, over the $2$-cycle, to $\Cay(\Z/4\times\Z/2,\{(0,1)\})$. What
+does determine $W$ is the monodromy, with values in the $\Gamma$-module
+$N$.
+
+\begin{proposition}[Reconstruction]\label{prop:reconstruct}
+Let $\fr$ act on $N$ through $\pi$.
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item The map $N\rtimes\fr\to W$, $(x,v)\mapsto x\,\lambda_W(v)$, is a
+surjective homomorphism with kernel
+$K_\nu=\{(\nu(r)^{-1},r):r\in\rel\}$. Hence
+\[
+W\cong(N\rtimes\fr)/K_\nu .
+\]
+\item Conversely, let $N$ be any $\Gamma$-module and
+$\nu:\rel\to N$ any homomorphism with
+$\nu(vrv^{-1})=\act{\pi(v)}{\nu(r)}$. Then $K_\nu$ is a normal subgroup
+of $N\rtimes\fr$, the quotient $W_\nu=(N\rtimes\fr)/K_\nu$ is an extension
+of $\Gamma$ by $N$ inducing the given action, and for the lifts
+$s_t=(1,t)K_\nu$ its monodromy is $\nu$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) The map is a homomorphism because
+$\lambda_W(v)\,y=\act{\pi(v)}{y}\,\lambda_W(v)$, and it is surjective
+because $W=N\langle S\rangle$. If $x\,\lambda_W(v)=1$ then $\pi(v)=1$, so
+$v=r\in\rel$ and $x=\nu(r)^{-1}$.
+
+(ii) Since $\rel$ acts trivially on $N$ and $N$ is abelian,
+$(\nu(r)^{-1},r)(\nu(r')^{-1},r')=(\nu(rr')^{-1},rr')$, and conjugating
+$(\nu(r)^{-1},r)$ by $(x,v)$ gives
+$(\act{\pi(v)}{\nu(r)}^{-1},vrv^{-1})=(\nu(vrv^{-1})^{-1},vrv^{-1})$. So
+$K_\nu$ is a normal subgroup. It meets $N\times\{1\}$ trivially, and
+$(N\rtimes\fr)/(N\times\rel)=\Gamma$, so $W_\nu$ is an extension of
+$\Gamma$ by $N$. Finally $(1,r)=(\nu(r),1)(\nu(r)^{-1},r)$, so
+$\lambda_{W_\nu}(r)=\nu(r)$.
+\end{proof}
+
+So the data needed to recover the extension are: the $\Gamma$-module $N$,
+the generators $\overline{S}$ of $\Gamma$, and the equivariant
+homomorphism $\nu$. In graph terms these are the voltage group with its
+$\Gamma$-action, the generator labels on the edges of the base graph, and
+the net voltages of closed walks.
 
 \begin{remark}[Harmonic morphisms]\label{rem:harmonic}
-Forgetting orientations, a covering map of graphs is a harmonic morphism
-in the sense of \cite{BN}: every edge is horizontal and all horizontal
-multiplicities are $1$. So
-$\Cay(W,S)\to\Cay(\Gamma,\overline{S})$ is a harmonic morphism, and it is
-the quotient map for the free action of $N$.
+Since $1\notin\overline{S}$ and $s_t\notin N$, the Cayley digraphs
+$\Cay(\Gamma,\overline{S})$ and $\Cay(W,S)$ have no loops. Forgetting
+orientations gives multigraphs without loops, which are locally finite
+when $\overline{S}$ is finite but may be infinite. Baker and Norine
+\cite{BN} define harmonic morphisms for finite multigraphs without loops.
+The definition is local: a map of graphs is harmonic if, at each vertex
+$v$, the number of edges at $v$ mapped onto an edge $e'$ at the image of
+$v$ is the same for all $e'$. We use it, in the same form, for locally
+finite multigraphs without loops. With this convention a covering map is
+a harmonic morphism, with no edge collapsed to a vertex and all local
+multiplicities equal to $1$. So $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$
+is a harmonic morphism, and it is the quotient map for the free action of
+$N$. A harmonic morphism which is not a covering has no unique lifting of
+walks, and so no monodromy in the above sense; see
+Question~\ref{q:harmonic}.
 \end{remark}
 
-\begin{remark}[The universal voltage]\label{rem:hopf}
-Let $\hat{s}:\Gamma\to\fr$ be a section of $\pi$, with factor set
+\subsection{The relation module and the homology of the Cayley graph}\label{ss:relmod}
+
+Write $X=\Cay(\Gamma,\overline{S})$, regarded as a one-dimensional cell
+complex. It is the covering of the bouquet $B_{\overline{S}}$
+corresponding to the subgroup $\rel$ of
+$\pi_1(B_{\overline{S}})=\fr$. Hence
 \[
-\sigma_{\fr}(g,h)=\hat{s}(g)\,\hat{s}(h)\,\hat{s}(gh)^{-1}\in\rel .
+\pi_1(X,1)=\rel,\qquad H_1(X,\Z)=\rel_{\mathrm{ab}}=\rel/[\rel,\rel].
 \]
-For the section $s=\lambda_W\circ\hat{s}$ of $p$ we get
-$\sigma=\nu\circ\sigma_{\fr}$. So the factor set of $W$ is the image of
-the ``universal'' factor set $\sigma_{\fr}$, which depends only on
-$\Gamma$ and $\overline{S}$, under the monodromy $\nu$. By~\eqref{eq:nu},
-$\nu$ induces a homomorphism of $\Gamma$-modules from the abelianization
-of $\rel$ to $N$. This is the classical description of extensions of
-$\Gamma$ in terms of a presentation of $\Gamma$; see, for example,
-\cite[Ch.~IV]{ML}.
-\end{remark}
+The group $\Gamma$ acts on $X$ by left multiplication, hence on
+$H_1(X,\Z)$, and it acts on $\rel_{\mathrm{ab}}$ through conjugation by
+elements of $\fr$; the identification is $\Gamma$-equivariant. The
+$\Z[\Gamma]$-module $\rel_{\mathrm{ab}}$ is called the \emph{relation
+module} of the presentation. The cellular chain complex of $X$ has
+$C_1=\Z[\Gamma]^{\overline{S}}$, with basis the edges $e_t=(1,t)$,
+$C_0=\Z[\Gamma]$, and boundary $\partial(g\,e_t)=gt-g$. Since $X$ is
+connected, this gives the exact sequence of $\Z[\Gamma]$-modules
+\cite[Ch.~II, \S5]{Br}
+\begin{equation}\label{eq:relseq}
+0\longrightarrow\rel_{\mathrm{ab}}\longrightarrow
+\Z[\Gamma]^{\overline{S}}\overset{\partial}{\longrightarrow}\Z[\Gamma]
+\overset{\epsilon}{\longrightarrow}\Z\longrightarrow0 ,
+\end{equation}
+in which the class of $r\in\rel$ is sent to the $1$-cycle of the closed
+walk spelled by $r$, and $\epsilon$ is the augmentation. Since $N$ is
+abelian, the monodromy $\nu$ factors through $\rel_{\mathrm{ab}}$, and
+by~\eqref{eq:nu} it is $\Gamma$-equivariant. So
+\[
+\nu\in\Hom_\Gamma\bigl(H_1(X,\Z),N\bigr):
+\]
+the monodromy assigns to each integral $1$-cycle of the Cayley graph its
+net voltage.
+
+A \emph{derivation} $d:\fr\to N$ is a map with
+$d(vv')=d(v)\,\act{\pi(v)}{d(v')}$, that is, a $1$-cocycle of $\fr$ in
+$N$. Since $\fr$ is free, for every family $(\eta_t)_{t\in\overline{S}}$
+of elements of $N$ there is exactly one derivation $d_\eta$ with
+$d_\eta(t)=\eta_t$ (Lemma~\ref{lem:semidirect}). The restriction of a
+derivation to $\rel$ is a $\Gamma$-equivariant homomorphism.
+
+\begin{proposition}[Change of lifts]\label{prop:lifts}
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item If the lifts $s_t$ are replaced by $s'_t=\eta_ts_t$ with
+$\eta_t\in N$, the monodromy is replaced by $\nu'=d_\eta|_{\rel}\cdot\nu$.
+\item The extension $W$ splits if and only if $\nu$ is the restriction to
+$\rel$ of a derivation $\fr\to N$.
+\item Two homomorphisms $\nu,\nu'$ as in
+Proposition~\ref{prop:reconstruct}\textup{(ii)} give isomorphic extensions
+$W_\nu\cong W_{\nu'}$, by an isomorphism which is the identity on $N$ and
+on $\Gamma$, if and only if $\nu'\nu^{-1}$ is the restriction of a
+derivation.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) Let $\lambda'_W:\fr\to W$ be the homomorphism with
+$\lambda'_W(t)=\eta_ts_t$. For $v\in\fr$ put
+$d(v)=\lambda'_W(v)\lambda_W(v)^{-1}$, an element of $N$. Then
+\[
+d(vv')=\lambda'_W(v)\,d(v')\,\lambda_W(v)^{-1}=d(v)\,\act{\pi(v)}{d(v')},
+\]
+so $d$ is the derivation $d_\eta$, and $\nu'(r)=d(r)\nu(r)$.
+
+(ii) If $s$ is a homomorphic section, the lifts $s'_t=s(t)$ have trivial
+monodromy, so $\nu=(d_\eta|_{\rel})^{-1}$ by (i), and the inverse of a
+derivation into an abelian group is a derivation. Conversely, if
+$\nu=d|_{\rel}$, the lifts $s'_t=d(t)^{-1}s_t$ have trivial monodromy by
+(i), so $\lambda'_W$ factors through $\fr/\rel=\Gamma$ and gives a
+homomorphic section.
+
+(iii) An isomorphism $W_\nu\to W_{\nu'}$ of extensions carries the
+standard lifts of $W_\nu$ to lifts in $W_{\nu'}$ with monodromy $\nu$; by
+(i), $\nu$ and $\nu'$ differ by a derivation. Conversely, if
+$\nu'=d_\eta|_{\rel}\cdot\nu$, then $W_\nu$ with the lifts $\eta_ts_t$ has
+monodromy $\nu'$, and Proposition~\ref{prop:reconstruct}(i) identifies it
+with $W_{\nu'}$.
+\end{proof}
+
+Derivations $\fr\to N$ correspond to families $(\eta_t)$, that is, to
+elements of $\Hom_\Gamma(\Z[\Gamma]^{\overline{S}},N)$, and restriction to
+$\rel$ corresponds to restriction along the first map
+of~\eqref{eq:relseq}. So Propositions~\ref{prop:reconstruct}
+and~\ref{prop:lifts} give a bijection between isomorphism classes of
+extensions of $\Gamma$ by the $\Gamma$-module $N$ and the cokernel in the
+classical formula \cite[Ch.~IV]{Br}, \cite[Ch.~IV]{ML}
+\begin{equation}\label{eq:H2pres}
+H^2(\Gamma,N)\ \cong\
+\frac{\Hom_\Gamma\bigl(H_1(X,\Z),N\bigr)}
+{\text{restrictions of }\Hom_\Gamma\bigl(\Z[\Gamma]^{\overline{S}},N\bigr)} ,
+\end{equation}
+which is obtained from~\eqref{eq:relseq} by dimension shifting. Up to the
+sign conventions, the class $[\sigma]$ of $W$ corresponds to the class of
+its monodromy $\nu$. Indeed, if $\hat{s}:\Gamma\to\fr$ is a section of
+$\pi$ with factor set
+$\sigma_{\fr}(g,h)=\hat{s}(g)\hat{s}(h)\hat{s}(gh)^{-1}\in\rel$, then the
+section $s=\lambda_W\circ\hat{s}$ of $p$ has factor set
+$\sigma=\nu\circ\sigma_{\fr}$.
+
+The following table summarizes the dictionary between the algebra and the
+graphs.
+\begin{center}
+\begin{tabular}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
+\toprule
+Algebra & Graphs \\
+\midrule
+free group $\fr$ on $\overline{S}$ & fundamental group of the bouquet
+$B_{\overline{S}}$ \\
+group of relations $\rel$ & fundamental group of
+$\Cay(\Gamma,\overline{S})$ \\
+relation module $\rel_{\mathrm{ab}}$ & first homology of
+$\Cay(\Gamma,\overline{S})$ \\
+extension $W$ with lifts $s_t$ & derived graph $\Cay(W,S)$, a covering
+with group $N$ \\
+factor set $\sigma$ & voltage assignment $\nu_s$ \\
+change of section $s$ & switching of voltages \\
+homomorphism $\nu:\rel\to N$ & monodromy (net voltages of closed walks) \\
+change of lifts $s_t$ & $\nu$ changes by a derivation
+(Proposition~\ref{prop:lifts}) \\
+$W$ splits & $\nu$ is the restriction of a derivation \\
+$\nu$ surjective & $\Cay(W,S)$ connected \\
+choice of $c(t)\in T_\phi(t)$ & equivariant gain function $\theta_c$ \\
+$\phi$ extends to a cocycle & some $\theta_c$ has holonomy $\phi\circ\nu$
+(Theorem~\ref{thm:graph}) \\
+the cocycle $f$ & potential for the pulled-back gain function on
+$\Cay(W,S)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{example}[The $2$-cycle]\label{ex:twocycle}
+Let $\Gamma=\{1,\tau\}$ and $\overline{S}=\{\tau\}$, so that $X$ is the
+directed $2$-cycle with edges $e=(1,\tau)$ and $\tau e=(\tau,\tau)$. Then
+$\partial e=\tau-1$ and $\partial(\tau e)=1-\tau$, so $H_1(X,\Z)$ is the
+infinite cyclic group generated by $e+\tau e$, the cycle of the relator
+$\tau^2$, with trivial action of $\Gamma$. Hence
+$\Hom_\Gamma(H_1(X,\Z),N)=N^\Gamma$, by $\nu\mapsto\nu(\tau^2)=s_\tau^2$.
+The derivation with $d(\tau)=\eta$ has
+$d(\tau^2)=\eta\,\act{\tau}{\eta}$. So~\eqref{eq:H2pres} becomes
+$H^2(\Gamma,N)\cong N^\Gamma/\{\eta\,\act{\tau}{\eta}\}$, as in
+Example~\ref{ex:H2}(b), and Proposition~\ref{prop:lifts}(ii) says that $W$
+splits if and only if $s_\tau^2$ is a norm. For the toy extensions
+$s_\tau^2\in\{1,\rho^2\}$ and the norms are trivial. For $\Q_3(i)/\Q_3$,
+$s_\tau^2=3$ and the norms are the elements of even valuation
+(Example~\ref{ex:run1}(b),(d)).
+\end{example}
 
 \subsection{Gains with prescribed holonomy}
 
@@ -1387,7 +2408,112 @@ c^{\,n}=t^{\,m},\qquad c\in\Cent_{\Gh}(t).
 A solution exists: $t$ lies in a maximal torus of $\Gh$, and complex tori
 are divisible. So every $\phi_t$ extends to a cocycle of $W_{E/F}$, with
 $f(s_\tau)=c$. The unramified parameters of $G$ are of this kind.
+
+Suppose that $t$ is regular, in the sense that $\Cent_{\Gh}(t)$ is a
+maximal torus $\Th_0$ of $\Gh$, of rank $r$. Then $C_{\phi_t}=\Th_0$, the
+twisted action $\beta_f(\tau)=\Int(c)$ is trivial on $\Th_0$ because
+$c\in\Th_0$, and by Proposition~\ref{prop:fiber} the fiber of $\res$ over
+$[\phi_t]$ is in bijection with
+\[
+H^1(\Gamma,\Th_0)=\Hom(\Z/n,\Th_0)=\Th_0[n],
+\]
+the group of $n$-torsion points, which has $n^r$ elements. Concretely,
+the solutions of $c^n=t^m$ in $\Th_0$ form a coset of $\Th_0[n]$, and
+distinct solutions give cocycles that are not cohomologous.
 \end{example}
+
+\begin{example}[A non-cyclic quotient: the Klein four-group]\label{ex:klein}
+Let $W=Q_8$, $N=\{\pm1\}$ its center, and
+\[
+\Gamma=W/N=\langle u,v\mid u^2,\ v^2,\ uvu^{-1}v^{-1}\rangle\cong
+\Z/2\times\Z/2,
+\]
+where $u$ and $v$ are the images of $i$ and $j$. Take
+$\overline{S}=\{u,v\}$ and the lifts $s_u=i$, $s_v=j$. The Cayley digraph
+$X=\Cay(\Gamma,\overline{S})$ has four vertices and eight edges
+(Figure~\ref{fig:klein}), so $H_1(X,\Z)$ is free of rank $8-4+1=5$. As a
+normal subgroup of $\fr$, $\rel$ is generated by the three relators, whose
+net voltages are
+\[
+\nu(u^2)=i^2=-1,\qquad\nu(v^2)=j^2=-1,\qquad
+\nu(uvu^{-1}v^{-1})=iji^{-1}j^{-1}=-1 .
+\]
+The monodromy is surjective, and indeed $\Cay(Q_8,\{i,j\})$ is connected.
+
+Let $A$ be a group with trivial action of $\Gamma$ and let
+$\phi:N\to A$ be a homomorphism with central image; put
+$\epsilon=\phi(-1)$, a central element with $\epsilon^2=1$. Then $\phi$ is
+equivariant, $T_\phi(t)=A$, and the net gain of $\theta_c$ around a
+relator is the corresponding word in $c(u),c(v)$. So by
+Theorem~\ref{thm:graph}, $\phi$ extends to a homomorphism $Q_8\to A$ if
+and only if there are $c(u),c(v)\in A$ with
+\begin{equation}\label{eq:klein}
+c(u)^2=\epsilon,\qquad c(v)^2=\epsilon,\qquad
+c(u)\,c(v)\,c(u)^{-1}c(v)^{-1}=\epsilon .
+\end{equation}
+\begin{itemize}[itemsep=1pt]
+\item For $A=Q_8$ and $\phi$ the inclusion ($\epsilon=-1$), the choice
+$c(u)=i$, $c(v)=j$ is a solution; it gives the identity map of $Q_8$.
+\item For $A=\C^\times$ and $\epsilon=-1$, each of the first two equations
+has solutions, namely $c=\pm\sqrt{-1}$. The third has none, because
+$\C^\times$ is abelian. So the non-trivial character of $N$ does not
+extend to a character of $Q_8$, as one knows, since $-1$ is a commutator
+in $Q_8$.
+\end{itemize}
+The first two equations in~\eqref{eq:klein} are the twisted norm equations
+of Corollary~\ref{cor:cyclic} for the cyclic subgroups $\langle u\rangle$
+and $\langle v\rangle$ of $\Gamma$, that is, for the subgroups
+$\langle i\rangle$ and $\langle j\rangle$ of $Q_8$. The example shows
+that solving these separately is not enough: the gains must also have the
+right holonomy around the commutator cycle. In the language of
+Corollary~\ref{cor:central}(iii) and Example~\ref{ex:clifford}, the class
+$\partial\phi=-\phi_*[\sigma]\in H^2(\Gamma,\C^\times)$ is non-trivial,
+although its restriction to every cyclic subgroup of $\Gamma$ is trivial.
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[vx] (n1) at (0,2.6) {$1$};
+\node[vx] (nu) at (3.4,2.6) {$u$};
+\node[vx] (nv) at (0,0) {$v$};
+\node[vx] (nuv) at (3.4,0) {$uv$};
+% u-edges (solid)
+\draw[ar] (n1) to[bend left=18] (nu);
+\draw[ar] (nu) to[bend left=18] node[fill=white,inner sep=1pt,font=\footnotesize] {$-1$} (n1);
+\draw[ar] (nv) to[bend left=18] node[fill=white,inner sep=1pt,font=\footnotesize] {$-1$} (nuv);
+\draw[ar] (nuv) to[bend left=18] (nv);
+% v-edges (dashed)
+\draw[ar,dashed] (n1) to[bend left=18] (nv);
+\draw[ar,dashed] (nv) to[bend left=18] node[fill=white,inner sep=1pt,font=\footnotesize] {$-1$} (n1);
+\draw[ar,dashed] (nu) to[bend left=18] (nuv);
+\draw[ar,dashed] (nuv) to[bend left=18] node[fill=white,inner sep=1pt,font=\footnotesize] {$-1$} (nu);
+\node[font=\small,anchor=west] at (5.0,2.3) {solid: edges $g\to gu$};
+\node[font=\small,anchor=west] at (5.0,1.7) {dashed: edges $g\to gv$};
+\node[font=\small,anchor=west] at (5.0,1.1) {unlabeled edges have voltage $1$};
+\node[font=\small,anchor=west] at (5.0,0.5) {section: $s(1)=1,\ s(u)=i,\ s(v)=j,\ s(uv)=k$};
+\end{tikzpicture}
+\caption{The Cayley digraph of the Klein four-group on the generators
+$u,v$, with the $\{\pm1\}$-voltages $\nu_s(g,t)=s(g)s_ts(gt)^{-1}$ coming
+from the extension $1\to\{\pm1\}\to Q_8\to\Gamma\to1$. Its derived graph
+is $\Cay(Q_8,\{i,j\})$. The closed walks $1\to u\to1$, $1\to v\to1$ and
+$1\to u\to uv\to v\to1$ (the last two steps against the arrows) spell the
+three relators; each has net voltage $-1$.}\label{fig:klein}
+\end{figure}
+
+\begin{remark}[Non-abelian $N$]\label{rem:graph-nonab}
+Theorem~\ref{thm:graph} remains true when $N$ is an arbitrary normal
+subgroup of $W$, with $T_\phi(s_t)$ in place of $T_\phi(t)$. The map
+$\nu=\lambda_W|_{\rel}:\rel\to N$ is still a homomorphism, with
+$\nu(vrv^{-1})=\lambda_W(v)\nu(r)\lambda_W(v)^{-1}$. In the proof one
+replaces $E_\phi$ by the group $B_\phi$ of Lemma~\ref{lem:BD},
+$\lambda_c$ by the homomorphism $\fr\to B_\phi$, $t\mapsto(c(t),s_t)$, the
+elements $(\phi(x),1)$ by $(\phi(x),x)\in D_\phi$, and~\eqref{eq:conjphi}
+by~\eqref{eq:conjD}. The statements of this section that use the
+$\Gamma$-module structure of $N$, namely
+Propositions~\ref{prop:reconstruct} and~\ref{prop:lifts}
+and formula~\eqref{eq:H2pres}, require $N$ abelian.
+\end{remark}
 
 \begin{remark}[Balance]\label{rem:balance}
 A gain function is \emph{balanced} if every closed walk has net gain~$1$
@@ -1407,6 +2533,109 @@ pull-back which is balanced and admits a potential equal to $\phi$ on the
 fiber over~$1$.
 \end{remark}
 
+\subsection{Running example: the graphs}\label{ss:run4}
+
+\begin{example}[Running example, part 5]\label{ex:run4}
+Keep the notation of Examples~\ref{ex:run1} to~\ref{ex:run3}. Take
+$\overline{S}=\{\tau\}$ and $s_\tau=s$.
+
+\smallskip\noindent\emph{(a) The base graph and its voltages.} The Cayley
+digraph $\Cay(\Gamma,\{\tau\})$ is the directed $2$-cycle with edges
+$1\to\tau$ and $\tau\to1$. For the section $s(\tau)=s$ the
+$E^\times$-voltages of Proposition~\ref{prop:derived} are
+\[
+\nu_s(1,\tau)=s(1)\,s\,s(\tau)^{-1}=1,\qquad
+\nu_s(\tau,\tau)=s(\tau)\,s\,s(1)^{-1}=s^2=3 .
+\]
+The free group $\fr$ is infinite cyclic, generated by the letter $\tau$,
+and $\rel$ is generated by the word $\tau^2$, which spells the closed walk
+$1\to\tau\to1$. Its net voltage is $\nu(\tau^2)=1\cdot3=3$. If the section
+is changed to $s'(\tau)=ys$, the two voltages become $y^{-1}$ and $3y$
+(switching by $\eta(\tau)=y$), and the net voltage is still $3$.
+
+\smallskip\noindent\emph{(b) The derived graph.} The derived graph has
+vertex set $\Gamma\times E^\times$ and edges $(1,x)\to(\tau,x)$ and
+$(\tau,x)\to(1,3x)$. Under $(g,x)\mapsto x\,s(g)$ it becomes
+$\Cay(W,\{s\})$, with edges $x\to xs$ and $xs\to xs^2=3x$. The connected
+component of $x$ is the two-way infinite directed path
+\[
+\cdots\to 3^{-1}x\to 3^{-1}xs\to x\to xs\to 3x\to 3xs\to 9x\to\cdots,
+\]
+which covers the $2$-cycle infinitely many times. The components
+correspond to the elements of
+$E^\times/\nu(\rel)=E^\times/3^{\Z}\cong\cO^\times$, as in
+Proposition~\ref{prop:derived}(v). The graph is not connected because
+$\{s\}$ does not generate $W$. The group $E^\times$ acts by left
+multiplication, permuting the paths and translating each path by its
+powers of $3$.
+
+\smallskip\noindent\emph{(c) Gains and holonomy.} Let
+$\phi:E^\times\to A$ have a $\Gamma$-invariant class and let
+$c\in T_\phi(\tau)$. The gain function is $\theta_c(1,\tau)=c$ and
+$\theta_c(\tau,\tau)=\act{\tau}{c}$, so the holonomy around the $2$-cycle
+is $\theta_c(\tau^2)=c\cdot\act{\tau}{c}$. Theorem~\ref{thm:graph}
+(equivalently Corollary~\ref{cor:cyclic} with $n=2$ and $a=3$) says that
+$\phi$ extends, with $f(s)=c$, if and only if
+\[
+\underbrace{c\cdot\act{\tau}{c}}_{\text{holonomy of }\theta_c}
+\;=\;\phi(\underbrace{3}_{\text{net voltage}}).
+\]
+This is~\eqref{eq:run-c}. For $\Th$ the holonomy is $c\,c^{-1}=1$ for
+every $c$. For $\SL_2(\C)$ and $\phi_{2,z}$ the holonomy is
+$c_t^{\,2}=-1$ for every admissible $c$. In both cases the holonomy does
+not depend on the choice of gains, and the question is only whether
+$\phi(3)$ equals it.
+
+\smallskip\noindent\emph{(d) The potential.} Let $\phi=\phi_{2,-1}$ and
+$c=w_0$. The cocycle $f=f_1$ of Example~\ref{ex:run3}(b) labels the
+vertices of $\Cay(W,\{s\})$, and along each edge $w\to ws$ the label is
+multiplied on the right by the gain $w_0$
+(Remark~\ref{rem:balance}). On the component of $1$ the labels are
+\[
+f(3^m)=(-1)^m,\qquad f(3^ms)=(-1)^mw_0 ,
+\]
+which under $Q_8\subset\SL_2(\C)$ is the periodic sequence
+$\dots,1,j,-1,-j,1,j,\dots$ (Figure~\ref{fig:run}). So $f$ wraps the
+infinite path around the directed $4$-cycle $1\to j\to-1\to-j\to1$, which
+is a component of $\Cay(Q_8,\{j\})$ in Figure~\ref{fig:toy}. On the
+component of $x$ all labels are multiplied on the left by $\phi(x)$. For
+$\phi_{2,1}$ no such labeling exists: going twice around the base
+$2$-cycle multiplies the label by $w_0^2=-1$, but the lifted walk goes
+from $x$ to $3x$, where the label must be $\phi(3x)=\phi(x)$.
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[font=\small] (l) at (-1.5,0) {$\cdots$};
+\node[bx,minimum size=22pt] (a0) at (0,0) {$3^{-1}$};
+\node[rx,minimum size=22pt] (a1) at (2,0) {$3^{-1}s$};
+\node[bx,minimum size=22pt] (a2) at (4,0) {$1$};
+\node[rx,minimum size=22pt] (a3) at (6,0) {$s$};
+\node[bx,minimum size=22pt] (a4) at (8,0) {$3$};
+\node[rx,minimum size=22pt] (a5) at (10,0) {$3s$};
+\node[bx,minimum size=22pt] (a6) at (12,0) {$9$};
+\node[font=\small] (r) at (13.5,0) {$\cdots$};
+\draw[ar] (l)--(a0); \draw[ar] (a0)--(a1); \draw[ar] (a1)--(a2);
+\draw[ar] (a2)--(a3); \draw[ar] (a3)--(a4); \draw[ar] (a4)--(a5);
+\draw[ar] (a5)--(a6); \draw[ar] (a6)--(r);
+\foreach \n/\lab in {a0/-1,a1/-j,a2/1,a3/j,a4/-1,a5/-j,a6/1}{
+  \node[font=\small] at ([yshift=-0.85cm]\n) {$\lab$};
+}
+\node[font=\small,anchor=east] at (-0.9,-0.85) {$f$:};
+\foreach \x in {1,3,5,7,9,11}{
+  \node[font=\scriptsize] at (\x,0.3) {$\cdot\,w_0$};
+}
+\end{tikzpicture}
+\caption{The component of $1$ in $\Cay(W,\{s\})$ for $W=W_{\Q_3(i)/\Q_3}$,
+with the values of the cocycle $f=f_1$ extending $\phi_{2,-1}$, written in
+$Q_8\subset\SL_2(\C)$ with $j=w_0$. Blue vertices lie in $E^\times$ (over
+$1\in\Gamma$) and red vertices in $E^\times s$ (over $\tau$). Each edge
+multiplies the label by the gain $w_0$; two steps multiply the vertex by
+the net voltage $3$ and the label by the holonomy
+$w_0^2=-1=\phi_{2,-1}(3)$.}\label{fig:run}
+\end{figure}
+
 \section{Topology and Langlands parameters}\label{sec:langlands}
 
 So far all groups were discrete. The Weil group is a locally compact group
@@ -1417,8 +2646,9 @@ adapt.
 Suppose $W$ is a topological group in which $N$ is an open subgroup, and
 $A$ is a topological group on which $\Gamma$ acts. A cocycle
 $f\in Z^1(W,A)$ is continuous if and only if $f|_N$ is continuous.
-Consequently Theorems~\ref{thm:exact}, \ref{thm:main}
-and~\ref{thm:graph}, Proposition~\ref{prop:fiber} and
+Consequently Theorems~\ref{thm:exact}, \ref{thm:main}, \ref{thm:general}
+and~\ref{thm:graph}, Propositions~\ref{prop:fiber}
+and~\ref{prop:fiber-general}, and
 Corollaries~\ref{cor:central} and~\ref{cor:cyclic} remain true when
 $Z^1(W,A)$ and $\Hom(N,A)$ are replaced by their subsets of continuous
 maps. The group $\Gamma=W/N$ is discrete and its cocycles are unrestricted.
@@ -1447,7 +2677,14 @@ further conditions \cite[\S8]{Bo}, which are not studied here. In this
 language Theorem~\ref{thm:main} answers the question: \emph{which
 homomorphisms $E^\times\to\Gh$ occur as the restriction to $W_E$ of a
 homomorphism $W_F\to\LG$ over $\Gamma$?} The group $E_\phi$ is the
-stabilizer of $\phi$ in $\LG$.
+stabilizer of $\phi$ in $\LG$. The restriction to parameters with abelian
+image on $W_E$ can be removed by using Section~\ref{sec:nonabelian} with
+$N=W_E$ and $W=W_F$: since $W_E$ is open in $W_F$,
+Proposition~\ref{prop:cont} applies, and Theorem~\ref{thm:general} says
+that a continuous homomorphism $\phi:W_E\to\Gh$ with $\Gamma$-invariant
+class is the restriction of a homomorphism $W_F\to\LG$ over $\Gamma$ if
+and only if the extension $\mathcal{O}_\phi$ of $\Gamma$ by
+$\Cent_{\Gh}(\phi(W_E))$ splits (compare Example~\ref{ex:clifford}).
 \end{remark}
 
 \begin{example}\label{ex:langlands}
@@ -1467,14 +2704,47 @@ cocycles extending them are continuous for the discrete topology on $\Gh$,
 hence also for its complex topology.
 \end{example}
 
+\subsection{Running example: the parameters}\label{ss:run5}
+
+\begin{example}[Running example, part 6]\label{ex:run5}
+In the model of Example~\ref{ex:run1}, give $E^\times$ its $3$-adic
+topology and $W=E^\times\sqcup E^\times s$ the topology in which
+$E^\times$ is open. The characters $\chi_{k,z}$ are continuous, because
+they are trivial on the open subgroup $U^1$. By
+Proposition~\ref{prop:cont}, all cocycles found in
+Example~\ref{ex:run3} are continuous. Composing with $W_F\to W_{E/F}$, we
+obtain the following.
+
+\smallskip\noindent\emph{(a)} For the norm-one torus $T$ of
+$\Q_3(i)/\Q_3$, the tamely ramified part of
+$H^1_{\mathrm{cont}}(W,\Th)$ consists of the four classes over
+$\chi_{0,1},\chi_{2,1},\chi_{4,1},\chi_{6,1}$. They correspond to the four
+characters of $T(\Q_3)=E^1$ that are trivial on $E^1\cap U^1$.
+
+\smallskip\noindent\emph{(b)} The homomorphism $f_1:W\to\SL_2(\C)$ with
+image $Q_8$ is a continuous, irreducible, tamely ramified parameter of
+$\PGL_2$ over $\Q_3$. It is the only class of homomorphisms
+$W\to\SL_2(\C)$ whose restriction to $E^\times$ is conjugate to
+$\diag(\chi_{2,-1},\chi_{2,-1}^{-1})$. Its restriction to
+$\Q_3^\times\subset E^\times$ is $\chi_{2,-1}|_{\Q_3^\times}$, which sends
+$3$ to $-1$ and is trivial on units: this is the unramified quadratic
+character $\omega_{E/F}$, as required by Example~\ref{ex:dihedral}.
+
+\smallskip\noindent\emph{(c)} For $\chi_{2,1}$, which is trivial on
+$\Q_3^\times$, the induced representation has values in $\GL_2(\C)$, image
+the dihedral group of order $8$, and determinant equal to the non-trivial
+character of $\Gamma$. It is a parameter of $\GL_2$ but not of $\PGL_2$.
+\end{example}
+
 \section{Questions}\label{sec:questions}
 
 \begin{question}\label{q:nonab}
-Theorem~\ref{thm:exact} holds for an arbitrary normal subgroup $N$
-\cite[Ch.~I, \S5]{Se2}. If $N$ is not abelian, $\phi(N)$ is no longer
-contained in $C_\phi$ and $\sigma$ is no longer a cocycle. Statement (e) of
-Theorem~\ref{thm:main} still makes sense. What is the right obstruction
-class?
+For non-abelian $N$, Theorem~\ref{thm:general} gives the obstruction as
+the class of the extension $\mathcal{O}_\phi$. For abelian $N$ this class
+is the class of $E_\phi$ divided by $\phi_*[\sigma]$
+(Definition~\ref{def:partial}). Is there a comparable formula for
+non-abelian $N$, in terms of the Eilenberg--Mac~Lane invariants of the
+extension $W$ of $\Gamma$ by $N$?
 \end{question}
 
 \begin{question}\label{q:roots}
@@ -1497,136 +2767,479 @@ The covering $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$ is a harmonic
 morphism (Remark~\ref{rem:harmonic}). Is there an analog of
 Theorem~\ref{thm:graph} for harmonic morphisms which are not coverings,
 for instance for quotients of a Cayley graph by a group action which is
-not free?
+not free? The difficulty is that walks no longer lift uniquely, so a
+closed walk in the base has no single monodromy element. Natural
+frameworks to try are graphs of groups in the sense of Bass and Serre
+\cite{Se3}, which record the vertex and edge stabilizers of a non-free
+action; voltage assignments with values in a groupoid; and gain functions
+whose holonomy is defined only up to a vertex stabilizer.
 \end{question}
 
 \section*{Acknowledgments}
 \addcontentsline{toc}{section}{Acknowledgments}
 
-I thank A.~DuPre for conversations on $H^2$ at the time of the original
-manuscript.
+The first author thanks A.~DuPre for conversations on $H^2$ at the time
+of the original manuscript.
 
 AI systems were used in preparing this revision, as follows.
 \begin{itemize}[itemsep=2pt]
-\item \emph{Gemini (Google)}, called ``Carbon'' in the author's notes,
+\item \emph{Gemini (Google)}, called ``Carbon'' in the first author's notes,
 acted as referee of the original manuscript. Its report identified the
 false identification of $\Gamma$-invariant classes with classes of
 $\Gamma$-equivariant homomorphisms, the over-constrained hypothesis on the
 section, inconsistent conjugation conventions, and a list of misprints,
 and it proposed formula~\eqref{eq:fc}.
-\item \emph{Claude (Anthropic)} prepared this revision under the author's
-direction: it checked the referee's report, rewrote the text, found that
+\item \emph{ChatGPT (OpenAI)} acted as referee of Draft~1. Its report
+confirmed the main results and identified an omitted hypothesis in
+Corollary~\ref{cor:central}(ii) and statements needing qualification in
+Section~\ref{sec:graph}, in Example~\ref{ex:torus1} and in the
+Introduction. It also proposed new mathematics, with proofs or proof
+sketches, which is incorporated in this draft: the choice-free obstruction
+extension $\mathcal{O}_\phi$ (Proposition~\ref{prop:canonical}); the
+generalization to non-abelian $N$ by means of $B_\phi/D_\phi$
+(Lemma~\ref{lem:BD} and Theorem~\ref{thm:general}, which answer a question
+posed in Draft~1); the reconstruction of $W$ from its monodromy
+(Proposition~\ref{prop:reconstruct}); the interpretation of the relation
+module as the homology of the Cayley graph (\S\ref{ss:relmod});
+Example~\ref{ex:klein}; and the count of the fiber in
+Example~\ref{ex:unramified}. It suggested the notation table, the
+diagram~\eqref{eq:diagram} and the explanation of the role of the
+centralizer in the Introduction.
+\item \emph{Claude (Anthropic)}, the second author, prepared this revision
+under the first author's direction: it checked the referees' reports, rewrote the text, found that
 the obstruction must be taken in the centralizer $C_\phi$ and not in $A$
 (Theorem~\ref{thm:main}, Example~\ref{ex:needed}), added
-Proposition~\ref{prop:fiber}, the examples, Section~\ref{sec:graph},
-Section~\ref{sec:langlands} and the glossary, and wrote the verification
-script.
+Proposition~\ref{prop:fiber}, the examples including the running example,
+Section~\ref{sec:graph}, Section~\ref{sec:langlands} and the glossary, and
+wrote the verification script. For Draft~2 it verified and wrote up the
+material proposed by ChatGPT, and added
+Propositions~\ref{prop:fiber-general} and~\ref{prop:lifts},
+Examples~\ref{ex:pauli}, \ref{ex:clifford}, \ref{ex:runH}
+and~\ref{ex:twocycle}, and Remark~\ref{rem:graph-nonab}.
 \end{itemize}
-The author is responsible for the content. Further details of the AI
-usage, the comparison with the original manuscript, the response to the
-referee, and the list of sources consulted and not consulted are in the
+The first author wrote the original manuscript, directed the revision,
+and is responsible for the content. Further details of the AI
+usage, the comparison with the original manuscript, the responses to the
+referees, and the list of sources consulted and not consulted are in the
 revision log, \texttt{revision-log.tex}, in the folder \texttt{infres} of
 the repository \url{https://github.com/wdjoyner/alg-graph-thry}.
 
 \section*{Glossary}
 \addcontentsline{toc}{section}{Glossary}
 
-\begin{description}[itemsep=2pt,leftmargin=1.5em,style=unboxed]
+Each entry is meant to be read on its own. Throughout, $\Gamma$ is a
+group, $A$ is a group on which $\Gamma$ acts, and $1\to N\to W\to\Gamma\to1$
+is an extension with $N$ abelian unless stated otherwise. The ``toy example'' is $N=\Z/4$ with
+generator $\rho$, $\Gamma=\{1,\tau\}$ acting on $N$ by inversion, and
+$A=Q_8=\{\pm1,\pm i,\pm j,\pm k\}$ with trivial action.
+
+\begin{description}[itemsep=3pt,leftmargin=1.5em,style=unboxed]
+\item[Abelianization.] The largest abelian quotient of a group, obtained
+by dividing by the subgroup generated by all commutators $xyx^{-1}y^{-1}$.
+For a topological group one divides by the closure of that subgroup. The
+abelianization of the Weil group $W_E$ is $E^\times$.
+
+\item[Augmentation ideal.] The kernel of the augmentation
+$\epsilon:\Z[\Gamma]\to\Z$, which sends every group element to $1$. It is
+spanned by the elements $g-1$, and it is the image of the boundary map
+from the $1$-chains to the $0$-chains of a Cayley graph of $\Gamma$. It is
+the first step in computing the cohomology of $\Gamma$ from a
+presentation.
+
 \item[Balanced gain function.] A gain function on a graph for which the
-product of the gains around every closed walk is the identity. Balanced
-gain functions are exactly those that come from a labeling of the vertices
-(a potential).
-\item[Bouquet.] A graph with a single vertex and a set of loops.
+net gain around every closed walk is the identity. Equivalently, the gains
+come from a labeling of the vertices (a potential): the gain of an edge is
+the ``ratio'' of the labels at its two ends. On a tree every gain function
+is balanced; on a cycle a gain function is balanced exactly when the
+product of the gains around the cycle is~$1$.
+
+\item[Bouquet.] A graph with a single vertex and a set of loops. Every
+Cayley digraph of a group with generating set $\overline{S}$ covers the
+bouquet with one loop for each element of $\overline{S}$.
+
 \item[Cayley digraph $\Cay(\Gamma,\overline{S})$.] The directed graph with
 one vertex for each element $g$ of the group $\Gamma$ and one edge from
-$g$ to $gt$ for each $t$ in the chosen subset $\overline{S}$.
+$g$ to $gt$ for each $t$ in a chosen subset $\overline{S}$. It is connected
+exactly when $\overline{S}$ generates $\Gamma$. For a cyclic group of
+order $n$ and one generator it is a directed $n$-cycle.
+
+\item[Central homomorphism.] A homomorphism $\phi:N\to A$ whose image lies
+in the center of $A$. Every homomorphism into an abelian group is central.
+For central homomorphisms, having a $\Gamma$-invariant conjugacy class is
+the same as being $\Gamma$-equivariant.
+
 \item[Centralizer $C_\phi$.] For a homomorphism $\phi:N\to A$, the
-subgroup of elements of $A$ commuting with every $\phi(x)$.
-\item[Cohomologous cocycles.] Two $1$-cocycles $f,f'$ of $G$ in $A$ are
-cohomologous if $f'(g)=a^{-1}f(g)\,\act{g}{a}$ for a fixed $a\in A$. When
-$G$ acts trivially this means that $f$ and $f'$ are conjugate
-homomorphisms.
+subgroup of all elements of $A$ that commute with every $\phi(x)$. In the
+toy example with $\phi(\rho)=i$ it is $\{\pm1,\pm i\}$. For
+$\phi=\diag(\chi,\chi^{-1})$ with values in $\SL_2(\C)$ and $\chi^2\neq1$
+it is the diagonal torus.
+
+\item[Closed walk.] A walk in a graph that ends at the vertex where it
+starts. In a Cayley digraph, the closed walks based at the identity are
+spelled by exactly those words in the generators that equal the identity
+in the group.
+
+\item[Coboundary.] A cocycle of the simplest kind, obtained from a
+cochain of one degree lower. A $1$-coboundary of $\Gamma$ in $A$ is a map
+$g\mapsto a^{-1}\,\act{g}{a}$ for a fixed $a\in A$. Two cocycles that
+differ by a coboundary (in the appropriate twisted sense, when $A$ is not
+abelian) are cohomologous.
+
+\item[Cohomologous cocycles.] Two $1$-cocycles $f,f'$ of a group $G$ in
+$A$ are cohomologous if $f'(g)=a^{-1}f(g)\,\act{g}{a}$ for a fixed
+$a\in A$. When $G$ acts trivially on $A$, this means that $f$ and $f'$ are
+homomorphisms conjugate under $A$.
+
+\item[Cohomology set $H^1(G,A)$.] The set of $1$-cocycles of $G$ in $A$
+modulo the relation of being cohomologous. It is a group when $A$ is
+abelian, and otherwise only a set with a distinguished point, the class of
+the constant cocycle~$1$. When $G$ acts trivially it is the set of
+conjugacy classes of homomorphisms $G\to A$.
+
+\item[Covering map of graphs.] A map of graphs which sends vertices to
+vertices and edges to edges, and which near each vertex is a bijection
+between the edges at that vertex and the edges at its image. The quotient
+of a graph by a group acting freely is a covering map. The $n$-cycle
+covers the loop, and a $2n$-cycle covers an $n$-cycle.
+
+\item[Defining relators.] For a group $\Gamma$ with generating set
+$\overline{S}$, a set of words in the generators which equal the identity
+in $\Gamma$ and from which every such word follows, by multiplying
+conjugates of them and their inverses. For the cyclic group of order $n$
+with generator $\tau$, the single relator $\tau^n$ suffices. For the Klein
+four-group with generators $a,b$ one may take $a^2$, $b^2$ and
+$aba^{-1}b^{-1}$.
+
+\item[Derivation.] A map $d$ from a group $G$ to a $G$-module $N$ with
+$d(vv')=d(v)\cdot\act{v}{d(v')}$; the same as a $1$-cocycle, also called
+a crossed homomorphism. A derivation of a free group can be prescribed
+arbitrarily on the free generators. In this note derivations of the free
+group $\fr$ describe the effect of changing the lifts of the generators
+of $\Gamma$ to $W$.
+
 \item[Derived graph.] The covering graph built from a voltage assignment
-$\nu$ with values in a group $K$: its vertices are pairs (vertex, element
-of $K$), and an edge with voltage $\nu(e)$ joins $(v,k)$ to
-$(v',k\,\nu(e))$.
+$\nu$ with values in a group $K$. Its vertices are pairs (vertex, element
+of $K$), and an edge from $v$ to $v'$ with voltage $\nu(e)$ gives edges
+from $(v,k)$ to $(v',k\,\nu(e))$ for all $k\in K$. A loop with voltage a
+generator of $\Z/n$ has the $n$-cycle as derived graph. The Cayley digraph
+of an extension $W$ is a derived graph of the Cayley digraph of the
+quotient $\Gamma$.
+
+\item[Dihedral parameter.] A two-dimensional representation of the Weil
+group of $F$ induced from a character $\chi$ of $E^\times$, where $E/F$ is
+a quadratic extension. On $E^\times$ it is $\diag(\chi,\chi\circ\tau)$,
+and an element over the non-trivial automorphism $\tau$ acts by an
+anti-diagonal matrix.
+
+\item[Digraph.] A directed graph: a set of vertices and a set of edges,
+each edge having a tail and a head. Loops and several edges between the
+same two vertices are allowed in this note.
+
+\item[Dual group $\Gh$.] The complex reductive group whose root datum is
+obtained from that of a reductive group $G$ by exchanging roots and
+coroots. The dual group of $\GL_n$ is $\GL_n(\C)$, that of $\PGL_2$ is
+$\SL_2(\C)$, that of $\SL_2$ is $\PGL_2(\C)$, and that of a torus is a
+complex torus. A Galois group acts on $\Gh$; the action is trivial when
+$G$ is split.
+
 \item[Equivariant homomorphism.] A homomorphism $\phi:N\to A$ between
-groups with $\Gamma$-action such that $\phi(\act{g}{x})=\act{g}{\phi(x)}$.
+groups with $\Gamma$-action such that
+$\phi(\act{g}{x})=\act{g}{\phi(x)}$ for all $g$ and $x$. This is stronger
+than having a $\Gamma$-invariant conjugacy class.
+
 \item[Exact sequence of pointed sets.] A sequence $X\to Y\to Z$ of sets
 with base points in which the image of $X$ is the set of elements of $Y$
-sent to the base point of $Z$.
+sent to the base point of $Z$. Unlike for groups, this gives no
+information about the other fibers of $Y\to Z$; those are obtained by
+twisting.
+
+\item[Extension of groups.] A group $W$ with a normal subgroup $N$ and an
+identification of $W/N$ with $\Gamma$, written $1\to N\to W\to\Gamma\to1$.
+One says that $W$ is an extension of $\Gamma$ by $N$. The cyclic group of
+order $8$, the dihedral group of order $8$ and the quaternion group are
+all extensions of $\Z/2$ by $\Z/4$.
+
 \item[Factor set.] For a section $s$ of an extension, the function
-$\sigma(g,h)=s(g)s(h)s(gh)^{-1}$, which measures the failure of $s$ to be
-a homomorphism. It is a $2$-cocycle with values in the kernel of the
-extension.
+$\sigma(g,h)=s(g)s(h)s(gh)^{-1}$ with values in $N$. It measures the
+failure of $s$ to be a homomorphism, and it is a $2$-cocycle. In the
+quaternion group, as an extension of $\{1,\tau\}$ by $\langle i\rangle$
+with $s(\tau)=j$, its only non-trivial value is
+$\sigma(\tau,\tau)=j^2=-1$.
+
+\item[Fiber.] The set of elements mapped to a given element by a map. For
+the covering $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$, the fiber over the
+vertex $1$ is the subgroup $N$. For the restriction map
+$H^1(W,A)\to H^1(N,A)$, the fiber over a class $[\phi]$ is the set of
+classes of cocycles of $W$ whose restriction to $N$ is conjugate to
+$\phi$.
+
+\item[Fiber product.] For two groups $W$ and $E$ with homomorphisms to
+the same group $\Gamma$, the group $W\times_\Gamma E$ of pairs $(w,e)$
+with the same image in $\Gamma$. The fiber product of two extensions of
+$\Gamma$ is an extension of $\Gamma$ by the product of the two kernels.
+The obstruction extension is a quotient of such a fiber product.
+
+\item[Free group.] The group of reduced words in a set of letters and
+their inverses, with no relations other than $tt^{-1}=1$. Every group
+generated by $\overline{S}$ is a quotient of the free group on
+$\overline{S}$. The free group on one letter is $\Z$.
+
 \item[Fundamental class.] The canonical generator $u_{E/F}$ of the cyclic
 group $H^2(\Gal(E/F),E^\times)$, of order $[E:F]$, given by local class
-field theory. It is the class of the relative Weil group as an extension.
+field theory. It is the class of the relative Weil group as an extension
+of $\Gal(E/F)$ by $E^\times$. For a quadratic extension it is the
+non-trivial element of $F^\times/\Nm E^\times$.
+
 \item[Gain function.] An assignment of a group element to each edge of a
-directed graph, the reversed edge receiving the inverse element. Also
-called a voltage assignment.
+directed graph, with the convention that traversing the edge backward
+contributes the inverse element. Also called a voltage assignment. In
+this note the gains $\theta_c(g,t)=\act{g}{c(t)}$ on the Cayley digraph of
+$\Gamma$ take values in $A$.
+
 \item[$\Gamma$-group.] A group $A$ together with an action of $\Gamma$ by
-group automorphisms, written $\act{g}{a}$.
+group automorphisms, written $\act{g}{a}$. A $\Gamma$-module is an abelian
+$\Gamma$-group. Any group is a $\Gamma$-group for the trivial action.
+
+\item[Graph homology.] For a graph $X$, the group $H_1(X,\Z)$ of integral
+combinations of oriented edges with zero boundary. It is the
+abelianization of the fundamental group of $X$, and it is free of rank
+(number of edges) $-$ (number of vertices) $+1$ when $X$ is finite and
+connected. Every closed walk defines a class in it. For the Cayley graph
+of $\Gamma$ on the generators $\overline{S}$ it is the relation module.
+
 \item[Harmonic morphism.] A map of graphs sending vertices to vertices and
 edges to edges or vertices, such that at each vertex the number of edges
 mapping onto a given edge at the image vertex does not depend on that
 edge. Covering maps are the harmonic morphisms for which this number is
-always~$1$ and no edge is collapsed.
+always~$1$ and no edge is collapsed to a vertex.
+
+\item[Holonomy.] The net gain of a gain function around a closed walk. It
+measures what is picked up on returning to the starting vertex: it is
+trivial for every closed walk exactly when the gain function is balanced.
+In this note the holonomy of the gain function $\theta_c$ around a relator
+$r$ of $\Gamma$ is required to equal $\phi(\nu(r))$, where $\nu(r)$ is the
+net $N$-voltage of the same closed walk. In the toy example the only
+relator is $\tau^2$, the holonomy is $c^2=-1$ for $c\in\{\pm j,\pm k\}$,
+and the net voltage is $s^2$.
+
 \item[Inflation.] The map $H^1(\Gamma,A)\to H^1(W,A)$ which composes a
-cocycle of the quotient $\Gamma$ with the projection $W\to\Gamma$.
+cocycle of the quotient $\Gamma$ with the projection $W\to\Gamma$. For
+trivial actions it sends a homomorphism $\Gamma\to A$ to the homomorphism
+$W\to\Gamma\to A$. It is always injective.
+
+\item[Inner automorphism; outer automorphism group.] The inner
+automorphism $\Int(c)$ of a group $C$ is conjugation $z\mapsto czc^{-1}$.
+The inner automorphisms form a normal subgroup $\Int(C)$ of $\Aut(C)$,
+isomorphic to $C$ modulo its center, and $\Out(C)=\Aut(C)/\Int(C)$. For an
+abelian group $\Out(C)=\Aut(C)$.
+
+\item[Inner form.] A reductive group over $F$ which becomes isomorphic to
+a given one over the algebraic closure by an isomorphism that differs from
+its Galois conjugates by inner automorphisms. The multiplicative group of
+a quaternion division algebra is an inner form of $\GL_2$. Inner forms
+have the same dual group with the same Galois action.
+
 \item[Invariant class.] A conjugacy class of homomorphisms $N\to A$ which
 is mapped to itself by every element of $\Gamma$. The homomorphisms in it
-need not be equivariant.
-\item[Kernel (band).] A homomorphism $\kappa:\Gamma\to\Out(C)$. It is the
-datum of an ``action up to inner automorphisms'' of $\Gamma$ on a
-non-abelian group $C$, and is needed to define $H^2$ with coefficients in
-$C$.
+need not be equivariant: in the toy example the class of $\phi$ with
+$\phi(\rho)=i$ is invariant, since $\tau$ sends $\phi$ to its conjugate by
+$j$, but it contains no equivariant homomorphism.
+
+\item[Kernel (band).] A homomorphism $\kappa:\Gamma\to\Out(C)$. It is an
+``action up to inner automorphisms'' of $\Gamma$ on a group $C$, and it is
+the datum needed to define $H^2$ with coefficients in a non-abelian
+group. Every extension of $\Gamma$ by $C$ has a kernel, given by
+conjugation by lifts of elements of $\Gamma$. The word ``kernel'' here has
+nothing to do with the kernel of a homomorphism.
+
+\item[Klein four-group.] The group $\Z/2\times\Z/2$. It is the smallest
+non-cyclic group, and the quotient of the quaternion group $Q_8$ by its
+center. On two generators $u,v$ it is presented by the relators $u^2$,
+$v^2$ and $uvu^{-1}v^{-1}$.
+
 \item[$L$-group.] The semidirect product $\LG=\Gh\rtimes\Gamma$ of the
 complex dual group of a reductive group $G$ with a Galois group acting on
-it.
+it. For a split group it is the direct product $\Gh\times\Gamma$.
+
 \item[Langlands parameter.] A continuous homomorphism from the Weil group
 (or Weil--Deligne group) of $F$ to the $L$-group which is compatible with
 the projections to the Galois group and satisfies additional conditions,
-taken up to conjugation by $\Gh$.
+taken up to conjugation by $\Gh$. For $\GL_n$ these are the
+$n$-dimensional Frobenius-semisimple representations of the Weil--Deligne
+group.
+
+\item[Monodromy.] For a covering of graphs, the rule which assigns to
+each closed walk in the base the way its lifts permute a fiber. For the
+covering $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$ it is the homomorphism
+$\nu$ from the group of relations of $\Gamma$ to $N$: the lift of the
+closed walk spelled by $r$, starting at the vertex $x$, ends at
+$x\,\nu(r)$.
+
 \item[Net voltage, net gain.] The ordered product of the voltages (gains)
 of the edges of a walk, with inverses for edges traversed backward.
+
 \item[Neutral class.] A class in $H^2(\Gamma,C,\kappa)$ containing a
-cocycle $(1,\beta)$. In terms of extensions of $\Gamma$ by $C$, the
-neutral classes are the classes of split extensions.
+cocycle of the form $(1,\beta)$. In terms of extensions of $\Gamma$ by
+$C$, the neutral classes are the classes of split extensions. For abelian
+$C$ only the trivial class is neutral. For non-abelian $C$ there may be
+several neutral classes, or none.
+
+\item[Norm-one torus.] For a quadratic extension $E/F$, the algebraic
+torus over $F$ whose group of $F$-points is $E^1$, the elements of
+$E^\times$ of norm $1$. Its dual group is $\C^\times$, on which the
+non-trivial element of $\Gal(E/F)$ acts by inversion.
+
 \item[Obstruction class $\partial\phi$.] The class in
 $H^2(\Gamma,C_\phi,\kappa_\phi)$ attached to a homomorphism $\phi:N\to A$
-with invariant class. It is neutral exactly when $\phi$ is the restriction
-of a $1$-cocycle of $W$.
-\item[$1$-cocycle.] A map $f:G\to A$ with $f(gh)=f(g)\,\act{g}{f(h)}$.
-When $G$ acts trivially on $A$ it is a homomorphism. In general it is the
-first component of a homomorphism $G\to A\rtimes G$ over $G$.
-\item[Relative Weil group $W_{E/F}$.] The quotient of the Weil group $W_F$
-by the closure of the commutator subgroup of $W_E$. It is an extension of
-$\Gal(E/F)$ by $E^\times$.
+with invariant class. It is the class of the stabilizer extension $E_\phi$
+divided by the image under $\phi$ of the class of $W$. It is neutral
+exactly when $\phi$ is the restriction of a $1$-cocycle of $W$. In the toy
+example it is $-\phi(a)^{-1}\in\{\pm1\}$, where $a=s^2$.
+
+\item[Obstruction extension $\mathcal{O}_\phi$.] An extension of $\Gamma$
+by the centralizer $C_\phi$ attached to a homomorphism $\phi:N\to A$ with
+invariant class, without any choices: the stabilizer of $\phi$ in
+$A\rtimes W$, divided by the graph $\{(\phi(x),x)\}$ of $\phi$. It splits
+exactly when $\phi$ is the restriction of a $1$-cocycle of $W$, and its
+class is the obstruction class. It is defined also when $N$ is not
+abelian. In the toy example, as an extension of $\Z/2$ by
+$\langle i\rangle$, it is the quaternion group for $W=D_4$, which does not
+split, and the dihedral group of order $8$ for $W=Q_8$, which splits.
+
+\item[$1$-cocycle.] A map $f:G\to A$ with
+$f(gh)=f(g)\,\act{g}{f(h)}$. When $G$ acts trivially on $A$ it is a
+homomorphism. In general it is the first component of a homomorphism
+$G\to A\rtimes G$ whose second component is the identity. For
+$G=\{1,\tau\}$ a cocycle is an element $c=f(\tau)$ with
+$c\,\act{\tau}{c}=1$.
+
+\item[Pinned action.] The action of a Galois group on the dual group
+$\Gh$ used to form the $L$-group. A pinning is a choice of maximal torus,
+Borel subgroup and root vectors for the simple roots. The Galois group
+acts on the based root datum of $G$, and each element acts on $\Gh$ by the
+unique automorphism preserving the pinning that induces the dual action
+on the root datum. It is trivial exactly when $G$ is an inner form of a
+split group.
+
+\item[Pointed set.] A set with a chosen element, the base point. Maps of
+pointed sets preserve base points.
+
+\item[Potential.] A labeling of the vertices of a graph by elements of a
+group which produces a given gain function: the label at the head of each
+edge is the label at its tail times the gain of the edge. A gain function
+has a potential exactly when it is balanced. A cocycle of $W$ is a
+potential for a gain function on the Cayley digraph of $W$.
+
+\item[Quadratic character $\omega_{E/F}$.] For a quadratic extension
+$E/F$ of local fields, the character of $F^\times$ of order $2$ whose
+kernel is the group of norms from $E^\times$.
+
+\item[Reciprocity map.] The isomorphism of local class field theory
+between $E^\times$ and the abelianization of the Weil group $W_E$.
+
+\item[Relation module.] For a presentation of $\Gamma$ with generators
+$\overline{S}$ and group of relations $\rel$, the abelianization
+$\rel_{\mathrm{ab}}$ with the action of $\Gamma$ induced by conjugation in
+the free group. It is the first homology of the Cayley graph of $\Gamma$.
+Extensions of $\Gamma$ by a module $N$ correspond to $\Gamma$-equivariant
+homomorphisms from the relation module to $N$, modulo those coming from
+derivations.
+
+\item[Relations, group of.] For a group $\Gamma$ with generating set
+$\overline{S}$, the kernel $\rel$ of the natural map from the free group
+on $\overline{S}$ onto $\Gamma$: the words which equal the identity in
+$\Gamma$. It is the same as the set of closed walks at the identity in the
+Cayley digraph, up to backtracking.
+
+\item[Relative Weil group $W_{E/F}$.] The quotient of the Weil group
+$W_F$ by the closure of the commutator subgroup of $W_E$. It is an
+extension of $\Gal(E/F)$ by $E^\times$. For $\C/\R$ it is the group
+$\C^\times\sqcup\C^\times j$ inside the quaternions, with $j^2=-1$ and
+$jzj^{-1}=\overline{z}$.
+
 \item[Restriction.] The map $H^1(W,A)\to H^1(N,A)$ which restricts a
-cocycle of $W$ to the subgroup $N$.
+cocycle of $W$ to the subgroup $N$. Its image consists of
+$\Gamma$-invariant classes.
+
 \item[Section.] A map $s:\Gamma\to W$ with $p\circ s$ the identity and
-$s(1)=1$. It is a choice of coset representatives and need not be a
-homomorphism.
+$s(1)=1$, where $p:W\to\Gamma$ is the projection. It is a choice of coset
+representatives for $N$ in $W$ and need not be a homomorphism.
+
 \item[Semidirect product $A\rtimes\Gamma$.] The set $A\times\Gamma$ with
-multiplication $(a,g)(b,h)=(a\,\act{g}{b},gh)$.
-\item[Springer $2$-cocycle.] A pair $(u,\beta)$, where $\beta(g)$ are
+multiplication $(a,g)(b,h)=(a\,\act{g}{b},gh)$. The dihedral group of
+order $8$ is $\Z/4\rtimes\Z/2$ for the action by inversion.
+
+\item[Split extension.] An extension $1\to N\to W\to\Gamma\to1$ for which
+some section is a homomorphism; then $W\cong N\rtimes\Gamma$. The dihedral
+group of order $8$ is a split extension of $\Z/2$ by $\Z/4$, and the
+quaternion group is a non-split one. The relative Weil group $W_{E/F}$ is
+not split when $E\neq F$.
+
+\item[Springer $2$-cocycle.] A pair $(u,\beta)$, where the $\beta(g)$ are
 automorphisms of $C$ and $u(g,h)\in C$, such that
-$\beta(g)\beta(h)=\Int(u(g,h))\beta(gh)$ and $u$ satisfies a twisted
-cocycle identity. It is the data produced by a set-theoretic section of an
-extension of $\Gamma$ by $C$.
-\item[Stabilizer extension $E_\phi$.] The stabilizer of $\phi$ in
-$A\rtimes\Gamma$. When the class of $\phi$ is invariant it is an extension
-of $\Gamma$ by the centralizer $C_\phi$.
-\item[Transgression.] In the abelian five-term exact sequence, the map
-$H^1(N,A)^\Gamma\to H^2(\Gamma,A^N)$. With the conventions of this note it
-is $\phi\mapsto-\phi_*[\sigma]$.
+$\beta(g)\beta(h)=\Int(u(g,h))\beta(gh)$ and
+$u(g,h)u(gh,k)=\beta(g)(u(h,k))u(g,hk)$. It is the data produced by a
+set-theoretic section $e$ of an extension of $\Gamma$ by $C$: $\beta(g)$
+is conjugation by $e(g)$ and $u(g,h)=e(g)e(h)e(gh)^{-1}$. For abelian $C$
+it is an ordinary $2$-cocycle together with the action of $\Gamma$.
+
+\item[Stabilizer extension $E_\phi$.] The subgroup of $A\rtimes\Gamma$
+fixing a homomorphism $\phi:N\to A$. When the class of $\phi$ is
+invariant, it is an extension of $\Gamma$ by the centralizer $C_\phi$. In
+the toy example with $\phi(\rho)=i$ it consists of the pairs $(z,1)$ and
+$(zj,\tau)$ with $z\in\{\pm1,\pm i\}$.
+
+\item[Switching.] The change of a voltage assignment $\nu$ produced by a
+function $\eta$ on the vertices: the voltage of an edge from $v$ to $v'$
+becomes $\eta(v)\,\nu(e)\,\eta(v')^{-1}$. Switching does not change net
+voltages of closed walks up to conjugation, and it does not change the
+derived graph up to isomorphism. Changing the section of an extension
+switches the associated voltages.
+
+\item[Transgression.] In the five-term exact sequence for abelian
+coefficients, the map $H^1(N,A)^\Gamma\to H^2(\Gamma,A^N)$. With the
+conventions of this note, and $N$ acting trivially on $A$, it is
+$\phi\mapsto-\phi_*[\sigma]$: apply $\phi$ to a factor set of the
+extension and invert.
+
 \item[Transporter $T_\phi(g)$.] The set of $b\in A$ with
 $b\,\act{g}{\phi(x)}\,b^{-1}=\phi(\act{g}{x})$ for all $x\in N$. It is
 non-empty for all $g$ exactly when the class of $\phi$ is invariant, and
-it is then a coset of $C_\phi$.
-\item[Voltage assignment.] See \emph{Gain function}; the term is used when
-the purpose is to construct a covering graph.
+it is then a coset of the centralizer $C_\phi$. In the toy example with
+$\phi(\rho)=i$, $T_\phi(\tau)=\{\pm j,\pm k\}$.
+
+\item[Twisted norm.] For a cyclic group generated by $\tau$ of order $n$
+acting on $A$, the product
+$c\cdot\act{\tau}{c}\cdots\act{\tau^{n-1}}{c}$. For abelian $A$ it is the
+usual norm. For a trivial action it is $c^n$.
+
+\item[Twisting.] The passage from a $\Gamma$-group to the same group with
+the action modified by a cocycle $f$: the new action of $g$ is
+$z\mapsto f(g)\,\act{g}{z}\,f(g)^{-1}$. It is used to describe the fibers
+of maps between non-abelian cohomology sets other than the fiber of the
+base point.
+
+\item[Unramified.] An extension $E/F$ of $p$-adic fields is unramified if
+a uniformizer of $F$ remains a uniformizer of $E$. Such an extension is
+cyclic, generated by the Frobenius automorphism. A character or parameter
+is unramified if it is trivial on the units, respectively on the inertia
+subgroup.
+
+\item[Voltage assignment.] A gain function; the term is used when the
+purpose is to construct a covering graph (the derived graph). In this
+note the voltages $\nu_s(g,t)=s(g)s_ts(gt)^{-1}$ on the Cayley digraph of
+$\Gamma$ take values in $N$.
+
+\item[Walk.] A sequence of edges of a graph, each traversed forward or
+backward, in which each edge starts where the previous one ends. In a
+Cayley digraph a walk from the identity is the same as a word in the
+generators and their inverses.
+
+\item[Weil group $W_F$.] For a $p$-adic field $F$, the subgroup of the
+absolute Galois group consisting of the elements that act on the residue
+field of the algebraic closure by an integral power of Frobenius, with the
+topology in which the inertia subgroup is open. Its abelianization is
+$F^\times$.
 \end{description}
 
 \begin{thebibliography}{99}
@@ -1644,6 +3257,9 @@ Pure Math.\ 33, Part~2, Amer.\ Math.\ Soc., 1979, 27--61.
 
 \bibitem[Bor]{Bor} M.~Borovoi, Abelianization of the second nonabelian
 Galois cohomology, \emph{Duke Math.\ J.} 72 (1993), 217--239.
+
+\bibitem[Br]{Br} K.~S.~Brown, \emph{Cohomology of groups}, Graduate Texts
+in Math.\ 87, Springer-Verlag, 1982.
 
 \bibitem[Gi]{Gi} J.~Giraud, \emph{Cohomologie non ab\'elienne},
 Grundlehren der math.\ Wissenschaften 179, Springer-Verlag, 1971.
@@ -1665,6 +3281,8 @@ Math.\ 67, Springer-Verlag, 1979.
 
 \bibitem[Se2]{Se2} J.-P.~Serre, \emph{Galois cohomology}, Springer-Verlag,
 1997.
+
+\bibitem[Se3]{Se3} J.-P.~Serre, \emph{Trees}, Springer-Verlag, 1980.
 
 \bibitem[Spr]{Spr} T.~A.~Springer, Nonabelian $H^2$ in Galois cohomology,
 in \emph{Algebraic groups and discontinuous subgroups} (Boulder, 1965),

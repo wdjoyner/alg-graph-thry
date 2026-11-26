@@ -18,6 +18,13 @@ checked: A4 (N=V4) / V4 by Z3
 checked: S4 (N=V4) / S3 inner
 checked: S4 (N=V4) / V4 by S3
 checked: S4 (N=V4) / A4 by S3
+checked: S3 (N=C3) / C3 trivial
+checked: Q8 (N=center) / Z4 trivial
+checked: Q8xZ2 (N=Q8) / Q8 trivial
+checked: Q8oZ4 (N=Q8) / Q8 trivial
+checked: Q8oZ4 (N=Q8) / Q8oZ4 trivial
+checked: S4 (N=A4) / S4 trivial
+checked: S4 (N=A4) / A4 by Z2
 
 case                          |W|  |N|  |G|  |A|  H1(G,A)  H1(W,A)  H1(N,A) invariant  im(res)  phi ext. phi not ext.
 D4 / Q8 trivial                 8    4    2    8        2        4        5         5        2         2            6
@@ -40,6 +47,13 @@ A4 (N=V4) / V4 by Z3           12    4    3    4        1        4       16     
 S4 (N=V4) / S3 inner           24    4    6    6        3        3        4         1        1         1            0
 S4 (N=V4) / V4 by S3           24    4    6    4        1        2       16         2        2         2            0
 S4 (N=V4) / A4 by S3           24    4    6   12        3        5        6         3        3         7            0
+S3 (N=C3) / C3 trivial          6    3    2    3        1        1        3         1        1         1            0
+Q8 (N=center) / Z4 trivial      8    2    4    4        4        4        2         2        1         1            1
+Q8xZ2 (N=Q8) / Q8 trivial      16    8    2    8        2       20       10        10       10        28            0
+Q8oZ4 (N=Q8) / Q8 trivial      16    8    2    8        2        8       10        10        4         4           24
+Q8oZ4 (N=Q8) / Q8oZ4 trivial   16    8    2   16        5      104       28        28       28        64            0
+S4 (N=A4) / S4 trivial         24   12    2   24        3        5        3         3        3        33            0
+S4 (N=A4) / A4 by Z2           24   12    2   12        1        5        5         5        5        33            0
 
 Columns 'phi ext.' / 'phi not ext.' count homomorphisms phi: N -> A with
 Gamma-invariant class that are / are not restrictions of cocycles of W.

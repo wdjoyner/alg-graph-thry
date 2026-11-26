@@ -23,18 +23,21 @@
 \DeclareMathOperator{\Cay}{Cay}
 
 \title{Revision log\\[4pt]\large ``Notes on the inflation-restriction
-sequence in non-abelian cohomology'', Draft 1\\(corrected and expanded
+sequence in non-abelian cohomology'', Draft 2\\(corrected and expanded
 version)}
-\author{David Joyner\\\texttt{wdjoyner@gmail.com}}
+\author{David Joyner\\\texttt{wdjoyner@gmail.com} \and Claude}
 \date{November 26, 2026}
 
 \begin{document}
 \maketitle
 
 \noindent This log records every change from the original manuscript to
-Draft~1, the response to the referee report, the AI usage, and the sources
-consulted and not consulted. Theorem numbers of Draft~1 are generated from
-the note's \texttt{.aux} file, so compile the note first.
+Draft~1 and from Draft~1 to Draft~2, the responses to the two referee
+reports, the AI usage, and the sources consulted and not consulted.
+Numbers of statements are those of the current draft (Draft~2) unless a
+draft is named; they are generated from the note's \texttt{.aux} file, so
+compile the note first. Section~\ref{sec:d1d2} has a concordance with the
+numbering of Draft~1.
 
 \section{Files and drafts}\label{sec:files}
 
@@ -45,13 +48,25 @@ the note's \texttt{.aux} file, so compile the note first.
   \AmS-\TeX\ manuscript of about four pages, written while the author was
   at the U.S.\ Naval Academy. It is kept unchanged. It needs plain \TeX\
   with \texttt{amstex} and \texttt{amsppt} to compile.
-\item Draft 1 (November 26, 2026): \texttt{infres.tex} and its PDF.
+\item Draft 1 (November 26, 2026). It exists in two states. The state
+  first pushed (commit \texttt{204c988}) was merged into the main branch
+  as pull request~\#14; it lists D.~Joyner as sole author and has a short
+  glossary and no running example. The amended state
+  (Section~\ref{sec:amend}; commits \texttt{2336a5f} and \texttt{d57e53e})
+  was pushed to the same branch after the merge and so did not reach the
+  main branch until Draft~2.
+\item Draft 2 (November 26, 2026): \texttt{infres.tex} and its PDF. It
+  starts from the amended Draft~1.
 \item Referee report on the original, by Gemini (``Carbon''), as
   received: the file \nolinkurl{carbon_referee_report.md} in the folder
   \texttt{referee/2026-11-26/}.
+\item Referee report on Draft~1, by ChatGPT, as received: the file
+  \nolinkurl{chatgpt_referee_report.md} in the folder
+  \texttt{referee/2026-11-26-chatgpt/}. It was written from the state of
+  Draft~1 on the main branch, that is, the state first pushed.
 \item Script: \texttt{verification/infres\_checks.py} (Python~3, standard
   library only), with its output in
-  \texttt{verification/checks\_output.txt}. A full run takes about four
+  \texttt{verification/checks\_output.txt}. A full run takes about six
   minutes.
 \end{itemize}
 
@@ -79,9 +94,22 @@ AI review is not an independent certification of the results.
   in recent papers (Section~\ref{sec:sources}).
 \end{enumerate}
 
-\noindent The author of the note is listed as D.~Joyner alone. Whether
-Claude should be listed as a co-author, as in some of the author's other
-2026 revisions, is left to the author (Section~\ref{sec:open}).
+\paragraph{Draft 2 (November 26, 2026).}
+\begin{enumerate}[itemsep=1pt]
+\item \emph{Referee.} ChatGPT (OpenAI) refereed Draft~1 and recommended
+  minor to moderate revision. Besides corrections it proposed new
+  mathematics with proofs or proof sketches
+  (Section~\ref{sec:chatgpt}).
+\item \emph{Reviser and second author.} Claude (Anthropic, model Claude
+  Fable~5.2) checked every item of the report, wrote out and verified the
+  proposed results, added further results and examples, and extended the
+  verification script (Section~\ref{sec:d1d2}).
+\item No web search was made for Draft~2.
+\end{enumerate}
+
+\noindent As first pushed, Draft~1 listed D.~Joyner as sole author. At
+his request (November 26, 2026) Claude was added as second author; see
+Section~\ref{sec:amend}.
 
 \section{Response to the referee report}\label{sec:referee}
 
@@ -265,8 +293,17 @@ literature'' of the note.
 
 \section{Verification}\label{sec:verification}
 
-The script \texttt{verification/infres\_checks.py} treats twenty triples
-(extension $W$, normal abelian subgroup $N$, $\Gamma$-group $A$) with
+The script \texttt{verification/infres\_checks.py} treats twenty-seven
+triples (extension $W$, normal subgroup $N$, $\Gamma$-group $A$), of which
+twenty-two have $N$ abelian (twenty from Draft~1 and two added for
+Draft~2: the counterexample $S_3$ of Corollary~\ref{N-cor:central} and the
+Klein four-group example with $A=\mathbb{Z}/4$) and five have $N$
+non-abelian ($N=Q_8$ in $Q_8\times\mathbb{Z}/2$ and in the central product
+of $Q_8$ and $\mathbb{Z}/4$; $N=A_4$ in $S_4$). For non-abelian $N$ it
+checks Lemma~\ref{N-lem:BD}, Theorem~\ref{N-thm:general}(a)--(c) and
+Proposition~\ref{N-prop:fiber-general}. For abelian $N$ it also checks
+that $B_\phi$ is a group of order $|C_\phi|\,|W|$ with $D_\phi$ normal.
+The triples have
 $|W|\le24$ and $|A|\le24$, with $\Gamma$ of order $2$, $3$, $4$ (Klein) and
 $6$ (non-abelian), split and non-split, with trivial and non-trivial
 actions. For each it enumerates all $1$-cocycles of $W$, $\Gamma$ and $N$
@@ -279,8 +316,11 @@ standard presentation of $\Gamma$. All checks pass. The output table also
 confirms the counts in Examples~\ref{N-ex:toy-noeq}
 and~\ref{N-ex:toy-obstruction}.
 
-The examples over $p$-adic fields (Examples~\ref{N-ex:torus2},
-\ref{N-ex:dihedral}, \ref{N-ex:unramified}) are not machine-checked. They
+Not machine-checked: Proposition~\ref{N-prop:canonical} (the equation it
+reduces to is checked), Propositions~\ref{N-prop:reconstruct}
+and~\ref{N-prop:lifts}, Remark~\ref{N-rem:graph-nonab}, and the examples
+over $p$-adic fields (Examples~\ref{N-ex:torus2},
+\ref{N-ex:dihedral}, \ref{N-ex:unramified} and the running example). They
 rest on facts (W1)--(W3) and on hand computation with $2\times2$ matrices.
 
 \section{Sources consulted and not consulted}\label{sec:sources}
@@ -313,14 +353,209 @@ rest on facts (W1)--(W3) and on hand computation with $2\times2$ matrices.
 
 
 
-\section{Open items for the author}\label{sec:open}
+\section{Amendments to Draft 1}\label{sec:amend}
+
+Draft~1 was amended on November 26, 2026, before it was merged into the
+main branch, at the first author's request. The draft number was kept.
+\begin{itemize}[itemsep=1pt]
+\item \emph{Authorship.} Claude was added as second author. The first
+  sentence of the abstract, the Acknowledgments and the sentence on
+  related literature were reworded accordingly.
+\item \emph{Glossary.} Rewritten and enlarged from 31 to 61 entries. Each
+  entry is self-contained, and most now include an example, usually from
+  the toy example $N=\Z/4$, $\Gamma=\Z/2$, $A=Q_8$. New entries:
+  abelianization, central homomorphism, closed walk, coboundary,
+  cohomology set $H^1$, covering map, defining relators, dihedral
+  parameter, digraph, dual group, extension of groups, fiber, free group,
+  holonomy, inner and outer automorphisms, inner form, monodromy, norm-one
+  torus, pointed set, potential, quadratic character, reciprocity map,
+  group of relations, split extension, switching, twisted norm, twisting,
+  unramified, walk, Weil group.
+\item No statement, proof or numbering in Sections~1--7 was changed by
+  these two amendments.
+\item \emph{Running example.} At the first author's request a detailed
+  running example was added: the Weil group of the unramified quadratic
+  extension $\mathbb{Q}_3(i)/\mathbb{Q}_3$, realized as
+  $E^\times\sqcup E^\times s$ with $sxs^{-1}=\overline{x}$ and $s^2=3$,
+  with coefficients $\C^\times$ (inversion action) and $\SL_2(\C)$
+  (trivial action), and the tamely ramified characters $\chi_{k,z}$. It is
+  in five parts, each placed at the end of a section so that no existing
+  number changes: Examples~\ref{N-ex:run1}, \ref{N-ex:run2},
+  \ref{N-ex:run3}, \ref{N-ex:run4} and~\ref{N-ex:run5}, with a new
+  Figure~\ref{N-fig:run}. It computes the factor set, the effect of
+  changing the section, the invariant classes, $C_\phi$, $T_\phi(\tau)$,
+  $E_\phi$, $\partial\phi$, all cocycles in each fiber, the voltages, the
+  derived graph, the holonomy and the potential. It also shows that the
+  two toy extensions $D_4$ and $Q_8$ are quotients of this Weil group, and
+  that the cocycle extending $\phi_{2,-1}$ is a parameter with image
+  $Q_8$. The Introduction and its table were updated to mention it.
+  All computations in the running example are by hand. The cases
+  $k\in\{2,6\}$, $z=\pm1$ factor through the toy extensions, which are
+  covered by the first two cases of the verification script; the rest is
+  not machine-checked. The facts used about $\mathbb{Q}_3(i)^\times$ (its
+  decomposition, the action of Frobenius on roots of unity, and
+  $\mathrm{N}(1+3\mathcal{O})=1+3\mathbb{Z}_3$) are standard and were
+  written from memory.
+\end{itemize}
+
+\section{Response to the second referee report (ChatGPT)}\label{sec:chatgpt}
+
+The report was written from the first-pushed state of Draft~1, so its
+remarks on the glossary and on the lack of non-cyclic and detailed
+examples were partly answered already by the amendments of
+Section~\ref{sec:amend}. Every mathematical claim of the report was
+checked before use. All of them were found correct.
+
+\begin{longtable}{@{}p{0.06\textwidth}p{0.36\textwidth}p{0.52\textwidth}@{}}
+\toprule
+Item & Referee's point & Response \\
+\midrule
+\endhead
+M1 & ``The extension $W$ is encoded by the covering'' is too strong; give
+the explicit reconstruction $W\cong(N\rtimes\mathcal{F})/\{(\nu(r)^{-1},r)\}$.
+& Accepted. The sentence was replaced, with an example of two different
+groups having the same covering, and
+Proposition~\ref{N-prop:reconstruct} was added (with a converse, part
+(ii), not in the report). \\
+M2 & In Example~\ref{N-ex:torus1}, ``$\mathrm{res}$ is injective on the
+fiber of the base point'' is awkward; for abelian coefficients
+restriction is injective. & Accepted, reworded as proposed. \\
+M3 & Corollary~\ref{N-cor:central}(ii) needs the hypothesis that $\phi$
+is equivariant; counterexample $S_3$. & Accepted. This was an error of
+Draft~1. The hypothesis was added, the counterexample is quoted in the
+proof, and it was added to the verification script. \\
+M4 & The harmonic morphism remark should specify the category of graphs;
+Baker--Norine treat finite loopless multigraphs. & Accepted.
+Remark~\ref{N-rem:harmonic} now notes that the Cayley digraphs used have
+no loops (the generating set is assumed not to contain $1$) and states
+the local definition for locally finite loopless multigraphs. \\
+M5 & Distinguish the abstract-group $H^2$ from Springer's
+Galois-cohomological one. & Accepted. A paragraph was added to
+\S\ref{N-ss:scope}. \\
+M6 & The statement on the triviality of the dual-group action should
+refer to the pinned action. & Accepted, in \S1.1 and in a new glossary
+entry. \\
+\S5 & Choice-free obstruction extension
+$\mathcal{O}_\phi=(W\times_\Gamma E_\phi)/D_\phi$, with
+$[\mathcal{O}_\phi]=\partial\phi$. & Accepted and verified.
+Proposition~\ref{N-prop:canonical}. \\
+\S6 & The first open question of Draft~1 (non-abelian $N$) can be
+answered: $\phi$ extends if and only if $B_\phi/D_\phi$ splits. &
+Accepted and verified, including the report's argument with the inverse
+image $L$ of a splitting. New Section~\ref{N-sec:nonabelian}:
+Lemma~\ref{N-lem:BD}, Theorem~\ref{N-thm:general},
+Remark~\ref{N-rem:compare}. Added beyond the report: the cocycle
+equation~\eqref{N-eq:cgen} in this generality, the fibers
+(Proposition~\ref{N-prop:fiber-general}),
+Examples~\ref{N-ex:pauli}, \ref{N-ex:clifford}, \ref{N-ex:runH}, the
+graph criterion for non-abelian $N$ (Remark~\ref{N-rem:graph-nonab}), and
+machine checks. The question in Section~\ref{N-sec:questions} was
+replaced. \\
+7.1 & Emphasize that the split extension $D_4$ has a non-neutral
+obstruction and the non-split $Q_8$ a neutral one. & Accepted; paragraph
+added to Example~\ref{N-ex:toy-obstruction}. \\
+7.2 & Display $\partial$ for the norm-one torus as a homomorphism to
+$\{\pm1\}$. & Accepted, in Example~\ref{N-ex:torus2}. \\
+7.3 & Add the determinant formula for an induced representation. &
+Accepted, in Example~\ref{N-ex:dihedral}, with the direct check
+$\det c=-\chi(a)$. The formula is quoted as well known, without a
+reference. \\
+7.4 & Compute the fiber in the unramified example for regular $t$:
+$T[n]$, of order $n^r$. & Accepted, in Example~\ref{N-ex:unramified}. \\
+8.1, 8.2 & Relation module, homology of the Cayley graph, cellular chain
+sequence, presentation formula for $H^2$, dictionary table. & Accepted.
+New \S\ref{N-ss:relmod}, with Proposition~\ref{N-prop:lifts} (proved),
+the sequence~\eqref{N-eq:relseq} and formula~\eqref{N-eq:H2pres} (cited),
+the table, and Example~\ref{N-ex:twocycle}. It replaces the remark ``The
+universal voltage'' of Draft~1. The report states the chain sequence for
+finite $\Gamma$ and finite generating sets; this restriction is not
+needed and is not made. \\
+8.3 & Add a non-cyclic example: $Q_8$ over the Klein four-group. &
+Accepted. Example~\ref{N-ex:klein} and Figure~\ref{N-fig:klein}. \\
+8.4 & Develop the question on harmonic morphisms that are not coverings
+(graphs of groups, groupoid voltages). & Accepted as an expanded
+Question~\ref{N-q:harmonic}; not developed further, as the report itself
+suggests. \\
+9.1 & Motivate the centralizer in the Introduction. & Accepted, in
+\S1.1. \\
+9.2 & Notation subsection. & Accepted, \S\ref{N-ss:notation}. \\
+9.3 & Expand the glossary; proposed entries. & Mostly done already in the
+amended Draft~1. Added now: augmentation ideal, derivation, fiber
+product, graph homology, Klein four-group, obstruction extension, pinned
+action, relation module. Not added: Baer sum and class formation, which
+are not used in the note. \\
+9.4 & Divide the literature review thematically; consider Brown and
+Serre's \emph{Trees}. & Accepted. \\
+9 & Diagram of the two extensions before the definition of the
+obstruction class. & Accepted, \eqref{N-eq:diagram}. \\
+9 & Modernize the font package. & Not done. The house style prescribes
+Times through \texttt{mathptmx}. \\
+10 & Reorganization with a new section on non-abelian kernels; optional
+new title. & The organization was adopted. The title was kept; see
+Section~\ref{sec:open}. \\
+\bottomrule
+\end{longtable}
+
+\section{Changes from Draft 1 to Draft 2}\label{sec:d1d2}
+
+\begin{itemize}[itemsep=1pt]
+\item \emph{Error corrected.} Corollary~\ref{N-cor:central}(ii) lacked
+  the hypothesis that $\phi$ is equivariant (item M3).
+\item \emph{Statements qualified.} Items M1, M2, M4, M5, M6 above.
+\item \emph{New results.} Proposition~\ref{N-prop:canonical};
+  Section~\ref{N-sec:nonabelian} (Lemma~\ref{N-lem:BD},
+  Theorem~\ref{N-thm:general},
+  Proposition~\ref{N-prop:fiber-general});
+  Propositions~\ref{N-prop:reconstruct} and~\ref{N-prop:lifts};
+  Remark~\ref{N-rem:graph-nonab}. The first four were proposed by the
+  referee; see the Acknowledgments of the note for the attribution.
+\item \emph{New examples.} \ref{N-ex:pauli}, \ref{N-ex:clifford},
+  \ref{N-ex:runH} (a new part of the running example, for a non-abelian
+  normal subgroup of the Weil group of $\mathbb{Q}_3(i)/\mathbb{Q}_3$),
+  \ref{N-ex:twocycle}, \ref{N-ex:klein}; additions to
+  \ref{N-ex:torus2}, \ref{N-ex:toy-obstruction}, \ref{N-ex:dihedral},
+  \ref{N-ex:unramified} and~\ref{N-ex:run3}. New Figure~\ref{N-fig:klein}.
+\item \emph{Exposition.} Abstract and Introduction rewritten in part;
+  notation table; diagram~\eqref{N-eq:diagram}; thematic literature
+  paragraph; eight new glossary entries (69 in all); two new references
+  (Brown; Serre, \emph{Trees}).
+\item \emph{Authorship and acknowledgments.} ChatGPT is named in the
+  abstract and its contributions are listed in the Acknowledgments, at the
+  first author's request.
+\item \emph{Assumption added.} The generating set $\overline{S}$ is
+  assumed not to contain $1$.
+\end{itemize}
+
+\paragraph{Concordance of numbering.} Sections~1--3 keep their numbers,
+except that \S1.4 (Notation) is new and the later subsections of
+Section~1 shift by one. In Section~4, Proposition~\ref{N-prop:canonical}
+is new, and Draft~1 numbers 4.6--4.13 become 4.7--4.14. Section~5 is new.
+Draft~1 Sections 5, 6, 7 are now Sections 6, 7, 8. Within the graph
+section: Draft~1 5.1--5.3 are now 6.1--6.3; 5.4 (harmonic morphisms) is
+6.5; 5.5 (the universal voltage) was absorbed into \S\ref{N-ss:relmod};
+5.6--5.10 are now 6.8--6.12; 5.11 (balance) is 6.15; 5.12 (running
+example) is 6.16. Draft~1 6.1--6.4 are now 7.1--7.4, and Questions
+7.1--7.4 are now 8.1--8.4, with a new Question~8.1. The running example
+parts 4 and 5 of Draft~1 are now parts 5 and 6.
+
+\section{Open items for the first author}\label{sec:open}
 
 \begin{enumerate}[itemsep=1pt]
 \item The year of the original manuscript is not known to the reviser.
   The date line reads ``Original draft: undated (1990s)''.
-\item Authorship: decide whether Claude should be listed as a co-author.
 \item The bibliographic details listed in Section~\ref{sec:sources} should
-  be checked against the sources.
+  be checked against the sources. For Draft~2 this includes the
+  references to Brown's \emph{Cohomology of groups} (Ch.~II, \S5 for the
+  relation sequence; Ch.~IV for extensions) and to Serre's \emph{Trees},
+  both cited from memory. The determinant formula for an induced
+  representation in Example~\ref{N-ex:dihedral} has no reference.
+\item Title. The second referee suggested, as an option,
+  \emph{Inflation-restriction in non-abelian cohomology: centralizer
+  obstructions, Weil groups, and voltage graphs}. The original title was
+  kept.
+\item Novelty. Neither referee nor the reviser made an exhaustive
+  literature search. The note claims no novelty for
+  Theorems~\ref{N-thm:main} and~\ref{N-thm:general}.
 \item The house style sheet \texttt{joyner-math-paper-style-guide.md} is
   not in this repository. Draft~1 was written from the author's recorded
   style rulings: 12pt Times, letter paper, pdflatex, American spelling, AI

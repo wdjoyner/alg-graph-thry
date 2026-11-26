@@ -19,11 +19,15 @@ and N with values in A and checks, with no shortcuts:
        d(phi) = (u * (phi o sigma)^-1, beta) in H^2(Gamma, C_phi, kappa_phi),
        including that (u, beta) is a Springer 2-cocycle     (Prop. 4.3);
   [F]  the fiber of res through [f] has |H^1(Gamma, C_phi with the
-       f-twisted action)| elements                         (Prop. 4.7);
+       f-twisted action)| elements                         (Prop. 4.8);
+  [B]  B_phi (the stabilizer of phi in the semidirect product of A and W)
+       is a group of order |C_phi| |W| and D_phi is normal in it (Lemma 5.1);
+       for the cases with N non-abelian, [E], [T] and [F] are Theorems 5.2
+       and Proposition 5.4;
   [G]  the graph (holonomy) criterion on the Cayley graph of Gamma:
        cocycles restricting to phi correspond bijectively to gains
        c: S -> A, c(t) in T_phi(t), whose net gain around every defining
-       relator r equals phi(net N-voltage of r)            (Theorem 5.7).
+       relator r equals phi(net N-voltage of r)            (Theorem 6.9).
 
 It also prints the data of the worked examples (N = Z/4, Gamma = Z/2,
 W = D_4 or Q_8, A = Q_8).
@@ -61,13 +65,16 @@ class Case:
     """Extension 1->N->W->Gamma->1 with a Gamma-group A.
     The action of w in W on A is conjugation by q(w), q: W -> Sym(m) a
     homomorphism trivial on N whose image normalizes A."""
-    def __init__(self, name, nW, Wgens, Ngens, mA, Agens, qimgs, Sbar, relators):
-        self.name = name
+    def __init__(self, name, nW, Wgens, Ngens, mA, Agens, qimgs, Sbar, relators, abelian=True):
+        self.name = name; self.abelian = abelian; self.Ngens = Ngens
         self.W = closure(Wgens, nW); self.Wgens = Wgens; self.eW = ident(nW)
         self.N = closure(Ngens, nW)
         self.A = closure(Agens, mA); self.eA = ident(mA)
         Nset = set(self.N)
-        assert all(mul(x, y) == mul(y, x) for x in self.N for y in self.N), "N abelian"
+        if abelian:
+            assert all(mul(x, y) == mul(y, x) for x in self.N for y in self.N), "N abelian"
+        else:
+            assert any(mul(x, y) != mul(y, x) for x in self.N for y in self.N), "N non-abelian"
         assert all(conj(w, x) in Nset for w in self.W for x in self.N), "N normal"
         # q by BFS on words, then verify it is a homomorphism
         q = {self.eW: self.eA}; frontier = [self.eW]
@@ -139,7 +146,7 @@ def run(case, report):
     C = case; A = C.A; eA = C.eA; G = range(C.nG); nG = C.nG
     tag = C.name
     # [S] factor set identity (2.1):  g1.sigma(g2,g3) sigma(g1,g2g3) = sigma(g1,g2) sigma(g1g2,g3)
-    for g1 in G:
+    for g1 in (G if C.abelian else []):
         for g2 in G:
             for g3 in G:
                 lhs = mul(C.gN(g1, C.sigma[g2][g3]), C.sigma[g1][C.gmul[g2][g3]])
@@ -182,8 +189,7 @@ def run(case, report):
     assert all(len(v) == 1 for v in m.values()), "[E] inf injective"
     assert len(m) == nH1G
     # Hom(N,A) and its classes, Gamma-action
-    Ngens = [x for x in C.N if x != C.eW]
-    HomN = cocycles(C.N, Ngens, C.eW, A, lambda x, a: a) if Ngens else [{C.eW: eA}]
+    HomN = cocycles(C.N, C.Ngens, C.eW, A, lambda x, a: a)
     keyN = lambda f: tuple(f[x] for x in C.N)
     orbit = {}
     nH1N = 0
@@ -227,8 +233,26 @@ def run(case, report):
         in_image = orbit[keyN(phi)] in res_img
         assert bool(ext) == in_image, "[T] (a)<=>(b)"
         for f in ext:                       # f(w) in T_phi(p(w)), f(x s(g)) = phi(x) c(g)
-            assert all(f[w] in T[C.p[w]] for w in C.W)
+            assert all(mul(inv(phi[mul(w, inv(C.s[C.p[w]]))]), f[w]) in T[C.p[w]] for w in C.W)
             assert all(f[mul(x, C.s[g])] == mul(phi[x], f[C.s[g]]) for x in C.N for g in G)
+        # [B] the group B_phi = Stab_{A x| W}(phi), its normal subgroup D_phi, and
+        #     the extension 1 -> C_phi -> B_phi/D_phi -> Gamma -> 1 (Lemma 5.1)
+        B = [(mul(phi[x], b), mul(x, C.s[g])) for g in G for b in T[g] for x in C.N]
+        Bset = set(B)
+        assert len(Bset) == len(Cphi) * len(C.W)
+        for (a, w) in B:        # membership: a g(phi(y)) a^-1 = phi(w y w^-1)
+            assert all(conj(a, C.actW(w, phi[y])) == phi[conj(w, y)] for y in C.N)
+        sd = lambda P, Q: (mul(P[0], C.actW(P[1], Q[0])), mul(P[1], Q[1]))
+        sdinv = lambda P: (C.actW(inv(P[1]), inv(P[0])), inv(P[1]))
+        D = {(phi[x], x) for x in C.N}
+        assert D <= Bset
+        gensB = [(b, C.s[g]) for g in G for b in T[g][:2]] + [(z, C.eW) for z in Cphi] + list(D)
+        for P in gensB:
+            assert sdinv(P) in Bset
+            for Q in gensB:
+                assert sd(P, Q) in Bset
+            for Q in D:
+                assert sd(sd(P, Q), sdinv(P)) in D, "[B] D normal"
         if size <= 300000:
             # [T] brute force over c
             sols = []
@@ -239,31 +263,32 @@ def run(case, report):
                     sols.append(c)
             assert {tuple(f[C.s[g]] for g in G) for f in ext} == set(sols), "[T] f <-> c bijection"
             assert len(sols) == len(ext)
-            # [O] Springer cocycle (u, beta) in C_phi and neutrality of (u*(phi sigma)^-1, beta)
-            b = [eA] + [T[g][0] for g in range(1, nG)]
-            beta = lambda g, z: conj(b[g], C.act(g, z))
-            u = [[mul(mul(b[g], C.act(g, b[h])), inv(b[C.gmul[g][h]])) for h in G] for g in G]
-            Cset = set(Cphi)
-            assert all(u[g][h] in Cset for g in G for h in G)
-            assert all(beta(g, z) in Cset for g in G for z in Cphi)
-            for g in G:
-                for h in G:
-                    for z in Cphi:
-                        assert beta(g, beta(h, z)) == conj(u[g][h], beta(C.gmul[g][h], z))
-                    for k in G:
-                        assert mul(u[g][h], u[C.gmul[g][h]][k]) == \
-                               mul(beta(g, u[h][k]), u[g][C.gmul[h][k]])
-            # phi(N) central in C_phi and beta(g)phi(x) = phi(g x)
-            assert all(mul(z, phi[x]) == mul(phi[x], z) for z in Cphi for x in C.N)
-            assert all(beta(g, phi[x]) == phi[C.gN(g, x)] for g in G for x in C.N)
-            d = [[mul(u[g][h], inv(phi[C.sigma[g][h]])) for h in G] for g in G]
-            neutral = False
-            for vals in itertools.product(Cphi, repeat=nG - 1):
-                z = (eA,) + vals
-                if all(mul(mul(mul(z[g], beta(g, z[h])), d[g][h]), inv(z[C.gmul[g][h]])) == eA
-                       for g in G for h in G):
-                    neutral = True; break
-            assert neutral == in_image, "[O] neutral <=> in image of res"
+            if C.abelian:
+                # [O] Springer cocycle (u, beta) in C_phi and neutrality of (u*(phi sigma)^-1, beta)
+                b = [eA] + [T[g][0] for g in range(1, nG)]
+                beta = lambda g, z: conj(b[g], C.act(g, z))
+                u = [[mul(mul(b[g], C.act(g, b[h])), inv(b[C.gmul[g][h]])) for h in G] for g in G]
+                Cset = set(Cphi)
+                assert all(u[g][h] in Cset for g in G for h in G)
+                assert all(beta(g, z) in Cset for g in G for z in Cphi)
+                for g in G:
+                    for h in G:
+                        for z in Cphi:
+                            assert beta(g, beta(h, z)) == conj(u[g][h], beta(C.gmul[g][h], z))
+                        for k in G:
+                            assert mul(u[g][h], u[C.gmul[g][h]][k]) == \
+                                   mul(beta(g, u[h][k]), u[g][C.gmul[h][k]])
+                # phi(N) central in C_phi and beta(g)phi(x) = phi(g x)
+                assert all(mul(z, phi[x]) == mul(phi[x], z) for z in Cphi for x in C.N)
+                assert all(beta(g, phi[x]) == phi[C.gN(g, x)] for g in G for x in C.N)
+                d = [[mul(u[g][h], inv(phi[C.sigma[g][h]])) for h in G] for g in G]
+                neutral = False
+                for vals in itertools.product(Cphi, repeat=nG - 1):
+                    z = (eA,) + vals
+                    if all(mul(mul(mul(z[g], beta(g, z[h])), d[g][h]), inv(z[C.gmul[g][h]])) == eA
+                           for g in G for h in G):
+                        neutral = True; break
+                assert neutral == in_image, "[O] neutral <=> in image of res"
         if in_image: n_ext += 1
         else: n_non += 1
         # [F] fibers
@@ -288,7 +313,7 @@ def run(case, report):
                 hit = {cidW({w: mul(h[C.p[w]], f[w]) for w in C.W}) for h in Z1}
                 assert hit == fiber, "[F] fiber bijection"
         # [G] holonomy criterion on Cay(Gamma, Sbar)
-        if C.Sbar:
+        if C.Sbar and C.abelian:
             tg = [C.p[st] for st in C.Sbar]
             def lamW(word):
                 w = C.eW
@@ -342,6 +367,17 @@ def to_s3(p):
 def s3_in_s4(t):          # S_3 as the stabilizer of the point 3 in S_4
     return tuple(t) + (3,)
 
+# an element z of order 4 centralizing Q_8 with z^2 = -1: Q_8 o Z/4 (order 16)
+zc = None
+for cand in itertools.permutations(range(8)):
+    if mul(cand, qi) == mul(qi, cand) and mul(cand, qj) == mul(qj, cand) \
+       and mul(cand, cand) == mul(qi, qi) and cand not in set(closure([qi, qj], 8)):
+        zc = cand; break
+assert zc is not None and len(closure([qi, qj, zc], 8)) == 16
+qi10, qj10 = qi + (8, 9), qj + (8, 9); z10 = tuple(range(8)) + (9, 8)
+e10 = ident(10)
+a4gens = a4
+
 SHOW = {"D4 / Q8 trivial", "Q8 / Q8 trivial"}
 cases = [
     # name, nW, Wgens, Ngens, mA, Agens, q(Wgens), lifts of generators of Gamma, relators
@@ -368,10 +404,26 @@ cases = [
          [s3_in_s4(to_s3(g)) for g in s4gens], [cyc(4, (0, 1)), cyc(4, (0, 1, 2))], S3rel),
     Case("S4 (N=V4) / A4 by S3", 4, s4gens, v4, 4, a4,
          [s3_in_s4(to_s3(g)) for g in s4gens], [cyc(4, (0, 1)), cyc(4, (0, 1, 2))], S3rel),
+    # added for Draft 2
+    Case("S3 (N=C3) / C3 trivial", 3, s3, [s3[0]], 3, [s3[0]], [e3, e3], [s3[1]], cyc2),
+    Case("Q8 (N=center) / Z4 trivial", 8, [qi, qj], [mul(qi, qi)], 4, [r4], [e4, e4], [qi, qj], V4rel),
+    # N non-abelian (Section 5)
+    Case("Q8xZ2 (N=Q8) / Q8 trivial", 10, [qi10, qj10, z10], [qi10, qj10], 8, [qi, qj],
+         [e8, e8, e8], [], [], abelian=False),
+    Case("Q8oZ4 (N=Q8) / Q8 trivial", 8, [qi, qj, zc], [qi, qj], 8, [qi, qj],
+         [e8, e8, e8], [], [], abelian=False),
+    Case("Q8oZ4 (N=Q8) / Q8oZ4 trivial", 8, [qi, qj, zc], [qi, qj], 8, [qi, qj, zc],
+         [e8, e8, e8], [], [], abelian=False),
+    Case("S4 (N=A4) / S4 trivial", 4, s4gens, a4gens, 4, s4gens, [e4, e4], [], [], abelian=False),
+    Case("S4 (N=A4) / A4 by Z2", 4, s4gens, a4gens, 4, a4gens, [cyc(4, (0, 1)), cyc(4, (0, 1))],
+         [], [], abelian=False),
 ]
 
 if __name__ == "__main__":
     report = []; shown = {}
+    if len(sys.argv) > 1:       # optional: run only the cases whose name contains the argument
+        cases = [c for c in cases if sys.argv[1] in c.name]
+        SHOW = {n for n in SHOW if any(c.name == n for c in cases)}
     for c in cases:
         shown[c.name] = run(c, report)
         print("checked:", c.name, flush=True)
