@@ -16,23 +16,28 @@ exactly when an obstruction class in Springer's non-abelian `H^2` of `Gamma`,
 with coefficients in the centralizer of `phi(N)`, is neutral. It also
 describes the fibers of restriction, shows by examples that the centralizer
 cannot be replaced by `A`, and recasts the criterion in terms of voltage
-graphs and gain graphs on the Cayley graph of `Gamma`.
+graphs and gain graphs on the Cayley graph of `Gamma`. Draft 2 adds a
+choice-free obstruction extension, the generalization to a non-abelian normal
+subgroup `N`, and the description of the extension `W` by its monodromy on the
+first homology of the Cayley graph of `Gamma` (the relation module).
 
 A detailed running example, the Weil group of `Q_3(i)/Q_3` with coefficients
 in `C^x` and `SL_2(C)`, is carried through Sections 2 to 6 (Examples 2.12,
-3.7, 4.13, 5.12 and 6.4).
+3.7, 4.14, 5.7, 6.16 and 7.4).
 
-Current version: **Draft 1. Corrected and expanded version** (November 26, 2026).
+Current version: **Draft 2. Corrected and expanded version** (November 26, 2026).
+Gemini refereed the original manuscript and ChatGPT refereed Draft 1.
 
 ## Files
 
 | File | What it is |
 | --- | --- |
 | `infres.tex` / `.pdf` | The note (current draft) |
-| `revision-log.tex` / `.pdf` | Response to the referee report, all comparisons with the original manuscript, original versus new results, AI usage, sources consulted and not consulted, open items |
+| `revision-log.tex` / `.pdf` | Responses to both referee reports, all comparisons with the original manuscript, changes from Draft 1 to Draft 2 with a numbering concordance, original versus new results, AI usage, sources consulted and not consulted, open items |
 | `original/infres.tex` | The original, undated AMS-TeX manuscript, unchanged |
 | `referee/2026-11-26/` | Referee report on the original (Gemini, "Carbon"), as received |
-| `verification/` | A script that checks the main results by brute force on twenty small examples, and its output (MIT license) |
+| `referee/2026-11-26-chatgpt/` | Referee report on Draft 1 (ChatGPT), as received |
+| `verification/` | A script that checks the main results by brute force on twenty-seven small examples, five of them with non-abelian `N`, and its output (MIT license) |
 
 To compile: run `pdflatex` three times on `infres.tex`, then twice on
 `revision-log.tex`. The revision log takes its theorem numbers from the
@@ -46,5 +51,5 @@ cd verification
 python3 infres_checks.py
 ```
 
-The script needs only Python 3 and runs in about four minutes. Its output is
+The script needs only Python 3 and runs in about six minutes. Its output is
 in `verification/checks_output.txt`. See `verification/README.md`.
