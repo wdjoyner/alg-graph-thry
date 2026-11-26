@@ -1,0 +1,56 @@
+checked: D4 / Q8 trivial
+checked: Q8 / Q8 trivial
+checked: D4 / Z4 inversion
+checked: Q8 / Z4 inversion
+checked: D4 / D4 outer
+checked: Q8 / D4 outer
+checked: D4 / S3 trivial
+checked: Q8 / S3 trivial
+checked: D4 / S4 trivial
+checked: Q8 / S4 trivial
+checked: Z8 (N=Z4) / Q8 trivial
+checked: Z8 (N=Z4) / D4 trivial
+checked: Q8 (N=center) / Q8 trivial
+checked: Q8 (N=center) / D4 trivial
+checked: D4 (N=center) / Q8 trivial
+checked: A4 (N=V4) / A4 trivial
+checked: A4 (N=V4) / V4 by Z3
+checked: S4 (N=V4) / S3 inner
+checked: S4 (N=V4) / V4 by S3
+checked: S4 (N=V4) / A4 by S3
+
+case                          |W|  |N|  |G|  |A|  H1(G,A)  H1(W,A)  H1(N,A) invariant  im(res)  phi ext. phi not ext.
+D4 / Q8 trivial                 8    4    2    8        2        4        5         5        2         2            6
+Q8 / Q8 trivial                 8    4    2    8        2       10        5         5        5         8            0
+D4 / Z4 inversion               8    4    2    4        2        8        4         4        4         4            0
+Q8 / Z4 inversion               8    4    2    4        2        4        4         4        2         2            2
+D4 / D4 outer                   8    4    2    8        1        4        5         3        3         4            0
+Q8 / D4 outer                   8    4    2    8        1        2        5         3        2         2            2
+D4 / S3 trivial                 8    4    2    6        2        4        2         2        2         4            0
+Q8 / S3 trivial                 8    4    2    6        2        4        2         2        2         4            0
+D4 / S4 trivial                 8    4    2   24        3       13        4         4        4        16            0
+Q8 / S4 trivial                 8    4    2   24        3       11        4         4        3        10            6
+Z8 (N=Z4) / Q8 trivial          8    4    2    8        2        5        5         5        2         2            6
+Z8 (N=Z4) / D4 trivial          8    4    2    8        4        5        5         5        2         2            6
+Q8 (N=center) / Q8 trivial      8    2    4    8        4       10        2         2        2         2            0
+Q8 (N=center) / D4 trivial      8    2    4    8       16       16        4         4        1         1            5
+D4 (N=center) / Q8 trivial      8    2    4    8        4        4        2         2        1         1            1
+A4 (N=V4) / A4 trivial         12    4    3   12        3        5        6         3        3         7            0
+A4 (N=V4) / V4 by Z3           12    4    3    4        1        4       16         4        4         4            0
+S4 (N=V4) / S3 inner           24    4    6    6        3        3        4         1        1         1            0
+S4 (N=V4) / V4 by S3           24    4    6    4        1        2       16         2        2         2            0
+S4 (N=V4) / A4 by S3           24    4    6   12        3        5        6         3        3         7            0
+
+Columns 'phi ext.' / 'phi not ext.' count homomorphisms phi: N -> A with
+Gamma-invariant class that are / are not restrictions of cocycles of W.
+
+Worked example, D4 / Q8 trivial : invariant classes with C_phi != A:
+   class 1   |C_phi| = 4   in image of res: False
+   class 3   |C_phi| = 4   in image of res: False
+   class 4   |C_phi| = 4   in image of res: False
+Worked example, Q8 / Q8 trivial : invariant classes with C_phi != A:
+   class 1   |C_phi| = 4   in image of res: True
+   class 3   |C_phi| = 4   in image of res: True
+   class 4   |C_phi| = 4   in image of res: True
+
+ALL CHECKS PASSED

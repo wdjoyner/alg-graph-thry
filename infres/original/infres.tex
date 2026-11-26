@@ -1,0 +1,455 @@
+\input amstex
+\documentstyle{amsppt}
+\magnification 1200
+\hsize 6.5 true in
+\vsize 8.7 true in
+\define\off{\overline{F}}
+\define\ozf{\overline{Z(F)^n}}
+\define\oglf{\overline{GL(2,F)}}
+\define\oa{\overline{A(F)}}
+\define\oan{\overline{A(F)_n}}
+\define\oad{\overline{A(F)_d}}
+\define\oslf{\overline{G(F)}}
+\define\eps{\epsilon}
+\define\okk{{\Cal O}_K}
+\baselineskip 16pt
+\subheading{Notes on the inflation-restriction sequence
+in non-abelian cohomology}
+\vskip .1in
+Let $E/F$ denote a finite Galois extension of p-adic fields,
+$G$ a connected reductive group over $F$, $\hat{G}$ its Langlands
+dual over ${\Bbb C}$, and $\Gamma =Gal(E/F)$. Of course, if $G$ is
+$E$-split but not $F$-split then $\Gamma$ acts on $\hat{G}({\Bbb C})$ 
+non-trivially. The relative Weil group $W=W_{E/F}=W_F/W_E^c$ fits into the
+short exact sequence
+$$
+1\rightarrow E^{\times}
+\overset i\to \rightarrow W \overset p\to \rightarrow 
+\Gamma\rightarrow 1,
+$$
+where $W_E^c$ denotes the closure of the commutator 
+subgroup of the absolute Weil group $W_E$.
+Note that $E^\times$ is isomorphic to $W_F/W_F^c$,
+the maximal abelian quotient of $W_F$. This sequence allows us to 
+pull-pack the $\Gamma$-action on $\hat{G}({\Bbb C})$ to
+a $W$-action. The pull-back of this $W$-action to an action
+of $E^\times$ is trivial since the sequence is (semi-)exact
+at $W$.
+\par
+The purpose of this note is to verify the following
+non-abelian analog of a sequence in \cite{Se, Ch VII, \S 6}. 
+The proof is an exercise in cohomology but it is hoped that
+the sequence itself may provide some insight into the
+nature of Langlands parameters, which form a subset
+of $H^1(W,\hat{G}({\Bbb C}))$. A good reference for this type of 
+material is Springer's 1965 Boulder conference article \cite{Spr}.
+\par
+I thank A. DuPre for conversations on $H^2$.
+\proclaim{Lemma} Let $s:\Gamma\rightarrow W$ be a section
+for which $s(1)=1$ and $s(w^{-1}gw)=w^{-1}s(g)w$, for all
+$g\in \Gamma$ and $w\in W$. Let
+$$
+\sigma(g_1,g_2)=s(g_1g_2)s(g_2)^{-1}s(g_1)^{-1},
+$$
+for $g_1,g_2\in \Gamma$.
+\newline
+(1) $\sigma :\Gamma\times\Gamma\rightarrow E^\times$
+is a 2-cocycle representing a non-trivial class
+in $H^2(\Gamma,E^\times)$, where $\Gamma$ acts on $E^\times$
+by conjugation in $W$. Moreover,
+$$
+\sigma(g_1g_2,g_3)\sigma(g_1,g_2)=
+\sigma(g_1,g_2g_3)\sigma(g_2,g_3)^{s(g_1)},
+$$
+for all $g_i\in \Gamma$. Here,
+$$
+\sigma(g_2,g_3)^{s(g_1)}=s(g_1)\sigma(g_2,g_3)s(g_1)^{-1}.
+$$
+\newline
+(2) $(\partial f)(g_1,g_2)=f(\sigma(g_1,g_2))$, $g_1,g_2\in 
+\Gamma$, defines a coboundary map making the following
+sequence exact at every term but 
+$H^1(E^\times,\hat{G}({\Bbb C}))^\Gamma$.
+The sequence is semi-exact at 
+$H^1(E^\times,\hat{G}({\Bbb C}))^\Gamma$.
+$$
+1\rightarrow H^1(\Gamma,\hat{G}({\Bbb C}))
+\overset \text{inf}\to \rightarrow
+H^1(W,\hat{G}({\Bbb C}))
+\overset \text{res}\to \rightarrow
+H^1(E^\times,\hat{G}({\Bbb C}))^\Gamma
+\overset \partial\to \rightarrow
+H^2(\Gamma,\hat{G}({\Bbb C}),\overline{\alpha}),
+$$
+where $H^2(\Gamma,\hat{G}({\Bbb C}),\overline{\alpha})$ is 
+defined in the proof below, $\alpha$ denotes the action of 
+$\Gamma$ on $\hat{G}({\Bbb C})$ and $\overline{\alpha}$ denotes
+its class in the outer automorphism group (in the category
+of algebraic ${\Bbb C}$-groups) of $\hat{G}({\Bbb C})$
+$Aut(\hat{G}({\Bbb C}))/\hat{G}({\Bbb C})$. 
+\endproclaim
+\demo{Remark} This sequence in (2) holds for any algebraic
+${\Bbb C}$-group $A$ with an algebraic 
+$\Gamma$-action. In fact, we replace $\hat{G}({\Bbb C})$ by 
+an arbitrary algebraic $\Gamma$-group $A$ defined over 
+${\Bbb C}$ from now on. 
+\enddemo
+We now prove the lemma.
+\par
+(1) Since the section $s$ picks a representative in 
+$W$ from each coset $wE^\times \in W/E^\times \cong\Gamma$,
+$\in E^\times$ and so $s(g_1g_2)s(g_2)^{-1}s(g_1)^{-1}\in 
+E^\times$. We write out $s(g_1g_2g_3)$ in two ways using
+associativity and compare expressions:
+$$
+\split
+s(g_1(g_2g_3))
+&=\sigma(g_1,g_2g_3)s(g_1)s(g_2g_3)\\
+&=\sigma(g_1,g_2g_3)s(g_1)\sigma(g_2,g_3)s(g_2)s(g_3)\\
+&=\sigma(g_1,g_2g_3)\sigma(g_2,g_3)^{s(g_1)}s(g_1)s(g_2)s(g_3).
+\endsplit
+$$
+On the other hand,
+$$
+\split
+s((g_1g_2)g_3)
+&=\sigma(g_1g_2,g_3)s(g_1g_2)s(g_3)\\
+&=\sigma(g_1g_2,g_3)\sigma(g_1,g_2)s(g_1)s(g_2)s(g_3).
+\endsplit
+$$
+Comparing both sides gives the identity.
+\par
+(2) We define terms an notions as they are needed.
+\vskip .1in
+{\bf $H^0$ and $H^1$}
+\vskip .1in
+Recall
+$$
+H^0(\Gamma,A)=A^\Gamma=\{a\in A\ |\ ga=a,\forall g\in\Gamma\}.
+$$
+A {\bf 1-cocycle} is a map $f:\Gamma\rightarrow A$ such that
+$$
+f(g_1g_2)=f(g_1)g_1f(g_2),
+$$
+for all $g_1,g_2\in \Gamma$. The set of such cocyles is denoted
+$Z^1(\Gamma,A)$. Two 1-cocycles are called {\bf cohomologous}
+if there is an $a\in A$ such that 
+$$
+f(g)=a^{-1}f'(g)g(a),
+$$
+for all $g\in \Gamma$. We write $f\sim f'$ if $f$ is cohomologous 
+to $f'$. This is an equivalence relation.          
+The first cohomology set of $\Gamma$ with values 
+(or ``coefficients'') in $A$ is the set $H^1(\Gamma,A)$
+of equivalence classes of elements in $Z^1(\Gamma,A)$.
+The equivalence class of the constant cocycle $f=1$ is 
+a distinguished point in this set.
+\vskip .1in
+{\bf Inflation} 
+\vskip .1in
+The homomorphism $r:W\rightarrow \Gamma$
+defines a morphism of the functor
+$$
+A\longmapsto H^0(\Gamma,A)=A^\Gamma,
+$$
+on the category of $A$-groups, to the functor
+$$
+A\longmapsto H^0(W,p^*A)=(p^*A)^W,
+$$
+on the category of $W$-groups, where $p^*A$ denotes the group $A$ 
+with the $W$-action induced by $p$. This ``extends'' to a 
+morphism of functors, called inflation,
+$$
+p_1^*:H^1(\Gamma,A)\rightarrow H^1(W,p^*A),
+$$
+by pulling back cocycles via $p$: $p_1^*:f(g) \longmapsto
+p_1^*f(w)=f(p(w))$. We have 
+$$
+p_1^*f(w_1w_2)=f(p(w_1)p(w_2))=
+f(p(w_1))p(w_1)f(p(w_2))
+=p_1^*f(w_1)w_1(p_1^*f)(w_2),
+$$
+where $w_i\in W$ and the action of $W$ on $p^*A$ is via $p$.
+Moreover, $p_1^*$ preserves equivalence classes: if there exists
+an $a\in A$ such that $f(g)=a^{-1}f'(g)ga$, for all $g\in 
+\Gamma$, then $p_1^*f(w)=a^{-1}p_1^*f'(w)wa$, where $p(w)=g$
+and $wa=p(w)a=ga$.
+\par
+Next we show that $p_1^*$ is injective, as a map of pointed sets.
+Suppose $p_1^*f,p_1^*f'\in Z^1(W,p^*A)$ are cohomologous,
+so there is an $a\in p^*A$ for which
+$p_1^*f(w)=a^{-1}p_1^*f'(w)wa$, for all
+$w\in W$. If $g=p(w)$ then $f(g)=a^{-1}f'(g)ga$.
+Since $p$ is surjective, this forces $f$ and $f'$ to be
+cohomologous. $p_1^*$ clearly sends the distinguished point,
+the trivial class, of $H^1(\Gamma,A)$ to that of
+$H^1(W,p^*A)$. Therefore, $p_1^*$ is injective.
+\vskip .1in
+{\bf Restriction}
+\vskip .1in
+Since
+$$
+H^0(W,p^*A)=(p^*A)^W,\ \ \ \ \ \ \
+H^0(E^\times,i^*A)=i^*A,
+$$
+for any $\Gamma$-group $A$, the injection 
+$i:E^\times \rightarrow W$ induces a morphism of functors
+$$
+i_0^*:H^0(W,p^*A)\rightarrow H^0(E^\times,i^*A)^\Gamma.
+$$
+We extend this restriction functor to a morphism
+of functors
+$$
+i_1^*:H^1(W,p^*A)\rightarrow H^1(E^\times,i^*A)^\Gamma,
+$$
+as follows. Let $i^*f(x)=f(i(x))$, for $x\in E^\times$,
+$f\in Z^1(W,p^*A)$.
+Since $E^\times$ acts on $i^*A$ trivially and since
+$f(w_1w_2)=f(w_1)w_1f(w_2)$, $w_i\in W$,
+we have $i^*f(x_1x_2)=
+f(i(x_1)i(x_2))=i^*f(x_1)x_1(i^*f)(x_2)
+=i^*f(x_1)i^*f(x_2)$, for all $x_j\in E^\times$, $j=1,2$.
+This proves $i^*f\in Z^1(E^\times, i^*A)$, if
+$f\in Z^1(W, p^*A)$. To see that $i^*$ preserves equivalence 
+classes, suppose $f,f'\in Z^1(W,p^*A)$ are cohomologous: there
+is an $a\in A$ such that
+$$
+f(w)=a^{-1}f'(w)wa,\ \ \ \ \ w\in W.
+$$
+Then $i^*f(x)=a^{-1}i^*f'(x)a$, if $x\in E^\times$. This implies 
+that $i^*f$ is cohomologous to $i^*f'$. Therefore, the 
+restriction map $res=i_1^*$ is a well-defined map on
+cohomology classes,
+$$
+res:H^1(W,p^*A)\rightarrow H^1(E^\times, i^*A).
+$$
+\proclaim{Claim} The action of $W$ on functions 
+$f:E^\times\rightarrow A$,
+$$
+w^*:f(x)\longmapsto w^*f(x)=f(wx),
+$$
+defines a map $w^*:Z^1(E^\times,i^*A)\rightarrow 
+Z^1(E^\times,i^*A)$ which preserves equivalence classes.
+Moreover, $w^*$ only depends on its coset $wE^\times$.
+Let $H^1(E^\times,i^*A)^W=H^1(E^\times,i^*A)^\Gamma$ denote the classes fixed
+by every such $w^*$, $w\in W$. Then the image of the
+restriction map lies in the $\Gamma$-invariant cocycles:
+$$
+res:H^1(W,p^*A)\rightarrow H^1(E^\times, i^*A)^\Gamma
+=Hom_\Gamma(E^\times,i^*A)/A,
+$$
+where the quotient is via the action of $A$
+on $Hom_\Gamma(E^\times,i^*A)$ given by
+$a:f(x)\longmapsto a^{-1}f(x)a$.
+\endproclaim
+\demo{proof of claim} If $f\in Z^1(W,p^*A)$, $w\in W$ and $x\in 
+E^\times$, then $w^*i^*f(x)=f(wi(x))=f(w)\cdot wi^*f(x)
+=w^*f(1)\cdot wi^*f(x)$. Now, one can easily show that the 
+cocycle condition for $f$ implies 
+$w^*f(x_1x_2)=w^*f(x_1)w^*f(x_2)$, for all $x_i\in E^\times$.
+Taking $x_1=1$, we find that $w^*f(1)=1$. This implies that
+$w^*i^*f(x)=wi^*f(x)$, for $x\in E^\times$.
+Since $H^1(E^\times, i^*A)=Hom(E^\times,i^*A)/A$, the only
+thing left to do is to recall that $Hom_\Gamma(E^\times,i^*A)=
+Hom(E^\times,i^*A)^\Gamma$, by definition. \qed (claim)
+\enddemo
+\vskip .1in
+{\bf Semi-exactness at $H^1(W,p^*A)$}
+\vskip .1in
+We want to show that, for any $f\in H^1(\Gamma,A)$,
+$res(inf(f))\in  H^1(E^\times, i^*A)$ is the trivial class.
+This follows from the semi-exactness of the short exact sequence
+for $W$:
+$$
+res(inf(f))=f(p(i(x)))=f(1),
+$$
+for all $x\in E^\times$. Since $H^1(E^\times,i^*A)=
+Hom(E^\times,i^*A)/A$, $res(inf(f))(x)$ is a homomorphism.
+This forces $f(1)=1$, which forces $res(inf(f))$ to 
+represent the trivial class.
+\vskip .1in
+{\bf Exactness at $H^1(W,p^*A)$}
+\vskip .1in
+Let $f\in H^1(W,p^*A)$ belong to the kernel of $res$,
+so $res(f)\in H^1(E^\times,i^*A)^\Gamma$
+\newline
+$ = Hom_\Gamma(E^\times,i^*A)/A$ is the trivial class. We want to show 
+that there is an $f'\in H^1(\Gamma,A)$ such that $f=inf(f')$.
+By assumption, our class $f$ is represented by a 1-cocycle,
+also denoted $f$, satisfying $f(x)=1$ for all $x\in E^\times$.
+The cocycle condition and $f(x)=1$ on $E^\times$
+imply that $f(wx)=f(w)$, for all $w\in W$ and $x\in E^\times$.
+In other words, $f$ factors through to a function on
+the quotient $W/E^\times\cong \Gamma$, also denoted $f$.
+To check that $f:\Gamma\rightarrow A$ satisfies the 
+cocycle condition, let $g_1,g_2\in \Gamma$ and
+$w_1,w_2\in W$ be related by $p(w_j)=g_j$, $j=1,2$.
+Then
+$$
+f(g_1g_2)=f(w_1w_2E^\times)=f(w_1)w_1f(w_2)
+=f(g_1)g_1f(g_2),
+$$
+by the cocycle condition on $W$. This verifies exactness.
+\vskip .1in
+{\bf The connecting map $\partial$}
+\vskip .1in
+Given $f\in Z^1(E^\times,i^*A)^\Gamma$, we define
+$\partial f$ by
+$$
+\partial f(g_1,g_2)=f(\sigma(g_1,g_2)),
+$$
+for $g_1,g_2\in \Gamma$, where $\sigma$ is given as in part (1)
+of the lemma. Following Springer, a 2-cocycle of $\Gamma$ with 
+values in $A$ to be a triple $(f,\alpha,\overline{\alpha})$,
+where $f:\Gamma\times\Gamma\rightarrow A$ is a map for 
+which
+$$
+f(g_1g_2,g_3)f(g_1,g_2)=f(g_1,g_2g_3)\alpha(g_1)f(g_2,g_3),
+$$
+for all $g_i\in\Gamma$, 
+$\overline{\alpha}:\Gamma\rightarrow Aut(A)/A$ is a fixed 
+outer automorphism ($A$ acts on $Aut(A)$ by conjugation), 
+and ${\alpha}:\Gamma\rightarrow Aut(A)$ is a fixed 
+$\Gamma$-group structure on $A$ for which the class of 
+$\alpha(g)$ in $Aut(A)/A$ is $\overline{\alpha}(g)$, for all 
+$g\in G$. The set of all such 2-cocycles is denoted
+$Z^2(\Gamma,A,\overline{\alpha})$.
+We must show that $\partial f$ satisfies 
+this identity, where $\alpha$ denotes the given action
+of $\Gamma$ on $A$. 
+Observe that if $p(w)=g$, for $w\in W$ and $g\in 
+\Gamma$, and if $x\in E^\times$ then
+$w^{-1}i(x)w=i(gx)$ (where of course $gx$ represents the Galois action
+of $g$ on $x$). Therefore, applying $f\in Hom_\Gamma(E^\times,i^*A)$
+to both sides of the 2-cocycle identity in part (1),
+we find that
+$$
+\partial f(g_1g_2,g_3)\partial f(g_1,g_2)=\partial f(g_1,g_2g_3)
+g_1\partial f(g_2,g_3).
+$$
+The last step used the fact that
+$f(\sigma(g_2,g_3)^{s(g_1)})=
+f(s(g_1)\sigma(g_2,g_3)s(g_1)^{-1})$
+\newline
+$=f(g_1\sigma(g_2,g_3))=g_1f(\sigma(g_2,g_3))=g_1\partial f(g_2,g_3)$.
+\par
+It must be checked that cohomologous 
+1-cocycles in $Z^1(E^\times,i^*A)^\Gamma=Hom_\Gamma(E^\times,i^*A)$ 
+are mapped to cohomologous 2-cocycles in 
+$Z^2(\Gamma,A,\overline{\alpha})$. (We
+use that fact, which we have essentially already verified,
+that $\Gamma$-invariant classes 
+may be represented by $\Gamma$-invariant cocycles.)
+A 2-cocycle $(f,{\alpha},\overline{\alpha})$ is
+{\bf cohomologous} to a 2-cocycle 
+$(f',{\alpha}',\overline{\alpha})$
+if there is a map $c:\Gamma\rightarrow A$ for which
+$$
+f'(g_1,g_2)=
+c(g_1g_2)f(g_1,g_2)\alpha(g_1)c(g_2)^{-1}c(g_1)^{-1},
+$$
+for all $g_j\in\Gamma$, and
+$$
+\alpha (g)(a)=c(g)\alpha(g)(a)c(g)^{-1},
+$$
+for all $g\in \Gamma$, $a\in A$. This defines an equivalence 
+relation on $Z^2(\Gamma,A,\overline{\alpha})$. (Note that the 
+2-cocycles here differ from those of Springer by an inversion.)
+The set of
+equivalence classes is the second cohomology set of
+$\Gamma$ with values in $A$ (with $\Gamma$-group structure
+``twisted'' by $\overline{\alpha}$), denoted
+$H^2(\Gamma,A,\overline{\alpha})$.
+\par
+Let $f,f'$ be two cohomlogous 1-cocycles in 
+$Z^1(E^\times,i^*A)^\Gamma$. There is an $a\in A$ such that
+$f'(x)=a^{-1}f(x)a$, for all $x\in E^\times$.
+Since $f,f'$ are $\Gamma$-equivariant,
+$$
+f'(gx)=gf'(x)=ga^{-1}gf(x)ga=ga^{-1}f(gx)ga,
+$$
+for all $x\in E^\times$ and all $g\in \Gamma$.
+This forces $a\cdot ga^{-1}$ to belong to the centralizer of 
+the group $f(E^\times)$ in $A$. (In particlar, such an $a\in A$ 
+defines a class $g\longmapsto a\cdot ga^{-1}$ in 
+$H^1(\Gamma,Cent_A(f(E^\times)))$, for what that's worth.)
+Now we prove that, for cohomologous 1-cocycles $f,f'$ as above,
+their images $\partial f,\ \partial f'$ in 
+$Z^2(\Gamma,A,\overline{\alpha})$ will be cohomologous.
+This is Proposition 1.19 in Springer's article \cite{Spr}. 
+Thus, $\partial$ defines a connecting map
+from $H^1$ to $H^2$, as desired.
+\vskip .1in
+{\bf Semi-exactness at $H^1(E^\times,i^*A)$}
+\vskip .1in
+Let $f\in H^1(W,p^*A)$. We claim that $\partial (res(f))\in 
+H^2(\Gamma,A)$ is the trivial 2-cocycle.
+\par
+If $f'=res(f)$ then 
+$$
+\split
+\partial f'(g_1,g_2)
+&=f(s(g_1g_2)s(g_2)^{-1}s(g_1)^{-1})\\
+&=f(s(g_1g_2))s(g_1g_2)f(s(g_2)^{-1}s(g_1)^{-1})\\
+&=f(s(g_1g_2))w_1w_2f(w_2^{-1}w_1^{-1})\\
+&=f(s(g_1g_2))f(w_1w_2)^{-1},
+\endsplit
+$$
+where $g_i=p(w_i)$. Now use the 1-cocycle condition to see that
+this is cohomologous to the trivial 2-cocycle in the sense
+above, with $c(g)=f(s(g))$.
+From this semi-exactness follows and the lemma is completely 
+proven.
+\vskip .1in
+{\bf Conjecture: Exactness at $H^1(E^\times,i^*A)$}
+\vskip .1in
+Consider an element $f\in Z^1(E^\times,i^*A)^\Gamma$
+for which the class of $\partial f$ in $H^2(\Gamma,A,\overline{\alpha})$
+is trivial. 
+We conjecture that there is an $f'\in H^1(W,p^*A)$ such that 
+$f=res(f')$. Since $\partial f$ is trivial, there is a 
+$c:\Gamma\rightarrow A$ such that
+$$
+\partial f(g_1,g_2)=f(s(g_1g_2)s(g_2)^{-1}s(g_1)^{-1})=
+c(g_1g_2)g_1c(g_2)^{-1}c(g_1)^{-1},
+$$
+for all $g_i\in \Gamma$. Let
+$$
+f'(w):=
+\cases
+f(x),&               w=i(x)\in i(E^\times),\\
+c(g)f(ws(g)^{-1}),&  w\in W,\ p(w)=g,
+\endcases 
+$$
+where $s$ is the section choosen in the statement of the lemma.
+By exactness, 
+$$
+f'(wi(x))=c(g)f(wi(x)s(g)^{-1})=c(g)f(ws(g)^{-1}i(gx))
+=f'(w)f(gx)
+$$
+and 
+$$
+f'(i(x)w)=c(g)f(i(x)ws(g)^{-1})=f'(w)f(x),
+$$ 
+where $p(w)=g$, $x\in E^\times$. In particular, $f'(wi(x))=
+f'(i(gx)w)$. We conjecture that $f'$ defines a 1-cocycle in
+$Z^1(W,p^*A)$.             
+\vskip .3in
+{\bf References}
+\vskip .2in
+\item{[Se]} J.-P. Serre, \underbar{Local} \underbar{Fields},
+Springer-Verlag Grad. Texts, 1979
+\item{[Spr]} T. A. Springer, ``Nonabelian $H^2$ in Galois
+cohomology'', in Proc. Symp. Pure Math., vol. 9,
+(\underbar{Algebraic} \underbar{Groups}
+\underbar{and} \underbar{Discontinuous} \underbar{Subgroups},
+Boulder conf., 1965, ed. by A. Borel and G. Mostow), AMS, 1966
+\vskip .3in
+David Joyner, Dept Math, USNA, Annapolis, MD 21402
+\vskip .1in
+
+\enddocument
+
+
+
+
