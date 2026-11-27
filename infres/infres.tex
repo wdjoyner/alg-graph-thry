@@ -3107,10 +3107,10 @@ when $N$ is abelian. Thus the $\Gamma$-module structure on $N$ and the factor-se
 \foreach \x/\g in {0/1,3/g,6/gt}{
 \draw[dashed,rounded corners,gray] (\x-.55,1.2) rectangle (\x+.55,3.5);
 \node at (\x,3.8) {$Ns(\g)$};
-\foreach \y in {1.6,2.35,3.1}{\node[vx] (n\x-\y) at (\x,\y) {};}
+\foreach \j/\y in {1/1.6,2/2.35,3/3.1}{\node[vx] (n\x-\j) at (\x,\y) {};}
 \node[bx] (b\x) at (\x,0) {$\g$};
 \draw[mapto,gray] (\x,1.15)--(b\x);}
-\draw[ar] (n3-2.35)--node[above] {$s_t$} (n6-3.1);
+\draw[ar] (n3-2)--node[above] {$s_t$} (n6-3);
 \draw[ar] (b3)--node[above] {$t$} (b6);
 \node at (7.1,.65) {$p$};
 \end{tikzpicture}
