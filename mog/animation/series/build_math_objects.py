@@ -204,6 +204,22 @@ def build():
     objects["seed:Q"] = {"points": sorted(Q), "infinity_label": 11,
                          "is_zero_and_squares_mod_11": Q == {i * i % 11 for i in range(11)}}
     objects["minimog"] = {"rows": [list(r) for r in M]}
+    # Triangle layout of the kitten (x, y, label): copied from ../math_data.py
+    # (projective labels, 11 = infinity), relabeled into card labels by the
+    # paper's cell-by-cell map from the projective array P to the MINIMOG M.
+    P = ((0, 3, 11, 2), (5, 9, 8, 10), (4, 1, 6, 7))
+    rel = {P[r][c]: M[r][c] for r, c in product(range(3), range(4))}
+    tri = ((0, 6, 11), (0, 5, 6), (-1, 4, 2), (1, 4, 10), (-2, 3, 5), (0, 3, 7),
+           (2, 3, 3), (-3, 2, 6), (-1, 2, 9), (1, 2, 4), (3, 2, 6), (-4, 1, 2),
+           (-2, 1, 10), (0, 1, 8), (2, 1, 2), (4, 1, 10), (-5, 0, 0), (5, 0, 1))
+    spots = [[x, y, rel[v]] for x, y, v in tri]
+    corners = {tuple(s[:2]): s[2] for s in spots if tuple(s[:2]) in ((0, 6), (-5, 0), (5, 0))}
+    objects["kitten:triangle"] = {
+        "spots": spots,
+        "corners": sorted(corners.values()),
+        "labels_are_all_twelve": {s[2] for s in spots} == set(X),
+        "corners_match_views": set(corners.values()) == set(VIEWS),
+        "note": "Positions (x in -5..5, y in 0..6) of the triangular kitten in card labels; repeated labels are the same point"}
     objects["kitten:views"] = {
         "corners": sorted(VIEWS),
         "views": {str(k): list(v) for k, v in sorted(VIEWS.items())},

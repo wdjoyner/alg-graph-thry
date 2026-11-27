@@ -103,7 +103,7 @@ The credits are staged with the series' own pictures. Each card stays up long en
 3. **The mathematics of:** R. T. Curtis (the kitten and the MOG) · J. H. Conway (the tetracode and the MINIMOG) · E. Witt (the Steiner system S(5,6,12)) · J. Kahane and A. J. Ryba (*The Hexad Game*) · J. H. Conway and N. J. A. Sloane (*Sphere Packings, Lattices and Groups*). *Each name appears beside the picture it gave the series, and Sophie walks along the line.*
 4. **Featuring and voices:** Pascal, Sophie, Ada, Euler, each with their Kokoro voice once cast, and the note "Synthetic voices generated locally with Kokoro text-to-speech." *The kittens bow in turn. Pascal bows too low and topples, and Euler bows a beat late.*
 5. **About Professor Euphemia** *(only in episodes where she appears)*: A fictional character named in honor of mathematician and educator Euphemia Lofton Haynes. Not a portrayal of Haynes.
-6. **Music:** *to be chosen.* The credit writes itself along a staff line that curls into a tail.
+6. **Music:** *to be chosen.* A staff draws itself and curls into a tail, and the credit writes on above it.
 7. **Visual style inspired by:** *Euphemia Haynes — Mathematics as an Open Door*. **Made with:** Manim Community Edition, Kokoro, FFmpeg, Python. *The tools' names drop onto the table like cards.*
 8. **Character animation** *(only if PAM is used)*: PAM (Pose And Motion), Blender.
 9. **Mathematical checks:** Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License). *A counter ticks through the hexads and stops at 132, and Ada nods.*
@@ -159,6 +159,24 @@ These include the titles and credits.
 | `math_objects.json` | Every hand, move and count the outlines mention. **Generated; do not edit** |
 | `build_math_objects.py` | Writes `math_objects.json`. `--cross-check` also compares the hexads with the paper's `verify.py` |
 | `check_outline.py` | Checks all the outlines and screenplays against the files above |
+| `title_scenes.py` | Manim scenes for the main title, the four subtitles, the credits roll and the tail cards |
+| `make_titles.py` | Renders those scenes and assembles each episode's opening and credits |
+
+## Rendering the titles and credits
+
+The titles and end credits are already renderable, since they have no dialogue. From this folder:
+
+```sh
+python make_titles.py            # 1920 x 1080, all four episodes
+python make_titles.py --draft    # 960 x 540, for a quick look
+python make_titles.py --episodes 2 --with-optional   # one episode, with optional-scene cards
+```
+
+This writes `epN_opening.mp4` (scene `s00`: main title plus subtitle, 26 seconds) and `epN_credits.mp4` (scene `s99`: credits plus tail) for each episode into `../build/series/`, with a contact sheet of each in `../build/series/contact/`. It checks every clip's frame count against its outline and stops if one is off. The clips are silent until music is chosen.
+
+`title_scenes.py` reads everything that can change from the series files: beat and card lengths from the two screenplays, wording from `series.json` and `credits.json`, kitten colors from `cast.json`, and the MINIMOG cells, kitten triangle, opening hand and codeword from `math_objects.json`. The file itself holds only the choreography, one function per beat or card ID. A screenplay ID with no function is an error, so a new beat needs choreography before it renders. If a beat's choreography runs longer than its screenplay allows, rendering stops and says by how many frames.
+
+Requirements are the same as for the existing film: Manim Community Edition 0.19 (`pip install manim==0.19.1`), FFmpeg, the DejaVu fonts, and the Cairo and Pango libraries (`brew install pango pkg-config` on a Mac). No TeX is needed. The kittens are simple vector stand-ins, drawn in each character's colors, until the character designs are settled.
 
 ## Workflow
 
