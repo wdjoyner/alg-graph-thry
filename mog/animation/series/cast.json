@@ -2,7 +2,7 @@
  "_about": [
   "Characters, designs and casting, kept apart from the screenplays so a recast never touches a script.",
   "Speaker IDs in the outlines, Fountain scripts and audio manifests are the keys below.",
-  "Voices are audition candidates only; set 'chosen' after the prototype auditions."
+  "Chosen voices approved Nov 27, 2026 (the first candidate for each kitten); the other candidates stay listed in case an audition changes a choice."
  ],
  "reserved_voices": {
   "af_heart": "Haynes narrator, reserved for the Haynes film. Never use for a kitten, even in a blend."
@@ -17,7 +17,7 @@
    "voice": {
     "engine": "kokoro",
     "candidates": ["am_puck", {"blend": {"am_puck": 0.7, "am_michael": 0.3}}],
-    "chosen": null,
+    "chosen": "am_puck",
     "speed": 1.04,
     "direction": "Energetic, mischievous",
     "future": "Possible Brooklyn accent with a human actor or another engine, with consent and licenses respected"
@@ -32,7 +32,7 @@
    "voice": {
     "engine": "kokoro",
     "candidates": ["af_bella", "af_jessica", "af_river"],
-    "chosen": null,
+    "chosen": "af_bella",
     "speed": 1.0,
     "direction": "Warm, imaginative and expressive"
    }
@@ -46,7 +46,7 @@
    "voice": {
     "engine": "kokoro",
     "candidates": ["af_sarah", "af_kore", "bf_emma"],
-    "chosen": null,
+    "chosen": "af_sarah",
     "speed": 1.0,
     "direction": "Clear, confident and dryly humorous"
    }
@@ -60,7 +60,7 @@
    "voice": {
     "engine": "kokoro",
     "candidates": ["bm_george"],
-    "chosen": null,
+    "chosen": "bm_george",
     "speed": 0.90,
     "direction": "Thoughtful and professorial"
    }

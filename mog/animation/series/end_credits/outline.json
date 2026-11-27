@@ -8,7 +8,7 @@
  "kind": "end_credits",
  "music": {
   "cue": "credits_theme",
-  "_comment": "Not yet chosen; see the candidates in titles/outline.json.  The roll is about 52 seconds with its tail (59 with the Euphemia card), so the piece will need a cut or a loop point."
+  "_comment": "Not yet chosen; see the candidates in titles/outline.json.  The roll is about 55 seconds with its tail (62 with the Euphemia card), so the piece will need a cut or a loop point."
  },
  "cards": [
   {
@@ -60,7 +60,7 @@
   {
    "id": "ec.c06",
    "sections": ["music"],
-   "seconds": 3.5,
+   "seconds": 7.0,
    "staging": "A five-line staff draws itself and curls into the shape of a tail; the credit writes on above it.",
    "epistemic": "card",
    "visual": ["write_along:staff", "credits_text"]

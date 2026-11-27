@@ -51,9 +51,10 @@
   {
    "id": "music",
    "heading": "Music",
-   "names": ["Title and credits music: to be chosen"],
+   "names": ["Domenico Scarlatti — Fugue in G minor, K. 30 (\"Cat Fugue\")",
+             "Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License)"],
    "pending": true,
-   "_comment": "Replace with the piece, composer and performer or rendering (for example: Domenico Scarlatti, Fugue in G minor, K. 30, rendered with FluidSynth and the FluidR3 GM SoundFont, MIT License), then remove 'pending'."
+   "_comment": "Pending only the score: once music.json names the public-domain edition used, add it here (for example 'from the Longo edition, 1906') and remove 'pending'."
   },
   {
    "id": "visual_style",

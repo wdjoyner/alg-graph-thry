@@ -8,7 +8,7 @@
  "music": {
   "cue": "title_theme",
   "_comment": "Not yet chosen; when it is, fill in the 'music' section of credits.json.  Beats are timed so the music can hit b02, b03, b04 and the title at b05.  Both the composition and the recording must be free to use; rendering a public-domain score ourselves avoids the recording question and lets us set the tempo to land the hits.",
-  "chosen": null,
+  "chosen": "Scarlatti, Fugue in G minor, K. 30 (\"Cat Fugue\"), for both the main title and the end credits; see music.json",
   "candidates": [
    {
     "piece": "Fugue in G minor, K. 30 (\"Cat Fugue\")",

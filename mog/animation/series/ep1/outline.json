@@ -98,7 +98,7 @@
    "title": "A worked game",
    "lead": "pascal",
    "foil": "ada",
-   "target_seconds": 110,
+   "target_seconds": 106,
    "paper": ["sec:game"],
    "beats": [
     {
@@ -342,7 +342,7 @@
    "visual": ["credits_roll"],
    "tail": "next_time",
    "next_episode": 2,
-   "target_seconds": 52.5
+   "target_seconds": 56.0
   }
  ]
 }

@@ -636,9 +636,9 @@ class CreditsBase(Timed):
             else xy(4.2 + 0.6 * np.sin((t - 4.2) * 2.2), 0.12 * k - 0.6 + 0.25 * np.sin(4.2 * 0.8)
                     + 0.6 * (1 - np.cos((t - 4.2) * 2.2))),
             t_range=[-5.2, 5.6], stroke_color=BLUE, stroke_width=1.6) for k in range(5)))
-        line = text(names[0], size=30).move_to(xy(-0.4, 0.55))
-        self.go(FadeIn(heading(head, 2.3)), Create(staff), t=0.8)
-        self.go(Write(line), t=0.7)
+        lines = block(names, size=30, buff=0.25, width=11.6).move_to(xy(0, 1.6))
+        self.go(FadeIn(heading(head, 2.75)), Create(staff), t=0.8)
+        self.go(Write(lines), t=1.0)
 
     def card_ec_c07(self):
         """Visual style and tools: the tools' names drop onto the table like cards."""

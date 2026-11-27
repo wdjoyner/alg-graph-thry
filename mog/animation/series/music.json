@@ -1,0 +1,36 @@
+{
+ "_about": [
+  "Music for the titles and end credits, rendered locally from a public-domain score: no recording rights are involved.",
+  "make_music.py reads this file.  Each cue takes a range of measures from the score, plays it on a General MIDI harpsichord through FluidSynth with the FluidR3 GM SoundFont (MIT License), and stretches it to the exact length of its clip.",
+  "'anchors' pin a measure's downbeat to a time in the clip, so the music hits the title's beats; the tempo changes smoothly between anchors.  make_music.py warns when a stretch runs more than 'max_tempo_change' away from the median tempo.",
+  "Measure numbers are those of the score file; 'source.file' must be filled in before any cue can render."
+ ],
+ "source": {
+  "file": null,
+  "piece": "Domenico Scarlatti, Keyboard Sonata in G minor, K. 30 (L. 499), \"Cat Fugue\"",
+  "edition": null,
+  "license": null,
+  "_comment": "A MIDI or MusicXML file of K. 30 from a public-domain edition, for example an engraving of the Longo edition (Ricordi, 1906-1913).  Record where it came from and its license here; put the file in series/music/."
+ },
+ "instrument": {"gm_program": 6, "name": "Harpsichord"},
+ "soundfont": {"file": "/usr/share/sounds/sf2/FluidR3_GM.sf2", "credit": "FluidR3 GM SoundFont, Frank Wen (MIT License)"},
+ "sample_rate": 48000,
+ "loudness_lufs": -20,
+ "max_tempo_change": 0.12,
+ "cues": {
+  "opening": {
+   "_comment": "Main title (20 s) plus subtitle (6 s).  Anchor times are the title's beat starts: fly-in 2.0, kitten 5.5, dot 9.0, title 12.0, tagline 16.0, subtitle 20.0.",
+   "measures": null,
+   "anchors": [],
+   "fade_in": 0.0,
+   "fade_out": 1.5
+  },
+  "credits": {
+   "_comment": "The credits roll plus its tail; its length comes from each episode's s99.",
+   "measures": null,
+   "anchors": [],
+   "fade_in": 0.5,
+   "fade_out": 2.5
+  }
+ }
+}

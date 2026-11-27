@@ -94,7 +94,7 @@ Each step is one episode's picture, so the opening previews the whole series. A 
 
 **One structure.** The cards, the kitten, the tetracode words and the graph slide together: four pictures of one mathematical object. Optionally, Professor Euphemia asks what they'll look at next.
 
-### End credits (every episode, about 52 seconds)
+### End credits (every episode, about 56 seconds)
 
 The credits are staged with the series' own pictures. Each card stays up long enough to read.
 
@@ -103,7 +103,7 @@ The credits are staged with the series' own pictures. Each card stays up long en
 3. **The mathematics of:** R. T. Curtis (the kitten and the MOG) · J. H. Conway (the tetracode and the MINIMOG) · E. Witt (the Steiner system S(5,6,12)) · J. Kahane and A. J. Ryba (*The Hexad Game*) · J. H. Conway and N. J. A. Sloane (*Sphere Packings, Lattices and Groups*). *Each name appears beside the picture it gave the series, and Sophie walks along the line.*
 4. **Featuring and voices:** Pascal, Sophie, Ada, Euler, each with their Kokoro voice once cast, and the note "Synthetic voices generated locally with Kokoro text-to-speech." *The kittens bow in turn. Pascal bows too low and topples, and Euler bows a beat late.*
 5. **About Professor Euphemia** *(only in episodes where she appears)*: A fictional character named in honor of mathematician and educator Euphemia Lofton Haynes. Not a portrayal of Haynes.
-6. **Music:** *to be chosen.* A staff draws itself and curls into a tail, and the credit writes on above it.
+6. **Music:** Domenico Scarlatti, Fugue in G minor, K. 30 ("Cat Fugue") · Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License). *A staff draws itself and curls into a tail, and the credit writes on above it.*
 7. **Visual style inspired by:** *Euphemia Haynes — Mathematics as an Open Door*. **Made with:** Manim Community Edition, Kokoro, FFmpeg, Python. *The tools' names drop onto the table like cards.*
 8. **Character animation** *(only if PAM is used)*: PAM (Pose And Motion), Blender.
 9. **Mathematical checks:** Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License). *A counter ticks through the hexads and stops at 132, and Ada nods.*
@@ -139,10 +139,10 @@ These include the titles and credits.
 
 | Episode | Required scenes | With optional scenes | Target |
 |---|---|---|---|
-| 1. The Curious Game of Twenty-One | 7:34 | 8:00 | 7–8 min |
-| 2. The Geometry of a Kitten | 9:46 | 9:46 | 8–10 min |
-| 3. The Secret Code of the MINIMOG | 9:14 | 9:59 | 8–10 min |
-| 4. The Hidden Graph of the Game | 9:14 | 9:55 | 8–10 min |
+| 1. The Curious Game of Twenty-One | 7:33 | 7:59 | 7–8 min |
+| 2. The Geometry of a Kitten | 9:49 | 9:49 | 8–10 min |
+| 3. The Secret Code of the MINIMOG | 9:15 | 10:00 | 8–10 min |
+| 4. The Hidden Graph of the Game | 9:17 | 9:59 | 8–10 min |
 
 ## Files
 
@@ -161,6 +161,8 @@ These include the titles and credits.
 | `check_outline.py` | Checks all the outlines and screenplays against the files above |
 | `title_scenes.py` | Manim scenes for the main title, the four subtitles, the credits roll and the tail cards |
 | `make_titles.py` | Renders those scenes and assembles each episode's opening and credits |
+| `music.json` | The title and credits music: score file, which measures each cue plays, anchors to the title's beats |
+| `make_music.py` | Renders the music from the score with FluidSynth and adds it to the clips |
 
 ## Rendering the titles and credits
 
@@ -177,6 +179,19 @@ This writes `epN_opening.mp4` (scene `s00`: main title plus subtitle, 26 seconds
 `title_scenes.py` reads everything that can change from the series files: beat and card lengths from the two screenplays, wording from `series.json` and `credits.json`, kitten colors from `cast.json`, and the MINIMOG cells, kitten triangle, opening hand and codeword from `math_objects.json`. The file itself holds only the choreography, one function per beat or card ID. A screenplay ID with no function is an error, so a new beat needs choreography before it renders. If a beat's choreography runs longer than its screenplay allows, rendering stops and says by how many frames.
 
 Requirements are the same as for the existing film: Manim Community Edition 0.19 (`pip install manim==0.19.1`), FFmpeg, the DejaVu fonts, and the Cairo and Pango libraries (`brew install pango pkg-config` on a Mac). No TeX is needed. The kittens are simple vector stand-ins, drawn in each character's colors, until the character designs are settled.
+
+## Music
+
+The title and credits music is Domenico Scarlatti's "Cat Fugue" (Keyboard Sonata in G minor, K. 30), played on a General MIDI harpsichord. It is rendered here from a public-domain score through FluidSynth with the FluidR3 GM SoundFont (MIT License), so no recording rights are involved, and the tempo can be bent so the music lands on the title's beats.
+
+```sh
+python make_music.py --survey   # the score's measures and their times
+python make_music.py            # render both cues and score every clip
+```
+
+`make_music.py` takes the measures each cue names in `music.json`, warps time so each anchored downbeat lands on its moment in the clip, and fits the result to the clip's exact length, with fades and even loudness. The tempo changes smoothly between anchors, and the script warns when a stretch runs more than 12% off the median tempo. It writes `epN_opening_scored.mp4` and `epN_credits_scored.mp4` beside the silent clips.
+
+**Still needed:** the score itself. Put a MIDI or MusicXML file of K. 30 from a public-domain edition in `series/music/`, record its source and license under `source` in `music.json`, and choose the measures and anchors for each cue (`--survey` helps). Then fill in the `music` section of `credits.json`. The anchor times for the opening are the title's beat starts: fly-in 2.0 s, kitten 5.5, dot 9.0, title 12.0, tagline 16.0, subtitle 20.0. Requirements: `fluidsynth`, the FluidR3 GM SoundFont (`fluid-soundfont-gm` on Linux; on a Mac, `brew install fluid-synth` and point `soundfont.file` at a copy of `FluidR3_GM.sf2`) and `pip install pretty_midi` (plus `music21` for MusicXML).
 
 ## Workflow
 
