@@ -1,7 +1,7 @@
 {
  "_about": [
   "Music for the titles and end credits, rendered locally from a public-domain score: no recording rights are involved.",
-  "make_music.py reads this file.  Each cue takes a range of measures from the score, plays it on a General MIDI harpsichord through FluidSynth with the FluidR3 GM SoundFont (MIT License), and stretches it to the exact length of its clip.",
+  "make_music.py reads this file.  Each cue takes a range of measures from the score, plays it on a General MIDI piano (the default variant, below) through FluidSynth with the FluidR3 GM SoundFont (MIT License), and stretches it to the exact length of its clip.",
   "'anchors' pin a measure's downbeat to a time in the clip, so the music hits the title's beats; the tempo changes smoothly between anchors.  make_music.py warns when a stretch runs more than 'max_tempo_change' away from the median tempo.",
   "Measure numbers are those of the score file; 'source.file' must be filled in before any cue can render."
  ],
@@ -13,15 +13,15 @@
   "_comment": "Rebuild the MIDI file with music/build_k30_midi.py after any change to the transcription; it checks every bar and every entry of the subject."
  },
  "instrument": {
-  "gm_program": 6,
-  "name": "Harpsichord"
+  "gm_program": 0,
+  "name": "Acoustic Grand Piano"
  },
  "soundfont": {
   "file": "/usr/share/sounds/sf2/FluidR3_GM.sf2",
   "credit": "FluidR3 GM SoundFont, Frank Wen (MIT License)"
  },
  "sample_rate": 48000,
- "loudness_lufs": -20,
+ "loudness_lufs": -26,
  "max_tempo_change": 0.12,
  "cues": {
   "opening": {
@@ -68,6 +68,51 @@
    "anchors": [],
    "fade_in": 0.0,
    "fade_out": 2.5
+  }
+ },
+ "default_variant": "piano_soft",
+ "variants": {
+  "_comment": "Ways to play the same score.  'default_variant' is used unless make_music.py is given --variant.  All play at -26 LUFS, about 10 dB under typical dialogue.",
+  "harpsichord": {
+   "_comment": "The original sound, only quieter: dry General MIDI harpsichord, full-strength notes, no fade-in.",
+   "instrument": {
+    "gm_program": 6,
+    "name": "Harpsichord"
+   }
+  },
+  "harpsichord_soft": {
+   "_comment": "Harpsichord tamed: highs rolled off above 5 kHz, a small room's reverb, notes at 80% strength, a short fade-in.",
+   "instrument": {
+    "gm_program": 6,
+    "name": "Harpsichord"
+   },
+   "lowpass_hz": 5000,
+   "reverb": {
+    "room-size": 0.45,
+    "damp": 0.4,
+    "width": 0.8,
+    "level": 0.7
+   },
+   "reverb_send": 60,
+   "velocity_scale": 0.8,
+   "fade_in": 0.4
+  },
+  "piano_soft": {
+   "_comment": "The series sound (chosen Nov 2026): acoustic grand piano with highs rolled off above 5 kHz, a small room's reverb, notes at 80% strength, a short fade-in.",
+   "instrument": {
+    "gm_program": 0,
+    "name": "Acoustic Grand Piano"
+   },
+   "lowpass_hz": 5000,
+   "reverb": {
+    "room-size": 0.45,
+    "damp": 0.4,
+    "width": 0.8,
+    "level": 0.7
+   },
+   "reverb_send": 60,
+   "velocity_scale": 0.8,
+   "fade_in": 0.4
   }
  }
 }

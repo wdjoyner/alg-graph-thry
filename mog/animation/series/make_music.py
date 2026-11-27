@@ -3,6 +3,8 @@
     python make_music.py --survey            # list the score's measures and their times
     python make_music.py                     # render the cues and score every clip
     python make_music.py --episodes 1        # only these episodes
+    python make_music.py --variant piano_soft --episodes 1 --cues opening
+                                             # try a sound from music.json "variants"
 
 Reads music.json.  For each cue it takes the chosen measures of the score,
 moves them to a harpsichord, warps time so each anchored measure lands on
@@ -69,7 +71,7 @@ def warp(points):
     return f
 
 
-def build_cue(pm, times, cue, seconds, program, name):
+def build_cue(pm, times, cue, seconds, program, name, velocity_scale=1.0, reverb_send=0):
     """A new MIDI holding the cue's measures, retimed to fill `seconds`."""
     import pretty_midi
     first, last = cue["measures"]
@@ -86,13 +88,16 @@ def build_cue(pm, times, cue, seconds, program, name):
     rates = [(s1 - s0) / (c1 - c0) for (s0, c0), (s1, c1) in zip(points, points[1:])]
     f = warp(points)
     out = pretty_midi.PrettyMIDI(initial_tempo=120)
-    keys = pretty_midi.Instrument(program=program, name="Harpsichord")
+    keys = pretty_midi.Instrument(program=program, name="Keys")
+    # Controller 91 is each note's send to FluidSynth's reverb (0 = dry).
+    keys.control_changes.append(pretty_midi.ControlChange(number=91, value=int(reverb_send), time=0.0))
     for inst in pm.instruments:
         if inst.is_drum:
             continue
         for n in inst.notes:
             if start <= n.start < end:
-                keys.notes.append(pretty_midi.Note(velocity=n.velocity, pitch=n.pitch,
+                vel = max(1, min(127, round(n.velocity * velocity_scale)))
+                keys.notes.append(pretty_midi.Note(velocity=vel, pitch=n.pitch,
                                                    start=f(n.start), end=min(f(min(n.end, end)), seconds)))
     out.instruments.append(keys)
     return out, rates
@@ -104,9 +109,18 @@ def render(midi, seconds, cue, spec, wav):
     with tempfile.TemporaryDirectory() as tmp:
         mid, raw = Path(tmp) / "cue.mid", Path(tmp) / "raw.wav"
         midi.write(str(mid))
-        run("fluidsynth", "-ni", "-q", "-g", "0.6", "-r", rate, "-F", raw, spec["soundfont"]["file"], mid)
+        rv = spec.get("reverb") or {}
+        room = ["-o", "synth.chorus.active=0", "-o", f"synth.reverb.active={1 if rv else 0}"]
+        for key in ("room-size", "damp", "width", "level"):
+            if key in rv:
+                room += ["-o", f"synth.reverb.{key}={rv[key]}"]
+        run("fluidsynth", "-ni", "-q", *room, "-g", "0.6", "-r", rate, "-F", raw, spec["soundfont"]["file"], mid)
         samples = round(seconds * rate)
-        filters = [f"apad=whole_len={samples}", f"atrim=end_sample={samples}",
+        filters = []
+        if spec.get("lowpass_hz"):
+            # Two gentle poles: rolls off the buzz above the cutoff without muffling the line.
+            filters += [f"lowpass=f={spec['lowpass_hz']}:p=2"]
+        filters += [f"apad=whole_len={samples}", f"atrim=end_sample={samples}",
                    f"loudnorm=I={spec['loudness_lufs']}:TP=-2:LRA=11", f"aresample={rate}",
                    f"apad=whole_len={samples}", f"atrim=end_sample={samples}"]
         if cue.get("fade_in"):
@@ -131,9 +145,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--survey", action="store_true", help="list measures and exit")
     parser.add_argument("--episodes", type=int, nargs="*")
+    parser.add_argument("--cues", nargs="*", choices=("opening", "credits"))
+    parser.add_argument("--variant", help="a sound from music.json 'variants' (default: 'default_variant')")
     args = parser.parse_args()
 
     spec = load("music.json")
+    name = args.variant or spec.get("default_variant")
+    suffix = "scored" if not args.variant else f"scored_{name}"
+    if name:
+        if name not in spec.get("variants", {}):
+            raise SystemExit(f"music.json has no variant {name!r}")
+        for key, value in spec["variants"][name].items():
+            if key.startswith("_"):
+                continue
+            if key == "fade_in":
+                for cue in spec["cues"].values():
+                    cue["fade_in"] = value
+            else:
+                spec[key] = value
     pm = load_score(score_file(spec))
     times = measure_times(pm)
     if args.survey:
@@ -150,20 +179,23 @@ def main():
         outline = load(f"ep{n}/outline.json")
         scenes = {s["id"]: s for s in outline["scenes"]}
         for part, scene in (("opening", "s00"), ("credits", "s99")):
+            if args.cues and part not in args.cues:
+                continue
             cue = spec["cues"][part]
             if not cue.get("measures"):
                 raise SystemExit(f"music.json: cues.{part}.measures is not set yet")
             seconds = scenes[scene]["target_seconds"]
-            midi, rates = build_cue(pm, times, cue, seconds, spec["instrument"]["gm_program"], part)
+            midi, rates = build_cue(pm, times, cue, seconds, spec["instrument"]["gm_program"], part,
+                                    spec.get("velocity_scale", 1.0), spec.get("reverb_send", 0))
             med = statistics.median(rates)
             worst = max(abs(r / med - 1) for r in rates)
             if worst > spec["max_tempo_change"]:
                 print(f"warning: ep{n} {part}: tempo varies {worst:.0%} between anchors "
                       f"(limit {spec['max_tempo_change']:.0%}); consider moving an anchor")
-            wav = music / f"ep{n}_{part}.wav"
+            wav = music / f"ep{n}_{part}{'' if not args.variant else '_' + name}.wav"
             render(midi, seconds, cue, spec, wav)
             video = BUILD / f"ep{n}_{part}.mp4"
-            out = BUILD / f"ep{n}_{part}_scored.mp4"
+            out = BUILD / f"ep{n}_{part}_{suffix}.mp4"
             mux(video, wav, out)
             a, v = duration(out, "a:0"), duration(out, "v:0")
             ok = abs(a - seconds) < 0.03 and abs(v - seconds) < 0.03

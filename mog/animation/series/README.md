@@ -100,7 +100,7 @@ The credits are staged with the series' own pictures. Each card stays up long en
 2. **Based on:** David Joyner, "Kittens, MOGs, and mathematical blackjack," Draft 4 (2026), CC BY 4.0. *The paper's title page slides in, and Ada taps it as if checking the citation.*
 3. **The mathematics of:** R. T. Curtis (the kitten and the MOG) · J. H. Conway (the tetracode and the MINIMOG) · E. Witt (the Steiner system S(5,6,12)) · J. Kahane and A. J. Ryba (*The Hexad Game*) · J. H. Conway and N. J. A. Sloane (*Sphere Packings, Lattices and Groups*). *Each name appears beside the picture it gave the series, and Sophie walks along the line.*
 4. **Featuring and voices:** Pascal (Kokoro am_puck), Sophie (af_bella), Ada (af_sarah), Euler (bm_george), and the note "Synthetic voices generated locally with Kokoro text-to-speech." *The kittens bow in turn. Pascal bows too low and topples, and Euler bows a beat late.*
-5. **Music:** Domenico Scarlatti, Fugue in G minor, K. 30 ("Cat Fugue") · From the Longo edition (Ricordi, 1906–1913), transcribed for this series · Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License). *A staff draws itself and curls into a tail, and the credit writes on above it.*
+5. **Music:** Domenico Scarlatti, Fugue in G minor, K. 30 ("Cat Fugue") · From the Longo edition (Ricordi, 1906–1913), transcribed for this series · Played on piano with FluidSynth and the FluidR3 GM SoundFont (MIT License). *A staff draws itself and curls into a tail, and the credit writes on above it.*
 6. **Visual style inspired by:** *Euphemia Haynes — Mathematics as an Open Door*. **Made with:** Manim Community Edition, Kokoro, FFmpeg, Python. *The tools' names drop onto the table like cards.*
 7. **Character animation** *(only if PAM is used)*: PAM (Pose And Motion), Blender.
 8. **Mathematical checks:** Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License). *A counter ticks through the hexads and stops at 132, and Ada nods.*
@@ -181,7 +181,7 @@ Requirements are the same as for the existing film: Manim Community Edition 0.19
 
 ## Music
 
-The title and credits music is Domenico Scarlatti's "Cat Fugue" (Keyboard Sonata in G minor, K. 30), said to have been inspired by his cat walking across the harpsichord. It is played on a General MIDI harpsichord through FluidSynth with the FluidR3 GM SoundFont (MIT License), from a score made for this series, so no recording rights are involved.
+The title and credits music is Domenico Scarlatti's "Cat Fugue" (Keyboard Sonata in G minor, K. 30), said to have been inspired by his cat walking across the harpsichord. It is played on a General MIDI piano through FluidSynth with the FluidR3 GM SoundFont (MIT License), from a score made for this series, so no recording rights are involved. The piano is softened: the highs are rolled off above 5 kHz, a small room's reverb is added, the notes are played at 80% strength and each cue fades in. The music sits at −26 LUFS, about 10 dB under typical dialogue. A plain harpsichord and a softened harpsichord were also tried; they remain in `music.json` as variants.
 
 **The score.** `music/scarlatti_k30_m1-44.txt` holds bars 1–44, transcribed note by note from scans of Alessandro Longo's edition (Ricordi, 1906–1913; public domain), No. 499, which are kept in the KernScores Scarlatti repository (`reference-edition/L499K030.pdf` in github.com/craigsapp/scarlatti-keyboard-sonatas). That repository's own encodings are CC BY-NC-SA and K. 30 is not among them, so none were used. `music/build_k30_midi.py` checks the transcription and writes the MIDI file. Every voice of every bar must add up to 6/8. Each entry of the subject (bars 1, 6, 12, 17 and 27) must be an exact transposition of the first, apart from the inverted leap Scarlatti writes in bar 29. Its `--report` lists the strong-beat seconds and sevenths. All nine are tied suspensions, which is what a correct reading of Baroque counterpoint should show.
 
@@ -191,6 +191,7 @@ The title and credits music is Domenico Scarlatti's "Cat Fugue" (Keyboard Sonata
 python music/build_k30_midi.py --report   # after changing the transcription
 python make_music.py --survey             # the score's measures and their times
 python make_music.py                      # render both cues and score every clip
+python make_music.py --variant harpsichord_soft --episodes 1 --cues opening   # try another sound
 ```
 
 `make_music.py` takes the measures each cue names in `music.json`, warps time so each anchored downbeat lands on its moment in the clip, and fits the result to the clip's exact length, with fades and even loudness. It warns when a stretch runs more than 12% off the median tempo. It writes `epN_opening_scored.mp4` and `epN_credits_scored.mp4` beside the silent clips. Requirements: `fluidsynth`, the FluidR3 GM SoundFont (`fluid-soundfont-gm` on Linux; on a Mac, `brew install fluid-synth` and point `soundfont.file` in `music.json` at a copy of `FluidR3_GM.sf2`) and `pip install pretty_midi`.
