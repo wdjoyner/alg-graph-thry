@@ -26,12 +26,16 @@ subgroup `N`, and the description of the extension `W` by its monodromy on the
 first homology of the Cayley graph of `Gamma` (the relation module).
 
 A detailed running example, the Weil group of `Q_3(i)/Q_3` with coefficients
-in `C^x` and `SL_2(C)`, is carried through Sections 3 to 8 (Examples 3.12,
-4.7, 5.14, 6.7, 7.16 and 8.4).
+in `C^x` and `SL_2(C)`, is carried through Sections 2 to 8, at the end of
+each section.
 
-Current version: **Draft 3. Corrected and expanded version** (November 26, 2026).
-Draft 3 follows the house style guide `joyner-math-paper-style-guide.md` (Draft 2
-of the guide, in the repository `wdjoyner/trace-formulas`).
+Current version: **Draft 5. Corrected and expanded version** (November 27, 2026).
+Draft 3 brought the paper into the house style (`joyner-math-paper-style-guide.md`,
+in the repository `wdjoyner/trace-formulas`). ChatGPT reviewed Draft 3 and prepared
+Draft 4, which moves notation and literature review into the Introduction and
+introduces the graph theory (new Section 3) before the obstruction theory. Draft 5
+(Claude) adds motivation, following notes by Gemini ("Carbon"): Section 1.1, the
+openings of Sections 3 to 8, Remark 8.3 and Section 9.1. Draft 5 adds no new result.
 Gemini refereed the original manuscript and ChatGPT refereed Draft 1.
 
 ## Files
@@ -43,6 +47,8 @@ Gemini refereed the original manuscript and ChatGPT refereed Draft 1.
 | `original/infres.tex` | The original, undated AMS-TeX manuscript, unchanged |
 | `referee/2026-11-26/` | Referee report on the original (Gemini, "Carbon"), as received |
 | `referee/2026-11-26-chatgpt/` | Referee report on Draft 1 (ChatGPT), as received |
+| `referee/2026-11-27-chatgpt/` | Review of Draft 3 (ChatGPT), as received; Draft 4 carries it out |
+| `referee/2026-11-27-carbon/` | Notes on motivating the paper (Gemini, "Carbon"), as received; used in Draft 5 |
 | `LICENSE-manuscript.txt` | CC BY 4.0 license for the manuscript, LaTeX sources and revision log |
 | `verification/` | A script that checks the main results by brute force on twenty-seven small examples, five of them with non-abelian `N`, and its output (MIT license) |
 
