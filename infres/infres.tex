@@ -68,13 +68,13 @@
 
 \title{Inflation-restriction in non-abelian cohomology:\\
 centralizer obstructions, Weil groups, and voltage graphs\\[4pt]
-\large Draft 3. Corrected and expanded version}
+\large Draft 4. Corrected and expanded version}
 \author{David Joyner\thanks{This expository paper corrects and expands an
 undated, unpublished manuscript of the first author, ``Notes on the
 inflation-restriction sequence in non-abelian cohomology'' (file
 \texttt{infres.tex}, written in \AmS-\TeX\ while he was at the U.S.\ Naval
 Academy). Drafts~1 to~3 of this revision were prepared on November 26,
-2026. The present title was adopted in Draft~3.}\\
+2026. The present title was adopted in Draft~3. Draft~4 (November 27, 2026) reorganizes and expands the geometric exposition.}\\
 \texttt{wdjoyner@gmail.com}
 \and Claude\thanks{An AI system developed by Anthropic (model Claude
 Fable~5.2). Its contributions are described in the Acknowledgments.}}
@@ -89,7 +89,7 @@ which revised, corrected and expanded the first author's original
 manuscript. Two other AI systems acted as referees: Gemini (by Google)
 for the original manuscript and ChatGPT (by OpenAI) for Draft~1. Several
 results of this paper were proposed in ChatGPT's report. See the
-Acknowledgments for details.
+Acknowledgments for details. ChatGPT (OpenAI) also reorganized and expanded the exposition in Draft~4.
 
 This paper is expository. No originality is claimed for its results.
 
@@ -112,7 +112,7 @@ centralizer cannot be replaced by $A$. The class $\partial\phi$ is the
 class of a canonical extension of $\Gamma$ by the centralizer, built
 without choices, and in this form the criterion holds for an arbitrary
 normal subgroup $N$, abelian or not. Finally we recast the criterion in
-terms of voltage and gain graphs: the Cayley graph of $W$ is the derived
+terms of voltage and gain graphs: the Cayley graph of $W$ on chosen lifts is the derived
 graph of a voltage assignment on the Cayley graph of $\Gamma$, the
 extension $W$ is recovered from the monodromy of this covering on the
 first homology of the Cayley graph of $\Gamma$, and $\phi$ extends exactly
@@ -183,6 +183,61 @@ examples, written for a reader who knows what a group extension and a
 cocycle are but is not a specialist in non-abelian cohomology or in the
 Langlands correspondence. Where a statement is quoted from the literature
 and not proved here, this is said (\S\ref{ss:proved}).
+
+\subsection{Notation and conventions}\label{ss:notation}
+
+The basic objects are related by the exact sequence
+\[
+1\longrightarrow N\overset{i}{\longrightarrow}W
+\overset{p}{\longrightarrow}\Gamma\longrightarrow1.
+\]
+The quotient $\Gamma=W/N$ records the cosets of the kernel $N$ in $W$; it is not in general a subgroup of $W$. A section chooses one representative of each coset, but need not be a homomorphism. In the arithmetic application $N=E^\times$ and $\Gamma=\Gal(E/F)$, whereas $A$ is a separate coefficient group. The action of $W$ on $A$ factors through $p$, so $N$ acts trivially on $A$. The extension problem asks whether a homomorphism $\phi:N\to A$ can be realized as the restriction of a crossed homomorphism on $W$.
+
+The following table collects the notation of the whole paper, including
+symbols that are introduced only in later sections. Each symbol is also
+defined where it is first used.
+
+\begin{center}
+\begin{tabular}{@{}p{0.37\textwidth}p{0.57\textwidth}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$1\to N\overset{i}{\to}W\overset{p}{\to}\Gamma\to1$ & the extension,
+$N$ its kernel, $\Gamma$ its quotient \\
+$A$, $\alpha$, $\act{g}{a}$ & coefficient group, action of $\Gamma$ on $A$,
+$\alpha(g)(a)$ \\
+$\overline{\alpha}$ & class of $\alpha$ modulo inner automorphisms \\
+$s$, $\sigma$ & section of $p$ with $s(1)=1$, its factor set
+$\sigma(g,h)=s(g)s(h)s(gh)^{-1}$ \\
+$Z^1(G,A)$, $H^1(G,A)$, $[f]$ & $1$-cocycles, cohomology set, class of $f$ \\
+$\infl$, $\res$ & inflation and restriction \\
+$\phi$, $[\phi]$ & a homomorphism $N\to A$, its conjugacy class \\
+$g\cdot\phi$ & $x\mapsto\act{g}{\phi(\act{g^{-1}}{x})}$ \\
+$C_\phi$ & centralizer of $\phi(N)$ in $A$ \\
+$T_\phi(g)$ & transporter:
+$\{b: b\,\act{g}{\phi(x)}\,b^{-1}=\phi(\act{g}{x})\ \forall x\}$ \\
+$E_\phi$ & stabilizer of $\phi$ in $A\rtimes\Gamma$, an extension of
+$\Gamma$ by $C_\phi$ \\
+$\kappa_\phi$ & kernel (outer action) of $\Gamma$ on $C_\phi$ \\
+$(u_b,\beta_b)$ & $2$-cocycle of $E_\phi$ for a choice $b(g)\in T_\phi(g)$ \\
+$\partial\phi$ & obstruction class in $H^2(\Gamma,C_\phi,\kappa_\phi)$ \\
+$\mathcal{O}_\phi$ & obstruction extension of $\Gamma$ by $C_\phi$ \\
+$B_\phi$, $D_\phi$ & stabilizer of $\phi$ in $A\rtimes W$, graph of $\phi$
+(Section~\ref{sec:nonabelian}) \\
+$\beta_f$, ${}_fC_\phi$ & action of $\Gamma$ on $C_\phi$ twisted by a
+cocycle $f$ \\
+$\overline{S}$, $s_t$, $S$ & generators of $\Gamma$, lifts to $W$,
+$S=\{s_t\}$ \\
+$\fr$, $\rel$, $\rel_{\mathrm{ab}}$ & free group on $\overline{S}$,
+relations $\ker(\fr\to\Gamma)$, its abelianization \\
+$\lambda_W$, $\nu$ & $\fr\to W$, $t\mapsto s_t$, monodromy
+$\nu=\lambda_W|_{\rel}:\rel\to N$ \\
+$\theta_c$ & gain function $\theta_c(g,t)=\act{g}{c(t)}$ on
+$\Cay(\Gamma,\overline{S})$ \\
+$D_4$, $Q_8$ & dihedral and quaternion groups of order $8$ \\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \subsection{A first example}\label{ss:first}
 
@@ -278,7 +333,7 @@ changes $\nu$ by the restriction of a derivation.
 
 A detailed running example, the Weil group of $\Q_3(i)/\Q_3$ with
 coefficients in $\C^\times$ and in $\SL_2(\C)$, is carried through the
-whole paper: Examples~\ref{ex:run1}, \ref{ex:run2}, \ref{ex:run3},
+whole paper: Examples~\ref{ex:run1}, \ref{ex:run-cover}, \ref{ex:run2}, \ref{ex:run3},
 \ref{ex:runH}, \ref{ex:run4} and~\ref{ex:run5}, at the ends of
 Sections~\ref{sec:background} to~\ref{sec:langlands}. In it every object
 of the paper is computed explicitly. Three shorter examples recur as
@@ -343,74 +398,15 @@ The results proved in this paper do not depend on~\eqref{eq:H2pres} or on
 the determinant formula, which are quoted for comparison only.
 \end{yremark}
 
-\subsection{What is proved here and what is cited}\label{ss:proved}
+\subsection{Literature review}\label{sec:literature}
 
-Every statement in this paper is either proved here or quoted from a
-source. The following table records which is which. There are no
-conditional or conjectural statements apart from the questions in
-Section~\ref{sec:questions}.
-
-\begin{center}
-\begin{tabular}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
-\toprule
-Proved in this paper & Cited \\
-\midrule
-Lemmas \ref{lem:factor}, \ref{lem:semidirect}, \ref{lem:ext-class},
-\ref{lem:twist}, \ref{lem:actions}, \ref{lem:restrict}, \ref{lem:T},
-\ref{lem:BD} &
-Structure of $W_{E/F}$: facts (W1)--(W3) of \S\ref{ss:weil}
-\cite{Ta79,AT68} \\
-Theorems \ref{thm:exact}, \ref{thm:main}, \ref{thm:general},
-\ref{thm:graph} &
-$H^2(\Z/2,C)$ for abelian $C$ (Example~\ref{ex:H2}) \cite{Se79} \\
-Propositions \ref{prop:welldef}, \ref{prop:canonical},
-\ref{prop:fiber}, \ref{prop:fiber-general}, \ref{prop:derived},
-\ref{prop:reconstruct}, \ref{prop:lifts}, \ref{prop:cont} &
-Langlands' correspondence for tori (Example~\ref{ex:torus2}, comparison
-only) \cite{La97} \\
-Corollaries \ref{cor:central}, \ref{cor:cyclic} &
-Coverings are harmonic morphisms (Remark~\ref{rem:harmonic}) \cite{BN09} \\
- & Structure of $\Q_3(i)^\times$ and its norm group
-(Example~\ref{ex:run1}(a),(b)) \cite{Se79} \\
-All computations in the examples & The relation sequence~\eqref{eq:relseq}
-and the presentation formula~\eqref{eq:H2pres} for $H^2$ \cite{Br82} \\
- & The determinant of an induced representation
-(Example~\ref{ex:dihedral}) \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\noindent The finite examples, and the main results for twenty-seven small
-extensions and coefficient groups (five of them with non-abelian $N$),
-were also checked by exhaustive computer enumeration. The script is
-\texttt{verification/infres\_checks.py}, at commit \texttt{1023575} of the
-repository named in the Acknowledgments. The proofs do not depend on these
-computations.
-
-\subsection{Organization}
-
-Section~\ref{sec:literature} reviews the literature.
-Section~\ref{sec:background} collects background: factor sets, the
-relative Weil group, non-abelian $H^1$, Springer's $H^2$, and a table of
-notation. Section~\ref{sec:infres} treats inflation and restriction.
-Section~\ref{sec:obstruction} constructs the obstruction class and proves
-the main theorem. Section~\ref{sec:nonabelian} extends it to non-abelian
-$N$. Section~\ref{sec:graph} gives the graph-theoretic formulation.
-Section~\ref{sec:langlands} discusses topology and Langlands parameters.
-Section~\ref{sec:questions} summarizes the results and lists open
-questions. Each of Sections~\ref{sec:background} to~\ref{sec:langlands}
-ends with the corresponding part of the running example. A glossary, the
-acknowledgments and the references are at the end.
-
-\section{Literature review}\label{sec:literature}
-
-This section summarizes the sources on which the paper rests and says how
+This subsection summarizes the sources on which the paper rests and says how
 its results fit among them. The original manuscript is undated, from the
 1990s, and the review is divided accordingly. The paper is expository,
 and what follows is a guide to where the ideas come from, not a claim of
 priority.
 
-\subsection{Sources earlier than the original manuscript}
+\subsubsection{Sources earlier than the original manuscript}
 
 The first group of sources was available when the original manuscript was
 written. It contains all the theory that the paper uses.
@@ -476,13 +472,13 @@ recover the simplest case of this from the exact sequence.
 graph with group-valued labels on its edges determines a covering, the
 derived graph, and every regular covering arises in this way. Zaslavsky
 \cite{Za89} studies the same objects as gain graphs, with the notions of
-balance and switching. Section~\ref{sec:graph} applies these notions to
+balance and switching. Sections~\ref{sec:graph-foundations} and~\ref{sec:graph} apply these notions to
 Cayley graphs of $\Gamma$ and $W$. Serre's \emph{Trees} \cite{Se80}
 treats groups acting on graphs without the assumption that the action is
 free, by means of graphs of groups. It is relevant to
 Question~\ref{q:harmonic}.
 
-\subsection{Later sources}
+\subsubsection{Later sources}
 
 The second group of sources is later than the original manuscript, or
 contemporary with it. None of them is needed for the proofs, but they
@@ -525,6 +521,65 @@ in the non-abelian group $Q_8$ behaves differently
 the paper.
 \end{example}
 
+\subsection{What is proved here and what is cited}\label{ss:proved}
+
+Every statement in this paper is either proved here or quoted from a
+source. The following table records which is which. There are no
+conditional or conjectural statements apart from the questions in
+Section~\ref{sec:questions}.
+
+\begin{center}
+\begin{tabular}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
+\toprule
+Proved in this paper & Cited \\
+\midrule
+Lemmas \ref{lem:factor}, \ref{lem:semidirect}, \ref{lem:ext-class},
+\ref{lem:twist}, \ref{lem:actions}, \ref{lem:restrict}, \ref{lem:T},
+\ref{lem:BD} &
+Structure of $W_{E/F}$: facts (W1)--(W3) of \S\ref{ss:weil}
+\cite{Ta79,AT68} \\
+Theorems \ref{thm:exact}, \ref{thm:main}, \ref{thm:general},
+\ref{thm:graph} &
+$H^2(\Z/2,C)$ for abelian $C$ (Example~\ref{ex:H2}) \cite{Se79} \\
+Propositions \ref{prop:welldef}, \ref{prop:canonical},
+\ref{prop:fiber}, \ref{prop:fiber-general}, \ref{prop:derived},
+\ref{prop:reconstruct}, \ref{prop:lifts}, \ref{prop:cont} &
+Langlands' correspondence for tori (Example~\ref{ex:torus2}, comparison
+only) \cite{La97} \\
+Corollaries \ref{cor:central}, \ref{cor:cyclic} &
+Coverings are harmonic morphisms (Remark~\ref{rem:harmonic}) \cite{BN09} \\
+ & Structure of $\Q_3(i)^\times$ and its norm group
+(Example~\ref{ex:run1}(a),(b)) \cite{Se79} \\
+All computations in the examples & The relation sequence~\eqref{eq:relseq}
+and the presentation formula~\eqref{eq:H2pres} for $H^2$ \cite{Br82} \\
+ & The determinant of an induced representation
+(Example~\ref{ex:dihedral}) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The finite examples, and the main results for twenty-seven small
+extensions and coefficient groups (five of them with non-abelian $N$),
+were also checked by exhaustive computer enumeration. The script is
+\texttt{verification/infres\_checks.py}, at commit \texttt{1023575} of the
+repository named in the Acknowledgments. The proofs do not depend on these
+computations.
+
+\subsection{Organization}
+
+The Introduction includes the notation and literature review.
+Section~\ref{sec:background} collects algebraic background: factor sets,
+the relative Weil group, non-abelian $H^1$ and Springer's $H^2$.
+Section~\ref{sec:graph-foundations} develops voltage graphs, the covering associated with an extension, and reconstruction from monodromy. Section~\ref{sec:infres} treats inflation and restriction.
+Section~\ref{sec:obstruction} constructs the obstruction class and proves
+the main theorem. Section~\ref{sec:nonabelian} extends it to non-abelian
+$N$. Section~\ref{sec:graph} gives the graph-theoretic formulation.
+Section~\ref{sec:langlands} discusses topology and Langlands parameters.
+Section~\ref{sec:questions} summarizes the results and lists open
+questions. Each of Sections~\ref{sec:background} to~\ref{sec:langlands}
+ends with the corresponding part of the running example. A glossary, the
+acknowledgments and the references are at the end.
+
 \section{Background and conventions}\label{sec:background}
 
 This section collects what the rest of the paper needs: the description
@@ -532,9 +587,8 @@ of a group extension by a factor set, the structure of the relative Weil
 group, cohomology sets $H^0$ and $H^1$ with non-abelian coefficients, and
 Springer's second cohomology set. Each subsection states the definitions,
 proves the elementary facts that are used later, and gives examples. The
-section ends with a table of notation and with the first part of the
-running example. A reader familiar with this material can skip to
-Section~\ref{sec:infres} and refer back as needed.
+section ends with the first part of the running example. The notation table is in \S\ref{ss:notation}. A reader familiar with this material can skip to
+Section~\ref{sec:graph-foundations} and refer back as needed.
 
 Throughout, $1\to N\overset{i}{\to}W\overset{p}{\to}\Gamma\to1$ is an exact
 sequence of groups with $N$ abelian. We identify $N$ with $i(N)$. The group
@@ -841,54 +895,6 @@ extensions $Q_8\times\Z/2$ and $Q_8\rtimes\Z/2$, with $\tau$ acting by
 $\Int(i)$.
 \end{example}
 
-\subsection{Notation}\label{ss:notation}
-
-The following table collects the notation of the whole paper, including
-symbols that are introduced only in later sections. Each symbol is also
-defined where it is first used.
-
-\begin{center}
-\begin{tabular}{@{}ll@{}}
-\toprule
-Symbol & Meaning \\
-\midrule
-$1\to N\overset{i}{\to}W\overset{p}{\to}\Gamma\to1$ & the extension,
-$N$ its kernel, $\Gamma$ its quotient \\
-$A$, $\alpha$, $\act{g}{a}$ & coefficient group, action of $\Gamma$ on $A$,
-$\alpha(g)(a)$ \\
-$\overline{\alpha}$ & class of $\alpha$ modulo inner automorphisms \\
-$s$, $\sigma$ & section of $p$ with $s(1)=1$, its factor set
-$\sigma(g,h)=s(g)s(h)s(gh)^{-1}$ \\
-$Z^1(G,A)$, $H^1(G,A)$, $[f]$ & $1$-cocycles, cohomology set, class of $f$ \\
-$\infl$, $\res$ & inflation and restriction \\
-$\phi$, $[\phi]$ & a homomorphism $N\to A$, its conjugacy class \\
-$g\cdot\phi$ & $x\mapsto\act{g}{\phi(\act{g^{-1}}{x})}$ \\
-$C_\phi$ & centralizer of $\phi(N)$ in $A$ \\
-$T_\phi(g)$ & transporter:
-$\{b: b\,\act{g}{\phi(x)}\,b^{-1}=\phi(\act{g}{x})\ \forall x\}$ \\
-$E_\phi$ & stabilizer of $\phi$ in $A\rtimes\Gamma$, an extension of
-$\Gamma$ by $C_\phi$ \\
-$\kappa_\phi$ & kernel (outer action) of $\Gamma$ on $C_\phi$ \\
-$(u_b,\beta_b)$ & $2$-cocycle of $E_\phi$ for a choice $b(g)\in T_\phi(g)$ \\
-$\partial\phi$ & obstruction class in $H^2(\Gamma,C_\phi,\kappa_\phi)$ \\
-$\mathcal{O}_\phi$ & obstruction extension of $\Gamma$ by $C_\phi$ \\
-$B_\phi$, $D_\phi$ & stabilizer of $\phi$ in $A\rtimes W$, graph of $\phi$
-(Section~\ref{sec:nonabelian}) \\
-$\beta_f$, ${}_fC_\phi$ & action of $\Gamma$ on $C_\phi$ twisted by a
-cocycle $f$ \\
-$\overline{S}$, $s_t$, $S$ & generators of $\Gamma$, lifts to $W$,
-$S=\{s_t\}$ \\
-$\fr$, $\rel$, $\rel_{\mathrm{ab}}$ & free group on $\overline{S}$,
-relations $\ker(\fr\to\Gamma)$, its abelianization \\
-$\lambda_W$, $\nu$ & $\fr\to W$, $t\mapsto s_t$, monodromy
-$\nu=\lambda_W|_{\rel}:\rel\to N$ \\
-$\theta_c$ & gain function $\theta_c(g,t)=\act{g}{c(t)}$ on
-$\Cay(\Gamma,\overline{S})$ \\
-$D_4$, $Q_8$ & dihedral and quaternion groups of order $8$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
 \subsection{Running example: the Weil group of \texorpdfstring{$\Q_3(i)/\Q_3$}{Q3(i)/Q3}}\label{ss:run1}
 
 The following example is continued at the end of each of
@@ -977,6 +983,369 @@ Both toy extensions of Example~\ref{ex:toy} are quotients of the Weil
 group of $\Q_3(i)/\Q_3$. The first is split although $W$ is not: the
 non-norm $3$ has been killed.
 \end{example}
+
+\section{Group extensions and their associated graphs}\label{sec:graph-foundations}
+
+Before introducing the obstruction, we describe the extension itself geometrically. The base graph records multiplication in the quotient; the derived graph records multiplication by chosen lifts. The kernel is the group acting freely on the fibers. For abelian kernels the relation module packages all closed-walk voltages into an equivariant homomorphism. The results in this section do not require the centralizer obstruction theorem.
+
+\subsection{Voltage graphs and derived graphs}
+
+This subsection recalls voltage graphs and shows that a group extension
+is the same thing as a voltage assignment on a Cayley graph of the
+quotient. The Cayley graph of $W$ is the resulting covering graph, and
+the homomorphism that records the net voltages of closed walks, the
+monodromy, determines $W$.
+
+A \emph{digraph} $X$ has a vertex set $V(X)$, an edge set $E(X)$, and each
+edge $e$ has a tail and a head in $V(X)$. Loops and multiple edges are
+allowed. A \emph{walk} is a sequence of edges, each traversed forward or
+backward, such that consecutive edges meet.
+
+\begin{definition}\label{def:voltage}
+Let $K$ be a group. A \emph{$K$-voltage assignment} (or \emph{$K$-gain
+function}) on $X$ is a map $\nu:E(X)\to K$. The \emph{net voltage} of a
+walk is the ordered product of the voltages of its edges, an edge
+traversed backward contributing $\nu(e)^{-1}$. The \emph{derived graph}
+$X^\nu$ has vertex set $V(X)\times K$ and edge set $E(X)\times K$. The edge
+$(e,k)$ runs from $(\mathrm{tail}(e),k)$ to
+$(\mathrm{head}(e),k\,\nu(e))$. The projection $X^\nu\to X$ is a covering
+map of digraphs, and $K$ acts freely on $X^\nu$ by left multiplication on
+the second coordinate, with quotient $X$.
+\end{definition}
+
+\begin{example}\label{ex:cayley}
+Let $\overline{S}$ be a subset of a group $\Gamma$. The \emph{Cayley
+digraph} $\Cay(\Gamma,\overline{S})$ has vertex set $\Gamma$ and an edge
+$(g,t)$ from $g$ to $gt$ for each $g\in\Gamma$, $t\in\overline{S}$. It is
+the derived graph of the bouquet $B_{\overline{S}}$ (one vertex, one loop
+$e_t$ for each $t\in\overline{S}$) with the voltage assignment
+$e_t\mapsto t$. The group $\Gamma$ acts on $\Cay(\Gamma,\overline{S})$ by
+left multiplication.
+\end{example}
+
+Fix a generating set $\overline{S}$ of $\Gamma$ not containing $1$ and, for each
+$t\in\overline{S}$, a lift $s_t\in W$ with $p(s_t)=t$. Let
+$S=\{s_t:t\in\overline{S}\}$. Let $\fr$ be the free group on
+$\overline{S}$, and let
+\[
+\pi:\fr\to\Gamma,\quad t\mapsto t,\qquad\qquad
+\lambda_W:\fr\to W,\quad t\mapsto s_t,
+\]
+so that $p\circ\lambda_W=\pi$. Let $\rel=\ker\pi$ be the group of
+relations. A word $v\in\fr$ spells a walk in $\Cay(\Gamma,\overline{S})$
+starting at $1$ and ending at $\pi(v)$, and $\rel$ is the set of words
+spelling closed walks at $1$. Since $\lambda_W(\rel)\subseteq\ker p=N$, we
+get a homomorphism
+\begin{equation}\label{eq:nu}
+\nu=\lambda_W|_{\rel}:\rel\to N,\qquad
+\nu(vrv^{-1})=\act{\pi(v)}{\nu(r)}\quad(v\in\fr,\ r\in\rel).
+\end{equation}
+
+\begin{proposition}\label{prop:derived}
+Let $s$ be a section of $p$. Define an $N$-voltage assignment on
+$\Cay(\Gamma,\overline{S})$ by
+\[
+\nu_s(g,t)=s(g)\,s_t\,s(gt)^{-1}\in N .
+\]
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item The map $(g,x)\mapsto x\,s(g)$ is an isomorphism from the derived
+graph $\Cay(\Gamma,\overline{S})^{\nu_s}$ onto $\Cay(W,S)$. Under it, the
+covering projection is $p$ and the action of $N$ is left multiplication.
+\item If $s(t)=s_t$ for all $t\in\overline{S}$, then
+$\nu_s(g,t)=\sigma(g,t)$: the voltages are values of the factor set.
+\item Replacing $s$ by $\eta s$ replaces $\nu_s(g,t)$ by
+$\eta(g)\,\nu_s(g,t)\,\eta(gt)^{-1}$ \textup{(}``switching''\textup{)}.
+\item The net $\nu_s$-voltage of the closed walk at $1$ spelled by
+$r\in\rel$ is $\nu(r)$. It does not depend on $s$.
+\item The connected components of $\Cay(W,S)$ correspond to the elements
+of $N/\nu(\rel)$. In particular $\Cay(W,S)$ is connected if and only if
+$\nu$ is surjective.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) By Lemma~\ref{lem:factor}(ii) the map is a bijection on vertices. The
+derived edge from $(g,x)$ to $(gt,x\,\nu_s(g,t))$ is sent to the pair
+$x\,s(g)$, $x\,\nu_s(g,t)s(gt)=x\,s(g)s_t$, which is the edge
+$(x\,s(g),s_t)$ of $\Cay(W,S)$. (ii) and (iii) are immediate. (iv) Along
+the walk $1=g_0,g_1,\dots,g_m=1$ spelled by
+$r=t_1^{\epsilon_1}\cdots t_m^{\epsilon_m}$ the voltages are
+$s(g_{j-1})\,s_{t_j}^{\epsilon_j}\,s(g_j)^{-1}$, and the product
+telescopes to $s(1)\lambda_W(r)s(1)^{-1}$. (v) The component of $1$ in
+$\Cay(W,S)$ is the subgroup $\langle S\rangle=\lambda_W(\fr)$, and the
+components are its left cosets. Since $\overline{S}$ generates $\Gamma$,
+$W=N\langle S\rangle$, so $W/\langle S\rangle\cong N/(N\cap\langle
+S\rangle)$, and $N\cap\lambda_W(\fr)=\lambda_W(\rel)$.
+\end{proof}
+
+The homomorphism $\nu$ of~\eqref{eq:nu} is the monodromy of the covering
+$\Cay(W,S)\to\Cay(\Gamma,\overline{S})$: the lift of the closed walk
+spelled by $r$ which starts at the vertex $x\in N$ ends at $x\,\nu(r)$.
+The covering alone, as a map of unlabeled graphs, does not determine the
+group $W$. For instance $\Cay(D_4,\{s\})$ in Figure~\ref{fig:toy} is
+isomorphic, over the $2$-cycle, to $\Cay(\Z/4\times\Z/2,\{(0,1)\})$. What
+does determine $W$ is the monodromy, with values in the $\Gamma$-module
+$N$.
+
+\begin{proposition}[Reconstruction]\label{prop:reconstruct}
+Let $\fr$ act on $N$ through $\pi$.
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item The map $N\rtimes\fr\to W$, $(x,v)\mapsto x\,\lambda_W(v)$, is a
+surjective homomorphism with kernel
+$K_\nu=\{(\nu(r)^{-1},r):r\in\rel\}$. Hence
+\[
+W\cong(N\rtimes\fr)/K_\nu .
+\]
+\item Conversely, let $N$ be any $\Gamma$-module and
+$\nu:\rel\to N$ any homomorphism with
+$\nu(vrv^{-1})=\act{\pi(v)}{\nu(r)}$. Then $K_\nu$ is a normal subgroup
+of $N\rtimes\fr$, the quotient $W_\nu=(N\rtimes\fr)/K_\nu$ is an extension
+of $\Gamma$ by $N$ inducing the given action, and for the lifts
+$s_t=(1,t)K_\nu$ its monodromy is $\nu$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) The map is a homomorphism because
+$\lambda_W(v)\,y=\act{\pi(v)}{y}\,\lambda_W(v)$, and it is surjective
+because $W=N\langle S\rangle$. If $x\,\lambda_W(v)=1$ then $\pi(v)=1$, so
+$v=r\in\rel$ and $x=\nu(r)^{-1}$.
+
+(ii) Since $\rel$ acts trivially on $N$ and $N$ is abelian,
+$(\nu(r)^{-1},r)(\nu(r')^{-1},r')=(\nu(rr')^{-1},rr')$, and conjugating
+$(\nu(r)^{-1},r)$ by $(x,v)$ gives
+$(\act{\pi(v)}{\nu(r)}^{-1},vrv^{-1})=(\nu(vrv^{-1})^{-1},vrv^{-1})$. So
+$K_\nu$ is a normal subgroup. It meets $N\times\{1\}$ trivially, and
+$(N\rtimes\fr)/(N\times\rel)=\Gamma$, so $W_\nu$ is an extension of
+$\Gamma$ by $N$. Finally $(1,r)=(\nu(r),1)(\nu(r)^{-1},r)$, so
+$\lambda_{W_\nu}(r)=\nu(r)$.
+\end{proof}
+
+So the data needed to recover the extension are: the $\Gamma$-module $N$,
+the generators $\overline{S}$ of $\Gamma$, and the equivariant
+homomorphism $\nu$. In graph terms these are the voltage group with its
+$\Gamma$-action, the generator labels on the edges of the base graph, and
+the net voltages of closed walks.
+
+\begin{remark}[Harmonic morphisms]\label{rem:harmonic}
+Since $1\notin\overline{S}$ and $s_t\notin N$, the Cayley digraphs
+$\Cay(\Gamma,\overline{S})$ and $\Cay(W,S)$ have no loops. Forgetting
+orientations gives multigraphs without loops, which are locally finite
+when $\overline{S}$ is finite but may be infinite. Baker and Norine
+\cite{BN09} define harmonic morphisms for finite multigraphs without loops.
+The definition is local: a map of graphs is harmonic if, at each vertex
+$v$, the number of edges at $v$ mapped onto an edge $e'$ at the image of
+$v$ is the same for all $e'$. We use it, in the same form, for locally
+finite multigraphs without loops. With this convention a covering map is
+a harmonic morphism, with no edge collapsed to a vertex and all local
+multiplicities equal to $1$. So $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$
+is a harmonic morphism, and it is the quotient map for the free action of
+$N$. A harmonic morphism which is not a covering has no unique lifting of
+walks, and so no monodromy in the above sense. See
+Question~\ref{q:harmonic}.
+\end{remark}
+
+\subsection{The relation module and the homology of the Cayley graph}\label{ss:relmod}
+
+The monodromy is defined on the group of relations of $\Gamma$. This
+subsection identifies that group, made abelian, with the first homology
+of the Cayley graph, and explains how the class of the extension in
+$H^2(\Gamma,N)$ is read off from the monodromy. It ends with a table that
+translates between the algebra and the graphs.
+
+Write $X=\Cay(\Gamma,\overline{S})$, regarded as a one-dimensional cell
+complex. It is the covering of the bouquet $B_{\overline{S}}$
+corresponding to the subgroup $\rel$ of
+$\pi_1(B_{\overline{S}})=\fr$. Hence
+\[
+\pi_1(X,1)=\rel,\qquad H_1(X,\Z)=\rel_{\mathrm{ab}}=\rel/[\rel,\rel].
+\]
+The group $\Gamma$ acts on $X$ by left multiplication, hence on
+$H_1(X,\Z)$, and it acts on $\rel_{\mathrm{ab}}$ through conjugation by
+elements of $\fr$. The identification is $\Gamma$-equivariant. The
+$\Z[\Gamma]$-module $\rel_{\mathrm{ab}}$ is called the \emph{relation
+module} of the presentation. The cellular chain complex of $X$ has
+$C_1=\Z[\Gamma]^{\overline{S}}$, with basis the edges $e_t=(1,t)$,
+$C_0=\Z[\Gamma]$, and boundary $\partial(g\,e_t)=gt-g$. Since $X$ is
+connected, this gives the exact sequence of $\Z[\Gamma]$-modules
+\cite[Ch.~II, \S5]{Br82}
+\begin{equation}\label{eq:relseq}
+0\longrightarrow\rel_{\mathrm{ab}}\longrightarrow
+\Z[\Gamma]^{\overline{S}}\overset{\partial}{\longrightarrow}\Z[\Gamma]
+\overset{\epsilon}{\longrightarrow}\Z\longrightarrow0 ,
+\end{equation}
+in which the class of $r\in\rel$ is sent to the $1$-cycle of the closed
+walk spelled by $r$, and $\epsilon$ is the augmentation. Since $N$ is
+abelian, the monodromy $\nu$ factors through $\rel_{\mathrm{ab}}$, and
+by~\eqref{eq:nu} it is $\Gamma$-equivariant. So
+\[
+\nu\in\Hom_\Gamma\bigl(H_1(X,\Z),N\bigr):
+\]
+the monodromy assigns to each integral $1$-cycle of the Cayley graph its
+net voltage.
+
+A \emph{derivation} $d:\fr\to N$ is a map with
+$d(vv')=d(v)\,\act{\pi(v)}{d(v')}$, that is, a $1$-cocycle of $\fr$ in
+$N$. Since $\fr$ is free, for every family $(\eta_t)_{t\in\overline{S}}$
+of elements of $N$ there is exactly one derivation $d_\eta$ with
+$d_\eta(t)=\eta_t$ (Lemma~\ref{lem:semidirect}). The restriction of a
+derivation to $\rel$ is a $\Gamma$-equivariant homomorphism.
+
+\begin{proposition}[Change of lifts]\label{prop:lifts}
+\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
+\item If the lifts $s_t$ are replaced by $s'_t=\eta_ts_t$ with
+$\eta_t\in N$, the monodromy is replaced by $\nu'=d_\eta|_{\rel}\cdot\nu$.
+\item The extension $W$ splits if and only if $\nu$ is the restriction to
+$\rel$ of a derivation $\fr\to N$.
+\item Two homomorphisms $\nu,\nu'$ as in
+Proposition~\ref{prop:reconstruct}\textup{(ii)} give isomorphic extensions
+$W_\nu\cong W_{\nu'}$, by an isomorphism which is the identity on $N$ and
+on $\Gamma$, if and only if $\nu'\nu^{-1}$ is the restriction of a
+derivation.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) Let $\lambda'_W:\fr\to W$ be the homomorphism with
+$\lambda'_W(t)=\eta_ts_t$. For $v\in\fr$ put
+$d(v)=\lambda'_W(v)\lambda_W(v)^{-1}$, an element of $N$. Then
+\[
+d(vv')=\lambda'_W(v)\,d(v')\,\lambda_W(v)^{-1}=d(v)\,\act{\pi(v)}{d(v')},
+\]
+so $d$ is the derivation $d_\eta$, and $\nu'(r)=d(r)\nu(r)$.
+
+(ii) If $s$ is a homomorphic section, the lifts $s'_t=s(t)$ have trivial
+monodromy, so $\nu=(d_\eta|_{\rel})^{-1}$ by (i), and the inverse of a
+derivation into an abelian group is a derivation. Conversely, if
+$\nu=d|_{\rel}$, the lifts $s'_t=d(t)^{-1}s_t$ have trivial monodromy by
+(i), so $\lambda'_W$ factors through $\fr/\rel=\Gamma$ and gives a
+homomorphic section.
+
+(iii) An isomorphism $W_\nu\to W_{\nu'}$ of extensions carries the
+standard lifts of $W_\nu$ to lifts in $W_{\nu'}$ with monodromy $\nu$. By
+(i), $\nu$ and $\nu'$ differ by a derivation. Conversely, if
+$\nu'=d_\eta|_{\rel}\cdot\nu$, then $W_\nu$ with the lifts $\eta_ts_t$ has
+monodromy $\nu'$, and Proposition~\ref{prop:reconstruct}(i) identifies it
+with $W_{\nu'}$.
+\end{proof}
+
+Derivations $\fr\to N$ correspond to families $(\eta_t)$, that is, to
+elements of $\Hom_\Gamma(\Z[\Gamma]^{\overline{S}},N)$, and restriction to
+$\rel$ corresponds to restriction along the first map
+of~\eqref{eq:relseq}. So Propositions~\ref{prop:reconstruct}
+and~\ref{prop:lifts} give a bijection between isomorphism classes of
+extensions of $\Gamma$ by the $\Gamma$-module $N$ and the cokernel in the
+classical formula \cite[Ch.~IV]{Br82}, \cite[Ch.~IV]{ML63}
+\begin{equation}\label{eq:H2pres}
+H^2(\Gamma,N)\ \cong\
+\frac{\Hom_\Gamma\bigl(H_1(X,\Z),N\bigr)}
+{\text{restrictions of }\Hom_\Gamma\bigl(\Z[\Gamma]^{\overline{S}},N\bigr)} ,
+\end{equation}
+which is obtained from~\eqref{eq:relseq} by dimension shifting. Up to the
+sign conventions, the class $[\sigma]$ of $W$ corresponds to the class of
+its monodromy $\nu$. Indeed, if $\hat{s}:\Gamma\to\fr$ is a section of
+$\pi$ with factor set
+$\sigma_{\fr}(g,h)=\hat{s}(g)\hat{s}(h)\hat{s}(gh)^{-1}\in\rel$, then the
+section $s=\lambda_W\circ\hat{s}$ of $p$ has factor set
+$\sigma=\nu\circ\sigma_{\fr}$.
+
+The following table summarizes the dictionary between the algebra and the
+graphs.
+\begin{center}
+\begin{tabular}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
+\toprule
+Algebra & Graphs \\
+\midrule
+free group $\fr$ on $\overline{S}$ & fundamental group of the bouquet
+$B_{\overline{S}}$ \\
+group of relations $\rel$ & fundamental group of
+$\Cay(\Gamma,\overline{S})$ \\
+relation module $\rel_{\mathrm{ab}}$ & first homology of
+$\Cay(\Gamma,\overline{S})$ \\
+extension $W$ with lifts $s_t$ & derived graph $\Cay(W,S)$, a covering
+with group $N$ \\
+factor set $\sigma$ & voltage assignment $\nu_s$ \\
+change of section $s$ & switching of voltages \\
+homomorphism $\nu:\rel\to N$ & monodromy (net voltages of closed walks) \\
+change of lifts $s_t$ & $\nu$ changes by a derivation
+(Proposition~\ref{prop:lifts}) \\
+$W$ splits & $\nu$ is the restriction of a derivation \\
+$\nu$ surjective & $\Cay(W,S)$ connected \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{example}[The $2$-cycle]\label{ex:twocycle}
+Let $\Gamma=\{1,\tau\}$ and $\overline{S}=\{\tau\}$, so that $X$ is the
+directed $2$-cycle with edges $e=(1,\tau)$ and $\tau e=(\tau,\tau)$. Then
+$\partial e=\tau-1$ and $\partial(\tau e)=1-\tau$, so $H_1(X,\Z)$ is the
+infinite cyclic group generated by $e+\tau e$, the cycle of the relator
+$\tau^2$, with trivial action of $\Gamma$. Hence
+$\Hom_\Gamma(H_1(X,\Z),N)=N^\Gamma$, by $\nu\mapsto\nu(\tau^2)=s_\tau^2$.
+The derivation with $d(\tau)=\eta$ has
+$d(\tau^2)=\eta\,\act{\tau}{\eta}$. So~\eqref{eq:H2pres} becomes
+$H^2(\Gamma,N)\cong N^\Gamma/\{\eta\,\act{\tau}{\eta}\}$, as in
+Example~\ref{ex:H2}(b), and Proposition~\ref{prop:lifts}(ii) says that $W$
+splits if and only if $s_\tau^2$ is a norm. For the toy extensions
+$s_\tau^2\in\{1,\rho^2\}$ and the norms are trivial. For $\Q_3(i)/\Q_3$,
+$s_\tau^2=3$ and the norms are the elements of even valuation
+(Example~\ref{ex:run1}(b),(d)).
+\end{example}
+
+\subsection{Running example: the Weil group covering}
+
+\begin{example}[The underlying voltage graph]\label{ex:run-cover}
+Keep the notation of Example~\ref{ex:run1}. Take $\overline{S}=\{\tau\}$ and $s_\tau=s$.
+
+\smallskip\noindent\emph{(a) The base graph and its voltages.} The Cayley
+digraph $\Cay(\Gamma,\{\tau\})$ is the directed $2$-cycle with edges
+$1\to\tau$ and $\tau\to1$. For the section $s(\tau)=s$ the
+$E^\times$-voltages of Proposition~\ref{prop:derived} are
+\[
+\nu_s(1,\tau)=s(1)\,s\,s(\tau)^{-1}=1,\qquad
+\nu_s(\tau,\tau)=s(\tau)\,s\,s(1)^{-1}=s^2=3 .
+\]
+The free group $\fr$ is infinite cyclic, generated by the letter $\tau$,
+and $\rel$ is generated by the word $\tau^2$, which spells the closed walk
+$1\to\tau\to1$. Its net voltage is $\nu(\tau^2)=1\cdot3=3$. If the section
+is changed to $s'(\tau)=ys$, the two voltages become $y^{-1}$ and $3y$
+(switching by $\eta(\tau)=y$), and the net voltage is still $3$.
+
+\smallskip\noindent\emph{(b) The derived graph.} The derived graph has
+vertex set $\Gamma\times E^\times$ and edges $(1,x)\to(\tau,x)$ and
+$(\tau,x)\to(1,3x)$. Under $(g,x)\mapsto x\,s(g)$ it becomes
+$\Cay(W,\{s\})$, with edges $x\to xs$ and $xs\to xs^2=3x$. The connected
+component of $x$ is the two-way infinite directed path
+\[
+\cdots\to 3^{-1}x\to 3^{-1}xs\to x\to xs\to 3x\to 3xs\to 9x\to\cdots,
+\]
+which covers the $2$-cycle infinitely many times. The components
+correspond to the elements of
+$E^\times/\nu(\rel)=E^\times/3^{\Z}\cong\cO^\times$, as in
+Proposition~\ref{prop:derived}(v). The graph is not connected because
+$\{s\}$ does not generate $W$. The group $E^\times$ acts by left
+multiplication, permuting the paths and translating each path by its
+powers of $3$.
+
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\lab/\sty in {0/1/bx,2/s/rx,4/3/bx,6/3s/rx,8/9/bx}{
+\node[\sty] (v\x) at (\x,2.6) {$\lab$};}
+\foreach \a/\b in {0/2,2/4,4/6,6/8}{\draw[ar] (v\a)--(v\b);}
+\node[bx] (a) at (2,0) {$1$};
+\node[rx] (b) at (6,0) {$\tau$};
+\draw[ar] (a) to[bend left=22] node[above] {$1$} (b);
+\draw[ar] (b) to[bend left=22] node[below] {$3$} (a);
+\foreach \x in {0,4,8}{\draw[densely dashed,gray,->] (v\x)--(a);}
+\foreach \x in {2,6}{\draw[densely dashed,gray,->] (v\x)--(b);}
+\node at (8,0) {$p$};
+\end{tikzpicture}
+\caption{A segment of the component of $1$ in the relative Weil group covering. The two arrows downstairs are labeled by their voltages. The lift of the relator $\tau^2$ starting at $1$ ends at $3$, not at $1$.}
+\label{fig:weil-cover}
+\end{figure}
 
 \section{Inflation and restriction}\label{sec:infres}
 
@@ -2202,321 +2571,12 @@ torus, and from the non-abelian subgroup $H$, where it lives in
 $H^2(\Gamma',T')$.
 \end{example}
 
-\section{A graph-theoretic formulation}\label{sec:graph}
+\section{A graph-theoretic formulation of the obstruction}\label{sec:graph}
 
 Condition (c) of Theorem~\ref{thm:main} involves a function on all of
 $\Gamma$ and an equation for every pair $(g,h)$. In this section we
 replace it by a condition on generators and relators. The natural language
 is that of voltage graphs \cite{GT87} and gain graphs \cite{Za89}.
-
-\subsection{Voltage graphs and derived graphs}
-
-This subsection recalls voltage graphs and shows that a group extension
-is the same thing as a voltage assignment on a Cayley graph of the
-quotient. The Cayley graph of $W$ is the resulting covering graph, and
-the homomorphism that records the net voltages of closed walks, the
-monodromy, determines $W$.
-
-A \emph{digraph} $X$ has a vertex set $V(X)$, an edge set $E(X)$, and each
-edge $e$ has a tail and a head in $V(X)$. Loops and multiple edges are
-allowed. A \emph{walk} is a sequence of edges, each traversed forward or
-backward, such that consecutive edges meet.
-
-\begin{definition}\label{def:voltage}
-Let $K$ be a group. A \emph{$K$-voltage assignment} (or \emph{$K$-gain
-function}) on $X$ is a map $\nu:E(X)\to K$. The \emph{net voltage} of a
-walk is the ordered product of the voltages of its edges, an edge
-traversed backward contributing $\nu(e)^{-1}$. The \emph{derived graph}
-$X^\nu$ has vertex set $V(X)\times K$ and edge set $E(X)\times K$. The edge
-$(e,k)$ runs from $(\mathrm{tail}(e),k)$ to
-$(\mathrm{head}(e),k\,\nu(e))$. The projection $X^\nu\to X$ is a covering
-map of digraphs, and $K$ acts freely on $X^\nu$ by left multiplication on
-the second coordinate, with quotient $X$.
-\end{definition}
-
-\begin{example}\label{ex:cayley}
-Let $\overline{S}$ be a subset of a group $\Gamma$. The \emph{Cayley
-digraph} $\Cay(\Gamma,\overline{S})$ has vertex set $\Gamma$ and an edge
-$(g,t)$ from $g$ to $gt$ for each $g\in\Gamma$, $t\in\overline{S}$. It is
-the derived graph of the bouquet $B_{\overline{S}}$ (one vertex, one loop
-$e_t$ for each $t\in\overline{S}$) with the voltage assignment
-$e_t\mapsto t$. The group $\Gamma$ acts on $\Cay(\Gamma,\overline{S})$ by
-left multiplication.
-\end{example}
-
-Fix a generating set $\overline{S}$ of $\Gamma$ not containing $1$ and, for each
-$t\in\overline{S}$, a lift $s_t\in W$ with $p(s_t)=t$. Let
-$S=\{s_t:t\in\overline{S}\}$. Let $\fr$ be the free group on
-$\overline{S}$, and let
-\[
-\pi:\fr\to\Gamma,\quad t\mapsto t,\qquad\qquad
-\lambda_W:\fr\to W,\quad t\mapsto s_t,
-\]
-so that $p\circ\lambda_W=\pi$. Let $\rel=\ker\pi$ be the group of
-relations. A word $v\in\fr$ spells a walk in $\Cay(\Gamma,\overline{S})$
-starting at $1$ and ending at $\pi(v)$, and $\rel$ is the set of words
-spelling closed walks at $1$. Since $\lambda_W(\rel)\subseteq\ker p=N$, we
-get a homomorphism
-\begin{equation}\label{eq:nu}
-\nu=\lambda_W|_{\rel}:\rel\to N,\qquad
-\nu(vrv^{-1})=\act{\pi(v)}{\nu(r)}\quad(v\in\fr,\ r\in\rel).
-\end{equation}
-
-\begin{proposition}\label{prop:derived}
-Let $s$ be a section of $p$. Define an $N$-voltage assignment on
-$\Cay(\Gamma,\overline{S})$ by
-\[
-\nu_s(g,t)=s(g)\,s_t\,s(gt)^{-1}\in N .
-\]
-\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
-\item The map $(g,x)\mapsto x\,s(g)$ is an isomorphism from the derived
-graph $\Cay(\Gamma,\overline{S})^{\nu_s}$ onto $\Cay(W,S)$. Under it, the
-covering projection is $p$ and the action of $N$ is left multiplication.
-\item If $s(t)=s_t$ for all $t\in\overline{S}$, then
-$\nu_s(g,t)=\sigma(g,t)$: the voltages are values of the factor set.
-\item Replacing $s$ by $\eta s$ replaces $\nu_s(g,t)$ by
-$\eta(g)\,\nu_s(g,t)\,\eta(gt)^{-1}$ \textup{(}``switching''\textup{)}.
-\item The net $\nu_s$-voltage of the closed walk at $1$ spelled by
-$r\in\rel$ is $\nu(r)$. It does not depend on $s$.
-\item The connected components of $\Cay(W,S)$ correspond to the elements
-of $N/\nu(\rel)$. In particular $\Cay(W,S)$ is connected if and only if
-$\nu$ is surjective.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-(i) By Lemma~\ref{lem:factor}(ii) the map is a bijection on vertices. The
-derived edge from $(g,x)$ to $(gt,x\,\nu_s(g,t))$ is sent to the pair
-$x\,s(g)$, $x\,\nu_s(g,t)s(gt)=x\,s(g)s_t$, which is the edge
-$(x\,s(g),s_t)$ of $\Cay(W,S)$. (ii) and (iii) are immediate. (iv) Along
-the walk $1=g_0,g_1,\dots,g_m=1$ spelled by
-$r=t_1^{\epsilon_1}\cdots t_m^{\epsilon_m}$ the voltages are
-$s(g_{j-1})\,s_{t_j}^{\epsilon_j}\,s(g_j)^{-1}$, and the product
-telescopes to $s(1)\lambda_W(r)s(1)^{-1}$. (v) The component of $1$ in
-$\Cay(W,S)$ is the subgroup $\langle S\rangle=\lambda_W(\fr)$, and the
-components are its left cosets. Since $\overline{S}$ generates $\Gamma$,
-$W=N\langle S\rangle$, so $W/\langle S\rangle\cong N/(N\cap\langle
-S\rangle)$, and $N\cap\lambda_W(\fr)=\lambda_W(\rel)$.
-\end{proof}
-
-The homomorphism $\nu$ of~\eqref{eq:nu} is the monodromy of the covering
-$\Cay(W,S)\to\Cay(\Gamma,\overline{S})$: the lift of the closed walk
-spelled by $r$ which starts at the vertex $x\in N$ ends at $x\,\nu(r)$.
-The covering alone, as a map of unlabeled graphs, does not determine the
-group $W$. For instance $\Cay(D_4,\{s\})$ in Figure~\ref{fig:toy} is
-isomorphic, over the $2$-cycle, to $\Cay(\Z/4\times\Z/2,\{(0,1)\})$. What
-does determine $W$ is the monodromy, with values in the $\Gamma$-module
-$N$.
-
-\begin{proposition}[Reconstruction]\label{prop:reconstruct}
-Let $\fr$ act on $N$ through $\pi$.
-\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
-\item The map $N\rtimes\fr\to W$, $(x,v)\mapsto x\,\lambda_W(v)$, is a
-surjective homomorphism with kernel
-$K_\nu=\{(\nu(r)^{-1},r):r\in\rel\}$. Hence
-\[
-W\cong(N\rtimes\fr)/K_\nu .
-\]
-\item Conversely, let $N$ be any $\Gamma$-module and
-$\nu:\rel\to N$ any homomorphism with
-$\nu(vrv^{-1})=\act{\pi(v)}{\nu(r)}$. Then $K_\nu$ is a normal subgroup
-of $N\rtimes\fr$, the quotient $W_\nu=(N\rtimes\fr)/K_\nu$ is an extension
-of $\Gamma$ by $N$ inducing the given action, and for the lifts
-$s_t=(1,t)K_\nu$ its monodromy is $\nu$.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-(i) The map is a homomorphism because
-$\lambda_W(v)\,y=\act{\pi(v)}{y}\,\lambda_W(v)$, and it is surjective
-because $W=N\langle S\rangle$. If $x\,\lambda_W(v)=1$ then $\pi(v)=1$, so
-$v=r\in\rel$ and $x=\nu(r)^{-1}$.
-
-(ii) Since $\rel$ acts trivially on $N$ and $N$ is abelian,
-$(\nu(r)^{-1},r)(\nu(r')^{-1},r')=(\nu(rr')^{-1},rr')$, and conjugating
-$(\nu(r)^{-1},r)$ by $(x,v)$ gives
-$(\act{\pi(v)}{\nu(r)}^{-1},vrv^{-1})=(\nu(vrv^{-1})^{-1},vrv^{-1})$. So
-$K_\nu$ is a normal subgroup. It meets $N\times\{1\}$ trivially, and
-$(N\rtimes\fr)/(N\times\rel)=\Gamma$, so $W_\nu$ is an extension of
-$\Gamma$ by $N$. Finally $(1,r)=(\nu(r),1)(\nu(r)^{-1},r)$, so
-$\lambda_{W_\nu}(r)=\nu(r)$.
-\end{proof}
-
-So the data needed to recover the extension are: the $\Gamma$-module $N$,
-the generators $\overline{S}$ of $\Gamma$, and the equivariant
-homomorphism $\nu$. In graph terms these are the voltage group with its
-$\Gamma$-action, the generator labels on the edges of the base graph, and
-the net voltages of closed walks.
-
-\begin{remark}[Harmonic morphisms]\label{rem:harmonic}
-Since $1\notin\overline{S}$ and $s_t\notin N$, the Cayley digraphs
-$\Cay(\Gamma,\overline{S})$ and $\Cay(W,S)$ have no loops. Forgetting
-orientations gives multigraphs without loops, which are locally finite
-when $\overline{S}$ is finite but may be infinite. Baker and Norine
-\cite{BN09} define harmonic morphisms for finite multigraphs without loops.
-The definition is local: a map of graphs is harmonic if, at each vertex
-$v$, the number of edges at $v$ mapped onto an edge $e'$ at the image of
-$v$ is the same for all $e'$. We use it, in the same form, for locally
-finite multigraphs without loops. With this convention a covering map is
-a harmonic morphism, with no edge collapsed to a vertex and all local
-multiplicities equal to $1$. So $\Cay(W,S)\to\Cay(\Gamma,\overline{S})$
-is a harmonic morphism, and it is the quotient map for the free action of
-$N$. A harmonic morphism which is not a covering has no unique lifting of
-walks, and so no monodromy in the above sense. See
-Question~\ref{q:harmonic}.
-\end{remark}
-
-\subsection{The relation module and the homology of the Cayley graph}\label{ss:relmod}
-
-The monodromy is defined on the group of relations of $\Gamma$. This
-subsection identifies that group, made abelian, with the first homology
-of the Cayley graph, and explains how the class of the extension in
-$H^2(\Gamma,N)$ is read off from the monodromy. It ends with a table that
-translates between the algebra and the graphs.
-
-Write $X=\Cay(\Gamma,\overline{S})$, regarded as a one-dimensional cell
-complex. It is the covering of the bouquet $B_{\overline{S}}$
-corresponding to the subgroup $\rel$ of
-$\pi_1(B_{\overline{S}})=\fr$. Hence
-\[
-\pi_1(X,1)=\rel,\qquad H_1(X,\Z)=\rel_{\mathrm{ab}}=\rel/[\rel,\rel].
-\]
-The group $\Gamma$ acts on $X$ by left multiplication, hence on
-$H_1(X,\Z)$, and it acts on $\rel_{\mathrm{ab}}$ through conjugation by
-elements of $\fr$. The identification is $\Gamma$-equivariant. The
-$\Z[\Gamma]$-module $\rel_{\mathrm{ab}}$ is called the \emph{relation
-module} of the presentation. The cellular chain complex of $X$ has
-$C_1=\Z[\Gamma]^{\overline{S}}$, with basis the edges $e_t=(1,t)$,
-$C_0=\Z[\Gamma]$, and boundary $\partial(g\,e_t)=gt-g$. Since $X$ is
-connected, this gives the exact sequence of $\Z[\Gamma]$-modules
-\cite[Ch.~II, \S5]{Br82}
-\begin{equation}\label{eq:relseq}
-0\longrightarrow\rel_{\mathrm{ab}}\longrightarrow
-\Z[\Gamma]^{\overline{S}}\overset{\partial}{\longrightarrow}\Z[\Gamma]
-\overset{\epsilon}{\longrightarrow}\Z\longrightarrow0 ,
-\end{equation}
-in which the class of $r\in\rel$ is sent to the $1$-cycle of the closed
-walk spelled by $r$, and $\epsilon$ is the augmentation. Since $N$ is
-abelian, the monodromy $\nu$ factors through $\rel_{\mathrm{ab}}$, and
-by~\eqref{eq:nu} it is $\Gamma$-equivariant. So
-\[
-\nu\in\Hom_\Gamma\bigl(H_1(X,\Z),N\bigr):
-\]
-the monodromy assigns to each integral $1$-cycle of the Cayley graph its
-net voltage.
-
-A \emph{derivation} $d:\fr\to N$ is a map with
-$d(vv')=d(v)\,\act{\pi(v)}{d(v')}$, that is, a $1$-cocycle of $\fr$ in
-$N$. Since $\fr$ is free, for every family $(\eta_t)_{t\in\overline{S}}$
-of elements of $N$ there is exactly one derivation $d_\eta$ with
-$d_\eta(t)=\eta_t$ (Lemma~\ref{lem:semidirect}). The restriction of a
-derivation to $\rel$ is a $\Gamma$-equivariant homomorphism.
-
-\begin{proposition}[Change of lifts]\label{prop:lifts}
-\begin{enumerate}[label=\textup{(\roman*)},itemsep=1pt]
-\item If the lifts $s_t$ are replaced by $s'_t=\eta_ts_t$ with
-$\eta_t\in N$, the monodromy is replaced by $\nu'=d_\eta|_{\rel}\cdot\nu$.
-\item The extension $W$ splits if and only if $\nu$ is the restriction to
-$\rel$ of a derivation $\fr\to N$.
-\item Two homomorphisms $\nu,\nu'$ as in
-Proposition~\ref{prop:reconstruct}\textup{(ii)} give isomorphic extensions
-$W_\nu\cong W_{\nu'}$, by an isomorphism which is the identity on $N$ and
-on $\Gamma$, if and only if $\nu'\nu^{-1}$ is the restriction of a
-derivation.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-(i) Let $\lambda'_W:\fr\to W$ be the homomorphism with
-$\lambda'_W(t)=\eta_ts_t$. For $v\in\fr$ put
-$d(v)=\lambda'_W(v)\lambda_W(v)^{-1}$, an element of $N$. Then
-\[
-d(vv')=\lambda'_W(v)\,d(v')\,\lambda_W(v)^{-1}=d(v)\,\act{\pi(v)}{d(v')},
-\]
-so $d$ is the derivation $d_\eta$, and $\nu'(r)=d(r)\nu(r)$.
-
-(ii) If $s$ is a homomorphic section, the lifts $s'_t=s(t)$ have trivial
-monodromy, so $\nu=(d_\eta|_{\rel})^{-1}$ by (i), and the inverse of a
-derivation into an abelian group is a derivation. Conversely, if
-$\nu=d|_{\rel}$, the lifts $s'_t=d(t)^{-1}s_t$ have trivial monodromy by
-(i), so $\lambda'_W$ factors through $\fr/\rel=\Gamma$ and gives a
-homomorphic section.
-
-(iii) An isomorphism $W_\nu\to W_{\nu'}$ of extensions carries the
-standard lifts of $W_\nu$ to lifts in $W_{\nu'}$ with monodromy $\nu$. By
-(i), $\nu$ and $\nu'$ differ by a derivation. Conversely, if
-$\nu'=d_\eta|_{\rel}\cdot\nu$, then $W_\nu$ with the lifts $\eta_ts_t$ has
-monodromy $\nu'$, and Proposition~\ref{prop:reconstruct}(i) identifies it
-with $W_{\nu'}$.
-\end{proof}
-
-Derivations $\fr\to N$ correspond to families $(\eta_t)$, that is, to
-elements of $\Hom_\Gamma(\Z[\Gamma]^{\overline{S}},N)$, and restriction to
-$\rel$ corresponds to restriction along the first map
-of~\eqref{eq:relseq}. So Propositions~\ref{prop:reconstruct}
-and~\ref{prop:lifts} give a bijection between isomorphism classes of
-extensions of $\Gamma$ by the $\Gamma$-module $N$ and the cokernel in the
-classical formula \cite[Ch.~IV]{Br82}, \cite[Ch.~IV]{ML63}
-\begin{equation}\label{eq:H2pres}
-H^2(\Gamma,N)\ \cong\
-\frac{\Hom_\Gamma\bigl(H_1(X,\Z),N\bigr)}
-{\text{restrictions of }\Hom_\Gamma\bigl(\Z[\Gamma]^{\overline{S}},N\bigr)} ,
-\end{equation}
-which is obtained from~\eqref{eq:relseq} by dimension shifting. Up to the
-sign conventions, the class $[\sigma]$ of $W$ corresponds to the class of
-its monodromy $\nu$. Indeed, if $\hat{s}:\Gamma\to\fr$ is a section of
-$\pi$ with factor set
-$\sigma_{\fr}(g,h)=\hat{s}(g)\hat{s}(h)\hat{s}(gh)^{-1}\in\rel$, then the
-section $s=\lambda_W\circ\hat{s}$ of $p$ has factor set
-$\sigma=\nu\circ\sigma_{\fr}$.
-
-The following table summarizes the dictionary between the algebra and the
-graphs.
-\begin{center}
-\begin{tabular}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
-\toprule
-Algebra & Graphs \\
-\midrule
-free group $\fr$ on $\overline{S}$ & fundamental group of the bouquet
-$B_{\overline{S}}$ \\
-group of relations $\rel$ & fundamental group of
-$\Cay(\Gamma,\overline{S})$ \\
-relation module $\rel_{\mathrm{ab}}$ & first homology of
-$\Cay(\Gamma,\overline{S})$ \\
-extension $W$ with lifts $s_t$ & derived graph $\Cay(W,S)$, a covering
-with group $N$ \\
-factor set $\sigma$ & voltage assignment $\nu_s$ \\
-change of section $s$ & switching of voltages \\
-homomorphism $\nu:\rel\to N$ & monodromy (net voltages of closed walks) \\
-change of lifts $s_t$ & $\nu$ changes by a derivation
-(Proposition~\ref{prop:lifts}) \\
-$W$ splits & $\nu$ is the restriction of a derivation \\
-$\nu$ surjective & $\Cay(W,S)$ connected \\
-choice of $c(t)\in T_\phi(t)$ & equivariant gain function $\theta_c$ \\
-$\phi$ extends to a cocycle & some $\theta_c$ has holonomy $\phi\circ\nu$
-(Theorem~\ref{thm:graph}) \\
-the cocycle $f$ & potential for the pulled-back gain function on
-$\Cay(W,S)$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\begin{example}[The $2$-cycle]\label{ex:twocycle}
-Let $\Gamma=\{1,\tau\}$ and $\overline{S}=\{\tau\}$, so that $X$ is the
-directed $2$-cycle with edges $e=(1,\tau)$ and $\tau e=(\tau,\tau)$. Then
-$\partial e=\tau-1$ and $\partial(\tau e)=1-\tau$, so $H_1(X,\Z)$ is the
-infinite cyclic group generated by $e+\tau e$, the cycle of the relator
-$\tau^2$, with trivial action of $\Gamma$. Hence
-$\Hom_\Gamma(H_1(X,\Z),N)=N^\Gamma$, by $\nu\mapsto\nu(\tau^2)=s_\tau^2$.
-The derivation with $d(\tau)=\eta$ has
-$d(\tau^2)=\eta\,\act{\tau}{\eta}$. So~\eqref{eq:H2pres} becomes
-$H^2(\Gamma,N)\cong N^\Gamma/\{\eta\,\act{\tau}{\eta}\}$, as in
-Example~\ref{ex:H2}(b), and Proposition~\ref{prop:lifts}(ii) says that $W$
-splits if and only if $s_\tau^2$ is a norm. For the toy extensions
-$s_\tau^2\in\{1,\rho^2\}$ and the norms are trivial. For $\Q_3(i)/\Q_3$,
-$s_\tau^2=3$ and the norms are the elements of even valuation
-(Example~\ref{ex:run1}(b),(d)).
-\end{example}
 
 \subsection{Gains with prescribed holonomy}
 
@@ -2814,7 +2874,7 @@ $\nu(vrv^{-1})=\lambda_W(v)\nu(r)\lambda_W(v)^{-1}$. In the proof one
 replaces $E_\phi$ by the group $B_\phi$ of Lemma~\ref{lem:BD},
 $\lambda_c$ by the homomorphism $\fr\to B_\phi$, $t\mapsto(c(t),s_t)$, the
 elements $(\phi(x),1)$ by $(\phi(x),x)\in D_\phi$, and~\eqref{eq:conjphi}
-by~\eqref{eq:conjD}. The statements of this section that use the
+by~\eqref{eq:conjD}. The statements of Section~\ref{sec:graph-foundations} that use the
 $\Gamma$-module structure of $N$, namely
 Propositions~\ref{prop:reconstruct} and~\ref{prop:lifts}
 and formula~\eqref{eq:H2pres}, require $N$ abelian.
@@ -2838,46 +2898,24 @@ pull-back which is balanced and admits a potential equal to $\phi$ on the
 fiber over~$1$.
 \end{remark}
 
-\subsection{Running example: the graphs}\label{ss:run4}
+\begin{center}
+\begin{tabular}{@{}p{0.46\textwidth}p{0.46\textwidth}@{}}
+\toprule
+Algebra & Gain graphs \\
+\midrule
+choice of $c(t)\in T_\phi(t)$ & equivariant gain function $\theta_c$ \\
+$\phi$ extends to a cocycle & some $\theta_c$ has holonomy $\phi\circ\nu$
+(Theorem~\ref{thm:graph}, proved in Section~\ref{sec:graph}) \\
+the cocycle $f$ & potential for the pulled-back gain function on
+$\Cay(W,S)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-We draw the graphs for the Weil group of $\Q_3(i)/\Q_3$. The base graph
-is a $2$-cycle, the covering graph is a family of infinite paths, and the
-cocycle found in Example~\ref{ex:run3} becomes a periodic labeling of
-these paths.
+\subsection{Running example: gains on the Weil group covering}\label{ss:run4}
 
 \begin{example}[Running example, part 5]\label{ex:run4}
-Keep the notation of Examples~\ref{ex:run1} to~\ref{ex:run3}. Take
-$\overline{S}=\{\tau\}$ and $s_\tau=s$.
-
-\smallskip\noindent\emph{(a) The base graph and its voltages.} The Cayley
-digraph $\Cay(\Gamma,\{\tau\})$ is the directed $2$-cycle with edges
-$1\to\tau$ and $\tau\to1$. For the section $s(\tau)=s$ the
-$E^\times$-voltages of Proposition~\ref{prop:derived} are
-\[
-\nu_s(1,\tau)=s(1)\,s\,s(\tau)^{-1}=1,\qquad
-\nu_s(\tau,\tau)=s(\tau)\,s\,s(1)^{-1}=s^2=3 .
-\]
-The free group $\fr$ is infinite cyclic, generated by the letter $\tau$,
-and $\rel$ is generated by the word $\tau^2$, which spells the closed walk
-$1\to\tau\to1$. Its net voltage is $\nu(\tau^2)=1\cdot3=3$. If the section
-is changed to $s'(\tau)=ys$, the two voltages become $y^{-1}$ and $3y$
-(switching by $\eta(\tau)=y$), and the net voltage is still $3$.
-
-\smallskip\noindent\emph{(b) The derived graph.} The derived graph has
-vertex set $\Gamma\times E^\times$ and edges $(1,x)\to(\tau,x)$ and
-$(\tau,x)\to(1,3x)$. Under $(g,x)\mapsto x\,s(g)$ it becomes
-$\Cay(W,\{s\})$, with edges $x\to xs$ and $xs\to xs^2=3x$. The connected
-component of $x$ is the two-way infinite directed path
-\[
-\cdots\to 3^{-1}x\to 3^{-1}xs\to x\to xs\to 3x\to 3xs\to 9x\to\cdots,
-\]
-which covers the $2$-cycle infinitely many times. The components
-correspond to the elements of
-$E^\times/\nu(\rel)=E^\times/3^{\Z}\cong\cO^\times$, as in
-Proposition~\ref{prop:derived}(v). The graph is not connected because
-$\{s\}$ does not generate $W$. The group $E^\times$ acts by left
-multiplication, permuting the paths and translating each path by its
-powers of $3$.
+Continue Example~\ref{ex:run-cover}, with the same section, generators and lifts. We now compare the voltages with the gains determined by the coefficient group.
 
 \smallskip\noindent\emph{(c) Gains and holonomy.} Let
 $\phi:E^\times\to A$ have a $\Gamma$-invariant class and let
@@ -3055,7 +3093,72 @@ character of $\Gamma$. It is a parameter of $\GL_2$ but not of $\PGL_2$.
 This final section restates the results in one place and then lists
 questions that the paper leaves open.
 
-\subsection{Summary of results}
+\subsection{The extension and its quotient}
+
+The quotient map $p:W\to\Gamma$ forgets the kernel coordinate: its fiber above $g$ is the coset $Ns(g)$. A normalized section $s$ identifies $W$ as a set with $N\times\Gamma$, but the multiplication is
+\[
+(x,g)(y,h)=(x\,\act{g}{y}\,\sigma(g,h),gh)
+\]
+when $N$ is abelian. Thus the $\Gamma$-module structure on $N$ and the factor-set class $[\sigma]\in H^2(\Gamma,N)$ together determine the extension up to equivalence. The class vanishes precisely when the extension admits a homomorphic section. This is an obstruction to splitting $W$, not the obstruction to extending a given $\phi$.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\g in {0/1,3/g,6/gt}{
+\draw[dashed,rounded corners,gray] (\x-.55,1.2) rectangle (\x+.55,3.5);
+\node at (\x,3.8) {$Ns(\g)$};
+\foreach \y in {1.6,2.35,3.1}{\node[vx] (n\x-\y) at (\x,\y) {};}
+\node[bx] (b\x) at (\x,0) {$\g$};
+\draw[mapto,gray] (\x,1.15)--(b\x);}
+\draw[ar] (n3-2.35)--node[above] {$s_t$} (n6-3.1);
+\draw[ar] (b3)--node[above] {$t$} (b6);
+\node at (7.1,.65) {$p$};
+\end{tikzpicture}
+\caption{The quotient projection on selected fibers. A lifted generator carries a vertex in $Ns(g)$ to one in $Ns(gt)$; the vertical placement of vertices is schematic.}
+\label{fig:quotient-fibers}
+\end{figure}
+
+\subsection{Three descriptions of an extension}
+
+For a fixed abelian $\Gamma$-module $N$ and generating set $\overline S$, let $X=\Cay(\Gamma,\overline S)$. The relation subgroup of the free group on $\overline S$ identifies with the fundamental group of $X$. Its abelianization identifies with $H_1(X,\Z)$; hence the lift of a closed walk gives an equivariant monodromy homomorphism $\nu:H_1(X,\Z)\to N$. The action on $N$ must be retained: the unlabeled covering graph alone does not classify group extensions. The covering may also be disconnected if the chosen lifts do not generate $W$.
+
+\begin{center}
+\begin{tabular}{@{}p{0.27\textwidth}p{0.65\textwidth}@{}}
+\toprule
+Description & Data and equivalence \\
+\midrule
+Algebraic & $1\to N\to W\to\Gamma\to1$, with fixed kernel and quotient \\
+Cohomological & $[\sigma]\in H^2(\Gamma,N)$; change of section modifies $\sigma$ by a coboundary \\
+Geometric & $\nu:H_1(X,\Z)\to N$ equivariant; change of generator lifts modifies $\nu$ by a restricted derivation \\
+\bottomrule
+\end{tabular}
+\end{center}
+The precise relationship is the presentation formula~\eqref{eq:H2pres}, quoted from the classical theory, together with Propositions~\ref{prop:reconstruct} and~\ref{prop:lifts}. The geometric description separates switching of voltages (changing section while keeping lifts fixed) from changing the lifts themselves.
+
+\subsection{Inflation, restriction and the centralizer}
+
+The first question is whether the class of $\phi$ is invariant under the quotient action. Invariance only supplies transporters, not a coherent choice of them. The second question is whether those choices can satisfy the factor-set equations simultaneously. Their ambiguity is measured by $C_\phi$, because the ratio of two transporters lies in this centralizer. The resulting obstruction extension $\mathcal O_\phi$ is neutral precisely when it splits. Even if $W$ is nonsplit, some $\phi$ may extend (for example the trivial homomorphism); conversely the stabilizer extension may obstruct extension even when $W$ splits. Once an extension exists, twisting describes all classes in the corresponding fiber.
+
+\subsection{Holonomy and the arithmetic interpretation}
+
+For each defining relator $r$, a lifted walk has endpoint $\nu(r)$ when started at $1$. A choice of transporter gains $c(t)$ gives an actual holonomy $\theta_c(r)$; the prescribed holonomy is $\phi(\nu(r))$. The two must agree for every defining relator. In the cyclic case this becomes a twisted norm equation; for several generators the equations must hold simultaneously for a single choice of gains. The following table distinguishes the two graph labelings.
+
+\begin{center}
+\begin{tabular}{@{}p{0.28\textwidth}p{0.31\textwidth}p{0.33\textwidth}@{}}
+\toprule
+& Voltage & Gain \\
+\midrule
+Values & $N$ & $A$ \\
+Edge label & $s(g)s_ts(gt)^{-1}$ & $\act{g}{c(t)}$ \\
+Relator value & $\nu(r)$ & $\theta_c(r)$ \\
+Role & Encodes the extension & Tests extension of $\phi$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For the unramified quadratic extension $\Q_3(i)/\Q_3$, the quotient is $C_2$ and the kernel is $E^\times$. The lift $s$ of $\tau$ satisfies $s^2=3$ with the convention of the running example. Figure~\ref{fig:weil-cover} shows how the two-edge closed walk downstairs lifts to a path ending at $3$. Its gain holonomy must therefore equal $\phi(3)$. For the regular diagonal family $\phi_{2,z}$ with trivial action on $\SL_2(\C)$, the transporter elements square to $-I$, so the equation is solvable precisely when $\phi_{2,z}(3)=-I$. For $z=-1$ the resulting potential on the covering is periodic (Figure~\ref{fig:run}). This example connects the abstract obstruction directly with a concrete Weil group parameter.
+
+\subsection{Precise statements of the results}
 
 Let $1\to N\to W\to\Gamma\to1$ be a group extension and $A$ a
 $\Gamma$-group. The results of the paper are the following.
@@ -3606,7 +3709,7 @@ under the first author's direction: it checked the referees' reports, rewrote th
 the obstruction must be taken in the centralizer $C_\phi$ and not in $A$
 (Theorem~\ref{thm:main}, Example~\ref{ex:needed}), added
 Proposition~\ref{prop:fiber}, the examples including the running example,
-Section~\ref{sec:graph}, Section~\ref{sec:langlands} and the glossary, and
+Sections~\ref{sec:graph-foundations} and~\ref{sec:graph}, Section~\ref{sec:langlands} and the glossary, and
 wrote the verification script. For Draft~2 it verified and wrote up the
 material proposed by ChatGPT, and added
 Propositions~\ref{prop:fiber-general} and~\ref{prop:lifts},
@@ -3615,6 +3718,7 @@ and~\ref{ex:twocycle}, and Remark~\ref{rem:graph-nonab}. For Draft~3 it
 brought the paper into conformity with the first author's style guide for
 mathematical papers, and added the literature review, the summary of
 results and the orienting paragraphs.
+\item \emph{ChatGPT (OpenAI)} prepared the expository revision in Draft~4 under the first author's direction: it moved the notation and literature review into the Introduction, separated the graph foundations from the obstruction theory, and expanded the summary with diagrams and comparison tables.
 \end{itemize}
 The first author wrote the original manuscript, directed the revision,
 and is responsible for the content. Review by AI systems is not an
