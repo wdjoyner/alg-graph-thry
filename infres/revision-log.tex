@@ -27,19 +27,24 @@ cohomology: centralizer obstructions, Weil groups, and voltage graphs'',
 Draft 3\\(corrected and expanded
 version)}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com} \and Claude}
-\date{November 26, 2026}
+\date{November 27, 2026}
 
 \begin{document}
 \maketitle
 
 \noindent This log records every change from the original manuscript to
-Draft~1, from Draft~1 to Draft~2 and from Draft~2 to Draft~3, the
-responses to the two referee reports, the AI usage, and the sources
+Draft~1, from Draft~1 to Draft~2, from Draft~2 to Draft~3, from Draft~3
+to Draft~4 and from Draft~4 to Draft~5, the
+responses to the referee reports, the AI usage, and the sources
 consulted and not consulted. Until Draft~2 the paper was called ``Notes
 on the inflation-restriction sequence in non-abelian cohomology'', and
 this log calls it ``the note'' in the sections written for those drafts.
-Numbers of statements are those of the current draft (Draft~3) unless a
-draft is named. They are generated from the paper's \texttt{.aux} file,
+Numbers of statements are those of the current draft (Draft~5) unless a
+draft is named. Section numbers that are typed literally in the parts of
+this log written for Drafts~1 to~3 are those of Draft~3. Draft~4 moved
+the notation and the literature review into Section~1 and inserted a new
+Section~3, so they may no longer be current
+(Section~\ref{sec:d3d4}). They are generated from the paper's \texttt{.aux} file,
 so compile the paper first. Sections~\ref{sec:d1d2} and~\ref{sec:d2d3}
 have concordances with the numbering of Drafts~1 and~2.
 
@@ -61,7 +66,16 @@ have concordances with the numbering of Drafts~1 and~2.
   main branch until Draft~2.
 \item Draft 2 (November 26, 2026): commit \texttt{1023575}, merged as
   pull request~\#15. It starts from the amended Draft~1.
-\item Draft 3 (November 26, 2026): \texttt{infres.tex} and its PDF.
+\item Draft 3 (November 26, 2026).
+\item Draft 4 (November 27, 2026), prepared by ChatGPT and committed by
+  the first author (commit \texttt{a5b181d}).
+\item Draft 5 (November 27, 2026): \texttt{infres.tex} and its PDF.
+\item Review of Draft~3, by ChatGPT, as received: the file
+  \nolinkurl{chatgpt_review_draft3.md} in the folder
+  \texttt{referee/2026-11-27-chatgpt/}.
+\item Notes on motivation, by Gemini (``Carbon''), as received: the file
+  \nolinkurl{carbon_motivation_notes.md} in the folder
+  \texttt{referee/2026-11-27-carbon/}.
 \item Style guide: the first author's style guide for mathematical
   papers, Draft~2 of November 11, 2026. It is the file
   \nolinkurl{joyner-math-paper-style-guide.md} in the repository
@@ -126,6 +140,16 @@ style guide, and state that the paper is expository with no claim of
 originality. The first author also noted that some introductory
 paragraphs were missing or thin. No referee was involved and no web
 search was made. Details are in Section~\ref{sec:d2d3}.
+
+\paragraph{Draft 4 (November 27, 2026).} ChatGPT (OpenAI) reviewed
+Draft~3 and then prepared Draft~4 at the first author's request
+(Section~\ref{sec:d3d4}). Claude was not involved in Draft~4.
+
+\paragraph{Draft 5 (November 27, 2026).} Gemini (``Carbon'') wrote notes
+on how to motivate the paper. Claude (same model as before) checked the
+notes against the paper and wrote the passages that incorporate them, at
+the first author's request (Section~\ref{sec:d4d5}). No web search was
+made.
 
 \noindent As first pushed, Draft~1 listed D.~Joyner as sole author. At
 his request (November 26, 2026) Claude was added as second author; see
@@ -661,6 +685,97 @@ Equations $(n.k)$, $2\le n\le 7$ & Equations $((n+1).k)$ \\
 \end{tabular}
 \end{center}
 
+\section{Changes from Draft 3 to Draft 4}\label{sec:d3d4}
+
+Draft~4 was prepared by ChatGPT, following its own review of Draft~3,
+and was committed by the first author. This section was written
+afterwards by Claude, from the review and from a reading of the result.
+It is a description, not a verification.
+
+\begin{itemize}[itemsep=1pt]
+\item The review proposed four changes: move the literature review into
+  the Introduction, move the notation there too, introduce part of the
+  graph theory before the obstruction theory, and expand the summary of
+  results. It also proposed a table of contents. Draft~4 follows it.
+\item Sections~2 (literature) and~3 (notation) of Draft~3 became
+  subsections of Section~\ref{N-sec:intro}. The former Section~7 on
+  graphs was split. Its first part, on voltage graphs, derived graphs,
+  the relation module and monodromy, is the new
+  Section~\ref{N-sec:graph-foundations}. Its second part, on gains and
+  holonomy, remains Section~\ref{N-sec:graph}. So the top-level sections
+  from ``Inflation and restriction'' on kept their numbers, and the
+  numbers of theorems and examples changed.
+\item Section~\ref{N-sec:questions} gained descriptive subsections, a
+  figure and two comparison tables.
+\item The acknowledgments credit ChatGPT for Draft~4.
+\end{itemize}
+Claude did not check Draft~4 line by line. It confirmed only that
+Draft~4 compiles without errors, undefined references or overfull
+boxes. Two things were noticed and not changed. The passages new in
+Draft~4 use semicolons and long unbroken source lines, unlike the rest
+of the paper. And no concordance from Draft~3 to Draft~4 numbering was
+made.
+
+\section{Changes from Draft 4 to Draft 5}\label{sec:d4d5}
+
+Draft~5 changes no statement and no proof and adds no result. It adds
+motivation, following notes by Gemini (``Carbon''). The notes describe
+four ``hooks'': arithmetic (building Langlands parameters from the bottom
+up), structural (the ambient group is blind to the obstruction),
+geometric (holonomy against monodromy on Cayley graphs) and pedagogical
+(three languages for one obstruction).
+
+\paragraph{Where the notes were used.}
+\begin{itemize}[itemsep=1pt]
+\item \S1.1 (Setting and motivation) was rewritten. It now opens with
+  the extension problem and treats the four points of view in four
+  titled paragraphs. The paragraphs of Draft~4 on the Weil group, on the
+  classical sequence, on why the centralizer appears, and on the
+  expository status of the paper are kept inside them.
+\item One motivating paragraph was added at the start of each of
+  Sections~\ref{N-sec:graph-foundations}, \ref{N-sec:infres},
+  \ref{N-sec:obstruction}, \ref{N-sec:nonabelian} and~\ref{N-sec:graph}.
+\item Section~\ref{N-sec:langlands} has a new opening and the new
+  Remark~\ref{N-rem:bottomup}, which describes the construction of
+  parameters in four steps and contrasts $\mathrm{GL}_2$ with
+  $\mathrm{SL}_2$.
+\item Section~\ref{N-sec:questions} has a new first subsection, ``What
+  the examples teach''.
+\item The title page, the abstract and the acknowledgments name
+  Draft~5 and the roles of Gemini, ChatGPT and Claude in Drafts~4
+  and~5. ChatGPT is now also credited for its review of Draft~3.
+\item The subsection ``Why the centralizer is needed'' received the
+  label \texttt{ss:needed}.
+\end{itemize}
+
+\paragraph{How the notes were checked.} Every claim taken from the notes
+is one that the paper already proves or computes, and each new passage
+cites the place: Examples~\ref{N-ex:first}, \ref{N-ex:dihedral},
+\ref{N-ex:toy-obstruction}, \ref{N-ex:needed}, \ref{N-ex:clifford}
+and~\ref{N-ex:klein}, Remark~\ref{N-rem:noglobal},
+Corollaries~\ref{N-cor:central} and~\ref{N-cor:cyclic},
+Proposition~\ref{N-prop:canonical} and Theorem~\ref{N-thm:graph}. Three
+points of the notes were adjusted.
+\begin{itemize}[itemsep=1pt]
+\item The notes say that in $\mathrm{SL}_2(\mathbb{C})$ ``half'' of the
+  invariant characters fail to extend. The paper says which: those whose
+  restriction to $F^\times$ is trivial fail, and those whose restriction
+  is the quadratic character extend.
+\item The notes cite ``Example~5.9'' for the $D_4$ and $Q_8$ paradox.
+  It is Example~\ref{N-ex:toy-obstruction}.
+\item The notes offer sample prose. The passages in the paper were
+  written anew in the style of the paper and do not quote it.
+\end{itemize}
+New statements in Draft~5 that are not quoted from earlier sections, and
+that a referee should check: in Remark~\ref{N-rem:bottomup}, that for
+$\phi$ with values in a maximal torus the transporters ``can often be
+taken from the normalizer of the torus'', which is stated without proof
+and with the hedge ``often'', and that in $\mathrm{GL}_2(\mathbb{C})$ the
+squares of the transporters are all the non-zero scalars, which is in
+Example~\ref{N-ex:dihedral}. In \S1.1, that Springer's $H^2$ in general
+has no group structure, can be empty and can have several neutral
+classes, which is standard and is not proved in the paper.
+
 \section{Open items for the first author}\label{sec:open}
 
 \begin{enumerate}[itemsep=1pt]
@@ -678,6 +793,9 @@ Equations $(n.k)$, $2\le n\le 7$ & Equations $((n+1).k)$ \\
 \item Style guide: two rules marked DECIDE were settled by their defaults
   (document class \texttt{article}, font package \texttt{mathptmx}), and
   subsections were left numbered. See Section~\ref{sec:d2d3}.
+\item Draft~4 was not checked by Claude and has no numbering
+  concordance (Section~\ref{sec:d3d4}). Its new passages do not follow
+  the sentence style of the rest of the paper.
 \item Rule~4.3 of the style guide asks that every citation be checked
   against its source. This has not been done; see
   Section~\ref{sec:sources} and Remark~\ref{N-yrem:unverified} of the

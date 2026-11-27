@@ -68,13 +68,14 @@
 
 \title{Inflation-restriction in non-abelian cohomology:\\
 centralizer obstructions, Weil groups, and voltage graphs\\[4pt]
-\large Draft 4. Corrected and expanded version}
+\large Draft 5. Corrected and expanded version}
 \author{David Joyner\thanks{This expository paper corrects and expands an
 undated, unpublished manuscript of the first author, ``Notes on the
 inflation-restriction sequence in non-abelian cohomology'' (file
 \texttt{infres.tex}, written in \AmS-\TeX\ while he was at the U.S.\ Naval
 Academy). Drafts~1 to~3 of this revision were prepared on November 26,
-2026. The present title was adopted in Draft~3. Draft~4 (November 27, 2026) reorganizes and expands the geometric exposition.}\\
+2026. The present title was adopted in Draft~3. Draft~4 (November 27, 2026) reorganizes and expands the geometric
+exposition. Draft~5 (November 27, 2026) adds the motivating discussion.}\\
 \texttt{wdjoyner@gmail.com}
 \and Claude\thanks{An AI system developed by Anthropic (model Claude
 Fable~5.2). Its contributions are described in the Acknowledgments.}}
@@ -89,7 +90,9 @@ which revised, corrected and expanded the first author's original
 manuscript. Two other AI systems acted as referees: Gemini (by Google)
 for the original manuscript and ChatGPT (by OpenAI) for Draft~1. Several
 results of this paper were proposed in ChatGPT's report. See the
-Acknowledgments for details. ChatGPT (OpenAI) also reorganized and expanded the exposition in Draft~4.
+Acknowledgments for details. ChatGPT also reviewed Draft~3 and
+reorganized and expanded the exposition in Draft~4. Gemini suggested the
+motivating discussion that was added in Draft~5.
 
 This paper is expository. No originality is claimed for its results.
 
@@ -127,6 +130,22 @@ example, the Weil group of $\Q_3(i)/\Q_3$, is computed in detail.
 
 \subsection{Setting and motivation}
 
+This paper is about one concrete extension problem. Let
+$1\to N\to W\to\Gamma\to1$ be an extension of groups, let $A$ be a group
+on which $\Gamma$ acts, and let $\phi:N\to A$ be a homomorphism.
+\emph{When is $\phi$ the restriction to $N$ of a $1$-cocycle of $W$ with
+values in $A$?} When the action is trivial, the question is when $\phi$
+extends to a homomorphism $W\to A$. A necessary condition is easy to
+find: the $A$-conjugacy class of $\phi$ must be $\Gamma$-invariant. Then
+each $g\in\Gamma$ has a \emph{transporter}, an element of $A$ that
+realizes on $\phi$ the action of $g$ on $N$. But the transporters of
+different elements of $\Gamma$ need not fit together into a cocycle. The
+interest of the problem lies in what prevents this, because the answer
+is not the one that the abelian theory suggests. We describe the problem
+from four points of view: arithmetic, structural, geometric and
+expository.
+
+\paragraph{The arithmetic view: parameters built from the bottom up.}
 Let $E/F$ be a finite Galois extension of $p$-adic fields, with Galois
 group $\Gamma=\Gal(E/F)$. Let $W_F$ and $W_E$ be the absolute Weil groups
 and let $W_E^c$ be the closure of the commutator subgroup of $W_E$. The
@@ -152,14 +171,46 @@ in the cohomology set $H^1(W,\Gh)$ (Section~\ref{sec:langlands}). It is
 therefore natural to ask how $H^1(W,\Gh)$ is built from cohomology of
 $\Gamma$ and of $E^\times$.
 
+This is a constructive question: how does one build a parameter of $G$
+over $F$ from abelian data over the splitting field $E$? Local class
+field theory supplies the characters of $E^\times$, and a character with
+values in a maximal torus of $\Gh$ is a homomorphism
+$\phi:E^\times\to\Gh$. To make a parameter out of $\phi$ one must extend
+it across the relative Weil group. Whether this is possible depends on
+the group $\Gh$, and not only on $\phi$. Let $E/F$ be quadratic, with
+$\Gamma=\{1,\tau\}$, and let $\chi$ be a character of $E^\times$ with
+$\chi\circ\tau=\chi^{-1}\neq\chi$. In $\GL_2(\C)$ the homomorphism
+$\diag(\chi,\chi^{-1})$ always extends, and the extension is the induced
+representation. In $\SL_2(\C)$, the dual group of $\PGL_2$, it extends
+only when the restriction of $\chi$ to $F^\times$ is the quadratic
+character of $E/F$ (Example~\ref{ex:dihedral}). The reason is a clash
+between two squares. An element of $\SL_2(\C)$ that exchanges the two
+eigenspaces of $\phi$ has square $-1$. That is forced by the group law
+of $\SL_2(\C)$. A lift of $\tau$ to $W$ has square an element $a$ of
+$F^\times$ that is not a norm from $E$. That is forced by class field
+theory. So an extension exists only if $\phi(a)=-1$.
+Example~\ref{ex:first} below works this out for $\Q_3(i)/\Q_3$, where
+$a=3$.
+
+\paragraph{The structural view: the coefficient group does not see the
+obstruction.}
 For an abelian coefficient group the answer is the classical
 inflation-restriction sequence \cite[Ch.~VII, \S6]{Se79} together with the
-transgression map of Hochschild and Serre \cite{HS53}. The purpose of this
-note is to work out the non-abelian analog. The arguments are exercises in
-cohomology, but the result has some content: the obstruction to extending a
+transgression map of Hochschild and Serre \cite{HS53}. A
+$\Gamma$-invariant homomorphism $\phi$ extends if and only if $\phi$
+sends the class of the extension $W$ to the trivial class in
+$H^2(\Gamma,A)$ (Corollary~\ref{cor:central}). For a non-abelian group
+$A$ it is tempting to guess that the obstruction is the corresponding
+class in Springer's non-abelian $H^2(\Gamma,A)$. That guess fails.
+Springer's set with coefficients in $A$ records only data in the center
+of $A$ (Remark~\ref{rem:noglobal}). The class in question can be neutral
+there although $\phi$ has no extension at all
+(Example~\ref{ex:needed}). The purpose of this paper is to work out the
+correct non-abelian analog. The arguments are exercises in cohomology,
+but the result has some content: the obstruction to extending a
 homomorphism $\phi:E^\times\to\Gh$ to a parameter does not live in a
-cohomology set of $\Gh$. It lives in a cohomology set of the centralizer of
-the image of $\phi$.
+cohomology set of $\Gh$. It lives in a cohomology set of the centralizer
+of the image of $\phi$.
 
 Here is why the centralizer must appear. Let $f$ and $f'$ be two
 $1$-cocycles of $W$ with the same restriction $\phi$ to $E^\times$. For
@@ -173,6 +224,51 @@ first cohomology set of $\Gamma$ in $C_\phi$ classifies the extensions of
 $\phi$ when there is one (Proposition~\ref{prop:fiber}), and a second
 cohomology set of $\Gamma$ in $C_\phi$ contains the obstruction to the
 existence of an extension (Theorem~\ref{thm:main}).
+
+There is a second surprise. The obstruction does not test whether the
+extension $W$ splits. For $N=\Z/4$ and $A=Q_8$ there is a homomorphism
+$\phi$ that extends over the quaternion group $Q_8$, a non-split
+extension of $\Z/2$ by $N$, and does not extend over the dihedral group
+$D_4$, which is split (Example~\ref{ex:toy-obstruction}). What the
+obstruction tests is whether $\phi$ carries the class of $W$ to the
+class of a second extension of $\Gamma$, the stabilizer $E_\phi$ of
+$\phi$.
+
+\paragraph{The geometric view: holonomy against monodromy.}
+The cocycle identities of non-abelian $H^2$ are hard to read. On a
+graph they become a statement about parallel transport. Choose
+generators of $\Gamma$ and lifts of them to $W$. The Cayley graph of $W$
+then covers the Cayley graph of $\Gamma$, and the covering is described
+by voltages on the edges of the base graph, with values in $N$. The walk
+around a defining relator $r$ of $\Gamma$ is closed in the base graph.
+Its lift need not close: it ends at an element $\nu(r)$ of $N$, the
+\emph{monodromy} of $r$. A choice of transporters for the generators
+puts \emph{gains} on the edges of the base graph, with values in $A$.
+The extension problem is now a matching problem. The homomorphism $\phi$
+extends if and only if the gains can be chosen so that, around every
+defining relator $r$, their holonomy equals $\phi(\nu(r))$
+(Theorem~\ref{thm:graph}). When $\Gamma$ is cyclic there is one relator,
+and the whole apparatus reduces to a single twisted norm equation
+(Corollary~\ref{cor:cyclic}). When $\Gamma$ is not cyclic, solving the
+relators one at a time is not enough. One choice of gains must satisfy
+all of them at once, the commutator relators included
+(Example~\ref{ex:klein}).
+
+\paragraph{The expository view: one obstruction in three languages.}
+Non-abelian $H^2$ can intimidate a newcomer. In general it has no group
+structure, it can be empty, and it can have several neutral classes. It
+is usually presented through gerbes and bands \cite{Gi71}. In this paper
+the obstruction class $\partial\phi$ is the class of an explicit group
+extension $\mathcal{O}_\phi$, a quotient of a fiber product, and $\phi$
+extends if and only if $\mathcal{O}_\phi$ splits
+(Proposition~\ref{prop:canonical}). No gerbes are needed. The same
+mechanism governs two classical situations that are seldom put side by
+side. One is Clifford theory, the extension of an invariant irreducible
+representation from a normal subgroup, where Schur's lemma reduces the
+centralizer to $\C^\times$ (Example~\ref{ex:clifford}). The other is the
+construction of dihedral parameters of $\PGL_2$ over a $p$-adic field
+(Example~\ref{ex:dihedral}). A reader from group theory and a reader
+from number theory each have a familiar landmark.
 
 This paper is expository. Its results are instances of the classical
 obstruction theory for group extensions and of non-abelian cohomology as
@@ -988,6 +1084,12 @@ non-norm $3$ has been killed.
 
 Before introducing the obstruction, we describe the extension itself geometrically. The base graph records multiplication in the quotient; the derived graph records multiplication by chosen lifts. The kernel is the group acting freely on the fibers. For abelian kernels the relation module packages all closed-walk voltages into an equivariant homomorphism. The results in this section do not require the centralizer obstruction theorem.
 
+The reason for doing this first is that the obstruction will later be
+read off this picture. The extension $W$ contributes a monodromy, an
+element of $N$ for each closed walk in the base graph. A homomorphism
+$\phi$ on $N$ turns it into a prescribed holonomy, and
+Section~\ref{sec:graph} asks whether gains with that holonomy exist.
+
 \subsection{Voltage graphs and derived graphs}
 
 This subsection recalls voltage graphs and shows that a group extension
@@ -1356,7 +1458,10 @@ identifies the natural target of the restriction map, which is the set of
 conjugacy classes of homomorphisms $N\to A$ fixed by $\Gamma$. The
 distinction between a class fixed by $\Gamma$ and a homomorphism fixed by
 $\Gamma$ is the first place where the non-abelian theory differs from the
-abelian one.
+abelian one. Invariance of the class is a local statement. It gives each
+element of $\Gamma$ a transporter, and it says nothing about whether the
+transporters can be chosen compatibly. That is the question of
+Section~\ref{sec:obstruction}.
 
 From now on $A$ is a $\Gamma$-group, with action $\alpha$. Through $p$ it
 is a $W$-group, and through $i$ an $N$-group with trivial action. We write
@@ -1601,6 +1706,19 @@ the only homomorphisms $W\to\SL_2(\C)$ trivial on $E^\times$.
 Theorem~\ref{thm:exact} leaves open which $\Gamma$-invariant classes in
 $H^1(N,A)$ are restrictions of classes in $H^1(W,A)$. This section answers
 that question.
+
+Two intuitions from the abelian theory have to be given up on the way.
+The first is that the obstruction lives in the second cohomology of the
+coefficient group $A$. Once $\phi$ is fixed on $N$, any two candidates
+for the value of a cocycle at a lift of $g\in\Gamma$ conjugate $\phi(N)$
+in the same way, so their ratio lies in the centralizer $C_\phi$. Both
+the freedom in extending $\phi$ and the obstruction to extending it
+therefore live in $C_\phi$, and \S\ref{ss:needed} shows that $A$ itself
+is too coarse. The second intuition is that the obstruction measures the
+failure of $W$ to split. It does not. It compares $W$ with the
+stabilizer extension $E_\phi$, and a homomorphism can extend over a
+non-split extension and fail to extend over a split one
+(Example~\ref{ex:toy-obstruction}).
 
 \subsection{The stabilizer extension}
 
@@ -2096,7 +2214,7 @@ $\chi|_{F^\times}=\omega_{E/F}$, which recovers the condition above
 independently of the obstruction theory.
 \end{example}
 
-\subsection{Why the centralizer is needed}
+\subsection{Why the centralizer is needed}\label{ss:needed}
 
 When $\phi\circ\sigma$ happens to take values in $Z(A)$, the pair
 $((\phi\circ\sigma)^{-1},\alpha)$ is a $2$-cocycle of $\Gamma$ in $A$
@@ -2284,6 +2402,15 @@ $\Gamma$-group. The construction of the obstruction extension in
 Proposition~\ref{prop:canonical} suggests how to proceed without the
 hypothesis that $N$ is abelian: work in $A\rtimes W$ instead of
 $A\rtimes\Gamma$.
+
+The motivating case is Clifford theory. Let $N$ be a normal subgroup of
+a finite group $W$, and let $\phi$ be an irreducible representation of
+$N$ whose isomorphism class is invariant under $W$. Whether $\phi$
+extends to a representation of $W$ is a classical question, and here $N$
+is rarely abelian. Its answer is the case $A=\GL_m(\C)$ of the criterion
+of this section (Example~\ref{ex:clifford}). So the centralizer
+mechanism that produces dihedral parameters in
+Example~\ref{ex:dihedral} is the mechanism of Clifford theory.
 
 \subsection{The stabilizer in \texorpdfstring{$A\rtimes W$}{A x| W}}
 
@@ -2577,6 +2704,18 @@ Condition (c) of Theorem~\ref{thm:main} involves a function on all of
 $\Gamma$ and an equation for every pair $(g,h)$. In this section we
 replace it by a condition on generators and relators. The natural language
 is that of voltage graphs \cite{GT87} and gain graphs \cite{Za89}.
+
+In that language the extension problem is a matching problem on the
+Cayley graph of $\Gamma$. Section~\ref{sec:graph-foundations} attached
+to each defining relator of $\Gamma$ its monodromy, an element of $N$
+that records how the lifted walk fails to close. A choice of
+transporters for the generators is a connection on the base graph with
+values in $A$, and $\phi$ extends exactly when the holonomy of this
+connection around every relator is the image under $\phi$ of the
+monodromy. For a cyclic quotient there is one loop and one equation. For
+a quotient with several generators the loops interact, and the examples
+of this section show that the equations cannot be solved one loop at a
+time.
 
 \subsection{Gains with prescribed holonomy}
 
@@ -2986,9 +3125,12 @@ $w_0^2=-1=\phi_{2,-1}(3)$.}\label{fig:run}
 
 \section{Topology and Langlands parameters}\label{sec:langlands}
 
-So far all groups were discrete. The Weil group is a locally compact group
-and Langlands parameters are continuous, so we record how the results
-adapt.
+This section returns to the arithmetic question of the Introduction:
+how is a Langlands parameter of $G$ over $F$ built from a character of
+$E^\times$? So far all groups were discrete. The Weil group is a locally
+compact group and Langlands parameters are continuous, so we first
+record how the results adapt. We then describe the construction of
+parameters ``from the bottom up'' and what can stop it.
 
 \begin{proposition}\label{prop:cont}
 Suppose $W$ is a topological group in which $N$ is an open subgroup, and
@@ -3033,6 +3175,47 @@ that a continuous homomorphism $\phi:W_E\to\Gh$ with $\Gamma$-invariant
 class is the restriction of a homomorphism $W_F\to\LG$ over $\Gamma$ if
 and only if the extension $\mathcal{O}_\phi$ of $\Gamma$ by
 $\Cent_{\Gh}(\phi(W_E))$ splits (compare Example~\ref{ex:clifford}).
+\end{remark}
+
+\begin{remark}[Building parameters from the bottom up]\label{rem:bottomup}
+The results of the paper give a procedure for constructing parameters
+whose restriction to $W_E$ has abelian image. It has four steps.
+\begin{enumerate}[itemsep=1pt]
+\item \emph{Abelian data.} Choose a continuous homomorphism
+$\phi:E^\times\to\Gh$, for example a character of $E^\times$ composed
+with a cocharacter of a maximal torus of $\Gh$. Local class field theory
+describes all such data.
+\item \emph{Invariance.} Check that the $\Gh$-conjugacy class of $\phi$
+is $\Gamma$-invariant. This says that each element of $\Gamma$ has a
+transporter in $\Gh$. For $\phi$ with values in a
+maximal torus the transporters can often be taken from the normalizer of
+the torus, so this step is a condition on the Weyl group.
+\item \emph{Freedom.} Compute the centralizer $C_\phi$. The transporters
+of $g\in\Gamma$ form a coset of $C_\phi$ (Lemma~\ref{lem:T}), and this coset is all the
+freedom there is in the value of a parameter at a lift of $g$.
+\item \emph{Assembly.} Decide whether transporters can be chosen so that
+they multiply as the lifts do in $W_{E/F}$. This is the splitting of
+$\mathcal{O}_\phi$ (Theorem~\ref{thm:main}), or equivalently the
+holonomy condition of Theorem~\ref{thm:graph}.
+\end{enumerate}
+Steps 1 to 3 are local: they concern one element of $\Gamma$ at a time.
+Step 4 is where a construction can fail, and it fails for a reason that
+is not visible in steps 1 to 3. The relations among the lifts are
+dictated by the fundamental class of local class field theory, which
+determines the extension $W_{E/F}$. The relations among the transporters
+are dictated by the group law of $\Gh$. The obstruction $\partial\phi$
+measures the disagreement between the two.
+
+The quadratic case shows the disagreement in its simplest form. The
+fundamental class says that a lift $s$ of $\tau$ has $s^2=a$ with $a$
+not a norm from $E$. In $\SL_2(\C)$ every transporter of $\tau$ for a
+regular $\phi=\diag(\chi,\chi^{-1})$ has square $-1$. So the parameter
+exists only if $\chi(a)=-1$. In $\GL_2(\C)$ the transporters are all the
+anti-diagonal matrices, their squares are all the non-zero scalars, and
+the parameter always exists (Example~\ref{ex:dihedral}). The same
+abelian data therefore gives a parameter of $\GL_2$ for every such
+$\chi$, and a parameter of $\PGL_2$ for only some of them. The dual
+group decides, through the squares that its transporters can have.
 \end{remark}
 
 \begin{example}\label{ex:langlands}
@@ -3091,7 +3274,41 @@ character of $\Gamma$. It is a parameter of $\GL_2$ but not of $\PGL_2$.
 \section{Summary of results and open questions}\label{sec:questions}
 
 This final section restates the results in one place and then lists
-questions that the paper leaves open.
+questions that the paper leaves open. It begins with the lessons of the
+examples, which are the reason the problem is more than a routine
+generalization of an exact sequence.
+
+\subsection{What the examples teach}
+
+The four points of view of the Introduction each end in a statement that
+contradicts a first guess.
+\begin{itemize}[itemsep=2pt]
+\item \emph{Arithmetic.} Abelian data over $E$ that is Galois-invariant
+up to conjugacy need not give a parameter over $F$, and whether it does
+depends on the dual group. The character $\chi_{2,1}$ of $\Q_3(i)^\times$
+gives a parameter of $\GL_2$ and no parameter of $\PGL_2$, while
+$\chi_{2,-1}$ gives both (Examples~\ref{ex:run3} and~\ref{ex:run5}).
+\item \emph{Structural.} The coefficient group $A$ does not see the
+obstruction. The class that the abelian theory suggests, in
+$H^2(\Gamma,A,\overline{\alpha})$, is neutral in cases where $\phi$ does
+not extend (Example~\ref{ex:needed}). The centralizer $C_\phi$ sees it.
+Nor is the obstruction about the splitting of $W$: the same $\phi$
+extends over the non-split group $Q_8$ and not over the split group
+$D_4$ (Example~\ref{ex:toy-obstruction}).
+\item \emph{Geometric.} The obstruction is a mismatch between two
+quantities attached to each closed walk in a Cayley graph of $\Gamma$:
+the holonomy of a gain function with values in $A$, and the image under
+$\phi$ of the monodromy of the covering by the Cayley graph of $W$. For
+a cyclic quotient this is one equation. For the Klein four-group the
+relators must be satisfied together (Example~\ref{ex:klein}).
+\item \emph{Expository.} Springer's $H^2$ with a non-abelian coefficient
+group is here the set of classes of honest group extensions, and
+$\partial\phi$ is the class of the explicit extension
+$\mathcal{O}_\phi$. Clifford theory for invariant irreducible
+representations and the construction of dihedral parameters are two
+cases of one statement (Examples~\ref{ex:clifford}
+and~\ref{ex:dihedral}).
+\end{itemize}
 
 \subsection{The extension and its quotient}
 
@@ -3686,7 +3903,10 @@ acted as referee of the original manuscript. Its report identified the
 false identification of $\Gamma$-invariant classes with classes of
 $\Gamma$-equivariant homomorphisms, the over-constrained hypothesis on the
 section, inconsistent conjugation conventions, and a list of misprints,
-and it proposed formula~\eqref{eq:fc}.
+and it proposed formula~\eqref{eq:fc}. For Draft~5 it supplied notes on
+how to motivate the paper from four points of view: arithmetic,
+structural, geometric and expository. The motivating passages added in
+Draft~5 follow these notes.
 \item \emph{ChatGPT (OpenAI)} acted as referee of Draft~1. Its report
 confirmed the main results. It identified an omitted hypothesis in
 Corollary~\ref{cor:central}(ii) and statements needing qualification in
@@ -3718,7 +3938,22 @@ and~\ref{ex:twocycle}, and Remark~\ref{rem:graph-nonab}. For Draft~3 it
 brought the paper into conformity with the first author's style guide for
 mathematical papers, and added the literature review, the summary of
 results and the orienting paragraphs.
-\item \emph{ChatGPT (OpenAI)} prepared the expository revision in Draft~4 under the first author's direction: it moved the notation and literature review into the Introduction, separated the graph foundations from the obstruction theory, and expanded the summary with diagrams and comparison tables.
+\item \emph{ChatGPT (OpenAI)} also reviewed Draft~3. Its review proposed
+moving the notation and the literature review into the Introduction,
+introducing the graph-theoretic point of view before the obstruction
+theory, and expanding the summary of results. It then prepared Draft~4
+under the first author's direction and carried out these proposals: it
+moved the notation and literature review into the Introduction,
+separated the graph foundations
+(Section~\ref{sec:graph-foundations}) from the graph-theoretic
+formulation of the obstruction (Section~\ref{sec:graph}), and expanded
+the summary with diagrams and comparison tables.
+\item \emph{Claude (Anthropic)} prepared Draft~5. It checked the
+motivating notes of Gemini against the results and examples of the
+paper and wrote the passages that incorporate them: \S1.1, the opening
+paragraphs of Sections~\ref{sec:graph-foundations} to~\ref{sec:graph},
+Remark~\ref{rem:bottomup} and the first subsection of
+Section~\ref{sec:questions}. Draft~5 adds no new result.
 \end{itemize}
 The first author wrote the original manuscript, directed the revision,
 and is responsible for the content. Review by AI systems is not an
