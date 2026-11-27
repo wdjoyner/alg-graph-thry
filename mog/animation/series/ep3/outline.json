@@ -15,7 +15,7 @@
    "main_title": "full",
    "subtitle": "sub.ep3",
    "epistemic": "card",
-   "target_seconds": 26
+   "target_seconds": 19
   },
   {
    "id": "s01",
@@ -83,7 +83,7 @@
    "title": "Test the hands",
    "lead": "ada",
    "foil": "euler",
-   "target_seconds": 88,
+   "target_seconds": 90,
    "paper": ["sec:minimog", "lem:minimog"],
    "epistemic": "example",
    "predict_pause": true,
@@ -148,7 +148,7 @@
    "visual": ["credits_roll"],
    "tail": "next_time",
    "next_episode": 4,
-   "target_seconds": 56.0
+   "target_seconds": 58.5
   }
  ]
 }

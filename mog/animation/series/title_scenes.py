@@ -109,9 +109,6 @@ def kitten(key, scale=1.0):
     elif key == "sophie":
         marks = Ellipse(width=0.42, height=0.36, fill_color=pal["bib"], fill_opacity=1,
                         stroke_width=0).move_to(xy(0, -0.5))
-    elif key == "euphemia":
-        marks = VGroup(Circle(radius=0.15, fill_color=pal["patch1"], fill_opacity=1, stroke_width=0).move_to(xy(-0.2, 0.2)),
-                       Circle(radius=0.12, fill_color=pal["patch2"], fill_opacity=1, stroke_width=0).move_to(xy(0.2, 0.22)))
     face = VGroup(ears, head, marks if key != "sophie" else VGroup(), eyes, nose)
     k = VGroup(tail, body, marks if key == "sophie" else VGroup(), face)
     k.face, k.eyes = face, eyes
@@ -254,10 +251,10 @@ class MainTitleBase(Timed):
         pascal = kitten("pascal", 0.7).move_to(xy(-7.6, -2.6))
         self.kits["pascal"] = pascal
         self.add(deck)
-        self.go(pascal.animate.move_to(xy(-5.6, -2.6)), t=0.4)
+        self.go(pascal.animate.move_to(xy(-5.6, -2.6)), t=0.3)
         self.go(LaggedStart(*(self.cards[v].animate.move_to(xy((v - 5.5) * 0.98, 0))
                               for v in range(12)), lag_ratio=0.05),
-                hop(pascal, 0.3), t=1.2)
+                hop(pascal, 0.3), t=0.7)
 
     def beat_mt_b02(self):
         """The cards fly into their MINIMOG cells; Ada straightens the last one."""
@@ -272,8 +269,8 @@ class MainTitleBase(Timed):
             if v == last:
                 target.rotate(0.22)
             moves.append(self.cards[v].animate(path_arc=0.5).become(target))
-        self.go(LaggedStart(*moves, lag_ratio=0.06), ada.animate.move_to(xy(5.6, -2.6)), t=2.0)
-        self.go(Rotate(self.cards[last], -0.22), hop(ada, 0.25), t=0.6)
+        self.go(LaggedStart(*moves, lag_ratio=0.06), ada.animate.move_to(xy(5.6, -2.6)), t=1.5)
+        self.go(Rotate(self.cards[last], -0.22), hop(ada, 0.25), t=0.5)
 
     def beat_mt_b03(self):
         """The cells slide into Curtis's kitten; Sophie traces the last side."""
@@ -294,10 +291,10 @@ class MainTitleBase(Timed):
             s.set_stroke("#6687A9", 2)
         self.go(*(self.cards[v].animate.become(first[v]) for v in range(12)),
                 Create(sides[0]), Create(sides[1]), self.kits["ada"].animate.shift(RIGHT * 2.5),
-                sophie.animate.move_to(b + DOWN * 0.15), t=1.6)
+                sophie.animate.move_to(b + DOWN * 0.15), t=1.0)
         self.extra = [t.copy() for _, t in extra]
-        self.go(*(TransformFromCopy(self.cards[v], m) for (v, _), m in zip(extra, self.extra)), t=0.5)
-        self.go(Create(sides[2]), MoveAlongPath(sophie, Line(b + DOWN * 0.15, c + UP * 0.2)), t=1.0)
+        self.go(*(TransformFromCopy(self.cards[v], m) for (v, _), m in zip(extra, self.extra)), t=0.4)
+        self.go(Create(sides[2]), MoveAlongPath(sophie, Line(b + DOWN * 0.15, c + UP * 0.2)), t=0.6)
         self.sides = VGroup(*sides)
 
     def beat_mt_b04(self):
@@ -305,18 +302,18 @@ class MainTitleBase(Timed):
         euler = kitten("euler", 0.7).move_to(xy(7.6, -2.6))
         self.kits["euler"] = euler
         six = [self.cards[v] for v in HEXAD]
-        self.go(*(a for c in six for a in lit(c, GREEN)), euler.animate.move_to(xy(5.6, -2.6)), t=0.6)
+        self.go(*(a for c in six for a in lit(c, GREEN)), euler.animate.move_to(xy(5.6, -2.6)), t=0.4)
         g, _ = star()
         edges, tips, dot = g
         rest = [self.cards[v] for v in range(12) if v not in HEXAD] + self.extra + [self.sides]
         self.go(*(c.animate.move_to(ORIGIN).scale(0.05).set_opacity(0) for c in six),
                 *(FadeOut(m) for m in rest), FadeOut(self.kits["sophie"]),
-                FadeIn(dot, scale=3), t=0.8)
+                FadeIn(dot, scale=3), t=0.5)
         self.remove(*six)
         self.go(LaggedStart(*(GrowFromPoint(e, ORIGIN) for e in edges), lag_ratio=0.02),
                 FadeIn(tips, lag_ratio=0.02),
-                euler.eyes.animate(rate_func=there_and_back).stretch(0.1, 1), t=1.2)
-        self.go(euler.animate.shift(LEFT * 0.4 + UP * 0.15).rotate(0.12), t=0.4)
+                euler.eyes.animate(rate_func=there_and_back).stretch(0.1, 1), t=0.8)
+        self.go(euler.animate.shift(LEFT * 0.4 + UP * 0.15).rotate(0.12), t=0.3)
         self.star = g
 
     def beat_mt_b05(self):
@@ -333,14 +330,14 @@ class MainTitleBase(Timed):
         self.kits.update(missing)
         self.go(LaggedStart(*(GrowFromPoint(gl, ORIGIN) for gl in glyphs), lag_ratio=0.03),
                 self.star.animate.set_opacity(0.3),
-                *(self.kits[k].animate.become(row[k]) for k in SIT), t=1.5)
-        self.go(*(Transform(gl, t) for gl, t in zip(glyphs, final)), t=1.0)
-        self.go(*(hop(self.kits[k], 0.7) for k in SIT), t=0.6)
+                *(self.kits[k].animate.become(row[k]) for k in SIT), t=1.0)
+        self.go(*(Transform(gl, t) for gl, t in zip(glyphs, final)), t=0.7)
+        self.go(*(hop(self.kits[k], 0.7) for k in SIT), t=0.5)
         self.title = glyphs
 
     def beat_mt_b06(self):
         """The tagline fades in under the title."""
-        self.go(FadeIn(tagline_text(), shift=UP * 0.15), t=0.8)
+        self.go(FadeIn(tagline_text(), shift=UP * 0.15), t=0.6)
 
 
 class MainTitle(MainTitleBase):
@@ -359,8 +356,8 @@ class MainTitleShort(MainTitleBase):
                 self.kits[k] = row[k].copy().shift(DOWN * 2)
                 self.add(self.kits[k])
         self.go(*(FadeOut(c) for c in self.cards.values()), Write(final),
-                *(self.kits[k].animate.become(row[k]) for k in SIT), t=1.6)
-        self.go(*(hop(self.kits[k], 0.7) for k in SIT), t=0.6)
+                *(self.kits[k].animate.become(row[k]) for k in SIT), t=1.2)
+        self.go(*(hop(self.kits[k], 0.7) for k in SIT), t=0.5)
 
 
 def end_of_main_title(scene):
@@ -617,23 +614,13 @@ class CreditsBase(Timed):
             else:
                 self.go(bow(kits[k]), t=0.6)
 
-    def card_ec_c05(self):
-        """About Professor Euphemia: she nods from a doorway."""
-        self.clear_all()
-        head, names, _ = section_text("euphemia", self.flags)
-        door = Rectangle(width=1.7, height=2.9, stroke_color=GOLD, stroke_width=3).move_to(xy(-4.8, -0.3))
-        eu = kitten("euphemia", 0.8).move_to(door.get_bottom() + UP * 0.85)
-        note = text(names[0].replace(" Not", "\nNot"), size=28, width=7.6).next_to(door, RIGHT, buff=0.7)
-        self.go(FadeIn(heading(head, 2.6)), Create(door), FadeIn(eu), FadeIn(note), t=0.6)
-        self.go(bow(eu, 0.3), t=0.6)
-
     def card_ec_c06(self):
         """Music: the credit writes along a staff that curls into a tail."""
         self.clear_all()
         head, names, _ = section_text("music", self.flags)
         staff = VGroup(*(ParametricFunction(
-            lambda t, k=k: xy(t, 0.12 * k - 0.6 + 0.25 * np.sin(t * 0.8)) if t < 4.2
-            else xy(4.2 + 0.6 * np.sin((t - 4.2) * 2.2), 0.12 * k - 0.6 + 0.25 * np.sin(4.2 * 0.8)
+            lambda t, k=k: xy(t, 0.12 * k - 1.2 + 0.25 * np.sin(t * 0.8)) if t < 4.2
+            else xy(4.2 + 0.6 * np.sin((t - 4.2) * 2.2), 0.12 * k - 1.2 + 0.25 * np.sin(4.2 * 0.8)
                     + 0.6 * (1 - np.cos((t - 4.2) * 2.2))),
             t_range=[-5.2, 5.6], stroke_color=BLUE, stroke_width=1.6) for k in range(5)))
         lines = block(names, size=30, buff=0.25, width=11.6).move_to(xy(0, 1.6))
@@ -695,10 +682,6 @@ class CreditsBase(Timed):
 
 class CreditsRoll(CreditsBase):
     flags = ()
-
-
-class CreditsRollEuphemia(CreditsBase):
-    flags = ("euphemia",)
 
 
 # ---------------------------------------------------------------- tails

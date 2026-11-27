@@ -6,30 +6,67 @@
   "Measure numbers are those of the score file; 'source.file' must be filled in before any cue can render."
  ],
  "source": {
-  "file": null,
+  "file": "music/scarlatti_k30_m1-44.mid",
   "piece": "Domenico Scarlatti, Keyboard Sonata in G minor, K. 30 (L. 499), \"Cat Fugue\"",
-  "edition": null,
-  "license": null,
-  "_comment": "A MIDI or MusicXML file of K. 30 from a public-domain edition, for example an engraving of the Longo edition (Ricordi, 1906-1913).  Record where it came from and its license here; put the file in series/music/."
+  "edition": "Alessandro Longo, ed., Domenico Scarlatti: Opere complete per clavicembalo (Ricordi, 1906-1913), No. 499, bars 1-44",
+  "license": "The composition and Longo's edition are in the public domain.  The transcription (music/scarlatti_k30_m1-44.txt, made by Claude in Nov 2026 from the page scans in github.com/craigsapp/scarlatti-keyboard-sonatas, reference-edition/L499K030.pdf) is part of this repository.  None of that repository's CC BY-NC-SA encodings were used.",
+  "_comment": "Rebuild the MIDI file with music/build_k30_midi.py after any change to the transcription; it checks every bar and every entry of the subject."
  },
- "instrument": {"gm_program": 6, "name": "Harpsichord"},
- "soundfont": {"file": "/usr/share/sounds/sf2/FluidR3_GM.sf2", "credit": "FluidR3 GM SoundFont, Frank Wen (MIT License)"},
+ "instrument": {
+  "gm_program": 6,
+  "name": "Harpsichord"
+ },
+ "soundfont": {
+  "file": "/usr/share/sounds/sf2/FluidR3_GM.sf2",
+  "credit": "FluidR3 GM SoundFont, Frank Wen (MIT License)"
+ },
  "sample_rate": 48000,
  "loudness_lufs": -20,
  "max_tempo_change": 0.12,
  "cues": {
   "opening": {
-   "_comment": "Main title (20 s) plus subtitle (6 s).  Anchor times are the title's beat starts: fly-in 2.0, kitten 5.5, dot 9.0, title 12.0, tagline 16.0, subtitle 20.0.",
-   "measures": null,
-   "anchors": [],
+   "_comment": "Main title (13 s) plus subtitle (6 s), at Longo's tempo of one bar a second, so no warping is needed: the fly-in starts on bar 2, the kitten on bar 4 (the subject's running eighths), the dot on bar 6 (the answer enters), the title on bar 8, the tagline on bar 11 and the subtitle on bar 14.  The anchors pin those bars to those moments.",
+   "measures": [
+    1,
+    19
+   ],
+   "anchors": [
+    [
+     2,
+     1.0
+    ],
+    [
+     4,
+     3.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     8,
+     7.0
+    ],
+    [
+     11,
+     10.0
+    ],
+    [
+     14,
+     13.0
+    ]
+   ],
    "fade_in": 0.0,
    "fade_out": 1.5
   },
   "credits": {
-   "_comment": "The credits roll plus its tail; its length comes from each episode's s99.",
-   "measures": null,
+   "_comment": "Bars 1-44 across the whole roll (about dotted quarter = 90), ending on the half cadence at bar 44 as the tail card fades.",
+   "measures": [
+    1,
+    44
+   ],
    "anchors": [],
-   "fade_in": 0.5,
+   "fade_in": 0.0,
    "fade_out": 2.5
   }
  }

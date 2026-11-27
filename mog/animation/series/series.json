@@ -21,7 +21,7 @@
   "title_card": {
    "_comment": "Scene s00 of every episode plays a version of the series main title, then that episode's subtitle, both from the titles screenplay.  Text comes from this file, never from an outline, so a retitle happens in one place.",
    "screenplay": "titles/outline.json",
-   "min_hold_seconds": 4.0,
+   "reading": {"min_seconds": 3.0, "settle_seconds": 1.0, "words_per_second": 4.0},
    "spoken": false
   },
   "end_credits": {

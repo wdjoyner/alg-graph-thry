@@ -2,7 +2,7 @@
  "_about": [
   "End-credits text shared by all four episodes.  Edit wording here, never in an outline.  How and when each section appears on screen is in the end-credits screenplay, end_credits/outline.json.",
   "'from_cast' sections are filled from cast.json at render time, using each character's chosen voice.",
-  "'when' marks a section shown only in episodes where that thing is used (euphemia: Professor Euphemia appears; pam: PAM/Blender character animation is used).",
+  "'when' marks a section shown only in episodes where that thing is used (pam: PAM/Blender character animation is used).",
   "'pending': true marks a section still to be filled in; check_outline.py warns until it is."
  ],
  "series_title": "Kittens, MOGs, and Mathematical Blackjack",
@@ -11,12 +11,18 @@
   {
    "id": "authors",
    "heading": "Series authors",
-   "names": ["David Joyner", "Claude (Anthropic)", "ChatGPT (OpenAI)"]
+   "names": [
+    "David Joyner",
+    "Claude (Anthropic)",
+    "ChatGPT (OpenAI)"
+   ]
   },
   {
    "id": "based_on",
    "heading": "Based on",
-   "names": ["David Joyner, \"Kittens, MOGs, and mathematical blackjack,\" Draft 4 (2026), CC BY 4.0"]
+   "names": [
+    "David Joyner, \"Kittens, MOGs, and mathematical blackjack,\" Draft 4 (2026), CC BY 4.0"
+   ]
   },
   {
    "id": "mathematics",
@@ -43,39 +49,47 @@
    "footer": "Synthetic voices generated locally with Kokoro text-to-speech"
   },
   {
-   "id": "euphemia",
-   "heading": "About Professor Euphemia",
-   "when": "euphemia",
-   "names": ["A fictional character named in honor of mathematician and educator Euphemia Lofton Haynes. Not a portrayal of Haynes."]
-  },
-  {
    "id": "music",
    "heading": "Music",
-   "names": ["Domenico Scarlatti — Fugue in G minor, K. 30 (\"Cat Fugue\")",
-             "Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License)"],
-   "pending": true,
-   "_comment": "Pending only the score: once music.json names the public-domain edition used, add it here (for example 'from the Longo edition, 1906') and remove 'pending'."
+   "names": [
+    "Domenico Scarlatti — Fugue in G minor, K. 30 (\"Cat Fugue\")",
+    "From the Longo edition (Ricordi, 1906–1913), transcribed for this series",
+    "Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License)"
+   ],
+   "_comment": "Source and license details are in music.json."
   },
   {
    "id": "visual_style",
    "heading": "Visual style inspired by",
-   "names": ["Euphemia Haynes — Mathematics as an Open Door"]
+   "names": [
+    "Euphemia Haynes — Mathematics as an Open Door"
+   ]
   },
   {
    "id": "made_with",
    "heading": "Made with",
-   "names": ["Manim Community Edition", "Kokoro", "FFmpeg", "Python"]
+   "names": [
+    "Manim Community Edition",
+    "Kokoro",
+    "FFmpeg",
+    "Python"
+   ]
   },
   {
    "id": "pam",
    "heading": "Character animation",
    "when": "pam",
-   "names": ["PAM (Pose And Motion)", "Blender"]
+   "names": [
+    "PAM (Pose And Motion)",
+    "Blender"
+   ]
   },
   {
    "id": "math_checks",
    "heading": "Mathematical checks",
-   "names": ["Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License)."]
+   "names": [
+    "Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License)."
+   ]
   }
  ],
  "license": null,

@@ -21,8 +21,6 @@ This is a future production plan, not an announcement that the four films have a
 | Ada | A gray kitten with a precise, skeptical disposition and dry sense of humor. She enjoys algorithms, coding theory, the MINIMOG and checking mathematical claims. |
 | Euler | A thoughtful cream-colored kitten, somewhat absent-minded but fascinated by symmetry, graphs and proofs. He connects the discoveries made by the other kittens. |
 
-An optional recurring mentor, Professor Euphemia, would be an older calico cat named in honor of mathematician and educator Euphemia Lofton Haynes. Rather than simply supplying answers, she would ask questions that encourage the kittens to investigate for themselves. She would be a fictional character inspired by Haynes's educational philosophy, not a portrayal of Haynes.
-
 All four principal characters should sometimes be teachers and sometimes students. Their visual designs, names and casting remain provisional until the prototype has been reviewed.
 
 ## The proposed films
@@ -93,7 +91,6 @@ The following are audition candidates, not final casting decisions:
 | Sophie | af_bella, af_jessica, af_river | Warm, imaginative and expressive |
 | Ada | af_sarah, af_kore, bf_emma | Clear, confident and dryly humorous |
 | Euler | bm_george | Thoughtful and professorial; speed around 0.90 |
-| Euphemia (optional) | To be auditioned | Patient, encouraging and quietly authoritative |
 
 Kokoro voice blending offers an additional way to obtain distinct voices without paid services. Weighted blends should combine compatible voice tensors before synthesis. The exact API and supported combinations will be tested against the installed version. Auditions should include mathematical terminology, jokes and conversations between characters.
 
@@ -120,7 +117,7 @@ The mathematical backend will be independent of the visual renderer. Examples, c
 5. Write and mathematically review all four episodes, then produce low-resolution animatics.
 6. Refine character acting where useful, render final films, add subtitles and publish the episodes individually.
 
-The four-film structure, exact runtimes, final casting, optional mentor and degree of PAM/Blender integration remain open to refinement. The priority is to perfect the mathematics, storytelling, acting and geometric choreography before spending money on voices.
+The four-film structure, exact runtimes, final casting and degree of PAM/Blender integration remain open to refinement. The priority is to perfect the mathematics, storytelling, acting and geometric choreography before spending money on voices.
 
 ## Further reading and viewing
 

@@ -15,7 +15,7 @@
    "main_title": "full",
    "subtitle": "sub.ep4",
    "epistemic": "card",
-   "target_seconds": 26
+   "target_seconds": 19
   },
   {
    "id": "s01",
@@ -160,8 +160,7 @@
    "foil": "sophie",
    "target_seconds": 36,
    "epistemic": "recap",
-   "summary": "Cards, the kitten, the tetracode words and the graph slide together: four pictures of one mathematical object. Optional cameo: Professor Euphemia asks what they will look at next.",
-   "cameos": [{"who": "euphemia", "optional": true, "action": "Asks what they will look at next"}],
+   "summary": "Cards, the kitten, the tetracode words and the graph slide together: four pictures of one mathematical object.",
    "visual": ["morph_layout:finale", "react:all_four"],
    "beats": []
   },
@@ -173,7 +172,7 @@
    "visual": ["credits_roll"],
    "tail": "finale",
    "next_episode": null,
-   "target_seconds": 57.0
+   "target_seconds": 59.5
   }
  ]
 }

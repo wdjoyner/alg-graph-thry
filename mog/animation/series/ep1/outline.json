@@ -16,7 +16,7 @@
    "main_title": "full",
    "subtitle": "sub.ep1",
    "epistemic": "card",
-   "target_seconds": 26
+   "target_seconds": 19
   },
   {
    "id": "s01",
@@ -98,7 +98,7 @@
    "title": "A worked game",
    "lead": "pascal",
    "foil": "ada",
-   "target_seconds": 106,
+   "target_seconds": 112,
    "paper": ["sec:game"],
    "beats": [
     {
@@ -284,7 +284,7 @@
    "title": "Special hands",
    "lead": "sophie",
    "foil": "euler",
-   "target_seconds": 45,
+   "target_seconds": 50,
    "paper": ["sec:game"],
    "beats": [
     {
@@ -312,24 +312,15 @@
      "visual": ["recap_montage:move_7_5", "react:pascal_shifty"],
      "gist": "EULER: Pascal, the hand you gave Ada at twenty-eight. Was it one of these? PASCAL: ...Naturally.",
      "lines": []
-    }
-   ]
-  },
-  {
-   "id": "s07",
-   "title": "A question to take home",
-   "optional": true,
-   "lead": "euphemia",
-   "foil": "sophie",
-   "target_seconds": 20,
-   "beats": [
+    },
     {
-     "id": "s07.b01",
-     "purpose": "Professor Euphemia asks a question instead of giving an answer",
+     "id": "s06.b03",
+     "purpose": "Sophie decides the special hands need a picture (the bridge to Episode 2)",
+     "lead": "sophie",
+     "foil": "ada",
      "epistemic": "comedy",
-     "visual": ["react:kittens_turn"],
-     "gist": "EUPHEMIA: When the same sets keep turning up, ask what they have in common. Sometimes a picture helps.",
-     "fallback": "Without Euphemia: SOPHIE: I think I need to draw this.",
+     "visual": ["react:sophie_grabs_chalk"],
+     "gist": "SOPHIE: I think I need to draw this. ADA: Draw a card game? SOPHIE: Draw what it's hiding.",
      "lines": []
     }
    ]
@@ -342,7 +333,7 @@
    "visual": ["credits_roll"],
    "tail": "next_time",
    "next_episode": 2,
-   "target_seconds": 56.0
+   "target_seconds": 58.5
   }
  ]
 }

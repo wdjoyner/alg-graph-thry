@@ -1,0 +1,127 @@
+# Domenico Scarlatti, Keyboard Sonata in G minor, K. 30 (L. 499), "Cat Fugue"
+# Bars 1-44, transcribed note by note from the Longo edition
+# ("Domenico Scarlatti: Opere complete per clavicembalo", Alessandro Longo, ed.,
+# Milan: Ricordi, 1906-1913; public domain), using the page scans in
+# github.com/craigsapp/scarlatti-keyboard-sonatas, reference-edition/L499K030.pdf.
+# Transcribed by Claude, November 2026.  Longo's tempo: Moderato, dotted quarter = 120.
+#
+# Format: one line per voice per bar.  "mNN RH1:" is bar NN, right hand, voice 1.
+# Each event is PITCH:EIGHTHS (6/8, so every voice adds up to 6).  r = rest.
+# Pitches are written as they sound (key signature and bar accidentals applied).
+# [A,B] is a chord.  A trailing ~ ties the note into the same pitch at the start
+# of the same voice in the next bar.
+
+m01 RH1: r:6
+m01 LH1: G3:3 Bb3:3
+m02 RH1: r:6
+m02 LH1: Eb4:3 F#4:3
+m03 RH1: r:6
+m03 LH1: Bb4:3 C#5:3
+m04 RH1: r:6
+m04 LH1: D5:1 C5:1 Bb4:1 A4:1 G4:1 F#4:1
+m05 RH1: r:1 G5:1 F5:1 E5:1 D5:1 C#5:1
+m05 LH1: G4:1 Bb4:1 A4:1 G4:1 F4:1 E4:1
+m06 RH1: D5:3 r:3
+m06 RH2: F4:1 E4:1 D4:2 A4:1 F4:1
+m06 LH1: D3:3 F3:3
+m07 RH1: D4:1 G4:1 Bb4:2 A4:1 E5:1~
+m07 LH1: Bb3:3 C#4:3
+m08 RH1: E5:1 D5:1 F5:2 E5:1 D5:1
+m08 LH1: F4:3 G#4:3
+m09 RH1: C#5:2 D5:1 G5:3
+m09 LH1: A4:1 G4:1 F4:1 E4:1 D4:1 C#4:1
+m10 RH1: F5:1 B4:1 C5:1 D5:1 Eb5:1 F5:1
+m10 LH1: D4:1 F4:1 Eb4:1 D4:1 C4:1 B3:1
+m11 RH1: Eb5:4 D5:1 C5:1
+m11 RH2: r:1 G4:1 F#4:1 G4:3
+m11 LH1: C4:1 Eb4:1 D4:1 C4:1 Bb3:1 A3:1
+m12 RH1: Bb4:1 A4:1 G4:2 D4:1 F4:1
+m12 RH2: r:5 Bb3:1
+m12 LH1: G2:3 Bb2:3
+m13 RH1: G3:1 C4:1 Eb4:2 D4:1 A4:1~
+m13 LH1: Eb3:3 F#3:3
+m14 RH1: A4:1 G4:1 Bb4:2 A4:1 G4:1
+m14 LH1: Bb3:3 C#4:3
+m15 RH1: F#4:2 G4:1 C5:3
+m15 LH1: D4:1 C4:1 Bb3:1 A3:1 G3:1 F#3:1
+m16 RH1: Bb4:4 A4:1 G4:1
+m16 RH2: r:1 D4:1 C#4:1 D4:3
+m16 LH1: G3:1 Bb3:1 A3:1 G3:1 F3:1 E3:1
+m17 RH1: F4:1 E4:1 D4:2 A4:1 F4:1
+m17 LH1: D2:3 F2:3
+m18 RH1: D4:1 G4:1 Bb4:2 A4:1 E5:1~
+m18 LH1: Bb2:3 C#3:3
+m19 RH1: E5:1 D5:1 F5:2 E5:1 D5:1
+m19 LH1: F3:3 G#3:3
+m20 RH1: C#5:2 D5:1 G5:1 F5:1 E5:1
+m20 LH1: A3:1 G3:1 F3:1 E3:1 D3:1 C#3:1
+m21 RH1: F5:3 r:3
+m21 RH2: r:1 B4:1 C5:1 D5:1 Eb5:1 F5:1
+m21 LH1: D3:3 r:3
+m21 LH2: r:1 D4:1 C4:1 B3:1 A3:1 G3:1
+m22 RH1: Eb5:3 r:3
+m22 RH2: r:1 F#4:1 G4:1 A4:1 Bb4:1 C5:1
+m22 LH1: C3:3 r:3
+m22 LH2: r:1 C4:1 Bb3:1 A3:1 G3:1 F#3:1
+m23 RH1: Bb4:1 C#5:1 D5:1 E5:1 F#5:1 G5:1
+m23 LH1: G3:3 r:3
+m23 LH2: r:1 G4:1 F4:1 E4:1 D4:1 C#4:1
+m24 RH1: F#5:1 G5:1 A5:1 D5:1 G5:1 F#5:1
+m24 RH2: r:4 G4:1 A4:1
+m24 LH1: D3:3 Bb3:2 A3:1
+m24 LH2: r:1 D4:1 C4:1 r:3
+m25 RH1: G5:3 r:3
+m25 RH2: Bb4:1 C5:1 D5:2 D5:1 Bb4:1
+m25 LH1: G3:3 Bb3:3
+m26 RH1: G4:1 C5:1 Eb5:2 D5:1 F#4:1
+m26 LH1: Eb4:3 C4:3
+m27 RH1: G4:3 Bb4:3
+m27 LH1: Bb3:1 A3:1 G3:2 G3:1 Bb3:1
+m28 RH1: Eb5:3 F#5:3
+m28 LH1: C4:1 G3:1 Eb4:2 D4:1 A4:1~
+m29 RH1: Bb5:3 C#5:3
+m29 LH1: A4:1 G4:1 Bb4:2 A4:1 G4:1
+m30 RH1: D5:1 C5:1 Bb4:1 A4:1 G4:1 F#4:1
+m30 LH1: F#4:2 G4:1 C4:2 D4:1
+m31 RH1: G4:3 G5:1 r:2
+m31 RH2: r:1 D5:1 C5:1 Bb4:1 A4:1 G4:1
+m31 LH1: G3:3 r:3
+m31 LH2: r:3 G4:1 F4:1 Eb4:1
+m32 RH1: F5:1 r:4 F5:1
+m32 RH2: A4:1 B4:1 C5:1 B4:1 C5:1 D5:1
+m32 LH1: D4:1 F4:1 Eb4:1 D4:1 C4:1 B3:1
+m33 RH1: Eb5:1 r:4 Eb5:1
+m33 RH2: G4:1 A4:1 Bb4:1 A4:1 Bb4:1 C5:1
+m33 LH1: C4:1 Eb4:1 D4:1 C4:1 Bb3:1 A3:1
+m34 RH1: D5:1 C5:1 Bb4:2 F5:1 D5:1
+m34 LH1: G2:3 [D3,Bb3]:3
+m35 RH1: Bb4:1 Eb5:1 G5:2 F5:1 C6:1~
+m35 LH1: [G3,Bb3]:3 [A3,C4]:3
+m36 RH1: C6:1 Bb5:1 D5:2 C5:1 Bb4:1
+m36 LH1: [D4,F4]:3 [E4,G4]:3
+m37 RH1: A4:2 Bb4:1 Eb5:3
+m37 RH2: r:3 A4:1 Bb4:1 C5:1
+m37 LH1: F4:1 Eb4:1 D4:1 C4:1 Bb3:1 A3:1
+m38 RH1: D5:1 Bb4:1 C5:1 D5:2 E5:1
+m38 RH2: F4:5 G4:1
+m38 LH1: Bb3:1 D4:1 C4:1 Bb3:1 A3:1 G3:1
+m39 RH1: F5:3 F5:3
+m39 RH2: A4:1 C5:1 Bb4:1 A4:1 G4:1 F4:1
+m39 LH1: F3:6
+m39 LH2: r:3 F4:1 Eb4:1 D4:1
+m40 RH1: Eb5:1 C5:1 D5:1 Eb5:2 F#5:1
+m40 RH2: G4:5 A4:1
+m40 LH1: C4:1 Eb4:1 D4:1 C4:1 Bb3:1 A3:1
+m41 RH1: G5:3 G5:3
+m41 RH2: Bb4:1 D5:1 C5:1 Bb4:1 A4:1 G4:1
+m41 LH1: G3:6
+m41 LH2: r:3 G4:1 F4:1 E4:1
+m42 RH1: F5:1 A5:1 G5:1 F5:1 E5:1 D5:1
+m42 RH2: A4:2 r:4
+m42 LH1: D4:1 F4:1 E4:1 D4:1 C4:1 Bb3:1
+m43 RH1: C#5:3 A5:3~
+m43 RH2: r:4 D5:1 C5:1
+m43 LH1: A3:1 A4:1 G4:1 F4:3~
+m44 RH1: A5:1 G5:3 F5:1 E5:1
+m44 RH2: Bb4:3 A4:3
+m44 LH1: F4:1 E4:1 D4:1 C#4:3

@@ -20,7 +20,7 @@ things to look at but not necessarily wrong.  The checks:
     to read, conditional cards play only where they apply, and each s99
     matches its cards plus its tail ('next_time' or 'finale') in length.
   * Titles: the titles screenplay has one subtitle per episode, text is held
-    long enough to read, and each s00 matches its main-title version plus
+    long enough to read (the same rule as the credits), and each s00 matches its main-title version plus
     subtitle in length.
 """
 import json
@@ -85,7 +85,15 @@ def check_titles(series, ctx):
     Returns {version: seconds} and {subtitle id: (episode, seconds)}."""
     card = series["cards"]["title_card"]
     titles = load(card["screenplay"])
-    hold = card["min_hold_seconds"]
+    reading = card["reading"]
+
+    def need(lines):
+        return max(reading["min_seconds"],
+                   reading["settle_seconds"] + words(lines) / reading["words_per_second"])
+
+    titles_text = lambda lines, n=None: [l.format(series_title=series["series_title"], tagline=series["tagline"],
+                                                  number=n or "", title=next((e["title"] for e in series["episodes"] if e["number"] == n), ""))
+                                         for l in lines]
     beats = {b["id"]: b for b in titles["main_title"]["beats"]}
     if len(beats) != len(titles["main_title"]["beats"]):
         errors.append("titles: duplicate main-title beat id")
@@ -101,8 +109,8 @@ def check_titles(series, ctx):
                 errors.append(f"titles.{name}: unknown beat {bid}")
                 continue
             secs = v.get("seconds", {}).get(bid, beats[bid]["seconds"])
-            if beats[bid].get("text") and secs < hold:
-                errors.append(f"titles.{name}.{bid}: text held {secs}s, less than {hold}s")
+            if beats[bid].get("text") and secs < need(titles_text(beats[bid]["text"])) - 1e-9:
+                errors.append(f"titles.{name}.{bid}: text held {secs}s, needs {need(titles_text(beats[bid]['text'])):.1f}s to read")
             total += secs
         if not any(beats[b].get("text") for b in v["beats"] if b in beats):
             errors.append(f"titles.{name}: version never shows the series title")
@@ -113,8 +121,8 @@ def check_titles(series, ctx):
         check_common(s, f"titles.{s['id']}", ctx)
         if s["episode"] not in episodes:
             errors.append(f"titles.{s['id']}: no episode {s['episode']}")
-        if s["seconds"] < hold:
-            errors.append(f"titles.{s['id']}: held {s['seconds']}s, less than {hold}s")
+        if s["seconds"] < need(titles_text(s["text"], s["episode"])) - 1e-9:
+            errors.append(f"titles.{s['id']}: held {s['seconds']}s, too short to read")
         subtitles[s["id"]] = (s["episode"], s["seconds"])
     if sorted(e for e, _ in subtitles.values()) != sorted(episodes):
         errors.append("titles: need exactly one subtitle per episode")

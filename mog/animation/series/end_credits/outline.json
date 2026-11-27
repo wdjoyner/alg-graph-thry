@@ -8,7 +8,7 @@
  "kind": "end_credits",
  "music": {
   "cue": "credits_theme",
-  "_comment": "Not yet chosen; see the candidates in titles/outline.json.  The roll is about 55 seconds with its tail (62 with the Euphemia card), so the piece will need a cut or a loop point."
+  "_comment": "Scarlatti's Cat Fugue, bars 1-44, stretched across the roll and its tail; see music.json."
  },
  "cards": [
   {
@@ -48,19 +48,9 @@
    "character_action": "Pascal bows too low and topples; Euler bows a beat late"
   },
   {
-   "id": "ec.c05",
-   "sections": ["euphemia"],
-   "when": "euphemia",
-   "seconds": 6.5,
-   "staging": "Professor Euphemia nods from a doorway; the note appears beside her.",
-   "epistemic": "card",
-   "visual": ["credits_text"],
-   "character_action": "Euphemia nods once"
-  },
-  {
    "id": "ec.c06",
    "sections": ["music"],
-   "seconds": 7.0,
+   "seconds": 9.5,
    "staging": "A five-line staff draws itself and curls into the shape of a tail; the credit writes on above it.",
    "epistemic": "card",
    "visual": ["write_along:staff", "credits_text"]

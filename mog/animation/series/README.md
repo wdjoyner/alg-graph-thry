@@ -4,15 +4,15 @@
 
 The series is a mathematical mystery. Episode 1 poses it: in a twelve-card game, why do two hands with totals as different as 21 and 45 both lose? Each later episode uncovers part of the answer, and Episode 4 solves it. This page tells the story as the outlines have it. The outlines themselves (`ep1/` to `ep4/outline.json`, plus the titles and end-credits screenplays) are the authoritative version, and `check_outline.py` checks every card, total and count in them against the mathematics.
 
-**The kittens:** Pascal, an orange tabby, card shark and bold conjecturer. Sophie, a tuxedo who thinks in pictures. Ada, a gray skeptic who checks everything. Euler, cream-colored, absent-minded, fond of symmetry and proofs. Optionally, Professor Euphemia, an older calico who answers questions with questions.
+**The kittens:** Pascal, an orange tabby, card shark and bold conjecturer. Sophie, a tuxedo who thinks in pictures. Ada, a gray skeptic who checks everything. Euler, cream-colored, absent-minded, fond of symmetry and proofs.
 
 ## The story
 
-### Main title (every episode, 20 seconds)
+### Main title (every episode, 13 seconds)
 
 A deck of twelve cards fans out face up, 0 through 11, with a flick of Pascal's paw. The cards fly into their cells of Conway's 3 × 4 MINIMOG, and Ada straightens the last one. The cells slide into Curtis's kitten, a triangle with corners 0, 1 and 6, and Sophie traces its last side with her tail. The cards 1 to 6 light up, shrink into a single dot, and 36 edges sprout from it while Euler leans in. Along those edges the title writes itself, **Kittens, MOGs, and Mathematical Blackjack**, as all four kittens pounce on the letters. The tagline follows: *Four adventures in finite geometry*.
 
-Each step is one episode's picture, so the opening previews the whole series. A 6-second subtitle card then names the episode, over that episode's own picture.
+Each step is one episode's picture, so the opening previews the whole series. It runs at the music's own tempo, one bar of Scarlatti's "Cat Fugue" a second: the cards fly in on bar 2, slide into the kitten on bar 4 as the subject runs down in eighths, become the dot on bar 6 as the answer enters, and the title lands on bar 8. A 6-second subtitle card then names the episode, over that episode's own picture.
 
 ### Episode 1: The Curious Game of Twenty-One
 
@@ -28,9 +28,7 @@ Each step is one episode's picture, so the opening previews the whole series. A 
 
 **Pascal's conjecture.** Pascal has an answer: 21 and 45 are the bad totals, and anything in between wins. Euler: "That's a conjecture." Ada deals {0, 1, 2, 4, 7, 10}, total 24, right in between, and lets Pascal move. The hand has only five legal moves. All five fan out on screen as branches, and each has a reply that lands on exactly 21. Ada: "Five moves, five answers. I checked them all. That's not luck. It's a proof, for this hand." The conjecture falls, and the difference between experiment and proof gets its name.
 
-**Special hands.** Sophie lines up the losing hands: 1 to 6, the 21 that ended the worked game, and the 24-hand. The 45-hand gets a question mark, because it was only tested. "They look special. But special how?" Euler wonders whether the 28 Pascal left Ada was one of them. Pascal says it was, naturally, though it's clear he doesn't know.
-
-**A question to take home** *(optional)*. Professor Euphemia: when the same sets keep turning up, ask what they have in common, and sometimes a picture helps. Without her, Sophie says she needs to draw this.
+**Special hands.** Sophie lines up the losing hands: 1 to 6, the 21 that ended the worked game, and the 24-hand. The 45-hand gets a question mark, because it was only tested. "They look special. But special how?" Euler wonders whether the 28 Pascal left Ada was one of them. Pascal says it was, naturally, though it's clear he doesn't know. Sophie: "I think I need to draw this." Ada: "Draw a card game?" Sophie: "Draw what it's hiding."
 
 ### Episode 2: The Geometry of a Kitten
 
@@ -92,21 +90,20 @@ Each step is one episode's picture, so the opening previews the whole series. A 
 
 **A lucky deal.** Deal at random, and redeal whenever the total is 21 or less. The first player can force a win with probability 773/894, about 86.47%. And all eleven hands that total exactly 21 are hexads, so every dead end in Episode 1 was one of the special ones. *(Payoff.)*
 
-**One structure.** The cards, the kitten, the tetracode words and the graph slide together: four pictures of one mathematical object. Optionally, Professor Euphemia asks what they'll look at next.
+**One structure.** The cards, the kitten, the tetracode words and the graph slide together: four pictures of one mathematical object.
 
-### End credits (every episode, about 56 seconds)
+### End credits (every episode, about a minute)
 
 The credits are staged with the series' own pictures. Each card stays up long enough to read.
 
 1. **Series authors:** David Joyner · Claude (Anthropic) · ChatGPT (OpenAI). *Pascal deals three cards face down; they flip, one name on each.*
 2. **Based on:** David Joyner, "Kittens, MOGs, and mathematical blackjack," Draft 4 (2026), CC BY 4.0. *The paper's title page slides in, and Ada taps it as if checking the citation.*
 3. **The mathematics of:** R. T. Curtis (the kitten and the MOG) · J. H. Conway (the tetracode and the MINIMOG) · E. Witt (the Steiner system S(5,6,12)) · J. Kahane and A. J. Ryba (*The Hexad Game*) · J. H. Conway and N. J. A. Sloane (*Sphere Packings, Lattices and Groups*). *Each name appears beside the picture it gave the series, and Sophie walks along the line.*
-4. **Featuring and voices:** Pascal, Sophie, Ada, Euler, each with their Kokoro voice once cast, and the note "Synthetic voices generated locally with Kokoro text-to-speech." *The kittens bow in turn. Pascal bows too low and topples, and Euler bows a beat late.*
-5. **About Professor Euphemia** *(only in episodes where she appears)*: A fictional character named in honor of mathematician and educator Euphemia Lofton Haynes. Not a portrayal of Haynes.
-6. **Music:** Domenico Scarlatti, Fugue in G minor, K. 30 ("Cat Fugue") · Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License). *A staff draws itself and curls into a tail, and the credit writes on above it.*
-7. **Visual style inspired by:** *Euphemia Haynes — Mathematics as an Open Door*. **Made with:** Manim Community Edition, Kokoro, FFmpeg, Python. *The tools' names drop onto the table like cards.*
-8. **Character animation** *(only if PAM is used)*: PAM (Pose And Motion), Blender.
-9. **Mathematical checks:** Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License). *A counter ticks through the hexads and stops at 132, and Ada nods.*
+4. **Featuring and voices:** Pascal (Kokoro am_puck), Sophie (af_bella), Ada (af_sarah), Euler (bm_george), and the note "Synthetic voices generated locally with Kokoro text-to-speech." *The kittens bow in turn. Pascal bows too low and topples, and Euler bows a beat late.*
+5. **Music:** Domenico Scarlatti, Fugue in G minor, K. 30 ("Cat Fugue") · From the Longo edition (Ricordi, 1906–1913), transcribed for this series · Played on harpsichord with FluidSynth and the FluidR3 GM SoundFont (MIT License). *A staff draws itself and curls into a tail, and the credit writes on above it.*
+6. **Visual style inspired by:** *Euphemia Haynes — Mathematics as an Open Door*. **Made with:** Manim Community Edition, Kokoro, FFmpeg, Python. *The tools' names drop onto the table like cards.*
+7. **Character animation** *(only if PAM is used)*: PAM (Pose And Motion), Blender.
+8. **Mathematical checks:** Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License). *A counter ticks through the hexads and stops at 132, and Ada nods.*
 
 Then the tail card. Episodes 1–3 end on **Next time: Episode N: *title***, over the next episode's subtitle picture, with that episode's lead kitten peeking in. Episode 4 ends on **The End**: the cards, the kitten, the MINIMOG and the graph gather into a single deck, and the four kittens sit in front of it. A last line points to the paper: *mog.tex in github.com/wdjoyner/alg-graph-thry*.
 
@@ -139,20 +136,20 @@ These include the titles and credits.
 
 | Episode | Required scenes | With optional scenes | Target |
 |---|---|---|---|
-| 1. The Curious Game of Twenty-One | 7:33 | 7:59 | 7–8 min |
-| 2. The Geometry of a Kitten | 9:49 | 9:49 | 8–10 min |
-| 3. The Secret Code of the MINIMOG | 9:15 | 10:00 | 8–10 min |
-| 4. The Hidden Graph of the Game | 9:17 | 9:59 | 8–10 min |
+| 1. The Curious Game of Twenty-One | 7:40 | 7:40 | 7–8 min |
+| 2. The Geometry of a Kitten | 9:45 | 9:45 | 8–10 min |
+| 3. The Secret Code of the MINIMOG | 9:13 | 9:58 | 8–10 min |
+| 4. The Hidden Graph of the Game | 9:13 | 9:48 | 8–10 min |
 
 ## Files
 
 | File | What it holds |
 |---|---|
 | `series.json` | Series title, episode list and runtime budgets, title and credits settings, and the shared vocabulary: concepts, plot threads, visual verbs, epistemic labels |
-| `cast.json` | The kittens and Professor Euphemia: designs, personalities, Kokoro audition candidates. Recasting happens here only |
+| `cast.json` | The four kittens: designs, personalities, chosen Kokoro voices and the other candidates. Recasting happens here only |
 | `pronunciation.json` | Spoken respellings applied before text-to-speech (captions keep the written form) |
 | `credits.json` | End-credits wording shared by all four episodes |
-| `titles/outline.json` | Titles screenplay: the series main title and one subtitle card per episode; music candidates |
+| `titles/outline.json` | Titles screenplay: the series main title and one subtitle card per episode; the music choice |
 | `end_credits/outline.json` | End-credits screenplay: the credits cards in order, how each is staged, and the tail card (next time, or the finale) |
 | `ep1/outline.json` | Episode 1, broken down to beats |
 | `ep2/`–`ep4/outline.json` | Episodes 2–4, broken down to scenes; beats to come |
@@ -163,6 +160,8 @@ These include the titles and credits.
 | `make_titles.py` | Renders those scenes and assembles each episode's opening and credits |
 | `music.json` | The title and credits music: score file, which measures each cue plays, anchors to the title's beats |
 | `make_music.py` | Renders the music from the score with FluidSynth and adds it to the clips |
+| `music/scarlatti_k30_m1-44.txt` | The Cat Fugue, bars 1–44, transcribed note by note from the public-domain Longo edition |
+| `music/build_k30_midi.py` | Checks the transcription (every bar, every subject entry) and writes `scarlatti_k30_m1-44.mid` |
 
 ## Rendering the titles and credits
 
@@ -174,7 +173,7 @@ python make_titles.py --draft    # 960 x 540, for a quick look
 python make_titles.py --episodes 2 --with-optional   # one episode, with optional-scene cards
 ```
 
-This writes `epN_opening.mp4` (scene `s00`: main title plus subtitle, 26 seconds) and `epN_credits.mp4` (scene `s99`: credits plus tail) for each episode into `../build/series/`, with a contact sheet of each in `../build/series/contact/`. It checks every clip's frame count against its outline and stops if one is off. The clips are silent until music is chosen.
+This writes `epN_opening.mp4` (scene `s00`: main title plus subtitle, 19 seconds) and `epN_credits.mp4` (scene `s99`: credits plus tail) for each episode into `../build/series/`, with a contact sheet of each in `../build/series/contact/`. It checks every clip's frame count against its outline and stops if one is off. These clips are silent; `make_music.py` (below) adds the music.
 
 `title_scenes.py` reads everything that can change from the series files: beat and card lengths from the two screenplays, wording from `series.json` and `credits.json`, kitten colors from `cast.json`, and the MINIMOG cells, kitten triangle, opening hand and codeword from `math_objects.json`. The file itself holds only the choreography, one function per beat or card ID. A screenplay ID with no function is an error, so a new beat needs choreography before it renders. If a beat's choreography runs longer than its screenplay allows, rendering stops and says by how many frames.
 
@@ -182,16 +181,19 @@ Requirements are the same as for the existing film: Manim Community Edition 0.19
 
 ## Music
 
-The title and credits music is Domenico Scarlatti's "Cat Fugue" (Keyboard Sonata in G minor, K. 30), played on a General MIDI harpsichord. It is rendered here from a public-domain score through FluidSynth with the FluidR3 GM SoundFont (MIT License), so no recording rights are involved, and the tempo can be bent so the music lands on the title's beats.
+The title and credits music is Domenico Scarlatti's "Cat Fugue" (Keyboard Sonata in G minor, K. 30), said to have been inspired by his cat walking across the harpsichord. It is played on a General MIDI harpsichord through FluidSynth with the FluidR3 GM SoundFont (MIT License), from a score made for this series, so no recording rights are involved.
+
+**The score.** `music/scarlatti_k30_m1-44.txt` holds bars 1–44, transcribed note by note from scans of Alessandro Longo's edition (Ricordi, 1906–1913; public domain), No. 499, which are kept in the KernScores Scarlatti repository (`reference-edition/L499K030.pdf` in github.com/craigsapp/scarlatti-keyboard-sonatas). That repository's own encodings are CC BY-NC-SA and K. 30 is not among them, so none were used. `music/build_k30_midi.py` checks the transcription and writes the MIDI file. Every voice of every bar must add up to 6/8. Each entry of the subject (bars 1, 6, 12, 17 and 27) must be an exact transposition of the first, apart from the inverted leap Scarlatti writes in bar 29. Its `--report` lists the strong-beat seconds and sevenths. All nine are tied suspensions, which is what a correct reading of Baroque counterpoint should show.
+
+**The cues.** The opening plays bars 1–19 at Longo's tempo (dotted quarter = 120, one bar a second), so the title's beats land on the fugue without any stretching. The credits play bars 1–44 across the whole roll, a little broader (about dotted quarter = 90), ending on the half cadence of bar 44 as the tail card fades.
 
 ```sh
-python make_music.py --survey   # the score's measures and their times
-python make_music.py            # render both cues and score every clip
+python music/build_k30_midi.py --report   # after changing the transcription
+python make_music.py --survey             # the score's measures and their times
+python make_music.py                      # render both cues and score every clip
 ```
 
-`make_music.py` takes the measures each cue names in `music.json`, warps time so each anchored downbeat lands on its moment in the clip, and fits the result to the clip's exact length, with fades and even loudness. The tempo changes smoothly between anchors, and the script warns when a stretch runs more than 12% off the median tempo. It writes `epN_opening_scored.mp4` and `epN_credits_scored.mp4` beside the silent clips.
-
-**Still needed:** the score itself. Put a MIDI or MusicXML file of K. 30 from a public-domain edition in `series/music/`, record its source and license under `source` in `music.json`, and choose the measures and anchors for each cue (`--survey` helps). Then fill in the `music` section of `credits.json`. The anchor times for the opening are the title's beat starts: fly-in 2.0 s, kitten 5.5, dot 9.0, title 12.0, tagline 16.0, subtitle 20.0. Requirements: `fluidsynth`, the FluidR3 GM SoundFont (`fluid-soundfont-gm` on Linux; on a Mac, `brew install fluid-synth` and point `soundfont.file` at a copy of `FluidR3_GM.sf2`) and `pip install pretty_midi` (plus `music21` for MusicXML).
+`make_music.py` takes the measures each cue names in `music.json`, warps time so each anchored downbeat lands on its moment in the clip, and fits the result to the clip's exact length, with fades and even loudness. It warns when a stretch runs more than 12% off the median tempo. It writes `epN_opening_scored.mp4` and `epN_credits_scored.mp4` beside the silent clips. Requirements: `fluidsynth`, the FluidR3 GM SoundFont (`fluid-soundfont-gm` on Linux; on a Mac, `brew install fluid-synth` and point `soundfont.file` in `music.json` at a copy of `FluidR3_GM.sf2`) and `pip install pretty_midi`.
 
 ## Workflow
 
@@ -212,9 +214,9 @@ If you change the story, update "The story" above to match; the outlines are wha
 
 Every episode starts with scene `s00` (kind `title_card`) and ends with `s99` (kind `end_credits`). Their text comes from `series.json` and `credits.json`, so a retitle or a credits change is made in one place.
 
-Scene `s00` names a version of the main title (`full`, used everywhere, or the 8-second `short` kept in reserve) and the episode's subtitle from `titles/outline.json`. Its `target_seconds` must equal their combined length. The titles have no dialogue, so their timing is fixed in seconds, and any text must stay on screen for at least 4 seconds.
+Scene `s00` names a version of the main title (`full`, used everywhere, or the 6-second `short` kept in reserve) and the episode's subtitle from `titles/outline.json`. Its `target_seconds` must equal their combined length. The titles have no dialogue, so their timing is fixed in seconds, and their text follows the same reading rule as the credits.
 
-Scene `s99` plays the end-credits screenplay, then a tail: `next_time` for Episodes 1–3, `finale` for Episode 4. Wording lives in `credits.json`; staging and timing live in the screenplay. Each card stays up at least 1 second plus 1 second per 4 words, and never under 3 seconds. A card marked `when` plays only where that thing is used. Professor Euphemia appears only in optional moments in Episodes 1 and 4, so her card counts toward their optional time.
+Scene `s99` plays the end-credits screenplay, then a tail: `next_time` for Episodes 1–3, `finale` for Episode 4. Wording lives in `credits.json`; staging and timing live in the screenplay. Each card stays up at least 1 second plus 1 second per 4 words, and never under 3 seconds. A card marked `when` plays only where that thing is used (at present only the PAM credit).
 
 A scene is either broken into `beats`, or, while `beats` is empty, outlined at scene level with the same fields:
 

@@ -168,7 +168,7 @@ def main():
             a, v = duration(out, "a:0"), duration(out, "v:0")
             ok = abs(a - seconds) < 0.03 and abs(v - seconds) < 0.03
             print(f"{out.name}: video {v:.2f}s, music {a:.2f}s, outline {seconds:g}s, "
-                  f"tempo x{1 / med:.2f} of the score's  {'ok' if ok else 'LENGTH MISMATCH'}")
+                  f"played at {med:.2f} times the score's speed  {'ok' if ok else 'LENGTH MISMATCH'}")
             if not ok:
                 raise SystemExit("length mismatch")
 

@@ -52,7 +52,7 @@ def scene_flags(outline, with_optional):
                 continue
             flags |= people
     flags |= set(outline.get("uses", []))
-    return {f for f in flags if f in ("euphemia", "pam")}
+    return {f for f in flags if f in ("pam",)}
 
 
 def main():
@@ -72,7 +72,7 @@ def main():
     for n in episodes:
         scenes = {s["id"]: s for s in outlines[n]["scenes"]}
         flags = scene_flags(outlines[n], args.with_optional)
-        roll = "CreditsRollEuphemia" if "euphemia" in flags else "CreditsRoll"
+        roll = "CreditsRoll"
         if "pam" in flags:
             raise SystemExit("PAM credits card: add a CreditsRoll class with the pam flag first")
         opening = ["MainTitle" if scenes["s00"]["main_title"] == "full" else "MainTitleShort", f"Subtitle{n}"]

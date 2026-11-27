@@ -7,7 +7,7 @@
  "kind": "titles",
  "music": {
   "cue": "title_theme",
-  "_comment": "Not yet chosen; when it is, fill in the 'music' section of credits.json.  Beats are timed so the music can hit b02, b03, b04 and the title at b05.  Both the composition and the recording must be free to use; rendering a public-domain score ourselves avoids the recording question and lets us set the tempo to land the hits.",
+  "_comment": "Not yet chosen; when it is, fill in the 'music' section of credits.json.  The title runs at the music's own tempo (one bar a second), so the beats fall on bars 2, 4, 6, 8 and 11 of the fugue.  Both the composition and the recording must be free to use; rendering a public-domain score ourselves avoids the recording question and lets us set the tempo to land the hits.",
   "chosen": "Scarlatti, Fugue in G minor, K. 30 (\"Cat Fugue\"), for both the main title and the end credits; see music.json",
   "candidates": [
    {
@@ -41,7 +41,7 @@
   "beats": [
    {
     "id": "mt.b01",
-    "seconds": 2.0,
+    "seconds": 1.0,
     "purpose": "A deck of twelve cards fans out face up, 0 through 11 (Episode 1's picture)",
     "epistemic": "card",
     "visual": ["card_deal:fan_12"],
@@ -50,7 +50,7 @@
    },
    {
     "id": "mt.b02",
-    "seconds": 3.5,
+    "seconds": 2.0,
     "purpose": "The cards fly into their true cells of Conway's MINIMOG (Episode 3's picture)",
     "epistemic": "card",
     "math": [{"ref": "minimog", "claim": {"rows": [[6, 3, 0, 9], [5, 2, 7, 10], [4, 1, 8, 11]]}}],
@@ -60,7 +60,7 @@
    },
    {
     "id": "mt.b03",
-    "seconds": 3.5,
+    "seconds": 2.0,
     "purpose": "The cells slide into Curtis's kitten: corners 0, 1, 6 and a 3 x 3 view at each corner (Episode 2's picture)",
     "epistemic": "card",
     "math": [{"ref": "kitten:views", "claim": {"corners": [0, 1, 6], "each_view_is_the_other_nine": true}}],
@@ -70,7 +70,7 @@
    },
    {
     "id": "mt.b04",
-    "seconds": 3.0,
+    "seconds": 2.0,
     "purpose": "The six cards 1 to 6 light up in the kitten, shrink into a single dot, and 36 edges sprout from it (Episode 4's picture)",
     "epistemic": "card",
     "math": [
@@ -83,7 +83,7 @@
    },
    {
     "id": "mt.b05",
-    "seconds": 4.0,
+    "seconds": 3.0,
     "purpose": "The series title writes itself along the edges, then settles in the center",
     "epistemic": "card",
     "text": ["{series_title}"],
@@ -92,7 +92,7 @@
    },
    {
     "id": "mt.b06",
-    "seconds": 4.0,
+    "seconds": 3.0,
     "purpose": "The tagline fades in under the title",
     "epistemic": "card",
     "text": ["{tagline}"],
@@ -102,7 +102,7 @@
   "versions": {
    "_comment": "full plays every beat.  short is for episodes 2 to 4 if their runtime is tight; it keeps the fan, the fly-in and the title.  A version may shorten a beat.",
    "full": {"beats": ["mt.b01", "mt.b02", "mt.b03", "mt.b04", "mt.b05", "mt.b06"]},
-   "short": {"beats": ["mt.b01", "mt.b02", "mt.b05"], "seconds": {"mt.b01": 1.5, "mt.b02": 2.5, "mt.b05": 4.0}}
+   "short": {"beats": ["mt.b01", "mt.b02", "mt.b05"]}
   }
  },
  "subtitles": [
