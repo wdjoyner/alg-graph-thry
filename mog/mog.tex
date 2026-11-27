@@ -17,15 +17,15 @@
 \DeclareMathOperator{\supp}{supp}
 \tikzset{mymat/.style={matrix of nodes,nodes in empty cells,nodes={minimum width=.75cm,minimum height=.75cm,anchor=center},column sep=-\pgflinewidth,row sep=-\pgflinewidth,ampersand replacement=\&}}
 
-\title{MINIMOGs and Mathematical Blackjack\\\large Draft 3: Corrected and expanded version}
-\author{David Joyner\thanks{Original manuscript dated May 29, 2000. Corrected and expanded November 26, 2026.}\\\small\texttt{wdjoyner@gmail.com}}
+\title{Kittens, MOGs, and mathematical blackjack\\\large Draft 4: Corrected and expanded version}
+\author{David Joyner\thanks{Original manuscript dated May 29, 2000. Corrected and expanded November 27, 2026.}\\\small\texttt{wdjoyner@gmail.com}}
 \date{Original draft: 2000. Corrected and expanded draft: 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This AI-aided paper used ChatGPT to referee, revise, and expand the original manuscript and Claude to referee Draft 2 (see the acknowledgments). We describe the small Witt design using the projective line over $\F_{11}$, Curtis's kitten, and Conway's MINIMOG. The tetracode gives a compact membership test for hexads. We explain mathematical blackjack through a directed Johnson graph, prove an extremal independent-set result, and give an exact verification of the constructions and game strategy. We also compute the conditional probability of winning under the redealing rule.
+This AI-aided paper used ChatGPT to referee, revise, and expand the original expository notes and Claude to referee Draft 2 (see the acknowledgments). We describe the small Witt design using the projective line over $\F_{11}$, Curtis's kitten, and Conway's MINIMOG. The tetracode gives a compact membership test for hexads. We explain mathematical blackjack through a directed Johnson graph, prove an extremal independent-set result, and give an exact verification of the constructions and game strategy. We also compute the conditional probability of winning under the redealing rule.
 \end{abstract}
 
 \tableofcontents
@@ -63,7 +63,7 @@ $\mathcal P,\mathcal N$ & Losing and winning positions for the next player\\\bot
 \end{center}
 
 \section{Background}\label{sec:background}
-We collect the elementary notions used in the constructions and the later graph interpretation. The two subsections of this background are meant to orient a reader who knows some algebra and combinatorics but has not worked specifically with the Witt design.
+We collect the elementary notions used in the constructions and the later graph interpretation. The three subsections of this background are meant to orient a reader who knows some algebra and combinatorics but has not worked specifically with the Witt design.
 
 \subsection{Designs and finite geometry}
 A Steiner system $S(t,k,n)$ consists of an $n$-element set $X$ and a family $\mathcal H$ of $k$-element subsets such that every $t$-element subset belongs to exactly one block. For example, the seven lines of the projective plane over $\F_2$ form an $S(2,3,7)$. The small Witt design is an $S(5,6,12)$. Its uniqueness up to relabeling is a classical theorem of Witt \cite{Wi38}. Its automorphism group is the Mathieu group $M_{12}$.
@@ -109,6 +109,26 @@ Thus a message vector $(u,v)\in\F_3^2$ produces the codeword
 For example, $(2,1)G=(2,1,0,2)$. In the MINIMOG this codeword singles out the row pattern $(-,+,0,-)$, one chosen row in each of the four columns. Later, such patterns encode the allowed odd-man-out coordinates for a hexad.
 
 A graph is a set of vertices with a specified adjacency relation. An independent set contains no adjacent pair. A partition is equitable if every vertex in a given class has the same number of neighbors in each class. For example, the two parts of the complete bipartite graph $K_{2,3}$ form an equitable partition with quotient matrix $\left(\begin{smallmatrix}0&3\\2&0\end{smallmatrix}\right)$. We shall see that the 132 hexads form an independent set in a Johnson graph, and that the design induces an equitable partition of that graph.
+
+\subsection{MOG}\label{sec:mog}
+Curtis's Miracle Octad Generator (MOG) \cite{Cu76} organizes the large Witt design $S(5,8,24)$ in a $4\times6$ array. Its blocks, called octads, number $\binom{24}{5}/\binom{8}{5}=759$, and its full automorphism group is $M_{24}$. Thus any five marked cells determine a unique octad. The array makes this completion problem accessible through geometric patterns rather than a list of 759 blocks.
+
+Conway's coding-theoretic formulation \cite{Co84,CS99} labels the four rows by $0,1,\omega,\omega^2$ in $\F_4$, where $\omega^2+\omega+1=0$. A marked array represents a binary vector of length 24. Its column score is the sum in $\F_4$ of the row labels of the marked cells in that column. The six scores must form a word in the hexacode, a linear $[6,3,4]$ code over $\F_4$. In addition, the six column parities and the top-row parity must all agree. These conditions characterize the extended binary Golay code, a $[24,12,8]$ code; its weight-eight words are precisely the octads.
+
+For example, marking two full columns gives eight marked cells, all column parities and the top-row parity are even, and the score word is zero because $0+1+\omega+\omega^2=0$. Hence this is an octad. This illustrates how the array and the auxiliary code work together.
+
+\begin{center}
+\begin{tabular}{lcc}\toprule
+ & MOG & MINIMOG\\\midrule
+Design & $S(5,8,24)$ & $S(5,6,12)$\\
+Array & $4\times6$ & $3\times4$\\
+Blocks & 759 octads & 132 hexads\\
+Auxiliary code & Hexacode over $\F_4$ & Tetracode over $\F_3$\\
+Automorphism group & $M_{24}$ & $M_{12}$\\\bottomrule
+\end{tabular}
+\end{center}
+
+The MINIMOG introduced in Section~\ref{sec:minimog} is a smaller analogue of this construction, not simply a subarray of the MOG. Instead of binary column scores and parity, it uses the occupancy and odd-man-out row of each ternary-labeled column. In both cases a short auxiliary code supplies a practical block-recognition rule.
 
 \section{The projective-line construction}\label{sec:projective}
 We first construct the blocks as an orbit under fractional linear transformations. Set
@@ -344,13 +364,36 @@ Player&Move&Hand&Total&Class\\\midrule
 \end{tabular}
 \end{center}
 
-The second hand is a square together with two distinguished points. Its specified odd-man-out coordinates are $(?,1,0,2)$, which extend to $(2,1,0,2)$. The third hand has the prohibited occupancy pattern. The fourth hand is a cross together with one distinguished point. Its total is 21 and it has no legal successor. The first player wins. A separate way to find a winning move is to use the author's SageMath module \cite{Jo06}. For example, the documented command
+The second hand is a square together with two distinguished points. Its specified odd-man-out coordinates are $(?,1,0,2)$, which extend to $(2,1,0,2)$. The third hand has the prohibited occupancy pattern. The fourth hand is a cross together with one distinguished point. Its total is 21 and it has no legal successor. The first player wins. The following standalone Python example finds all winning exchanges by applying the MINIMOG membership test directly. No external packages are needed.
 \begin{verbatim}
-from sage.games.hexad import Minimog
-M = Minimog(type="shuffle")
-M.blackjack_move([0, 2, 4, 6, 7, 11])
+from itertools import product
+
+rows = ((6, 3, 0, 9), (5, 2, 7, 10), (4, 1, 8, 11))
+T = [(u, v, (u+v)%3, (2*u+v)%3)
+     for u, v in product(range(3), repeat=2)]
+
+def is_hexad(hand):
+    if len(hand) != 6 or not hand <= set(range(12)):
+        return False
+    cols = [{r for r in range(3) if rows[r][c] in hand}
+            for c in range(4)]
+    if sorted(map(len, cols)) == [0, 1, 2, 3]:
+        return False
+    pattern = [next(iter(s)) if len(s) == 1 else
+               next(iter(set(range(3))-s)) if len(s) == 2
+               else None for s in cols]
+    return any(all(p is None or p == t
+                   for p, t in zip(pattern, word))
+               for word in T)
+
+A = {0, 2, 4, 6, 7, 11}
+moves = [(a, b) for a in sorted(A)
+         for b in sorted(set(range(12))-A)
+         if b < a and sum(A)-a+b >= 21
+         and is_hexad((A-{a}) | {b})]
+print(moves)
 \end{verbatim}
-returns the alternative winning exchange $4\to3$, reducing the total to 29. Our accompanying Python script does not require SageMath.
+The output is \texttt{[(4, 3), (7, 5), (11, 9)]}, in agreement with the three winning exchanges above.
 
 \subsection{Probability and the weight enumerator}
 The sum of all twelve labels is 66. Proposition~\ref{prop:parameters} implies that the polynomial $F(t)=\sum_{H\in\mathcal H}t^{w(H)}$ satisfies
@@ -437,7 +480,7 @@ The terms below summarize the concepts used above. Examples refer to the small d
 \end{description}
 
 \section*{Acknowledgments}
-The author thanks Alex Ryba and Andy Buchanan for helpful comments on the original manuscript. Claude independently refereed Draft 2 and proposed corrections and strengthenings. ChatGPT checked and implemented these in Draft 3. ChatGPT also refereed the manuscript, drafted the expanded exposition, derived the graph-theoretic arguments, and implemented and ran the finite verification. AI review is not an independent certification of the results. Further details on AI usage and source verification appear in the separate revision log.
+The author thanks Ann Casey for many helpful conversations on the topic. The author also thanks Alex Ryba and Andy Buchanan for helpful comments on the original manuscript. Claude independently refereed Draft 2 and proposed corrections and strengthenings. ChatGPT checked and implemented these in Draft 3. ChatGPT also refereed the manuscript, drafted the expanded exposition, derived the graph-theoretic arguments, and implemented and ran the finite verification. In Draft 4, ChatGPT expanded the MOG background and replaced the SageMath example with standalone Python. AI review is not an independent certification of the results. Further details on AI usage and source verification appear in the separate revision log.
 
 \begin{thebibliography}{99}
 \bibitem[Wi38]{Wi38} E. Witt, \emph{\"Uber Steinersche Systeme}, Abh. Math. Sem. Univ. Hamburg \textbf{12} (1938), 265--275.
