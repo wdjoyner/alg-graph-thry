@@ -1,0 +1,159 @@
+{
+ "_about": [
+  "Episode 2 outline, scene level.  Each scene will be broken into beats (as in ep1) before its Fountain script is written.",
+  "Run check_outline.py after any change."
+ ],
+ "episode": 2,
+ "title": "The Geometry of a Kitten",
+ "lead": "sophie",
+ "learning_goals": ["finite_geometry", "fano_plane", "steiner_system", "hexad", "orbit", "curtis_kitten", "kitten_families", "shuffle_labeling"],
+ "scenes": [
+  {
+   "id": "s00",
+   "kind": "title_card",
+   "_comment": "Series main title, then this episode's subtitle; see titles/outline.json.",
+   "main_title": "full",
+   "subtitle": "sub.ep2",
+   "epistemic": "card",
+   "target_seconds": 26
+  },
+  {
+   "id": "s01",
+   "title": "Special how?",
+   "lead": "sophie",
+   "foil": "pascal",
+   "target_seconds": 30,
+   "epistemic": "recap",
+   "summary": "Quick replay of Episode 1's line-up of losing hands. Sophie decides she needs a picture.",
+   "visual": ["recap_montage:ep1_line_up"],
+   "beats": []
+  },
+  {
+   "id": "s02",
+   "title": "Seven points",
+   "lead": "sophie",
+   "foil": "pascal",
+   "target_seconds": 72,
+   "paper": ["sec:background", "fig:fano"],
+   "epistemic": "observation",
+   "predict_pause": true,
+   "summary": "The Fano plane: seven points and seven lines, the circle included. Pick 1 and 4 and their line supplies 2; pick 4 and 5 and the circle supplies 6. Pascal objects that a circle can't be a line; Sophie: it obeys the rule.",
+   "shows": ["finite_geometry", "fano_plane", "unique_completion"],
+   "names": ["finite_geometry", "fano_plane", "unique_completion"],
+   "math": [{"ref": "fano", "claim": {"each_pair_once": true, "completions.1,4": 2, "completions.4,5": 6, "circle": [4, 5, 6]}}],
+   "visual": ["summon_completion:fano_1_4", "summon_completion:fano_4_5", "highlight:circle", "react:pascal_objects"],
+   "beats": []
+  },
+  {
+   "id": "s03",
+   "title": "Twelve points, five at a time",
+   "lead": "sophie",
+   "foil": "ada",
+   "target_seconds": 72,
+   "paper": ["sec:background", "prop:parameters"],
+   "epistemic": "proof",
+   "summary": "Read S(2,3,7) aloud, then ask for S(5,6,12): every five of twelve points in exactly one six-point block. Count: 792 five-sets, six in each block, so 132 blocks. Name them hexads. Ada: if such a thing exists.",
+   "shows": ["steiner_system", "witt_design", "counting_blocks", "hexad"],
+   "names": ["steiner_system", "witt_design", "counting_blocks", "hexad"],
+   "establishes": ["If S(5,6,12) exists, it has 132 blocks"],
+   "conjectures": [{"id": "c_design_exists", "by": "ada", "text": "Does a design S(5,6,12) actually exist?"}],
+   "math": [{"ref": "count:design", "claim": {"five_subsets": 792, "blocks_from_counting": 132}}],
+   "visual": ["reveal_count:792_over_6", "react:ada_skeptical"],
+   "beats": []
+  },
+  {
+   "id": "s04",
+   "title": "Two moves on a ring",
+   "lead": "euler",
+   "foil": "sophie",
+   "target_seconds": 88,
+   "paper": ["sec:projective", "lem:orbit"],
+   "epistemic": "exhaustive_check",
+   "summary": "Twelve labels on a ring: 0 to 10 mod 11, plus infinity. Seed Q = 0 and the five nonzero squares. Two moves, add one and negative reciprocal, keep making new six-sets until the orbit closes at 132. Delete each point from each block: 792 distinct five-sets, each once. The design exists.",
+   "shows": ["mod_11", "projective_line", "permutation", "orbit"],
+   "names": ["mod_11", "projective_line", "permutation", "orbit"],
+   "proves": ["c_design_exists"],
+   "establishes": ["The orbit of Q is a Steiner system S(5,6,12)"],
+   "math": [
+    {"ref": "seed:Q", "claim": {"points": [0, 1, 3, 4, 5, 9], "is_zero_and_squares_mod_11": true}},
+    {"ref": "count:design", "claim": {"hexads": 132, "each_five_once": true}}
+   ],
+   "visual": ["clock_mod:11", "point_ring:translate", "point_ring:invert", "reveal_count:orbit_132"],
+   "beats": []
+  },
+  {
+   "id": "s05",
+   "title": "Curtis's kitten",
+   "lead": "sophie",
+   "foil": "euler",
+   "target_seconds": 84,
+   "paper": ["sec:kitten", "fig:kitten-schematic", "fig:kitten-threeviews", "fig:cross"],
+   "epistemic": "definition",
+   "summary": "The triangular kitten: corners infinity, 0, 1, and repeated labels that name the same point. At each corner the nine other points form a 3 x 3 affine plane; rows, columns and two wrapped diagonal directions are lines. Shown, not named: the wrap is arithmetic mod 3 (named in Episode 3). A row plus a column is a cross; the four points left are a square.",
+   "shows": ["affine_plane_f3", "curtis_kitten", "cross_square", "mod_3"],
+   "names": ["affine_plane_f3", "curtis_kitten", "cross_square"],
+   "visual": ["morph_layout:triangle_to_views", "highlight:modular_diagonal", "highlight:cross"],
+   "beats": []
+  },
+  {
+   "id": "s06",
+   "title": "Four families",
+   "lead": "sophie",
+   "foil": "ada",
+   "target_seconds": 66,
+   "paper": ["sec:kitten"],
+   "epistemic": "computation",
+   "summary": "A line plus the three corners; two parallel lines; a cross plus its own corner; a square plus the other two corners. 12 + 12 + 54 + 54 = 132, exactly the orbit from the ring. Two pictures, one object.",
+   "shows": ["kitten_families"],
+   "names": ["kitten_families"],
+   "math": [{"ref": "count:design", "claim": {"kitten_families": [12, 12, 54, 54], "kitten_union_is_all_hexads": true}}],
+   "visual": ["highlight:family_line", "highlight:family_parallel", "highlight:family_cross", "highlight:family_square", "reveal_count:12_12_54_54"],
+   "beats": []
+  },
+  {
+   "id": "s07",
+   "title": "Back to the cards",
+   "lead": "sophie",
+   "foil": "pascal",
+   "target_seconds": 70,
+   "paper": ["sec:shuffle", "eq:shuffle", "lem:minimog"],
+   "epistemic": "computation",
+   "summary": "Relabel the points as card values (the shuffle labeling). Episode 1's losing hands light up as hexads: 1 to 6, the 24-hand, the end of the worked game, and the 45-hand too. Euler's guess holds: the 28 Pascal left Ada is a hexad. Why hexads lose is still open.",
+   "shows": ["shuffle_labeling"],
+   "names": ["shuffle_labeling"],
+   "payoff": ["special_hands"],
+   "proves": ["c_28_special"],
+   "math": [
+    {"ref": "hand:1to6", "claim": {"hexad": true}},
+    {"ref": "hand:complement_1to6", "claim": {"hexad": true}},
+    {"ref": "hand:hexad_24", "claim": {"hexad": true}},
+    {"ref": "hand:game_after_3", "claim": {"hexad": true}},
+    {"ref": "hand:game_after_1", "claim": {"hexad": true}}
+   ],
+   "visual": ["morph_layout:projective_to_shuffle", "highlight:ep1_hands", "react:euler_pleased"],
+   "beats": []
+  },
+  {
+   "id": "s08",
+   "title": "No memorizing",
+   "lead": "ada",
+   "foil": "pascal",
+   "target_seconds": 25,
+   "epistemic": "comedy",
+   "summary": "PASCAL: Great. We memorize all 132 and I never lose. ADA: Absolutely not.",
+   "setup": ["no_memorizing"],
+   "visual": ["react:ada_deadpan"],
+   "beats": []
+  },
+  {
+   "id": "s99",
+   "kind": "end_credits",
+   "_comment": "End-credits screenplay (end_credits/outline.json), then the next_time tail.",
+   "epistemic": "card",
+   "visual": ["credits_roll"],
+   "tail": "next_time",
+   "next_episode": 3,
+   "target_seconds": 52.5
+  }
+ ]
+}

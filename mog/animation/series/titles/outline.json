@@ -1,0 +1,162 @@
+{
+ "_about": [
+  "Titles screenplay: the series main title, shared by all four episodes, and one subtitle card per episode.",
+  "Every episode's scene s00 plays one version of the main title, then its own subtitle.  check_outline.py checks that s00 points here and that its length matches.",
+  "There is no dialogue, so timing is fixed here in seconds rather than measured from audio.  All on-screen text comes from series.json."
+ ],
+ "kind": "titles",
+ "music": {
+  "cue": "title_theme",
+  "_comment": "Not yet chosen; when it is, fill in the 'music' section of credits.json.  Beats are timed so the music can hit b02, b03, b04 and the title at b05.  Both the composition and the recording must be free to use; rendering a public-domain score ourselves avoids the recording question and lets us set the tempo to land the hits.",
+  "chosen": null,
+  "candidates": [
+   {
+    "piece": "Fugue in G minor, K. 30 (\"Cat Fugue\")",
+    "composer": "Domenico Scarlatti (1685-1757)",
+    "suggested_for": "main title",
+    "why": "Its theme is said to come from Scarlatti's cat walking on the harpsichord, and a fugue is a piece built from strict structure: cats and mathematics at once.",
+    "composition": "Public domain worldwide",
+    "recording": "Render from a public-domain score (IMSLP) through FluidSynth with the FluidR3 GM SoundFont (MIT License), or use a Musopen public-domain recording"
+   },
+   {
+    "piece": "Kitten on the Keys",
+    "composer": "Zez Confrey (1895-1971), published 1921",
+    "suggested_for": "end credits",
+    "why": "A novelty piano rag about a kitten running over the keys; Pascal's energy.",
+    "composition": "Public domain in the United States (published 1921).  Confrey died in 1971, so it stays under copyright through 2041 in countries with a life-plus-70 term.  Check before relying on it for a worldwide upload.",
+    "recording": "Confrey's own 1922 Edison recording is on Wikimedia Commons, or render from the 1921 score"
+   },
+   {
+    "piece": "Duetto buffo di due gatti (\"Cat Duet\")",
+    "composer": "Published 1825 under the name G. Berthold; arranged from Weyse's Katte-Cavatine and Rossini's Otello",
+    "suggested_for": "optional comic moment (sung entirely in 'miau')",
+    "why": "Two cats in a duet; could underscore a Pascal-and-Ada standoff.",
+    "composition": "Public domain",
+    "recording": "Needs a free recording or a rendering; the vocal line would have to be synthesized or played on an instrument"
+   }
+  ]
+ },
+ "main_title": {
+  "summary": "The deck becomes the MINIMOG, the MINIMOG becomes the kitten, one hexad shrinks to a dot that sprouts its 36 neighbors, and the series title writes itself along those edges. Each step is one episode's picture, in episode order.",
+  "beats": [
+   {
+    "id": "mt.b01",
+    "seconds": 2.0,
+    "purpose": "A deck of twelve cards fans out face up, 0 through 11 (Episode 1's picture)",
+    "epistemic": "card",
+    "visual": ["card_deal:fan_12"],
+    "lead": "pascal",
+    "character_action": "Pascal's paw flicks the deck open from the edge of frame"
+   },
+   {
+    "id": "mt.b02",
+    "seconds": 3.5,
+    "purpose": "The cards fly into their true cells of Conway's MINIMOG (Episode 3's picture)",
+    "epistemic": "card",
+    "math": [{"ref": "minimog", "claim": {"rows": [[6, 3, 0, 9], [5, 2, 7, 10], [4, 1, 8, 11]]}}],
+    "visual": ["fly_to_minimog"],
+    "lead": "ada",
+    "character_action": "Ada straightens the last card into place"
+   },
+   {
+    "id": "mt.b03",
+    "seconds": 3.5,
+    "purpose": "The cells slide into Curtis's kitten: corners 0, 1, 6 and a 3 x 3 view at each corner (Episode 2's picture)",
+    "epistemic": "card",
+    "math": [{"ref": "kitten:views", "claim": {"corners": [0, 1, 6], "each_view_is_the_other_nine": true}}],
+    "visual": ["morph_layout:minimog_to_kitten"],
+    "lead": "sophie",
+    "character_action": "Sophie traces the triangle's last side with her tail"
+   },
+   {
+    "id": "mt.b04",
+    "seconds": 3.0,
+    "purpose": "The six cards 1 to 6 light up in the kitten, shrink into a single dot, and 36 edges sprout from it (Episode 4's picture)",
+    "epistemic": "card",
+    "math": [
+     {"ref": "hand:1to6", "claim": {"cards": [1, 2, 3, 4, 5, 6], "hexad": true}},
+     {"ref": "count:johnson", "claim": {"degree": 36}}
+    ],
+    "visual": ["highlight:hexad_1to6", "graph_grow:1to6"],
+    "lead": "euler",
+    "character_action": "Euler blinks at the dot, then leans in"
+   },
+   {
+    "id": "mt.b05",
+    "seconds": 4.0,
+    "purpose": "The series title writes itself along the edges, then settles in the center",
+    "epistemic": "card",
+    "text": ["{series_title}"],
+    "visual": ["write_along:series_title"],
+    "character_action": "All four kittens pounce on the letters as they land"
+   },
+   {
+    "id": "mt.b06",
+    "seconds": 4.0,
+    "purpose": "The tagline fades in under the title",
+    "epistemic": "card",
+    "text": ["{tagline}"],
+    "visual": ["title_card:tagline"]
+   }
+  ],
+  "versions": {
+   "_comment": "full plays every beat.  short is for episodes 2 to 4 if their runtime is tight; it keeps the fan, the fly-in and the title.  A version may shorten a beat.",
+   "full": {"beats": ["mt.b01", "mt.b02", "mt.b03", "mt.b04", "mt.b05", "mt.b06"]},
+   "short": {"beats": ["mt.b01", "mt.b02", "mt.b05"], "seconds": {"mt.b01": 1.5, "mt.b02": 2.5, "mt.b05": 4.0}}
+  }
+ },
+ "subtitles": [
+  {
+   "id": "sub.ep1",
+   "episode": 1,
+   "seconds": 6.0,
+   "summary": "The dot bursts back into twelve cards, which deal themselves into a hand of six and a pile of six. The subtitle writes on along the table's edge.",
+   "epistemic": "card",
+   "text": ["Episode {number}", "{title}"],
+   "math": [{"ref": "hand:example", "claim": {"cards": [0, 2, 4, 6, 7, 11]}}],
+   "visual": ["card_deal:hand_and_pile", "write_along:subtitle"],
+   "lead": "pascal",
+   "character_action": "Pascal taps the hand: the one Episode 1 opens with",
+   "read_aloud": {"by": "pascal", "default": false}
+  },
+  {
+   "id": "sub.ep2",
+   "episode": 2,
+   "seconds": 6.0,
+   "summary": "The camera pushes into the kitten triangle; the subtitle writes along its three sides.",
+   "epistemic": "card",
+   "text": ["Episode {number}", "{title}"],
+   "math": [{"ref": "kitten:views", "claim": {"corners": [0, 1, 6]}}],
+   "visual": ["morph_layout:to_kitten", "write_along:subtitle"],
+   "lead": "sophie",
+   "character_action": "Sophie sits in the corner labeled 0",
+   "read_aloud": {"by": "sophie", "default": false}
+  },
+  {
+   "id": "sub.ep3",
+   "episode": 3,
+   "seconds": 6.0,
+   "summary": "The MINIMOG returns; the tetracode word 1, 1, 2, 0 lights one cell in each column, and the subtitle writes beneath the grid.",
+   "epistemic": "card",
+   "text": ["Episode {number}", "{title}"],
+   "math": [{"ref": "tetracode", "claim": {"word_a1_b1": [1, 1, 2, 0]}}],
+   "visual": ["fly_to_minimog", "highlight:codeword_a1_b1", "write_along:subtitle"],
+   "lead": "ada",
+   "character_action": "Ada lifts an eyebrow at the lit cells",
+   "read_aloud": {"by": "ada", "default": false}
+  },
+  {
+   "id": "sub.ep4",
+   "episode": 4,
+   "seconds": 6.0,
+   "summary": "The dot and its 36 edges stay on screen; the subtitle travels out along one edge.",
+   "epistemic": "card",
+   "text": ["Episode {number}", "{title}"],
+   "math": [{"ref": "count:johnson", "claim": {"degree": 36}}],
+   "visual": ["graph_grow:1to6", "write_along:subtitle"],
+   "lead": "euler",
+   "character_action": "Euler follows the words along the edge",
+   "read_aloud": {"by": "euler", "default": false}
+  }
+ ]
+}

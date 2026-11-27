@@ -1,0 +1,85 @@
+{
+ "_about": [
+  "Characters, designs and casting, kept apart from the screenplays so a recast never touches a script.",
+  "Speaker IDs in the outlines, Fountain scripts and audio manifests are the keys below.",
+  "Voices are audition candidates only; set 'chosen' after the prototype auditions."
+ ],
+ "reserved_voices": {
+  "af_heart": "Haynes narrator, reserved for the Haynes film. Never use for a kitten, even in a blend."
+ },
+ "characters": {
+  "pascal": {
+   "name": "Pascal",
+   "principal": true,
+   "design": {"coat": "orange tabby", "palette": {"primary": "#e8873a", "stripes": "#b35a1f"}},
+   "personality": "Energetic, competitive card player and enthusiastic experimental mathematician. Makes bold conjectures; his intuition sometimes leads him astray.",
+   "leads": [1],
+   "voice": {
+    "engine": "kokoro",
+    "candidates": ["am_puck", {"blend": {"am_puck": 0.7, "am_michael": 0.3}}],
+    "chosen": null,
+    "speed": 1.04,
+    "direction": "Energetic, mischievous",
+    "future": "Possible Brooklyn accent with a human actor or another engine, with consent and licenses respected"
+   }
+  },
+  "sophie": {
+   "name": "Sophie",
+   "principal": true,
+   "design": {"coat": "tuxedo", "palette": {"primary": "#26262b", "bib": "#f4f1ea"}},
+   "personality": "Curious; thinks in pictures. Introduces finite geometry, Steiner systems and Curtis's kitten.",
+   "leads": [2],
+   "voice": {
+    "engine": "kokoro",
+    "candidates": ["af_bella", "af_jessica", "af_river"],
+    "chosen": null,
+    "speed": 1.0,
+    "direction": "Warm, imaginative and expressive"
+   }
+  },
+  "ada": {
+   "name": "Ada",
+   "principal": true,
+   "design": {"coat": "gray", "palette": {"primary": "#8a8f98", "accent": "#c9ccd2"}},
+   "personality": "Precise and skeptical, with a dry sense of humor. Enjoys algorithms, coding theory, the MINIMOG and checking claims.",
+   "leads": [3],
+   "voice": {
+    "engine": "kokoro",
+    "candidates": ["af_sarah", "af_kore", "bf_emma"],
+    "chosen": null,
+    "speed": 1.0,
+    "direction": "Clear, confident and dryly humorous"
+   }
+  },
+  "euler": {
+   "name": "Euler",
+   "principal": true,
+   "design": {"coat": "cream", "palette": {"primary": "#efe2c4", "accent": "#c8b48a"}},
+   "personality": "Thoughtful and somewhat absent-minded; fascinated by symmetry, graphs and proofs. Connects the others' discoveries.",
+   "leads": [4],
+   "voice": {
+    "engine": "kokoro",
+    "candidates": ["bm_george"],
+    "chosen": null,
+    "speed": 0.90,
+    "direction": "Thoughtful and professorial"
+   }
+  },
+  "euphemia": {
+   "name": "Professor Euphemia",
+   "principal": false,
+   "optional": true,
+   "design": {"coat": "calico, older", "palette": {"primary": "#f2efe8", "patch1": "#c9732c", "patch2": "#2e2a27"}},
+   "personality": "Asks questions rather than supplying answers. Patient, encouraging and quietly authoritative.",
+   "note": "A fictional character named in honor of mathematician and educator Euphemia Lofton Haynes, inspired by her educational philosophy. Not a portrayal of Haynes.",
+   "leads": [],
+   "voice": {
+    "engine": "kokoro",
+    "candidates": [],
+    "chosen": null,
+    "speed": 0.95,
+    "direction": "Patient, encouraging and quietly authoritative; to be auditioned (not af_heart)"
+   }
+  }
+ }
+}

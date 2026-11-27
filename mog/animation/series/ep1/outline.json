@@ -1,0 +1,348 @@
+{
+ "_about": [
+  "Episode 1 outline, beat level.  The Fountain script (ep1/script.fountain) will be written from this; each beat becomes a [[beat: id]] note there.",
+  "'gist' is a sketch of what is said, not final dialogue.  'lines' fills with stable line IDs once the script exists.",
+  "Every number here is claimed against math_objects.json; run check_outline.py after any change."
+ ],
+ "episode": 1,
+ "title": "The Curious Game of Twenty-One",
+ "lead": "pascal",
+ "learning_goals": ["set", "complement", "legal_move", "winning_position", "losing_position", "experiment_vs_proof"],
+ "scenes": [
+  {
+   "id": "s00",
+   "kind": "title_card",
+   "_comment": "Series main title, then this episode's subtitle; see titles/outline.json.",
+   "main_title": "full",
+   "subtitle": "sub.ep1",
+   "epistemic": "card",
+   "target_seconds": 26
+  },
+  {
+   "id": "s01",
+   "title": "Pascal deals",
+   "lead": "pascal",
+   "foil": "sophie",
+   "target_seconds": 42,
+   "paper": ["sec:game"],
+   "beats": [
+    {
+     "id": "s01.b01",
+     "purpose": "Pascal announces blackjack; the others expect the casino game",
+     "epistemic": "comedy",
+     "shows": ["card_values"],
+     "names": ["card_values"],
+     "visual": ["card_deal:fan_12", "react:sophie_puzzled"],
+     "gist": "PASCAL: Blackjack! Twenty-one! SOPHIE: Where are the kings? ADA: There are twelve cards, zero to eleven. I counted.",
+     "lines": []
+    },
+    {
+     "id": "s01.b02",
+     "purpose": "Six cards face up form one hand both players share; six go to the pile",
+     "lead": "pascal",
+     "foil": "ada",
+     "epistemic": "definition",
+     "shows": ["shared_hand", "pile"],
+     "names": ["shared_hand", "pile"],
+     "math": [{"ref": "hand:example", "claim": {"cards": [0, 2, 4, 6, 7, 11]}}],
+     "visual": ["card_deal:hand_and_pile"],
+     "gist": "PASCAL: One hand, face up, and we both play it. The rest is the pile.",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "title": "The rules",
+   "lead": "pascal",
+   "foil": "ada",
+   "target_seconds": 56,
+   "paper": ["sec:game"],
+   "beats": [
+    {
+     "id": "s02.b01",
+     "purpose": "A move swaps one hand card for a smaller pile card; the total goes down",
+     "epistemic": "definition",
+     "shows": ["exchange", "total"],
+     "names": ["exchange", "total"],
+     "math": [{"ref": "hand:example", "claim": {"total": 30}}],
+     "visual": ["card_exchange:demo", "total_counter"],
+     "gist": "PASCAL: Give the hand a card, take a smaller one from the pile. Down, never up.",
+     "lines": []
+    },
+    {
+     "id": "s02.b02",
+     "purpose": "The new total must stay at 21 or more; Pascal tries 11 for 1 and Ada stops him",
+     "epistemic": "comedy",
+     "shows": ["threshold_21", "legal_move"],
+     "names": ["threshold_21", "legal_move"],
+     "math": [{"ref": "move:illegal_11_1", "claim": {"new_total": 20, "legal": false}}],
+     "visual": ["card_exchange:11_1_rejected", "total_counter", "react:ada_paw_on_card"],
+     "gist": "PASCAL swaps eleven for one. ADA: Twenty. Below twenty-one. Put it back.",
+     "lines": []
+    },
+    {
+     "id": "s02.b03",
+     "purpose": "If you have no legal move, you lose; totals only fall, so every game ends",
+     "epistemic": "definition",
+     "shows": ["normal_play"],
+     "names": ["normal_play"],
+     "visual": ["total_counter"],
+     "gist": "ADA: And if you can't move? PASCAL: You lose. ADA: Then the game has to end. The total only goes down.",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "title": "A worked game",
+   "lead": "pascal",
+   "foil": "ada",
+   "target_seconds": 110,
+   "paper": ["sec:game"],
+   "beats": [
+    {
+     "id": "s03.b01",
+     "purpose": "Pascal plays first from the hand totaling 30; viewers are asked to choose a move",
+     "epistemic": "observation",
+     "predict_pause": true,
+     "shows": ["set"],
+     "math": [{"ref": "hand:example", "claim": {"total": 30, "down_moves": 14}}],
+     "visual": ["total_counter", "highlight:hand"],
+     "gist": "PASCAL (to camera): Fourteen legal moves. Which would you play?",
+     "lines": []
+    },
+    {
+     "id": "s03.b02",
+     "purpose": "Pascal plays 7 for 5, with swagger; total 28",
+     "epistemic": "observation",
+     "setup": ["move_7_to_5"],
+     "math": [{"ref": "game:worked", "claim": {"steps.0.move": [7, 5], "steps.0.total": 28}}],
+     "visual": ["card_exchange:7_5", "total_counter", "react:pascal_smug"],
+     "gist": "PASCAL: Seven out, five in. Twenty-eight. Your move.",
+     "lines": []
+    },
+    {
+     "id": "s03.b03",
+     "purpose": "Ada plays 11 for 7; total 24",
+     "lead": "ada",
+     "foil": "pascal",
+     "epistemic": "observation",
+     "predict_pause": true,
+     "math": [{"ref": "game:worked", "claim": {"steps.1.move": [11, 7], "steps.1.total": 24}}],
+     "visual": ["card_exchange:11_7", "total_counter"],
+     "gist": "ADA thinks, then trades eleven for seven. Twenty-four.",
+     "lines": []
+    },
+    {
+     "id": "s03.b04",
+     "purpose": "Pascal plays 6 for 3; total 21 and Ada has no legal move",
+     "epistemic": "observation",
+     "shows": ["losing_position"],
+     "math": [
+      {"ref": "game:worked", "claim": {"steps.2.move": [6, 3], "steps.2.total": 21, "winner": 1}},
+      {"ref": "hand:game_after_3", "claim": {"total": 21, "down_moves": 0}}
+     ],
+     "visual": ["card_exchange:6_3", "total_counter", "highlight:dead_end", "react:ada_searching"],
+     "gist": "Six out, three in: twenty-one. ADA looks for a smaller card that keeps twenty-one. There isn't one. PASCAL wins.",
+     "lines": []
+    },
+    {
+     "id": "s03.b05",
+     "purpose": "Euler asks whether that was skill or luck; Ada demands proof",
+     "lead": "euler",
+     "foil": "pascal",
+     "epistemic": "comedy",
+     "setup": ["pascal_skill"],
+     "visual": ["react:pascal_bows"],
+     "gist": "EULER: Was that skill, or luck? PASCAL: Skill. Obviously. ADA: Prove it.",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "title": "The dead hand and its shadow",
+   "lead": "sophie",
+   "foil": "pascal",
+   "target_seconds": 56,
+   "paper": ["sec:game"],
+   "beats": [
+    {
+     "id": "s04.b01",
+     "purpose": "Sophie deals 1 to 6: total 21, no moves, the player to move loses at once",
+     "epistemic": "observation",
+     "shows": ["losing_position", "set"],
+     "names": ["losing_position", "set"],
+     "setup": ["every_21_hexad"],
+     "math": [{"ref": "hand:1to6", "claim": {"cards": [1, 2, 3, 4, 5, 6], "total": 21, "down_moves": 0}}],
+     "visual": ["card_deal:1to6", "total_counter"],
+     "gist": "SOPHIE: One, two, three, four, five, six. Twenty-one. PASCAL: Twenty-one again. Whoever moves first just loses.",
+     "lines": []
+    },
+    {
+     "id": "s04.b02",
+     "purpose": "Euler swaps hand and pile: the complement totals 45 and has thirty legal moves",
+     "lead": "euler",
+     "foil": "sophie",
+     "epistemic": "observation",
+     "shows": ["complement"],
+     "names": ["complement"],
+     "math": [{"ref": "hand:complement_1to6", "claim": {"cards": [0, 7, 8, 9, 10, 11], "total": 45, "down_moves": 30}}],
+     "visual": ["flip_hand:1to6"],
+     "gist": "EULER: What about the other six? The complement. Forty-five.",
+     "lines": []
+    },
+    {
+     "id": "s04.b03",
+     "purpose": "Pascal grabs the 45-hand and moves first; Ada answers each try and he loses every time",
+     "lead": "pascal",
+     "foil": "ada",
+     "epistemic": "experiment",
+     "predict_pause": true,
+     "math": [
+      {"ref": "tries:complement_1to6", "claim": {
+       "moves_available": 30,
+       "tries.0.move": [10, 1], "tries.0.total": 36, "tries.0.replies.0.move": [7, 3], "tries.0.replies.0.total": 32,
+       "tries.1.move": [11, 1], "tries.1.total": 35, "tries.1.replies.3.move": [10, 4], "tries.1.replies.3.total": 29}},
+      {"ref": "hand:complement_1to6", "claim": {"losing": true}}
+     ],
+     "visual": ["card_exchange:10_1", "card_exchange:7_3", "card_exchange:11_1", "card_exchange:10_4", "recap_montage:more_losses", "react:pascal_flustered"],
+     "gist": "PASCAL: Thirty moves! This one's mine. Ten for one. ADA: Seven for three. (Montage: Pascal tries again and again; each game ends with him stuck.)",
+     "_cue_note": "The montage must be played out by the game engine from these two openings, with Ada always replying into a hexad; do not hand-animate it.",
+     "lines": []
+    },
+    {
+     "id": "s04.b04",
+     "purpose": "Ada notes they tried a few of thirty moves; Sophie poses the mystery",
+     "lead": "sophie",
+     "foil": "ada",
+     "epistemic": "observation",
+     "shows": ["experiment_vs_proof"],
+     "setup": ["mystery_21_45"],
+     "visual": ["line_up:1to6_and_complement"],
+     "gist": "ADA: We tried a handful of thirty. That's an experiment. SOPHIE: Twenty-one loses. Forty-five loses. Why would those two be the same?",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "title": "Pascal's conjecture",
+   "lead": "pascal",
+   "foil": "ada",
+   "target_seconds": 66,
+   "paper": ["sec:game"],
+   "beats": [
+    {
+     "id": "s05.b01",
+     "purpose": "Pascal guesses that only totals 21 and 45 lose; Euler calls it a conjecture",
+     "epistemic": "conjecture",
+     "shows": ["conjecture"],
+     "names": ["conjecture"],
+     "conjectures": [{"id": "c_totals_21_45", "by": "pascal", "text": "Only the totals 21 and 45 lose; every total in between wins"}],
+     "visual": ["react:pascal_confident"],
+     "gist": "PASCAL: Simple. Twenty-one and forty-five are the bad totals. Anything in between, I win. EULER: That's a conjecture.",
+     "lines": []
+    },
+    {
+     "id": "s05.b02",
+     "purpose": "Ada deals a hand totaling 24 and lets Pascal move; it has only five legal moves",
+     "lead": "ada",
+     "foil": "pascal",
+     "epistemic": "example",
+     "predict_pause": true,
+     "math": [{"ref": "hand:hexad_24", "claim": {"cards": [0, 1, 2, 4, 7, 10], "total": 24, "down_moves": 5}}],
+     "visual": ["card_deal:hexad_24", "total_counter", "branch_tree:hexad_24"],
+     "gist": "ADA: Twenty-four. In between. Your move.",
+     "lines": []
+    },
+    {
+     "id": "s05.b03",
+     "purpose": "All five moves fan out as branches; each has a reply that lands on exactly 21. Checking every move is a proof, for this one hand",
+     "lead": "ada",
+     "foil": "pascal",
+     "epistemic": "exhaustive_check",
+     "shows": ["winning_position"],
+     "names": ["experiment_vs_proof", "winning_position"],
+     "refutes": ["c_totals_21_45"],
+     "establishes": ["The hand {0,1,2,4,7,10} is a losing position"],
+     "math": [
+      {"ref": "tree:hexad_24", "claim": {
+       "branches.0.move": [4, 3], "branches.1.move": [7, 5], "branches.2.move": [7, 6], "branches.3.move": [10, 8], "branches.4.move": [10, 9],
+       "branches.0.replies.0.total": 21, "branches.1.replies.0.total": 21, "branches.2.replies.0.total": 21, "branches.3.replies.0.total": 21, "branches.4.replies.0.total": 21}},
+      {"ref": "hand:hexad_24", "claim": {"losing": true}}
+     ],
+     "visual": ["branch_tree:hexad_24_replies", "react:pascal_deflates"],
+     "gist": "Each branch: PASCAL moves, ADA replies, twenty-one, stuck. ADA: Every hand you leave me is a winning position: I can reach twenty-one. Five moves, five answers. I checked them all. That's not luck. It's a proof, for this hand.",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "title": "Special hands",
+   "lead": "sophie",
+   "foil": "euler",
+   "target_seconds": 45,
+   "paper": ["sec:game"],
+   "beats": [
+    {
+     "id": "s06.b01",
+     "purpose": "Sophie lines up the losing hands so far; the 45-hand gets a question mark because it was only tested",
+     "epistemic": "observation",
+     "setup": ["special_hands"],
+     "math": [
+      {"ref": "hand:1to6", "claim": {"losing": true}},
+      {"ref": "hand:game_after_3", "claim": {"cards": [0, 2, 3, 4, 5, 7], "losing": true}},
+      {"ref": "hand:hexad_24", "claim": {"losing": true}}
+     ],
+     "visual": ["line_up:losing_hands", "highlight:question_mark_45"],
+     "gist": "SOPHIE: These lose. This one probably loses. They look special. But special how?",
+     "lines": []
+    },
+    {
+     "id": "s06.b02",
+     "purpose": "Euler wonders whether Pascal's 28 after 7 for 5 was one of them",
+     "lead": "euler",
+     "foil": "pascal",
+     "epistemic": "conjecture",
+     "conjectures": [{"id": "c_28_special", "by": "euler", "text": "The hand Pascal left at 28 is one of the special ones"}],
+     "math": [{"ref": "hand:game_after_1", "claim": {"cards": [0, 2, 4, 5, 6, 11], "total": 28}}],
+     "visual": ["recap_montage:move_7_5", "react:pascal_shifty"],
+     "gist": "EULER: Pascal, the hand you gave Ada at twenty-eight. Was it one of these? PASCAL: ...Naturally.",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s07",
+   "title": "A question to take home",
+   "optional": true,
+   "lead": "euphemia",
+   "foil": "sophie",
+   "target_seconds": 20,
+   "beats": [
+    {
+     "id": "s07.b01",
+     "purpose": "Professor Euphemia asks a question instead of giving an answer",
+     "epistemic": "comedy",
+     "visual": ["react:kittens_turn"],
+     "gist": "EUPHEMIA: When the same sets keep turning up, ask what they have in common. Sometimes a picture helps.",
+     "fallback": "Without Euphemia: SOPHIE: I think I need to draw this.",
+     "lines": []
+    }
+   ]
+  },
+  {
+   "id": "s99",
+   "kind": "end_credits",
+   "_comment": "End-credits screenplay (end_credits/outline.json), then the next_time tail.",
+   "epistemic": "card",
+   "visual": ["credits_roll"],
+   "tail": "next_time",
+   "next_episode": 2,
+   "target_seconds": 52.5
+  }
+ ]
+}

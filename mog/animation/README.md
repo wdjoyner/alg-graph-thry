@@ -50,3 +50,7 @@ Mathematical source and figure layouts adapted from David Joyner, *MINIMOGs and 
 
 [model]: https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx
 [config]: https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json
+
+## Planned series
+
+Planning files for the four-episode series *Kittens, MOGs, and Mathematical Blackjack* (see [future-plans-for-kittens.md](future-plans-for-kittens.md)) are in [`series/`](series/README.md): the series bible, cast and credits, the titles and end-credits screenplays, and the episode outlines, with a checker that tests them against the mathematics.

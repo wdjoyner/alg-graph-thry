@@ -1,0 +1,32 @@
+{
+ "_about": [
+  "Spoken respellings applied before text-to-speech.  Captions keep the written form.",
+  "Longest keys are replaced first (so 'hexads' wins over 'hexad').  Test each entry in the Kokoro auditions and adjust; Kokoro can also take inline phonemes if a respelling fails."
+ ],
+ "respell": {
+  "hexads": "hex adds",
+  "hexad": "hex add",
+  "nonhexads": "non hex adds",
+  "nonhexad": "non hex add",
+  "tetracode": "tetra code",
+  "MINIMOG": "mini mog",
+  "MOG": "mog",
+  "Euler": "Oiler",
+  "Fano": "Fah-no",
+  "Curtis’s": "Curtis's",
+  "S(2,3,7)": "S of two, three, seven",
+  "S(5,6,12)": "S of five, six, twelve",
+  "J(12,6)": "J of twelve, six",
+  "F_3": "F three",
+  "∞": "infinity",
+  "773/894": "seven hundred seventy-three out of eight hundred ninety-four",
+  "86.47%": "about eighty-six and a half percent",
+  "mod 3": "mod three",
+  "mod 11": "mod eleven"
+ },
+ "check_list": [
+  "Euler should sound like 'Oiler', never 'Yooler'.",
+  "Card values are read as words (seven to five), not digits run together.",
+  "Arrows in captions (7 → 5) are spoken as 'seven to five'."
+ ]
+}

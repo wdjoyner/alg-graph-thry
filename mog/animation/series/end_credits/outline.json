@@ -1,0 +1,114 @@
+{
+ "_about": [
+  "End-credits screenplay: how the credits in credits.json appear on screen, card by card, and the tail card that closes each episode.",
+  "Every episode's scene s99 plays these cards, then its tail ('next_time' for Episodes 1-3, 'finale' for Episode 4).  check_outline.py checks the length of s99 against this file.",
+  "There is no dialogue, so timing is fixed here in seconds.  Each card must stay up long enough to read: at least 1 second plus 1 second per 4 words, and never less than 3 seconds.",
+  "A card with 'when' plays only in episodes where that thing is used.  If it is used only in optional scenes, the card's time counts toward the episode's optional budget."
+ ],
+ "kind": "end_credits",
+ "music": {
+  "cue": "credits_theme",
+  "_comment": "Not yet chosen; see the candidates in titles/outline.json.  The roll is about 52 seconds with its tail (59 with the Euphemia card), so the piece will need a cut or a loop point."
+ },
+ "cards": [
+  {
+   "id": "ec.c01",
+   "sections": ["authors"],
+   "seconds": 4.5,
+   "staging": "Three cards deal face down onto the table and flip, one name on each face.",
+   "epistemic": "card",
+   "visual": ["card_deal:three", "credits_text"],
+   "character_action": "Pascal deals"
+  },
+  {
+   "id": "ec.c02",
+   "sections": ["based_on"],
+   "seconds": 5.0,
+   "staging": "The paper's title page slides in beside the cards; the credit is typed under it.",
+   "epistemic": "card",
+   "visual": ["credits_text"],
+   "character_action": "Ada taps the page as if checking the citation"
+  },
+  {
+   "id": "ec.c03",
+   "sections": ["mathematics"],
+   "seconds": 13.0,
+   "staging": "Each name appears beside the picture it gave the series: Curtis by the kitten, Conway by the MINIMOG, Witt by a glowing hexad, Kahane and Ryba by the card table, Conway and Sloane by a stack of books.",
+   "epistemic": "card",
+   "visual": ["line_up:series_pictures", "credits_text"],
+   "character_action": "Sophie walks along the line of pictures"
+  },
+  {
+   "id": "ec.c04",
+   "sections": ["featuring", "voices"],
+   "seconds": 9.0,
+   "staging": "The four kittens step forward in a row and bow in turn; each one's name, then voice, appears beneath.",
+   "epistemic": "card",
+   "visual": ["react:bow_in_turn", "credits_text"],
+   "character_action": "Pascal bows too low and topples; Euler bows a beat late"
+  },
+  {
+   "id": "ec.c05",
+   "sections": ["euphemia"],
+   "when": "euphemia",
+   "seconds": 6.5,
+   "staging": "Professor Euphemia nods from a doorway; the note appears beside her.",
+   "epistemic": "card",
+   "visual": ["credits_text"],
+   "character_action": "Euphemia nods once"
+  },
+  {
+   "id": "ec.c06",
+   "sections": ["music"],
+   "seconds": 3.5,
+   "staging": "The credit writes itself along a staff line that curls into the shape of a tail.",
+   "epistemic": "card",
+   "visual": ["write_along:staff", "credits_text"]
+  },
+  {
+   "id": "ec.c07",
+   "sections": ["visual_style", "made_with"],
+   "seconds": 6.0,
+   "staging": "The tools' names drop onto the table like cards, one per tool.",
+   "epistemic": "card",
+   "visual": ["card_deal:tools", "credits_text"]
+  },
+  {
+   "id": "ec.c08",
+   "sections": ["pam"],
+   "when": "pam",
+   "seconds": 3.5,
+   "staging": "The kittens' stick-figure rigs appear briefly, then fill back in.",
+   "epistemic": "card",
+   "visual": ["credits_text"]
+  },
+  {
+   "id": "ec.c09",
+   "sections": ["math_checks"],
+   "seconds": 6.5,
+   "staging": "The 132 hexads tick past as dots in a counter, which stops at 132.",
+   "epistemic": "card",
+   "math": [{"ref": "count:design", "claim": {"hexads": 132}}],
+   "visual": ["reveal_count:hexads_132", "credits_text"],
+   "character_action": "Ada nods at the counter"
+  }
+ ],
+ "tails": {
+  "next_time": {
+   "id": "ec.next",
+   "seconds": 5.0,
+   "text": ["Next time", "Episode {next_number}: {next_title}"],
+   "staging": "The next episode's subtitle picture (from titles/outline.json) fades up behind the text; that episode's lead kitten peeks in from the edge of frame.",
+   "epistemic": "card",
+   "visual": ["title_card:next_episode", "react:next_lead_peeks"]
+  },
+  "finale": {
+   "id": "ec.end",
+   "seconds": 6.0,
+   "text": ["The End", "The mathematics: mog.tex in github.com/wdjoyner/alg-graph-thry"],
+   "staging": "The cards, the kitten, the MINIMOG and the graph gather into a single deck; all four kittens sit in a row in front of it.",
+   "epistemic": "card",
+   "visual": ["morph_layout:finale_deck", "credits_text", "react:all_four_sit"]
+  }
+ }
+}

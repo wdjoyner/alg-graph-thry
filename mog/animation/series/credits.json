@@ -1,0 +1,82 @@
+{
+ "_about": [
+  "End-credits text shared by all four episodes.  Edit wording here, never in an outline.  How and when each section appears on screen is in the end-credits screenplay, end_credits/outline.json.",
+  "'from_cast' sections are filled from cast.json at render time, using each character's chosen voice.",
+  "'when' marks a section shown only in episodes where that thing is used (euphemia: Professor Euphemia appears; pam: PAM/Blender character animation is used).",
+  "'pending': true marks a section still to be filled in; check_outline.py warns until it is."
+ ],
+ "series_title": "Kittens, MOGs, and Mathematical Blackjack",
+ "year": 2026,
+ "sections": [
+  {
+   "id": "authors",
+   "heading": "Series authors",
+   "names": ["David Joyner", "Claude (Anthropic)", "ChatGPT (OpenAI)"]
+  },
+  {
+   "id": "based_on",
+   "heading": "Based on",
+   "names": ["David Joyner, \"Kittens, MOGs, and mathematical blackjack,\" Draft 4 (2026), CC BY 4.0"]
+  },
+  {
+   "id": "mathematics",
+   "heading": "The mathematics of",
+   "names": [
+    "R. T. Curtis — the kitten and the MOG",
+    "J. H. Conway — the tetracode and the MINIMOG",
+    "E. Witt — the Steiner system S(5,6,12)",
+    "J. Kahane and A. J. Ryba — The Hexad Game",
+    "J. H. Conway and N. J. A. Sloane — Sphere Packings, Lattices and Groups"
+   ]
+  },
+  {
+   "id": "featuring",
+   "heading": "Featuring",
+   "from_cast": "characters",
+   "format": "{name}"
+  },
+  {
+   "id": "voices",
+   "heading": "Voices",
+   "from_cast": "voices",
+   "format": "{name} — Kokoro {chosen}",
+   "footer": "Synthetic voices generated locally with Kokoro text-to-speech"
+  },
+  {
+   "id": "euphemia",
+   "heading": "About Professor Euphemia",
+   "when": "euphemia",
+   "names": ["A fictional character named in honor of mathematician and educator Euphemia Lofton Haynes. Not a portrayal of Haynes."]
+  },
+  {
+   "id": "music",
+   "heading": "Music",
+   "names": ["Title and credits music: to be chosen"],
+   "pending": true,
+   "_comment": "Replace with the piece, composer and performer or rendering (for example: Domenico Scarlatti, Fugue in G minor, K. 30, rendered with FluidSynth and the FluidR3 GM SoundFont, MIT License), then remove 'pending'."
+  },
+  {
+   "id": "visual_style",
+   "heading": "Visual style inspired by",
+   "names": ["Euphemia Haynes — Mathematics as an Open Door"]
+  },
+  {
+   "id": "made_with",
+   "heading": "Made with",
+   "names": ["Manim Community Edition", "Kokoro", "FFmpeg", "Python"]
+  },
+  {
+   "id": "pam",
+   "heading": "Character animation",
+   "when": "pam",
+   "names": ["PAM (Pose And Motion)", "Blender"]
+  },
+  {
+   "id": "math_checks",
+   "heading": "Mathematical checks",
+   "names": ["Every card, total and count on screen was checked by exhaustive computation against the paper's verifier (MIT License)."]
+  }
+ ],
+ "license": null,
+ "_license_comment": "Series license to be decided."
+}
