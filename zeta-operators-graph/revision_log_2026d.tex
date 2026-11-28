@@ -1,0 +1,99 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,microtype}
+\usepackage{newtxtext,newtxmath}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{xr}
+\externaldocument{zeta_operators_corrected_2026d}
+\usepackage[hidelinks]{hyperref}
+\title{Revision log: Zeta Functions and Their Associated Operators}
+\author{David Joyner; editorial assistance by ChatGPT (OpenAI)}
+\date{November 28, 2026}
+\begin{document}\maketitle
+\section{Scope and version}
+Source: \texttt{zeta\_operators\_corrected\_2026c.tex}.
+The original 1981 typescript was not inspected in this session.
+The revised edition retains existing mathematical arguments,
+keeps the theorem labels, and has a newly added elementary
+graph-theoretic section. The original claims table is moved
+out of the manuscript and reproduced below.
+
+\section{Original-claim status reported by the source draft}
+The following is the status assessment from the supplied 2026c
+version and should not be mistaken for a new line-by-line
+independent verification.
+
+
+\begin{longtable}{@{}p{0.2\textwidth}p{0.36\textwidth}p{0.36\textwidth}@{}}
+\toprule
+\textbf{1981 claim} & \textbf{Status} & \textbf{Where in this edition}\\
+\midrule
+\endhead
+Lemma 1(a) & Correct. & Section~\ref{sec:random}.\\
+Lemma 1(b) & The constants are not justified. The Bernstein inequality is
+misnormalized. & Replaced by an almost-sure bound from Hoeffding's
+inequality.\\
+Lemma 1(c) & The conclusion is true. The counting argument does not
+prove it. & New proof by conditioning, Theorem~\ref{thm:random}.\\
+Lemma 1(d) & The inversion step is insufficient. & Replaced by an
+almost-sure inversion.\\
+Theorem 1 & True. The proof has a wrong von Mangoldt weight. &
+Theorem~\ref{thm:random}.\\
+Theorem 2 & True. The last step of the proof is false. &
+Theorem~\ref{thm:sparse}. A $\theta$-free form and an equivalence with RH
+are new (Corollaries~\ref{cor:thetafree} and~\ref{cor:RHequiv}).\\
+Theorem 3 & The generator $a_1=1$ is impossible. Otherwise true after
+repair. & Corollary~\ref{cor:sparseA}, from the comparison principle
+(Theorem~\ref{thm:comparison}).\\
+Corollary 1 & True. & Corollary~\ref{cor:pointwise}.\\
+Lemma 2 & True. The proof is a sketch. & Lemma~\ref{lem:density}.\\
+Lemma 3 & True. The density proof needs repair. &
+Lemma~\ref{lem:density}.\\
+Theorem 4(b) & True. & Theorem~\ref{thm:spectral}.\\
+Theorem 4(a) & False. & Theorem~\ref{thm:manyeigen} gives
+counterexamples. The correct statement is a joint-kernel statement,
+Theorem~\ref{thm:spectral}.\\
+Remark after Theorem 4 & True and incomplete. Complex eigenvalues
+exist. & Theorem~\ref{thm:manyeigen}. Every $\lambda\notin[0,\infty)$ is an
+eigenvalue.\\
+Theorem 5 & Unproved. Where it makes sense it is vacuous. Both operators
+then have every negative number as an eigenvalue. &
+Remark~\ref{rem:thm5}. Replaced by Proposition~\ref{prop:EA}.\\
+Theorem 6 & False where the operator is defined. &
+Corollary~\ref{cor:thm6false}. Replaced by Theorem~\ref{thm:slit} and
+Proposition~\ref{prop:KU}.\\
+Closing remarks on pair correlation & Speculative. &
+Section~\ref{sec:conclusion}.\\
+\bottomrule
+\end{longtable}
+
+
+\section{Graph additions}
+The new results consist of a discrete-Stokes identity on the
+prime path; a weighted-boundary estimate for comparison
+operators on $S_k$; the generalized-integer exponent-vector
+graph; and periodic Fourier weights on directed cycles.
+The graph-boundary theorem is proved under an explicit
+summability hypothesis. No graph-Laplacian isospectrality
+or full-operator similarity is claimed.
+
+\section{Style and verification}
+Retained the original \texttt{article} class, changed
+to 12-point Times, US Letter, one-inch margins, and
+inserted an introduction and pre-1981 literature review.
+Moved notation after background and the status table here.
+Citations were re-keyed to author initials and years.
+The original analytic proofs were not independently
+re-refereed in full. The Grosswald--Schnitzer citation
+was checked in the 1978 \emph{Pacific Journal of Mathematics}
+original. Other bibliographic details were inherited
+from the attached source and require independent checking.
+AI review is not independent certification.
+
+\section{AI contributions}
+The source credits ChatGPT (OpenAI) and Claude (Anthropic)
+for the earlier corrected editions. ChatGPT (OpenAI)
+supplied graph proofs, examples, structure and editing
+in this new draft. Modern results are deliberately
+excluded from the historical edition.
+\end{document}
