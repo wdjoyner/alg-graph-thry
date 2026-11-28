@@ -46,7 +46,16 @@ theory supplies useful operator-theoretic background \cite{Be49}.
 The Bohr--Dirichlet-series literature concerns the independent
 frequencies used below \cite{DGMS19,Sc20}.
 The companion invariance note addresses the weaker zero-associated
-spectral problem \cite{CJ26}.
+spectral problem \cite{CJ26}. It relies on an unbounded-multiplier
+realization, so its graph-core assumptions cannot be replaced
+by equality of arithmetic zero sets.
+
+The analytic theory of general Dirichlet series is treated in
+\cite{DGMS19,Sc20}. The frequency-independence test below is
+a specialized Euler-product question arising from that theory.
+The formal RH development reported in \cite{LF26,Ru26}
+affects the interpretation of the common zero exponents,
+as explained in Section~\ref{sec:rh-2026}.
 
 \paragraph{The November 2026 RH formalization.}
 Alp\"oge's Claude-assisted Lean development was announced on
@@ -60,6 +69,26 @@ being developed. The present paper does not audit the Lean development.
 RH determines the location of the common zeta zeros. It does
 \emph{not} imply boundedness of the Euler quotients, zero simplicity,
 spectral synthesis, or similarity of the complete operator pairs.
+\subsection{Background and a running example}
+A prime-gap perturbation replaces the ordinary prime generator
+\(p_n\) by a real number \(a_n\) between \(p_n\) and \(p_{n+1}\).
+The resulting generalized integers are finite formal products.
+The zeta function is their generating series, counting
+multiplicities when different formal products coincide.
+
+The principal example of cancellation is the endpoint sequence
+\(a_n=p_{n+1}\), which moves every prime to its successor.
+The quotient then telescopes:
+\begin{equation}\label{eq:intro-telescope}
+  Q_A(s)=\prod_{n\ge1}
+  \frac{1-p_n^{-s}}{1-p_{n+1}^{-s}}
+  =1-2^{-s}.
+\end{equation}
+The product is absolutely convergent for \(\Re s>1\).
+The final expression continues it to \(\Re s>0\).
+Infinitely many shifted generators therefore leave only one
+noncanceled Euler factor.
+
 \subsection{Notation and conventions}
 The primes are $p_1=2<p_2=3<\cdots$.
 A perturbation is $A=(a_n)$ with $p_n\le a_n\le p_{n+1}$.
@@ -68,6 +97,30 @@ For endpoint shifts $e_n\in\{0,1\}$,
 $(\partial e)_j=e_j-e_{j-1}$ is their directed incidence boundary.
 The space $H^\infty$ consists of bounded analytic functions
 on the stated right half-plane.
+
+\begin{center}
+\begin{tabular}{@{}p{0.25\linewidth}p{0.65\linewidth}@{}}
+\toprule
+Symbol & Meaning\\
+\midrule
+\(A=(a_n)\), \(\mathcal N_A\) & Perturbed primes and
+the multiset of generalized integers.\\
+\(\zeta_A\), \(Q_A\) & Generalized zeta function
+and the quotient \(Q_A=\zeta_A/\zeta\).\\
+\(R_{A/B}\) & Comparison quotient \(Q_A/Q_B\)
+for two perturbations.\\
+\(S_k\), \(\delta\) & Weighted Sobolev space and
+threshold \(\delta=1/(2k)\).\\
+\(D_a\), \(T_A^{(r)}\) & Dilation by \(a\)
+and the associated summation operator.\\
+\(e\), \(\partial e\) & Endpoint shift pattern
+and its signed incidence boundary.\\
+\bottomrule
+\end{tabular}
+\end{center}
+The distinction between a literal sum and an
+analytically continued symbol is made in
+Section~\ref{sec:definitions}.
 
 \section[Prime perturbations and summation operators]{Definitions and examples: the perturbed primes and their summation operators}
 \label{sec:definitions}
