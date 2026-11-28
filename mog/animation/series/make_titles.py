@@ -72,9 +72,7 @@ def main():
     for n in episodes:
         scenes = {s["id"]: s for s in outlines[n]["scenes"]}
         flags = scene_flags(outlines[n], args.with_optional)
-        roll = "CreditsRoll"
-        if "pam" in flags:
-            raise SystemExit("PAM credits card: add a CreditsRoll class with the pam flag first")
+        roll = "CreditsRollPam" if "pam" in flags else "CreditsRoll"
         opening = ["MainTitle" if scenes["s00"]["main_title"] == "full" else "MainTitleShort", f"Subtitle{n}"]
         plan[n] = {"opening": opening, "credits": [roll, f"Tail{n}"],
                    "flags": flags, "s00": scenes["s00"]["target_seconds"], "s99": scenes["s99"]["target_seconds"]}
@@ -87,7 +85,6 @@ def main():
 
     contact = BUILD / "contact"
     contact.mkdir(parents=True, exist_ok=True)
-    roll_card = load("end_credits/outline.json")["cards"]
     problems = []
     for n, p in plan.items():
         for part in ("opening", "credits"):
@@ -97,9 +94,6 @@ def main():
             run("ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", listing,
                 "-c", "copy", "-movflags", "+faststart", out)
             want = p["s00"] if part == "opening" else p["s99"]
-            if part == "credits":
-                want += sum(c["seconds"] for c in roll_card
-                            if c.get("when") in p["flags"] and args.with_optional)
             got = frames(out)
             status = "ok" if got == round(want * FPS) else "WRONG LENGTH"
             if status != "ok":

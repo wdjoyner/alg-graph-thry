@@ -652,10 +652,20 @@ class CreditsBase(Timed):
         self.go(LaggedStart(*(Restore(c, rate_func=rush_into) for c in chips), lag_ratio=0.25), t=1.0)
 
     def card_ec_c08(self):
-        """Character animation (only if PAM is used)."""
+        """Character animation (only if PAM is used): Pascal's PAM rig appears, then fills back in."""
         self.clear_all()
         head, names, _ = section_text("pam", self.flags)
-        self.go(FadeIn(VGroup(heading(head, 1.0), block(names).move_to(xy(0, 0)))), t=0.5)
+        self.go(FadeIn(VGroup(heading(head, 1.6), block(names).move_to(xy(0, 0.5)))), t=0.5)
+        from pam_link import CatGraph            # PAM; only this card needs it
+        pal = CAST["pascal"]["design"]["palette"]
+        cat = CatGraph(offset=[0, -2.3, 0], size=1.3, style={
+            "coat": pal["primary"], "markings": "tabby", "marking_color": pal["stripes"], "outline_color": INK})
+        rig = VGroup(*(Line(a.get_start(), a.get_end(), stroke_color=BLUE, stroke_width=3)
+                       for a in cat.lines.values()),
+                     *(Dot(d.get_center(), radius=0.06, color=BLUE) for d in cat.dots.values()))
+        self.go(FadeIn(rig), t=0.5)
+        self.hold(0.6)
+        self.go(FadeIn(cat.group), FadeOut(rig), t=0.6)
 
     def card_ec_c09(self):
         """Mathematical checks: a counter ticks through the hexads and stops at 132."""
@@ -682,6 +692,11 @@ class CreditsBase(Timed):
 
 class CreditsRoll(CreditsBase):
     flags = ()
+
+
+class CreditsRollPam(CreditsBase):
+    """The credits of an episode whose kittens are animated with PAM."""
+    flags = ("pam",)
 
 
 # ---------------------------------------------------------------- tails

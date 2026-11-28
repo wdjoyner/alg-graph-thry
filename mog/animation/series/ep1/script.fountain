@@ -1,0 +1,309 @@
+Title: Kittens, MOGs, and Mathematical Blackjack
+Episode: 1. The Curious Game of Twenty-One
+Credit: Written by
+Author: David Joyner, Claude (Anthropic) and ChatGPT (OpenAI)
+Source: ep1/outline.json; the mathematics is checked against math_objects.json
+Draft date: 2026-11-27
+Notes: Draft 1. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Card values are written as words in dialogue so they are spoken as words. Spoken respellings (Euler as "Oiler") live in pronunciation.json, not here.
+
+[[ PRODUCTION NOTE: The whole episode plays on one tabletop, seen from the front. Pascal sits left of center facing right and Ada right of center facing left: they are the two players. Sophie sits far left, Euler far right. The hand is a row of six cards in the middle of the table, the pile a row of six above it, and the hand's total is shown at the right end of the hand. ]]
+
+# s00. Main title
+
+[[ The series main title and the Episode 1 subtitle play here (titles/outline.json; scene s00). No dialogue. ]]
+
+# s01. Pascal deals
+
+INT. KITCHEN TABLE - EVENING
+
+[[#1 | BEAT: Pascal deals | OBJ: Pascal wants a game | SETUP: none]]
+
+A dark tablecloth. PASCAL, an orange tabby with more swagger than sense, flicks a deck of twelve cards across it. They fan out face up, 0 through 11. SOPHIE, a tuxedo kitten, ADA, a gray one, and EULER, a cream one, watch. [[beat: s01.b01]]
+
+PASCAL
+Blackjack! Twenty-one! Who's in? [[line: s01.b01.l01]]
+
+SOPHIE
+(puzzled)
+Where are the kings? [[line: s01.b01.l02]]
+
+ADA
+There are no kings. Twelve cards, zero to eleven. I counted. [[line: s01.b01.l03]]
+
+PASCAL
+Mathematical blackjack. Much better than the casino kind. [[line: s01.b01.l04]]
+
+Pascal sweeps the fan together and deals six cards into a row in the middle of the table, face up: 0, 2, 4, 6, 7, 11. The other six go into a row above them, face up too. [[beat: s01.b02]]
+
+PASCAL
+Six cards, face up. That's the hand, and we both play it. [[line: s01.b02.l01]]
+
+ADA
+One hand for two players? [[line: s01.b02.l02]]
+
+PASCAL
+One hand. The other six cards are the pile. [[line: s01.b02.l03]]
+
+# s02. The rules
+
+[[#2 | BEAT: The rules | OBJ: Pascal explains; Ada polices | SETUP: none]]
+
+Ada leans in and counts the hand. A total appears beside it: 30. [[beat: s02.b01]]
+
+ADA
+Zero, two, four, six, seven, eleven. The total is thirty. [[line: s02.b01.l01]]
+
+PASCAL
+Here's a move. Put one card from the hand on the pile, and take back a smaller one. [[line: s02.b01.l02]]
+
+He slides the 6 up to the pile and brings the 5 down. The total drops to 29. Then he puts both back, and it reads 30 again.
+
+PASCAL
+See? The total goes down. Never up. [[line: s02.b01.l03]]
+
+Pascal grins and reaches for the 11. [[beat: s02.b02]]
+
+PASCAL
+So I'll just trade the eleven for the one! [[line: s02.b02.l01]]
+
+The 11 goes up, the 1 comes down. The total falls to 20 and turns red. Ada puts a paw on the 1.
+
+ADA
+Twenty. Below twenty-one. Put it back. [[line: s02.b02.l02]]
+
+He does. The total reads 30.
+
+PASCAL
+(sulking)
+Fine. The new total has to stay at twenty-one or more. A move that does is a legal move. [[line: s02.b02.l03]]
+
+Ada keeps her paw raised, one more question. [[beat: s02.b03]]
+
+ADA
+And if there's no legal move? [[line: s02.b03.l01]]
+
+PASCAL
+Then you're stuck, and you lose. [[line: s02.b03.l02]]
+
+ADA
+So every game has to end. The total only goes down, and it can't go below twenty-one. [[line: s02.b03.l03]]
+
+# s03. A worked game
+
+[[#3 | BEAT: A worked game | OBJ: Pascal wins and takes the credit | SETUP: move_7_to_5 / pascal_skill]]
+
+Pascal turns to us. The hand glows: 0, 2, 4, 6, 7, 11, total 30. [[beat: s03.b01]]
+
+PASCAL
+I go first. From thirty, I have fourteen legal moves. Which one would you play? [[line: s03.b01.l01]]
+
+A pause for the viewer, with a small timer.
+
+Pascal pushes the 7 up and pulls the 5 down with a flourish. The total reads 28. [[beat: s03.b02]]
+
+PASCAL
+(smug)
+Seven out, five in. Twenty-eight. Your move, Ada. [[line: s03.b02.l01]]
+
+Ada studies the hand. [[beat: s03.b03]]
+
+ADA
+Let me think. [[line: s03.b03.l01]]
+
+A pause for the viewer: what would Ada play?
+
+Ada sends the 11 up to the pile and takes the 7. The total reads 24.
+
+ADA
+Eleven out, seven in. Twenty-four. [[line: s03.b03.l02]]
+
+Pascal pounces. The 6 goes up, the 3 comes down: 21. [[beat: s03.b04]]
+
+PASCAL
+Six out, three in. Twenty-one! [[line: s03.b04.l01]]
+
+Ada's eyes dart from card to card. Every smaller card in the pile would take the total under 21. The hand dims: a dead end.
+
+ADA
+Any smaller card takes us under twenty-one. I'm stuck. [[line: s03.b04.l02]]
+
+PASCAL
+Stuck means you lose. Pascal wins! [[line: s03.b04.l03]]
+
+Pascal takes a deep bow. Euler, who has been very quiet, looks up. [[beat: s03.b05]]
+
+EULER
+Was that skill, Pascal? Or luck? [[line: s03.b05.l01]]
+
+PASCAL
+Skill. Obviously. [[line: s03.b05.l02]]
+
+ADA
+Prove it. [[line: s03.b05.l03]]
+
+# s04. The dead hand and its shadow
+
+[[#4 | BEAT: The dead hand and its shadow | OBJ: Sophie finds a hand that loses at once; Euler finds its shadow | SETUP: every_21_hexad / mystery_21_45]]
+
+Sophie gathers the cards and deals a new hand: 1, 2, 3, 4, 5, 6. The rest go to the pile. The total reads 21. [[beat: s04.b01]]
+
+SOPHIE
+My turn to deal. One, two, three, four, five, six. [[line: s04.b01.l01]]
+
+ADA
+Twenty-one. [[line: s04.b01.l02]]
+
+PASCAL
+Twenty-one again? Then whoever moves first just loses. Every time we hit twenty-one, it's over. [[line: s04.b01.l03]]
+
+SOPHIE
+A set of six cards, in any order, and nobody can move. A losing position, for whoever has to play. [[line: s04.b01.l04]]
+
+Euler peers at the pile. [[beat: s04.b02]]
+
+EULER
+And the other six? The ones in the pile? [[line: s04.b02.l01]]
+
+He swaps the two rows: the pile becomes the hand, the hand the pile. 0, 7, 8, 9, 10, 11. The total climbs to 45.
+
+EULER
+The complement. Forty-five. [[line: s04.b02.l02]]
+
+SOPHIE
+And thirty legal moves. [[line: s04.b02.l03]]
+
+Pascal shoulders in. [[beat: s04.b03]]
+
+PASCAL
+Thirty moves! This one's mine. I go first. [[line: s04.b03.l01]]
+
+PASCAL
+Ten for one. Thirty-six. [[line: s04.b03.l02]]
+
+A pause for the viewer: how should Ada answer?
+
+ADA
+Seven for three. Thirty-two. [[line: s04.b03.l03]]
+
+MONTAGE - THE GAME PLAYS ITSELF OUT
+
+The cards fly. Pascal moves, Ada answers, the total falls, until Pascal has no legal move. A tally mark goes up for Ada. The cards reset to 0, 7, 8, 9, 10, 11.
+
+PASCAL
+Again! Eleven for one. Thirty-five. [[line: s04.b03.l04]]
+
+ADA
+Ten for four. Twenty-nine. [[line: s04.b03.l05]]
+
+The cards fly again. Pascal is stuck again. A second tally mark.
+
+PASCAL
+(flustered)
+How do you keep doing that? [[line: s04.b03.l06]]
+
+Ada smooths the cards back into the 45-hand. [[beat: s04.b04]]
+
+ADA
+We tried two of your thirty first moves. That's an experiment, not a proof. [[line: s04.b04.l01]]
+
+Sophie sets the two hands side by side: 1 to 6, total 21, and 0, 7, 8, 9, 10, 11, total 45.
+
+SOPHIE
+Twenty-one loses. Forty-five loses. Why would those two be the same? [[line: s04.b04.l02]]
+
+# s05. Pascal's conjecture
+
+[[#5 | BEAT: Pascal's conjecture | OBJ: Pascal guesses; Ada checks every case | PAYOFF: none]]
+
+Pascal puffs out his chest. [[beat: s05.b01]]
+
+PASCAL
+Simple. Twenty-one and forty-five are the bad totals. Anything in between, I win. [[line: s05.b01.l01]]
+
+EULER
+That's a conjecture. A guess we can test. [[line: s05.b01.l02]]
+
+PASCAL
+A conjecture that's right! [[line: s05.b01.l03]]
+
+Ada deals: 0, 1, 2, 4, 7, 10. The total reads 24. [[beat: s05.b02]]
+
+ADA
+Then try this one. Twenty-four. Right in between. Your move. [[line: s05.b02.l01]]
+
+PASCAL
+Only five legal moves? [[line: s05.b02.l02]]
+
+A pause for the viewer: can Ada answer all five?
+
+The five moves fan out above the hand as branches. Under each, Ada's reply hangs, and each lands on 21. [[beat: s05.b03]]
+
+ADA
+Four for three? Then seven for five. Twenty-one. [[line: s05.b03.l01]]
+
+ADA
+Seven for five? Then four for three. Twenty-one. [[line: s05.b03.l02]]
+
+ADA
+Seven for six? Then ten for eight. Twenty-one. [[line: s05.b03.l03]]
+
+ADA
+Ten for eight? Then four for three. Twenty-one. [[line: s05.b03.l04]]
+
+ADA
+Ten for nine? Then seven for five. Twenty-one. [[line: s05.b03.l05]]
+
+Pascal deflates.
+
+ADA
+Every hand you can leave me is a winning position: from each one, I can reach twenty-one. [[line: s05.b03.l06]]
+
+ADA
+Five moves, five answers. I checked them all. That's not luck. It's a proof, for this hand. [[line: s05.b03.l07]]
+
+EULER
+Trying a few moves is an experiment. Checking every move is a proof. [[line: s05.b03.l08]]
+
+PASCAL
+So twenty-four loses too. [[line: s05.b03.l09]]
+
+# s06. Special hands
+
+[[#6 | BEAT: Special hands | OBJ: Sophie sees a pattern she can't name | SETUP: special_hands]]
+
+Sophie lines up the hands that lost: 1 to 6; the 21 that ended the first game, 0, 2, 3, 4, 5, 7; and Ada's 24, 0, 1, 2, 4, 7, 10. The 45-hand joins them with a question mark. [[beat: s06.b01]]
+
+SOPHIE
+Let's line up the hands that lost. One to six. The end of our first game. Ada's twenty-four. [[line: s06.b01.l01]]
+
+SOPHIE
+And forty-five gets a question mark. We only tested it. [[line: s06.b01.l02]]
+
+SOPHIE
+They look special. But special how? [[line: s06.b01.l03]]
+
+Euler squints at the line-up, then at Pascal. [[beat: s06.b02]]
+
+EULER
+Pascal, the hand you left Ada in the first game, at twenty-eight. Was it one of these? [[line: s06.b02.l01]]
+
+A quick replay: 7 out, 5 in, total 28. Pascal's eyes slide sideways.
+
+PASCAL
+(shifty)
+Naturally. [[line: s06.b02.l02]]
+
+Sophie produces a piece of chalk from nowhere. [[beat: s06.b03]]
+
+SOPHIE
+I think I need to draw this. [[line: s06.b03.l01]]
+
+ADA
+Draw a card game? [[line: s06.b03.l02]]
+
+SOPHIE
+Draw what it's hiding. [[line: s06.b03.l03]]
+
+# s99. End credits
+
+[[ The end credits and the "Next time: Episode 2" tail play here (end_credits/outline.json; scene s99). No dialogue. ]]

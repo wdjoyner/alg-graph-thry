@@ -7,6 +7,7 @@
  "episode": 1,
  "title": "The Curious Game of Twenty-One",
  "lead": "pascal",
+ "uses": ["pam"],
  "learning_goals": ["set", "complement", "legal_move", "winning_position", "losing_position", "experiment_vs_proof"],
  "scenes": [
   {
@@ -34,7 +35,7 @@
      "names": ["card_values"],
      "visual": ["card_deal:fan_12", "react:sophie_puzzled"],
      "gist": "PASCAL: Blackjack! Twenty-one! SOPHIE: Where are the kings? ADA: There are twelve cards, zero to eleven. I counted.",
-     "lines": []
+     "lines": ["s01.b01.l01", "s01.b01.l02", "s01.b01.l03", "s01.b01.l04"]
     },
     {
      "id": "s01.b02",
@@ -47,7 +48,7 @@
      "math": [{"ref": "hand:example", "claim": {"cards": [0, 2, 4, 6, 7, 11]}}],
      "visual": ["card_deal:hand_and_pile"],
      "gist": "PASCAL: One hand, face up, and we both play it. The rest is the pile.",
-     "lines": []
+     "lines": ["s01.b02.l01", "s01.b02.l02", "s01.b02.l03"]
     }
    ]
   },
@@ -68,7 +69,7 @@
      "math": [{"ref": "hand:example", "claim": {"total": 30}}],
      "visual": ["card_exchange:demo", "total_counter"],
      "gist": "PASCAL: Give the hand a card, take a smaller one from the pile. Down, never up.",
-     "lines": []
+     "lines": ["s02.b01.l01", "s02.b01.l02", "s02.b01.l03"]
     },
     {
      "id": "s02.b02",
@@ -79,7 +80,7 @@
      "math": [{"ref": "move:illegal_11_1", "claim": {"new_total": 20, "legal": false}}],
      "visual": ["card_exchange:11_1_rejected", "total_counter", "react:ada_paw_on_card"],
      "gist": "PASCAL swaps eleven for one. ADA: Twenty. Below twenty-one. Put it back.",
-     "lines": []
+     "lines": ["s02.b02.l01", "s02.b02.l02", "s02.b02.l03"]
     },
     {
      "id": "s02.b03",
@@ -89,7 +90,7 @@
      "names": ["normal_play"],
      "visual": ["total_counter"],
      "gist": "ADA: And if you can't move? PASCAL: You lose. ADA: Then the game has to end. The total only goes down.",
-     "lines": []
+     "lines": ["s02.b03.l01", "s02.b03.l02", "s02.b03.l03"]
     }
    ]
   },
@@ -110,7 +111,7 @@
      "math": [{"ref": "hand:example", "claim": {"total": 30, "down_moves": 14}}],
      "visual": ["total_counter", "highlight:hand"],
      "gist": "PASCAL (to camera): Fourteen legal moves. Which would you play?",
-     "lines": []
+     "lines": ["s03.b01.l01"]
     },
     {
      "id": "s03.b02",
@@ -120,7 +121,7 @@
      "math": [{"ref": "game:worked", "claim": {"steps.0.move": [7, 5], "steps.0.total": 28}}],
      "visual": ["card_exchange:7_5", "total_counter", "react:pascal_smug"],
      "gist": "PASCAL: Seven out, five in. Twenty-eight. Your move.",
-     "lines": []
+     "lines": ["s03.b02.l01"]
     },
     {
      "id": "s03.b03",
@@ -132,7 +133,7 @@
      "math": [{"ref": "game:worked", "claim": {"steps.1.move": [11, 7], "steps.1.total": 24}}],
      "visual": ["card_exchange:11_7", "total_counter"],
      "gist": "ADA thinks, then trades eleven for seven. Twenty-four.",
-     "lines": []
+     "lines": ["s03.b03.l01", "s03.b03.l02"]
     },
     {
      "id": "s03.b04",
@@ -145,7 +146,7 @@
      ],
      "visual": ["card_exchange:6_3", "total_counter", "highlight:dead_end", "react:ada_searching"],
      "gist": "Six out, three in: twenty-one. ADA looks for a smaller card that keeps twenty-one. There isn't one. PASCAL wins.",
-     "lines": []
+     "lines": ["s03.b04.l01", "s03.b04.l02", "s03.b04.l03"]
     },
     {
      "id": "s03.b05",
@@ -156,7 +157,7 @@
      "setup": ["pascal_skill"],
      "visual": ["react:pascal_bows"],
      "gist": "EULER: Was that skill, or luck? PASCAL: Skill. Obviously. ADA: Prove it.",
-     "lines": []
+     "lines": ["s03.b05.l01", "s03.b05.l02", "s03.b05.l03"]
     }
    ]
   },
@@ -178,7 +179,7 @@
      "math": [{"ref": "hand:1to6", "claim": {"cards": [1, 2, 3, 4, 5, 6], "total": 21, "down_moves": 0}}],
      "visual": ["card_deal:1to6", "total_counter"],
      "gist": "SOPHIE: One, two, three, four, five, six. Twenty-one. PASCAL: Twenty-one again. Whoever moves first just loses.",
-     "lines": []
+     "lines": ["s04.b01.l01", "s04.b01.l02", "s04.b01.l03", "s04.b01.l04"]
     },
     {
      "id": "s04.b02",
@@ -191,7 +192,7 @@
      "math": [{"ref": "hand:complement_1to6", "claim": {"cards": [0, 7, 8, 9, 10, 11], "total": 45, "down_moves": 30}}],
      "visual": ["flip_hand:1to6"],
      "gist": "EULER: What about the other six? The complement. Forty-five.",
-     "lines": []
+     "lines": ["s04.b02.l01", "s04.b02.l02", "s04.b02.l03"]
     },
     {
      "id": "s04.b03",
@@ -210,7 +211,7 @@
      "visual": ["card_exchange:10_1", "card_exchange:7_3", "card_exchange:11_1", "card_exchange:10_4", "recap_montage:more_losses", "react:pascal_flustered"],
      "gist": "PASCAL: Thirty moves! This one's mine. Ten for one. ADA: Seven for three. (Montage: Pascal tries again and again; each game ends with him stuck.)",
      "_cue_note": "The montage must be played out by the game engine from these two openings, with Ada always replying into a hexad; do not hand-animate it.",
-     "lines": []
+     "lines": ["s04.b03.l01", "s04.b03.l02", "s04.b03.l03", "s04.b03.l04", "s04.b03.l05", "s04.b03.l06"]
     },
     {
      "id": "s04.b04",
@@ -222,7 +223,7 @@
      "setup": ["mystery_21_45"],
      "visual": ["line_up:1to6_and_complement"],
      "gist": "ADA: We tried a handful of thirty. That's an experiment. SOPHIE: Twenty-one loses. Forty-five loses. Why would those two be the same?",
-     "lines": []
+     "lines": ["s04.b04.l01", "s04.b04.l02"]
     }
    ]
   },
@@ -243,7 +244,7 @@
      "conjectures": [{"id": "c_totals_21_45", "by": "pascal", "text": "Only the totals 21 and 45 lose; every total in between wins"}],
      "visual": ["react:pascal_confident"],
      "gist": "PASCAL: Simple. Twenty-one and forty-five are the bad totals. Anything in between, I win. EULER: That's a conjecture.",
-     "lines": []
+     "lines": ["s05.b01.l01", "s05.b01.l02", "s05.b01.l03"]
     },
     {
      "id": "s05.b02",
@@ -255,7 +256,7 @@
      "math": [{"ref": "hand:hexad_24", "claim": {"cards": [0, 1, 2, 4, 7, 10], "total": 24, "down_moves": 5}}],
      "visual": ["card_deal:hexad_24", "total_counter", "branch_tree:hexad_24"],
      "gist": "ADA: Twenty-four. In between. Your move.",
-     "lines": []
+     "lines": ["s05.b02.l01", "s05.b02.l02"]
     },
     {
      "id": "s05.b03",
@@ -275,7 +276,7 @@
      ],
      "visual": ["branch_tree:hexad_24_replies", "react:pascal_deflates"],
      "gist": "Each branch: PASCAL moves, ADA replies, twenty-one, stuck. ADA: Every hand you leave me is a winning position: I can reach twenty-one. Five moves, five answers. I checked them all. That's not luck. It's a proof, for this hand.",
-     "lines": []
+     "lines": ["s05.b03.l01", "s05.b03.l02", "s05.b03.l03", "s05.b03.l04", "s05.b03.l05", "s05.b03.l06", "s05.b03.l07", "s05.b03.l08", "s05.b03.l09"]
     }
    ]
   },
@@ -299,7 +300,7 @@
      ],
      "visual": ["line_up:losing_hands", "highlight:question_mark_45"],
      "gist": "SOPHIE: These lose. This one probably loses. They look special. But special how?",
-     "lines": []
+     "lines": ["s06.b01.l01", "s06.b01.l02", "s06.b01.l03"]
     },
     {
      "id": "s06.b02",
@@ -311,7 +312,7 @@
      "math": [{"ref": "hand:game_after_1", "claim": {"cards": [0, 2, 4, 5, 6, 11], "total": 28}}],
      "visual": ["recap_montage:move_7_5", "react:pascal_shifty"],
      "gist": "EULER: Pascal, the hand you gave Ada at twenty-eight. Was it one of these? PASCAL: ...Naturally.",
-     "lines": []
+     "lines": ["s06.b02.l01", "s06.b02.l02"]
     },
     {
      "id": "s06.b03",
@@ -321,7 +322,7 @@
      "epistemic": "comedy",
      "visual": ["react:sophie_grabs_chalk"],
      "gist": "SOPHIE: I think I need to draw this. ADA: Draw a card game? SOPHIE: Draw what it's hiding.",
-     "lines": []
+     "lines": ["s06.b03.l01", "s06.b03.l02", "s06.b03.l03"]
     }
    ]
   },
@@ -333,7 +334,7 @@
    "visual": ["credits_roll"],
    "tail": "next_time",
    "next_episode": 2,
-   "target_seconds": 58.5
+   "target_seconds": 62
   }
  ]
 }
