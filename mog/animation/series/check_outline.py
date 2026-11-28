@@ -22,6 +22,17 @@ things to look at but not necessarily wrong.  The checks:
   * Titles: the titles screenplay has one subtitle per episode, text is held
     long enough to read (the same rule as the credits), and each s00 matches its main-title version plus
     subtitle in length.
+  * Script (where epN/script.fountain exists): every beat of the outline is
+    marked once, in outline order; every dialogue line has a stable ID in
+    its beat; the outline's 'lines' lists match the script; speakers come
+    from cast.json.
+  * Cues (where epN/cues.json exists): every beat has cues, every line is
+    cued once and in order, the outline's visuals all appear in their beat's
+    cues, every verb, reaction and target is known, every predict_pause beat
+    pauses, and the card game played through the cues obeys the rules and
+    reaches the totals the cues claim.
+  * Timing (where epN/timing.json exists): it is up to date with the cues and
+    the audio manifest; the measured runtime is compared with the budget.
 """
 import json
 import re
@@ -232,6 +243,89 @@ def check_credits_scene(scene, n, last, series, roll, need, flags, where):
     return optional
 
 
+def check_script_and_cues(n, outline, ctx):
+    """Script, cues and timing of one episode, where they exist."""
+    from script_tools import parse
+    from cue_tools import steps, step_visuals, visual_name, split_visual, simulate
+    where0 = f"ep{n}"
+    path = HERE / f"ep{n}" / "script.fountain"
+    if not path.exists():
+        return
+    script = parse(path)
+    for e in script["errors"]:
+        errors.append(f"{where0} script: {e}")
+    beats = [b for sc in outline["scenes"] for b in sc.get("beats", [])]
+    want = [b["id"] for b in beats]
+    got = [b["id"] for b in script["beats"]]
+    if got != want:
+        missing = [b for b in want if b not in got]
+        extra = [b for b in got if b not in want]
+        errors.append(f"{where0} script: beat notes {'missing ' + ', '.join(missing) if missing else ''}"
+                      f"{' unknown ' + ', '.join(extra) if extra else ''}{' out of order' if not missing and not extra else ''}")
+    sl = {b["id"]: b["lines"] for b in script["beats"]}
+    for b in beats:
+        if b.get("lines", []) != sl.get(b["id"], []):
+            errors.append(f"{where0}.{b['id']}: outline lines {b.get('lines')} differ from the script's {sl.get(b['id'])}")
+    for lid, ln in script["lines"].items():
+        if ln["speaker"] not in ctx["cast"]:
+            errors.append(f"{where0} script {lid}: unknown speaker {ln['speaker']}")
+
+    cpath = HERE / f"ep{n}" / "cues.json"
+    if not cpath.exists():
+        return
+    cues = load(f"ep{n}/cues.json")
+    reactions = {k for k in cues.get("reactions", {}) if not k.startswith("_")}
+    targets = set(cues.get("targets", []))
+    for bid in cues["beats"]:
+        if bid not in want:
+            errors.append(f"{where0} cues: unknown beat {bid}")
+    cued = []
+    for b in beats:
+        bid = b["id"]
+        st = steps(cues, bid)
+        if not st:
+            errors.append(f"{where0} cues {bid}: no cues")
+            continue
+        names = set()
+        for s in st:
+            kinds = [k for k in ("line", "do", "pause", "hold") if k in s]
+            if len(kinds) != 1:
+                errors.append(f"{where0} cues {bid}: a step needs exactly one of line, do, pause, hold")
+            if "line" in s:
+                cued.append(s["line"])
+                if s["line"] not in b.get("lines", []):
+                    errors.append(f"{where0} cues {bid}: line {s['line']} is not in this beat")
+            if "do" in s and "seconds" not in s:
+                errors.append(f"{where0} cues {bid}: a do step needs seconds")
+            for v in step_visuals(s):
+                names.add(visual_name(v))
+                verb, arg = split_visual(v)
+                if verb not in ctx["verbs"]:
+                    errors.append(f"{where0} cues {bid}: unknown visual verb in {visual_name(v)!r}")
+                if verb == "point_at" and arg.partition("_")[2] not in targets:
+                    errors.append(f"{where0} cues {bid}: unknown target in {visual_name(v)!r}")
+        for v in b.get("visual", []):
+            if v not in names:
+                errors.append(f"{where0} cues {bid}: outline visual {v} is not cued")
+        if b.get("predict_pause") and not any(s.get("pause") == "predict" for s in st):
+            errors.append(f"{where0} cues {bid}: predict_pause beat has no pause")
+    if cued != list(script["lines"]):
+        errors.append(f"{where0} cues: lines are not cued exactly once each, in script order")
+    for e in simulate(outline, cues, ctx["objects"], ctx["cast"], reactions):
+        errors.append(f"{where0} {e}")
+
+    tpath = HERE / f"ep{n}" / "timing.json"
+    if not tpath.exists():
+        warnings.append(f"{where0}: no timing.json yet (run make_timing.py)")
+        return
+    from make_timing import build
+    timing = load(f"ep{n}/timing.json")
+    fresh = build(n)
+    if fresh["scenes"] != timing["scenes"] or fresh["frames"] != timing["frames"]:
+        errors.append(f"{where0}: timing.json is out of date (run make_timing.py)")
+    return timing
+
+
 def main():
     series = load("series.json")
     cast = load("cast.json")["characters"]
@@ -277,6 +371,16 @@ def main():
         if everything > hi:
             warnings.append(f"{where0}: with optional scenes the budget is {everything:g}s (> {hi}s)")
         print(f"ep{n}: {required:g}s required, {everything:g}s with optional scenes (budget {lo}-{hi}s)")
+        timing = check_script_and_cues(n, outline, ctx)
+        if timing:
+            measured = timing["frames"] / timing["fps"]
+            print(f"ep{n}: {measured:.1f}s measured from the audio and cues")
+            if not lo <= measured <= hi:
+                warnings.append(f"{where0}: measured runtime {measured:.1f}s is outside {lo}-{hi}s")
+            for sc in scenes:
+                m = timing["scenes"].get(sc["id"])
+                if m and sc.get("target_seconds") and abs(m["seconds"] - sc["target_seconds"]) > 0.25 * sc["target_seconds"]:
+                    warnings.append(f"{where0}.{sc['id']}: measured {m['seconds']:.1f}s, target {sc['target_seconds']:g}s")
         ep_people = set()
 
         for scene in scenes:

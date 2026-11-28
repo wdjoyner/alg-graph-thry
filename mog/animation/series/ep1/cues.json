@@ -1,0 +1,182 @@
+{
+ "_about": [
+  "Episode 1 cues: what happens on screen in each beat, step by step, keyed by the beat IDs of ep1/outline.json and ep1/script.fountain.",
+  "Steps play in order.  {\"line\": id, \"with\": [...]} is a dialogue line; its visuals start with it and must fit inside it.  {\"do\": [...], \"seconds\": s} gives visuals the stage to themselves.  {\"pause\": \"predict\", \"seconds\": s, \"prompt\": text} is a pause for viewers to guess.  {\"hold\": s} lets the last picture sit.",
+  "A visual is verb:argument, with a verb from series.json, or an object {\"visual\": \"verb:argument\", ...parameters}.  react:<who>_<reaction> takes a reaction from 'reactions' below; point_at:<who>_<target> takes a target from 'targets'.",
+  "Lengths of line steps come from the audio (audio_manifest.json) plus the gaps below; make_timing.py writes the result to timing.json.  check_outline.py plays every exchange through the rules and stops on an illegal one."
+ ],
+ "cue_format": 1,
+ "episode": 1,
+ "gaps": {
+  "_comment": "Seconds of silence after a line: same speaker next, a new speaker next, the beat's last line.",
+  "same_speaker": 0.5,
+  "new_speaker": 0.75,
+  "beat_end": 1.2
+ },
+ "scene_transition_seconds": 1.6,
+ "stage": {
+  "_comment": "Seats along the front of the table (x in Manim units, facing).  The two players face each other across the middle.",
+  "seats": {
+   "sophie": {"x": -5.85, "facing": "right"},
+   "pascal": {"x": -2.75, "facing": "right"},
+   "ada": {"x": 2.75, "facing": "left"},
+   "euler": {"x": 5.85, "facing": "left"}
+  },
+  "kitten_size": 1.45
+ },
+ "reactions": {
+  "proud": "chest out, chin up",
+  "confident": "chest out, a slow nod",
+  "smug": "chin up, eyes half shut",
+  "puzzled": "head tilts, ears flick",
+  "surprised": "jolts upright, eyes wide",
+  "thinking": "head tilts, eyes up, tail tip flicks",
+  "searching": "leans in, eyes dart left and right",
+  "lean_in": "leans toward the table",
+  "nod": "nods twice",
+  "deals": "sweeps a paw over the table",
+  "paw_up": "raises a paw to make a point",
+  "paw_tap": "reaches a paw down toward the table",
+  "paw_on_card": "reaches out and holds the paw there",
+  "bows": "a deep bow",
+  "flustered": "fur on end, head shakes",
+  "deflates": "slumps, ears down",
+  "sulk": "slumps a little, looks away",
+  "shifty": "eyes slide sideways, then back",
+  "grabs_chalk": "a piece of chalk appears in a raised paw",
+  "looks_up": "lifts the head, blinks"
+ },
+ "targets": ["hand", "pile", "total", "cards", "camera"],
+ "beats": {
+  "s01.b01": [
+   {"do": ["card_deal:fan_12", "react:pascal_deals"], "seconds": 4.0},
+   {"line": "s01.b01.l01", "with": ["react:pascal_proud"]},
+   {"line": "s01.b01.l02", "with": ["react:sophie_puzzled"]},
+   {"line": "s01.b01.l03", "with": ["point_at:ada_cards"]},
+   {"line": "s01.b01.l04", "with": ["react:pascal_confident"]}
+  ],
+  "s01.b02": [
+   {"do": ["card_deal:hand_and_pile", "react:pascal_deals"], "seconds": 3.6},
+   {"line": "s01.b02.l01", "with": ["point_at:pascal_hand"]},
+   {"line": "s01.b02.l02", "with": ["react:ada_puzzled"]},
+   {"line": "s01.b02.l03", "with": ["point_at:pascal_pile"]}
+  ],
+  "s02.b01": [
+   {"line": "s02.b01.l01", "with": ["total_counter", "react:ada_lean_in"]},
+   {"line": "s02.b01.l02", "with": ["react:pascal_paw_up"]},
+   {"do": [{"visual": "card_exchange:demo", "move": [6, 5]}, "total_counter", "react:pascal_paw_tap"], "seconds": 4.2},
+   {"line": "s02.b01.l03", "with": ["point_at:pascal_total"]}
+  ],
+  "s02.b02": [
+   {"line": "s02.b02.l01", "with": ["react:pascal_smug"]},
+   {"do": [{"visual": "card_exchange:11_1_rejected", "phase": "try"}, "total_counter", "react:pascal_paw_tap"], "seconds": 1.8},
+   {"line": "s02.b02.l02", "with": ["react:ada_paw_on_card"]},
+   {"do": [{"visual": "card_exchange:11_1_rejected", "phase": "undo"}, "total_counter", "react:pascal_sulk"], "seconds": 1.4},
+   {"line": "s02.b02.l03", "with": ["react:pascal_sulk"]}
+  ],
+  "s02.b03": [
+   {"line": "s02.b03.l01", "with": ["react:ada_paw_up"]},
+   {"line": "s02.b03.l02", "with": ["react:pascal_nod"]},
+   {"line": "s02.b03.l03", "with": ["total_counter", "point_at:ada_total"]}
+  ],
+  "s03.b01": [
+   {"do": ["highlight:hand", "total_counter"], "seconds": 1.4},
+   {"line": "s03.b01.l01", "with": ["point_at:pascal_camera"]},
+   {"pause": "predict", "seconds": 8.0, "prompt": "Pause and pick a move.", "with": ["highlight:legal_moves"]}
+  ],
+  "s03.b02": [
+   {"line": "s03.b02.l01", "with": [{"visual": "card_exchange:7_5", "total": 28}, "total_counter", "react:pascal_smug"]},
+   {"hold": 1.2}
+  ],
+  "s03.b03": [
+   {"line": "s03.b03.l01", "with": ["react:ada_thinking"]},
+   {"pause": "predict", "seconds": 7.0, "prompt": "What would Ada play?", "with": ["highlight:legal_moves"]},
+   {"line": "s03.b03.l02", "with": [{"visual": "card_exchange:11_7", "total": 24}, "total_counter", "react:ada_paw_tap"]},
+   {"hold": 1.2}
+  ],
+  "s03.b04": [
+   {"line": "s03.b04.l01", "with": [{"visual": "card_exchange:6_3", "total": 21}, "total_counter", "react:pascal_lean_in"]},
+   {"do": ["react:ada_searching", "highlight:dead_end"], "seconds": 7.0},
+   {"line": "s03.b04.l02", "with": ["react:ada_deflates"]},
+   {"line": "s03.b04.l03", "with": ["react:pascal_proud"]}
+  ],
+  "s03.b05": [
+   {"do": ["react:pascal_bows", "react:euler_looks_up"], "seconds": 1.4},
+   {"line": "s03.b05.l01", "with": ["react:euler_lean_in"]},
+   {"line": "s03.b05.l02", "with": ["react:pascal_bows"]},
+   {"line": "s03.b05.l03", "with": ["react:ada_smug"]}
+  ],
+  "s04.b01": [
+   {"do": ["card_deal:1to6", "react:sophie_deals"], "seconds": 3.0},
+   {"line": "s04.b01.l01", "with": ["total_counter"]},
+   {"line": "s04.b01.l02", "with": ["point_at:ada_total"]},
+   {"line": "s04.b01.l03", "with": ["react:pascal_lean_in"]},
+   {"line": "s04.b01.l04", "with": ["react:sophie_paw_up"]}
+  ],
+  "s04.b02": [
+   {"line": "s04.b02.l01", "with": ["react:euler_lean_in"]},
+   {"do": ["flip_hand:1to6", "total_counter", "react:euler_paw_up"], "seconds": 2.6},
+   {"line": "s04.b02.l02", "with": ["point_at:euler_hand"]},
+   {"line": "s04.b02.l03", "with": ["react:sophie_nod"]}
+  ],
+  "s04.b03": [
+   {"line": "s04.b03.l01", "with": ["react:pascal_confident"]},
+   {"line": "s04.b03.l02", "with": [{"visual": "card_exchange:10_1", "total": 36}, "total_counter", "react:pascal_paw_tap"]},
+   {"pause": "predict", "seconds": 4.5, "prompt": "How should Ada answer?"},
+   {"line": "s04.b03.l03", "with": [{"visual": "card_exchange:7_3", "total": 32}, "total_counter", "react:ada_paw_tap"]},
+   {"do": [{"visual": "recap_montage:more_losses", "game": 0, "seconds_per_move": 1.0}, "total_counter"], "seconds": "montage"},
+   {"line": "s04.b03.l04", "with": [{"visual": "card_exchange:11_1", "total": 35}, "total_counter", "react:pascal_paw_tap"]},
+   {"line": "s04.b03.l05", "with": [{"visual": "card_exchange:10_4", "total": 29}, "total_counter", "react:ada_paw_tap"]},
+   {"do": [{"visual": "recap_montage:more_losses", "game": 1, "seconds_per_move": 1.0}, "total_counter"], "seconds": "montage"},
+   {"line": "s04.b03.l06", "with": ["react:pascal_flustered"]}
+  ],
+  "s04.b04": [
+   {"line": "s04.b04.l01", "with": ["react:ada_paw_up"]},
+   {"do": ["line_up:1to6_and_complement", "react:sophie_paw_tap"], "seconds": 2.4},
+   {"line": "s04.b04.l02", "with": ["react:sophie_puzzled"]},
+   {"hold": 2.0}
+  ],
+  "s05.b01": [
+   {"line": "s05.b01.l01", "with": ["react:pascal_confident"]},
+   {"line": "s05.b01.l02", "with": ["react:euler_paw_up"]},
+   {"line": "s05.b01.l03", "with": ["react:pascal_proud"]}
+  ],
+  "s05.b02": [
+   {"do": ["card_deal:hexad_24", "react:ada_deals"], "seconds": 3.0},
+   {"line": "s05.b02.l01", "with": ["total_counter"]},
+   {"line": "s05.b02.l02", "with": ["branch_tree:hexad_24", "react:pascal_surprised"]},
+   {"pause": "predict", "seconds": 7.0, "prompt": "Can Ada answer all five?"}
+  ],
+  "s05.b03": [
+   {"line": "s05.b03.l01", "with": [{"visual": "branch_tree:hexad_24_replies", "branch": 0}]},
+   {"line": "s05.b03.l02", "with": [{"visual": "branch_tree:hexad_24_replies", "branch": 1}]},
+   {"line": "s05.b03.l03", "with": [{"visual": "branch_tree:hexad_24_replies", "branch": 2}]},
+   {"line": "s05.b03.l04", "with": [{"visual": "branch_tree:hexad_24_replies", "branch": 3}]},
+   {"line": "s05.b03.l05", "with": [{"visual": "branch_tree:hexad_24_replies", "branch": 4}, "react:pascal_deflates"]},
+   {"hold": 0.8},
+   {"line": "s05.b03.l06", "with": ["react:ada_paw_up"]},
+   {"line": "s05.b03.l07", "with": ["react:ada_proud"]},
+   {"line": "s05.b03.l08", "with": ["react:euler_nod"]},
+   {"line": "s05.b03.l09", "with": ["react:pascal_deflates"]}
+  ],
+  "s06.b01": [
+   {"do": ["line_up:losing_hands", "react:sophie_deals"], "seconds": 3.4},
+   {"line": "s06.b01.l01", "with": ["react:sophie_paw_up"]},
+   {"line": "s06.b01.l02", "with": ["highlight:question_mark_45"]},
+   {"line": "s06.b01.l03", "with": ["react:sophie_puzzled"]},
+   {"hold": 1.5}
+  ],
+  "s06.b02": [
+   {"line": "s06.b02.l01", "with": ["react:euler_lean_in"]},
+   {"do": ["recap_montage:move_7_5", "react:pascal_shifty"], "seconds": 4.0},
+   {"line": "s06.b02.l02", "with": ["react:pascal_shifty"]},
+   {"hold": 1.0}
+  ],
+  "s06.b03": [
+   {"line": "s06.b03.l01", "with": ["react:sophie_grabs_chalk"]},
+   {"line": "s06.b03.l02", "with": ["react:ada_puzzled"]},
+   {"line": "s06.b03.l03", "with": ["react:sophie_proud"]},
+   {"hold": 3.0}
+  ]
+ }
+}

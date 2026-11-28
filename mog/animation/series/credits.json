@@ -2,7 +2,7 @@
  "_about": [
   "End-credits text shared by all four episodes.  Edit wording here, never in an outline.  How and when each section appears on screen is in the end-credits screenplay, end_credits/outline.json.",
   "'from_cast' sections are filled from cast.json at render time, using each character's chosen voice.",
-  "'when' marks a section shown only in episodes where that thing is used (pam: PAM/Blender character animation is used).",
+  "'when' marks a section shown only in episodes where that thing is used (pam: PAM character animation is used).",
   "'pending': true marks a section still to be filled in; check_outline.py warns until it is."
  ],
  "series_title": "Kittens, MOGs, and Mathematical Blackjack",
@@ -80,8 +80,7 @@
    "heading": "Character animation",
    "when": "pam",
    "names": [
-    "PAM (Pose And Motion)",
-    "Blender"
+    "PAM (Pose And Motion)"
    ]
   },
   {
