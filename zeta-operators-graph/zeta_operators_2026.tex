@@ -138,6 +138,23 @@ are direct identities, not applications of post-1981 graph-zeta theory
 or modern Hardy-space model methods.  Later developments belong in a
 separate contemporary review.
 
+\paragraph{Editorial update: the RH formalization of November 2026.}
+On November 20, 2026, Levent Alp\"oge announced a proof of the
+Riemann hypothesis (RH) developed with Claude. On November 21, the
+Lean Focused Research Organization and the Mathlib Initiative
+certified both the statement and its formal proof \cite{LF26}.
+Rubinstein reports independent machine checks of the original Lean
+development and the shorter November 25 formalization \cite{Ru26}.
+These are substantial verification results. Conventional human-readable
+expositions remain works in progress. We cite this development only as a
+\emph{2026 editorial update}: none of the proofs in this corrected
+historical edition depends on it. We retain the original conditional
+formulations so the logic of the 1981 arguments remains visible. In a
+modern reading, the formal RH verification supplies the hypothesis as an
+external input; it does not imply simplicity of zeta zeros or spectral
+synthesis for the summation operators.
+
+
 \subsection{Notation and conventions}\label{sec:notation}
 
 \begin{longtable}{@{}p{0.24\textwidth}p{0.7\textwidth}@{}}
@@ -242,7 +259,13 @@ are Ingham~\cite{In32} and Titchmarsh~\cite{Ti51}.
 \item\label{C:ingham} For each $\delta>0$,
   $\pi(x)-\Li(x)\ll_\delta x^{\theta+\delta}$. This follows from the
   explicit formula. See Ingham~\cite{In32}.
-\item\label{C:koch} If the Riemann hypothesis holds, then
+\item\label{C:koch} In von Koch's historical conditional estimate, if RH holds,\footnote{Editorial note (November 2026): the RH hypothesis in
+von Koch's classical estimate is supported by the Lean-verified proof
+announced by Alp\"oge and Claude. The Lean FRO and Mathlib Initiative
+certified the formal statement and proof \cite{LF26}; see also
+Rubinstein's independent verification \cite{Ru26}. We retain the
+historical conditional formulation rather than silently altering
+the proof in this corrected 1981 edition.}
   $\pi(x)-\Li(x)\ll\sqrt{x}\log x$. This is due to von
   Koch~\cite{vK01}.
 \item\label{C:hoeffding} Hoeffding's inequality~\cite{Ho63}. Let
@@ -264,7 +287,9 @@ are Ingham~\cite{In32} and Titchmarsh~\cite{Ti51}.
 
 \begin{lemma}\label{lem:pnun}
 For every $\delta>0$ we have $|p_n-u_n|\ll_\delta n^{\theta+\delta}$. If
-the Riemann hypothesis holds, then $|p_n-u_n|\ll n^{1/2}(\log n)^{5/2}$.
+RH holds, then $|p_n-u_n|\ll n^{1/2}(\log n)^{5/2}$.
+The November 2026 formal-verification status is recorded in the
+editorial literature note in Section~\ref{sec:literature}.
 \end{lemma}
 
 \begin{proof}
@@ -605,6 +630,15 @@ n)^{5/2}$. This is less than $n^{1/2+\eps}$ for large $n$. So (b) holds.
 Clearly (b) implies (c). Corollary~\ref{cor:thetafree} with
 $\sigma_0=\frac12$ shows that (c) implies (a).
 \end{proof}
+
+\begin{remark}[Editorial consequence (November 2026)]
+\label{rem:rh-sparse-2026}
+The equivalence in Corollary~\ref{cor:RHequiv} is stated and proved
+in its historical logical form. Taking the formal RH verification
+reported in \cite{LF26,Ru26} as an external input, statements (b)
+and (c) of that corollary follow. This observation does not assert
+analogous bounds for an arbitrary Beurling generalized-prime system.
+\end{remark}
 
 \begin{remark}[Contrapositive form]
 Theorem~\ref{thm:sparse} is an oscillation theorem in disguise. Suppose
@@ -1148,6 +1182,10 @@ block with eigenvalue $s$. Its size is $\ord_s\zeta$.
 \begin{corollary}[New]
 Take $k=1$. The Riemann hypothesis holds if and only if
 $\kerop T^{(2)}\cap\kerop T^{(3)}\cap\mathcal D_1=\{0\}$.
+In particular, taking the November 2026 formal RH verification
+\cite{LF26,Ru26} as an external input yields the asserted
+\emph{algebraic} joint-kernel vanishing. This conclusion does not,
+by itself, identify kernels of the closed operators.
 \end{corollary}
 
 \begin{proof}
@@ -1641,6 +1679,15 @@ number theory, \emph{Acta Arith.} \textbf{26} (1974), 59--81.
 
 \bibitem{Yo74} K.~Yosida, \emph{Functional Analysis}, 4th ed.,
 Springer-Verlag, Berlin, 1974.
+
+\bibitem{LF26} Lean Focused Research Organization and Mathlib Initiative,
+\emph{Lean verification of the Riemann Hypothesis},
+joint statement, November 21, 2026,
+\url{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}.
+\bibitem{Ru26} M. Rubinstein,
+\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis:
+exposition and verification}, November 2026,
+\url{https://math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/}.
 
 \end{thebibliography}
 \end{document}

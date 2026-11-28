@@ -44,6 +44,19 @@ The Bohr--Dirichlet-series literature concerns the independent
 frequencies used below \cite{BohrBook,Schoolmann}.
 The companion invariance note addresses the weaker zero-associated
 spectral problem \cite{PriorNote}.
+
+\paragraph{The November 2026 RH formalization.}
+Alp\"oge's Claude-assisted Lean development was announced on
+November 20, 2026. The Lean FRO and Mathlib Initiative certified
+its RH statement and formal proof on November 21 \cite{LF26}.
+Rubinstein reports independent machine checks of the original
+and shortened formalizations \cite{Ru26}. The critical-line location
+of nontrivial ordinary zeta zeros is therefore supported by certified
+formal proof, although a complete human-readable exposition is still
+being developed. The present paper does not audit the Lean development.
+RH determines the location of the common zeta zeros. It does
+\emph{not} imply boundedness of the Euler quotients, zero simplicity,
+spectral synthesis, or similarity of the complete operator pairs.
 \subsection{Notation and conventions}
 The primes are $p_1=2<p_2=3<\cdots$.
 A perturbation is $A=(a_n)$ with $p_n\le a_n\le p_{n+1}$.
@@ -687,7 +700,11 @@ checks of the original and shortened formalizations \cite{Ru26}.
 Human-readable proofs are still being developed.  The present paper
 does not purport to independently check the large Lean development.
 
-Assuming RH, every nontrivial zeta zero is
+Taking the certified formal RH theorem \cite{LF26,Ru26} as
+an external input,\footnote{This paper does not itself prove RH
+or independently verify the Lean development. The November 2026
+certification concerns RH, not the additional operator-theoretic
+assertions studied here.} every nontrivial zeta zero is
 $\rho=\frac12+i\gamma$.  For $k\ge2$ the Sobolev threshold
 $\delta=1/(2k)$ is strictly below $\frac12$, and all zero-powers
 are algebraically admissible.  For $k=1$ the threshold equals

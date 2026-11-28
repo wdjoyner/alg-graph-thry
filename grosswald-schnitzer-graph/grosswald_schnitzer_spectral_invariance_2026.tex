@@ -48,6 +48,20 @@ The Smirnov-class material relates to work of Choa--Kim--Shapiro
 \cite{SmirnovReference} and Fricain--Hartmann--Ross--Timotin
 \cite{Fricain}.  The prior spectral questions were formulated
 in the accompanying working note \cite{JoynerNote}.
+
+\paragraph{The November 2026 RH formalization.}
+On November 20, 2026, Alp\"oge announced a Claude-assisted Lean
+formalization of RH. The Lean FRO and Mathlib Initiative certified
+the statement and formal proof on November 21 \cite{LF26}.
+Rubinstein records independent checks of the original formalization
+and its shorter successor \cite{Ru26}. We use this development to
+interpret the zero locations in the Hardy-space model, not as a
+replacement for its closure arguments. For $k\ge2$, RH locates the
+nontrivial zero powers strictly within the admissible exponent
+half-plane of $S_k$. For $k=1$, they lie on its boundary.
+RH proves neither zero simplicity nor similarity of the full
+operator pairs. Human-readable expositions remain under development,
+and the present note has not independently audited the formal proof.
 \subsection{Notation and conventions}
 Write $A=(a_n)$ for a prime-gap perturbation and
 $Q_A=\zeta_A/\zeta$ for its Euler quotient.
@@ -564,7 +578,11 @@ checks of the original and shortened formalizations \cite{Ru26}.
 Human-readable proofs are still being developed.  The present paper
 does not purport to independently check the large Lean development.
 
-Assuming RH, every nontrivial zeta zero is
+Taking the certified formal RH theorem \cite{LF26,Ru26} as
+an external input,\footnote{This paper does not itself prove RH
+or independently verify the Lean development. The November 2026
+certification concerns RH, not the additional operator-theoretic
+assertions studied here.} every nontrivial zeta zero is
 $\rho=\frac12+i\gamma$.  For $k\ge2$ the Sobolev threshold
 $\delta=1/(2k)$ is strictly below $\frac12$, and all zero-powers
 are algebraically admissible.  For $k=1$ the threshold equals
