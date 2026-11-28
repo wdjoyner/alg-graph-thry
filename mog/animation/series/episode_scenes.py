@@ -919,6 +919,18 @@ def later(t, anim):
     return Succession(Wait(run_time=t + 1e-3), anim) if t > 0 else anim
 
 
+def hand_turn(hand, h0, h1, run, center=None, hours=11):
+    """Turn a clock hand clockwise from hour h0 to hour h1 about its pin."""
+    center = RING_C if center is None else center
+    state = {}
+
+    def f(m, alpha):
+        if not state:
+            state["copy"] = m.copy()
+        m.become(state["copy"].copy().rotate(-(h1 - h0) * TAU / hours * alpha, about_point=center))
+    return UpdateFromAlphaFunc(hand, f, run_time=run)
+
+
 def mark(pos, color=GOLD, r=0.22):
     return Circle(radius=r, stroke_color=color, stroke_width=4, fill_color=color,
                   fill_opacity=0.22).move_to(pos)
@@ -1287,9 +1299,28 @@ class BoardVisuals:
         anims = getattr(self, "hl_" + (arg if not arg.startswith("family_") else "family"))(arg, p, avail - delay)
         return [later(delay, a) for a in anims] if delay else anims
 
+    def hl_lines(self, arg, p, avail):
+        """Each line lights up in turn, its three points with it; the two rules stay up beside the plane."""
+        f = OBJ["fano"]
+        rules = VGroup(text("the rules", size=24, color=GOLD),
+                       text(f"every line has {f['line_size']} points", size=22),
+                       text("any 2 points lie on", size=22), text("exactly 1 line", size=22))
+        rules.arrange(DOWN, buff=0.14).move_to(xy(PANEL_X, 2.2))
+        rules[3].next_to(rules[2], DOWN, buff=0.08)
+        self.overlay(rules)
+        self.panel["rules"] = rules
+        per = (avail - 2.6) / len(f["lines"])
+        anims = [appear(rules[0], 0.3, 0.4), appear(rules[1], avail * 0.42, 0.5), appear(VGroup(rules[2], rules[3]), avail * 0.66, 0.5)]
+        for k, line in enumerate(f["lines"]):
+            m = self.fano["line"][frozenset(line)]
+            t = 0.4 + per * k
+            anims.append(later(t, ShowPassingFlash(m.copy().set_stroke(GOLD, 7), time_width=0.7, run_time=per * 1.3)))
+            anims += [later(t, Indicate(self.fano["pt"][x], color=GOLD, scale_factor=1.6, run_time=per * 1.2)) for x in line]
+        return anims
+
     def hl_circle(self, arg, p, avail):
         circ = self.fano["line"][frozenset(OBJ["fano"]["circle"])]
-        lab = self.caption("a line: 4, 5, 6", FANO_C + xy(2.9, -0.15), size=22, color=GOLD)
+        lab = self.caption("a line: 4, 5, 6", xy(PANEL_X, 0.85), size=22, color=GOLD)
         assert sorted(OBJ["fano"]["circle"]) == [4, 5, 6]
         return [later(0.2, Indicate(circ, color=GOLD, scale_factor=1.06, run_time=0.9)), appear(lab, 0.9, 0.5)]
 
@@ -1370,6 +1401,15 @@ class BoardVisuals:
 
     def hl_row(self, arg, p, avail):
         i = self.view_index(p["picture"])
+        if p.get("phase") == "again":
+            # the same line once more: its cards pulse and the chalk line flashes
+            cards = [c for c, col in self.lit.items() if col]
+            line = self.panel.get("line")
+            out = [later(0.4, LaggedStart(*(Indicate(c[0], color=GOLD, scale_factor=1.2) for c in cards),
+                                          lag_ratio=0.4, run_time=1.4))]
+            if line is not None:
+                out.append(later(0.4, ShowPassingFlash(line.copy().set_stroke(GREEN, 7), time_width=0.6, run_time=1.2)))
+            return out
         d = self.bm.DIRECTIONS[arg]
         cells = self.hl_line_cells(i, d, p.get("k", 0))
         if arg == "modular_diagonal":
@@ -1475,18 +1515,53 @@ class BoardVisuals:
 
     def visual_clock_mod(self, arg, p, start, end, avail):
         self.play_board("clock_mod", arg, p)
+        if arg == "3":
+            return self.three_hour_clock(p, avail)
+        if p.get("phase") == "sweep":
+            # the clock's hand, pinned at infinity, sweeps the hours as Euler counts them
+            h0, h1 = p["hours"]
+            self.hand_hour = h0
+            hand = self.overlay(self.clock_hand(h0))
+            self.panel["clock"] = VGroup(hand)
+            run = min(2.0, avail - 1.4)
+            labs = [self.point_labels[h] for h in range(h0, h1 + 1)]
+            return [appear(hand, 0.6, 0.3),
+                    later(0.9, hand_turn(hand, h0, h1, run)),
+                    later(0.9, LaggedStart(*(Indicate(m, color=GOLD, scale_factor=1.5) for m in labs),
+                                           lag_ratio=0.6, run_time=run))]
         a, b, c = p["shows"]
         assert self.bm.translate(a) == c
-        arc = Arc(radius=RING_R - 0.4, start_angle=PI / 2 - a * TAU / 11, angle=-TAU / 11, arc_center=RING_C,
-                  stroke_color=GOLD, stroke_width=4).add_tip(tip_length=0.18)
+        hand = self.panel["clock"][0]
         eq = self.caption(f"{a} + {b} = {c}", xy(PANEL_X, 3.1), size=34, color=GOLD)
         mod = self.caption("arithmetic mod 11", xy(PANEL_X, 2.5), size=22, color=MUTED)
-        self.overlay(arc)
-        self.panel["clock"] = VGroup(arc, eq, mod)
+        self.panel["clock"].add(eq, mod)
         ten, zero = self.points[a], self.points[c]
-        return [later(0.4, Indicate(ten, color=GOLD, scale_factor=1.8, run_time=0.6)), later(1.0, Create(arc, run_time=0.8)),
-                later(1.7, Indicate(zero, color=GOLD, scale_factor=1.8, run_time=0.6)), appear(eq, 1.2, 0.5),
+        return [later(0.3, Indicate(ten, color=GOLD, scale_factor=1.8, run_time=0.6)),
+                later(1.1, hand_turn(hand, a, a + 1, 0.5)),       # one hour on: 10 + 1 = 11, which is 0
+                later(1.6, Indicate(zero, color=GOLD, scale_factor=1.8, run_time=0.6)), appear(eq, 1.3, 0.5),
                 appear(mod, min(3.0, avail - 0.8), 0.5)]
+
+    def clock_hand(self, hour, center=RING_C, length=RING_R - 0.3, hours=11, color=GOLD, width=6):
+        a = PI / 2 - hour * TAU / hours
+        tip = center + length * np.array([np.cos(a), np.sin(a), 0])
+        return Line(center, tip, stroke_color=color, stroke_width=width).add_tip(tip_length=0.16)
+
+    def three_hour_clock(self, p, avail):
+        """A clock with three hours beside the grid: its hand goes 0, 1, 2 and back to 0."""
+        a, b, c = p["shows"]
+        center, r = xy(-2.05, -0.22), 0.36
+        face = Circle(radius=r, stroke_color=CHALK, stroke_width=2).move_to(center)
+        nums = VGroup(*(text(str(h), size=18, color=MUTED).move_to(
+            center + (r + 0.17) * np.array([np.sin(h * TAU / 3), np.cos(h * TAU / 3), 0])) for h in range(3)))
+        hand = Line(center, center + UP * (r - 0.06), stroke_color=GOLD, stroke_width=4).add_tip(tip_length=0.1)
+        eq = text(f"{a} + {b} = {c}", size=20, color=GOLD).next_to(face, RIGHT, buff=0.35)
+        self.overlay(face, nums, hand, eq)
+        t0, step = 0.5, (avail - 1.4) / 3
+        anims = [appear(face, 0.1, 0.4), appear(nums, 0.1, 0.4), appear(hand, 0.3, 0.3)]
+        for k in range(3):
+            anims.append(later(t0 + step * k, hand_turn(hand, k, k + 1, 0.35, center=center, hours=3)))
+        anims.append(appear(eq, t0 + step * 2 + 0.3, 0.4))
+        return anims
 
     def visual_reveal_count(self, arg, p, start, end, avail):
         self.play_board("reveal_count", arg, p)
@@ -1669,7 +1744,7 @@ class BoardVisuals:
             self.panel["sum"] = ghost
             return [FadeAway(chips, run_time=0.1), Transform(ghost, s, run_time=1.0, introducer=True)] + self.undim(0.5)
         s = self.panel["sum"]
-        new = text(" + ".join(map(str, parts)) + f" = {total} = the ring's orbit ✓", size=28, color=GREEN,
+        new = text(" + ".join(map(str, parts)) + f" = {total} = the orbit on Euler's clock ✓", size=28, color=GREEN,
                    weight=BOLD).move_to(xy(0, STRIP_Y))
         return [later(0.4, Transform(s, new, run_time=0.8))]
 

@@ -40,15 +40,15 @@ Each step is one episode's picture, so the opening previews the whole series. It
 
 **Special how?** A quick replay of Episode 1's line-up. Sophie needs a picture.
 
-**Seven points.** The Fano plane: seven points and seven lines, and the circle counts as a line. Pick points 1 and 4 and their line supplies 2. Pick 4 and 5 and the circle supplies 6. Pascal objects that a circle can't be a line; Sophie says it obeys the rule.
+**Seven points.** The Fano plane: seven points and seven lines, and the circle counts as a line. A line is just three points that belong together, and the lines follow two rules, shown on screen: every line has three points, and any two points lie on exactly one line. Pick points 1 and 4 and their line supplies 2. Pick 4 and 5 and the circle supplies 6. Pascal objects that a circle can't be a line; Sophie says it obeys the rule.
 
 **Twelve points, five at a time.** Sophie reads S(2,3,7) aloud, then asks for S(5,6,12): twelve points, where every five lie in exactly one six-point block. Counting settles the size. There are 792 five-point sets and each block contains six of them, so there must be 132 blocks. They are named **hexads**. Ada: "If such a thing exists."
 
-**Two moves on a ring.** Euler arranges twelve labels on a ring: 0 to 10 mod 11 round a clock, plus infinity in the middle. The seed is 0 together with the five nonzero squares. Two moves, adding one and taking the negative reciprocal, keep producing new six-point sets, layer by layer (1, 2, 3, 5, 8, 12, 17, 25, 29, 18, 8, 3, 1), until the collection closes at exactly 132. Delete each point from each block and every five-point set appears exactly once; Sophie marks 1, 2, 3, 4, 5 and they call up their one sixth point, 7. The design exists, and Ada's doubt is answered.
+**Two moves on a clock.** Euler arranges twelve labels as a clock: the hours 0 to 10 mod 11 round the dial, and infinity in the middle, where the hand is pinned. The hand sweeps the hours as he counts them and ticks 10 + 1 = 0. (The word "ring" is kept off the screen: a mathematician would hear the algebraic structure.) The seed is 0 together with the five nonzero squares. Two moves, adding one and taking the negative reciprocal, keep producing new six-point sets, layer by layer (1, 2, 3, 5, 8, 12, 17, 25, 29, 18, 8, 3, 1), until the collection closes at exactly 132. Delete each point from each block and every five-point set appears exactly once; Sophie marks 1, 2, 3, 4, 5 and they call up their one sixth point, 7. The design exists, and Ada's doubt is answered.
 
-**Curtis's kitten.** The triangular kitten, with a 3 × 3 grid at each corner. Rows, columns and two wrapped diagonal directions are lines. (The wrapping is arithmetic mod 3; it is shown here and named in Episode 3.) A row plus a column makes a cross, and the four points left over make a square.
+**Curtis's kitten.** The triangular kitten, with a 3 × 3 grid at each corner. Rows, columns and two wrapped diagonal directions are lines; with the wrap, any two points lie on exactly one line, the same rule as the Fano plane. (The wrapping is arithmetic mod 3: a three-hour clock ticks 2 + 1 = 0 beside the grid; it is named in Episode 3.) A row plus a column makes a cross, and the four points left over make a square.
 
-**Four families.** A line plus the three corners, two parallel lines, a cross plus its own corner, a square plus the other two corners: 12 + 12 + 54 + 54 = 132, the same blocks the ring produced. Two pictures, one object.
+**Four families.** A line plus the three corners, two parallel lines, a cross plus its own corner, a square plus the other two corners: 12 + 12 + 54 + 54 = 132, the same blocks Euler's clock produced. Two pictures, one object.
 
 **Back to the cards.** Relabel the points as card values, and Episode 1's losing hands light up as hexads: 1 to 6 (a square plus two corners), the 45-hand (the cross in the same picture plus the third corner), the 24-hand, and the end of the worked game. Euler's guess holds: the 28 Pascal left Ada is a hexad. *(Partial payoff: the special hands are hexads. Why hexads lose is still open.)*
 
@@ -142,12 +142,12 @@ The kittens' guesses are settled on screen, never by assertion:
 
 These include the titles and credits.
 
-These are the outlines' targets. Episode 1, timed from its recorded dialogue (`make_timing.py`), runs 7:01; Episode 2 runs 7:32, and its scene targets are now its measured lengths.
+These are the outlines' targets. Episode 1, timed from its recorded dialogue (`make_timing.py`), runs 7:01; Episode 2 runs 7:50, and its scene targets are now its measured lengths.
 
 | Episode | Required scenes | With optional scenes | Target |
 |---|---|---|---|
 | 1. The Curious Game of Twenty-One | 7:43 | 7:43 | 7–8 min |
-| 2. The Geometry of a Kitten | 7:31 | 7:31 | 7–8 min |
+| 2. The Geometry of a Kitten | 7:49 | 7:49 | 7–8 min |
 | 3. The Secret Code of the MINIMOG | 9:13 | 9:58 | 8–10 min |
 | 4. The Hidden Graph of the Game | 9:13 | 9:48 | 8–10 min |
 
@@ -246,7 +246,7 @@ PAM_DIR=~/Projects/pam python make_episode.py --episode 1 --draft
 
 Every exchange on screen goes through the game's rules (`cue_tools.Table`), and the checker plays the whole episode's cues through them first, so an illegal move or a wrong total stops the build. The montage in scene s04 is played by a game engine, not animated by hand: Pascal keeps the total as high as he can, and Ada always answers into a hexad.
 
-Episode 2 is drawn on a board instead of a table. Sophie keeps the chalk she found at the end of Episode 1 and draws in the space above the table: the Fano plane, twelve blank points, the ring of the projective line, Curtis's kitten as a triangle and then as its three 3 × 3 pictures, and finally the same pictures in card values. `cue_tools.Board` plays the board's cues the way `Table` plays the cards: the completion a pair or a five calls up, the set a ring move produces, the orbit's layers, the 792 fives, the kitten's lines, crosses, squares and four families, the relabeling, and the family and picture each Episode 1 hand lands in are all computed from `build_math_objects.py` and checked against `math_objects.json` and the cue's own claims. The renderer draws what `Board` computes, so a typed-in set or count cannot reach the screen.
+Episode 2 is drawn on a board instead of a table. Sophie keeps the chalk she found at the end of Episode 1 and draws in the space above the table: the Fano plane, twelve blank points, Euler's clock (the projective line), Curtis's kitten as a triangle and then as its three 3 × 3 pictures, and finally the same pictures in card values. `cue_tools.Board` plays the board's cues the way `Table` plays the cards: the completion a pair or a five calls up, the set a move on the clock produces, the orbit's layers, the 792 fives, the kitten's lines, crosses, squares and four families, the relabeling, and the family and picture each Episode 1 hand lands in are all computed from `build_math_objects.py` and checked against `math_objects.json` and the cue's own claims. The renderer draws what `Board` computes, so a typed-in set or count cannot reach the screen.
 
 `episode_scenes.py` has one `EpisodeScene` for every episode; `Episode1` adds `TableVisuals`, `Episode2` adds `BoardVisuals`. Refactoring it this way was checked frame by frame: Episode 1's body renders to the same 10,210 frames (compared by FFmpeg `framemd5`) as before the change.
 

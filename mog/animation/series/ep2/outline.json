@@ -48,7 +48,7 @@
    "title": "Seven points",
    "lead": "sophie",
    "foil": "pascal",
-   "target_seconds": 51,
+   "target_seconds": 58,
    "paper": ["sec:background", "fig:fano"],
    "summary": "The Fano plane: seven points and seven lines, the circle included. Pick 1 and 4 and their line supplies 2; pick 4 and 5 and the circle supplies 6. Pascal objects that a circle can't be a line; Sophie: it obeys the rule.",
    "beats": [
@@ -61,9 +61,9 @@
      "math": [
       {"ref": "fano", "claim": {"points": 7, "line_size": 3, "straight_lines_collinear": true, "circle_concyclic": true}}
      ],
-     "visual": ["morph_layout:to_fano"],
-     "gist": "SOPHIE: A tiny geometry, the Fano plane: seven points, seven lines. ADA: Only seven? SOPHIE: A finite geometry.",
-     "lines": ["s02.b01.l01", "s02.b01.l02", "s02.b01.l03"]
+     "visual": ["morph_layout:to_fano", "highlight:lines"],
+     "gist": "SOPHIE: A tiny geometry, the Fano plane: seven points, seven lines. A line is three points that belong together; every line has three points, and any two points lie on exactly one line. ADA: Only seven? SOPHIE: A finite geometry.",
+     "lines": ["s02.b01.l01", "s02.b01.l01a", "s02.b01.l02", "s02.b01.l03"]
     },
     {
      "id": "s02.b02",
@@ -151,22 +151,22 @@
   },
   {
    "id": "s04",
-   "title": "Two moves on a ring",
+   "title": "Two moves on a clock",
    "lead": "euler",
    "foil": "sophie",
-   "target_seconds": 91,
+   "target_seconds": 95,
    "paper": ["sec:projective", "lem:orbit"],
-   "summary": "Twelve labels on a ring: 0 to 10 mod 11, plus infinity. Seed Q = 0 and the five nonzero squares. Two moves, add one and negative reciprocal, keep making new six-sets until the orbit closes at 132. Delete each point from each block: 792 distinct five-sets, each once. The design exists.",
+   "summary": "Twelve labels on a clock: 0 to 10 mod 11 as the hours, infinity at the center. Seed Q = 0 and the five nonzero squares. Two moves, add one and negative reciprocal, keep making new six-sets until the orbit closes at 132. Delete each point from each block: 792 distinct five-sets, each once. The design exists.",
    "beats": [
     {
      "id": "s04.b01",
-     "purpose": "Euler makes the twelve points a clock mod 11 plus infinity: the projective line",
+     "purpose": "Euler makes the twelve points a clock: hours 0 to 10 mod 11, infinity at the center; that is the projective line",
      "epistemic": "definition",
      "shows": ["mod_11", "projective_line"],
      "names": ["mod_11", "projective_line"],
      "math": [{"ref": "ring:projective", "claim": {"infinity_label": 11, "ten_plus_one": 0}}],
      "visual": ["morph_layout:to_ring", "clock_mod:11"],
-     "gist": "EULER: Zero to ten around a clock, infinity in the middle. Ten plus one is zero: mod eleven. The projective line.",
+     "gist": "EULER: Zero to ten around a clock, infinity in the middle (the hand sweeps 0 to 10). Ten plus one is zero (the hand ticks 10 to 0): mod eleven. The clock plus infinity is the projective line.",
      "lines": ["s04.b01.l01", "s04.b01.l02", "s04.b01.l03"]
     },
     {
@@ -228,7 +228,7 @@
    "title": "Curtis's kitten",
    "lead": "sophie",
    "foil": "euler",
-   "target_seconds": 53,
+   "target_seconds": 60,
    "paper": ["sec:kitten", "fig:kitten-schematic", "fig:kitten-threeviews", "fig:cross"],
    "summary": "The triangular kitten: corners infinity, 0, 1, and repeated labels that name the same point. At each corner the nine other points form a 3 x 3 affine plane; rows, columns and two wrapped diagonal directions are lines. Shown, not named: the wrap is arithmetic mod 3 (named in Episode 3). A row plus a column is a cross; the four points left are a square.",
    "beats": [
@@ -272,9 +272,9 @@
      "math": [
       {"ref": "kitten:projective", "claim": {"examples.row.points": [3, 6, 10], "examples.modular_diagonal.points": [4, 6, 9]}}
      ],
-     "visual": ["highlight:row", "highlight:column", "highlight:diagonal", "highlight:modular_diagonal"],
-     "gist": "SOPHIE: Rows are lines, so are columns, and diagonals. This one runs off the edge and comes back. EULER: Like a clock with three hours.",
-     "lines": ["s05.b04.l01", "s05.b04.l02", "s05.b04.l03"]
+     "visual": ["highlight:row", "highlight:column", "highlight:diagonal", "highlight:modular_diagonal", "clock_mod:3"],
+     "gist": "SOPHIE: Rows, columns and diagonals are lines. This one runs off the edge and comes back. EULER: Like a clock with three hours (a three-hour clock ticks 2 + 1 = 0). SOPHIE: With the wrap, any two points lie on exactly one line, the same rule as the Fano plane.",
+     "lines": ["s05.b04.l01", "s05.b04.l02", "s05.b04.l03", "s05.b04.l04"]
     },
     {
      "id": "s05.b05",
@@ -343,7 +343,7 @@
     },
     {
      "id": "s06.b05",
-     "purpose": "12 + 12 + 54 + 54 = 132, exactly the ring's orbit: two pictures, one object",
+     "purpose": "12 + 12 + 54 + 54 = 132, exactly the orbit on Euler's clock: two pictures, one object",
      "lead": "ada",
      "foil": "sophie",
      "epistemic": "exhaustive_check",
@@ -354,7 +354,7 @@
       {"ref": "kitten:projective", "claim": {"families": [12, 12, 54, 54], "families_disjoint": true, "union_is_orbit": true}}
      ],
      "visual": ["reveal_count:12_12_54_54"],
-     "gist": "ADA: Twelve, twelve, fifty-four, fifty-four: a hundred thirty-two. The same as Euler's ring. SOPHIE: Two pictures, one object.",
+     "gist": "ADA: Twelve, twelve, fifty-four, fifty-four: a hundred thirty-two, the same as on Euler's clock. SOPHIE: Two pictures, one object.",
      "lines": ["s06.b05.l01", "s06.b05.l02", "s06.b05.l03"]
     }
    ]

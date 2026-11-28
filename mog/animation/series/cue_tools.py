@@ -294,6 +294,13 @@ class Board:
             if tuple(c) not in bm.FANO and not any(set(c) == set(l) for l in bm.FANO):
                 errs.append("the circle is not a line of the Fano plane")
             return errs + self._claim(p, "points", sorted(c))
+        if arg == "lines":
+            errs = self._need("fano")
+            sizes = {len(l) for l in bm.FANO}
+            if not self.obj["fano"]["each_pair_once"]:
+                errs.append("two points of the Fano plane do not lie on exactly one line")
+            return errs + self._claim(p, "line_size", sizes.pop() if len(sizes) == 1 else None) \
+                + self._claim(p, "lines", len(bm.FANO))
         if arg == "seed":
             errs = self._need("ring")
             q = sorted(bm.Q)
@@ -352,14 +359,25 @@ class Board:
         return []
 
     def v_clock_mod(self, arg, p):
-        errs = self._need("ring")
-        if arg != "11":
-            return errs + [f"the ring is mod 11, not mod {arg}"]
-        a, b, c = p.get("shows", [10, 1, 0])
-        got = self.bm.translate(a) if b == 1 else None
-        if got != c or self.obj["ring:projective"]["ten_plus_one"] != self.bm.translate(10):
-            errs.append(f"{a} + {b} is {got} mod 11, cue says {c}")
-        return errs
+        """Euler's clock (mod 11: its hand sweeps the hours, or ticks 10 + 1 = 0), or
+        the three-hour clock that goes with the kitten's wrapped diagonals (mod 3)."""
+        if arg == "11":
+            errs = self._need("ring")
+            if p.get("phase") == "sweep":
+                a, b = p.get("hours", [0, 10])
+                return errs + ([] if 0 <= a < b <= 10 else [f"the hand cannot sweep from {a} to {b}"])
+            a, b, c = p.get("shows", [10, 1, 0])
+            got = self.bm.translate(a) if b == 1 else None
+            if got != c or self.obj["ring:projective"]["ten_plus_one"] != self.bm.translate(10):
+                errs.append(f"{a} + {b} is {got} mod 11, cue says {c}")
+            return errs
+        if arg == "3":
+            errs = self._need("views")
+            a, b, c = p.get("shows", [2, 1, 0])
+            if (a + b) % 3 != c:
+                errs.append(f"{a} + {b} is {(a + b) % 3} mod 3, cue says {c}")
+            return errs
+        return [f"no clock mod {arg} in this episode"]
 
     def v_point_ring(self, arg, p):
         errs = self._need("ring")

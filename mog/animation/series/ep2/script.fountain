@@ -4,7 +4,7 @@ Credit: Written by
 Author: David Joyner, Claude (Anthropic) and ChatGPT (OpenAI)
 Source: ep2/outline.json; the mathematics is checked against math_objects.json
 Draft date: 2026-11-28
-Notes: Draft 1. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Numbers are written as words in dialogue so they are spoken as words. Spoken respellings (Euler as "Oiler", Fano as "Fah-no") live in pronunciation.json, not here.
+Notes: Draft 2: a line is defined when the Fano plane first appears; Euler's twelve points are a clock (never a "ring", which a mathematician would read as the algebraic structure), and its hand moves through the hours as they are said; a three-hour clock goes with the wrapped diagonal. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Numbers are written as words in dialogue so they are spoken as words. Spoken respellings (Euler as "Oiler", Fano as "Fah-no") live in pronunciation.json, not here.
 
 [[ PRODUCTION NOTE: The same tabletop as Episode 1, seen from the front, with the kittens in the same seats: Sophie far left, Pascal left of center, Ada right of center, Euler far right. The cards are put away. Sophie still has the chalk she found at the end of Episode 1, and every diagram is drawn with it in the dark space above the table. Points are chalk dots with their labels; from Curtis's kitten on, points are drawn as small cards, as in the titles. ]]
 
@@ -43,6 +43,11 @@ The hands clear away. Sophie draws seven chalk dots, numbered 1 to 7, then three
 SOPHIE
 Here's a tiny geometry, the Fano plane. Seven points and seven lines. [[line: s02.b01.l01]]
 
+The lines light up one at a time, three points each. Beside the picture, two rules appear.
+
+SOPHIE
+A line is just three points that belong together. Two rules: every line has three points, and any two points lie on exactly one line. [[line: s02.b01.l01a]]
+
 ADA
 Only seven points? [[line: s02.b01.l02]]
 
@@ -52,7 +57,7 @@ Only seven. A finite geometry: there's nothing between the points. [[line: s02.b
 Sophie taps two dots with the chalk, 1 and 4. [[beat: s02.b02]]
 
 SOPHIE
-The rule is, any two points lie on exactly one line. Pick one and four. [[line: s02.b02.l01]]
+Let's test the second rule. Pick one and four. [[line: s02.b02.l01]]
 
 A pause for the viewer: which point completes their line?
 
@@ -90,7 +95,7 @@ Beside the Fano plane, its name builds up from its parts: 2 points, 3 on a line,
 SOPHIE
 Every two of the seven points lie on exactly one line of three. That's a Steiner system, S(2,3,7). [[line: s03.b01.l01]]
 
-The Fano plane fades. Twelve blank dots stand in a ring. Five light up, and a sixth waits with a question mark. [[beat: s03.b02]]
+The Fano plane fades. Twelve blank dots stand in a circle. Five light up, and a sixth waits with a question mark. [[beat: s03.b02]]
 
 SOPHIE
 Now I want twelve points, and blocks of six, so that every five points lie in exactly one block. An S(5,6,12). [[line: s03.b02.l01]]
@@ -101,7 +106,7 @@ They call that the small Witt design. [[line: s03.b02.l02]]
 ADA
 Before you draw it: how many blocks? [[line: s03.b02.l03]]
 
-The count builds up beside the ring. [[beat: s03.b03]]
+The count builds up beside the circle. [[beat: s03.b03]]
 
 SOPHIE
 Count the fives first. Twelve points, five at a time: seven hundred ninety-two ways. [[line: s03.b03.l01]]
@@ -121,24 +126,26 @@ ADA
 (skeptical)
 If such a thing exists. Counting it doesn't make it real. [[line: s03.b04.l02]]
 
-# s04. Two moves on a ring
+# s04. Two moves on a clock
 
-[[#4 | BEAT: Two moves on a ring | OBJ: Euler builds the design and checks it completely | SETUP: none]]
+[[#4 | BEAT: Two moves on a clock | OBJ: Euler builds the design and checks it completely | SETUP: none]]
 
-Euler takes the ring. Eleven of the dots become a clock, 0 to 10, and the twelfth slides into the middle as infinity. [[beat: s04.b01]]
+Euler takes the twelve dots. Eleven of them become the hours of a clock, 0 to 10, and the twelfth slides into the middle as infinity, where a clock's hand is pinned. [[beat: s04.b01]]
+
+A gold hand sweeps round the clock from 0 to 10 as Euler counts.
 
 EULER
 Let me try. Zero to ten around a clock, and infinity in the middle. [[line: s04.b01.l01]]
 
-A 10 glows, and one step on, the 0.
+The hand stands at 10, then ticks one hour on, to 0.
 
 EULER
 On this clock, ten plus one is zero again. That's arithmetic mod eleven. [[line: s04.b01.l02]]
 
 EULER
-Add infinity, and mathematicians call it the projective line. [[line: s04.b01.l03]]
+Add infinity, and the clock becomes what mathematicians call the projective line. [[line: s04.b01.l03]]
 
-Six points light up on the ring: 0, 1, 3, 4, 5 and 9. [[beat: s04.b02]]
+Six points light up on the clock: 0, 1, 3, 4, 5 and 9. [[beat: s04.b02]]
 
 EULER
 For a seed, take zero and the nonzero squares: one, four, nine, five and three. [[line: s04.b02.l01]]
@@ -151,7 +158,7 @@ The six marks step once around the clock. [[beat: s04.b03]]
 EULER
 Move one: add one. Every point steps around the clock, and infinity stays put. [[line: s04.b03.l01]]
 
-The marks return to the seed, then trade places across the ring.
+The marks return to the seed, then trade places across the clock.
 
 EULER
 Move two: the negative reciprocal. Zero and infinity trade places, and so do two and five. [[line: s04.b03.l02]]
@@ -177,7 +184,7 @@ Each of the 132 sets breaks into its six fives. [[beat: s04.b05]]
 EULER
 Now break every set into its fives. Seven hundred ninety-two fives, and each one appears exactly once. [[line: s04.b05.l01]]
 
-Sophie marks five points on the ring: 1, 2, 3, 4, 5.
+Sophie marks five points on the clock: 1, 2, 3, 4, 5.
 
 SOPHIE
 So any five points, like one, two, three, four, five... [[line: s04.b05.l02]]
@@ -195,7 +202,7 @@ All right. It exists. [[line: s04.b05.l04]]
 
 [[#5 | BEAT: Curtis's kitten | OBJ: Sophie draws the same twelve points as a picture | SETUP: none]]
 
-The ring's labels fly into a triangle of small cards, corners infinity, 0 and 1 in gold. [[beat: s05.b01]]
+The clock's labels fly into a triangle of small cards, corners infinity, 0 and 1 in gold. [[beat: s05.b01]]
 
 SOPHIE
 Here's another picture of the same twelve points. The mathematician Curtis called it the kitten. [[line: s05.b01.l01]]
@@ -226,8 +233,13 @@ A diagonal runs off the left edge and comes back in on the right: 6, 4, 9.
 SOPHIE
 This diagonal runs off the edge and comes back on the other side. [[line: s05.b04.l02]]
 
+A small clock with three hours, 0, 1 and 2, ticks round once beside the grid: 2 + 1 = 0.
+
 EULER
 Like a clock with only three hours. [[line: s05.b04.l03]]
+
+SOPHIE
+With the wrap, any two points in the grid lie on exactly one line. The same rule as the Fano plane. [[line: s05.b04.l04]]
 
 The top row and the left column light up together. [[beat: s05.b05]]
 
@@ -269,7 +281,7 @@ ADA
 Twelve, twelve, fifty-four, fifty-four. A hundred thirty-two. [[line: s06.b05.l01]]
 
 ADA
-And I checked them against Euler's ring. The same hundred thirty-two. [[line: s06.b05.l02]]
+And I checked them against Euler's clock. The same hundred thirty-two. [[line: s06.b05.l02]]
 
 SOPHIE
 Two pictures, one object. [[line: s06.b05.l03]]
