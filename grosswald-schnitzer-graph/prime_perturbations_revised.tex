@@ -15,22 +15,25 @@
 \newcommand{\C}{\mathbb C}
 \newcommand{\Hp}{H^\infty}
 \newcommand{\D}{\mathcal D}
-\newcommand{\Dom}{\operatorname{Dom}}
-\newcommand{\Ker}{\operatorname{Ker}}
-\newcommand{\sgn}{\operatorname{sgn}}
+\DeclareMathOperator{\Dom}{Dom}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\sgn}{sgn}
 \title{Operator-Equivalence Classes of Grosswald--Schnitzer Prime Perturbations\\[0.45em]
-\large An exact weighted-transition criterion and a hierarchy of Sobolev-space comparisons}
+\large Draft 2: Corrected and expanded version\\[0.25em]
+\normalsize Weighted-transition criteria and a hierarchy of Sobolev-space comparisons}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
 \date{November 28, 2026 (expanded revision)}
 \begin{document}
 \maketitle
 \begin{abstract}
 This paper was expanded with assistance from ChatGPT (OpenAI); the specific contributions are described in the acknowledgments and revision log. 
-For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. The analytic-symbol dilation operators have the same closed joint zero-eigenspace in the weighted Sobolev model previously studied. We distinguish this universal spectral equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the previously established Hardy-space model and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review; none of these results implies the Riemann hypothesis.
+For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. In the companion Hardy-space realization, the analytic-symbol dilation operators are asserted to have the same closed joint zero-eigenspace. This conclusion depends on the closure and domain arguments of that working model, which are not independently reverified here. We distinguish this universal spectral equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the previously established Hardy-space model and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review; none of these results implies the Riemann hypothesis.
 \end{abstract}
 
+\setcounter{tocdepth}{2}
+\tableofcontents
 
-\section{Introduction}
+\section{Introduction}\label{sec:introduction}
 \subsection{Motivation and principal results}
 Zero-preservation of prime-perturbation zeta functions does not
 automatically entail bounded equivalence of their summation operators.
@@ -38,12 +41,12 @@ This paper classifies bounded comparison for important perturbation families
 using weighted transition sums and Euler-factor cancellation.
 \subsection{Literature review}
 Grosswald and Schnitzer established the original prime-gap
-zero-preservation result \cite{GS}.  Beurling's invariant-subspace
-theory supplies useful operator-theoretic background \cite{Beurling}.
+zero-preservation result \cite{GS78}.  Beurling's invariant-subspace
+theory supplies useful operator-theoretic background \cite{Be49}.
 The Bohr--Dirichlet-series literature concerns the independent
-frequencies used below \cite{BohrBook,Schoolmann}.
+frequencies used below \cite{DGMS19,Sc20}.
 The companion invariance note addresses the weaker zero-associated
-spectral problem \cite{PriorNote}.
+spectral problem \cite{CJ26}.
 
 \paragraph{The November 2026 RH formalization.}
 Alp\"oge's Claude-assisted Lean development was announced on
@@ -66,10 +69,10 @@ $(\partial e)_j=e_j-e_{j-1}$ is their directed incidence boundary.
 The space $H^\infty$ consists of bounded analytic functions
 on the stated right half-plane.
 
-\section{Definitions and examples: the perturbed primes and their summation operators}
+\section[Prime perturbations and summation operators]{Definitions and examples: the perturbed primes and their summation operators}
 \label{sec:definitions}
 
-\subsection{What is $A$?}
+\subsection[The perturbed sequence]{What is $A$?}
 Let $p_1=2,p_2=3,p_3=5,p_4=7,\ldots$ denote the usual primes.
 A \emph{Grosswald--Schnitzer prime perturbation} is an indexed sequence
 \begin{equation}\label{eq:Aprimes}
@@ -224,7 +227,7 @@ For $\Re s>1$ put
  Q_A(s)=\frac{\zeta_A(s)}{\zeta(s)}
  =\prod_{n\ge1}\frac{1-p_n^{-s}}{1-a_n^{-s}}.
 \end{equation}
-Grosswald--Schnitzer \cite{GS} gives a holomorphic, nowhere-vanishing extension of $Q_A$ to $\Re s>0$. Let $\delta=1/(2k)$ for an integer $k\ge1$, and let $S_k$ be the full weighted Sobolev space of the companion notes,
+Grosswald--Schnitzer \cite{GS78} gives a holomorphic, nowhere-vanishing extension of $Q_A$ to $\Re s>0$. Let $\delta=1/(2k)$ for an integer $k\ge1$, and let $S_k$ be the full weighted Sobolev space of the companion notes,
 \[
  \|f\|_{S_k}^2=\sum_{j=0}^k\int_0^1|f^{(j)}(y)|^2y^{2j-1-1/k}\,dy.
 \]
@@ -232,7 +235,7 @@ On the exponential-polynomial domain $\D_k=\operatorname{span}\{y^s(\log y)^j:\R
 \begin{equation}\label{eq:symbol}
  m_{A,r}(s)=Q_A(s)(1-r^{1-s})\zeta(s),\qquad r=2,3.
 \end{equation}
-We rely on the Hardy-space realization described in \cite{PriorNote}: the closures $\overline{T_A^{(r)}}$ are boundedly conjugate (by an isomorphism independent of $A$) to adjoints of maximal Hardy multipliers. The joint closed kernels are independent of $A$.
+We rely on the Hardy-space realization described in \cite{CJ26}: the closures $\overline{T_A^{(r)}}$ are boundedly conjugate (by an isomorphism independent of $A$) to adjoints of maximal Hardy multipliers. The joint closed kernels are independent of $A$.
 
 We must \emph{not} confuse these three relations:
 \begin{enumerate}[leftmargin=2em]
@@ -252,7 +255,7 @@ The earlier Hardy multiplier criterion yields the precise test
 It is immediately an equivalence relation. In terms of the analytic logarithm $\log R_{A/B}$, it is equivalent to uniform boundedness of $|\Re\log R_{A/B}(s)|$ for $\Re s>\delta$. The question is whether this analytic criterion admits an arithmetic description.
 
 \section{A frequency-independent Euler-product theorem}
-The following result supplies a sharp description for a broad and explicit family. It can be viewed as a consequence of Bohr's vertical-frequency principle \cite{BohrBook,Schoolmann}; for transparency, we prove it with bounded-harmonic means.
+The following result supplies a sharp description for a broad and explicit family. It can be viewed as a consequence of Bohr's vertical-frequency principle \cite{DGMS19,Sc20}; for transparency, we prove it with bounded-harmonic means.
 
 \begin{theorem}[Independent-frequency comparison criterion]\label{thm:independent}
 Let $x_j\ge2$ be a countable family with $\{\log x_j\}$ linearly independent over $\mathbb Q$, and let $c_j\in\mathbb Z$ with
@@ -319,7 +322,7 @@ For \eqref{eq:norm1}--\eqref{eq:norm2}, each factor has maximum modulus $1+x_j^{
 The necessity proof uses $\log|F|$ bounded \emph{above and below}. A one-sided $H^\infty$ hypothesis alone does not lead to the same two-sided summability criterion. The theorem is about boundedly invertible comparison multipliers, not merely bounded ones.
 \end{remark}
 
-\section{Exact classification for endpoint perturbations}
+\section{Exact classification for endpoint perturbations}\label{sec:endpoint}
 Fix a binary sequence $e=(e_n)_{n\ge1}\in\{0,1\}^{\mathbb N}$, and set
 \begin{equation}\label{eq:endpoint}
  a_n(e)=p_{n+e_n}.
@@ -377,7 +380,7 @@ If the ones form finite consecutive runs $[a_\ell,b_\ell]$ separated by at least
 The weighted-transition test becomes summability of the $p_{a_\ell}^{-\delta}$ and $p_{b_\ell+1}^{-\delta}$ terms. Long blocks may be harmless if their endpoints are sufficiently sparse.
 
 
-\section{Graph-theoretic interpretation: prime flows, boundaries, and transfer operators}
+\section[Graph flows and transfer operators]{Graph-theoretic interpretation: prime flows, boundaries, and transfer operators}\label{sec:graph}
 \label{sec:prime-graphs}
 
 The arithmetic equivalence classes admit a direct interpretation in terms of
@@ -664,7 +667,7 @@ Suppose $a_n\in(p_n,p_{n+1})$ for every $n$, with the rational independence stip
 Here the signed inventory contains the prime factors with coefficient $+1$ and the interior factors with coefficient $-1$. In particular, its weighted sum contains $\sum_p p^{-\delta}=\infty$ for $\delta\le1$. The corollary follows from \eqref{eq:inventorycriterion}.
 \end{proof}
 
-\section{Consequences for the full operators and unresolved classification questions}
+\section[Full-operator consequences]{Consequences for the full operators and unresolved classification questions}
 For $A\sim_\delta B$, the boundedly invertible comparison $C_{A/B}$ maps $\D_k$ into itself and commutes with each analytic-symbol operator on this domain. Passing to closures yields the \emph{left-equivalence identities}
 \begin{equation}\label{eq:lefteq}
  \overline{T_A^{(r)}}=C_{A/B}\overline{T_B^{(r)}},\qquad
@@ -690,7 +693,7 @@ Full-pair similarity, resolvents, pseudospectra & Not classified by these result
 \paragraph{Status and scope.} The weighted-transition theorem and its proof are offered as a concrete research development, not as a verified publication-novel theorem. The arithmetic independence assumptions are essential to the general inventory criterion, and assertions about similarity must not be inferred from left equivalence. The operators $T_A^{(r)}$ are defined through their analytic symbols; this does not assert convergence of a naive generalized-prime dilation series on the full common domain.
 
 
-\section{Consequences of the November 2026 RH formalization}
+\section[The November 2026 RH development]{Consequences of the November 2026 RH formalization}
 \label{sec:rh-2026}
 On November 20, 2026 Levent Alp\"oge reported a formal proof of the
 Riemann hypothesis (RH) developed with Claude.  The Lean FRO and
@@ -741,7 +744,7 @@ whose background is in analysis rather than generalized-prime systems.
 \begin{description}[style=nextline,leftmargin=1.5em]
 \item[Analytic continuation] Extension of a function beyond its original convergence domain. The continued function need not be represented by the original infinite series.
 \item[Blaschke product] An inner function built from a zero sequence satisfying the Blaschke condition. Its model space records the zero set with multiplicity.
-\item[Bounded diagonal comparison] A comparison quotient and its reciprocal both belong to $H^infty$ on the chosen half-plane. It gives invertible left equivalence, not generally operator similarity.
+\item[Bounded diagonal comparison] A comparison quotient and its reciprocal both belong to $H^\infty$ on the chosen half-plane. It gives invertible left equivalence, not generally operator similarity.
 \item[Critical line] The line $\Re s=\tfrac{1}{2}$. RH puts the nontrivial ordinary zeta zeros there.
 \item[Discrete divergence] The signed incidence boundary of an edge flow. The source and target contributions telescope along prime-path blocks.
 \item[Euler-factor inventory] The signed frequencies remaining after cancellation of two Euler products. Its weighted size can control boundedness of a multiplier.
@@ -756,7 +759,7 @@ whose background is in analysis rather than generalized-prime systems.
 \item[Riesz basis] The boundedly invertible image of an orthonormal basis. Having complete root vectors is weaker.
 \item[Self-adjointness] Equality of an operator and its Hilbert-space adjoint, including domains. Real eigenvalues are not sufficient.
 \item[Smirnov class] Ratios of bounded analytic functions with an outer denominator. This allows useful unbounded analytic quotients in the Hardy model.
-\item[Sobolev threshold] The strict exponent condition $Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
+\item[Sobolev threshold] The strict exponent condition $\Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
 \item[Spectral synthesis] Completeness of generalized eigenfunctions within the relevant invariant subspace. It requires more than matching zero sets.
 \item[Weighted graph variation] A sum of weighted absolute incidence jumps. It quantifies Euler-factor cancellation for endpoint perturbations.
 \item[Zero multiplicity] The vanishing order of an analytic function at a zero. Multiple zeros produce logarithmic generalized eigenvectors.
@@ -778,10 +781,10 @@ joint statement, November 21, 2026.
 exposition and verification}, November 2026.
 \url{https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/}.
 
-\bibitem{GS} E. Grosswald and F. J. Schnitzer, A class of modified $\zeta$ and $L$-functions, \emph{Pacific J. Math.} \textbf{74} (1978), 357--364. \url{https://msp.org/pjm/1978/74-2/pjm-v74-n2-p09-s.pdf}.
-\bibitem{PriorNote} ChatGPT, prepared for D. Joyner, \emph{Spectral Invariance under Grosswald--Schnitzer Prime Perturbations}, companion research note, November 1, 2026.
-\bibitem{BohrBook} A. Defant, D. Garc\'ia, M. Maestre, and P. Sevilla-Peris, \emph{Dirichlet Series and Holomorphic Functions in High Dimensions}, Cambridge University Press, 2019, Chapters 11--12.
-\bibitem{Schoolmann} J. Schoolmann, On Bohr's theorem for general Dirichlet series, \emph{Math. Nachr.} \textbf{293} (2020), 1591--1612.
-\bibitem{Beurling} A. Beurling, On two problems concerning linear transformations in Hilbert space, \emph{Acta Math.} \textbf{81} (1949), 239--255.
+\bibitem{GS78} E. Grosswald and F. J. Schnitzer, A class of modified $\zeta$ and $L$-functions, \emph{Pacific J. Math.} \textbf{74} (1978), 357--364. \url{https://msp.org/pjm/1978/74-2/pjm-v74-n2-p09-s.pdf}.
+\bibitem{CJ26} ChatGPT, prepared for D. Joyner, \emph{Spectral Invariance under Grosswald--Schnitzer Prime Perturbations}, companion research note, November 1, 2026.
+\bibitem{DGMS19} A. Defant, D. Garc\'ia, M. Maestre, and P. Sevilla-Peris, \emph{Dirichlet Series and Holomorphic Functions in High Dimensions}, Cambridge University Press, 2019, Chapters 11--12.
+\bibitem{Sc20} J. Schoolmann, On Bohr's theorem for general Dirichlet series, \emph{Math. Nachr.} \textbf{293} (2020), 1591--1612.
+\bibitem{Be49} A. Beurling, On two problems concerning linear transformations in Hilbert space, \emph{Acta Math.} \textbf{81} (1949), 239--255.
 \end{thebibliography}
 \end{document}
