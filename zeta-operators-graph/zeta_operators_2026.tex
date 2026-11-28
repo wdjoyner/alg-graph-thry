@@ -43,15 +43,16 @@
 \newcommand{\tagN}{\textup{[new]}}
 
 \title{Zeta Functions and Their Associated Operators\\[0.3em]
-\large Draft 3: Corrected and expanded version\thanks{Original 1981 Georgia Institute of Technology manuscript. Earlier corrected editions were prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic). For provenance, see the acknowledgments and revision log.}}
+\large Draft 3: Corrected and expanded version\thanks{Original typescript: David Joyner, Georgia Institute of Technology, 1981. The 2026 corrected editions were prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); see the Acknowledgments and the separate revision log.}}
 \author{David Joyner\\[0.2em]\normalsize\texttt{wdjoyner@gmail.com}}
 \date{Original draft: 1981\\Corrected and expanded draft: November 2026}
+
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This edition was revised with AI assistance; the roles and limitations are recorded in the Acknowledgments and revision log.
+This edition was revised with AI assistance; the contributions and limitations are described in the Acknowledgments and revision log.
 This edition revisits the 1981 manuscript \emph{Zeta Functions and their
 Associated Operators}. It keeps the three themes of the original. These are
 random generalized zeta functions, comparison of Euler products, and
@@ -66,50 +67,76 @@ Theorems~5 and~6 by honest statements about multiplier operators. Finally,
 we give a formulation that does not need the parameter $\beta$. Two
 dilation-sum operators have a joint kernel. The dilation generator acts on
 that kernel, and its eigenvalues are exactly the nontrivial zeros of
-$\zeta$ in a half-plane. The elementary graph-theoretic connections added here also use only mathematics available by 1981.
+$\zeta$ in a half-plane. All analytic tools used here were available in 1981. We also give elementary graph models for prime comparisons, generalized integers, and arithmetic dilation sums.
 \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}\label{sec:introduction}
-This corrected edition retains the three themes of the 1981
-manuscript: generalized prime systems, comparison of Euler
-products, and summation operators that detect zeros of the
-Riemann zeta function. The principal results are the comparison
-principle, the zero-free extension for the logarithmic-integral
-prime model, and a joint-kernel theorem for two dilation sums.
-The original block operators have many extraneous eigenvalues.
-Their complete spectra cannot be identified with the zeta zeros.
 
-Section~\ref{sec:graphs} supplies elementary directed-graph
-interpretations. For a running example, moving every prime
-to its successor yields a telescoping comparison:
+The original 1981 manuscript investigated three aspects of generalized
+zeta functions: perturbations of primes, models of prime counting, and
+summation operators related to zeros of the Riemann zeta function.
+The present corrected edition retains that program.  Its principal
+statements are the comparison theorem, the zero-free continuation for the
+system defined by the logarithmic integral, and the algebraic joint-kernel
+theorem for two dilation sums.
+
+Two types of operator statement must be kept separate.  On the one hand,
+a zero of the zeta function produces a function annihilated by suitable
+summation operators.  On the other hand, the full block operator from
+the typescript has many additional eigenvalues.  Its entire point
+spectrum therefore cannot serve as a characterization of zeta zeros.
+The restriction to a \emph{joint kernel} is essential.
+
+The new graph-theoretic section (Section~\ref{sec:graphs}) explains how
+comparison Euler products arise from boundaries of edge flows on a
+prime path.  It also realizes generalized integers as vertices of a
+graded lattice graph and the periodic coefficients of the joint-kernel
+operators as functions on directed cycles.  A weighted graph-boundary
+condition gives an explicit bounded comparison operator on $S_k$.
+These observations use only elementary tools available by 1981.
+
+A useful running example is the endpoint perturbation that replaces
+each prime $p_n$ by $p_{n+1}$.  Although infinitely many primes move,
+the Euler quotient telescopes:
 \begin{equation}\label{eq:intro-telescope}
- \prod_{n\ge1}\frac{1-p_n^{-s}}{1-p_{n+1}^{-s}}
- =1-2^{-s}\qquad (\Ree s>0).
+  \prod_{n\ge1}\frac{1-p_n^{-s}}{1-p_{n+1}^{-s}}
+  =1-2^{-s}\qquad (\Ree s>0).
 \end{equation}
-This is explained by the boundary of a flow on a prime path.
+This example will reappear as a boundary-flow calculation and an
+identity of dilation operators.
 
 \section{Literature review}\label{sec:literature}
-\subsection*{Work through 1981}
-Beurling~\cite{Be37} introduced generalized prime systems.
-Wintner~\cite{Wi44} studied arithmetic semigroups, and
-Bateman and Diamond~\cite{BD69} surveyed their asymptotic theory.
-Grosswald and Schnitzer~\cite{GS78} studied zero-preserving
-perturbations of Euler products. Hawkins~\cite{Ha58},
-Kosambi~\cite{Ko59}, Wunderlich~\cite{Wu74}, and
-Heyde~\cite{He78} supplied related random-prime models.
 
-In operator theory, Schwartz~\cite{Sc47} developed spectral
-synthesis for mean-periodic functions. Nyman~\cite{Ny50}
-and Beurling~\cite{Be55} examined closure questions related
-to the zeta function. No unproved spectral-synthesis
-conclusion is borrowed from these works.
+\subsection*{Work available through 1981}
 
-\subsection*{Later work}
-This historical edition does not invoke results obtained
-after 1981. Modern operator models and modern graph-zeta
-theory belong in separate contemporary manuscripts.
+Beurling~\cite{Be37} introduced a framework for generalized prime
+systems.  Wintner~\cite{Wi44} developed arithmetic semigroups, and
+Bateman and Diamond~\cite{BD69} described asymptotic aspects of
+Beurling systems.  These sources motivate the choice to count formal
+generalized integers with multiplicity.
+
+Grosswald and Schnitzer~\cite{GS78} compared Euler products after
+perturbing prime generators.  Their result motivates the comparison
+principle proved here.  For random constructions, the antecedents
+include Hawkins~\cite{Ha58}, Kosambi~\cite{Ko59},
+Wunderlich~\cite{Wu74}, and Heyde~\cite{He78}.
+
+The operator questions are connected with convolution and translation
+invariance.  Schwartz~\cite{Sc47} developed spectral synthesis for
+mean-periodic functions.  Nyman~\cite{Ny50} and
+Beurling~\cite{Be55} studied closure problems associated with the
+Riemann zeta function.  We do not invoke their results to infer
+closure properties of the operators in this edition.
+
+\subsection*{Work after 1981}
+
+This corrected historical edition deliberately does not use later
+results.  In particular, the graph arguments of Section~\ref{sec:graphs}
+are direct identities, not applications of post-1981 graph-zeta theory
+or modern Hardy-space model methods.  Later developments belong in a
+separate contemporary review.
 
 \section{Background and classical input}\label{sec:background}
 
@@ -128,8 +155,9 @@ With this convention we have the formal identity
 \[
 \zeta_A(s)=\sum_{\nu}\nu^{-s}=\prod_{n\ge1}(1-a_n^{-s})^{-1},
 \]
-where $\nu$ runs over the generalized integers with multiplicity. For example, if $a_1=a_2=3$, three different exponent vectors give the
-numerical value $9$, and all three must be counted.
+where $\nu$ runs over the generalized integers with multiplicity. For example, with two generators $a_1=a_2=3$, the formal products
+$a_1^2$, $a_1a_2$, and $a_2^2$ all have numerical value $9$ but count
+as three distinct generalized integers.
 Both sides converge absolutely when $\sum_n a_n^{-\sigma}<\infty$. Every system
 in this paper has $a_n\asymp n\log n$. So both sides converge for
 $\Ree s>1$.
@@ -698,7 +726,7 @@ confirms that both functions are zero-free in $\Ree s>\frac12$.
 \subsection{The space}
 
 Fix integers $k\ge1$ and $N\ge2$. Put $\alpha=1/(2k)$.
-The notation $S_k$ suppresses the fixed order $N$.
+The notation $S_k$ suppresses the fixed order $N$ in the norm below.
 
 \begin{definition}
 $S_k$ is the space of functions $f$ on $(0,1)$ whose distributional
@@ -752,8 +780,10 @@ are integrable. So $yq\to f$ in $S_k$.
 
 \subsection{Logarithmic coordinates}
 
-The substitution $y=e^{-x}$ turns dilations into translations on a half-line.
-The multiplication operator $M$ becomes multiplication by $x$ and is not translation invariant.
+The substitution $y=e^{-x}$ turns dilations into translations on a
+half-line.  Differential and dilation-sum operators then have simple
+forms.  Multiplication by $-\log y$ becomes multiplication by $x$;
+it is not translation invariant.
 
 \begin{proposition}[New]\label{prop:logcoords}
 Put $(\Phi f)(x)=f(e^{-x})$ for $x>0$. Then $\|f\|_k^2$ is equivalent to
@@ -1075,9 +1105,10 @@ $q\mid n$. Define
 T^{(q)}=\sum_{n\ge1}c_q(n)\,R_n.
 \]
 The partial sums of $c_q(n)$ are bounded, since $c_q$ has period $q$ and
-mean zero. The Dirichlet series converges for $\Ree s>0$, with symbol
+mean zero. Consequently, the Dirichlet series converges for $\Ree s>0$ and
+has the symbol
 \begin{equation}\label{eq:residue-symbol}
- \sum_{n\ge1}c_q(n)n^{-s}=(1-q^{1-s})\zeta(s).
+  \sum_{n\ge1}c_q(n)n^{-s}=(1-q^{1-s})\zeta(s).
 \end{equation}
 Note $c_2(n)=(-1)^{n-1}$, so
 $T=-T^{(2)}$.
@@ -1143,306 +1174,251 @@ equation on the whole line. Nyman~\cite{Ny50} and Beurling~\cite{Be55}
 studied closely related closure problems for dilations on $(0,1)$. Their
 work connects such closures to the zeros of $\zeta$.
 
-
-\section{Graph-theoretic connections available by 1981}
+\section{Graph interpretations of Euler products and summation operators}
 \label{sec:graphs}
 
-The arithmetic equivalence classes admit a direct interpretation in terms of
-flows and incidence operators on a countable directed graph.  This description
-is useful in three ways: it explains Euler-factor cancellation, gives a
-quantitative stability bound, and supplies finite graph models of the
-literal summation operators.
+The constructions in this section are elementary directed-graph models.
+They do not identify the zeros of $\zeta$ with the spectrum of a graph
+Laplacian.  Rather, they explain cancellation of Euler factors and give
+a concrete, norm-convergent family of operator comparisons.
 
-\subsection{The prime path and its incidence boundary}
+\subsection{The prime path and a discrete boundary operator}
 
-Let \(G_P\) be the directed ray with vertices \(v_j=p_j\) and edges
-\(b_j:p_j\to p_{j+1}\), \(j\ge1\).  For an endpoint perturbation
-\(a_j=p_{j+e_j}\), put the binary flow \(e_j\in\{0,1\}\) on \(b_j\).
-We use the incidence convention
-\[
- (\partial e)_j=e_j-e_{j-1},\qquad e_0=0,
-\]
-so an occupied edge contributes \(+1\) at its source and \(-1\) at its
-target.  This is the (signed) vertex boundary of the edge flow.
+Let $G_P$ be the directed path with vertices $p_1,p_2,\ldots$ and
+edges $b_n:p_n\to p_{n+1}$.  Associate a number
+$e_n\in\{0,1\}$ to each edge, and replace $p_n$ by
+$a_n=p_{n+e_n}$.  Define the vertex boundary of the edge flow $e$ by
+\begin{equation}\label{eq:graph-boundary}
+ (\partial e)_j=e_j-e_{j-1},\qquad e_0=0.
+\end{equation}
+The sign convention assigns $+1$ to the source of an occupied edge and
+$-1$ to its target.  The boundary is determined by the transitions in
+which edges are occupied, not by the number of occupied edges.
 
-\begin{center}
-\begin{tikzpicture}[>=stealth,baseline]
-\node (a) at (0,0) {$p_1=2$};
-\node (b) at (2,0) {$p_2=3$};
-\node (c) at (4,0) {$p_3=5$};
-\node (d) at (6,0) {$p_4=7$};
-\node (e) at (8,0) {$p_5=11$};
-\draw[->,thick] (a)--node[above]{$e_1$}(b);
-\draw[->,thick] (b)--node[above]{$e_2$}(c);
-\draw[->,thick] (c)--node[above]{$e_3$}(d);
-\draw[->,thick] (d)--node[above]{$e_4$}(e);
-\node at (9.1,0) {$\cdots$};
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=stealth,scale=0.94]
+\node (p2) at (0,0) {$2$};
+\node (p3) at (1.8,0) {$3$};
+\node (p5) at (3.6,0) {$5$};
+\node (p7) at (5.4,0) {$7$};
+\node (p11) at (7.2,0) {$11$};
+\draw[->,thick] (p2) -- node[above] {$e_1$} (p3);
+\draw[->,thick] (p3) -- node[above] {$e_2$} (p5);
+\draw[->,thick] (p5) -- node[above] {$e_3$} (p7);
+\draw[->,thick] (p7) -- node[above] {$e_4$} (p11);
+\node at (8.15,0) {$\cdots$};
 \end{tikzpicture}
-\end{center}
+\caption{A directed path of primes.  An occupied edge replaces its
+source prime by the prime at its target.}
+\label{fig:prime-path}
+\end{figure}
 
-Put \(g_s(x)=\log(1-x^{-s})\), with the branch specified by its
-convergent power series for \(x>1\) and \(\Re s>0\).
-An elementary discrete-Stokes formula is
+The edge-to-vertex boundary has an exact arithmetic interpretation.
+For $\Ree s>0$ define
+\[
+ g_s(x)=\log(1-x^{-s}),\qquad x>1,
+\]
+using its power-series branch.  The finite discrete summation-by-parts
+identity is
 \begin{equation}\label{eq:graph-stokes}
- \sum_{n=1}^{N}e_n\bigl(g_s(p_n)-g_s(p_{n+1})\bigr)
- =\sum_{j=1}^{N}(\partial e)_j g_s(p_j)
-       -e_Ng_s(p_{N+1}).
+ \sum_{n=1}^{M}e_n\bigl(g_s(p_n)-g_s(p_{n+1})\bigr)
+ =\sum_{j=1}^{M}(\partial e)_jg_s(p_j)-e_Mg_s(p_{M+1}).
 \end{equation}
-The left side converges absolutely and locally uniformly for \(\Re s>0\).
-Indeed, on a compact subset of that half-plane,
+The last term tends to zero as $M\to\infty$.
+The series on the left converges absolutely and locally uniformly for
+$\Ree s>0$.  To see this, differentiate $g_s(x)$ in $x$ and use
+$|g_s'(x)|\ll_K x^{-1-\sigma_K}$ for $s$ in a compact subset $K$ of
+$\Ree s>0$.  Then sum its integrals over the disjoint prime intervals
+$[p_n,p_{n+1}]$.  Thus
+\begin{equation}\label{eq:graph-euler-product}
+ \boxed{\log Q_A(s)
+ =\lim_{M\to\infty}\sum_{j=1}^{M}(\partial e)_jg_s(p_j).}
+\end{equation}
+Here $Q_A$ is the nonvanishing continuation of the Euler quotient
+from the half-plane of absolute convergence.
+The limit in \eqref{eq:graph-euler-product} need not be absolutely
+convergent.  The boundary term in \eqref{eq:graph-stokes} fixes the
+order of summation.
+
+\begin{example}[A full ray and a finite block]
+If every edge is occupied, then
+$\partial e=(1,0,0,\ldots)$.  Hence
 \[
- |g'_s(x)|\le C_K x^{-1-\sigma_K}\quad(x\ge2)
+  \frac{\zeta_A(s)}{\zeta(s)}=1-2^{-s}.
 \]
-for some \(\sigma_K>0\), and
-\(\sum_n\int_{p_n}^{p_{n+1}}x^{-1-\sigma_K}\,dx<\infty\).
-Since \(g_s(p_n)\to0\), taking \(N\to\infty\) in
-\eqref{eq:graph-stokes} gives
-\begin{equation}\label{eq:graph-product}
- \boxed{\quad
- \log Q_e(s)
- =\sum_{n\ge1}e_n\bigl[g_s(p_n)-g_s(p_{n+1})\bigr]
- =\sum_{j\ge1}(\partial e)_j g_s(p_j),\quad \Re s>0.
- \quad}
-\end{equation}
-The second series in \eqref{eq:graph-product} need not be absolutely
-convergent: its equality follows from the boundary term in
-\eqref{eq:graph-stokes}, not from arbitrary rearrangement.
-
-For \(e_n=1\) on every edge, the interior boundary vanishes and
-\(\partial e=(1,0,0,\ldots)\).  Therefore
+If only $e_u,\ldots,e_v$ are $1$, then
 \[
- \log Q_e(s)=g_s(2),\qquad Q_e(s)=1-2^{-s}.
+ \frac{\zeta_A(s)}{\zeta(s)}
+ =\frac{1-p_u^{-s}}{1-p_{v+1}^{-s}}.
 \]
-An infinite occupied ray has only a finite source boundary.  If instead
-\(e_n=1\) precisely for \(u\le n\le v\), then
-\[
- \partial e=\mathbf 1_{\{u\}}-\mathbf 1_{\{v+1\}},
- \qquad Q_e(s)=\frac{1-p_u^{-s}}{1-p_{v+1}^{-s}}.
-\]
-For alternating occupied edges, the graph boundary is supported at
-every vertex, explaining why cancellation is much weaker.
+In both cases, the cancellation comes from the graph boundary.
+\end{example}
 
-\subsection{Weighted graph variation and quantitative conditioning}
+\subsection{Weighted boundary variation and a bounded operator comparison}
 
-For a bounded integer-valued edge flow \(h=(h_j)\), let
-\begin{equation}\label{eq:graph-TV}
- V_\delta(h):=\sum_{j\ge1}p_j^{-\delta}
-                  |h_j-h_{j-1}|,\qquad h_0=0,\quad\delta>0.
+The graph boundary controls the comparison on the actual weighted
+Sobolev space, not only on the space of powers.  Let $e,f$ be two
+binary endpoint perturbations, put $h=e-f$, and write
+$c_j=h_j-h_{j-1}$, with $h_0=0$.  Define the weighted boundary norm
+\begin{equation}\label{eq:graph-variation}
+ V_\alpha(h)=\sum_{j\ge1}|c_j|p_j^{-\alpha},
+ \qquad \alpha=\frac{1}{2k}.
 \end{equation}
-This is the weighted \(\ell^1\)-norm of its incidence boundary,
-a discrete bounded-variation quantity on \(G_P\).
-For binary perturbations $e,f$, the weighted boundary sum is a sufficient
-condition for bounded comparison. It measures transitions in an edge flow,
-rather than merely counting moved primes.
 
-\begin{proposition}[Graph-variation stability bound]
-\label{prop:graph-conditioning}
-Let \(e,f\) be endpoint perturbations and \(0<\delta\le1\).
-If \(V_\delta(e-f)<\infty\), then
-\(R_{e/f}=Q_e/Q_f\) and its inverse belong to
-\(H^\infty(\Re s>\delta)\), and
-\begin{equation}\label{eq:graph-stability}
- \max\{\|R_{e/f}\|_\infty,\|R_{e/f}^{-1}\|_\infty\}
- \le \exp\!\left(\frac{V_\delta(e-f)}{1-2^{-\delta}}\right).
-\end{equation}
-The product of the two operator-multiplier norm bounds is at most
-\(\exp(2V_\delta(e-f)/(1-2^{-\delta}))\).
-\end{proposition}
-\begin{proof}
-Put \(h=e-f\), and \(c_j=h_j-h_{j-1}\).
-For \(\Re s>\delta\), the estimate
-\[
- |\log(1-p_j^{-s})|
- \le \frac{p_j^{-\delta}}{1-p_j^{-\delta}}
- \le \frac{p_j^{-\delta}}{1-2^{-\delta}}
-\]
-shows that \(\sum_j c_jg_s(p_j)\) converges absolutely and uniformly
-and has modulus at most
-\(V_\delta(h)/(1-2^{-\delta})\).
-Exponentiate \eqref{eq:graph-product} for the quotient, and then
-apply the same argument with \(-h\).
-\end{proof}
-
-The additive group of bounded integer edge flows contains the subgroup
-\(\{h:V_\delta(h)<\infty\}\).
-Consequently the binary endpoint perturbations map to equivalence
-classes in the quotient by this subgroup.  This is a convenient
-graph-cochain description of the arithmetic classification; it does
-\emph{not} assert ordinary graph-Laplacian spectral equivalence.
-
-\subsection{A signed-frequency graph for arbitrary interior shifts}
-
-The same bookkeeping works beyond the endpoints.  For a finite
-perturbation \(A_N=(a_1,\ldots,a_N)\), draw the oriented edge
-\(p_n\to a_n\) on the vertex set of all distinct frequencies
-\(\{p_1,\ldots,p_N,a_1,\ldots,a_N\}\).  A loop contributes zero.
-The signed vertex boundary is the atomic measure
-\[
- \mu_{A,N}:=\sum_{n=1}^N(\delta_{p_n}-\delta_{a_n}).
-\]
-For every \(\Re s>0\), the finite Euler quotient satisfies
-\begin{equation}\label{eq:graph-atomic}
- \log Q_{A,N}(s)=
- \int_{(1,\infty)}\log(1-x^{-s})\,d\mu_{A,N}(x).
-\end{equation}
-If two edges share a frequency endpoint, their incidence
-coefficients may cancel.  Cancellation of this boundary is exact for shared endpoints. A complete
-necessary condition for general interior shifts is not asserted.
-
-
-\subsection{A bounded comparison on the original weighted Sobolev space}
-
-The graph variation also controls the original dilation operators
-without first passing to a Hardy-space multiplier representation.
-Fix $S_k$ as in Section~\ref{sec:operators}, with
-$\alpha=1/(2k)$, and write
-$c_j=(e_j-f_j)-(e_{j-1}-f_{j-1})$.
-
-\begin{theorem}[Norm-convergent graph-boundary comparison, new]
-\label{thm:graph-Sk}
-Suppose that
-\begin{equation}\label{eq:graph-Sk-hyp}
- \sum_{j\ge1}|c_j|p_j^{-\alpha}<\infty.
-\end{equation}
-Then the product
-\begin{equation}\label{eq:graph-Sk-operator}
+\begin{theorem}[Bounded graph-boundary comparison, new]
+\label{thm:graph-boundary}
+Assume $V_\alpha(e-f)<\infty$.  Then the operator product
+\begin{equation}\label{eq:graph-operator-product}
  C_{e/f}=\prod_{j\ge1}(I-R_{p_j})^{c_j}
 \end{equation}
-converges in operator norm on $S_k$. It has a bounded inverse.
-Moreover,
-\begin{equation}\label{eq:graph-Sk-bound}
+converges in operator norm on $S_k$.  It is boundedly invertible and
+satisfies
+\begin{equation}\label{eq:graph-operator-bound}
  \max\{\|C_{e/f}\|,\|C_{e/f}^{-1}\|\}
- \le \exp\left(
- \frac{\sum_{j\ge1}|c_j|p_j^{-\alpha}}
- {1-2^{-\alpha}}\right).
+ \le \exp\!\left(\frac{V_\alpha(e-f)}{1-2^{-\alpha}}\right).
 \end{equation}
-On the algebraic domain $\mathcal D_k$, $C_{e/f}$ is the
-multiplier with symbol $\zeta_{A_e}/\zeta_{A_f}$,
-where the quotient is understood through its holomorphic
-Euler-factor continuation.
+For every $s$ with $\Ree s>\alpha$, it acts on the power function by
+\[
+ C_{e/f}y^s
+ =\frac{\zeta_{A_e}(s)}{\zeta_{A_f}(s)}y^s,
+\]
+where the quotient denotes its analytic, nonvanishing Euler-factor
+continuation.  The same relation holds on the logarithmic-power
+algebraic domain $\Dk$ in the multiplier sense.
 \end{theorem}
 
 \begin{proof}
-A change of variables in each term of the $S_k$ norm gives
-$\|R_p\|\le p^{-\alpha}$. Thus
-$\|I-R_p\|\le1+p^{-\alpha}$ and
-$\|(I-R_p)^{-1}\|\le(1-p^{-\alpha})^{-1}$.
-The logarithms of both bounds are no larger than
-$p^{-\alpha}/(1-p^{-\alpha})$.
-The hypothesis ensures norm convergence of the products
-with exponents $c_j$ and $-c_j$, and gives
-\eqref{eq:graph-Sk-bound}. All the factors commute, so the
-two products are inverses.
-On $y^s$ the symbol is
-$\prod_j(1-p_j^{-s})^{c_j}$.
-The discrete-Stokes identity \eqref{eq:graph-stokes}
-identifies that symbol with the ratio of the two
-Euler-product comparisons. On logarithmic powers,
-differentiate the normally convergent scalar identity.
+The change of variables in the definition of $S_k$ gives
+$\|R_p\|\le p^{-\alpha}$.  In particular, $I-R_p$ is invertible
+by a norm-convergent Neumann series.  For $0<t<1$ we have
+$-\log(1-t)\le t/(1-t)$.  The bounds
+\[
+ \|I-R_p\|\le1+p^{-\alpha},\qquad
+ \|(I-R_p)^{-1}\|\le(1-p^{-\alpha})^{-1}
+\]
+therefore show that each of the two infinite products, with exponents
+$c_j$ and $-c_j$, converges in operator norm if
+$\sum_j|c_j|p_j^{-\alpha}<\infty$.  The same estimates yield
+\eqref{eq:graph-operator-bound} because $p_j\ge2$.
+All factors commute.  Multiplying the two finite products gives $I$;
+taking operator-norm limits proves invertibility.
+
+On a power $y^s$, each factor acts by $(1-p_j^{-s})^{c_j}$.
+Use \eqref{eq:graph-stokes} for the difference of the flows $e$ and $f$.
+Its endpoint term tends to zero.  The product therefore equals the
+Euler quotient.  The assertion on logarithmic powers follows by
+termwise differentiation of the normally convergent scalar product,
+or directly from the finite multiplier identities.
 \end{proof}
 
-\begin{example}[A fully occupied prime path]
-If every prime is moved to the next prime, then
-$c_1=1$ and $c_j=0$ for $j>1$ (taking $f_j=0$).
-Hence $C_{e/f}=I-R_2$. Infinite arithmetic
-perturbations have collapsed to one boundedly invertible
-operator factor.
+\begin{example}[Moving every prime]
+For $e_n=1$ and $f_n=0$ for all $n$, one has $c_1=1$ and $c_j=0$
+for $j>1$.  Thus
+\[
+  C_{e/f}=I-R_2,
+\]
+a boundedly invertible operator on every $S_k$.
+This is the operator counterpart of the telescoping identity
+\eqref{eq:intro-telescope}.
 \end{example}
 
-\begin{remark}
-This is a sufficient condition for bounded comparison.
-It neither proves similarity by conjugation of the full
-summation operators nor asserts anything about graph-Laplacian
-isospectrality.
+\begin{remark}[Scope of the theorem]
+Theorem~\ref{thm:graph-boundary} is a sufficient condition for a
+bounded comparison.  It does not assert that every Grosswald--Schnitzer
+perturbation satisfies \eqref{eq:graph-variation}.  Nor does left
+multiplication by $C_{e/f}$ imply similarity of the full summation
+operators by conjugation.
 \end{remark}
 
-\subsection{The multiplicative graph of generalized integers}
+\subsection{The generalized-integer lattice graph}
 
-For \(A_N=(a_1,\ldots,a_N)\), consider the graded directed graph
+Let $A_N=(a_1,\ldots,a_N)$ be a finite list of generalized primes.
+Construct the directed graph with vertex set $\mathbb Z_{\ge0}^N$.
+For each $1\le j\le N$, draw the edge
+$\nu\to\nu+\mathbf e_j$.
+Give the vertex $\nu=(\nu_1,\ldots,\nu_N)$ the weight
 \[
- \Gamma_{A_N}:\quad
- V=\mathbb Z_{\ge0}^{N},\qquad
- \nu\longrightarrow \nu+\mathbf e_j\quad(1\le j\le N).
+  w_s(\nu)=\prod_{j=1}^N a_j^{-s\nu_j}.
 \]
-Give the vertex \(\nu\) the weight
-\(w_s(\nu)=\prod_{j=1}^N a_j^{-s\nu_j}\).
-Summing \emph{vertices}, rather than all directed paths, gives
-\begin{equation}\label{eq:graph-vertexzeta}
- \sum_{\nu\in\mathbb Z_{\ge0}^N}w_s(\nu)
- =\prod_{j=1}^N(1-a_j^{-s})^{-1}
- =\zeta_{A,N}(s),\qquad\Re s>0.
+The vertex sum, not a count of paths, is exactly the finite Euler
+product:
+\begin{equation}\label{eq:graph-vertex-zeta}
+  \sum_{\nu\in\mathbb Z_{\ge0}^N}w_s(\nu)
+  =\prod_{j=1}^N(1-a_j^{-s})^{-1},\qquad \Ree s>0.
 \end{equation}
-This vertex interpretation respects the multiplicities of
-generalized integers.  For example, \(a_1=a_2=3\) produces
-three exponent vectors of total degree two, all evaluating to \(9\);
-accordingly the coefficient of \(3^{-2s}\) in
-\((1-3^{-s})^{-2}\) is \(3\).  Counting directed paths instead
-would introduce different, and incorrect, multiplicities.
-The graph in \eqref{eq:graph-vertexzeta} is not an Ihara
-nonbacktracking-cycle zeta construction.
 
-\begin{proposition}[Convergent graph-transfer realization]
-\label{prop:graph-transfer}
-For \(\sigma>1\), let \(X_\sigma\) be the Banach space of functions
-on \((0,1]\) with
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=stealth,scale=0.78]
+\foreach \x in {0,1,2,3} {\foreach \y in {0,1,2,3} {
+\fill (1.3*\x,1.0*\y) circle (2pt);}}
+\foreach \x in {0,1,2} {\foreach \y in {0,1,2,3} {
+\draw[->] (1.3*\x,1.0*\y)--(1.3*\x+1.25,1.0*\y);}}
+\foreach \x in {0,1,2,3} {\foreach \y in {0,1,2} {
+\draw[->] (1.3*\x,1.0*\y)--(1.3*\x,1.0*\y+0.95);}}
+\node[below left] at (0,0) {$(0,0)$};
+\node[below] at (3.9,0) {$\nu_1$};
+\node[left] at (0,3) {$\nu_2$};
+\end{tikzpicture}
+\caption{A finite part of the exponent-vector graph for two generators.
+Right and upward edges add one to the respective exponents.}
+\label{fig:exponent-graph}
+\end{figure}
+
+\begin{example}[Coincident generalized primes]
+If $a_1=a_2=3$, the three vertices $(2,0)$, $(1,1)$, and $(0,2)$
+all have numerical value $9$.  All three must be counted in
+\eqref{eq:graph-vertex-zeta}.  Counting paths would instead assign
+different multiplicities because edges of different colors can be
+traversed in different orders.
+\end{example}
+
+To connect this graph with literal summation, let $X_\sigma$ be the
+Banach space of functions on $(0,1]$ with norm
 \[
- \|f\|_{X_\sigma}:=\sup_{0<y\le1}y^{-\sigma}|f(y)|<\infty.
+ \|f\|_{X_\sigma}=\sup_{0<y\le1} y^{-\sigma}|f(y)|,
+ \qquad \sigma>1.
 \]
-Write \(D_a f(y)=f(y/a)\).  The operator products
-\begin{equation}\label{eq:graph-resolvents}
- P_A=\prod_{n\ge1}(I-D_{a_n})^{-1},
- \qquad
- (I-qD_q)P_A\quad(q=2,3)
+Then $\|R_{a_n}\|=a_n^{-\sigma}$.  In every generalized-prime
+system of this paper, $\sum_n a_n^{-\sigma}<\infty$.
+Thus the product $\prod_n(I-R_{a_n})^{-1}$ converges in operator
+norm on $X_\sigma$.  Expanding the geometric factors gives
+\begin{equation}\label{eq:graph-transfer}
+ \left(\prod_{n\ge1}(I-R_{a_n})^{-1}\right)f(y)
+ =\sum_{\nu}f(y/\nu),
 \end{equation}
-converge in operator norm on \(X_\sigma\), and
-\begin{equation}\label{eq:graph-literalsum}
- (I-qD_q)P_Af(y)
- =\sum_{m\in\mathcal N_A}
- \left[f(y/m)-qf(y/(qm))\right].
+where the sum includes the multiplicity of generalized integers.
+This is a rigorous transfer-operator interpretation of the graph
+vertex sum in the absolute-convergence region.
+It does not by itself justify the dilation series in the critical strip.
+
+\subsection{Periodic coefficients as Fourier modes on a cycle}
+
+The coefficient $c_q(n)$ in the two-operator construction is periodic
+modulo $q$ and has zero mean on the directed cycle with vertices
+$0,1,\ldots,q-1$.  Put $\omega_q=e^{2\pi i/q}$.
+The elementary Fourier identity on the cycle is
+\begin{equation}\label{eq:graph-cycle-Fourier}
+ c_q(n)=1-q\mathbf1_{q\mid n}
+ =-\sum_{j=1}^{q-1}\omega_q^{jn}.
 \end{equation}
-All sums in \eqref{eq:graph-literalsum} converge absolutely in
-\(X_\sigma\).  These operators are boundedly invertible on
-\(X_\sigma\).
-\end{proposition}
-\begin{proof}
-The dilation operators commute and
-\(\|D_a\|_{X_\sigma}=a^{-\sigma}\).
-Since \(a_n\ge p_n\) and
-\(\sum_n p_n^{-\sigma}<\infty\), the two products
-\(\prod_n(I-D_{a_n})^{-1}\) and
-\(\prod_n(I-D_{a_n})\) converge in operator norm and
-are inverses.  Expand each geometric series and pass to the
-norm limit to obtain the generalized-integer sum with
-multiplicity.  Finally,
-\(\|qD_q\|=q^{1-\sigma}<1\), so \(I-qD_q\) is invertible
-by a Neumann series.
-\end{proof}
 
-\begin{remark}[Scope of the graph model]
-The space \(X_\sigma\), \(\sigma>1\), is the domain of an
-\emph{absolutely convergent} graph-transfer representation.  It
-does not contain the zeta-zero eigenfunctions \(y^\rho\) from the
-critical strip and is not a substitute for the analytically
-continued \(S_k\) operators.  In particular, Proposition
-\ref{prop:graph-transfer} proves no kernel invariance in the
-critical strip.  It supplies a natural discrete approximation
-and separates the convergent graph mechanics from the deeper
-operator-domain problem.
-\end{remark}
-
-\paragraph{Further graph questions.}
-One can ask whether (i) weighted incidence-boundary classes
-admit computable finite-section approximations with certified
-tails; (ii) equality of closed graph-transfer domains forces
-bounded comparison in a natural completion; and (iii) the
-graph boundary at infinity controls comparison-operator
-conditioning.  These are proposed investigations, not claims
-about the spectrum of a graph Laplacian.
+\begin{example}[The cycles of lengths two and three]
+For $q=2$, the weights on consecutive residue classes are $1,-1$.
+For $q=3$, they are $1,1,-2$.  In each case the constant Fourier
+mode has been removed.  The resulting Dirichlet-series symbol is
+\eqref{eq:residue-symbol}.
+The common-kernel theorem (Theorem~\ref{thm:betafree}) uses both
+$q=2$ and $q=3$ because their non-zeta zero sets do not coincide.
+The cycle picture illustrates zero-mean cancellation, but does not
+replace the analytic proof of that assertion.
+\end{example}
 
 \section{Concluding remarks}\label{sec:conclusion}
 
-Three parts of the 1981 program survive. The new graph-theoretic
-operator comparison is Theorem~\ref{thm:graph-Sk}.
+Three parts of the 1981 program survive.  The graph interpretation
+adds a separate elementary comparison theorem (Theorem~\ref{thm:graph-boundary}).
 \begin{enumerate}[label=(\arabic*)]
 \item Generator systems close to the primes, in the weighted $\ell^1$
   sense of \eqref{eq:l1}, have the same zeros as $\zeta$.
@@ -1487,12 +1463,15 @@ need a different design. See also Mehta~\cite{Me67}.
 \item[Distributional derivative] The derivative in the sense of
   distributions. It agrees with the classical derivative for smooth
   functions.
-\item[Incidence boundary] The signed vertex sum of a directed
-edge flow; the source is positive and target negative.
-\item[Exponent-vector graph] A directed lattice in which
-vertices represent formal generalized integers.
-\item[Weighted graph variation] The sum of absolute incidence
-coefficients weighted by a power of their prime vertices.
+\item[Directed incidence boundary] A signed function on vertices
+obtained from an edge flow, positive at a source and negative at its
+target.  In the prime path it is $(\partial e)_j=e_j-e_{j-1}$.
+\item[Exponent-vector graph] The directed lattice graph with vertices
+nonnegative exponent vectors and edges corresponding to multiplying by
+one generator.  Each vertex represents one formal generalized integer.
+\item[Graph boundary variation] The weighted sum of absolute incidence
+coefficients.  Its finiteness ensures the norm convergence of a
+comparison-operator product in Theorem~\ref{thm:graph-boundary}.
 \item[Euler product] A product $\prod(1-a_n^{-s})^{-1}$ over generators.
 \item[Exponential integral] $E_1(z)=\int_z^\infty e^{-t}\,\dd t/t$. It
   equals $-\gamma-\Log z$ plus an entire function.
@@ -1511,8 +1490,9 @@ coefficients weighted by a power of their prime vertices.
 \item[Nontrivial zero] A zero of $\zeta$ in the critical strip.
 \item[Normal convergence] Convergence of $\sum\sup_K|f_n|$ on every
   compact set $K$.
-\item[Periodic residue cycle] A directed cycle of residue
-classes modulo $q$, with its zero-mean Fourier modes.
+\item[Periodic residue cycle] A directed cycle whose vertices are
+residue classes modulo $q$.  The zero-mean coefficient $c_q$ is the
+negative sum of its nonconstant Fourier modes.
 \item[Point spectrum] The set of eigenvalues of an operator.
 \item[Prime zeta function] $P_A(s)=\sum_na_n^{-s}$.
 \item[Resolvent set] The set of $\lambda$ for which $\lambda-M$ has a
@@ -1549,11 +1529,15 @@ The first corrected edition (ChatGPT, 2026) supplied the repaired proofs of
 the original Theorems~1--4 and the first counterexample. This second
 edition (Claude, 2026) added the comparison principle, the dyadic lemma,
 the slit-plane theorem, the triangular-block lemma, the multiplier
-calculus and Section~\ref{sec:betafree}. ChatGPT (OpenAI) prepared Draft 3 with new graph constructions,
-proofs, editorial changes and compilation checks. Claude (Anthropic)
-prepared the second corrected edition. AI review is not an independent
-certification of the results. More detail appears in the separate
-revision log. All mathematics used here was available in 1981.
+calculus and Section~\ref{sec:betafree}. ChatGPT (OpenAI) prepared Draft 3 in November 2026, revising the
+exposition and typesetting, providing the elementary graph constructions,
+and checking the new graph-boundary operator theorem.  Claude (Anthropic)
+prepared the second corrected edition in October 2026 from the
+original and the first corrected edition.  AI review is not independent
+certification of any result.  Details on each system's role, remaining
+verification limitations, and the mathematical changes appear in the
+separate revision log.  All analytic and graph-theoretic tools used in
+this edition were available in 1981.
 
 
 \begin{thebibliography}{99}
