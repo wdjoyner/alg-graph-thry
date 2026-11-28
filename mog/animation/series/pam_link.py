@@ -12,9 +12,9 @@ HERE = Path(__file__).resolve().parent
 
 
 def _import_pam():
+    near = [HERE.parents[k] / "pam" for k in (3, 4) if k < len(HERE.parents)]
     for d in [os.environ.get("PAM_DIR")] + [str(p) for p in (
-            HERE.parents[3] / "pam", HERE.parents[4] / "pam", Path.home() / "pam",
-            Path.home() / "Projects" / "pam")]:
+            *near, Path.home() / "pam", Path.home() / "Projects" / "pam")]:
         if d and Path(d, "pam", "cat.py").exists() and d not in sys.path:
             sys.path.insert(0, d)
             break

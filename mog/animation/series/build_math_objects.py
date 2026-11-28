@@ -105,6 +105,129 @@ def kitten_families():
     return [len(f) for f in kitten_family_sets()]
 
 
+# ---------------------------------------------------------------- Episode 2
+# The projective line P^1(F_11): labels 0..10, with 11 standing for infinity
+# (paper, Section 3).  Episode 2 draws the ring, the projective kitten and
+# the shuffle relabeling from these definitions, never from typed-in sets.
+
+INF = 11
+P = ((0, 3, 11, 2), (5, 9, 8, 10), (4, 1, 6, 7))  # projective MINIMOG (paper, Section 5)
+RHO = {P[r][c]: M[r][c] for r, c in product(range(3), range(4))}  # projective -> card labels
+# Curtis's kitten in projective labels: corner -> its 3x3 view, rows top to
+# bottom (paper, Figure "kitten-threeviews"; the verifier's projective_views).
+PROJECTIVE_VIEWS = {11: (6, 10, 3, 2, 7, 4, 5, 9, 8), 0: (5, 7, 3, 6, 9, 4, 2, 10, 8),
+                    1: (5, 7, 3, 9, 4, 6, 8, 2, 10)}
+# Triangle layout (x, y, projective label), copied from ../math_data.py.
+PROJECTIVE_TRIANGLE = ((0, 6, 11), (0, 5, 6), (-1, 4, 2), (1, 4, 10), (-2, 3, 5), (0, 3, 7),
+                       (2, 3, 3), (-3, 2, 6), (-1, 2, 9), (1, 2, 4), (3, 2, 6), (-4, 1, 2),
+                       (-2, 1, 10), (0, 1, 8), (2, 1, 2), (4, 1, 10), (-5, 0, 0), (5, 0, 1))
+DIRECTIONS = {"row": (1, 0), "column": (0, 1), "diagonal": (1, 2), "modular_diagonal": (1, 1)}
+# The two perpendicular pairs of directions (axial and diagonal crosses).
+PERPENDICULAR = (((1, 0), (0, 1)), ((1, 1), (1, 2)))
+
+
+def translate(x):
+    """alpha(x) = x + 1 mod 11; infinity is fixed."""
+    return x if x == INF else (x + 1) % 11
+
+
+def invert(x):
+    """beta(x) = -1/x mod 11; 0 and infinity trade places."""
+    return INF if x == 0 else 0 if x == INF else (-pow(x, -1, 11)) % 11
+
+
+RING_MAPS = {"translate": translate, "invert": invert}
+
+
+def orbit_layers(seed):
+    """Breadth-first orbit of seed under alpha and beta: the new sets at each step."""
+    seen, layer, layers = {seed}, [seed], [[seed]]
+    while layer:
+        nxt = []
+        for h in layer:
+            for f in (translate, invert):
+                k = frozenset(map(f, h))
+                if k not in seen:
+                    seen.add(k)
+                    nxt.append(k)
+        layer = nxt
+        if nxt:
+            layers.append(nxt)
+    return layers
+
+
+ORBIT = {h for layer in orbit_layers(Q) for h in layer}
+
+
+def view_line(view, direction, k):
+    """The points of a 3x3 view on the line a*r + b*c = k (mod 3)."""
+    a, b = direction
+    return frozenset(view[3 * r + c] for r, c in product(range(3), repeat=2) if (a * r + b * c) % 3 == k)
+
+
+def view_lines(view):
+    """The twelve lines of a view, three in each of the four directions."""
+    return {d: [view_line(view, d, k) for k in range(3)] for d in ((1, 0), (0, 1), (1, 1), (1, 2))}
+
+
+def kitten_parts(views):
+    """Every hexad of the four families, with the parts it is made of.
+
+    Returns a list of (family, picture, parts, hexad); family is 0..3 (line +
+    corners, two parallel lines, cross + own corner, square + other corners),
+    and parts is a list of (direction, k) lines.  The same hexad may come
+    from several pictures; all are listed, in a fixed order."""
+    corners = set(views)
+    out = []
+    for p, v in views.items():
+        lines = view_lines(v)
+        for d, ls in lines.items():
+            for k, l in enumerate(ls):
+                out.append((0, p, [(d, k)], frozenset(corners) | l))
+        for d, ls in lines.items():
+            for i, j in combinations(range(3), 2):
+                out.append((1, p, [(d, i), (d, j)], ls[i] | ls[j]))
+        for d1, d2 in PERPENDICULAR:
+            for i, j in product(range(3), repeat=2):
+                cross = lines[d1][i] | lines[d2][j]
+                out.append((2, p, [(d1, i), (d2, j)], cross | {p}))
+                out.append((3, p, [(d1, i), (d2, j)], frozenset(set(v) - cross) | (corners - {p})))
+    return out
+
+
+def decompose(h, views):
+    """The first (family, picture, parts) that builds hexad h in the kitten."""
+    for fam, p, parts, hexad in kitten_parts(views):
+        if hexad == frozenset(h):
+            return fam, p, parts
+    return None
+
+
+def fano_completion(a, b):
+    """The third point on the unique Fano line through a and b."""
+    lines = [l for l in FANO if a in l and b in l]
+    assert len(lines) == 1, (a, b, lines)
+    return next(x for x in lines[0] if x not in (a, b))
+
+
+def five_completion(five, blocks):
+    """The unique block of a Steiner system S(5,6,12) holding five points."""
+    found = [h for h in blocks if set(five) <= h]
+    assert len(found) == 1, (five, found)
+    return next(iter(found[0] - set(five)))
+
+
+def fano_positions():
+    """The paper's Fano figure: corners 1, 2, 3 on a circle of radius 1, sides'
+    midpoints 4, 5, 6, center 7.  Returns {point: (x, y)}."""
+    import math
+    corner = {1: 90, 2: 210, 3: 330}
+    pos = {k: (math.cos(math.radians(a)), math.sin(math.radians(a))) for k, a in corner.items()}
+    mid = lambda i, j: ((pos[i][0] + pos[j][0]) / 2, (pos[i][1] + pos[j][1]) / 2)
+    pos.update({4: mid(1, 2), 5: mid(2, 3), 6: mid(3, 1), 7: (0.0, 0.0)})
+    return {k: (round(x, 6) + 0.0, round(y, 6) + 0.0) for k, (x, y) in pos.items()}
+
+
 def hand(h, note):
     counts, odds = coordinates(h)
     return {"cards": sorted(h), "total": sum(h), "hexad": h in HEXADS,
@@ -236,7 +359,104 @@ def build():
     objects["move:illegal_11_1"] = {"from": "hand:example", "move": [a, b],
                                     "new_total": sum(A) - a + b,
                                     "legal": (a, b) in down_moves(A)}
+    build_episode2(objects)
     return objects
+
+
+def build_episode2(objects):
+    """Objects Episode 2 draws: the Fano figure, the ring, the projective
+    kitten, the shuffle relabeling, and Episode 1's hands in the kitten."""
+    import math
+    pos = fano_positions()
+    straight = [l for l in FANO if set(l) != {4, 5, 6}]
+
+    def collinear(a, b, c):
+        (x1, y1), (x2, y2), (x3, y3) = pos[a], pos[b], pos[c]
+        return abs((x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)) < 1e-6
+
+    objects["fano"]["positions"] = {str(k): list(v) for k, v in sorted(pos.items())}
+    objects["fano"]["straight_lines_collinear"] = all(collinear(*l) for l in straight)
+    objects["fano"]["circle_radius"] = round(math.hypot(*pos[4]), 6)
+    objects["fano"]["circle_concyclic"] = len({round(math.hypot(*pos[p]), 6) for p in (4, 5, 6)}) == 1
+    objects["fano"]["points"] = 7
+    objects["fano"]["line_size"] = 3
+
+    layers = orbit_layers(Q)
+    fives = Counter(frozenset(s) for h in ORBIT for s in combinations(h, 5))
+    five = (1, 2, 3, 4, 5)
+    objects["ring:projective"] = {
+        "labels": [str(x) for x in range(11)] + ["∞"],
+        "infinity_label": INF,
+        "translate": [translate(x) for x in range(12)],
+        "invert": [invert(x) for x in range(12)],
+        "nonzero_squares": sorted({i * i % 11 for i in range(1, 11)}),
+        "squares_in_order": [i * i % 11 for i in range(1, 6)],
+        "seed": sorted(Q),
+        "translate_seed": sorted(map(translate, Q)),
+        "invert_seed": sorted(map(invert, Q)),
+        "ten_plus_one": translate(10),
+        "five_example": {"points": list(five), "completion": five_completion(five, ORBIT)},
+        "note": "Projective line mod 11; label 11 is infinity, drawn at the center of the ring"}
+    objects["orbit:Q"] = {
+        "layers": [len(l) for l in layers],
+        "running_totals": [sum(len(l) for l in layers[:i + 1]) for i in range(len(layers))],
+        "hexads": len(ORBIT), "five_subsets": len(fives), "per_block": comb(6, 5),
+        "each_five_once": len(fives) == comb(12, 5) and set(fives.values()) == {1},
+        "fives_counted": len(ORBIT) * comb(6, 5),
+        "relabeled_equals_card_hexads": {frozenset(RHO[x] for x in h) for h in ORBIT} == HEXADS,
+        "layer_examples": [sorted(min(l, key=sorted)) for l in layers],
+        "note": "Breadth-first orbit of the seed under add-one and negative reciprocal"}
+    objects["count:design"]["five_in_block"] = comb(6, 5)
+    objects["count:design"]["fives_formula"] = [[12, 11, 10, 9, 8], [5, 4, 3, 2, 1]]
+    objects["shuffle:rho"] = {
+        "map": [RHO[x] for x in range(12)],
+        "views_match": {RHO[d]: tuple(RHO[x] for x in v) for d, v in PROJECTIVE_VIEWS.items()} == VIEWS,
+        "bijective": sorted(RHO.values()) == list(range(12)),
+        "note": "Projective label x (11 = infinity) -> card label map[x]; cell by cell from the projective MINIMOG to the MINIMOG"}
+
+    # Example lines, crosses and family members, in the picture at infinity.
+    v = PROJECTIVE_VIEWS[INF]
+    ex = {name: {"picture": INF, "parts": [[list(d), 0]], "points": sorted(view_line(v, d, 0))}
+          for name, d in DIRECTIONS.items()}
+    cross = view_line(v, (1, 0), 0) | view_line(v, (0, 1), 0)
+    ex["cross"] = {"picture": INF, "parts": [[[1, 0], 0], [[0, 1], 0]], "points": sorted(cross)}
+    ex["square"] = {"picture": INF, "parts": [[[1, 0], 0], [[0, 1], 0]], "points": sorted(set(v) - cross)}
+    corners = sorted(PROJECTIVE_VIEWS)
+    fams = {}
+    wanted = {"family_line": (0, [((1, 0), 0)]), "family_parallel": (1, [((1, 0), 0), ((1, 0), 2)]),
+              "family_cross": (2, [((1, 0), 0), ((0, 1), 0)]),
+              "family_square": (3, [((1, 0), 0), ((0, 1), 0)])}
+    every = kitten_parts(PROJECTIVE_VIEWS)
+    for name, (fam, parts) in wanted.items():
+        hexad = next(hx for f, p, ps, hx in every if f == fam and p == INF and ps == parts)
+        fams[name] = {"family": fam, "picture": INF, "parts": [[list(d), k] for d, k in parts],
+                      "hexad": sorted(hexad), "in_orbit": hexad in ORBIT}
+    family_sets = [{hx for f, _, _, hx in every if f == i} for i in range(4)]
+    repeats = Counter(lab for _, _, lab in PROJECTIVE_TRIANGLE)
+    objects["kitten:projective"] = {
+        "spots": [list(s) for s in PROJECTIVE_TRIANGLE],
+        "corners": [INF, 0, 1],
+        "views": [[d, list(PROJECTIVE_VIEWS[d])] for d in (INF, 0, 1)],
+        "each_view_is_the_other_nine": all(set(x) == X - set(PROJECTIVE_VIEWS) for x in PROJECTIVE_VIEWS.values()),
+        "repeated_labels": {str(k): n for k, n in sorted(repeats.items()) if n > 1},
+        "families": [len(f) for f in family_sets],
+        "families_disjoint": sum(map(len, family_sets)) == len(set.union(*family_sets)),
+        "union_is_orbit": set.union(*family_sets) == ORBIT,
+        "crosses_per_picture": len({hx for f, p, _, hx in every if f == 2 and p == INF}),
+        "examples": ex,
+        "family_examples": fams,
+        "note": "Curtis's kitten in projective labels (11 = infinity); views list [corner, nine labels, rows top to bottom]"}
+
+    hands = {}
+    for key in ("hand:1to6", "hand:complement_1to6", "hand:hexad_24", "hand:game_after_3", "hand:game_after_1"):
+        h = frozenset(objects[key]["cards"])
+        fam, p, parts = decompose(h, VIEWS)
+        hands[key] = {"cards": sorted(h), "family": fam, "picture": p,
+                      "parts": [[list(d), k] for d, k in parts], "hexad": h in HEXADS}
+    objects["kitten:ep1_hands"] = {
+        "hands": hands,
+        "views": [[RHO[d], list(VIEWS[RHO[d]])] for d in (INF, 0, 1)],
+        "note": "Episode 1's losing hands in the card-labeled (shuffle) kitten: family 0..3, picture, parts"}
 
 
 def cross_check(objects):
@@ -245,7 +465,12 @@ def cross_check(objects):
     paper = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(paper)
     assert set(paper.H) == HEXADS, "hexads disagree with the paper's verifier"
-    print("Cross-check: same 132 hexads as verify.py")
+    assert set(paper.orbit) == ORBIT, "the ring's orbit disagrees with the paper's verifier"
+    assert paper.projective_views == PROJECTIVE_VIEWS and paper.views == VIEWS
+    assert paper.rel == RHO, "the shuffle relabeling disagrees with the paper's verifier"
+    assert all(set.union(*paper.kitten(vs)) == {hx for f, _, _, hx in kitten_parts(vs)}
+               for vs in (VIEWS, PROJECTIVE_VIEWS)), "kitten families disagree"
+    print("Cross-check: same 132 hexads, orbit, kitten views and relabeling as verify.py")
 
 
 def main():

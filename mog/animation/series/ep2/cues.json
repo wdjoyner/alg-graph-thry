@@ -1,0 +1,198 @@
+{
+ "_about": [
+  "Episode 2 cues: what happens on screen in each beat, step by step, keyed by the beat IDs of ep2/outline.json and ep2/script.fountain.",
+  "Step forms as in ep1/cues.json.  A visual may carry 'delay' (seconds after its step starts) and 'phase' (which part of a multi-step visual plays now).",
+  "The diagrams are drawn from math_objects.json and from build_math_objects.py's definitions, never from sets typed here.  Sets and counts written in a cue ('points', 'completes', 'result', 'hexad', 'count', 'total', ...) are claims: check_outline.py recomputes each one and stops on a mismatch.",
+  "The board holds one diagram at a time (Fano plane, ring, kitten triangle, the three views); morph_layout changes it, cell by cell where the labels carry over."
+ ],
+ "cue_format": 1,
+ "episode": 2,
+ "gaps": {
+  "_comment": "Seconds of silence after a line: same speaker next, a new speaker next, the beat's last line.",
+  "same_speaker": 0.5,
+  "new_speaker": 0.75,
+  "beat_end": 1.2
+ },
+ "scene_transition_seconds": 1.6,
+ "stage": {
+  "_comment": "Same seats as Episode 1.  Sophie holds her chalk from the end of Episode 1 all episode long.",
+  "seats": {"sophie": {"x": -5.85, "facing": "right"}, "pascal": {"x": -2.75, "facing": "right"}, "ada": {"x": 2.75, "facing": "left"}, "euler": {"x": 5.85, "facing": "left"}},
+  "kitten_size": 1.45,
+  "chalk": "sophie"
+ },
+ "reactions": {
+  "proud": "chest out, chin up",
+  "confident": "chest out, a slow nod",
+  "smug": "chin up, eyes half shut",
+  "puzzled": "head tilts, ears flick",
+  "surprised": "jolts upright, eyes wide",
+  "thinking": "head tilts, eyes up, tail tip flicks",
+  "searching": "leans in, eyes dart left and right",
+  "lean_in": "leans toward the table",
+  "nod": "nods twice",
+  "deals": "sweeps a paw over the table",
+  "paw_up": "raises a paw to make a point",
+  "paw_tap": "reaches a paw down toward the table",
+  "paw_on_card": "reaches out and holds the paw there",
+  "bows": "a deep bow",
+  "flustered": "fur on end, head shakes",
+  "deflates": "slumps, ears down",
+  "sulk": "slumps a little, looks away",
+  "shifty": "eyes slide sideways, then back",
+  "grabs_chalk": "a piece of chalk appears in a raised paw",
+  "looks_up": "lifts the head, blinks",
+  "objects": "paw up, head shakes no",
+  "skeptical": "one eye narrows, head tilts back",
+  "pleased": "chin up, eyes smile, a small nod",
+  "deadpan": "eyelids half down, perfectly still",
+  "draws": "raises the chalk and draws in small strokes"
+ },
+ "targets": ["board", "camera"],
+ "beats": {
+  "s01.b01": [
+   {"do": [{"visual": "recap_montage:ep1_line_up", "hands": ["hand:1to6", "hand:game_after_3", "hand:hexad_24", "hand:complement_1to6"], "question": "hand:complement_1to6"}, "react:sophie_deals"], "seconds": 3.4},
+   {"line": "s01.b01.l01", "with": ["react:sophie_paw_up"]},
+   {"line": "s01.b01.l02", "with": ["react:sophie_puzzled"]},
+   {"line": "s01.b01.l03", "with": ["react:pascal_smug"]},
+   {"line": "s01.b01.l04", "with": ["react:sophie_draws"]},
+   {"hold": 0.6}
+  ],
+  "s02.b01": [
+   {"do": ["morph_layout:to_fano", "react:sophie_draws"], "seconds": 4.6},
+   {"line": "s02.b01.l01", "with": ["point_at:sophie_board"]},
+   {"line": "s02.b01.l02", "with": ["react:ada_puzzled"]},
+   {"line": "s02.b01.l03", "with": ["react:sophie_nod"]}
+  ],
+  "s02.b02": [
+   {"line": "s02.b02.l01", "with": [{"visual": "summon_completion:fano_1_4", "points": [1, 4], "completes": [2], "phase": "pick"}, "react:sophie_paw_tap"]},
+   {"pause": "predict", "seconds": 5.0, "prompt": "Which point completes their line?"},
+   {"line": "s02.b02.l02", "with": [{"visual": "summon_completion:fano_1_4", "points": [1, 4], "completes": [2], "phase": "complete"}, "react:sophie_proud"]}
+  ],
+  "s02.b03": [
+   {"line": "s02.b03.l01", "with": [{"visual": "summon_completion:fano_4_5", "points": [4, 5], "completes": [6], "phase": "pick"}, "react:sophie_paw_tap"]},
+   {"line": "s02.b03.l02", "with": [{"visual": "summon_completion:fano_4_5", "points": [4, 5], "completes": [6], "phase": "complete"}, {"visual": "highlight:circle", "points": [4, 5, 6]}]},
+   {"line": "s02.b03.l03", "with": ["react:pascal_objects"]},
+   {"line": "s02.b03.l04", "with": ["react:sophie_paw_up"]},
+   {"line": "s02.b03.l05", "with": ["react:euler_nod"]}
+  ],
+  "s03.b01": [
+   {"line": "s03.b01.l01", "with": [{"visual": "reveal_count:s_2_3_7", "t": 2, "k": 3, "v": 7}]},
+   {"hold": 0.8}
+  ],
+  "s03.b02": [
+   {"do": [{"visual": "reveal_count:s_5_6_12", "t": 5, "k": 6, "v": 12, "phase": "points"}, "react:sophie_draws"], "seconds": 4.0},
+   {"line": "s03.b02.l01", "with": [{"visual": "reveal_count:s_5_6_12", "t": 5, "k": 6, "v": 12, "phase": "label"}, "react:sophie_paw_up"]},
+   {"line": "s03.b02.l02", "with": ["react:euler_paw_up"]},
+   {"line": "s03.b02.l03", "with": ["react:ada_lean_in"]}
+  ],
+  "s03.b03": [
+   {"line": "s03.b03.l01", "with": [{"visual": "reveal_count:792_over_6", "phase": "fives", "fives": 792}]},
+   {"line": "s03.b03.l02", "with": [{"visual": "reveal_count:792_over_6", "phase": "per_block", "per_block": 6}, "react:sophie_paw_up"]},
+   {"line": "s03.b03.l03", "with": [{"visual": "reveal_count:792_over_6", "phase": "blocks", "blocks": 132}, "react:sophie_proud"]}
+  ],
+  "s03.b04": [
+   {"line": "s03.b04.l01", "with": [{"visual": "reveal_count:s_5_6_12", "t": 5, "k": 6, "v": 12, "phase": "name"}, "react:sophie_draws"]},
+   {"line": "s03.b04.l02", "with": ["react:ada_skeptical"]},
+   {"hold": 1.0}
+  ],
+  "s04.b01": [
+   {"line": "s04.b01.l01", "with": ["morph_layout:to_ring", "react:euler_paw_up"]},
+   {"line": "s04.b01.l02", "with": [{"visual": "clock_mod:11", "shows": [10, 1, 0]}]},
+   {"line": "s04.b01.l03", "with": ["point_at:euler_board"]}
+  ],
+  "s04.b02": [
+   {"line": "s04.b02.l01", "with": [{"visual": "highlight:seed", "points": [0, 1, 3, 4, 5, 9], "order": [0, 1, 4, 9, 5, 3]}, "react:euler_paw_up"]},
+   {"line": "s04.b02.l02", "with": ["react:sophie_lean_in"]}
+  ],
+  "s04.b03": [
+   {"line": "s04.b03.l01", "with": [{"visual": "point_ring:translate", "result": [1, 2, 4, 5, 6, 10]}]},
+   {"do": [{"visual": "highlight:seed", "points": [0, 1, 3, 4, 5, 9], "phase": "return"}], "seconds": 1.4},
+   {"line": "s04.b03.l02", "with": [{"visual": "point_ring:invert", "result": [2, 6, 7, 8, 10, 11]}]},
+   {"line": "s04.b03.l03", "with": ["point_at:euler_board"]}
+  ],
+  "s04.b04": [
+   {"line": "s04.b04.l01", "with": ["react:euler_paw_up"]},
+   {"do": [{"visual": "reveal_count:orbit_132", "layers": [1, 2, 3, 5, 8, 12, 17, 25, 29, 18, 8, 3, 1], "total": 132}, "react:sophie_lean_in"], "seconds": 8.0},
+   {"line": "s04.b04.l02", "with": ["react:sophie_surprised"]},
+   {"line": "s04.b04.l03", "with": ["react:euler_proud"]}
+  ],
+  "s04.b05": [
+   {"line": "s04.b05.l01", "with": [{"visual": "reveal_count:fives_792", "blocks": 132, "per_block": 6, "fives": 792, "each_once": true}]},
+   {"line": "s04.b05.l02", "with": [{"visual": "summon_completion:ring_five", "points": [1, 2, 3, 4, 5], "completes": [7], "phase": "pick"}, "react:sophie_paw_tap"]},
+   {"line": "s04.b05.l03", "with": [{"visual": "summon_completion:ring_five", "points": [1, 2, 3, 4, 5], "completes": [7], "phase": "complete"}, "react:euler_proud"]},
+   {"line": "s04.b05.l04", "with": ["react:ada_nod"]},
+   {"hold": 0.8}
+  ],
+  "s05.b01": [
+   {"do": ["morph_layout:to_triangle", "react:sophie_draws"], "seconds": 3.6},
+   {"line": "s05.b01.l01", "with": ["point_at:sophie_board"]},
+   {"line": "s05.b01.l02", "with": ["react:pascal_puzzled"]},
+   {"line": "s05.b01.l03", "with": [{"visual": "highlight:corners", "points": [11, 0, 1]}]}
+  ],
+  "s05.b02": [
+   {"line": "s05.b02.l01", "with": [{"visual": "highlight:repeats", "label": 6, "copies": 3}]}
+  ],
+  "s05.b03": [
+   {"do": ["morph_layout:triangle_to_views", "react:sophie_draws"], "seconds": 3.4},
+   {"line": "s05.b03.l01", "with": ["point_at:sophie_board"]}
+  ],
+  "s05.b04": [
+   {"line": "s05.b04.l01", "with": [{"visual": "highlight:row", "picture": 11, "k": 0, "points": [3, 6, 10]}, {"visual": "highlight:column", "picture": 11, "k": 0, "points": [2, 5, 6], "delay": 1.3}, {"visual": "highlight:diagonal", "picture": 11, "k": 0, "points": [6, 7, 8], "delay": 2.6}]},
+   {"line": "s05.b04.l02", "with": [{"visual": "highlight:modular_diagonal", "picture": 11, "k": 0, "points": [4, 6, 9]}, "react:sophie_paw_up"]},
+   {"line": "s05.b04.l03", "with": ["react:euler_paw_up"]}
+  ],
+  "s05.b05": [
+   {"line": "s05.b05.l01", "with": [{"visual": "highlight:cross", "picture": 11, "row": 0, "column": 0, "points": [2, 3, 5, 6, 10]}]},
+   {"line": "s05.b05.l02", "with": [{"visual": "highlight:square", "picture": 11, "row": 0, "column": 0, "points": [4, 7, 8, 9]}]},
+   {"hold": 0.8}
+  ],
+  "s06.b01": [
+   {"line": "s06.b01.l01", "with": [{"visual": "highlight:family_line", "hexad": [0, 1, 3, 6, 10, 11], "count": 12}, "react:sophie_paw_up"]}
+  ],
+  "s06.b02": [
+   {"line": "s06.b02.l01", "with": [{"visual": "highlight:family_parallel", "hexad": [3, 5, 6, 8, 9, 10], "count": 12}]}
+  ],
+  "s06.b03": [
+   {"line": "s06.b03.l01", "with": [{"visual": "highlight:family_cross", "hexad": [2, 3, 5, 6, 10, 11], "count": 54}, "react:sophie_paw_up"]}
+  ],
+  "s06.b04": [
+   {"line": "s06.b04.l01", "with": [{"visual": "highlight:family_square", "hexad": [0, 1, 4, 7, 8, 9], "count": 54}]}
+  ],
+  "s06.b05": [
+   {"line": "s06.b05.l01", "with": [{"visual": "reveal_count:12_12_54_54", "parts": [12, 12, 54, 54], "total": 132, "phase": "sum"}, "react:ada_lean_in"]},
+   {"line": "s06.b05.l02", "with": [{"visual": "reveal_count:12_12_54_54", "parts": [12, 12, 54, 54], "total": 132, "phase": "match"}, "react:ada_nod"]},
+   {"line": "s06.b05.l03", "with": ["react:sophie_proud"]}
+  ],
+  "s07.b01": [
+   {"line": "s07.b01.l01", "with": ["morph_layout:projective_to_shuffle", "react:sophie_draws"]},
+   {"line": "s07.b01.l02", "with": ["point_at:sophie_board"]}
+  ],
+  "s07.b02": [
+   {"line": "s07.b02.l01", "with": [{"visual": "highlight:ep1_hands", "hand": "hand:1to6", "family": 3, "picture": 0}, "react:sophie_paw_up"]},
+   {"line": "s07.b02.l02", "with": [{"visual": "highlight:ep1_hands", "hand": "hand:complement_1to6", "family": 2, "picture": 0}, "react:euler_lean_in"]}
+  ],
+  "s07.b03": [
+   {"line": "s07.b03.l01", "with": [{"visual": "highlight:ep1_hands", "hand": "hand:hexad_24", "family": 3, "picture": 6}]},
+   {"line": "s07.b03.l02", "with": [{"visual": "highlight:ep1_hands", "hand": "hand:game_after_3", "family": 2, "picture": 0}]},
+   {"line": "s07.b03.l03", "with": ["react:ada_nod"]}
+  ],
+  "s07.b04": [
+   {"line": "s07.b04.l01", "with": ["react:euler_lean_in"]},
+   {"line": "s07.b04.l02", "with": [{"visual": "highlight:ep1_hands", "hand": "hand:game_after_1", "family": 3, "picture": 1}]},
+   {"line": "s07.b04.l03", "with": ["react:euler_pleased"]},
+   {"line": "s07.b04.l04", "with": ["react:pascal_smug"]}
+  ],
+  "s07.b05": [
+   {"line": "s07.b05.l01", "with": ["react:sophie_thinking"]},
+   {"hold": 1.6}
+  ],
+  "s08.b01": [
+   {"do": ["react:pascal_deals"], "seconds": 1.0},
+   {"line": "s08.b01.l01", "with": ["react:pascal_proud"]},
+   {"line": "s08.b01.l02", "with": ["react:ada_deadpan"]},
+   {"line": "s08.b01.l03", "with": ["react:pascal_paw_up"]},
+   {"line": "s08.b01.l04", "with": ["react:ada_paw_up"]},
+   {"hold": 2.0}
+  ]
+ }
+}

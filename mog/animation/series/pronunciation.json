@@ -27,6 +27,7 @@
  "check_list": [
   "Euler should sound like 'Oiler', never 'Yooler'.",
   "Card values are read as words (seven to five), not digits run together.",
-  "Arrows in captions (7 → 5) are spoken as 'seven to five'."
+  "Arrows in captions (7 → 5) are spoken as 'seven to five'.",
+  "Episode 2: 'Fano' as 'Fah-no'; 'affine' as uh-FINE; 'Steiner' and 'Witt' as written. Checked with Kokoro's phonemizer, Nov 2026; no further respellings were needed."
  ]
 }

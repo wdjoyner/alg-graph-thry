@@ -13,7 +13,7 @@
  },
  "episodes": [
   {"number": 1, "title": "The Curious Game of Twenty-One", "outline": "ep1/outline.json", "runtime_seconds": [420, 480]},
-  {"number": 2, "title": "The Geometry of a Kitten", "outline": "ep2/outline.json", "runtime_seconds": [480, 600]},
+  {"number": 2, "title": "The Geometry of a Kitten", "outline": "ep2/outline.json", "runtime_seconds": [420, 480]},
   {"number": 3, "title": "The Secret Code of the MINIMOG", "outline": "ep3/outline.json", "runtime_seconds": [480, 600]},
   {"number": 4, "title": "The Hidden Graph of the Game", "outline": "ep4/outline.json", "runtime_seconds": [480, 600]}
  ],

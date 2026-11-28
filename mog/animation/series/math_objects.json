@@ -527,7 +527,24 @@
     54,
     54
    ],
-   "kitten_union_is_all_hexads": true
+   "kitten_union_is_all_hexads": true,
+   "five_in_block": 6,
+   "fives_formula": [
+    [
+     12,
+     11,
+     10,
+     9,
+     8
+    ],
+    [
+     5,
+     4,
+     3,
+     2,
+     1
+    ]
+   ]
   },
   "count:johnson": {
    "vertices": 924,
@@ -592,7 +609,42 @@
    "completions": {
     "1,4": 2,
     "4,5": 6
-   }
+   },
+   "positions": {
+    "1": [
+     0.0,
+     1.0
+    ],
+    "2": [
+     -0.866025,
+     -0.5
+    ],
+    "3": [
+     0.866025,
+     -0.5
+    ],
+    "4": [
+     -0.433013,
+     0.25
+    ],
+    "5": [
+     0.0,
+     -0.5
+    ],
+    "6": [
+     0.433013,
+     0.25
+    ],
+    "7": [
+     0.0,
+     0.0
+    ]
+   },
+   "straight_lines_collinear": true,
+   "circle_radius": 0.5,
+   "circle_concyclic": true,
+   "points": 7,
+   "line_size": 3
   },
   "seed:Q": {
    "points": [
@@ -849,6 +901,850 @@
    ],
    "new_total": 20,
    "legal": false
+  },
+  "ring:projective": {
+   "labels": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "\u221e"
+   ],
+   "infinity_label": 11,
+   "translate": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    0,
+    11
+   ],
+   "invert": [
+    11,
+    10,
+    5,
+    7,
+    8,
+    2,
+    9,
+    3,
+    4,
+    6,
+    1,
+    0
+   ],
+   "nonzero_squares": [
+    1,
+    3,
+    4,
+    5,
+    9
+   ],
+   "squares_in_order": [
+    1,
+    4,
+    9,
+    5,
+    3
+   ],
+   "seed": [
+    0,
+    1,
+    3,
+    4,
+    5,
+    9
+   ],
+   "translate_seed": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    10
+   ],
+   "invert_seed": [
+    2,
+    6,
+    7,
+    8,
+    10,
+    11
+   ],
+   "ten_plus_one": 0,
+   "five_example": {
+    "points": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "completion": 7
+   },
+   "note": "Projective line mod 11; label 11 is infinity, drawn at the center of the ring"
+  },
+  "orbit:Q": {
+   "layers": [
+    1,
+    2,
+    3,
+    5,
+    8,
+    12,
+    17,
+    25,
+    29,
+    18,
+    8,
+    3,
+    1
+   ],
+   "running_totals": [
+    1,
+    3,
+    6,
+    11,
+    19,
+    31,
+    48,
+    73,
+    102,
+    120,
+    128,
+    131,
+    132
+   ],
+   "hexads": 132,
+   "five_subsets": 792,
+   "per_block": 6,
+   "each_five_once": true,
+   "fives_counted": 792,
+   "relabeled_equals_card_hexads": true,
+   "layer_examples": [
+    [
+     0,
+     1,
+     3,
+     4,
+     5,
+     9
+    ],
+    [
+     1,
+     2,
+     4,
+     5,
+     6,
+     10
+    ],
+    [
+     0,
+     2,
+     3,
+     5,
+     6,
+     7
+    ],
+    [
+     0,
+     2,
+     3,
+     6,
+     9,
+     10
+    ],
+    [
+     0,
+     1,
+     3,
+     4,
+     7,
+     10
+    ],
+    [
+     0,
+     1,
+     2,
+     4,
+     5,
+     8
+    ],
+    [
+     0,
+     1,
+     2,
+     4,
+     7,
+     11
+    ],
+    [
+     0,
+     1,
+     2,
+     4,
+     9,
+     10
+    ],
+    [
+     0,
+     1,
+     2,
+     3,
+     5,
+     10
+    ],
+    [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6
+    ],
+    [
+     0,
+     1,
+     6,
+     7,
+     8,
+     11
+    ],
+    [
+     0,
+     1,
+     4,
+     5,
+     6,
+     7
+    ],
+    [
+     2,
+     3,
+     8,
+     9,
+     10,
+     11
+    ]
+   ],
+   "note": "Breadth-first orbit of the seed under add-one and negative reciprocal"
+  },
+  "shuffle:rho": {
+   "map": [
+    6,
+    1,
+    9,
+    3,
+    4,
+    5,
+    8,
+    11,
+    7,
+    2,
+    10,
+    0
+   ],
+   "views_match": true,
+   "bijective": true,
+   "note": "Projective label x (11 = infinity) -> card label map[x]; cell by cell from the projective MINIMOG to the MINIMOG"
+  },
+  "kitten:projective": {
+   "spots": [
+    [
+     0,
+     6,
+     11
+    ],
+    [
+     0,
+     5,
+     6
+    ],
+    [
+     -1,
+     4,
+     2
+    ],
+    [
+     1,
+     4,
+     10
+    ],
+    [
+     -2,
+     3,
+     5
+    ],
+    [
+     0,
+     3,
+     7
+    ],
+    [
+     2,
+     3,
+     3
+    ],
+    [
+     -3,
+     2,
+     6
+    ],
+    [
+     -1,
+     2,
+     9
+    ],
+    [
+     1,
+     2,
+     4
+    ],
+    [
+     3,
+     2,
+     6
+    ],
+    [
+     -4,
+     1,
+     2
+    ],
+    [
+     -2,
+     1,
+     10
+    ],
+    [
+     0,
+     1,
+     8
+    ],
+    [
+     2,
+     1,
+     2
+    ],
+    [
+     4,
+     1,
+     10
+    ],
+    [
+     -5,
+     0,
+     0
+    ],
+    [
+     5,
+     0,
+     1
+    ]
+   ],
+   "corners": [
+    11,
+    0,
+    1
+   ],
+   "views": [
+    [
+     11,
+     [
+      6,
+      10,
+      3,
+      2,
+      7,
+      4,
+      5,
+      9,
+      8
+     ]
+    ],
+    [
+     0,
+     [
+      5,
+      7,
+      3,
+      6,
+      9,
+      4,
+      2,
+      10,
+      8
+     ]
+    ],
+    [
+     1,
+     [
+      5,
+      7,
+      3,
+      9,
+      4,
+      6,
+      8,
+      2,
+      10
+     ]
+    ]
+   ],
+   "each_view_is_the_other_nine": true,
+   "repeated_labels": {
+    "2": 3,
+    "6": 3,
+    "10": 3
+   },
+   "families": [
+    12,
+    12,
+    54,
+    54
+   ],
+   "families_disjoint": true,
+   "union_is_orbit": true,
+   "crosses_per_picture": 18,
+   "examples": {
+    "row": {
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ]
+     ],
+     "points": [
+      3,
+      6,
+      10
+     ]
+    },
+    "column": {
+     "picture": 11,
+     "parts": [
+      [
+       [
+        0,
+        1
+       ],
+       0
+      ]
+     ],
+     "points": [
+      2,
+      5,
+      6
+     ]
+    },
+    "diagonal": {
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        2
+       ],
+       0
+      ]
+     ],
+     "points": [
+      6,
+      7,
+      8
+     ]
+    },
+    "modular_diagonal": {
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        1
+       ],
+       0
+      ]
+     ],
+     "points": [
+      4,
+      6,
+      9
+     ]
+    },
+    "cross": {
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       0
+      ]
+     ],
+     "points": [
+      2,
+      3,
+      5,
+      6,
+      10
+     ]
+    },
+    "square": {
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       0
+      ]
+     ],
+     "points": [
+      4,
+      7,
+      8,
+      9
+     ]
+    }
+   },
+   "family_examples": {
+    "family_line": {
+     "family": 0,
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ]
+     ],
+     "hexad": [
+      0,
+      1,
+      3,
+      6,
+      10,
+      11
+     ],
+     "in_orbit": true
+    },
+    "family_parallel": {
+     "family": 1,
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ],
+      [
+       [
+        1,
+        0
+       ],
+       2
+      ]
+     ],
+     "hexad": [
+      3,
+      5,
+      6,
+      8,
+      9,
+      10
+     ],
+     "in_orbit": true
+    },
+    "family_cross": {
+     "family": 2,
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       0
+      ]
+     ],
+     "hexad": [
+      2,
+      3,
+      5,
+      6,
+      10,
+      11
+     ],
+     "in_orbit": true
+    },
+    "family_square": {
+     "family": 3,
+     "picture": 11,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       0
+      ]
+     ],
+     "hexad": [
+      0,
+      1,
+      4,
+      7,
+      8,
+      9
+     ],
+     "in_orbit": true
+    }
+   },
+   "note": "Curtis's kitten in projective labels (11 = infinity); views list [corner, nine labels, rows top to bottom]"
+  },
+  "kitten:ep1_hands": {
+   "hands": {
+    "hand:1to6": {
+     "cards": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "family": 3,
+     "picture": 0,
+     "parts": [
+      [
+       [
+        1,
+        1
+       ],
+       1
+      ],
+      [
+       [
+        1,
+        2
+       ],
+       0
+      ]
+     ],
+     "hexad": true
+    },
+    "hand:complement_1to6": {
+     "cards": [
+      0,
+      7,
+      8,
+      9,
+      10,
+      11
+     ],
+     "family": 2,
+     "picture": 0,
+     "parts": [
+      [
+       [
+        1,
+        1
+       ],
+       1
+      ],
+      [
+       [
+        1,
+        2
+       ],
+       0
+      ]
+     ],
+     "hexad": true
+    },
+    "hand:hexad_24": {
+     "cards": [
+      0,
+      1,
+      2,
+      4,
+      7,
+      10
+     ],
+     "family": 3,
+     "picture": 6,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       0
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       0
+      ]
+     ],
+     "hexad": true
+    },
+    "hand:game_after_3": {
+     "cards": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      7
+     ],
+     "family": 2,
+     "picture": 0,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       2
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       2
+      ]
+     ],
+     "hexad": true
+    },
+    "hand:game_after_1": {
+     "cards": [
+      0,
+      2,
+      4,
+      5,
+      6,
+      11
+     ],
+     "family": 3,
+     "picture": 1,
+     "parts": [
+      [
+       [
+        1,
+        0
+       ],
+       2
+      ],
+      [
+       [
+        0,
+        1
+       ],
+       2
+      ]
+     ],
+     "hexad": true
+    }
+   },
+   "views": [
+    [
+     0,
+     [
+      8,
+      10,
+      3,
+      9,
+      11,
+      4,
+      5,
+      2,
+      7
+     ]
+    ],
+    [
+     6,
+     [
+      5,
+      11,
+      3,
+      8,
+      2,
+      4,
+      9,
+      10,
+      7
+     ]
+    ],
+    [
+     1,
+     [
+      5,
+      11,
+      3,
+      2,
+      4,
+      8,
+      7,
+      9,
+      10
+     ]
+    ]
+   ],
+   "note": "Episode 1's losing hands in the card-labeled (shuffle) kitten: family 0..3, picture, parts"
   }
  }
 }

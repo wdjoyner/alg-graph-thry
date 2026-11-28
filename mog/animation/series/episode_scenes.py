@@ -1,9 +1,15 @@
-"""Manim scene for an episode's body: the kittens, the cards and the dialogue.
+"""Manim scenes for the episode bodies: the kittens, the cards or diagrams, and the dialogue.
 
 Render through make_episode.py, which also mixes the dialogue, adds the
 titles and credits, and checks the length:
 
     python make_episode.py --episode 1 --draft
+    python make_episode.py --episode 2 --draft
+
+Every episode is an EpisodeScene (the kittens, the frame clock, steps,
+transitions, reactions, pauses) plus a mixin with the episode's props and
+visual verbs: Episode1 = TableVisuals (the card table), Episode2 =
+BoardVisuals (Sophie's chalk diagrams, drawn from cue_tools.Board).
 
 The body (scenes s01 to the last before s99) is played from three files:
 epN/cues.json says what happens, epN/timing.json says on which frame, and
@@ -15,7 +21,9 @@ cards, totals and glyphs are the titles' own (title_scenes.py).
 Every visual verb used in the cues has a method here, visual_<verb>; a cue
 with no method is an error, and so is a step whose visuals run longer than
 the step.  Every exchange goes through cue_tools.Table, which enforces the
-rules, so the picture cannot show an illegal move the checker missed.
+rules, so the picture cannot show an illegal move the checker missed; every
+diagram goes through cue_tools.Board, which recomputes it from the
+mathematics.
 
 How the kittens act: each kitten is an Actor.  On every frame it builds
 its pose from its seat's sitting pose, blended toward the pose of any
@@ -43,7 +51,7 @@ from pam_link import CatGraph, CAT_POSES, flip_pose  # noqa: E402
 
 import title_scenes as ts                                  # noqa: E402
 from title_scenes import BG, INK, MUTED, BLUE, GOLD, GREEN, PANEL, EDGE, FONT, card, text, xy  # noqa: E402
-from cue_tools import (Table, steps, step_visuals, split_visual, visual_params,  # noqa: E402
+from cue_tools import (Table, Board, steps, step_visuals, split_visual, visual_params,  # noqa: E402
                        montage_games, deal_cards, parse_move, down_moves)
 from script_tools import parse                              # noqa: E402
 
@@ -179,6 +187,9 @@ REACT_POSE = {
     "paw_on_card": "cat_paw_tap", "bows": "cat_bow", "flustered": None,
     "deflates": "cat_slump", "sulk": "cat_slump", "shifty": None,
     "grabs_chalk": "cat_paw_up", "looks_up": None, "point": "cat_paw_up",
+    # Episode 2
+    "draws": "cat_paw_up", "pleased": "cat_proud", "skeptical": None, "deadpan": None,
+    "objects": "cat_paw_up",
 }
 
 
@@ -212,6 +223,7 @@ class Actor:
             f += self.rng.randint(80, 170)
         self.phase = self.rng.random() * 6.28
         self.chalk = None
+        self.chalk_hold = None              # frame -> opacity, for a kitten that keeps her chalk
         self.name = text(CAST[key]["name"], size=18, color=MUTED).move_to(xy(self.x, GROUND - 0.22))
         self.group = VGroup(self.fig.group)
 
@@ -258,6 +270,21 @@ class Actor:
                 look_y += 0.6 * w
             if kind == "grabs_chalk" and frame >= start + 6:
                 chalk_on = True
+            if kind == "draws":
+                # small chalk strokes: the raised paw circles
+                for j, r in (("fl_paw", 0.07), ("fl_knee", 0.03)):
+                    pose[j] = pose[j] + w * r * np.array([s * math.cos(t * 9.0), math.sin(t * 9.0), 0])
+            if kind == "pleased":
+                blink += 0.45 * w
+                pose["head"] = pose["head"] + w * np.array([0, -0.04 * abs(math.sin(t * 4)), 0])
+            if kind == "skeptical":
+                pose["head"] = pose["head"] + w * np.array([-s * 0.05, 0.025, 0])
+                blink += 0.35 * w
+                look_x -= s * 0.7 * w
+            if kind == "deadpan":
+                blink += 0.5 * w
+            if kind == "objects":
+                shake += w * math.sin(t * 9) * 0.03
         # breathing
         b = 0.010 * math.sin(frame / FPS * 2 * math.pi / 3.4 + self.phase)
         for j in ("head", "neck", "spine_front"):
@@ -279,7 +306,10 @@ class Actor:
         fig.look = (float(np.clip(look_x, -1.8, 1.8)), float(np.clip(look_y, -1, 1)))
         fig.set_pose(pose)
         if self.chalk is not None:
-            self.chalk.set_opacity(1 if chalk_on else 0)
+            op = 1 if chalk_on else 0
+            if self.chalk_hold is not None:
+                op = max(op, self.chalk_hold(frame))
+            self.chalk.set_opacity(op)
             self.chalk.move_to(fig.dots["fl_paw"].get_center() + UP * 0.12)
         return mouth > 0.05
 
@@ -287,27 +317,25 @@ class Actor:
 # ---------------------------------------------------------------- the scene
 
 class EpisodeScene(Scene):
+    """What every episode body shares: the kittens, the frame clock, frame-exact
+    steps, scene transitions, reactions, pointing and the viewer's pauses.
+
+    An episode's own props and visual verbs come from a mixin listed before
+    this class: TableVisuals (Episode 1's cards) or BoardVisuals (Episode 2's
+    diagrams).  The hooks setup_stage, setup_actors, transition_anims and
+    point_target let the mixin take part without changing what is shared."""
+
     def setup(self):
         self.camera.background_color = BG
         self.frames = 0
         self.local_t = 0.0
         self.play_start = 0
-        self.table = Table()
-        self.cards = {v: card(v, h=HAND_H) for v in range(12)}
-        self.on_table = set()
-        self.total_label = text("total", size=20, color=MUTED).move_to(TOTAL_POS + UP * 0.62)
-        self.total_text = None
-        self.total_pos = TOTAL_POS
-        self.label_shown = False
-        self.row_labels = VGroup(text("pile", size=20, color=MUTED).move_to(xy(-3.55, PILE_Y)),
-                                 text("hand", size=20, color=MUTED).move_to(xy(-4.55, HAND_Y)))
         self.overlays = VGroup()
-        self.tally = None
-        self.table_faded = False
-        self.games_played = 0
+        self.setup_stage()
         seats = CUES["stage"]["seats"]
         size = CUES["stage"]["kitten_size"]
         self.actors = {k: Actor(k, seats[k], size, seed=i + 7) for i, k in enumerate(seats)}
+        self.setup_actors()
         # who speaks on each frame, from the timing
         self.speaking = {}
         for lid, ln in TIMING["lines"].items():
@@ -319,6 +347,20 @@ class EpisodeScene(Scene):
         self.clock = Mobject()
         self.clock.add_updater(self._tick)
         self.add(self.clock)
+
+    def setup_stage(self):
+        """Make the episode's props (they go on screen through the cues)."""
+
+    def setup_actors(self):
+        """Dress the kittens for the episode, once they exist."""
+
+    def transition_anims(self, n):
+        """What the episode's props do at a change of scene, besides clearing overlays."""
+        return []
+
+    def point_target(self, target):
+        """The mobject a point_at cue pulses, or None."""
+        return None
 
     # -- clock and frame-exact playing
 
@@ -354,6 +396,150 @@ class EpisodeScene(Scene):
 
     # -- table helpers
 
+    def clear_overlays(self, run=0.4):
+        if len(self.overlays) == 0:
+            return []
+        gone = self.overlays
+        self.overlays = VGroup()
+        return [FadeAway(gone, run_time=run)]
+
+    def pulse(self, m, run=0.6, k=1.12, color=None):
+        return Indicate(m, scale_factor=k, color=color or GOLD, run_time=run)
+
+    # -- the episode
+
+    # -- the episode
+
+    def construct(self):
+        body = [s for s in OUTLINE["scenes"] if s.get("kind") not in ("title_card", "end_credits")]
+        trans = TIMING["transition_frames"]
+        for si, scene in enumerate(body):
+            sc = TIMING["scenes"][scene["id"]]
+            assert self.frames == sc["start"], (scene["id"], self.frames, sc["start"])
+            self.transition(first=(si == 0))
+            for beat in scene["beats"]:
+                bt = TIMING["beats"][beat["id"]]
+                assert self.frames == bt["start"], (beat["id"], self.frames, bt["start"])
+                for s, row in zip(steps(CUES, beat["id"]), bt["steps"]):
+                    self.beat_id = beat["id"]
+                    self.run_step(s, row)
+                if beat["id"] == os.environ.get("STOP_AFTER"):
+                    return                   # a partial render, for a quick look
+            if scene["id"] == os.environ.get("STOP_AFTER"):
+                return                       # a partial render, for a quick look
+            if si == len(body) - 1:
+                # fade to the background color under a curtain, so the kittens'
+                # layered parts never show through each other as they fade
+                curtain = Rectangle(width=config.frame_width + 1, height=config.frame_height + 1,
+                                    fill_color=BG, fill_opacity=0, stroke_width=0)
+                curtain.z_index = 100
+                self.add(curtain)
+                self.go(opacity_to(curtain, 1, secs(trans) * 0.8), frames=trans)
+        assert self.frames == TIMING["body_frames"], (self.frames, TIMING["body_frames"])
+
+    def transition(self, first):
+        n = TIMING["transition_frames"]
+        if first:
+            for a in self.actors.values():
+                a.at(0, None)
+            anims = []
+            for a in self.actors.values():
+                anims.append(FadeIn(a.fig.group, run_time=secs(n) * 0.8))
+                anims.append(FadeIn(a.name, run_time=secs(n) * 0.8))
+            self.go(*anims, frames=n)
+            return
+        anims = self.clear_overlays(run=secs(n) * 0.5)
+        anims += self.transition_anims(n)
+        self.go(*anims, frames=n)
+
+    def run_step(self, s, row):
+        n, start = row["frames"], row["start"]
+        assert self.frames == start
+        end = start + n
+        anims = []
+        avail = secs(n)
+        if s.get("pause") == "predict":
+            anims += self.pause_card(s["prompt"], avail)
+        for v in step_visuals(s):
+            verb, arg = split_visual(v)
+            fn = getattr(self, "visual_" + verb, None)
+            if fn is None:
+                raise NotImplementedError(f"no choreography for visual verb {verb}")
+            anims += fn(arg, visual_params(v), start, end, avail) or []
+        self.go(*anims, frames=n)
+
+    # ---------------------------------------------------------------- visuals
+
+    # ---------------------------------------------------------------- shared visuals
+
+    def visual_react(self, arg, p, start, end, avail):
+        who, _, kind = arg.partition("_")
+        a = self.actors[who]
+        a.acts.append((start, end - 6, kind))
+        if kind == "grabs_chalk" and a.chalk is None:
+            a.chalk = RoundedRectangle(width=0.08, height=0.32, corner_radius=0.03, fill_color="#F4F1EA",
+                                       fill_opacity=1, stroke_width=0).set_opacity(0)
+            a.chalk.z_index = 8
+            self.add(a.chalk)
+        return []
+
+    def visual_point_at(self, arg, p, start, end, avail):
+        who, _, target = arg.partition("_")
+        self.actors[who].acts.append((start, min(end, start + 50) - 6, "point"))
+        m = self.point_target(target)
+        if m is None or (isinstance(m, VGroup) and len(m) == 0):
+            return []
+        return [Succession(Wait(run_time=0.25), self.pulse(m, run=min(0.8, avail - 0.3)))]
+
+    def pause_card(self, prompt, avail):
+        msg = text(prompt, size=30, color=GOLD, slant=ITALIC)
+        ring = Circle(radius=0.2, stroke_color=GOLD, stroke_width=4)
+        g = VGroup(ring, msg).arrange(RIGHT, buff=0.3).move_to(xy(0, 3.62))
+        sweep = Arc(radius=0.2, start_angle=PI / 2, angle=TAU, stroke_color=BG, stroke_width=5).move_arc_center_to(ring.get_center())
+        return [FadeIn(g, run_time=0.4),
+                Succession(Wait(run_time=0.4), Create(sweep, run_time=max(0.5, avail - 1.0), rate_func=linear)),
+                Succession(Wait(run_time=avail - 0.45), FadeAway(VGroup(g, sweep), run_time=0.35))]
+
+
+# ---------------------------------------------------------------- Episode 1: the card table
+
+class TableVisuals:
+    """Episode 1's props and visual verbs: the cards on the table, the total,
+    exchanges, deals, the montage's game engine, line-ups and branch trees."""
+
+    def setup_stage(self):
+        """The cards, the total and the row labels (made here, put on screen by the cues)."""
+        self.table = Table()
+        self.cards = {v: card(v, h=HAND_H) for v in range(12)}
+        self.on_table = set()
+        self.total_label = text("total", size=20, color=MUTED).move_to(TOTAL_POS + UP * 0.62)
+        self.total_text = None
+        self.total_pos = TOTAL_POS
+        self.label_shown = False
+        self.row_labels = VGroup(text("pile", size=20, color=MUTED).move_to(xy(-3.55, PILE_Y)),
+                                 text("hand", size=20, color=MUTED).move_to(xy(-4.55, HAND_Y)))
+        self.tally = None
+        self.table_faded = False
+        self.games_played = 0
+
+    def transition_anims(self, n):
+        anims = []
+        if self.table_faded:
+            anims += self.fade_table(1.0, run=secs(n) * 0.5)
+            self.table_faded = False
+        if self.tally is not None:
+            anims.append(FadeAway(self.tally, run_time=secs(n) * 0.5))
+            self.tally = None
+        return anims
+
+    def point_target(self, target):
+        return {"hand": VGroup(*(self.cards[v] for v in self.table.hand)),
+                "pile": VGroup(*(self.cards[v] for v in self.table.pile)),
+                "total": self.total_text,
+                "cards": VGroup(*(self.cards[v] for v in self.on_table))}.get(target)
+
+    # -- table helpers
+
     def total_anims(self, run=0.3):
         """Show the table's total.  One Text mobject is reshaped in place, so
         several changes queued in one step follow each other cleanly."""
@@ -374,13 +560,6 @@ class EpisodeScene(Scene):
         if self.row_labels not in self.mobjects:
             self.add(self.row_labels.set_opacity(0))
         return [opacity_to(self.row_labels, 1, run)]
-
-    def clear_overlays(self, run=0.4):
-        if len(self.overlays) == 0:
-            return []
-        gone = self.overlays
-        self.overlays = VGroup()
-        return [FadeAway(gone, run_time=run)]
 
     def fade_table(self, opacity, run=0.4):
         anims = [opacity_to(self.cards[v], opacity, run) for v in self.on_table]
@@ -429,97 +608,7 @@ class EpisodeScene(Scene):
         anims += [Succession(Wait(run_time=start + run * 0.85), x) for x in self.total_anims()]
         return anims
 
-    def pulse(self, m, run=0.6, k=1.12, color=None):
-        return Indicate(m, scale_factor=k, color=color or GOLD, run_time=run)
-
-    # -- the episode
-
-    def construct(self):
-        body = [s for s in OUTLINE["scenes"] if s.get("kind") not in ("title_card", "end_credits")]
-        trans = TIMING["transition_frames"]
-        for si, scene in enumerate(body):
-            sc = TIMING["scenes"][scene["id"]]
-            assert self.frames == sc["start"], (scene["id"], self.frames, sc["start"])
-            self.transition(first=(si == 0))
-            for beat in scene["beats"]:
-                bt = TIMING["beats"][beat["id"]]
-                assert self.frames == bt["start"], (beat["id"], self.frames, bt["start"])
-                for s, row in zip(steps(CUES, beat["id"]), bt["steps"]):
-                    self.beat_id = beat["id"]
-                    self.run_step(s, row)
-                if beat["id"] == os.environ.get("STOP_AFTER"):
-                    return                   # a partial render, for a quick look
-            if scene["id"] == os.environ.get("STOP_AFTER"):
-                return                       # a partial render, for a quick look
-            if si == len(body) - 1:
-                # fade to the background color under a curtain, so the kittens'
-                # layered parts never show through each other as they fade
-                curtain = Rectangle(width=config.frame_width + 1, height=config.frame_height + 1,
-                                    fill_color=BG, fill_opacity=0, stroke_width=0)
-                curtain.z_index = 100
-                self.add(curtain)
-                self.go(opacity_to(curtain, 1, secs(trans) * 0.8), frames=trans)
-        assert self.frames == TIMING["body_frames"], (self.frames, TIMING["body_frames"])
-
-    def transition(self, first):
-        n = TIMING["transition_frames"]
-        if first:
-            for a in self.actors.values():
-                a.at(0, None)
-            anims = []
-            for a in self.actors.values():
-                anims.append(FadeIn(a.fig.group, run_time=secs(n) * 0.8))
-                anims.append(FadeIn(a.name, run_time=secs(n) * 0.8))
-            self.go(*anims, frames=n)
-            return
-        anims = self.clear_overlays(run=secs(n) * 0.5)
-        if self.table_faded:
-            anims += self.fade_table(1.0, run=secs(n) * 0.5)
-            self.table_faded = False
-        if self.tally is not None:
-            anims.append(FadeAway(self.tally, run_time=secs(n) * 0.5))
-            self.tally = None
-        self.go(*anims, frames=n)
-
-    def run_step(self, s, row):
-        n, start = row["frames"], row["start"]
-        assert self.frames == start
-        end = start + n
-        anims = []
-        avail = secs(n)
-        if s.get("pause") == "predict":
-            anims += self.pause_card(s["prompt"], avail)
-        for v in step_visuals(s):
-            verb, arg = split_visual(v)
-            fn = getattr(self, "visual_" + verb, None)
-            if fn is None:
-                raise NotImplementedError(f"no choreography for visual verb {verb}")
-            anims += fn(arg, visual_params(v), start, end, avail) or []
-        self.go(*anims, frames=n)
-
-    # ---------------------------------------------------------------- visuals
-
-    def visual_react(self, arg, p, start, end, avail):
-        who, _, kind = arg.partition("_")
-        a = self.actors[who]
-        a.acts.append((start, end - 6, kind))
-        if kind == "grabs_chalk" and a.chalk is None:
-            a.chalk = RoundedRectangle(width=0.08, height=0.32, corner_radius=0.03, fill_color="#F4F1EA",
-                                       fill_opacity=1, stroke_width=0).set_opacity(0)
-            a.chalk.z_index = 8
-            self.add(a.chalk)
-        return []
-
-    def visual_point_at(self, arg, p, start, end, avail):
-        who, _, target = arg.partition("_")
-        self.actors[who].acts.append((start, min(end, start + 50) - 6, "point"))
-        m = {"hand": VGroup(*(self.cards[v] for v in self.table.hand)),
-             "pile": VGroup(*(self.cards[v] for v in self.table.pile)),
-             "total": self.total_text,
-             "cards": VGroup(*(self.cards[v] for v in self.on_table))}.get(target)
-        if m is None or (isinstance(m, VGroup) and len(m) == 0):
-            return []
-        return [Succession(Wait(run_time=0.25), self.pulse(m, run=min(0.8, avail - 0.3)))]
+    # -- visuals
 
     def visual_total_counter(self, arg, p, start, end, avail):
         if self.total_text is None and self.table.hand:
@@ -769,15 +858,825 @@ class EpisodeScene(Scene):
                     Succession(Wait(run_time=min(1.6, avail - 0.5)), FadeIn(stuck, run_time=0.3))]
         raise NotImplementedError(f"branch_tree:{arg}")
 
-    def pause_card(self, prompt, avail):
-        msg = text(prompt, size=30, color=GOLD, slant=ITALIC)
-        ring = Circle(radius=0.2, stroke_color=GOLD, stroke_width=4)
-        g = VGroup(ring, msg).arrange(RIGHT, buff=0.3).move_to(xy(0, 3.62))
-        sweep = Arc(radius=0.2, start_angle=PI / 2, angle=TAU, stroke_color=BG, stroke_width=5).move_arc_center_to(ring.get_center())
-        return [FadeIn(g, run_time=0.4),
-                Succession(Wait(run_time=0.4), Create(sweep, run_time=max(0.5, avail - 1.0), rate_func=linear)),
-                Succession(Wait(run_time=avail - 0.45), FadeAway(VGroup(g, sweep), run_time=0.35))]
+
+# ---------------------------------------------------------------- Episode 2: the board
+#
+# Sophie and Euler draw with chalk in the dark space above the table.  The
+# board holds one diagram at a time: the Fano plane, a ring of twelve
+# points, Curtis's triangular kitten, and its three 3 x 3 views.  Every
+# point, line, set and count is computed by cue_tools.Board (the same code
+# the checker runs) from build_math_objects.py's definitions; nothing here
+# is typed in.  Diagrams stay up from scene to scene; captions, counters
+# and chips are overlays, cleared at each change of scene.
+
+CHALK = "#C9D3E6"                          # chalk strokes
+FANO_C, FANO_R = xy(0, 1.05), 1.8          # the Fano figure, circumradius
+BLANK_C, BLANK_R = xy(-2.3, 1.3), 1.55     # twelve blank points, before they have labels
+RING_C, RING_R = xy(-0.9, 1.35), 1.9       # the projective line: 0..10 round, infinity in the middle
+TRI_C = xy(0, 1.45)                        # the kitten triangle (the titles' spacing)
+VIEW_X, VIEW_Y, CELL, VIEW_H = (-4.15, 0.0, 4.15), 1.7, 0.74, 0.6
+CORNER_Y, CAPTION_Y, STRIP_Y = 3.3, 0.38, -0.32
+PANEL_X = 4.25                             # captions and counts to the right of a diagram
+# Points and cards are drawn over the chalk lines by a z_index above 0, never
+# by putting lines below 0: the renderer sorts by z_index when it picks the
+# mobjects that move, and anything sorted before the frame clock (z_index 0,
+# added first) is painted once into the step's still background and never
+# redrawn while the step plays.
+FRONT = 0.3
 
 
-class Episode1(EpisodeScene):
+def plabel(x, labels="projective"):
+    """How a point is written: 11 is infinity in projective labels."""
+    return "∞" if labels == "projective" and x == 11 else str(x)
+
+
+def label_card(lab, h):
+    """A card as in the titles (title_scenes.card), with any label."""
+    box = RoundedRectangle(width=h * 0.72, height=h, corner_radius=h * 0.11,
+                           stroke_color=EDGE, stroke_width=2, fill_color=PANEL, fill_opacity=1)
+    return VGroup(box, text(lab, size=34 * h / 0.84)).set_z_index(FRONT)
+
+
+def recolor(c, color, run):
+    """Light a card in color (or put it back to plain with None), from whatever
+    it is when the animation begins; its opacity is left alone."""
+    start = {}
+    fill_to, ink_to = ManimColor(color or PANEL), ManimColor(BG if color else INK)
+    stroke_to = ManimColor(color or EDGE)
+
+    def f(m, a):
+        if not start:
+            start.update(fill=m[0].get_fill_color(), stroke=m[0].get_stroke_color(),
+                         ink=m[1].get_fill_color())
+        m[0].set_fill(interpolate_color(start["fill"], fill_to, a))
+        m[0].set_stroke(interpolate_color(start["stroke"], stroke_to, a))
+        m[1].set_fill(interpolate_color(start["ink"], ink_to, a))
+    return UpdateFromAlphaFunc(c, f, run_time=run)
+
+
+def later(t, anim):
+    """anim, starting t seconds into its step."""
+    return Succession(Wait(run_time=t + 1e-3), anim) if t > 0 else anim
+
+
+def mark(pos, color=GOLD, r=0.22):
+    return Circle(radius=r, stroke_color=color, stroke_width=4, fill_color=color,
+                  fill_opacity=0.22).move_to(pos)
+
+
+def appear(m, t=0.0, run=0.4, scale=None):
+    """m appears at t (an introducer, so nothing shows early)."""
+    a = GrowFromCenter(m, run_time=run) if scale else FadeIn(m, run_time=run)
+    return later(t, a)
+
+
+def ring_pos(x, radius=RING_R):
+    """Point x of the projective line: 0..10 clockwise from the top, infinity at the center."""
+    if x == 11:
+        return RING_C.copy()
+    a = x * TAU / 11
+    return RING_C + radius * np.array([np.sin(a), np.cos(a), 0])
+
+
+def blank_pos(x):
+    """The twelve points before they have labels: evenly round a circle."""
+    a = x * TAU / 12
+    return BLANK_C + BLANK_R * np.array([np.sin(a), np.cos(a), 0])
+
+
+def cell_pos(i, r, c):
+    """Cell (r, c) of view i (rows top to bottom); r, c may run off the grid."""
+    return xy(VIEW_X[i] + (c - 1) * CELL, VIEW_Y + (1 - r) * CELL)
+
+
+class BoardVisuals:
+    """Episode 2's props and visual verbs: the board's diagrams."""
+
+    def setup_stage(self):
+        self.board = Board(OBJ)
+        self.bm = self.board.bm
+        self.points = {}        # the twelve points of the ring (blank, then labeled): x -> Dot
+        self.point_labels = {}  # x -> Text
+        self.ring_circle = None
+        self.fano = None
+        self.marks = {}         # x -> mark on the ring
+        self.tri = []           # (label, card) of the triangle, in OBJ order
+        self.tri_outline = None
+        self.cells = {}         # (view, r, c) -> card
+        self.cell_label = {}    # (view, r, c) -> point (projective label)
+        self.corner_cards = {}  # view -> card
+        self.captions = VGroup()
+        self.lit = {}           # card -> color
+        self.faint = {}         # card -> opacity, for cards shown faint
+        self.base = {}          # card -> its resting color (the corners are gold)
+        self.panel = {}         # named overlay texts
+        self.strip = []         # chips or hands along the strip
+        self.summoned = VGroup()
+
+    def setup_actors(self):
+        who = CUES["stage"].get("chalk")
+        if not who:
+            return
+        a = self.actors[who]
+        a.chalk = RoundedRectangle(width=0.08, height=0.32, corner_radius=0.03, fill_color="#F4F1EA",
+                                   fill_opacity=1, stroke_width=0).set_opacity(0)
+        a.chalk.z_index = 8
+        self.add(a.chalk)
+        n = TIMING["transition_frames"]
+        a.chalk_hold = lambda f: min(1.0, max(0.0, f / (0.8 * n)))   # in her paw from the first fade-in
+
+    def transition_anims(self, n):
+        run = secs(n) * 0.5
+        anims = [recolor(c, self.base.get(c), run) for c, col in self.lit.items() if col]
+        self.lit = {}
+        anims += self.undim(run)
+        self.strip, self.panel, self.marks = [], {}, {}
+        return anims
+
+    def board_group(self):
+        lay = self.board.layout
+        if lay == "fano":
+            return self.fano["group"]
+        if lay in ("ring", "ring_blank"):
+            return VGroup(*self.points.values())
+        if lay == "triangle":
+            return VGroup(*(c for _, c in self.tri))
+        if lay == "views":
+            return VGroup(*self.cells.values(), *self.corner_cards.values())
+        return None
+
+    def point_target(self, target):
+        return self.board_group() if target == "board" else None
+
+    def play_board(self, verb, arg, p):
+        errs = self.board.play(verb, arg, p)
+        if errs:
+            raise ValueError(f"{self.beat_id} {verb}:{arg}: " + "; ".join(errs))
+
+    def overlay(self, *ms):
+        self.overlays.add(*ms)
+        return ms[0] if len(ms) == 1 else ms
+
+    def caption(self, s, pos, size=24, color=INK, **kw):
+        return self.overlay(text(s, size=size, color=color, **kw).move_to(pos))
+
+    # -- shared pieces
+
+    def clear_strip(self, run=0.3):
+        gone = [m for m in self.strip if m in self.overlays]
+        self.strip = []
+        for m in gone:
+            self.overlays.remove(m)
+        return [FadeAway(VGroup(*gone), run_time=run)] if gone else []
+
+    def light(self, colors, run=0.4, keep=False):
+        """Recolor cards: colors maps card -> color; every other lit card goes back to plain unless keep."""
+        anims, lit = [], {}
+        for c in list(self.lit) + [c for c in colors if c not in self.lit]:
+            want = colors.get(c, self.lit.get(c) if keep else None)
+            if self.lit.get(c) != want:
+                anims.append(recolor(c, want or self.base.get(c), run))
+            if want:
+                lit[c] = want
+        self.lit = lit
+        return anims
+
+    def undim(self, run=0.4):
+        anims = [opacity_to(m, 1.0, run) for m, op in self.faint.items() if op < 1]
+        self.faint = {}
+        return anims
+
+    def set_faint(self, bright, run=0.5):
+        """Every view card not in bright goes faint; the rest come back."""
+        anims = []
+        for j in range(3):
+            for m in self.view_members(j):
+                want = 1.0 if m in bright else 0.3
+                if self.faint.get(m, 1.0) != want:
+                    anims.append(opacity_to(m, want, run))
+                    self.faint[m] = want
+        return anims
+
+    def view_members(self, i):
+        return [c for (j, _, _), c in self.cells.items() if j == i] + [self.corner_cards[i]]
+
+    def view_index(self, picture):
+        return [d for d, _ in self.board.views()].index(picture)
+
+    def cells_of(self, i, points):
+        return [c for (j, r, cc), c in self.cells.items() if j == i and self.cell_point(j, r, cc) in points]
+
+    def cell_point(self, i, r, c):
+        """The point in cell (r, c) of view i, in the board's current labels."""
+        return self.board.views()[i][1][3 * r + c]
+
+    def corners_of(self, points):
+        corners = [d for d, _ in self.board.views()]
+        return [self.corner_cards[i] for i, d in enumerate(corners) if d in points]
+
+    def mark_set(self, points, run=0.3, t=0.0, color=GOLD):
+        """Move the ring's marks to exactly these points (old marks fade, new ones grow)."""
+        anims = []
+        for x in [x for x in self.marks if x not in points]:
+            m = self.marks.pop(x)
+            anims.append(later(t, FadeAway(m, run_time=run)))
+        for x in points:
+            if x not in self.marks:
+                m = self.overlay(mark(ring_pos(x), color))
+                self.marks[x] = m
+                anims.append(appear(m, t, run, scale=True))
+        return anims
+
+    def clear_marks(self, run=0.3, t=0.0):
+        return self.mark_set([], run=run, t=t)
+
+    # -- visuals
+
+    def visual_recap_montage(self, arg, p, start, end, avail):
+        self.play_board("recap_montage", arg, p)
+        keys = p["hands"]
+        hands = [sorted(OBJ[k]["cards"]) for k in keys]
+        groups = VGroup(*(mini_hand(h, h=0.42) for h in hands)).arrange(RIGHT, buff=0.55).move_to(xy(0, 1.35))
+        if groups.width > 13.4:
+            groups.scale_to_fit_width(13.4)
+        tags = VGroup()
+        for g, k in zip(groups, keys):
+            q = k == p["question"]
+            tag = text("?" if q else "lost", size=26 if q else 20, color=GOLD if q else RED,
+                       weight=BOLD if q else NORMAL).next_to(g, DOWN, buff=0.22)
+            tags.add(tag)
+        self.overlay(groups, tags)
+        self.line_up = (groups, tags)
+        return [later(0.2, LaggedStart(*(FadeIn(g, shift=DOWN * 0.2) for g in groups), lag_ratio=0.3, run_time=1.6)),
+                later(min(2.0, avail - 0.6), FadeIn(tags, run_time=0.5))]
+
+    def visual_morph_layout(self, arg, p, start, end, avail):
+        self.play_board("morph_layout", arg, p)
+        return getattr(self, "layout_" + arg)(p, avail)
+
+    def layout_to_fano(self, p, avail):
+        f = OBJ["fano"]
+        pos = {int(k): FANO_C + FANO_R * xy(*v) for k, v in f["positions"].items()}
+        anims = self.clear_overlays(run=0.4)
+        pts, labs, lines = {}, {}, {}
+        for k, q in sorted(pos.items()):
+            pts[k] = Dot(q, radius=0.1, color=INK).set_z_index(FRONT)
+            out = q - FANO_C
+            d = out / np.linalg.norm(out) if np.linalg.norm(out) > 1e-6 else np.array([0.55, 0.55, 0]) / 0.78
+            labs[k] = text(str(k), size=24, color=MUTED).move_to(q + 0.36 * d).set_z_index(FRONT)
+        for line in f["lines"]:
+            if set(line) == set(f["circle"]):
+                m = Circle(radius=FANO_R * f["circle_radius"], stroke_color=CHALK, stroke_width=3).move_to(FANO_C)
+            else:
+                a, b = max(((u, v) for u in line for v in line), key=lambda uv: np.linalg.norm(pos[uv[0]] - pos[uv[1]]))
+                m = Line(pos[a], pos[b], stroke_color=CHALK, stroke_width=3)
+            lines[frozenset(line)] = m
+        self.fano = {"pos": pos, "pt": pts, "lab": labs, "line": lines,
+                     "group": VGroup(*lines.values(), *pts.values(), *labs.values())}
+        run = avail - 0.4
+        anims.append(later(0.3, LaggedStart(*(AnimationGroup(GrowFromCenter(pts[k]), FadeIn(labs[k]))
+                                              for k in sorted(pts)), lag_ratio=0.25, run_time=run * 0.35)))
+        anims.append(later(0.3 + run * 0.38, LaggedStart(*(Create(m) for m in lines.values()), lag_ratio=0.3,
+                                                         run_time=run * 0.6)))
+        return anims
+
+    def layout_to_ring(self, p, avail):
+        anims = []
+        for x, d in self.points.items():
+            anims.append(d.animate(run_time=1.4).move_to(ring_pos(x)).set_color(INK))
+        self.ring_circle = Circle(radius=RING_R, stroke_color=CHALK, stroke_width=2, stroke_opacity=0.6).move_to(RING_C)
+        labels = OBJ["ring:projective"]["labels"]
+        for x in range(12):
+            q = ring_pos(x, RING_R + 0.38) if x != 11 else RING_C + xy(0.3, 0.3)
+            self.point_labels[x] = text(labels[x], size=26 if x == 11 else 24, color=MUTED).move_to(q).set_z_index(FRONT)
+        anims.append(later(0.6, Create(self.ring_circle, run_time=1.0)))
+        anims.append(later(1.2, LaggedStart(*(FadeIn(self.point_labels[x]) for x in range(12)),
+                                            lag_ratio=0.15, run_time=min(2.2, avail - 1.4))))
+        return anims
+
+    def layout_to_triangle(self, p, avail):
+        k = OBJ["kitten:projective"]
+        corners = set(k["corners"])
+        anims, first, self.tri = [], {}, []
+        for x, y, lab in k["spots"]:
+            target = label_card(plabel(lab), 0.5).move_to(TRI_C + xy(x * 0.6, (y - 3) * 0.68))
+            if lab in corners:
+                target[0].set_fill(GOLD, 0.92).set_stroke(GOLD)
+                target[1].set_color(BG)
+            if lab not in first:
+                # the ring's point (dot and label) becomes its first card
+                ghost = VGroup(self.points[lab].copy(), self.point_labels[lab].copy())
+                anims.append(Transform(ghost, target, run_time=1.3, path_arc=0.4, introducer=True))
+                first[lab] = target
+            else:
+                # a repeated label: a copy slides out from the first card to its own spot
+                ghost = target.copy().move_to(first[lab])
+                anims.append(later(1.4, Transform(ghost, target, run_time=0.7, introducer=True)))
+            self.tri.append((lab, ghost))
+        old = VGroup(*self.points.values(), *self.point_labels.values())
+        anims.append(FadeAway(old, run_time=0.1))
+        anims.append(FadeAway(self.ring_circle, run_time=0.6))
+        self.points, self.point_labels = {}, {}
+        verts = [TRI_C + xy(x * 0.6, (y - 3) * 0.68) for x, y in ((0, 6), (-5, 0), (5, 0))]
+        self.tri_outline = Polygon(*verts, stroke_color="#6687A9", stroke_width=2)
+        anims.append(later(1.0, Create(self.tri_outline, run_time=min(1.4, avail - 1.2))))
+        return anims
+
+    def layout_triangle_to_views(self, p, avail):
+        views = self.board.views()
+        src = {}
+        for lab, c in self.tri:
+            src.setdefault(lab, c)
+        anims = []
+        for i, (d, v) in enumerate(views):
+            for r in range(3):
+                for c in range(3):
+                    lab = v[3 * r + c]
+                    target = label_card(plabel(lab), VIEW_H).move_to(cell_pos(i, r, c))
+                    ghost = src[lab].copy()
+                    anims.append(later(0.15 * i + 0.05 * (3 * r + c), Transform(ghost, target, run_time=1.1,
+                                                                             path_arc=0.3, introducer=True)))
+                    self.cells[(i, r, c)] = ghost
+                    self.cell_label[(i, r, c)] = lab
+            corner = src[d]
+            target = label_card(plabel(d), VIEW_H).move_to(xy(VIEW_X[i], CORNER_Y))
+            target[0].set_fill(GOLD, 0.92).set_stroke(GOLD)
+            target[1].set_color(BG)
+            anims.append(Transform(corner, target, run_time=1.2, path_arc=0.3))
+            self.corner_cards[i] = corner
+            self.base[corner] = GOLD
+            cap = text("picture at " + plabel(d), size=18, color=MUTED).move_to(xy(VIEW_X[i], CAPTION_Y))
+            self.captions.add(cap)
+        rest = VGroup(*(c for lab, c in self.tri if c not in self.corner_cards.values()), self.tri_outline)
+        anims.append(later(1.3, FadeAway(rest, run_time=0.6)))
+        anims.append(later(min(1.8, avail - 0.8), FadeIn(self.captions, run_time=0.6)))
+        self.tri = []
+        return anims
+
+    def layout_projective_to_shuffle(self, p, avail):
+        rho = OBJ["shuffle:rho"]["map"]
+        anims = self.light({}, run=0.3) + self.clear_strip()
+        pairs = "   ".join(f"{plabel(x)}→{rho[x]}" for x in [11] + list(range(11)))
+        strip = self.overlay(text(pairs, size=20, color=MUTED).move_to(xy(0, STRIP_Y)))
+        self.strip = [strip]
+        anims.append(FadeIn(strip, run_time=0.5))
+        # self.board now holds card labels; the cards on screen still show projective ones
+        members = [(c, self.cell_label[key]) for key, c in sorted(self.cells.items())] + \
+                  [(self.corner_cards[i], d) for i, d in enumerate(OBJ["kitten:projective"]["corners"])]
+        per = (avail - 2.2) / len(members)
+        for k, (c, lab) in enumerate(members):
+            new = label_card(str(rho[lab]), VIEW_H)[1].move_to(c[1].get_center())
+            if c in self.corner_cards.values():
+                new.set_color(BG)
+            # flash the box only: an Indicate on the whole card would replay its old label over the new one
+            anims.append(later(0.4 + per * k, AnimationGroup(Transform(c[1], new, run_time=0.35),
+                                                             Indicate(c[0], scale_factor=1.15, color=GOLD, run_time=0.5))))
+        for key in self.cell_label:
+            self.cell_label[key] = rho[self.cell_label[key]]
+        new_caps = VGroup(*(text("picture at " + str(d), size=18, color=MUTED).move_to(cap)
+                            for (d, _), cap in zip(self.board.views(), self.captions)))
+        anims.append(later(avail - 1.4, Transform(self.captions, new_caps, run_time=0.6)))
+        return anims
+
+    def visual_summon_completion(self, arg, p, start, end, avail):
+        self.play_board("summon_completion", arg, p)
+        pts, phase = p["points"], p.get("phase", "complete")
+        third = p["completes"][0]
+        if arg.startswith("fano_"):
+            pos = self.fano["pos"]
+            if phase == "pick":
+                anims = [FadeAway(self.summoned, run_time=0.3)] if len(self.summoned) else []
+                if len(self.summoned):
+                    self.overlays.remove(*self.summoned)
+                self.summoned = VGroup(*(mark(pos[k]) for k in pts))
+                self.overlay(*self.summoned)
+                # the two marks land as their numbers are said, at the end of the line
+                return anims + [appear(m, max(0.1, avail - 1.7) + 0.6 * i, 0.35, scale=True)
+                                for i, m in enumerate(self.summoned)]
+            line = self.fano["line"][frozenset(pts) | {third}]
+            glow = line.copy().set_stroke(GOLD, 6)
+            ring = mark(pos[third], GREEN, 0.26)
+            lab = self.fano["lab"][third].copy().set_color(GREEN)
+            self.summoned.add(glow, ring, lab)
+            self.overlay(glow, ring, lab)
+            return [later(0.1, Create(glow, run_time=0.8)),
+                    later(0.9, ShowPassingFlash(line.copy().set_stroke(GREEN, 8), time_width=0.5, run_time=0.6)),
+                    appear(ring, 1.2, 0.4, scale=True), appear(lab, 1.2, 0.4)]
+        # ring_five
+        if phase == "pick":
+            anims = self.clear_marks()
+            per = 0.32
+            t0 = max(0.4, avail - 0.6 - 5 * per - 0.4)
+            for i, x in enumerate(pts):
+                m = self.overlay(mark(ring_pos(x)))
+                self.marks[x] = m
+                anims.append(appear(m, t0 + per * i, 0.3, scale=True))
+            return anims
+        rays = VGroup(*(Line(ring_pos(x), ring_pos(third), stroke_color=GREEN, stroke_width=4) for x in pts))
+        m = self.overlay(mark(ring_pos(third), GREEN, 0.26))
+        self.marks[third] = m
+        block = sorted(pts + [third])
+        cap = self.caption("the one block: {" + ", ".join(plabel(x) for x in block) + "}", xy(PANEL_X, -0.35),
+                           size=22, color=GREEN)
+        return [ShowPassingFlash(rays, time_width=0.6, run_time=0.9), appear(m, 0.7, 0.4, scale=True),
+                appear(cap, 1.0, 0.5)]
+
+    def visual_highlight(self, arg, p, start, end, avail):
+        self.play_board("highlight", arg, p)
+        delay = p.get("delay", 0.0)
+        anims = getattr(self, "hl_" + (arg if not arg.startswith("family_") else "family"))(arg, p, avail - delay)
+        return [later(delay, a) for a in anims] if delay else anims
+
+    def hl_circle(self, arg, p, avail):
+        circ = self.fano["line"][frozenset(OBJ["fano"]["circle"])]
+        lab = self.caption("a line: 4, 5, 6", FANO_C + xy(2.9, -0.15), size=22, color=GOLD)
+        assert sorted(OBJ["fano"]["circle"]) == [4, 5, 6]
+        return [later(0.2, Indicate(circ, color=GOLD, scale_factor=1.06, run_time=0.9)), appear(lab, 0.9, 0.5)]
+
+    def hl_seed(self, arg, p, avail):
+        q = sorted(self.board.marked)
+        if p.get("phase") == "return":
+            # back from x + 1 to x: each mark steps back one place round the clock
+            moves = []
+            for x, m in list(self.marks.items()):
+                y = next(z for z in q if self.bm.translate(z) == x)
+                moves.append((m, x, y))
+            self.marks = {y: m for m, x, y in moves}
+            cap = self.panel.pop("translate", None)
+            out = [FadeAway(cap, run_time=0.3)] if cap is not None else []
+            return out + [MoveAlongPath(m, self.ring_arc(x, y), run_time=0.9) for m, x, y in moves]
+        order = p.get("order", q)
+        anims = self.clear_marks()
+        clock = self.panel.pop("clock", None)
+        if clock is not None:
+            anims.append(FadeAway(clock, run_time=0.4))
+        per = (avail - 1.4) / len(order)
+        for i, x in enumerate(order):
+            m = self.overlay(mark(ring_pos(x)))
+            self.marks[x] = m
+            anims.append(appear(m, 0.5 + per * i, 0.3, scale=True))
+        sq = OBJ["ring:projective"]["squares_in_order"]
+        line1 = self.caption("seed: 0 and the squares", xy(PANEL_X, 3.2), size=24)
+        line2 = self.caption("1², 2², 3², 4², 5² = " + ", ".join(map(str, sq)) + "  (mod 11)",
+                             xy(PANEL_X - 0.4, 2.65), size=20, color=MUTED)
+        self.panel["seed"] = VGroup(line1, line2)
+        return anims + [appear(line1, 0.3, 0.4), appear(line2, 1.0, 0.5)]
+
+    def ring_arc(self, x, y):
+        """The path a mark takes from point x to point y of the ring."""
+        a, b = ring_pos(x), ring_pos(y)
+        if 11 in (x, y):
+            return Line(a, b)
+        if self.bm.translate(x) == y or self.bm.translate(y) == x:
+            # one step round the circle
+            ang = -TAU / 11 if self.bm.translate(x) == y else TAU / 11
+            return Arc(radius=RING_R, start_angle=PI / 2 - x * TAU / 11, angle=ang, arc_center=RING_C)
+        return ArcBetweenPoints(a, b, angle=0.6)
+
+    def hl_corners(self, arg, p, avail):
+        corners = set(OBJ["kitten:projective"]["corners"])
+        cs = [c for lab, c in self.tri if lab in corners]
+        return [later(0.8 + 0.6 * i, Indicate(c, scale_factor=1.3, color=GOLD, run_time=0.6)) for i, c in enumerate(cs)]
+
+    def hl_repeats(self, arg, p, avail):
+        copies = [c for lab, c in self.tri if lab == p["label"]]
+        links = VGroup(*(DashedLine(a.get_center(), b.get_center(), stroke_color=GREEN, stroke_width=3, dash_length=0.12)
+                         for a, b in zip(copies, copies[1:] + copies[:1])))
+        self.overlay(links)
+        back = avail - 0.7
+        return [recolor(c, GREEN, 0.4) for c in copies] + [later(0.5, Create(links, run_time=0.9)),
+                                                           later(back, FadeAway(links, run_time=0.5))] + \
+            [later(back, recolor(c, None, 0.5)) for c in copies]
+
+    def view_line_path(self, i, cells, wrap=False):
+        """A chalk line through three cells of view i; a wrapped one leaves one edge and comes back at the other."""
+        pts = [cell_pos(i, r, c) for r, c in cells]
+        if not wrap:
+            a, b = pts[0], pts[-1]
+            d = (b - a) / np.linalg.norm(b - a)
+            return VGroup(Line(a - 0.32 * d, b + 0.32 * d))
+        (r0, c0), (r1, c1), _ = cells
+        step = (np.array([r1 - r0, c1 - c0]) + 1) % 3 - 1     # the step mod 3, as -1, 0 or 1
+        out = cell_pos(i, r0 + 0.66 * step[0], c0 + 0.66 * step[1])     # off one edge...
+        back = cell_pos(i, r1 - 0.66 * step[0], c1 - 0.66 * step[1])    # ...and in at the other
+        return VGroup(Line(pts[0], out).add_tip(tip_length=0.14), Line(back, pts[1]), Line(pts[1], pts[2]))
+
+    def hl_line_cells(self, i, direction, k):
+        a, b = direction
+        cells = sorted((r, c) for r in range(3) for c in range(3) if (a * r + b * c) % 3 == k)
+        assert {self.cell_point(i, r, c) for r, c in cells} == \
+            set(self.bm.view_line(self.board.views()[i][1], direction, k))
+        return cells
+
+    def hl_row(self, arg, p, avail):
+        i = self.view_index(p["picture"])
+        d = self.bm.DIRECTIONS[arg]
+        cells = self.hl_line_cells(i, d, p.get("k", 0))
+        if arg == "modular_diagonal":
+            # walk the wrapped diagonal from its first cell: 6, then off the edge and back in, 4, then 9
+            start = cells[0]
+            step = (1, -1) if d == (1, 1) else (1, 1)
+            cells = [((start[0] + n * step[0]) % 3, (start[1] + n * step[1]) % 3) for n in range(3)]
+        path = self.view_line_path(i, cells, wrap=(arg == "modular_diagonal"))
+        path.set_stroke(GOLD, 5)
+        prev = self.panel.pop("line", None)
+        self.panel["line"] = self.overlay(path)
+        cards = {self.cells[(i, r, c)]: GOLD for r, c in cells}
+        out = [FadeAway(prev, run_time=0.3)] if prev is not None else []
+        return out + self.light(cards, run=0.35) + [later(0.15, Create(path, run_time=min(0.9, avail * 0.5)))]
+
+    hl_column = hl_diagonal = hl_modular_diagonal = hl_row
+
+    def hl_cross(self, arg, p, avail):
+        i = self.view_index(p["picture"])
+        cross = self.board.parts_points(p["picture"], [((1, 0), p.get("row", 0)), ((0, 1), p.get("column", 0))])
+        pts = cross if arg == "cross" else set(self.board.view_dict()[p["picture"]]) - cross
+        prev = self.panel.pop("line", None)
+        out = [FadeAway(prev, run_time=0.3)] if prev is not None else []
+        color = GOLD if arg == "cross" else BLUE
+        cards = {c: color for c in self.cells_of(i, pts)}
+        return out + self.light(cards, run=0.5, keep=(arg == "square"))
+
+    hl_square = hl_cross
+
+    FAMILY_NAMES = {"family_line": "line + corners", "family_parallel": "parallel lines",
+                    "family_cross": "cross + corner", "family_square": "square + 2 corners"}
+
+    def hl_family(self, arg, p, avail):
+        ex = self.board.family_example(arg)
+        i = self.view_index(ex["picture"])
+        hexad = set(ex["hexad"])
+        cards = {c: GOLD for c in self.cells_of(i, hexad) + self.corners_of(hexad)}
+        anims = self.light(cards, run=0.5)
+        # the corners the hexad leaves out go faint
+        anims += self.set_faint(set(self.cells.values()) | set(cards))
+        prev = self.panel.pop("line", None)
+        if prev is not None:
+            anims.append(FadeAway(prev, run_time=0.3))
+        n = len(self.strip)
+        count = len({hx for f, _, _, hx in self.bm.kitten_parts(self.bm.PROJECTIVE_VIEWS) if f == ex["family"]})
+        c = chip(f"{self.FAMILY_NAMES[arg]}: {count}", size=18).move_to(xy(-4.8 + 3.2 * n, STRIP_Y))
+        self.overlay(c)
+        self.strip.append(c)
+        self.family_counts = getattr(self, "family_counts", []) + [count]
+        return anims + [appear(c, max(0.3, avail - 1.4), 0.5)]
+
+    def hl_ep1_hands(self, arg, p, avail):
+        fam, pic, parts = self.board.hand_parts(p["hand"])
+        i = self.view_index(pic)
+        hand = OBJ[p["hand"]]["cards"]
+        cards = {c: GREEN for c in self.cells_of(i, set(hand)) + self.corners_of(set(hand))}
+        assert len(cards) == 6, (p["hand"], len(cards))
+        anims = self.light(cards, run=0.5)
+        if self.strip and not getattr(self, "hand_strip", False):
+            anims += self.clear_strip()
+        self.hand_strip = True
+        # the other two views and the unused corners go faint; the hand's own cards stay bright
+        anims += self.set_faint({c for (j, _, _), c in self.cells.items() if j == i} | set(cards))
+        n = len(self.strip)
+        g = mini_hand(sorted(hand), h=0.34, color=GREEN)
+        for cd in g[0]:
+            cd[0].set_fill(GREEN, 0.92).set_stroke(GREEN)
+            cd[1].set_color(BG)
+        g.move_to(xy(-5.0 + 2.5 * n, STRIP_Y))
+        self.overlay(g)
+        self.strip.append(g)
+        return anims + [appear(g, 0.4, 0.5)]
+
+    def visual_point_ring(self, arg, p, start, end, avail):
+        before = dict(self.marks)
+        self.play_board("point_ring", arg, p)
+        f = self.bm.RING_MAPS[arg]
+        moves = [(m, x, f(x)) for x, m in before.items()]
+        self.marks = {y: m for m, x, y in moves}
+        run = min(1.6, avail - 2.0)
+        t0 = max(0.3, avail * 0.45 - run / 2)
+        anims = [later(t0, MoveAlongPath(m, self.ring_arc(x, y), run_time=run)) for m, x, y in moves if x != y]
+        anims += [later(t0, Indicate(m, color=GOLD, run_time=run)) for m, x, y in moves if x == y]
+        old = self.panel.pop("seed", None)
+        if old is not None:
+            anims.append(FadeAway(old, run_time=0.3))
+        prev = self.panel.pop("translate", None)
+        if prev is not None:
+            anims.append(FadeAway(prev, run_time=0.3))
+        if arg == "translate":
+            assert self.bm.translate(11) == 11 and self.bm.translate(10) == 0
+            head, rule, note = "move one: add one", "x → x + 1", "∞ stays put"
+        else:
+            assert self.bm.invert(0) == 11 and self.bm.invert(2) == 5 and self.bm.invert(5) == 2
+            head, rule, note = "move two: negative reciprocal", "x → −1/x", "0 ↔ ∞,  2 ↔ 5"
+        g = VGroup(text(head, size=24), text(rule, size=26, color=GOLD), text(note, size=21, color=MUTED),
+                   text("{" + ", ".join(plabel(x) for x in sorted(self.board.marked)) + "}", size=22, color=GOLD))
+        g.arrange(DOWN, buff=0.18).move_to(xy(PANEL_X, 2.55))
+        self.overlay(g)
+        self.panel["translate"] = g
+        return anims + [appear(g[0], 0.2, 0.4), appear(g[1], 0.5, 0.4), appear(g[2], t0 + 0.2, 0.4),
+                        appear(g[3], t0 + run, 0.4)]
+
+    def visual_clock_mod(self, arg, p, start, end, avail):
+        self.play_board("clock_mod", arg, p)
+        a, b, c = p["shows"]
+        assert self.bm.translate(a) == c
+        arc = Arc(radius=RING_R - 0.4, start_angle=PI / 2 - a * TAU / 11, angle=-TAU / 11, arc_center=RING_C,
+                  stroke_color=GOLD, stroke_width=4).add_tip(tip_length=0.18)
+        eq = self.caption(f"{a} + {b} = {c}", xy(PANEL_X, 3.1), size=34, color=GOLD)
+        mod = self.caption("arithmetic mod 11", xy(PANEL_X, 2.5), size=22, color=MUTED)
+        self.overlay(arc)
+        self.panel["clock"] = VGroup(arc, eq, mod)
+        ten, zero = self.points[a], self.points[c]
+        return [later(0.4, Indicate(ten, color=GOLD, scale_factor=1.8, run_time=0.6)), later(1.0, Create(arc, run_time=0.8)),
+                later(1.7, Indicate(zero, color=GOLD, scale_factor=1.8, run_time=0.6)), appear(eq, 1.2, 0.5),
+                appear(mod, min(3.0, avail - 0.8), 0.5)]
+
+    def visual_reveal_count(self, arg, p, start, end, avail):
+        self.play_board("reveal_count", arg, p)
+        return getattr(self, "count_" + arg)(p, avail)
+
+    def steiner_panel(self, t, k, v, words, at):
+        head = VGroup(*(text(s, size=44, weight=BOLD, color=INK if s in "S(,)" else GOLD)
+                        for s in ("S(", str(t), ",", str(k), ",", str(v), ")"))).arrange(RIGHT, buff=0.06)
+        for m in head:
+            if m.height < 0.3:
+                m.align_to(head, DOWN)
+        head.move_to(at)
+        lines = VGroup(*(text(w, size=22, color=MUTED) for w in words)).arrange(DOWN, buff=0.16)
+        lines.next_to(head, DOWN, buff=0.35)
+        return head, lines
+
+    def count_s_2_3_7(self, p, avail):
+        t, k, v = p["t"], p["k"], p["v"]
+        f = OBJ["fano"]
+        head, lines = self.steiner_panel(t, k, v, (f"every {t} points", f"lie on exactly 1 line of {k}",
+                                                   f"{v} points in all"), xy(PANEL_X, 2.75))
+        self.overlay(head, lines)
+        self.panel["s237"] = VGroup(head, lines)
+        line = self.fano["line"][frozenset(f["lines"][0])]
+        two = [self.fano["pt"][x] for x in f["lines"][0][:2]]
+        per = (avail - 1.2) / 3
+        return [appear(VGroup(head[0], head[2], head[4], head[6]), 0.2, 0.4),
+                appear(head[1], 0.6, 0.3), appear(lines[0], 0.6, 0.4),
+                *(later(0.6, Indicate(d, color=GOLD, scale_factor=1.8, run_time=0.7)) for d in two),
+                appear(head[3], 0.6 + per, 0.3), appear(lines[1], 0.6 + per, 0.4),
+                later(0.6 + per, ShowPassingFlash(line.copy().set_stroke(GOLD, 7), time_width=0.5, run_time=0.8)),
+                appear(head[5], 0.6 + 2 * per, 0.3), appear(lines[2], 0.6 + 2 * per, 0.4),
+                later(0.6 + 2 * per, LaggedStart(*(Indicate(d, color=GOLD, scale_factor=1.6)
+                                                   for d in self.fano["pt"].values()), lag_ratio=0.1, run_time=0.9))]
+
+    def count_s_5_6_12(self, p, avail):
+        phase = p.get("phase", "points")
+        ex = OBJ["ring:projective"]["five_example"]
+        if phase == "points":
+            # the Fano plane and its name step aside; twelve blank points stand in a ring
+            mini = VGroup(self.fano["group"], self.panel.pop("s237"))
+            self.overlays.add(self.fano["group"])
+            target = mini.copy().scale(0.36).move_to(xy(-5.3, 3.05))
+            anims = [Transform(mini, target, run_time=0.9)]
+            for x in range(12):
+                self.points[x] = Dot(blank_pos(x), radius=0.1, color=MUTED).set_z_index(FRONT)
+            anims.append(later(0.9, LaggedStart(*(GrowFromCenter(self.points[x]) for x in range(12)),
+                                                lag_ratio=0.12, run_time=1.4)))
+            five = VGroup(*(mark(blank_pos(x)) for x in ex["points"]))
+            q = blank_pos(ex["completion"])
+            ask = VGroup(DashedVMobject(Circle(radius=0.24, stroke_color=GOLD, stroke_width=3).move_to(q), num_dashes=10),
+                         text("?", size=24, color=GOLD, weight=BOLD).move_to(q + (q - BLANK_C) * 0.3))
+            self.overlay(five, ask)
+            self.panel["block"] = VGroup(five, ask)
+            anims.append(later(2.4, LaggedStart(*(GrowFromCenter(m) for m in five), lag_ratio=0.2, run_time=0.8)))
+            anims.append(appear(ask, min(3.3, avail - 0.5), 0.4))
+            return anims
+        if phase == "label":
+            t, k, v = p["t"], p["k"], p["v"]
+            head, lines = self.steiner_panel(t, k, v, (f"every {t} points", f"lie in exactly 1 block of {k}",
+                                                       f"{v} points in all"), xy(PANEL_X - 0.3, 2.75))
+            self.overlay(head, lines)
+            self.panel["s5612"] = VGroup(head, lines)
+            per = (avail - 2.0) / 3
+            return [appear(VGroup(head[0], head[2], head[4], head[6]), 0.2, 0.4),
+                    appear(head[5], 0.6, 0.3), appear(lines[2], 0.6, 0.4),
+                    later(0.6, LaggedStart(*(Indicate(d, color=GOLD) for d in self.points.values()), lag_ratio=0.05, run_time=0.8)),
+                    appear(head[3], 0.6 + per, 0.3), appear(lines[1], 0.6 + per, 0.4),
+                    appear(head[1], 0.6 + 2 * per, 0.3), appear(lines[0], 0.6 + 2 * per, 0.4),
+                    later(0.6 + 2 * per, Indicate(self.panel["block"][0], color=GOLD, scale_factor=1.2, run_time=0.8))]
+        # name: the waiting block is a hexad, and so are the 132 the count promised
+        q = blank_pos(ex["completion"])
+        name = self.caption("hexad", BLANK_C + xy(0, 0.1), size=30, color=GOLD, weight=BOLD)
+        res = self.panel["result"]
+        new = text(f"{OBJ['count:design']['blocks_from_counting']} hexads", size=34, color=GOLD, weight=BOLD).move_to(res)
+        return [appear(name, 0.3, 0.6), Transform(self.panel["block"][1], mark(q), run_time=0.6),
+                later(0.4, Transform(res, new, run_time=0.6))]
+
+    def count_792_over_6(self, p, avail):
+        from math import prod
+        d = OBJ["count:design"]
+        num, den = d["fives_formula"]
+        fives = prod(num) // prod(den)
+        phase = p["phase"]
+        if phase == "fives":
+            old = self.panel.pop("s5612")
+            head = old[0]
+            anims = [FadeAway(old[1], run_time=0.4), head.animate(run_time=0.6).scale(0.8).move_to(xy(PANEL_X - 0.3, 3.45))]
+            frac = VGroup(text(" · ".join(map(str, num)), size=26), Line(LEFT * 1.45, RIGHT * 1.45, stroke_color=INK, stroke_width=2),
+                          text(" · ".join(map(str, den)), size=26)).arrange(DOWN, buff=0.12)
+            eq = text(f"= {fives}", size=32, color=GOLD, weight=BOLD)
+            g = VGroup(frac, eq).arrange(RIGHT, buff=0.3).move_to(xy(PANEL_X - 0.3, 2.35))
+            cap = text("ways to choose 5 of the 12 points", size=20, color=MUTED).next_to(g, DOWN, buff=0.15)
+            self.overlay(g, cap)
+            return anims + [appear(frac, 0.6, 0.6), appear(eq, min(2.6, avail - 1.2), 0.5), appear(cap, min(3.1, avail - 0.7), 0.5)]
+        if phase == "per_block":
+            per = d["five_in_block"]
+            g = text(f"each block of 6 holds {per} fives", size=24).move_to(xy(PANEL_X - 0.3, 1.2))
+            note = text("and no five is in two blocks", size=20, color=MUTED).next_to(g, DOWN, buff=0.12)
+            self.overlay(g, note)
+            block = self.panel["block"]
+            return [appear(g, 0.3, 0.5), later(0.5, Indicate(block, color=GOLD, scale_factor=1.15, run_time=0.9)),
+                    appear(note, min(2.6, avail - 0.7), 0.5)]
+        blocks = d["blocks_from_counting"]
+        assert blocks == fives // d["five_in_block"]
+        g = text(f"{fives} ÷ {d['five_in_block']} = {blocks}", size=30).move_to(xy(PANEL_X - 0.3, 0.2))
+        res = text(f"{blocks} blocks", size=34, color=GOLD, weight=BOLD).move_to(xy(PANEL_X - 0.3, -0.42))
+        self.overlay(g, res)
+        self.panel["result"] = res
+        return [appear(g, 0.3, 0.6), appear(res, min(2.6, avail - 0.8), 0.5)]
+
+    def count_orbit_132(self, p, avail):
+        layers = self.bm.orbit_layers(self.bm.Q)
+        n = sum(len(l) for l in layers)
+        anims = self.clear_marks(run=0.3)
+        for key in ("translate", "seed"):
+            old = self.panel.pop(key, None)
+            if old is not None:
+                anims.append(FadeAway(old, run_time=0.3))
+        cols, step = 12, 0.24
+        grid_c = xy(PANEL_X, 1.25)
+        rows = -(-n // cols)
+        spots = [grid_c + xy((k % cols - (cols - 1) / 2) * step, ((rows - 1) / 2 - k // cols) * step) for k in range(n)]
+        self.orbit_dots = [Dot(q, radius=0.06, color=GOLD) for q in spots]
+        counter = self.caption("1 set", xy(PANEL_X, 3.2), size=34, color=GOLD, weight=BOLD)
+        self.overlay(*self.orbit_dots)
+        per = (avail - 1.6) / len(layers)
+        chain, k = [], 0
+        for i, layer in enumerate(layers):
+            t = 0.3 + per * i
+            for _ in layer:
+                anims.append(appear(self.orbit_dots[k], t, min(0.3, per), scale=True))
+                k += 1
+            # one set of the layer flashes on the ring
+            ms = [self.overlay(mark(ring_pos(x))) for x in sorted(min(layer, key=sorted))]
+            anims += [appear(m, t, 0.12) for m in ms] + [later(t + per * 0.8, FadeAway(m, run_time=0.1)) for m in ms]
+            if i:      # the counter: one Text reshaped in place, layer by layer
+                chain += [Wait(run_time=per - 0.12), Transform(counter, text(f"{k} sets", size=34, color=GOLD,
+                                                                              weight=BOLD).move_to(counter), run_time=0.12)]
+        assert k == n == OBJ["orbit:Q"]["hexads"]
+        anims.append(appear(counter, 0.25, 0.2))
+        anims.append(later(0.3 + 0.12, Succession(*chain)))
+        orbit = self.caption("the orbit of the seed", xy(PANEL_X, 2.7), size=22, color=MUTED)
+        anims.append(appear(orbit, avail - 1.0, 0.5))
+        self.panel["counter"], self.panel["orbit"] = counter, orbit
+        return anims
+
+    def count_fives_792(self, p, avail):
+        from collections import Counter
+        from itertools import combinations
+        from math import comb
+        fives = Counter(frozenset(s) for h in self.bm.ORBIT for s in combinations(h, 5))
+        total, distinct = sum(fives.values()), len(fives)
+        assert distinct == comb(12, 5) and set(fives.values()) == {1}
+        cols, step = 36, 0.085
+        rows = -(-total // cols)
+        grid_c = xy(PANEL_X, 1.25)
+        tiny = [grid_c + xy((k % cols - (cols - 1) / 2) * step, ((rows - 1) / 2 - k // cols) * step) for k in range(total)]
+        anims = []
+        for k, d in enumerate(self.orbit_dots):
+            six = VGroup(*(Dot(tiny[6 * k + j], radius=0.028, color=GOLD) for j in range(6)))
+            anims.append(later(0.3 + 0.006 * k, Transform(d, six, run_time=1.2)))
+        eq = self.caption(f"{len(self.bm.ORBIT)} × 6 = {total} fives", xy(PANEL_X, 2.7), size=24)
+        ok = self.caption(f"all {comb(12, 5)} fives, each exactly once ✓", xy(PANEL_X, -0.0), size=21, color=GREEN)
+        anims.append(appear(eq, 1.2, 0.5))
+        anims.append(appear(ok, min(avail - 0.8, 4.5), 0.5))
+        anims.append(FadeAway(self.panel.pop("orbit"), run_time=0.4))
+        return anims
+
+    def count_12_12_54_54(self, p, avail):
+        parts = self.family_counts
+        total = sum(parts)
+        if p["phase"] == "sum":
+            s = text(" + ".join(map(str, parts)) + f" = {total}", size=30, color=GOLD, weight=BOLD).move_to(xy(0, STRIP_Y))
+            # the chips gather into the sum (an introduced copy: the chips' group is not itself in the scene)
+            chips = VGroup(*self.strip)
+            ghost = chips.copy()
+            self.overlay(ghost)
+            self.strip = [ghost]
+            self.panel["sum"] = ghost
+            return [FadeAway(chips, run_time=0.1), Transform(ghost, s, run_time=1.0, introducer=True)] + self.undim(0.5)
+        s = self.panel["sum"]
+        new = text(" + ".join(map(str, parts)) + f" = {total} = the ring's orbit ✓", size=28, color=GREEN,
+                   weight=BOLD).move_to(xy(0, STRIP_Y))
+        return [later(0.4, Transform(s, new, run_time=0.8))]
+
+
+class Episode1(TableVisuals, EpisodeScene):
+    pass
+
+
+class Episode2(BoardVisuals, EpisodeScene):
     pass
