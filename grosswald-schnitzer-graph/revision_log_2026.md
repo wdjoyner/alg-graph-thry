@@ -1,0 +1,1 @@
+November 28 2026: reformatted the two modern papers for 12-point Times and letter paper, added Introduction (literature review and notation), expanded technical glossaries, and added RH-formalization consequences with explicit limits. Existing operator-theoretic claims have not been newly certified. ChatGPT (OpenAI) performed this editorial revision.

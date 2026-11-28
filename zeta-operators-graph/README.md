@@ -1,15 +1,1 @@
-# Zeta functions and associated operators: corrected edition (graph revision)
-
-This folder contains a style-guided revision of David Joyner's corrected 1981 manuscript with a section on graph-theoretic connections.
-
-- `zeta_operators_2026.tex`: revised manuscript; 12-point Times, American English, introduction, literature review, background, notation, results and new graph section.
-- `revision_log_2026d.tex`: changes, historical status table, verification caveats and AI attribution.
-- `graph_checks.py`: independent finite examples of the graph identities.
-
-The main graph structures are the prime-gap directed ray, weighted incidence boundaries for bounded Sobolev comparison, the exponent-vector lattice of generalized integers, and Fourier modes on residue cycles. All arguments in this corrected edition use tools available before 1981. The graph models do not prove graph-Laplacian isospectrality or the Riemann hypothesis.
-
-For the companion **modern** comparison program, see [grosswald-schnitzer-graph](../grosswald-schnitzer-graph/).
-
-Compile `zeta_operators_2026.tex` with `pdflatex` twice, in this folder. The document uses TikZ and newtx fonts. The compiled `zeta_operators_2026.pdf` is available as a separate download if not yet committed to GitHub.
-
-The original typescript itself was not supplied for this revision. The analytic results carried over from the attached 2026c edition still need independent referee verification.
+Historical corrected 1981 edition: zeta_operators_2026.tex, Draft 4. Literature review and notation are now Introduction subsections; glossary expanded. The 2026 RH verification and implications belong in the separate rh_2026_operator_implications.tex companion, not the historical mathematical narrative. See also ../grosswald-schnitzer-graph/.

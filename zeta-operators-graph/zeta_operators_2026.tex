@@ -43,7 +43,7 @@
 \newcommand{\tagN}{\textup{[new]}}
 
 \title{Zeta Functions and Their Associated Operators\\[0.3em]
-\large Draft 3: Corrected and expanded version\thanks{Original typescript: David Joyner, Georgia Institute of Technology, 1981. The 2026 corrected editions were prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); see the Acknowledgments and the separate revision log.}}
+\large Draft 4: Corrected and expanded version\thanks{Original typescript: David Joyner, Georgia Institute of Technology, 1981. The 2026 corrected editions were prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); see the Acknowledgments and the separate revision log.}}
 \author{David Joyner\\[0.2em]\normalsize\texttt{wdjoyner@gmail.com}}
 \date{Original draft: 1981\\Corrected and expanded draft: November 2026}
 
@@ -107,9 +107,9 @@ the Euler quotient telescopes:
 This example will reappear as a boundary-flow calculation and an
 identity of dilation operators.
 
-\section{Literature review}\label{sec:literature}
+\subsection{Literature review}\label{sec:literature}
 
-\subsection*{Work available through 1981}
+\subsubsection*{Work available through 1981}
 
 Beurling~\cite{Be37} introduced a framework for generalized prime
 systems.  Wintner~\cite{Wi44} developed arithmetic semigroups, and
@@ -130,13 +130,66 @@ Beurling~\cite{Be55} studied closure problems associated with the
 Riemann zeta function.  We do not invoke their results to infer
 closure properties of the operators in this edition.
 
-\subsection*{Work after 1981}
+\subsubsection*{Work after 1981}
 
 This corrected historical edition deliberately does not use later
 results.  In particular, the graph arguments of Section~\ref{sec:graphs}
 are direct identities, not applications of post-1981 graph-zeta theory
 or modern Hardy-space model methods.  Later developments belong in a
 separate contemporary review.
+
+\subsection{Notation and conventions}\label{sec:notation}
+
+\begin{longtable}{@{}p{0.24\textwidth}p{0.7\textwidth}@{}}
+\toprule
+\textbf{Symbol} & \textbf{Meaning}\\
+\midrule
+\endhead
+$s=\sigma+it$ & A complex variable with $\sigma=\Ree s$.\\
+$p_n$ & The $n$th rational prime.\\
+$\pi(x)$ & The number of primes $p\le x$.\\
+$\Li(x)$ & The logarithmic integral $\mathrm{P.V.}\int_0^x \dd t/\log t$ for
+$x>1$.\\
+$\mu$ & The unique zero of $\Li$ in $(1,\infty)$. Numerically
+$\mu\approx 1.4513$.\\
+$u_n$ & $\Li^{-1}(n)$ for $n\ge1$. So $u_n\sim n\log n$.\\
+$A=(a_n)$ & A Beurling generalized prime system, $1<a_1\le a_2\le\cdots$,
+$a_n\to\infty$.\\
+$\pi_A(x)$ & The number of $n$ with $a_n\le x$.\\
+$\zeta_A(s)$ & The Euler product $\prod_n(1-a_n^{-s})^{-1}$.\\
+$\zeta_U,\ \zeta_G$ & $\zeta_A$ for $a_n=u_n$, and for the random system
+$a_n=g_n$ of Section~\ref{sec:random}.\\
+$P_A(s)$ & The prime zeta function $\sum_n a_n^{-s}$.\\
+$\Theta_A,\ \Psi_A$ & Chebyshev functions $\sum_{a_n\le x}\log a_n$ and
+$\sum_{m\ge1}\Theta_A(x^{1/m})$.\\
+$\eta(s)$ & The Dirichlet eta function
+$\sum_{n\ge1}(-1)^{n-1}n^{-s}=(1-2^{1-s})\zeta(s)$.\\
+$\theta$ & $\sup\{\Ree\rho:\zeta(\rho)=0,\ 0<\Ree\rho<1\}$. So
+$\tfrac12\le\theta\le1$.\\
+$\ord_\rho F$ & The order of vanishing of a holomorphic $F$ at $\rho$.\\
+$\Log$ & The principal branch of the logarithm on
+$\CC\setminus(-\infty,0]$.\\
+$k,\ \alpha$ & A positive integer, and $\alpha=1/(2k)$.\\
+$S_k$ & The weighted Sobolev space of Section~\ref{sec:operators}.\\
+$\|\cdot\|_k$ & Its norm.\\
+$D$ & Differentiation $\dd/\dd y$ in the distributional sense.\\
+$\yD$ & The dilation generator $yD$, so $\yD f(y)=yf'(y)$.\\
+$\Dk$ & The span of $y^s(\log y)^j$ with $\Ree s>\alpha$ and $j\ge0$.\\
+$R_c$ & Dilation, $(R_cf)(y)=f(y/c)$ for $c>1$.\\
+$J_\beta$ & The Euler operator $y^2D^2+(1-2\beta)yD=\yD(\yD-2\beta)$.\\
+$T$ & The alternating dilation sum $\sum_{n\ge1}(-1)^nR_n$.\\
+$T^{(q)}$ & The dilation sum with symbol $(1-q^{1-s})\zeta(s)$. Note
+$T=-T^{(2)}$.\\
+$M$ & Multiplication by $-\log y$.\\
+$B(\beta)$ & The block operator $\begin{psmallmatrix}J_\beta&0\\
+T&M\end{psmallmatrix}$ on $S_k\oplus S_k$.\\
+$F(\Delta)$ & The multiplier operator on $\Dk$ with symbol $F$
+(Definition~\ref{def:multiplier}).\\
+$f\ll g$ & $|f|\le Cg$ for a constant $C$. A subscript shows what $C$
+depends on.\\
+\bottomrule
+\end{longtable}
+
 
 \section{Background and classical input}\label{sec:background}
 
@@ -225,59 +278,6 @@ Both $p_n$ and $u_n$ are $\asymp n\log n$. So $\log\xi_n\ll\log n$. Now
 apply \ref{C:ingham}, or \ref{C:koch} under RH. When $\theta=1$ the first
 bound also follows from $p_n,u_n\ll n\log n$.
 \end{proof}
-
-\section{Notation}\label{sec:notation}
-
-\begin{longtable}{@{}p{0.24\textwidth}p{0.7\textwidth}@{}}
-\toprule
-\textbf{Symbol} & \textbf{Meaning}\\
-\midrule
-\endhead
-$s=\sigma+it$ & A complex variable with $\sigma=\Ree s$.\\
-$p_n$ & The $n$th rational prime.\\
-$\pi(x)$ & The number of primes $p\le x$.\\
-$\Li(x)$ & The logarithmic integral $\mathrm{P.V.}\int_0^x \dd t/\log t$ for
-$x>1$.\\
-$\mu$ & The unique zero of $\Li$ in $(1,\infty)$. Numerically
-$\mu\approx 1.4513$.\\
-$u_n$ & $\Li^{-1}(n)$ for $n\ge1$. So $u_n\sim n\log n$.\\
-$A=(a_n)$ & A Beurling generalized prime system, $1<a_1\le a_2\le\cdots$,
-$a_n\to\infty$.\\
-$\pi_A(x)$ & The number of $n$ with $a_n\le x$.\\
-$\zeta_A(s)$ & The Euler product $\prod_n(1-a_n^{-s})^{-1}$.\\
-$\zeta_U,\ \zeta_G$ & $\zeta_A$ for $a_n=u_n$, and for the random system
-$a_n=g_n$ of Section~\ref{sec:random}.\\
-$P_A(s)$ & The prime zeta function $\sum_n a_n^{-s}$.\\
-$\Theta_A,\ \Psi_A$ & Chebyshev functions $\sum_{a_n\le x}\log a_n$ and
-$\sum_{m\ge1}\Theta_A(x^{1/m})$.\\
-$\eta(s)$ & The Dirichlet eta function
-$\sum_{n\ge1}(-1)^{n-1}n^{-s}=(1-2^{1-s})\zeta(s)$.\\
-$\theta$ & $\sup\{\Ree\rho:\zeta(\rho)=0,\ 0<\Ree\rho<1\}$. So
-$\tfrac12\le\theta\le1$.\\
-$\ord_\rho F$ & The order of vanishing of a holomorphic $F$ at $\rho$.\\
-$\Log$ & The principal branch of the logarithm on
-$\CC\setminus(-\infty,0]$.\\
-$k,\ \alpha$ & A positive integer, and $\alpha=1/(2k)$.\\
-$S_k$ & The weighted Sobolev space of Section~\ref{sec:operators}.\\
-$\|\cdot\|_k$ & Its norm.\\
-$D$ & Differentiation $\dd/\dd y$ in the distributional sense.\\
-$\yD$ & The dilation generator $yD$, so $\yD f(y)=yf'(y)$.\\
-$\Dk$ & The span of $y^s(\log y)^j$ with $\Ree s>\alpha$ and $j\ge0$.\\
-$R_c$ & Dilation, $(R_cf)(y)=f(y/c)$ for $c>1$.\\
-$J_\beta$ & The Euler operator $y^2D^2+(1-2\beta)yD=\yD(\yD-2\beta)$.\\
-$T$ & The alternating dilation sum $\sum_{n\ge1}(-1)^nR_n$.\\
-$T^{(q)}$ & The dilation sum with symbol $(1-q^{1-s})\zeta(s)$. Note
-$T=-T^{(2)}$.\\
-$M$ & Multiplication by $-\log y$.\\
-$B(\beta)$ & The block operator $\begin{psmallmatrix}J_\beta&0\\
-T&M\end{psmallmatrix}$ on $S_k\oplus S_k$.\\
-$F(\Delta)$ & The multiplier operator on $\Dk$ with symbol $F$
-(Definition~\ref{def:multiplier}).\\
-$f\ll g$ & $|f|\le Cg$ for a constant $C$. A subscript shows what $C$
-depends on.\\
-\bottomrule
-\end{longtable}
-
 
 \section{A comparison principle for Euler products}\label{sec:comparison}
 
@@ -1442,69 +1442,93 @@ need a different design. See also Mehta~\cite{Me67}.
 
 \begin{description}[style=nextline,leftmargin=1.5em]
 \item[Algebraic span] The set of \emph{finite} linear combinations of a
-  family of vectors. No limits are taken.
-\item[Almost surely] With probability one.
+  family of vectors. No limits are taken. Its Hilbert-space closure can be strictly larger.
+\item[Almost surely] With probability one. Exceptional outcomes may still occur on a probability-zero set.
 \item[Analytic continuation] Extension of a holomorphic function to a
-  larger connected open set. It is unique when it exists.
+  larger connected open set. It is unique when it exists. It does not imply convergence of the original series.
 \item[Beurling generalized primes] Any sequence $1<a_1\le a_2\le\cdots$
   tending to infinity. Formal products of its terms are the generalized
-  integers.
+  integers. Distinct exponent vectors can represent the same numerical product.
 \item[Borel--Cantelli lemma] If $\sum\Pr(E_n)<\infty$, then almost surely
-  only finitely many events $E_n$ occur.
+  only finitely many events $E_n$ occur. The forward implication needs no independence assumption.
 \item[Branch point] A point around which a function changes value when
   continued around a small loop. Example: $(2s-1)^{-1/2}$ at
-  $s=\frac12$.
+  $s=\frac12$. A slit domain may be required to choose one single-valued branch.
 \item[Closure of an operator] The operator whose graph is the closure of
-  the original graph, when that closure is a graph.
-\item[Critical strip] The region $0<\Ree s<1$.
-\item[Dilation] The map $f(y)\mapsto f(y/c)$.
+  the original graph, when that closure is a graph. It exists as an operator only if the graph closure remains single valued.
+\item[Critical strip] The region $0<\Ree s<1$. The critical line is its midpoint.
+\item[Dilation] The map $f(y)\mapsto f(y/c)$. It becomes translation after taking logarithmic coordinates.
 \item[Dirichlet eta function] $\eta(s)=\sum(-1)^{n-1}n^{-s}$. It equals
-  $(1-2^{1-s})\zeta(s)$ and converges for $\Ree s>0$.
+  $(1-2^{1-s})\zeta(s)$ and converges for $\Ree s>0$. Its alternating signs give convergence beyond the original zeta Dirichlet series.
 \item[Distributional derivative] The derivative in the sense of
   distributions. It agrees with the classical derivative for smooth
-  functions.
+  functions. This derivative is available for nondifferentiable Sobolev functions.
 \item[Directed incidence boundary] A signed function on vertices
 obtained from an edge flow, positive at a source and negative at its
-target.  In the prime path it is $(\partial e)_j=e_j-e_{j-1}$.
+target.  In the prime path it is $(\partial e)_j=e_j-e_{j-1}$. A long occupied block has boundary contributions only at its endpoints.
 \item[Exponent-vector graph] The directed lattice graph with vertices
 nonnegative exponent vectors and edges corresponding to multiplying by
-one generator.  Each vertex represents one formal generalized integer.
+one generator.  Each vertex represents one formal generalized integer. Its Euler generating function counts vertices rather than directed paths.
 \item[Graph boundary variation] The weighted sum of absolute incidence
 coefficients.  Its finiteness ensures the norm convergence of a
-comparison-operator product in Theorem~\ref{thm:graph-boundary}.
-\item[Euler product] A product $\prod(1-a_n^{-s})^{-1}$ over generators.
+comparison-operator product in Theorem~\ref{thm:graph-boundary}. It quantifies the Euler factors remaining after cancellation.
+\item[Euler product] A product $\prod(1-a_n^{-s})^{-1}$ over generators. Its geometric expansion counts exponent vectors with multiplicity.
 \item[Exponential integral] $E_1(z)=\int_z^\infty e^{-t}\,\dd t/t$. It
-  equals $-\gamma-\Log z$ plus an entire function.
+  equals $-\gamma-\Log z$ plus an entire function. The logarithmic local term is crucial in its continuation.
 \item[Hoeffding's inequality] A tail bound for sums of bounded
-  independent random variables.
+  independent random variables. It assumes independent, bounded random summands.
 \item[Joint kernel] The set of vectors killed by each of several
-  operators.
+  operators. Intersection removes eigenvectors present in only one kernel.
 \item[Jordan block] A matrix with one eigenvalue on the diagonal and ones
-  just above it.
-\item[Logarithmic integral] $\Li(x)=\mathrm{P.V.}\int_0^x\dd t/\log t$.
+  just above it. Its nontrivial chains obstruct diagonalization by an orthonormal eigenbasis.
+\item[Logarithmic integral] $\Li(x)=\mathrm{P.V.}\int_0^x\dd t/\log t$. It is a smooth approximation, not an actual counting function.
 \item[Mellin transform] The transform $f\mapsto\int_0^\infty f(y)y^{s-1}
-  \dd y$. It turns dilations into multiplication by $c^{-s}$.
-\item[Meromorphic] Holomorphic except for isolated poles.
+  \dd y$. It turns dilations into multiplication by $c^{-s}$. The multiplier convention depends on the transform normalization.
+\item[Meromorphic] Holomorphic except for isolated poles. Its poles have finite-order Laurent principal parts.
 \item[Multiplier operator] An operator that acts on $y^s$ by a scalar
-  $F(s)$, called its symbol.
-\item[Nontrivial zero] A zero of $\zeta$ in the critical strip.
+  $F(s)$, called its symbol. A formula on powers does not fix a closed domain.
+\item[Nontrivial zero] A zero of $\zeta$ in the critical strip. The known negative even integer zeros are excluded.
 \item[Normal convergence] Convergence of $\sum\sup_K|f_n|$ on every
-  compact set $K$.
+  compact set $K$. It allows term-by-term holomorphic differentiation.
 \item[Periodic residue cycle] A directed cycle whose vertices are
 residue classes modulo $q$.  The zero-mean coefficient $c_q$ is the
-negative sum of its nonconstant Fourier modes.
-\item[Point spectrum] The set of eigenvalues of an operator.
-\item[Prime zeta function] $P_A(s)=\sum_na_n^{-s}$.
+negative sum of its nonconstant Fourier modes. The nonconstant cyclic Fourier modes have average zero.
+\item[Point spectrum] The set of eigenvalues of an operator. Continuous or residual spectrum can exist separately.
+\item[Prime zeta function] $P_A(s)=\sum_na_n^{-s}$. It appears on taking logarithms of Euler products.
 \item[Resolvent set] The set of $\lambda$ for which $\lambda-M$ has a
-  bounded inverse.
+  bounded inverse. Its definition requires a bounded, everywhere-defined inverse.
 \item[Riemann hypothesis (RH)] All nontrivial zeros of $\zeta$ have real
-  part $\frac12$.
+  part $\frac12$. It does not imply zero simplicity or operator self-adjointness.
 \item[Spectral synthesis] The property that a closed invariant subspace
-  is the closed span of the exponential (or power) functions it contains.
+  is the closed span of the exponential (or power) functions it contains. One must prove completeness rather than merely list eigenfunctions.
 \item[Stieltjes integral] An integral $\int f\dd g$ with respect to a
-  function $g$ of bounded variation, such as a counting function.
+  function $g$ of bounded variation, such as a counting function. It makes partial summation against counting measures possible.
 \item[Weighted Sobolev space] A space of functions whose derivatives up
-  to some order are square integrable against given weights.
+  to some order are square integrable against given weights. Its weights determine integrability near the interval boundary.
+
+% Additional technical terms, editorial draft 4
+\item[Absolute convergence] The sum of termwise absolute values is finite. This justifies many rearrangements that conditional convergence does not.
+\item[Abscissa of convergence] The boundary of the right half-plane where a Dirichlet series converges. Its sum may admit continuation farther left.
+\item[Analytic symbol] A function prescribing an operator's action on $y^s$. Domain and closure questions must be answered separately.
+\item[Bounded multiplier] A function that defines a bounded multiplication operator in the chosen analytic-function space. Being nonzero is not sufficient for bounded invertibility.
+\item[Chebyshev function] A weighted count of prime generators or prime powers. Logarithmic derivatives of Euler products naturally involve it.
+\item[Comparison quotient] The ratio $Q_A=\zeta_A/\zeta$ of generalized and ordinary zeta functions. Its zero-free property controls zeros, not all operator norms.
+\item[Critical line] The vertical line $\Ree s=\tfrac12$. Under RH the nontrivial zeta zeros lie on this line.
+\item[Discrete divergence] The signed edge-to-vertex boundary of a directed flow. It measures the transitions where Euler factors do not cancel.
+\item[Eigenvector] A nonzero vector $f$ in the operator domain satisfying $Tf=\lambda f$. A formal identity is not enough without domain membership.
+\item[Essential spectrum] Spectrum stable under certain perturbations, depending on the definition. It cannot be read off from symbol zeros alone.
+\item[Formal generalized integer] An exponent-vector product of generalized prime generators. Equal numerical values may have multiple formal representations.
+\item[Graph norm] The norm $\|f\|_T=(\|f\|^2+\|Tf\|^2)^{1/2}$ on an operator domain. Equivalent graph norms require more than equality of eigenvalues.
+\item[Incidence matrix] A signed matrix recording endpoints of oriented edges. Multiplying by an edge-flow vector computes vertex divergence.
+\item[Operator domain] The specified linear subspace on which an operator acts. Different domains can produce different closed operators from the same formula.
+\item[Pseudospectrum] A resolvent-sensitive notion describing spectral instability. It depends on operator norms, not only eigenvalues.
+\item[Prime-gap perturbation] The replacement $p_n\le a_n\le p_{n+1}$. Moving few or nearby primes does not automatically ensure a bounded multiplier.
+\item[Riesz basis] A boundedly invertible image of an orthonormal basis. Completeness alone is strictly weaker.
+\item[Self-adjointness] Equality of an operator and its adjoint, including domains. Merely real eigenvalues do not imply it.
+\item[Sobolev threshold] The strict condition $\Ree s>1/(2k)$ for admissible powers. The critical line lies on the boundary when $k=1$.
+\item[Spectral mapping] A relation between the spectrum of an operator and that of a function of it. Its validity depends on the operator calculus used.
+\item[Weighted total variation] A weighted sum of absolute jumps in an edge flow. It controls how much of an Euler product survives telescoping.
+\item[Zero multiplicity] The order of vanishing of a holomorphic symbol. Multiple zeros yield longer logarithmic generalized-eigenvector chains.
 \end{description}
 
 \section*{Acknowledgments and provenance}

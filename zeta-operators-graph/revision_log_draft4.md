@@ -1,0 +1,1 @@
+Draft 4, November 28 2026: moved literature review and notation under Introduction; added one sentence to all existing glossary entries and 22 further technical terms; preserved historical 1981 mathematical claims. RH status and conditional operator implications are in a separate modern companion.

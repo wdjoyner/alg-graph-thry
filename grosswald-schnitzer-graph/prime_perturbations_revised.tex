@@ -1,7 +1,8 @@
-\documentclass[11pt]{article}
+\documentclass[12pt,letterpaper]{article}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools}
-\usepackage[margin=1in]{geometry}
+\usepackage{microtype,amsmath,amssymb,amsthm,mathtools}
+\usepackage{newtxtext,newtxmath}
+\usepackage[letterpaper,margin=1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem,booktabs,array}
 \usepackage{tikz}
@@ -19,14 +20,38 @@
 \newcommand{\sgn}{\operatorname{sgn}}
 \title{Operator-Equivalence Classes of Grosswald--Schnitzer Prime Perturbations\\[0.45em]
 \large An exact weighted-transition criterion and a hierarchy of Sobolev-space comparisons}
-\author{Prepared by ChatGPT for D. Joyner}
-\date{November 28, 2026 (graph-theoretic revision)}
+\author{David Joyner\\\texttt{wdjoyner@gmail.com}}
+\date{November 28, 2026 (expanded revision)}
 \begin{document}
 \maketitle
 \begin{abstract}
+This paper was expanded with assistance from ChatGPT (OpenAI); the specific contributions are described in the acknowledgments and revision log. 
 For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. The analytic-symbol dilation operators have the same closed joint zero-eigenspace in the weighted Sobolev model previously studied. We distinguish this universal spectral equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the previously established Hardy-space model and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review; none of these results implies the Riemann hypothesis.
 \end{abstract}
 
+
+\section{Introduction}
+\subsection{Motivation and principal results}
+Zero-preservation of prime-perturbation zeta functions does not
+automatically entail bounded equivalence of their summation operators.
+This paper classifies bounded comparison for important perturbation families
+using weighted transition sums and Euler-factor cancellation.
+\subsection{Literature review}
+Grosswald and Schnitzer established the original prime-gap
+zero-preservation result \cite{GS}.  Beurling's invariant-subspace
+theory supplies useful operator-theoretic background \cite{Beurling}.
+The Bohr--Dirichlet-series literature concerns the independent
+frequencies used below \cite{BohrBook,Schoolmann}.
+The companion invariance note addresses the weaker zero-associated
+spectral problem \cite{PriorNote}.
+\subsection{Notation and conventions}
+The primes are $p_1=2<p_2=3<\cdots$.
+A perturbation is $A=(a_n)$ with $p_n\le a_n\le p_{n+1}$.
+Write $Q_A=\zeta_A/\zeta$ and $\delta=1/(2k)$.
+For endpoint shifts $e_n\in\{0,1\}$,
+$(\partial e)_j=e_j-e_{j-1}$ is their directed incidence boundary.
+The space $H^\infty$ consists of bounded analytic functions
+on the stated right half-plane.
 
 \section{Definitions and examples: the perturbed primes and their summation operators}
 \label{sec:definitions}
@@ -651,7 +676,91 @@ Full-pair similarity, resolvents, pseudospectra & Not classified by these result
 
 \paragraph{Status and scope.} The weighted-transition theorem and its proof are offered as a concrete research development, not as a verified publication-novel theorem. The arithmetic independence assumptions are essential to the general inventory criterion, and assertions about similarity must not be inferred from left equivalence. The operators $T_A^{(r)}$ are defined through their analytic symbols; this does not assert convergence of a naive generalized-prime dilation series on the full common domain.
 
-\begin{thebibliography}{9}
+
+\section{Consequences of the November 2026 RH formalization}
+\label{sec:rh-2026}
+On November 20, 2026 Levent Alp\"oge reported a formal proof of the
+Riemann hypothesis (RH) developed with Claude.  The Lean FRO and
+Mathlib Initiative certified the correctly stated and machine-checked
+RH proof on November 21 \cite{LF26}.  Rubinstein independently reports
+checks of the original and shortened formalizations \cite{Ru26}.
+Human-readable proofs are still being developed.  The present paper
+does not purport to independently check the large Lean development.
+
+Assuming RH, every nontrivial zeta zero is
+$\rho=\frac12+i\gamma$.  For $k\ge2$ the Sobolev threshold
+$\delta=1/(2k)$ is strictly below $\frac12$, and all zero-powers
+are algebraically admissible.  For $k=1$ the threshold equals
+$\frac12$, so none of these zero-powers satisfies the strict
+domain inequality.  This sharpens the spectral-model discussion
+but does not, by itself, prove spectral synthesis or a statement
+about the closed joint kernel.
+
+Grosswald--Schnitzer zero preservation then places the nontrivial
+zeros of each $\zeta_A$ in $\Re s>0$ on the same critical line,
+with the same multiplicities and ordinates as $\zeta$.
+RH does not imply that these zeros are simple, so logarithmic
+generalized eigenvectors cannot simply be discarded.
+The shifted dilation generator $-i(\Delta-\frac12)$ has real
+eigenvalues $\gamma$ on its admissible zero-power eigenvectors,
+but need not be symmetric or self-adjoint.
+
+RH neither makes the Euler quotient $Q_A$ or its reciprocal
+bounded nor changes the graph-boundary summability test.
+It does not establish boundedly invertible similarity of the
+full summation operators, equality of their nonzero spectra,
+equivalence of graph domains, or pseudospectral stability.
+The ordinary-prime conditional bounds
+$\psi(x)=x+O(x^{1/2}\log^2x)$ and
+$\pi(x)=\operatorname{Li}(x)+O(x^{1/2}\log x)$
+do not transfer to arbitrary Beurling or random prime systems
+without additional comparison estimates.
+The announced Dirichlet-$L$ GRH is a separate result and should
+not be identified with a claim for all generalized zeta functions.
+
+\section{Glossary of technical terms}
+The following definitions supplement the main text for readers
+whose background is in analysis rather than generalized-prime systems.
+\begin{description}[style=nextline,leftmargin=1.5em]
+\item[Analytic continuation] Extension of a function beyond its original convergence domain. The continued function need not be represented by the original infinite series.
+\item[Blaschke product] An inner function built from a zero sequence satisfying the Blaschke condition. Its model space records the zero set with multiplicity.
+\item[Bounded diagonal comparison] A comparison quotient and its reciprocal both belong to $H^infty$ on the chosen half-plane. It gives invertible left equivalence, not generally operator similarity.
+\item[Critical line] The line $Re s=rac12$. RH puts the nontrivial ordinary zeta zeros there.
+\item[Discrete divergence] The signed incidence boundary of an edge flow. The source and target contributions telescope along prime-path blocks.
+\item[Euler-factor inventory] The signed frequencies remaining after cancellation of two Euler products. Its weighted size can control boundedness of a multiplier.
+\item[Exponent-vector graph] The directed lattice of formal generalized integers. Its vertex generating series produces the Euler product with multiplicity.
+\item[Graph norm] The norm $|f|_T=(|f|^2+|Tf|^2)^{1/2}$ on the domain of an operator. It distinguishes domains even when point spectra coincide.
+\item[Hardy space] A Hilbert space of analytic functions with square-integrable boundary behavior. Its multiplication operators provide the model for dilation symbols.
+\item[Inner factor] A factor with boundary modulus one almost everywhere. Its Blaschke and singular components determine invariant-subspace phenomena.
+\item[Joint kernel] The intersection of several operator null spaces. Pairing $q=2$ and $q=3$ removes extraneous zeros of the auxiliary factors.
+\item[Operator domain] The subspace on which an unbounded operator acts. A multiplier prescription on powers is not automatically a closed operator.
+\item[Outer function] A Hardy or Smirnov function determined by its boundary modulus up to phase. Outerness does not mean bounded invertibility.
+\item[Pseudospectrum] The region of large resolvent norms or spectral instability under small perturbations. It is not fixed by the zeros of arithmetic symbols.
+\item[Riesz basis] The boundedly invertible image of an orthonormal basis. Having complete root vectors is weaker.
+\item[Self-adjointness] Equality of an operator and its Hilbert-space adjoint, including domains. Real eigenvalues are not sufficient.
+\item[Smirnov class] Ratios of bounded analytic functions with an outer denominator. This allows useful unbounded analytic quotients in the Hardy model.
+\item[Sobolev threshold] The strict exponent condition $Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
+\item[Spectral synthesis] Completeness of generalized eigenfunctions within the relevant invariant subspace. It requires more than matching zero sets.
+\item[Weighted graph variation] A sum of weighted absolute incidence jumps. It quantifies Euler-factor cancellation for endpoint perturbations.
+\item[Zero multiplicity] The vanishing order of an analytic function at a zero. Multiple zeros produce logarithmic generalized eigenvectors.
+\end{description}
+
+\section*{Acknowledgments and AI contribution}
+ChatGPT (OpenAI) revised the exposition, glossary, RH status discussion,
+and presentation of graph connections.  The existing spectral and
+classification claims were not independently re-refereed during this
+editorial revision.  AI review is not independent mathematical
+certification; details are recorded in the separate revision log.
+
+\begin{thebibliography}{9}\bibitem{LF26} Lean FRO and Mathlib Initiative,
+\emph{Lean verification of the Riemann Hypothesis},
+joint statement, November 21, 2026.
+\url{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}.
+\bibitem{Ru26} M. Rubinstein,
+\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis:
+exposition and verification}, November 2026.
+\url{https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/}.
+
 \bibitem{GS} E. Grosswald and F. J. Schnitzer, A class of modified $\zeta$ and $L$-functions, \emph{Pacific J. Math.} \textbf{74} (1978), 357--364. \url{https://msp.org/pjm/1978/74-2/pjm-v74-n2-p09-s.pdf}.
 \bibitem{PriorNote} ChatGPT, prepared for D. Joyner, \emph{Spectral Invariance under Grosswald--Schnitzer Prime Perturbations}, companion research note, November 1, 2026.
 \bibitem{BohrBook} A. Defant, D. Garc\'ia, M. Maestre, and P. Sevilla-Peris, \emph{Dirichlet Series and Holomorphic Functions in High Dimensions}, Cambridge University Press, 2019, Chapters 11--12.
