@@ -1,0 +1,1189 @@
+{
+ "_about": [
+  "Episode 3 cues: what happens on screen in each beat, step by step, keyed by the beat IDs of ep3/outline.json and ep3/script.fountain.",
+  "Step forms as in ep1/cues.json.  A visual may carry 'delay' (seconds after its step starts) and 'phase' (which part of a multi-step visual plays now).",
+  "Everything is drawn from build_math_objects.py's MINIMOG, tetracode and odd-man-out test (through cue_tools.Code), never from values typed here.  Values written in a cue ('rows', 'word', 'counts', 'readings', 'at', 'fix', 'repairs', 'totals', ...) are claims: check_outline.py recomputes each one and stops on a mismatch.",
+  "'board': 'minimog' plays the MINIMOG verbs through cue_tools.Code.  The grid stays up all episode on the left, with its row numbers and a reading slot under each column; the clock, the codewords and the counts sit on the right."
+ ],
+ "cue_format": 1,
+ "episode": 3,
+ "board": "minimog",
+ "gaps": {
+  "_comment": "Seconds of silence after a line: same speaker next, a new speaker next, the beat's last line.",
+  "same_speaker": 0.5,
+  "new_speaker": 0.75,
+  "beat_end": 1.2
+ },
+ "scene_transition_seconds": 1.6,
+ "stage": {
+  "_comment": "Same seats as Episodes 1 and 2.  Ada carries no prop; she sits straight, looks at the grid while she speaks, points at the cell she reads and nods once for each item she counts.",
+  "seats": {
+   "sophie": {
+    "x": -5.85,
+    "facing": "right"
+   },
+   "pascal": {
+    "x": -2.75,
+    "facing": "right"
+   },
+   "ada": {
+    "x": 2.75,
+    "facing": "left"
+   },
+   "euler": {
+    "x": 5.85,
+    "facing": "left"
+   }
+  },
+  "kitten_size": 1.45,
+  "precise": "ada"
+ },
+ "reactions": {
+  "proud": "chest out, chin up",
+  "confident": "chest out, a slow nod",
+  "smug": "chin up, eyes half shut",
+  "puzzled": "head tilts, ears flick",
+  "surprised": "jolts upright, eyes wide",
+  "thinking": "head tilts, eyes up, tail tip flicks",
+  "lean_in": "leans toward the table",
+  "nod": "nods twice",
+  "paw_up": "raises a paw to make a point",
+  "paw_tap": "reaches a paw down toward the table",
+  "objects": "paw up, head shakes no",
+  "skeptical": "one eye narrows, head tilts back",
+  "pleased": "chin up, eyes smile, a small nod",
+  "deadpan": "eyelids half down, perfectly still",
+  "delighted": "bounces upright, eyes smile, paw up",
+  "ponders": "head tilts slowly, eyes up at the grid, perfectly still",
+  "counts": "a small crisp nod for each item, no more",
+  "straightens": "a quick, exact paw tap, then back to sitting straight"
+ },
+ "targets": [
+  "grid",
+  "clock",
+  "word",
+  "words",
+  "board",
+  "camera"
+ ],
+ "beats": {
+  "s01.b01": [
+   {
+    "do": [
+     {
+      "visual": "fly_to_minimog",
+      "phase": "row"
+     }
+    ],
+    "seconds": 2.0
+   },
+   {
+    "line": "s01.b01.l01",
+    "with": [
+     "react:pascal_lean_in"
+    ]
+   },
+   {
+    "line": "s01.b01.l02",
+    "with": [
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "do": [
+     {
+      "visual": "fly_to_minimog",
+      "phase": "fly",
+      "rows": [
+       [
+        6,
+        3,
+        0,
+        9
+       ],
+       [
+        5,
+        2,
+        7,
+        10
+       ],
+       [
+        4,
+        1,
+        8,
+        11
+       ]
+      ],
+      "straighten": 11
+     },
+     "react:ada_straightens",
+     "react:pascal_surprised"
+    ],
+    "seconds": 3.4
+   },
+   {
+    "line": "s01.b01.l03",
+    "with": [
+     "point_at:ada_grid"
+    ]
+   },
+   {
+    "line": "s01.b01.l04",
+    "with": [
+     "react:pascal_puzzled"
+    ]
+   },
+   {
+    "line": "s01.b01.l05",
+    "with": [
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s01.b01.l06",
+    "with": [
+     "react:pascal_smug"
+    ]
+   },
+   {
+    "line": "s01.b01.l07",
+    "with": [
+     "react:ada_deadpan"
+    ]
+   }
+  ],
+  "s01.b02": [
+   {
+    "line": "s01.b02.l01",
+    "with": [
+     {
+      "visual": "highlight:rows",
+      "labels": [
+       0,
+       1,
+       2
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s01.b02.l02",
+    "with": [
+     "react:pascal_paw_up"
+    ]
+   },
+   {
+    "line": "s01.b02.l03",
+    "with": [
+     "react:ada_paw_up"
+    ]
+   }
+  ],
+  "s02.b01": [
+   {
+    "line": "s02.b01.l01",
+    "with": [
+     {
+      "visual": "clock_mod:3",
+      "phase": "sweep",
+      "hours": [
+       0,
+       2
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s02.b01.l02",
+    "with": [
+     {
+      "visual": "clock_mod:3",
+      "phase": "add",
+      "shows": [
+       2,
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "line": "s02.b01.l03",
+    "with": [
+     "react:euler_pleased"
+    ]
+   },
+   {
+    "line": "s02.b01.l04",
+    "with": [
+     {
+      "visual": "clock_mod:3",
+      "phase": "add",
+      "shows": [
+       2,
+       2,
+       1
+      ]
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s02.b01.l05",
+    "with": [
+     {
+      "visual": "clock_mod:3",
+      "phase": "name"
+     },
+     "react:ada_nod"
+    ]
+   }
+  ],
+  "s02.b02": [
+   {
+    "line": "s02.b02.l01",
+    "with": [
+     {
+      "visual": "recap_montage:kitten_wrap",
+      "phase": "grid",
+      "picture": 11,
+      "direction": [
+       1,
+       1
+      ],
+      "k": 0,
+      "cell_points": [
+       6,
+       4,
+       9
+      ]
+     },
+     "react:sophie_surprised"
+    ]
+   },
+   {
+    "line": "s02.b02.l02",
+    "with": [
+     {
+      "visual": "recap_montage:kitten_wrap",
+      "phase": "sums",
+      "picture": 11,
+      "direction": [
+       1,
+       1
+      ],
+      "k": 0,
+      "cells": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        2
+       ],
+       [
+        2,
+        1
+       ]
+      ],
+      "row_plus_column": [
+       0,
+       0,
+       0
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s02.b02.l03",
+    "with": [
+     "react:sophie_pleased"
+    ]
+   },
+   {
+    "hold": 0.6
+   }
+  ],
+  "s03.b01": [
+   {
+    "do": [
+     {
+      "visual": "clock_mod:3",
+      "phase": "aside"
+     },
+     {
+      "visual": "recap_montage:kitten_wrap",
+      "phase": "away"
+     }
+    ],
+    "seconds": 1.2
+   },
+   {
+    "line": "s03.b01.l01",
+    "with": [
+     {
+      "visual": "assemble_codeword:slots",
+      "phase": "ab"
+     }
+    ]
+   },
+   {
+    "line": "s03.b01.l02",
+    "with": [
+     {
+      "visual": "assemble_codeword:slots",
+      "phase": "slots",
+      "slots": [
+       "b",
+       "a",
+       "a+b",
+       "a+2b"
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s03.b01.l03",
+    "with": [
+     {
+      "visual": "assemble_codeword:slots",
+      "phase": "name"
+     },
+     "point_at:ada_word"
+    ]
+   }
+  ],
+  "s03.b02": [
+   {
+    "line": "s03.b02.l01",
+    "with": [
+     {
+      "visual": "assemble_codeword:a1_b1",
+      "phase": "set",
+      "a": 1,
+      "b": 1
+     }
+    ]
+   },
+   {
+    "pause": "predict",
+    "seconds": 6.0,
+    "prompt": "Build the word for a = 1 and b = 1."
+   },
+   {
+    "line": "s03.b02.l02",
+    "with": [
+     {
+      "visual": "assemble_codeword:a1_b1",
+      "phase": "fill",
+      "a": 1,
+      "b": 1,
+      "word": [
+       1,
+       1,
+       2,
+       0
+      ],
+      "last_before_wrap": 3
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s03.b02.l03",
+    "with": [
+     "react:sophie_nod"
+    ]
+   }
+  ],
+  "s03.b03": [
+   {
+    "line": "s03.b03.l01",
+    "with": [
+     {
+      "visual": "assemble_codeword:all",
+      "size": 9,
+      "kept": [
+       1,
+       1,
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "line": "s03.b03.l02",
+    "with": [
+     "point_at:ada_words"
+    ]
+   },
+   {
+    "line": "s03.b03.l03",
+    "with": [
+     "react:pascal_smug"
+    ]
+   },
+   {
+    "line": "s03.b03.l04",
+    "with": [
+     "react:ada_deadpan"
+    ]
+   }
+  ],
+  "s03.b04": [
+   {
+    "line": "s03.b04.l01",
+    "with": [
+     {
+      "visual": "highlight:two_coordinates",
+      "phase": "cover"
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s03.b04.l02",
+    "with": [
+     "react:sophie_puzzled"
+    ]
+   },
+   {
+    "line": "s03.b04.l03",
+    "with": [
+     {
+      "visual": "highlight:two_coordinates",
+      "phase": "filter",
+      "known": {
+       "0": 1,
+       "1": 1
+      },
+      "words": [
+       [
+        1,
+        1,
+        2,
+        0
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "line": "s03.b04.l04",
+    "with": [
+     {
+      "visual": "reveal_count:pairs_6",
+      "pairs": 6,
+      "distinct": [
+       9,
+       9,
+       9,
+       9,
+       9,
+       9
+      ],
+      "each_once": true
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "hold": 0.8
+   }
+  ],
+  "s04.b01": [
+   {
+    "line": "s04.b01.l01",
+    "with": [
+     {
+      "visual": "highlight:readings",
+      "phase": "clear"
+     },
+     "point_at:ada_grid"
+    ]
+   },
+   {
+    "line": "s04.b01.l02",
+    "with": [
+     {
+      "visual": "highlight:column_one",
+      "column": 0,
+      "cards": [
+       5
+      ],
+      "count": 1,
+      "reading": 1
+     },
+     "react:ada_paw_up"
+    ]
+   }
+  ],
+  "s04.b02": [
+   {
+    "line": "s04.b02.l01",
+    "with": [
+     {
+      "visual": "highlight:column_two",
+      "column": 0,
+      "cards": [
+       6,
+       4
+      ],
+      "count": 2,
+      "reading": 1
+     }
+    ]
+   },
+   {
+    "line": "s04.b02.l02",
+    "with": [
+     {
+      "visual": "write_along:odd_man_out",
+      "column": 0,
+      "to": 5
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s04.b02.l03",
+    "with": [
+     "react:pascal_deadpan"
+    ]
+   }
+  ],
+  "s04.b03": [
+   {
+    "line": "s04.b03.l01",
+    "with": [
+     {
+      "visual": "highlight:column_wild",
+      "phase": "empty",
+      "column": 0,
+      "count": 0,
+      "reading": null
+     },
+     {
+      "visual": "highlight:column_wild",
+      "phase": "full",
+      "column": 0,
+      "count": 3,
+      "reading": null,
+      "delay": 2.2
+     },
+     "react:ada_counts"
+    ]
+   }
+  ],
+  "s04.b04": [
+   {
+    "line": "s04.b04.l01",
+    "with": [
+     {
+      "visual": "highlight:readings",
+      "phase": "rule",
+      "slots": 4
+     }
+    ]
+   },
+   {
+    "line": "s04.b04.l02",
+    "with": [
+     "react:ada_nod"
+    ]
+   }
+  ],
+  "s04.b05": [
+   {
+    "line": "s04.b05.l01",
+    "with": [
+     {
+      "visual": "highlight:column_counts",
+      "phase": "shuffle",
+      "orders": [
+       [
+        0,
+        1,
+        2,
+        3
+       ],
+       [
+        2,
+        0,
+        3,
+        1
+       ],
+       [
+        3,
+        1,
+        0,
+        2
+       ],
+       [
+        1,
+        3,
+        2,
+        0
+       ]
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s04.b05.l02",
+    "with": [
+     "react:pascal_puzzled"
+    ]
+   },
+   {
+    "line": "s04.b05.l03",
+    "with": [
+     {
+      "visual": "highlight:column_counts",
+      "phase": "why",
+      "hands": 216,
+      "fit_a_word": true,
+      "hexads": 0
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s04.b05.l04",
+    "with": [
+     "react:pascal_smug"
+    ]
+   },
+   {
+    "line": "s04.b05.l05",
+    "with": [
+     "react:ada_deadpan"
+    ]
+   }
+  ],
+  "s05.b01": [
+   {
+    "line": "s05.b01.l01",
+    "with": [
+     {
+      "visual": "highlight:hand_in_grid",
+      "phase": "cards",
+      "hand": "hand:example",
+      "counts": [
+       2,
+       1,
+       2,
+       1
+      ],
+      "readings": [
+       1,
+       1,
+       2,
+       2
+      ],
+      "hexad": false
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s05.b01.l02",
+    "with": [
+     {
+      "visual": "highlight:hand_in_grid",
+      "phase": "read",
+      "hand": "hand:example",
+      "readings": [
+       1,
+       1,
+       2,
+       2
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "pause": "predict",
+    "seconds": 6.0,
+    "prompt": "Does 1, 1, 2, 2 spell a codeword?"
+   }
+  ],
+  "s05.b02": [
+   {
+    "line": "s05.b02.l01",
+    "with": [
+     {
+      "visual": "assemble_codeword:forced",
+      "from": [
+       0,
+       1
+      ],
+      "word": [
+       1,
+       1,
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "line": "s05.b02.l02",
+    "with": [
+     {
+      "visual": "highlight:mismatch",
+      "at": [
+       3
+      ],
+      "hand_rows": [
+       2
+      ],
+      "word_rows": [
+       0
+      ],
+      "agree": [
+       0,
+       1,
+       2
+      ]
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s05.b02.l03",
+    "with": [
+     "react:euler_lean_in"
+    ]
+   },
+   {
+    "line": "s05.b02.l04",
+    "with": [
+     {
+      "visual": "highlight:mismatch",
+      "phase": "only",
+      "at": [
+       3
+      ]
+     },
+     "react:ada_nod"
+    ]
+   },
+   {
+    "line": "s05.b02.l05",
+    "with": [
+     "react:euler_thinking"
+    ]
+   }
+  ],
+  "s05.b03": [
+   {
+    "line": "s05.b03.l01",
+    "with": [
+     {
+      "visual": "highlight:hand_in_grid",
+      "phase": "cards",
+      "hand": "hand:1to6",
+      "counts": [
+       3,
+       3,
+       0,
+       0
+      ],
+      "hexad": true
+     }
+    ]
+   },
+   {
+    "line": "s05.b03.l02",
+    "with": [
+     {
+      "visual": "highlight:hand_in_grid",
+      "phase": "read",
+      "hand": "hand:1to6",
+      "readings": [
+       null,
+       null,
+       null,
+       null
+      ],
+      "passes": true
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s05.b03.l03",
+    "with": [
+     "react:euler_pleased"
+    ]
+   }
+  ],
+  "s05.b04": [
+   {
+    "line": "s05.b04.l01",
+    "with": [
+     {
+      "visual": "highlight:hand_in_grid",
+      "phase": "cards",
+      "hand": "hand:game_after_2",
+      "counts": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "readings": [
+       null,
+       1,
+       2,
+       null
+      ],
+      "hexad": false
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s05.b04.l02",
+    "with": [
+     {
+      "visual": "highlight:hand_in_grid",
+      "phase": "read",
+      "hand": "hand:game_after_2",
+      "readings": [
+       null,
+       1,
+       2,
+       null
+      ]
+     },
+     {
+      "visual": "highlight:column_counts",
+      "hand": "hand:game_after_2",
+      "counts": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "forbidden": true,
+      "words": [
+       [
+        1,
+        1,
+        2,
+        0
+       ]
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s05.b04.l03",
+    "with": [
+     "react:pascal_smug"
+    ]
+   }
+  ],
+  "s05.b05": [
+   {
+    "line": "s05.b05.l01",
+    "with": [
+     "react:euler_skeptical"
+    ]
+   },
+   {
+    "line": "s05.b05.l02",
+    "with": [
+     {
+      "visual": "reveal_count:all_hands",
+      "phase": "caption"
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s05.b05.l03",
+    "with": [
+     "react:euler_nod"
+    ]
+   }
+  ],
+  "s06.b01": [
+   {
+    "do": [
+     {
+      "visual": "card_exchange:back",
+      "hand": "hand:example"
+     },
+     {
+      "visual": "assemble_codeword:forced",
+      "from": [
+       0,
+       1
+      ],
+      "word": [
+       1,
+       1,
+       2,
+       0
+      ],
+      "phase": "quick"
+     }
+    ],
+    "seconds": 1.6
+   },
+   {
+    "line": "s06.b01.l01",
+    "with": [
+     "react:pascal_paw_up"
+    ]
+   },
+   {
+    "line": "s06.b01.l02",
+    "with": [
+     {
+      "visual": "highlight:fix_column",
+      "column": 3,
+      "out": 11,
+      "in": 9
+     },
+     "react:ada_paw_up"
+    ]
+   },
+   {
+    "line": "s06.b01.l03",
+    "with": [
+     {
+      "visual": "card_exchange:11_9",
+      "readings": [
+       1,
+       1,
+       2,
+       0
+      ],
+      "hexad": true,
+      "legal": true,
+      "total": 28
+     },
+     "react:ada_straightens"
+    ]
+   }
+  ],
+  "s06.b02": [
+   {
+    "do": [
+     {
+      "visual": "card_exchange:back",
+      "hand": "hand:example"
+     }
+    ],
+    "seconds": 1.2
+   },
+   {
+    "line": "s06.b02.l01",
+    "with": [
+     {
+      "visual": "card_exchange:repairs",
+      "phase": "all",
+      "swaps": 36,
+      "repairs": [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        10
+       ],
+       [
+        4,
+        3
+       ],
+       [
+        6,
+        8
+       ],
+       [
+        7,
+        5
+       ],
+       [
+        11,
+        9
+       ]
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s06.b02.l02",
+    "with": [
+     "point_at:ada_board"
+    ]
+   },
+   {
+    "line": "s06.b02.l03",
+    "with": [
+     {
+      "visual": "card_exchange:repairs",
+      "phase": "up",
+      "repairs": [
+       [
+        0,
+        1
+       ],
+       [
+        2,
+        10
+       ],
+       [
+        6,
+        8
+       ]
+      ],
+      "totals": [
+       31,
+       38,
+       32
+      ]
+     },
+     "react:ada_counts"
+    ]
+   },
+   {
+    "line": "s06.b02.l04",
+    "with": [
+     "react:pascal_objects"
+    ]
+   },
+   {
+    "line": "s06.b02.l05",
+    "with": [
+     {
+      "visual": "card_exchange:repairs",
+      "phase": "down",
+      "repairs": [
+       [
+        4,
+        3
+       ],
+       [
+        7,
+        5
+       ],
+       [
+        11,
+        9
+       ]
+      ],
+      "totals": [
+       29,
+       28,
+       28
+      ]
+     },
+     "react:ada_counts"
+    ]
+   }
+  ],
+  "s06.b03": [
+   {
+    "line": "s06.b03.l01",
+    "with": [
+     {
+      "visual": "highlight:7_5",
+      "total": 28,
+      "readings": [
+       null,
+       1,
+       0,
+       2
+      ],
+      "legal": true
+     },
+     "react:pascal_delighted"
+    ]
+   },
+   {
+    "line": "s06.b03.l02",
+    "with": [
+     {
+      "visual": "assemble_codeword:fits",
+      "word": [
+       2,
+       1,
+       0,
+       2
+      ],
+      "passes": true
+     },
+     "react:ada_nod"
+    ]
+   },
+   {
+    "line": "s06.b03.l03",
+    "with": [
+     "react:pascal_proud"
+    ]
+   },
+   {
+    "line": "s06.b03.l04",
+    "with": [
+     {
+      "visual": "reveal_count:three_of_fourteen",
+      "legal_moves": 14,
+      "legal_repairs": 3
+     },
+     "react:ada_deadpan"
+    ]
+   }
+  ],
+  "s08.b01": [
+   {
+    "do": [
+     {
+      "visual": "highlight:dim"
+     },
+     "react:euler_ponders"
+    ],
+    "seconds": 1.4
+   },
+   {
+    "line": "s08.b01.l01",
+    "with": [
+     "react:euler_ponders"
+    ]
+   },
+   {
+    "line": "s08.b01.l02",
+    "with": [
+     "react:pascal_smug"
+    ]
+   },
+   {
+    "line": "s08.b01.l03",
+    "with": [
+     "react:ada_nod"
+    ]
+   },
+   {
+    "hold": 2.2,
+    "with": [
+     "react:euler_ponders"
+    ]
+   }
+  ]
+ }
+}

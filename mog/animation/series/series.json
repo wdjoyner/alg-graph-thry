@@ -14,7 +14,7 @@
  "episodes": [
   {"number": 1, "title": "The Curious Game of Twenty-One", "outline": "ep1/outline.json", "runtime_seconds": [420, 480]},
   {"number": 2, "title": "The Geometry of a Kitten", "outline": "ep2/outline.json", "runtime_seconds": [420, 480]},
-  {"number": 3, "title": "The Secret Code of the MINIMOG", "outline": "ep3/outline.json", "runtime_seconds": [480, 600]},
+  {"number": 3, "title": "The Secret Code of the MINIMOG", "outline": "ep3/outline.json", "runtime_seconds": [420, 480]},
   {"number": 4, "title": "The Hidden Graph of the Game", "outline": "ep4/outline.json", "runtime_seconds": [480, 600]}
  ],
  "cards": {
@@ -108,6 +108,8 @@
   "shuffle_labeling": "The relabeling that turns points into card values",
   "mod_3": "Arithmetic modulo three",
   "minimog": "Conway's 3 x 4 array of the twelve cards",
+  "codeword": "Four numbers b, a, a+b, a+2b made from two hours a and b of the three-hour clock",
+  "coordinate": "One of the four places in a codeword",
   "tetracode": "Nine words (b, a, a+b, a+2b) mod 3",
   "two_determine_word": "Any two coordinates of a tetracode word determine it",
   "odd_man_out": "Reading a row from each column of a hand",

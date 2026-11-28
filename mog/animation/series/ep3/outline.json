@@ -1,12 +1,13 @@
 {
  "_about": [
-  "Episode 3 outline, scene level.  Each scene will be broken into beats (as in ep1) before its Fountain script is written.",
-  "Run check_outline.py after any change."
+  "Episode 3 outline, beat level.  The Fountain script (ep3/script.fountain) is written from it; each beat is a [[beat: id]] note there.",
+  "'gist' is a sketch of what is said, not final dialogue.  'lines' lists the script's stable line IDs.",
+  "Every number here is claimed against math_objects.json; run check_outline.py after any change."
  ],
  "episode": 3,
  "title": "The Secret Code of the MINIMOG",
  "lead": "ada",
- "learning_goals": ["minimog", "mod_3", "tetracode", "two_determine_word", "odd_man_out", "repair"],
+ "learning_goals": ["minimog", "mod_3", "codeword", "coordinate", "tetracode", "two_determine_word", "odd_man_out", "wildcard", "forbidden_counts", "repair"],
  "scenes": [
   {
    "id": "s00",
@@ -22,96 +23,373 @@
    "title": "Twelve cells",
    "lead": "ada",
    "foil": "pascal",
-   "target_seconds": 45,
+   "target_seconds": 38,
    "paper": ["sec:minimog", "eq:shuffle"],
-   "epistemic": "definition",
-   "summary": "Ada keeps her promise not to memorize: she sends the twelve cards into Conway's 3 x 4 MINIMOG array.",
-   "shows": ["minimog"],
-   "names": ["minimog"],
-   "payoff": ["no_memorizing"],
-   "math": [{"ref": "minimog", "claim": {"rows": [[6, 3, 0, 9], [5, 2, 7, 10], [4, 1, 8, 11]]}}],
-   "visual": ["fly_to_minimog"],
-   "beats": []
+   "summary": "Ada keeps her promise not to memorize: she sends the twelve cards into Conway's 3 x 4 MINIMOG, where every card always sits in the same cell, and numbers its rows 0, 1, 2.",
+   "beats": [
+    {
+     "id": "s01.b01",
+     "purpose": "Ada's better way: the twelve cards fly into Conway's MINIMOG, every card in its own cell",
+     "epistemic": "definition",
+     "shows": ["minimog"],
+     "names": ["minimog"],
+     "payoff": ["no_memorizing"],
+     "math": [{"ref": "minimog", "claim": {"rows": [[6, 3, 0, 9], [5, 2, 7, 10], [4, 1, 8, 11]], "cards_once": true}}],
+     "visual": ["fly_to_minimog"],
+     "gist": "PASCAL: You said there's a better way than memorizing. ADA: There is. Watch. (The cards fly into the grid.) Twelve cards, three rows, four columns: Conway's MINIMOG. Every card always sits in the same cell. PASCAL: Mini what? ADA: A small version of Curtis's MOG, the Miracle Octad Generator. PASCAL: Bless you.",
+     "lines": ["s01.b01.l01", "s01.b01.l02", "s01.b01.l03", "s01.b01.l04", "s01.b01.l05", "s01.b01.l06", "s01.b01.l07"]
+    },
+    {
+     "id": "s01.b02",
+     "purpose": "The rows are numbered 0, 1, 2 from the top, numbers that live on a clock",
+     "epistemic": "definition",
+     "math": [{"ref": "minimog", "claim": {"row_labels": [0, 1, 2]}}],
+     "visual": ["highlight:rows"],
+     "gist": "ADA: Number the rows zero, one, two. PASCAL: Why not one, two, three? ADA: Because these three go round a clock.",
+     "lines": ["s01.b02.l01", "s01.b02.l02", "s01.b02.l03"]
+    }
+   ]
   },
   {
    "id": "s02",
    "title": "A three-hour clock",
    "lead": "ada",
    "foil": "euler",
-   "target_seconds": 55,
+   "target_seconds": 33,
    "paper": ["sec:background"],
-   "epistemic": "definition",
-   "summary": "Arithmetic mod 3 on a clock with three hours. Sophie recognizes it: the diagonals that wrapped around in the kitten.",
-   "shows": ["mod_3"],
-   "names": ["mod_3"],
-   "visual": ["clock_mod:3", "recap_montage:kitten_wrap"],
-   "beats": []
+   "summary": "Arithmetic mod 3 on a clock with three hours: 2 + 1 = 0 and 2 + 2 = 1. Sophie recognizes it in the kitten's wrapped diagonal, where row plus column is always 0 mod 3.",
+   "beats": [
+    {
+     "id": "s02.b01",
+     "purpose": "A clock with three hours: its hand moves as the sums are said; this is arithmetic mod 3",
+     "epistemic": "definition",
+     "shows": ["mod_3"],
+     "names": ["mod_3"],
+     "cameos": [{"who": "euler", "optional": true}],
+     "math": [{"ref": "clock:mod3", "claim": {"hours": [0, 1, 2], "sums.2+1": 0, "sums.2+2": 1}}],
+     "visual": ["clock_mod:3"],
+     "gist": "ADA: A clock with three hours (the hand sweeps 0, 1, 2). Two plus one goes round to zero (it ticks on to 0). EULER: Like my clock, only smaller. ADA: Two plus two is one (two ticks from 2). That's arithmetic mod three.",
+     "lines": ["s02.b01.l01", "s02.b01.l02", "s02.b01.l03", "s02.b01.l04", "s02.b01.l05"]
+    },
+    {
+     "id": "s02.b02",
+     "purpose": "Sophie recognizes the clock in Episode 2's wrapped diagonal: row plus column is 0 mod 3 on it",
+     "lead": "sophie",
+     "foil": "ada",
+     "epistemic": "recap",
+     "math": [
+      {
+       "ref": "kitten:wrap",
+       "claim": {"cell_points": [6, 4, 9], "row_plus_column": [0, 0, 0], "cells": [[0, 0], [1, 2], [2, 1]]}
+      }
+     ],
+     "visual": ["recap_montage:kitten_wrap"],
+     "gist": "SOPHIE: I've seen that clock: the kitten's diagonal that ran off the edge and came back. ADA: Along it, row plus column is always zero, mod three. SOPHIE: The wrap was the clock all along.",
+     "lines": ["s02.b02.l01", "s02.b02.l02", "s02.b02.l03"]
+    }
+   ]
   },
   {
    "id": "s03",
    "title": "Nine words",
    "lead": "ada",
    "foil": "sophie",
-   "target_seconds": 90,
-   "paper": ["eq:tetracode", "eq:tetrastandard"],
-   "epistemic": "exhaustive_check",
-   "predict_pause": true,
-   "summary": "Choose a and b mod 3; the word is (b, a, a+b, a+2b). Nine words. Build the one for a = b = 1. Any two coordinates pin down the whole word: Ada's favorite property.",
-   "shows": ["tetracode", "two_determine_word"],
-   "names": ["tetracode", "two_determine_word"],
-   "establishes": ["Any two coordinates determine a tetracode word"],
-   "math": [{"ref": "tetracode", "claim": {"size": 9, "word_a1_b1": [1, 1, 2, 0], "any_two_coordinates_determine": true}}],
-   "visual": ["assemble_codeword:a1_b1"],
-   "beats": []
+   "target_seconds": 70,
+   "paper": ["eq:tetracode", "eq:tetrastandard", "sec:minimog"],
+   "summary": "Pick a and b on the clock; the codeword is (b, a, a+b, a+2b), and each place is a coordinate. Viewers build the one for a = b = 1: 1, 1, 2, 0. Three choices each give nine words, the tetracode. Any two coordinates pin down the whole word, checked for all six pairs of places: Ada's favorite property.",
+   "beats": [
+    {
+     "id": "s03.b01",
+     "purpose": "A codeword: four numbers b, a, a+b, a+2b on the three-hour clock; each place is a coordinate",
+     "epistemic": "definition",
+     "shows": ["codeword", "coordinate"],
+     "names": ["codeword", "coordinate"],
+     "math": [{"ref": "tetracode", "claim": {"formula": "(b, a, a+b, a+2b) mod 3", "formula_matches_words": true}}],
+     "visual": ["assemble_codeword:slots"],
+     "gist": "ADA: Pick two hours, a and b. Write b, then a, then a plus b, then a plus two b, round the clock. That's a codeword; each place is a coordinate.",
+     "lines": ["s03.b01.l01", "s03.b01.l02", "s03.b01.l03"]
+    },
+    {
+     "id": "s03.b02",
+     "purpose": "Viewers build the word for a = b = 1; a + 2b = 3 goes round to 0",
+     "epistemic": "example",
+     "predict_pause": true,
+     "math": [
+      {
+       "ref": "tetracode",
+       "claim": {"word_a1_b1": [1, 1, 2, 0], "a1_b1_steps.a+2b_before_wrap": 3, "a1_b1_steps.a+2b": 0}
+      }
+     ],
+     "visual": ["assemble_codeword:a1_b1"],
+     "gist": "ADA: Take a equals one and b equals one. (Pause.) b is one, a is one, a plus b is two, a plus two b is three, which goes round to zero. SOPHIE: One, one, two, zero.",
+     "lines": ["s03.b02.l01", "s03.b02.l02", "s03.b02.l03"]
+    },
+    {
+     "id": "s03.b03",
+     "purpose": "Three choices for a and three for b: nine codewords, the tetracode",
+     "epistemic": "computation",
+     "shows": ["tetracode"],
+     "names": ["tetracode"],
+     "cameos": [{"who": "pascal", "optional": true}],
+     "math": [{"ref": "tetracode", "claim": {"size": 9, "by_ab.1,1": [1, 1, 2, 0]}}],
+     "visual": ["assemble_codeword:all"],
+     "gist": "ADA: Three choices for a, three for b: nine codewords, the tetracode. PASCAL: Even I could memorize nine. ADA: You won't have to.",
+     "lines": ["s03.b03.l01", "s03.b03.l02", "s03.b03.l03", "s03.b03.l04"]
+    },
+    {
+     "id": "s03.b04",
+     "purpose": "Any two coordinates determine the word: shown for the first two, checked for all six pairs of places",
+     "epistemic": "exhaustive_check",
+     "shows": ["two_determine_word"],
+     "names": ["two_determine_word"],
+     "establishes": ["Any two coordinates determine a tetracode word"],
+     "math": [
+      {
+       "ref": "tetracode",
+       "claim": {
+        "any_two_coordinates_determine": true,
+        "first_two_1_1": [[1, 1, 2, 0]],
+        "pairs_checked": 6,
+        "distinct_pairs_per_choice": [9, 9, 9, 9, 9, 9]
+       }
+      }
+     ],
+     "visual": ["highlight:two_coordinates", "reveal_count:pairs_6"],
+     "gist": "ADA: My favorite part: any two coordinates pin down the whole word. SOPHIE: Any two? ADA: The first two say one and one: only one, one, two, zero starts that way. Six ways to pick two places; I checked all six.",
+     "lines": ["s03.b04.l01", "s03.b04.l02", "s03.b04.l03", "s03.b04.l04"]
+    }
+   ]
   },
   {
    "id": "s04",
    "title": "Odd man out",
    "lead": "ada",
    "foil": "pascal",
-   "target_seconds": 90,
+   "target_seconds": 57,
    "paper": ["sec:minimog", "fig:odd"],
-   "epistemic": "definition",
-   "summary": "Mark a hand in the grid. A column with one card gives its row; with two cards, the missing row; empty or full columns are wildcards. The rows must fit one tetracode word. Column counts 0, 1, 2, 3 are always rejected.",
-   "shows": ["odd_man_out", "wildcard", "forbidden_counts"],
-   "names": ["odd_man_out", "wildcard", "forbidden_counts"],
-   "visual": ["highlight:column_counts", "write_along:odd_man_out"],
-   "beats": []
+   "summary": "Mark six cards in the grid and read each column. One card: its row. Two cards: the row left out, the odd man out. Empty or full: a wildcard that fits any row. The readings must spell a tetracode word, and then the hand is a hexad. Column counts 0, 1, 2, 3 always fail: only two columns give a row, and any two coordinates fit a word, so the words alone would pass all 216 such hands, and none is a hexad.",
+   "beats": [
+    {
+     "id": "s04.b01",
+     "purpose": "The test begins: mark six cards and read each column; a column with one card gives its row",
+     "epistemic": "definition",
+     "shows": ["odd_man_out"],
+     "math": [{"ref": "odd_man_out:demo", "claim": {"demos.one.cards": [5], "demos.one.reading": 1}}],
+     "visual": ["highlight:column_one"],
+     "gist": "ADA: Mark six cards and read each column. One card? Read its row. Five is in row one.",
+     "lines": ["s04.b01.l01", "s04.b01.l02"]
+    },
+    {
+     "id": "s04.b02",
+     "purpose": "Two cards in a column give the row left out: the odd man out",
+     "epistemic": "definition",
+     "names": ["odd_man_out"],
+     "math": [{"ref": "odd_man_out:demo", "claim": {"demos.two.cards": [6, 4], "demos.two.reading": 1}}],
+     "visual": ["highlight:column_two", "write_along:odd_man_out"],
+     "gist": "ADA: Two cards? Read the row they leave out. Six and four leave out row one: the odd man out. PASCAL: Poor five.",
+     "lines": ["s04.b02.l01", "s04.b02.l02", "s04.b02.l03"]
+    },
+    {
+     "id": "s04.b03",
+     "purpose": "An empty or full column is a wildcard, which fits any row",
+     "epistemic": "definition",
+     "shows": ["wildcard"],
+     "names": ["wildcard"],
+     "math": [
+      {
+       "ref": "odd_man_out:demo",
+       "claim": {"demos.empty.count": 0, "demos.empty.reading": null, "demos.full.count": 3, "demos.full.reading": null}
+      }
+     ],
+     "visual": ["highlight:column_wild"],
+     "gist": "ADA: An empty column, or a full one, is a wildcard. It fits any row.",
+     "lines": ["s04.b03.l01"]
+    },
+    {
+     "id": "s04.b04",
+     "purpose": "The rule: the four readings must spell a codeword, a wildcard fitting anything; passing means a hexad",
+     "epistemic": "definition",
+     "cameos": [{"who": "pascal", "optional": true}],
+     "visual": ["highlight:readings"],
+     "gist": "ADA: The rows you read must spell one of the nine codewords; a wildcard fits anything. Pass, and the hand is a hexad.",
+     "lines": ["s04.b04.l01", "s04.b04.l02"]
+    },
+    {
+     "id": "s04.b05",
+     "purpose": "Column counts 0, 1, 2, 3 always fail: two readings always fit a word, and none of these hands is a hexad",
+     "epistemic": "computation",
+     "shows": ["forbidden_counts"],
+     "names": ["forbidden_counts"],
+     "math": [
+      {
+       "ref": "count:forbidden",
+       "claim": {"hands": 216, "specified_coordinates": [2], "all_fit_a_word": true, "hexads": 0}
+      }
+     ],
+     "visual": ["highlight:column_counts"],
+     "gist": "ADA: One exception: columns holding zero, one, two and three cards fail. PASCAL: Why? ADA: Only two columns give a row, and any two fit a word, so the words would pass every such hand, and none is a hexad. PASCAL: A patch. ADA: A necessary one.",
+     "lines": ["s04.b05.l01", "s04.b05.l02", "s04.b05.l03", "s04.b05.l04", "s04.b05.l05"]
+    }
+   ]
   },
   {
    "id": "s05",
    "title": "Test the hands",
    "lead": "ada",
    "foil": "euler",
-   "target_seconds": 90,
+   "target_seconds": 78,
    "paper": ["sec:minimog", "lem:minimog"],
-   "epistemic": "example",
-   "predict_pause": true,
-   "summary": "The opening hand from Episode 1 reads 1, 1, 2, 2; the first two coordinates force 1, 1, 2, 0; the last disagrees, so it is not a hexad. The hand 1 to 6 is all wildcards: a hexad. Callback: the 24-hand Ada left Pascal in the worked game has the forbidden counts. The test is shown on examples; the paper proves it always agrees with the design.",
-   "math": [
-    {"ref": "hand:example", "claim": {"odd_man_out": [1, 1, 2, 2], "hexad": false}},
-    {"ref": "tetracode", "claim": {"word_a1_b1": [1, 1, 2, 0]}},
-    {"ref": "hand:1to6", "claim": {"column_counts": [3, 3, 0, 0], "hexad": true}},
-    {"ref": "hand:game_after_2", "claim": {"column_counts": [3, 1, 2, 0], "hexad": false}}
-   ],
-   "visual": ["highlight:hand_in_grid", "assemble_codeword:forced", "highlight:mismatch"],
-   "beats": []
+   "summary": "The opening hand from Episode 1 reads 1, 1, 2, 2; its first two coordinates force 1, 1, 2, 0, the word from the clock; the last disagrees, so it is not a hexad. The hand 1 to 6 is all wildcards: a hexad. The 24-hand Ada left Pascal fits 1, 1, 2, 0 too, but its counts are forbidden. Euler: three hands are not a proof; the paper runs the test on all 924 hands.",
+   "beats": [
+    {
+     "id": "s05.b01",
+     "purpose": "Episode 1's opening hand in the grid: column counts 2, 1, 2, 1 and readings 1, 1, 2, 2",
+     "epistemic": "example",
+     "predict_pause": true,
+     "math": [
+      {
+       "ref": "hand:example",
+       "claim": {"cards": [0, 2, 4, 6, 7, 11], "column_counts": [2, 1, 2, 1], "odd_man_out": [1, 1, 2, 2]}
+      }
+     ],
+     "visual": ["highlight:hand_in_grid"],
+     "gist": "ADA: The hand our first game started with: zero, two, four, six, seven, eleven. The columns read one, one, two, two. (Pause: does it spell a codeword?)",
+     "lines": ["s05.b01.l01", "s05.b01.l02"]
+    },
+    {
+     "id": "s05.b02",
+     "purpose": "The first two readings force 1, 1, 2, 0; the last disagrees, so the hand is not a hexad",
+     "epistemic": "example",
+     "cameos": [{"who": "euler", "optional": false}],
+     "math": [
+      {
+       "ref": "test:example",
+       "claim": {"forced_from": [0, 1], "forced_word": [1, 1, 2, 0], "is_word_a1_b1": true, "disagrees_at": [3]}
+      },
+      {"ref": "hand:example", "claim": {"hexad": false, "test.passes": false}}
+     ],
+     "visual": ["assemble_codeword:forced", "highlight:mismatch"],
+     "gist": "ADA: The first two are one and one: that pins down one, one, two, zero. The third agrees; the last says two, the word says zero. EULER: Could another word fit? ADA: No: two coordinates pin down the word, so there is only one to try. Not a hexad. EULER: The hand we started with wasn't special.",
+     "lines": ["s05.b02.l01", "s05.b02.l02", "s05.b02.l03", "s05.b02.l04", "s05.b02.l05"]
+    },
+    {
+     "id": "s05.b03",
+     "purpose": "The hand 1 to 6: two full and two empty columns, all wildcards, so a hexad",
+     "epistemic": "example",
+     "math": [{"ref": "hand:1to6", "claim": {"column_counts": [3, 3, 0, 0], "test.wildcards": 4, "hexad": true}}],
+     "visual": ["highlight:hand_in_grid"],
+     "gist": "ADA: One to six: two full columns, two empty. Four wildcards: it fits every word, a hexad. EULER: Sophie's dead hand, at a glance.",
+     "lines": ["s05.b03.l01", "s05.b03.l02", "s05.b03.l03"]
+    },
+    {
+     "id": "s05.b04",
+     "purpose": "The 24-hand Ada left Pascal fits 1, 1, 2, 0, but its counts 3, 1, 2, 0 are forbidden",
+     "epistemic": "example",
+     "cameos": [{"who": "pascal", "optional": true}],
+     "math": [
+      {
+       "ref": "hand:game_after_2",
+       "claim": {
+        "cards": [0, 2, 4, 5, 6, 7],
+        "total": 24,
+        "column_counts": [3, 1, 2, 0],
+        "test.words_fitting": [[1, 1, 2, 0]],
+        "test.forbidden": true,
+        "hexad": false
+       }
+      }
+     ],
+     "visual": ["highlight:hand_in_grid", "highlight:column_counts"],
+     "gist": "ADA: The twenty-four I left Pascal in our first game. Its rows fit one, one, two, zero, but its columns hold three, one, two and zero cards. Forbidden. PASCAL: I knew I liked that hand.",
+     "lines": ["s05.b04.l01", "s05.b04.l02", "s05.b04.l03"]
+    },
+    {
+     "id": "s05.b05",
+     "purpose": "Three examples are not a proof; the paper runs the test on all 924 hands and it picks out exactly the hexads",
+     "lead": "euler",
+     "foil": "ada",
+     "epistemic": "observation",
+     "math": [{"ref": "count:test", "claim": {"hands": 924, "test_agrees_with_hexads": true, "passing": 132}}],
+     "visual": ["react:euler_skeptical"],
+     "gist": "EULER: Three hands aren't a proof. ADA: No. The paper runs the test on all nine hundred twenty-four hands, and it picks out exactly the hexads. EULER: That will do.",
+     "lines": ["s05.b05.l01", "s05.b05.l02", "s05.b05.l03"]
+    }
+   ]
   },
   {
    "id": "s06",
    "title": "Repair",
    "lead": "pascal",
    "foil": "ada",
-   "target_seconds": 80,
+   "target_seconds": 53,
    "paper": ["sec:game"],
-   "epistemic": "computation",
-   "summary": "Which single exchanges turn the opening hand into a hexad? Six of them: three up (0 for 1, 2 for 10, 6 for 8) and three down (4 for 3, 7 for 5, 11 for 9). PASCAL: Seven for five. That was my move!",
-   "shows": ["repair"],
-   "names": ["repair"],
-   "payoff": ["move_7_to_5"],
-   "math": [{"ref": "moves:example_to_hexads", "claim": {"down": [[4, 3], [7, 5], [11, 9]], "up": [[0, 1], [2, 10], [6, 8]], "down_totals": [29, 28, 28]}}],
-   "visual": ["card_exchange:repairs", "highlight:7_5", "react:pascal_delighted"],
-   "beats": []
+   "summary": "The forced word wants a 0 in the last column, so 11 out, 9 in repairs the opening hand. Of its 36 single swaps, six repair it: three up (0 for 1, 2 for 10, 6 for 8), which the game forbids, and three down (4 for 3, 7 for 5, 11 for 9). PASCAL: Seven for five. That was my move! It passes the test, fitting 2, 1, 0, 2. Skill, or one of three repairs among fourteen moves?",
+   "beats": [
+    {
+     "id": "s06.b01",
+     "purpose": "The word wants a 0 in the last column: moving its card from row 2 to row 0, 11 out and 9 in, makes a hexad",
+     "lead": "ada",
+     "foil": "pascal",
+     "epistemic": "computation",
+     "math": [
+      {
+       "ref": "test:example",
+       "claim": {
+        "disagrees_at": [3],
+        "hand_row": 2,
+        "word_row": 0,
+        "fix": [11, 9],
+        "fix_is_repair": true,
+        "fixed_reading": [1, 1, 2, 0]
+       }
+      }
+     ],
+     "visual": ["highlight:fix_column", "card_exchange:11_9"],
+     "gist": "PASCAL: My hand failed. Can you fix it? ADA: One swap. The word wants a zero in the last column: eleven out, nine in. Now it reads one, one, two, zero: a hexad.",
+     "lines": ["s06.b01.l01", "s06.b01.l02", "s06.b01.l03"]
+    },
+    {
+     "id": "s06.b02",
+     "purpose": "36 single swaps, six repairs: three up, which the game forbids, and three down",
+     "lead": "ada",
+     "foil": "pascal",
+     "epistemic": "exhaustive_check",
+     "shows": ["repair"],
+     "names": ["repair"],
+     "establishes": ["Exactly six single swaps turn the opening hand into a hexad"],
+     "math": [
+      {
+       "ref": "moves:example_to_hexads",
+       "claim": {
+        "swaps": 36,
+        "repairs": 6,
+        "up": [[0, 1], [2, 10], [6, 8]],
+        "down": [[4, 3], [7, 5], [11, 9]],
+        "down_totals": [29, 28, 28]
+       }
+      }
+     ],
+     "visual": ["card_exchange:repairs"],
+     "gist": "ADA: Six out, six in: thirty-six swaps, six make a hexad. Each is a repair. Three go up: zero for one, two for ten, six for eight. PASCAL: Up isn't allowed! ADA: Not in the game. Three go down: four for three, seven for five, eleven for nine.",
+     "lines": ["s06.b02.l01", "s06.b02.l02", "s06.b02.l03", "s06.b02.l04", "s06.b02.l05"]
+    },
+    {
+     "id": "s06.b03",
+     "purpose": "Seven for five was Pascal's opening move: a repair, fitting the word 2, 1, 0, 2",
+     "epistemic": "computation",
+     "payoff": ["move_7_to_5"],
+     "math": [
+      {
+       "ref": "moves:example_to_hexads",
+       "claim": {"after_7_5.words_fitting": [[2, 1, 0, 2]], "after_7_5.passes": true, "legal_moves": 14, "legal_repairs": 3}
+      },
+      {"ref": "game:worked", "claim": {"steps.0.move": [7, 5], "steps.0.lands_on_hexad": true}}
+     ],
+     "visual": ["highlight:7_5", "react:pascal_delighted"],
+     "gist": "PASCAL: Seven for five. That was my move! ADA: And it passes: the new hand fits two, one, zero, two. PASCAL: Skill. Obviously. ADA: Or luck. Three of your fourteen moves were repairs.",
+     "lines": ["s06.b03.l01", "s06.b03.l02", "s06.b03.l03", "s06.b03.l04"]
+    }
+   ]
   },
   {
    "id": "s07",
@@ -133,12 +411,21 @@
    "title": "Why does it work?",
    "lead": "euler",
    "foil": "pascal",
-   "target_seconds": 25,
-   "epistemic": "comedy",
+   "target_seconds": 17,
    "summary": "EULER: Repair the hand, then win. Every time. I want to know why. PASCAL: Who cares why? It works.",
-   "setup": ["why_repair_wins"],
-   "visual": ["react:euler_ponders"],
-   "beats": []
+   "beats": [
+    {
+     "id": "s08.b01",
+     "purpose": "Euler notices that whoever repaired the hand won every game so far, and wants to know why",
+     "epistemic": "comedy",
+     "setup": ["why_repair_wins"],
+     "math": [{"ref": "game:worked", "claim": {"winner": 1, "steps.2.lands_on_hexad": true}}],
+     "visual": ["react:euler_ponders"],
+     "gist": "EULER: Every game we've played, whoever repaired the hand went on to win. I want to know why. PASCAL: Who cares why? It works. ADA: I care.",
+     "lines": ["s08.b01.l01", "s08.b01.l02", "s08.b01.l03"],
+     "cameos": [{"who": "ada", "optional": true}]
+    }
+   ]
   },
   {
    "id": "s99",
@@ -148,7 +435,8 @@
    "visual": ["credits_roll"],
    "tail": "next_time",
    "next_episode": 4,
-   "target_seconds": 58.5
+   "target_seconds": 62
   }
- ]
+ ],
+ "uses": ["pam"]
 }

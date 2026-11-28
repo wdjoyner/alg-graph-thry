@@ -1,0 +1,361 @@
+Title: Kittens, MOGs, and Mathematical Blackjack
+Episode: 3. The Secret Code of the MINIMOG
+Credit: Written by
+Author: David Joyner, Claude (Anthropic) and ChatGPT (OpenAI)
+Source: ep3/outline.json; the mathematics is checked against math_objects.json
+Draft date: 2026-11-28
+Notes: Draft 1. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Numbers are written as words in dialogue so they are spoken as words. Every idea is shown, then named, before anyone relies on it: the MINIMOG, arithmetic mod three, a codeword and its coordinates, the tetracode, the odd man out, a wildcard, the forbidden counts and a repair. The letters a and b are respelled in pronunciation.json only where they are the clock's two hours, so the article "a" is never touched.
+
+[[ PRODUCTION NOTE: The same tabletop as Episodes 1 and 2, seen from the front, with the kittens in the same seats: Sophie far left, Pascal left of center, Ada right of center, Euler far right. Ada lays the MINIMOG out on the left of the space above the table, with its row numbers down its left side and a reading slot under each column. The three-hour clock, the codewords and the counts go on the right. Ada carries no prop. She sits very straight, points at exactly the cell she is reading, and gives a small crisp nod for each item she counts. ]]
+
+# s00. Main title
+
+[[ The series main title and the Episode 3 subtitle play here (titles/outline.json; scene s00). No dialogue. ]]
+
+# s01. Twelve cells
+
+INT. KITCHEN TABLE - EVENING
+
+[[#1 | BEAT: Twelve cells | OBJ: Ada shows the better way she promised | PAYOFF: no_memorizing]]
+
+The twelve cards lie in a row across the table, 0 to 11. Pascal eyes Ada. [[beat: s01.b01]]
+
+PASCAL
+So, Ada. You said there's a better way than memorizing. [[line: s01.b01.l01]]
+
+ADA
+There is. Watch. [[line: s01.b01.l02]]
+
+The cards fly up into a grid of three rows and four columns. The last one lands crooked, and Ada straightens it with one paw.
+
+ADA
+Twelve cards, three rows, four columns. Conway called it the MINIMOG. [[line: s01.b01.l03]]
+
+PASCAL
+Mini what? [[line: s01.b01.l04]]
+
+ADA
+MINIMOG. A small version of Curtis's MOG, the Miracle Octad Generator. [[line: s01.b01.l05]]
+
+PASCAL
+Bless you. [[line: s01.b01.l06]]
+
+ADA
+(deadpan)
+Every card always sits in the same cell. [[line: s01.b01.l07]]
+
+Ada taps the rows one at a time, and a number appears beside each: 0, 1, 2. [[beat: s01.b02]]
+
+ADA
+Number the rows zero, one, two, from the top. [[line: s01.b02.l01]]
+
+PASCAL
+Why not one, two, three? [[line: s01.b02.l02]]
+
+ADA
+Because these three numbers go round a clock. [[line: s01.b02.l03]]
+
+# s02. A three-hour clock
+
+[[#2 | BEAT: A three-hour clock | OBJ: Ada shows the arithmetic the code is written in | SETUP: none]]
+
+A small clock appears on the right, with only three hours: 0 at the top, 1 and 2 below. Its gold hand steps from 0 to 1 to 2 as Ada counts. [[beat: s02.b01]]
+
+ADA
+A clock with three hours: zero, one, two. [[line: s02.b01.l01]]
+
+The hand stands at 2, then ticks one hour on, back to 0.
+
+ADA
+Two plus one goes round to zero. [[line: s02.b01.l02]]
+
+EULER
+Like my clock last time, only smaller. [[line: s02.b01.l03]]
+
+From 2, the hand ticks twice: to 0, then to 1.
+
+ADA
+And two plus two is one. [[line: s02.b01.l04]]
+
+ADA
+That's arithmetic mod three. Every sum lands on zero, one or two. [[line: s02.b01.l05]]
+
+Sophie sits up. Beside the clock, a picture from last time returns: the three-by-three grid seen from infinity, and its diagonal that ran off one edge and came back on the other, 6, 4, 9. [[beat: s02.b02]]
+
+SOPHIE
+I've seen that clock before! The diagonal in the kitten that ran off the edge and came back. [[line: s02.b02.l01]]
+
+Under each card of the diagonal its row and column appear, and they add up on the clock: 0 + 0, 1 + 2, 2 + 1, all 0.
+
+ADA
+Along that diagonal, row plus column is always zero, mod three. [[line: s02.b02.l02]]
+
+SOPHIE
+So the wrap was the clock all along. [[line: s02.b02.l03]]
+
+# s03. Nine words
+
+[[#3 | BEAT: Nine words | OBJ: Ada builds the code she will test hands with | SETUP: none]]
+
+The clock moves aside. Four empty boxes appear in a row, labeled b, a, a + b and a + 2b. [[beat: s03.b01]]
+
+ADA
+Now, a code. Pick two hours on the clock, and call them a and b. [[line: s03.b01.l01]]
+
+ADA
+Then write four numbers: b, then a, then a plus b, then a plus two b. Every sum goes round the clock. [[line: s03.b01.l02]]
+
+ADA
+That's a codeword. Each of its four places is called a coordinate. [[line: s03.b01.l03]]
+
+Ada sets the clock's two hours: a = 1, b = 1. [[beat: s03.b02]]
+
+ADA
+Let's build one. Take a equals one, and b equals one. [[line: s03.b02.l01]]
+
+A pause for the viewer: what are the four numbers?
+
+The boxes fill one at a time. For the last, the clock's hand goes 1, then two more hours, round to 0.
+
+ADA
+b is one. a is one. a plus b is two. And a plus two b is three, which goes round to zero. [[line: s03.b02.l02]]
+
+SOPHIE
+One, one, two, zero. [[line: s03.b02.l03]]
+
+The word slides into a table of three rows and three columns, one for each choice of a and of b, and the other eight words fill in around it. [[beat: s03.b03]]
+
+ADA
+Three choices for a, three for b. Nine codewords in all. [[line: s03.b03.l01]]
+
+ADA
+Together they're called the tetracode. [[line: s03.b03.l02]]
+
+PASCAL
+Nine? Even I could memorize nine. [[line: s03.b03.l03]]
+
+ADA
+You won't have to. [[line: s03.b03.l04]]
+
+Ada covers the last two coordinates of every word. [[beat: s03.b04]]
+
+ADA
+Here's my favorite part. Any two coordinates pin down the whole word. [[line: s03.b04.l01]]
+
+SOPHIE
+Any two? [[line: s03.b04.l02]]
+
+Every word but one fades: only one starts 1, 1.
+
+ADA
+Say the first two are one and one. Only one word starts that way: one, one, two, zero. [[line: s03.b04.l03]]
+
+Six pairs of places appear, and each one gets a check mark.
+
+ADA
+There are six ways to pick two places, and I checked all six. No two words ever match in both. [[line: s03.b04.l04]]
+
+# s04. Odd man out
+
+[[#4 | BEAT: Odd man out | OBJ: Ada turns the code into a test for hexads | SETUP: none]]
+
+Ada points at the first column of the MINIMOG: 6, 5, 4. The 5 lights up. [[beat: s04.b01]]
+
+ADA
+Now the test. Mark six cards in the grid, and read each column. [[line: s04.b01.l01]]
+
+ADA
+A column with one card? Read its row. Five is in row one. [[line: s04.b01.l02]]
+
+The 5 goes dark, and the 6 and the 4 light up instead. [[beat: s04.b02]]
+
+ADA
+Two cards? Read the row they leave out. Six and four leave out row one. [[line: s04.b02.l01]]
+
+The words "odd man out" travel along a curve from the two lit cards to the dark 5 between them.
+
+ADA
+That's the odd man out. [[line: s04.b02.l02]]
+
+PASCAL
+Poor five. [[line: s04.b02.l03]]
+
+The column goes dark, then all three of its cards light up. Under it, a question mark. [[beat: s04.b03]]
+
+ADA
+An empty column, or a full one, is a wildcard. It fits any row. [[line: s04.b03.l01]]
+
+Four reading slots wait under the four columns, beside the nine codewords. [[beat: s04.b04]]
+
+ADA
+The rule: the rows you read must spell one of the nine codewords. A wildcard fits anything. [[line: s04.b04.l01]]
+
+ADA
+Pass the test, and the hand is a hexad. Fail it, and it isn't. [[line: s04.b04.l02]]
+
+Under the columns, four counts appear, 0, 1, 2 and 3, and shuffle into other orders. [[beat: s04.b05]]
+
+ADA
+One exception. If the columns hold zero, one, two and three cards, in any order, the hand fails. [[line: s04.b05.l01]]
+
+PASCAL
+Why? [[line: s04.b05.l02]]
+
+Two of the slots fill with question marks.
+
+ADA
+Then only two columns give a row, and any two coordinates fit a word. The words would pass every such hand, and not one of them is a hexad. [[line: s04.b05.l03]]
+
+PASCAL
+So that rule is a patch. [[line: s04.b05.l04]]
+
+ADA
+A necessary one. [[line: s04.b05.l05]]
+
+# s05. Test the hands
+
+[[#5 | BEAT: Test the hands | OBJ: Ada tests the hands from the first game | SETUP: none]]
+
+The opening hand of the first game lights up in the grid: 0, 2, 4, 6, 7, 11. Under the columns, their counts: 2, 1, 2, 1. [[beat: s05.b01]]
+
+ADA
+Now a real hand: the one our first game started with. Zero, two, four, six, seven, eleven. [[line: s05.b01.l01]]
+
+One column at a time, a reading drops into each slot: 1, 1, 2, 2.
+
+ADA
+The columns read one, one, two, two. [[line: s05.b01.l02]]
+
+A pause for the viewer: does 1, 1, 2, 2 spell a codeword?
+
+The first two readings light up, and the word they force builds beside them: 1, 1, 2, 0. [[beat: s05.b02]]
+
+ADA
+The first two coordinates are one and one. That pins down the word: one, one, two, zero. [[line: s05.b02.l01]]
+
+The third coordinates match. The fourth do not: 2 against 0, in red.
+
+ADA
+The third agrees. The last says two, and the word says zero. [[line: s05.b02.l02]]
+
+EULER
+Could another word fit? [[line: s05.b02.l03]]
+
+ADA
+No. The first two coordinates pin down the word, so there's only one to try. Not a hexad. [[line: s05.b02.l04]]
+
+EULER
+So the hand we started with wasn't special. [[line: s05.b02.l05]]
+
+The grid clears, and the hand 1 to 6 lights up: the first two columns full, the last two empty. [[beat: s05.b03]]
+
+ADA
+Now one to six: two full columns, and two empty ones. [[line: s05.b03.l01]]
+
+Four question marks drop into the slots.
+
+ADA
+Four wildcards. It fits every word, so it's a hexad. [[line: s05.b03.l02]]
+
+EULER
+Sophie's dead hand, caught at a glance. [[line: s05.b03.l03]]
+
+The grid clears again. The hand of total 24 that Ada left Pascal in the first game lights up: 0, 2, 4, 5, 6, 7. [[beat: s05.b04]]
+
+ADA
+And the twenty-four I left Pascal in our first game. [[line: s05.b04.l01]]
+
+Its two readings fit the word 1, 1, 2, 0 again, but its counts, 3, 1, 2, 0, flash red.
+
+ADA
+Its rows fit one, one, two, zero. But its columns hold three, one, two and zero cards. Forbidden. Not a hexad. [[line: s05.b04.l02]]
+
+PASCAL
+I knew I liked that hand. [[line: s05.b04.l03]]
+
+Euler tilts his head. [[beat: s05.b05]]
+
+EULER
+Three hands aren't a proof. [[line: s05.b05.l01]]
+
+ADA
+No. But the paper runs the test on all nine hundred twenty-four hands, and it picks out exactly the hexads. [[line: s05.b05.l02]]
+
+EULER
+That will do. [[line: s05.b05.l03]]
+
+# s06. Repair
+
+[[#6 | BEAT: Repair | OBJ: Pascal learns what his first move did | PAYOFF: move_7_to_5]]
+
+The opening hand returns to the grid, its readings 1, 1, 2, 2 under the columns and the word 1, 1, 2, 0 beside them. The last column glows. [[beat: s06.b01]]
+
+PASCAL
+So my hand failed. Can you fix it? [[line: s06.b01.l01]]
+
+ADA
+With one swap. The word wants a zero in the last column, so move that column's card to row zero. [[line: s06.b01.l02]]
+
+The 11 goes dark and the 9, in row 0, lights up. The last reading turns from 2 to 0.
+
+ADA
+Eleven out, nine in. Now it reads one, one, two, zero. A hexad. [[line: s06.b01.l03]]
+
+The hand goes back to the opening hand. Down the right, the six single swaps that make a hexad appear one by one. [[beat: s06.b02]]
+
+ADA
+Six cards could go out, and six could come in: thirty-six swaps. Six of them make a hexad. [[line: s06.b02.l01]]
+
+ADA
+Each one is called a repair. [[line: s06.b02.l02]]
+
+Three swaps that raise the total light up in blue.
+
+ADA
+Three go up: zero for one, two for ten, six for eight. [[line: s06.b02.l03]]
+
+PASCAL
+Up isn't allowed! [[line: s06.b02.l04]]
+
+Three swaps that lower the total light up in green.
+
+ADA
+Not in the game. But three go down: four for three, seven for five, eleven for nine. [[line: s06.b02.l05]]
+
+The swap 7 for 5 glows gold. In the grid, the 7 goes dark and the 5 lights up. [[beat: s06.b03]]
+
+PASCAL
+(delighted)
+Seven for five. That was my move! [[line: s06.b03.l01]]
+
+The readings change to ?, 1, 0, 2, and the word 2, 1, 0, 2 builds beside them.
+
+ADA
+And it passes the test. The new hand fits the word two, one, zero, two. [[line: s06.b03.l02]]
+
+PASCAL
+Skill. Obviously. [[line: s06.b03.l03]]
+
+ADA
+Or luck. Three of your fourteen moves were repairs. [[line: s06.b03.l04]]
+
+# s08. Why does it work?
+
+[[#7 | BEAT: Why does it work? | OBJ: Euler wants the reason | SETUP: why_repair_wins]]
+
+The grid dims. Euler gazes at it. [[beat: s08.b01]]
+
+EULER
+Every game we've played, whoever repaired the hand went on to win. I want to know why. [[line: s08.b01.l01]]
+
+PASCAL
+Who cares why? It works. [[line: s08.b01.l02]]
+
+ADA
+I care. [[line: s08.b01.l03]]
+
+Euler keeps looking at the grid.
+
+# s99. End credits
+
+[[ The end credits and the "Next time: Episode 4" tail play here (end_credits/outline.json; scene s99). No dialogue. ]]

@@ -9,7 +9,10 @@ titles and credits, and checks the length:
 Every episode is an EpisodeScene (the kittens, the frame clock, steps,
 transitions, reactions, pauses) plus a mixin with the episode's props and
 visual verbs: Episode1 = TableVisuals (the card table), Episode2 =
-BoardVisuals (Sophie's chalk diagrams, drawn from cue_tools.Board).
+BoardVisuals (Sophie's chalk diagrams, drawn from cue_tools.Board),
+Episode3 = CodeVisuals (Ada's MINIMOG and tetracode, drawn from
+cue_tools.Code).  BoardVisuals and CodeVisuals share CardLights (lighting
+cards and putting them back).
 
 The body (scenes s01 to the last before s99) is played from three files:
 epN/cues.json says what happens, epN/timing.json says on which frame, and
@@ -51,13 +54,13 @@ from pam_link import CatGraph, CAT_POSES, flip_pose  # noqa: E402
 
 import title_scenes as ts                                  # noqa: E402
 from title_scenes import BG, INK, MUTED, BLUE, GOLD, GREEN, PANEL, EDGE, FONT, card, text, xy  # noqa: E402
-from cue_tools import (Table, Board, steps, step_visuals, split_visual, visual_params,  # noqa: E402
+from cue_tools import (Table, Board, Code, steps, step_visuals, split_visual, visual_params,  # noqa: E402
                        montage_games, deal_cards, parse_move, down_moves)
 from script_tools import parse                              # noqa: E402
 
 FPS = 30
 RED = "#FF6B6B"
-from make_timing import MONTAGE_STUCK_SECONDS as MONTAGE_STUCK  # noqa: E402
+from make_timing import MONTAGE_STUCK_SECONDS as MONTAGE_STUCK, body_scenes  # noqa: E402
 EPISODE = int(os.environ.get("EPISODE", "1"))
 
 
@@ -190,6 +193,8 @@ REACT_POSE = {
     # Episode 2
     "draws": "cat_paw_up", "pleased": "cat_proud", "skeptical": None, "deadpan": None,
     "objects": "cat_paw_up",
+    # Episode 3
+    "delighted": "cat_proud", "ponders": None, "counts": None, "straightens": "cat_paw_tap",
 }
 
 
@@ -224,6 +229,8 @@ class Actor:
         self.phase = self.rng.random() * 6.28
         self.chalk = None
         self.chalk_hold = None              # frame -> opacity, for a kitten that keeps her chalk
+        self.breath = 0.010                 # breathing amplitude
+        self.speak_gaze = None              # (look_x, look_y) while this kitten talks, or None
         self.name = text(CAST[key]["name"], size=18, color=MUTED).move_to(xy(self.x, GROUND - 0.22))
         self.group = VGroup(self.fig.group)
 
@@ -285,17 +292,36 @@ class Actor:
                 blink += 0.5 * w
             if kind == "objects":
                 shake += w * math.sin(t * 9) * 0.03
+            if kind == "counts":
+                # one small, crisp nod for each item: down fast, held, back up
+                ph = (t % 0.55) / 0.55
+                dip = 1.0 if ph < 0.35 else max(0.0, 1 - (ph - 0.35) / 0.2)
+                pose["head"] = pose["head"] + w * np.array([s * 0.012, -0.045 * dip * (ph > 0.05), 0])
+            if kind == "delighted":
+                dy += w * 0.07 * abs(math.sin(min(t, 1.2) * 7.5))
+                blink += 0.45 * w
+                pose["fl_paw"] = pose["fl_paw"] + w * np.array([s * 0.05, 0.12, 0])
+            if kind == "ponders":
+                pose["head"] = pose["head"] + w * np.array([-s * 0.05, 0.03, 0]) * min(1.0, t / 1.5)
+                look_y += 0.7 * w
+                look_x -= s * 0.5 * w
         # breathing
-        b = 0.010 * math.sin(frame / FPS * 2 * math.pi / 3.4 + self.phase)
+        b = self.breath * math.sin(frame / FPS * 2 * math.pi / 3.4 + self.phase)
         for j in ("head", "neck", "spine_front"):
             pose[j] = pose[j] + np.array([shake, b + dy, 0])
         # talking
         mouth = 0.0
+        talking = False
         for start, env in self.talk:
             k = frame - start
             if 0 <= k < len(env):
                 mouth = env[k] / 100.0
+                talking = True
                 pose["head"] = pose["head"] + np.array([0, 0.012 * mouth, 0])
+        if talking and self.speak_gaze is not None:
+            # a precise speaker looks at what she is talking about
+            look_x += self.speak_gaze[0]
+            look_y += self.speak_gaze[1]
         # gaze: toward the speaker, else toward the table
         if speaker_x is not None and abs(speaker_x - self.x) > 0.1:
             look_x += 0.8 * np.sign(speaker_x - self.x)
@@ -411,7 +437,7 @@ class EpisodeScene(Scene):
     # -- the episode
 
     def construct(self):
-        body = [s for s in OUTLINE["scenes"] if s.get("kind") not in ("title_card", "end_credits")]
+        body = body_scenes(OUTLINE)
         trans = TIMING["transition_frames"]
         for si, scene in enumerate(body):
             sc = TIMING["scenes"][scene["id"]]
@@ -961,7 +987,30 @@ def cell_pos(i, r, c):
     return xy(VIEW_X[i] + (c - 1) * CELL, VIEW_Y + (1 - r) * CELL)
 
 
-class BoardVisuals:
+class CardLights:
+    """Lighting cards in a color and putting them back, shared by Episode 2's
+    board and Episode 3's MINIMOG.  Needs self.lit (card -> color), self.faint
+    (card -> opacity) and self.base (card -> its resting color)."""
+
+    def light(self, colors, run=0.4, keep=False):
+        """Recolor cards: colors maps card -> color; every other lit card goes back to plain unless keep."""
+        anims, lit = [], {}
+        for c in list(self.lit) + [c for c in colors if c not in self.lit]:
+            want = colors.get(c, self.lit.get(c) if keep else None)
+            if self.lit.get(c) != want:
+                anims.append(recolor(c, want or self.base.get(c), run))
+            if want:
+                lit[c] = want
+        self.lit = lit
+        return anims
+
+    def undim(self, run=0.4):
+        anims = [opacity_to(m, 1.0, run) for m, op in self.faint.items() if op < 1]
+        self.faint = {}
+        return anims
+
+
+class BoardVisuals(CardLights):
     """Episode 2's props and visual verbs: the board's diagrams."""
 
     def setup_stage(self):
@@ -1040,23 +1089,6 @@ class BoardVisuals:
         for m in gone:
             self.overlays.remove(m)
         return [FadeAway(VGroup(*gone), run_time=run)] if gone else []
-
-    def light(self, colors, run=0.4, keep=False):
-        """Recolor cards: colors maps card -> color; every other lit card goes back to plain unless keep."""
-        anims, lit = [], {}
-        for c in list(self.lit) + [c for c in colors if c not in self.lit]:
-            want = colors.get(c, self.lit.get(c) if keep else None)
-            if self.lit.get(c) != want:
-                anims.append(recolor(c, want or self.base.get(c), run))
-            if want:
-                lit[c] = want
-        self.lit = lit
-        return anims
-
-    def undim(self, run=0.4):
-        anims = [opacity_to(m, 1.0, run) for m, op in self.faint.items() if op < 1]
-        self.faint = {}
-        return anims
 
     def set_faint(self, bright, run=0.5):
         """Every view card not in bright goes faint; the rest come back."""
@@ -1749,9 +1781,868 @@ class BoardVisuals:
         return [later(0.4, Transform(s, new, run_time=0.8))]
 
 
+# ---------------------------------------------------------------- Episode 3: the MINIMOG
+#
+# Ada lays the twelve cards out as Conway's MINIMOG on the left of the space
+# above the table, numbers its rows 0, 1, 2 and reads hands column by column.
+# Under each column sit its count, its reading (the odd man out, or "?" for a
+# wildcard) and, when one is on show, the codeword the hand is checked
+# against.  The three-hour clock, the codewords and the repairs go on the
+# right.  Every cell, word, count, reading and swap is computed by
+# cue_tools.Code (the code the checker runs) from build_math_objects.py.
+# The grid and its rows stay up all episode; readings, captions and chips
+# are overlays, cleared at each change of scene.
+
+GRID_X = (-4.45, -3.35, -2.25, -1.15)      # the MINIMOG's four columns
+GRID_Y = (3.35, 2.35, 1.35)                # its three rows, 0 at the top
+GRID_H = 0.84                              # card height in the grid (the titles' cards)
+ROWNUM_X = -5.8                            # the row numbers 0, 1, 2
+LANE_X = -6.35                             # the names of the lanes under the grid
+COUNT_Y, READ_Y, WORD_Y = 0.6, 0.08, -0.45  # above the kittens' ears (about y = -0.8)
+VERDICT = xy(GRID_X[3] + 1.6, WORD_Y)      # "a hexad", "not a hexad": right of the word lane
+CLOCK_C, CLOCK_R = xy(2.6, 1.95), 1.0      # the three-hour clock, full size
+CLOCK_SMALL_C, CLOCK_SMALL_R = xy(6.15, 3.25), 0.42
+SLOT_X0, SLOT_DX, SLOT_Y = 1.15, 1.15, 2.95  # the four boxes of a codeword
+TABLE_X = (2.0, 3.95, 5.9)                 # the nine words: one column for each b
+TABLE_Y = (1.75, 1.0, 0.25)                # and one row for each a
+WRAP_C, WRAP_CELL = xy(3.5, 1.95), 0.8    # Episode 2's grid at infinity, recalled
+CLOCK_LEFT = xy(0.85, 1.95)                # where the clock steps to beside it
+LIT, IN_COLOR = GOLD, GREEN                 # marked cards; a card swapped in
+
+
+def grid_pos(r, c):
+    return xy(GRID_X[c], GRID_Y[r])
+
+
+def clock_point(center, radius, h, hours=3):
+    a = h * TAU / hours
+    return center + radius * np.array([np.sin(a), np.cos(a), 0])
+
+
+def digit(v, size=30, color=INK):
+    """A coordinate as written: its value, or ? for a wildcard."""
+    return text("?" if v is None else str(v), size=size, color=color, weight=BOLD)
+
+
+class CodeVisuals(CardLights):
+    """Episode 3's props and visual verbs: Ada's MINIMOG and the tetracode."""
+
+    def setup_stage(self):
+        self.code = Code(OBJ)
+        self.bm = self.code.bm
+        M = self.bm.M
+        self.cards = {M[r][c]: label_card(str(M[r][c]), GRID_H) for r in range(3) for c in range(4)}
+        self.rownums = VGroup(*(text(str(r), size=30, color=MUTED).move_to(xy(ROWNUM_X, GRID_Y[r])) for r in range(3)))
+        self.row_heads = VGroup(text("row", size=18, color=MUTED).move_to(xy(ROWNUM_X, GRID_Y[0] + 0.62)))
+        self.lane_heads = {}       # "count", "reads", "word": the labels left of the rows under the grid
+        self.slots = None          # the four reading boxes under the columns
+        self.lit, self.faint, self.base = {}, {}, {}
+        self.cols = {}             # (row name, column) -> the mobject shown there
+        self.clock = None          # {"face", "nums", "hand", "center", "radius"}
+        self.hour = None
+        self.sums = []             # the clock's equations, top to bottom
+        self.ab = {}               # "a", "b" -> chip by the clock
+        self.boxes = None          # the four codeword boxes (with their labels)
+        self.box_vals = {}
+        self.table = None          # (a, b) -> VGroup of four digits
+        self.table_group = None
+        self.panel = {}            # named overlays
+        self.chips = {}            # (out, in) -> chip, for the repairs
+
+    def setup_actors(self):
+        who = CUES["stage"].get("precise")
+        if not who:
+            return
+        a = self.actors[who]
+        a.base = lerp_pose(a.base, a.pose_named("cat_proud"), 0.35)    # sits very straight
+        a.breath = 0.005
+        a.speak_gaze = (-1.1, 0.75)                                    # looks up at the grid (left) as she speaks
+
+    def transition_anims(self, n):
+        run = secs(n) * 0.5
+        anims = [recolor(c, self.base.get(c), run) for c, col in self.lit.items() if col]
+        self.lit = {}
+        anims += self.undim(run)
+        self.cols, self.panel, self.chips = {}, {}, {}
+        return anims
+
+    def point_target(self, target):
+        grid = VGroup(*self.cards.values())
+        lit = [c for c, col in self.lit.items() if col]
+        return {"grid": grid, "board": VGroup(*lit) if lit else grid,
+                "clock": VGroup(self.clock["face"], self.clock["hand"]) if self.clock else None,
+                "word": self.boxes, "words": self.table_group}.get(target)
+
+    def play_code(self, verb, arg, p):
+        errs = self.code.play(verb, arg, p)
+        if errs:
+            raise ValueError(f"{self.beat_id} {verb}:{arg}: " + "; ".join(errs))
+
+    def overlay(self, *ms):
+        self.overlays.add(*ms)
+        return ms[0] if len(ms) == 1 else ms
+
+    def drop(self, m, t=0.0, run=0.3):
+        """Take an overlay off the screen at t."""
+        if m is None:
+            return []
+        if m in self.overlays:
+            self.overlays.remove(m)
+        return [later(t, FadeAway(m, run_time=run))]
+
+    # -- the lanes under the grid: counts, readings, the word
+
+    def lane_head(self, name, t=0.0):
+        if name in self.lane_heads:
+            return []
+        y = {"count": COUNT_Y, "reads": READ_Y, "word": WORD_Y}[name]
+        m = text({"count": "cards", "reads": "reads", "word": "word"}[name], size=18, color=MUTED).move_to(xy(LANE_X, y))
+        self.lane_heads[name] = m
+        return [appear(m, t, 0.4)]
+
+    def ensure_slots(self, t=0.0):
+        if self.slots is not None:
+            return []
+        self.slots = VGroup(*(RoundedRectangle(width=0.62, height=0.5, corner_radius=0.08, stroke_color=EDGE,
+                                               stroke_width=1.6, fill_color=PANEL, fill_opacity=1).move_to(xy(GRID_X[c], READ_Y))
+                              for c in range(4)))
+        return [appear(self.slots, t, 0.4)] + self.lane_head("reads", t)
+
+    def put(self, lane, c, m, t=0.0, run=0.35, shift=None):
+        """Show m in the lane (count, reads, word) under column c, replacing what was there."""
+        y = {"count": COUNT_Y, "reads": READ_Y, "word": WORD_Y}[lane]
+        m.move_to(xy(GRID_X[c], y)).set_z_index(FRONT + 0.1)
+        anims = self.drop(self.cols.get((lane, c)), t, 0.2)
+        self.cols[(lane, c)] = self.overlay(m)
+        anims.append(later(t, FadeIn(m, shift=shift if shift is not None else DOWN * 0.12, run_time=run)))
+        return anims
+
+    def clear_lane(self, lane, t=0.0):
+        anims = []
+        for c in range(4):
+            anims += self.drop(self.cols.pop((lane, c), None), t, 0.25)
+        return anims
+
+    def show_counts(self, counts, t0=0.0, per=0.35, color=MUTED):
+        anims = self.lane_head("count", t0)
+        for c, n in enumerate(counts):
+            anims += self.put("count", c, text(str(n), size=24, color=color), t0 + per * c)
+        return anims
+
+    def show_readings(self, odds, t0=0.0, per=0.5, color=GOLD):
+        anims = self.ensure_slots(t0)
+        for c, o in enumerate(odds):
+            anims += self.put("reads", c, digit(o, 28, MUTED if o is None else color), t0 + per * c)
+        return anims
+
+    def show_word(self, word, t0=0.0, per=0.4, color=INK, from_reads=()):
+        anims = self.lane_head("word", t0)
+        for c, w in enumerate(word):
+            m = digit(w, 28, color)
+            src = self.cols.get(("reads", c)) if c in from_reads else None
+            if src is not None:
+                # a reading that fixes the word drops into it
+                ghost = src.copy()
+                m.move_to(xy(GRID_X[c], WORD_Y)).set_z_index(FRONT + 0.1)
+                anims += self.drop(self.cols.get(("word", c)), t0, 0.2)
+                self.cols[("word", c)] = self.overlay(ghost)
+                anims.append(later(t0 + per * c, Transform(ghost, m.set_color(color), run_time=0.45, introducer=True)))
+            else:
+                anims += self.put("word", c, m, t0 + per * c)
+        return anims
+
+    def mark_hand(self, cards, run=0.4, color=LIT):
+        return self.light({self.cards[v]: color for v in cards}, run=run)
+
+    # -- visuals
+
+    def visual_fly_to_minimog(self, arg, p, start, end, avail):
+        self.play_code("fly_to_minimog", arg, p)
+        M = self.bm.M
+        if p.get("phase") == "row":
+            for v, c in self.cards.items():
+                c.move_to(xy((v - 5.5) * 0.98, 1.6))
+            return [LaggedStart(*(FadeIn(self.cards[v], shift=UP * 0.15) for v in range(12)), lag_ratio=0.08,
+                                run_time=min(1.6, avail - 0.2))]
+        last = M[-1][-1]
+        anims = []
+        order = [v for row in M for v in row]
+        for k, v in enumerate(order):
+            r, c = self.code.cell(v)
+            target = label_card(str(v), GRID_H).move_to(grid_pos(r, c))
+            if v == last:
+                target.rotate(0.22)                  # lands crooked...
+            anims.append(later(0.06 * k, Transform(self.cards[v], target, path_arc=0.5, run_time=1.1)))
+        straighten = 0.06 * len(order) + 1.3
+        r, c = self.code.cell(last)
+        # ...and Ada straightens it (Rotate fixes its pivot when built, so name the cell)
+        anims.append(later(straighten, Rotate(self.cards[last], -0.22, about_point=grid_pos(r, c), run_time=0.35)))
+        self.actors["ada"].acts.append((start + int(straighten * FPS) - 8, start + int((straighten + 0.5) * FPS), "straightens"))
+        return anims
+
+    def visual_highlight(self, arg, p, start, end, avail):
+        self.play_code("highlight", arg, p)
+        return getattr(self, "hl_" + arg)(p, avail)
+
+    def hl_rows(self, p, avail):
+        per = min(0.8, (avail - 0.8) / 3)
+        anims = []
+        for r in range(3):
+            row = VGroup(*(self.cards[self.bm.M[r][c]] for c in range(4)))
+            anims += [appear(self.rownums[r], 0.4 + per * r, 0.3),
+                      later(0.4 + per * r, Indicate(row, color=GOLD, scale_factor=1.06, run_time=0.5))]
+        return anims
+
+    def hl_two_coordinates(self, p, avail):
+        """Cover the last two coordinates of every word; then keep only the words that start as given."""
+        if p["phase"] == "cover":
+            covers = VGroup()
+            for w in self.table.values():
+                box = SurroundingRectangle(VGroup(w[2], w[3]), buff=0.06, corner_radius=0.06, stroke_width=0,
+                                           fill_color=EDGE, fill_opacity=1).set_z_index(FRONT + 0.2)
+                covers.add(box)
+            self.panel["covers"] = self.overlay(covers)
+            return [later(0.8, LaggedStart(*(FadeIn(b, shift=LEFT * 0.1) for b in covers), lag_ratio=0.08,
+                                           run_time=min(1.4, avail - 1.0)))]
+        known = {int(k): v for k, v in p["known"].items()}
+        keep = [ab for ab, w in self.table.items() if all(self.bm.tetra_word(*ab)[i] == v for i, v in known.items())]
+        t = min(avail * 0.45, avail - 2.2)
+        anims = []
+        for ab, w in self.table.items():
+            if ab not in keep:
+                anims.append(later(t, opacity_to(w, 0.25, 0.5)))
+                self.faint[w] = 0.25
+        covers = self.panel.get("covers")
+        for ab in keep:
+            k = list(self.table).index(ab)
+            anims.append(later(t + 0.6, FadeOut(covers[k], run_time=0.4)))
+            anims.append(later(t + 0.9, Indicate(self.table[ab], color=GOLD, scale_factor=1.3, run_time=0.8)))
+        for k, ab in enumerate(self.table):
+            if ab not in keep:
+                anims.append(later(t, opacity_to(covers[k], 0.25, 0.5)))
+        return anims
+
+    def hl_dim(self, p, avail):
+        """The grid and its lanes dim while Euler wonders."""
+        anims = self.light({}, run=0.5)
+        parts = list(self.cards.values()) + list(self.rownums) + list(self.lane_heads.values()) + list(self.slots or [])
+        for m in parts:
+            anims.append(opacity_to(m, 0.35, 1.2))
+            self.faint[m] = 0.35
+        return anims
+
+    def hl_column_one(self, p, avail):
+        c = p["column"]
+        cards = p["cards"]
+        anims = self.clear_lane("count") + self.clear_lane("reads") + self.ensure_slots(0.0)
+        anims += self.mark_hand(cards, run=0.35)
+        box = SurroundingRectangle(VGroup(*(self.cards[self.bm.M[r][c]] for r in range(3))), color=EDGE,
+                                   buff=0.1, corner_radius=0.1, stroke_width=2)
+        self.panel["colbox"] = self.overlay(box)
+        _, odd = self.bm.column_reading({self.code.cell(v)[0] for v in cards})
+        t = min(avail * 0.62, avail - 0.9)
+        anims += [appear(box, 0.1, 0.4), later(t - 0.5, Indicate(self.rownums[odd], color=GOLD, scale_factor=1.5, run_time=0.6))]
+        anims += self.put("count", c, text(str(len(cards)), size=24, color=MUTED), 0.5) + self.lane_head("count", 0.5)
+        anims += self.put("reads", c, digit(odd, 28, GOLD), t)
+        return anims
+
+    def hl_column_two(self, p, avail):
+        c = p["column"]
+        cards = p["cards"]
+        _, odd = self.bm.column_reading({self.code.cell(v)[0] for v in cards})
+        anims = self.mark_hand(cards, run=0.4)
+        anims += self.put("count", c, text(str(len(cards)), size=24, color=MUTED), 0.4)
+        anims += self.drop(self.cols.pop(("reads", c), None), 0.3, 0.25)
+        t = min(avail * 0.75, avail - 0.8)
+        anims += [later(t - 0.6, Indicate(self.rownums[odd], color=GOLD, scale_factor=1.5, run_time=0.6))]
+        anims += self.put("reads", c, digit(odd, 28, GOLD), t)
+        return anims
+
+    def hl_column_wild(self, p, avail):
+        c = p["column"]
+        cards = [] if p["phase"] == "empty" else [self.bm.M[r][c] for r in range(3)]
+        anims = self.mark_hand(cards, run=0.4)
+        for key in ("oddring", "oddwords", "oddnote"):
+            anims += self.drop(self.panel.pop(key, None), 0.0, 0.3)
+        anims += self.put("count", c, text(str(len(cards)), size=24, color=MUTED), 0.3)
+        anims += self.put("reads", c, digit(None, 28, MUTED), 0.7)
+        if p["phase"] == "full":
+            note = self.overlay(text("a wildcard fits any row", size=20, color=MUTED).move_to(xy(GRID_X[1] + 0.6, WORD_Y)))
+            self.panel["wildnote"] = note
+            anims += [appear(note, 0.9, 0.4)]
+        return anims
+
+    def hl_readings(self, p, avail):
+        if p.get("phase") == "clear":
+            anims = self.light({}, run=0.3) + self.ensure_slots(0.3)
+            if self.clock is not None:
+                cl = VGroup(self.clock["face"], self.clock["nums"], self.clock["hand"])
+                anims.append(FadeAway(cl, run_time=0.5))
+                self.clock, self.hour = None, None
+            # (the grid's pulse comes from Ada's point_at: two Indicates at once on the
+            # same cards would leave them in the first one's color)
+            return anims
+        # the rule: four readings, one codeword
+        anims = self.light({}, run=0.3) + self.clear_lane("count") + self.drop(self.panel.pop("wildnote", None))
+        anims += self.drop(self.panel.pop("colbox", None))
+        anims += self.show_readings([None] * 4, 0.3, 0.12)
+        arrow = Arrow(xy(GRID_X[3] + 0.5, READ_Y), xy(TABLE_X[0] - 1.6, TABLE_Y[2]), buff=0.05, stroke_width=3,
+                      color=GOLD, max_tip_length_to_length_ratio=0.12)
+        self.panel["rule_arrow"] = self.overlay(arrow)
+        rule = self.overlay(text("the readings must spell a codeword", size=20, color=GOLD).move_to(xy(GRID_X[1] + 0.55, WORD_Y)))
+        self.panel["rule"] = rule
+        t = min(avail * 0.55, avail - 1.2)
+        return anims + [appear(rule, max(0.5, t - 0.6), 0.4), later(t, GrowArrow(arrow, run_time=0.5)),
+                        later(t + 0.4, Indicate(self.table_group, color=GOLD, scale_factor=1.05, run_time=0.8))]
+
+    def hl_column_counts(self, p, avail):
+        if "hand" in p:
+            # Episode 1's 24-hand: its rows fit a word, but its counts are forbidden
+            t = self.code.test()
+            w = t["words_fitting"][0]
+            anims = [later(0.2, Indicate(self.table[(w[1], w[0])], color=GREEN, scale_factor=1.25, run_time=0.8))]
+            tm = min(avail * 0.4, avail - 2.0)
+            for c in range(4):
+                m = self.cols.get(("count", c))
+                if m is not None:
+                    anims.append(later(tm + 0.25 * c, recolor_text(m, RED, 0.3)))
+            stamp = self.overlay(text(", ".join(map(str, t["column_counts"])) + ": forbidden", size=24, color=RED, weight=BOLD).move_to(xy(GRID_X[1] + 0.55, WORD_Y)))
+            self.panel["stamp"] = stamp
+            return anims + [appear(stamp, tm + 1.1, 0.4)]
+        if p["phase"] == "shuffle":
+            anims = self.light({}, run=0.3) + self.clear_lane("reads") + self.drop(self.panel.pop("rule_arrow", None)) \
+                + self.drop(self.panel.pop("rule", None))
+            anims += self.lane_head("count")
+            orders = p["orders"]
+            chips = {n: text(str(n), size=26, color=GOLD, weight=BOLD).move_to(xy(GRID_X[c], COUNT_Y))
+                     for c, n in enumerate(orders[0])}
+            self.overlay(*chips.values())
+            self.panel["countchips"] = chips
+            anims += [appear(VGroup(*chips.values()), 0.3, 0.4)]
+            per = (avail - 1.2) / max(1, len(orders) - 1)
+            for k, order in enumerate(orders[1:], 1):
+                for c, n in enumerate(order):
+                    anims.append(later(0.5 + per * (k - 0.5), chips[n].animate(run_time=min(0.5, per * 0.8), path_arc=0.8)
+                                       .move_to(xy(GRID_X[c], COUNT_Y))))
+            self.count_order = orders[-1]
+            return anims
+        # why: the full and empty columns give no row, so only two readings are left, and two always fit a word
+        order = self.count_order
+        anims = []
+        for c, n in enumerate(order):
+            # a full or empty column is a wildcard; the other two give a row each
+            m = digit(None, 28, MUTED) if n in (0, 3) else text("row", size=18, color=GOLD)
+            anims += self.put("reads", c, m, 0.3 + 0.2 * c)
+        t = min(avail * 0.4, avail - 3.0)
+        fit = self.overlay(text("two readings always fit a word", size=20, color=MUTED).move_to(xy(GRID_X[1] + 0.55, WORD_Y)))
+        res = VGroup(text(f"{p['hands']} such hands", size=24),
+                     text("the words pass all of them", size=20, color=MUTED),
+                     text(f"hexads among them: {p['hexads']}", size=24, color=RED, weight=BOLD)).arrange(DOWN, buff=0.16)
+        res.move_to(xy(3.95, 3.3))
+        self.overlay(res)
+        self.panel["why"] = VGroup(fit, res)
+        return anims + [appear(fit, t, 0.4), appear(res[0], t + 0.9, 0.4), appear(res[1], t + 1.4, 0.4),
+                        appear(res[2], min(t + 2.3, avail - 0.6), 0.4)]
+
+    def hl_hand_in_grid(self, p, avail):
+        counts, odds = self.code.reading()
+        hand = sorted(self.code.marked)
+        if p["phase"] == "cards":
+            anims = []
+            for key in ("why", "stamp", "colbox", "mismatch", "verdict"):
+                anims += self.drop(self.panel.pop(key, None), 0.0, 0.3)
+            anims += self.clear_lane("count") + self.clear_lane("reads") + self.clear_lane("word") + self.ensure_slots()
+            anims += self.undim_table(0.3)
+            # the cards light as they are named, then the counts appear
+            per = min(0.45, (avail * 0.6) / len(hand))
+            for k, v in enumerate(hand):
+                anims += [later(0.5 + per * k, recolor(self.cards[v], LIT, 0.3))]
+            for c in [c for c in self.lit if c not in [self.cards[v] for v in hand]]:
+                anims.append(recolor(c, self.base.get(c), 0.3))
+            self.lit = {self.cards[v]: LIT for v in hand}
+            return anims + self.show_counts(counts, min(0.5 + per * len(hand), avail - 1.6), 0.3)
+        # read: one column at a time, a reading drops into its slot
+        per = min(0.55, (avail - 0.8) / 4)
+        anims = []
+        for c in range(4):
+            col = VGroup(*(self.cards[self.bm.M[r][c]] for r in range(3)))
+            anims.append(later(0.3 + per * c, Indicate(col, color=GOLD, scale_factor=1.04, run_time=min(0.5, per))))
+        anims += self.show_readings(odds, 0.45, per)
+        if p.get("passes"):
+            # four wildcards fit every word: the whole table lights up
+            words = list(self.table.values())
+            t = min(0.45 + 4 * per + 0.3, avail - 1.2)
+            verdict = self.overlay(text("fits every word: a hexad ✓", size=24, color=GREEN, weight=BOLD)
+                                   .move_to(xy(GRID_X[1] + 0.55, WORD_Y)))
+            self.panel["verdict"] = verdict
+            anims += [later(t, LaggedStart(*(Indicate(w, color=GREEN, scale_factor=1.15) for w in words),
+                                           lag_ratio=0.08, run_time=1.0)), appear(verdict, t + 0.6, 0.4)]
+        return anims
+
+    def undim_table(self, run):
+        if self.table is None:
+            return []
+        anims = [opacity_to(w, 1.0, run) for w in self.table.values() if self.faint.get(w, 1.0) < 1]
+        for w in self.table.values():
+            self.faint.pop(w, None)
+        return anims
+
+    def hl_mismatch(self, p, avail):
+        _, odds = self.code.reading()
+        word = self.code.word
+        if p.get("phase") == "only":
+            # only one word to try: every other word fades
+            w = tuple(word)
+            anims = []
+            for (a, b), m in self.table.items():
+                if self.bm.tetra_word(a, b) != w:
+                    anims.append(later(0.3, opacity_to(m, 0.25, 0.5)))
+                    self.faint[m] = 0.25
+            anims.append(later(0.6, Indicate(self.table[(w[1], w[0])], color=GOLD, scale_factor=1.3, run_time=0.8)))
+            v = self.overlay(text("not a hexad", size=26, color=RED, weight=BOLD).move_to(VERDICT))
+            self.panel["verdict"] = v
+            return anims + [appear(v, min(avail - 1.0, 3.6), 0.4)]
+        anims = []
+        agree = [i for i, o in enumerate(odds) if o is not None and word[i] == o]
+        off = self.bm.disagreements(word, odds)
+        marks = VGroup()
+        t3 = 0.3
+        for i in agree:
+            tick = text("✓", size=22, color=GREEN).move_to(xy(GRID_X[i] + 0.38, (READ_Y + WORD_Y) / 2))
+            marks.add(tick)
+            anims.append(appear(tick, t3 if i == 2 else 0.1, 0.3))
+        tm = min(avail * 0.5, avail - 1.2)
+        for i in off:
+            for lane in ("reads", "word"):
+                anims.append(later(tm, recolor_text(self.cols[(lane, i)], RED, 0.3)))
+            cross = text("✗", size=26, color=RED, weight=BOLD).move_to(xy(GRID_X[i] + 0.4, (READ_Y + WORD_Y) / 2))
+            marks.add(cross)
+            anims.append(appear(cross, tm + 0.2, 0.3))
+        self.overlay(marks)
+        self.panel["mismatch"] = marks
+        return anims
+
+    def hl_fix_column(self, p, avail):
+        c, out, inn = p["column"], p["out"], p["in"]
+        col = VGroup(*(self.cards[self.bm.M[r][c]] for r in range(3)))
+        box = SurroundingRectangle(col, color=GOLD, buff=0.1, corner_radius=0.1, stroke_width=3)
+        self.panel["colbox"] = self.overlay(box)
+        arrow = CurvedArrow(self.cards[out].get_right() + RIGHT * 0.08, self.cards[inn].get_right() + RIGHT * 0.08,
+                            angle=-TAU / 4, color=GREEN, stroke_width=3, tip_length=0.15)
+        self.panel["fix_arrow"] = self.overlay(arrow)
+        t = min(avail * 0.55, avail - 1.0)
+        return [appear(box, 0.4, 0.4), later(t - 0.5, Indicate(self.rownums[0], color=GOLD, scale_factor=1.5, run_time=0.6)),
+                later(t, Create(arrow, run_time=0.6))]
+
+    def hl_7_5(self, p, avail):
+        out, inn = 7, 5
+        chip_ = self.chips.get((out, inn))
+        anims = []
+        if chip_ is not None:
+            anims.append(later(0.1, Indicate(chip_, color=GOLD, scale_factor=1.3, run_time=0.8)))
+        anims += [later(0.5, recolor(self.cards[out], None, 0.4)), later(0.5, recolor(self.cards[inn], IN_COLOR, 0.4))]
+        self.lit.pop(self.cards[out], None)
+        self.lit[self.cards[inn]] = IN_COLOR
+        counts, odds = self.code.reading()
+        anims += self.clear_lane("word", 0.3) + self.drop(self.panel.pop("mismatch", None), 0.3)
+        anims += self.show_counts(counts, 0.9, 0.12)
+        anims += self.show_readings(odds, 1.1, 0.12)
+        return anims
+
+    def visual_write_along(self, arg, p, start, end, avail):
+        """The words travel along a curve, letter by letter, to the odd man out (the Haynes technique)."""
+        self.play_code("write_along", arg, p)
+        target = self.cards[p["to"]]
+        c = p["column"]
+        top = self.cards[self.bm.M[0][c]]
+        a = top.get_left() + LEFT * 0.12 + UP * 0.22
+        b = target.get_left() + LEFT * 0.08
+        path = ArcBetweenPoints(a, b, angle=1.5)        # bows out to the left, between the row numbers and the grid
+        phrase = "odd man out"
+        n = len(phrase)
+        letters = VGroup()
+        run = min(1.6, avail - 1.0)
+        anims = []
+        for k, ch in enumerate(phrase):
+            if ch == " ":
+                continue
+            u = 0.06 + 0.84 * (k + 0.5) / n
+            q = path.point_from_proportion(u)
+            d = path.point_from_proportion(min(1, u + 0.01)) - path.point_from_proportion(max(0, u - 0.01))
+            m = text(ch, size=19, color=GOLD, weight=BOLD).move_to(q).rotate(math.atan2(d[1], d[0]) + PI)
+            letters.add(m)
+            anims.append(appear(m, 0.15 + run * k / n, 0.25))
+        ring = DashedVMobject(SurroundingRectangle(target, color=GOLD, buff=0.08, corner_radius=0.1, stroke_width=3), num_dashes=16)
+        r = self.code.cell(p["to"])[0]
+        note = text(f"row {r}: the odd man out", size=20, color=GOLD).move_to(xy(GRID_X[1] + 0.55, WORD_Y))
+        self.overlay(letters, ring, note)
+        self.panel["oddwords"], self.panel["oddring"], self.panel["oddnote"] = letters, ring, note
+        return anims + [appear(ring, 0.3 + run, 0.4), appear(note, min(0.5 + run, avail - 0.5), 0.4)]
+
+    def visual_clock_mod(self, arg, p, start, end, avail):
+        self.play_code("clock_mod", arg, p)
+        phase = p.get("phase")
+        if phase == "sweep":
+            h0, h1 = p["hours"]
+            face = Circle(radius=CLOCK_R, stroke_color=CHALK, stroke_width=3).move_to(CLOCK_C)
+            nums = VGroup(*(text(str(h), size=30, color=MUTED).move_to(clock_point(CLOCK_C, CLOCK_R + 0.32, h)) for h in range(3)))
+            ticks = VGroup(*(Dot(clock_point(CLOCK_C, CLOCK_R, h), radius=0.06, color=CHALK) for h in range(3)))
+            hand = self.clock_hand(h0)
+            pin = Dot(CLOCK_C, radius=0.07, color=GOLD)
+            self.clock = {"face": VGroup(face, ticks), "nums": nums, "hand": VGroup(hand, pin)}
+            self.hour = h0
+            per = (avail - 1.4) / (h1 - h0 + 1)
+            anims = [appear(VGroup(face, ticks), 0.1, 0.5), appear(nums, 0.3, 0.5), appear(VGroup(hand, pin), 0.5, 0.3)]
+            for k in range(h0, h1):
+                anims += [later(0.9 + per * (k + 1) - 0.35, self.turn(k, k + 1, 0.35)),
+                          later(0.9 + per * (k + 1) - 0.2, Indicate(nums[k + 1], color=GOLD, scale_factor=1.5, run_time=0.5))]
+            anims.append(later(0.7, Indicate(nums[h0], color=GOLD, scale_factor=1.5, run_time=0.5)))
+            self.hour = h1
+            return anims
+        if phase == "name":
+            name = text("arithmetic mod 3", size=26, color=GOLD).move_to(CLOCK_C + xy(0, -CLOCK_R - 0.75))
+            self.clock["name"] = name
+            return [appear(name, min(1.2, avail * 0.3), 0.5)]
+        if phase == "aside":
+            # the clock shrinks to the corner, where it keeps counting for the codewords
+            k = CLOCK_SMALL_R / CLOCK_R
+            cur = self.clock.get("center", CLOCK_C)
+            grp = VGroup(self.clock["face"], self.clock["nums"], self.clock["hand"])
+            anims = [grp.animate(run_time=0.9).scale(k, about_point=cur).shift(CLOCK_SMALL_C - cur)]
+            for m in [self.clock.pop("name", None)] + self.sums:
+                if m is not None:
+                    anims.append(FadeAway(m, run_time=0.4))
+            self.sums = []
+            self.clock["center"], self.clock["radius"] = CLOCK_SMALL_C, CLOCK_SMALL_R
+            return anims
+        a, b, c = p["shows"]
+        anims = []
+        t = 0.15
+        if self.hour != a:
+            # back to a: one quick step the other way round
+            anims.append(later(0.1, self.turn(self.hour, self.hour - ((self.hour - a) % 3), 0.3)))
+            t = 0.5
+        per = max(0.3, min(0.55, (avail - t - 0.8) / b))
+        for k in range(b):
+            anims.append(later(t + per * k, self.turn(a + k, a + k + 1, min(0.3, per - 0.05))))
+        land = min(t + per * b, avail - 0.5)
+        anims.append(later(land, Indicate(self.clock["nums"][c], color=GOLD, scale_factor=1.6, run_time=0.45)))
+        eq = text(f"{a} + {b} = {c}", size=34, color=GOLD, weight=BOLD)
+        eq.move_to(xy(CLOCK_C[0] + CLOCK_R + 1.9, CLOCK_C[1] + 0.55 - 0.75 * len(self.sums)))
+        self.sums.append(eq)
+        self.hour = c
+        return anims + [appear(eq, min(land, avail - 0.45), 0.4)]
+
+    def clock_hand(self, hour):
+        tip = clock_point(CLOCK_C, CLOCK_R - 0.22, hour)
+        return Line(CLOCK_C, tip, stroke_color=GOLD, stroke_width=6).add_tip(tip_length=0.18)
+
+    def turn(self, h0, h1, run):
+        center = self.clock.get("center", CLOCK_C)
+        return hand_turn(self.clock["hand"], h0, h1, run, center=center, hours=3)
+
+    def visual_recap_montage(self, arg, p, start, end, avail):
+        self.play_code("recap_montage", arg, p)
+        phase = p.get("phase")
+        if phase == "away":
+            return self.drop(self.panel.pop("wrap", None), 0.0, 0.4)
+        bm = self.bm
+        v = bm.PROJECTIVE_VIEWS[p["picture"]]
+        pos = lambda r, c: WRAP_C + xy((c - 1) * WRAP_CELL, (1 - r) * WRAP_CELL)
+        if phase == "grid":
+            out = [FadeAway(m, run_time=0.4) for m in self.sums]
+            self.sums = []
+            # the clock steps left (keeping its hand where it is) to make room
+            grp = VGroup(self.clock["face"], self.clock["nums"], self.clock["hand"], self.clock["name"])
+            out.append(grp.animate(run_time=0.8).shift(CLOCK_LEFT - CLOCK_C))
+            self.clock["center"] = CLOCK_LEFT
+            cards = {(r, c): label_card(plabel(v[3 * r + c]), 0.62).move_to(pos(r, c)) for r in range(3) for c in range(3)}
+            cap = text("last time: the picture at ∞", size=18, color=MUTED).move_to(WRAP_C + xy(0.9, -1.4))
+            d = tuple(p["direction"])
+            cells = sorted((r, c) for r in range(3) for c in range(3) if (d[0] * r + d[1] * c) % 3 == p["k"])
+            # walk the diagonal from its first cell: down a row, back a column, off the edge and in again
+            walk = [((cells[0][0] + n) % 3, (cells[0][1] - n) % 3) for n in range(3)]
+            assert sorted(walk) == cells
+            pts = [pos(r, c) for r, c in walk]
+            off = pos(walk[0][0] + 0.62, walk[0][1] - 0.62)
+            back = pos(walk[1][0] - 0.62, walk[1][1] + 0.62)
+            path = VGroup(Line(pts[0], off).add_tip(tip_length=0.12), Line(back, pts[1]), Line(pts[1], pts[2]))
+            path.set_stroke(GOLD, 4)
+            self.wrap = {"cards": cards, "walk": walk, "pos": pos}
+            grp = VGroup(*cards.values(), cap, path)
+            self.panel["wrap"] = self.overlay(grp)
+            lit = [cards[rc] for rc in walk]
+            t = min(1.4, avail * 0.3)
+            return out + [appear(VGroup(*cards.values()), 0.3, 0.6), appear(cap, 0.5, 0.5),
+                    later(t, Create(path, run_time=min(1.4, avail - t - 0.4)))] + \
+                [later(t + 0.3 * k, recolor(m, GOLD, 0.3)) for k, m in enumerate(lit)]
+        # sums: beside each row, the row plus the column of its diagonal card, on the clock
+        w = self.wrap
+        labels = VGroup()
+        per = min(0.9, (avail - 1.4) / 3)
+        anims = []
+        for k, (r, c) in enumerate(w["walk"]):
+            lab = text(f"row {r} + col {c} = {(r + c) % 3}", size=17, color=GOLD)
+            lab.next_to(w["pos"](r, 2), RIGHT, buff=0.5)
+            lab.set_z_index(FRONT + 0.2)
+            labels.add(lab)
+            anims.append(appear(lab, 0.5 + per * k, 0.35))
+        self.panel["wrap"].add(labels)
+        return anims
+
+    def visual_assemble_codeword(self, arg, p, start, end, avail):
+        self.play_code("assemble_codeword", arg, p)
+        return getattr(self, "cw_" + arg)(p, avail)
+
+    def cw_slots(self, p, avail):
+        phase = p["phase"]
+        if phase == "ab":
+            cc, r = self.clock["center"], self.clock["radius"]
+            chips = {k: chip(f"{k} = ?", color=GOLD, size=22).move_to(cc + xy(0, -0.95 - 0.55 * i))
+                     for i, k in enumerate(("a", "b"))}
+            self.ab = chips
+            per = min(1.0, (avail - 1.0) / 2)
+            return [appear(chips["a"], avail * 0.55, 0.4), appear(chips["b"], avail * 0.55 + per * 0.5, 0.4)]
+        if phase == "slots":
+            boxes, labs = VGroup(), VGroup()
+            for i, lab in enumerate(self.code.SLOTS):
+                x = SLOT_X0 + SLOT_DX * i
+                boxes.add(RoundedRectangle(width=0.8, height=0.72, corner_radius=0.1, stroke_color=EDGE, stroke_width=2,
+                                           fill_color=PANEL, fill_opacity=1).move_to(xy(x, SLOT_Y)))
+                labs.add(text(lab.replace("+", " + "), size=20, color=MUTED).move_to(xy(x, SLOT_Y + 0.62)))
+            self.boxes = VGroup(boxes, labs)
+            # each box appears as its name is said
+            per = (avail - 2.6) / 4
+            anims = []
+            for i in range(4):
+                t = 0.9 + per * i
+                anims += [appear(boxes[i], t, 0.3), appear(labs[i], t, 0.3)]
+            return anims
+        # name: a codeword, and its four coordinates
+        boxes, labs = self.boxes
+        name = text("a codeword: four coordinates", size=22, color=GOLD).move_to(xy(SLOT_X0 + 1.5 * SLOT_DX, SLOT_Y - 1.0))
+        idx = VGroup(*(text(f"coordinate {i + 1}" if i == 0 else str(i + 1), size=16, color=MUTED)
+                       .move_to(boxes[i].get_bottom() + DOWN * 0.2) for i in range(4)))
+        self.boxes_name = VGroup(name, idx)
+        t = min(avail * 0.5, avail - 1.4)
+        return [appear(name, 0.3, 0.4), later(t, LaggedStart(*(FadeIn(m) for m in idx), lag_ratio=0.25, run_time=0.8))]
+
+    def cw_a1_b1(self, p, avail):
+        a, b = p["a"], p["b"]
+        if p["phase"] == "set":
+            anims = []
+            for k, val in (("a", a), ("b", b)):
+                old = self.ab[k]
+                new = chip(f"{k} = {val}", color=BG, fill=GOLD, stroke=GOLD, size=22).move_to(old)
+                anims.append(later(1.0 if k == "a" else 2.0, Transform(old, new, run_time=0.4)))
+            if self.hour != a:
+                anims.append(later(1.0, self.turn(self.hour, self.hour + ((a - self.hour) % 3), 0.4)))
+                self.hour = a
+            return anims
+        # fill: b, a, a + b, then a + 2b counted round the clock from a
+        word = self.bm.tetra_word(a, b)
+        boxes, labs = self.boxes
+        per = (avail - 1.0) / 5.2
+        anims = []
+        for i in range(4):
+            t = 0.25 + per * (i if i < 3 else 3.2)
+            m = digit(word[i], 34, GOLD).move_to(boxes[i])
+            m.set_z_index(FRONT + 0.1)
+            self.box_vals[i] = m
+            anims += [appear(m, t + (per * 1.2 if i == 3 else 0), 0.35), later(t, Indicate(labs[i], color=GOLD, run_time=0.5))]
+        # the last box: from a, two more hours round the clock
+        t = 0.25 + per * 3.2
+        h = self.hour
+        for k in range(2 * b):
+            anims.append(later(t + 0.35 * k, self.turn(h + k, h + k + 1, 0.28)))
+        self.hour = (h + 2 * b) % 3
+        anims.append(later(t + 0.35 * 2 * b, Indicate(self.clock["nums"][self.hour], color=GOLD, scale_factor=1.6, run_time=0.5)))
+        return anims
+
+    def cw_all(self, p, avail):
+        """The word slides into its place in a table of all nine; the other eight fill in."""
+        a0, b0 = self.code.ab
+        anims = []
+        self.table = {}
+        heads = VGroup()
+        for b in range(3):
+            heads.add(text(f"b = {b}", size=18, color=MUTED).move_to(xy(TABLE_X[b], TABLE_Y[0] + 0.52)))
+        for a in range(3):
+            heads.add(text(f"a = {a}", size=18, color=MUTED).move_to(xy(TABLE_X[0] - 1.3, TABLE_Y[a])))
+        for a in range(3):
+            for b in range(3):
+                w = self.bm.tetra_word(a, b)
+                g = VGroup(*(digit(x, 26, INK) for x in w)).arrange(RIGHT, buff=0.16).move_to(xy(TABLE_X[b], TABLE_Y[a]))
+                back = RoundedRectangle(width=g.width + 0.34, height=0.5, corner_radius=0.08, stroke_color=EDGE,
+                                        stroke_width=1.2, fill_color=PANEL, fill_opacity=1).move_to(g)
+                g.set_z_index(FRONT + 0.1)
+                heads.add(back)
+                self.table[(a, b)] = g
+        cap = text("the tetracode: 9 codewords", size=22, color=GOLD).move_to(xy((TABLE_X[0] + TABLE_X[2]) / 2, TABLE_Y[2] - 0.62))
+        self.table_group = VGroup(heads, *self.table.values(), cap)
+        boxes, labs = self.boxes
+        # the built word becomes its table entry
+        kept = self.table[(a0, b0)]
+        ghost = VGroup(*(self.box_vals[i] for i in range(4)))
+        anims.append(Transform(ghost, kept.copy(), run_time=0.9, path_arc=-0.4))
+        anims.append(later(0.9, FadeAway(ghost, run_time=0.01)))
+        anims.append(appear(kept, 0.9, 0.01))
+        anims.append(FadeAway(VGroup(boxes, labs, self.boxes_name), run_time=0.6))
+        others = [self.table[k] for k in sorted(self.table) if k != (a0, b0)]
+        anims.append(appear(heads, 0.6, 0.5))
+        anims.append(later(1.0, LaggedStart(*(FadeIn(m, shift=DOWN * 0.1) for m in others), lag_ratio=0.12,
+                                            run_time=min(2.2, avail - 1.6))))
+        anims.append(appear(cap, min(3.4, avail - 0.5), 0.4))
+        # the a and b chips and the clock go: the table names a and b now
+        for k in ("a", "b"):
+            anims.append(FadeAway(self.ab.pop(k), run_time=0.5))
+        if self.clock is not None:
+            anims.append(FadeAway(VGroup(self.clock["face"], self.clock["nums"], self.clock["hand"]), run_time=0.5))
+            self.clock, self.hour = None, None
+        self.boxes, self.box_vals = None, {}
+        return anims
+
+    def cw_forced(self, p, avail):
+        """The first two readings drop into the word row; the word they force fills in from the table."""
+        word = self.code.word
+        pair = p["from"]
+        if p.get("phase") == "quick":
+            _, odds = self.code.reading()
+            anims = self.show_counts(self.code.reading()[0], 0.3, 0.05) + self.show_readings(odds, 0.4, 0.05)
+            return anims + self.show_word(word, 0.8, 0.05)
+        anims = [later(0.2, Indicate(self.cols[("reads", c)], color=GOLD, scale_factor=1.4, run_time=0.6)) for c in pair]
+        anims += self.show_word(word, 0.8, 0.3, from_reads=pair)
+        rest = [c for c in range(4) if c not in pair]
+        t = min(avail * 0.62, avail - 1.2)
+        anims.append(later(t - 0.4, Indicate(self.table[(word[1], word[0])], color=GOLD, scale_factor=1.25, run_time=0.8)))
+        for c in rest:
+            m = self.cols[("word", c)]
+            m.set_opacity(0)
+            anims.append(later(t + 0.3 * rest.index(c), opacity_to(m, 1.0, 0.3)))
+        return anims
+
+    def cw_fits(self, p, avail):
+        word = self.code.word
+        _, odds = self.code.reading()
+        anims = self.show_word(word, 0.3, 0.25, color=GREEN)
+        marks = VGroup(*(text("✓", size=22, color=GREEN).move_to(xy(GRID_X[i] + 0.38, (READ_Y + WORD_Y) / 2))
+                         for i, o in enumerate(odds) if o is not None))
+        self.overlay(marks)
+        self.panel["mismatch"] = marks
+        verdict = self.overlay(text("a hexad ✓", size=26, color=GREEN, weight=BOLD).move_to(VERDICT))
+        self.panel["verdict"] = verdict
+        return anims + [appear(marks, 1.5, 0.4), appear(verdict, min(2.2, avail - 0.6), 0.4)]
+
+    def visual_card_exchange(self, arg, p, start, end, avail):
+        before = sorted(self.code.marked)
+        self.play_code("card_exchange", arg, p)
+        if arg == "back":
+            anims = []
+            for key in list(self.panel):
+                anims += self.drop(self.panel.pop(key), 0.0, 0.3)
+            if self.table_group is not None:
+                anims.append(FadeAway(self.table_group, run_time=0.5))
+                self.table_group, self.table = None, None
+            anims += self.clear_lane("count") + self.clear_lane("reads") + self.clear_lane("word") + self.ensure_slots()
+            anims += self.mark_hand(sorted(self.code.marked), run=0.5)
+            return anims
+        if arg == "repairs":
+            return self.repairs(p, avail)
+        out, inn = parse_move(arg)
+        counts, odds = self.code.reading()
+        anims = [later(0.3, recolor(self.cards[out], None, 0.4)), later(0.45, recolor(self.cards[inn], IN_COLOR, 0.4))]
+        self.lit.pop(self.cards[out], None)
+        self.lit[self.cards[inn]] = IN_COLOR
+        anims += self.drop(self.panel.pop("fix_arrow", None), 0.9) + self.drop(self.panel.pop("colbox", None), 0.9)
+        c = self.code.cell(inn)[1]
+        anims += self.put("reads", c, digit(odds[c], 28, GREEN), 1.0)
+        tick = self.overlay(text("✓", size=22, color=GREEN).move_to(xy(GRID_X[c] + 0.38, (READ_Y + WORD_Y) / 2)))
+        verdict = self.overlay(text("a hexad ✓", size=26, color=GREEN, weight=BOLD).move_to(VERDICT))
+        self.panel["verdict"], self.panel["tick"] = verdict, tick
+        word_m = self.cols.get(("word", c))
+        if word_m is not None:
+            anims.append(later(1.0, recolor_text(word_m, GREEN, 0.3)))
+        return anims + [appear(tick, 1.3, 0.3), appear(verdict, min(2.6, avail - 0.6), 0.4)]
+
+    def repairs(self, p, avail):
+        """The six repairs of the opening hand, as chips: card out → card in, and the new total."""
+        phase = p["phase"]
+        h = frozenset(self.code.marked)
+        reps = self.bm.repairs(h)
+        if phase == "all":
+            head = text(f"{len(self.bm.all_swaps(h))} swaps, {len(reps)} repairs", size=26, color=GOLD).move_to(xy(3.55, 3.5))
+            self.overlay(head)
+            self.panel["rep_head"] = head
+            anims = [appear(head, 0.3, 0.4)]
+            per = (avail - 1.6) / len(reps)
+            for k, m in enumerate(reps):
+                up = m[1] > m[0]
+                col, row = (0, [x for x in reps if x[1] > x[0]].index(m)) if up else (1, [x for x in reps if x[1] < x[0]].index(m))
+                ch = chip(f"{move_label(*m)}   {sum(self.bm.swap(h, m))}", size=24).move_to(xy(1.95 + 3.2 * col, 2.45 - 0.68 * row))
+                self.chips[m] = self.overlay(ch)
+                t = 0.8 + per * k
+                anims += [appear(ch, t, 0.3),
+                          later(t, Indicate(self.cards[m[0]], color=RED, scale_factor=1.15, run_time=0.45)),
+                          later(t + 0.15, Indicate(self.cards[m[1]], color=GREEN, scale_factor=1.15, run_time=0.45))]
+            return anims
+        up = phase == "up"
+        mine = [m for m in reps if (m[1] > m[0]) == up]
+        color = BLUE if up else GREEN
+        lab = text("up: not a move" if up else "down: legal moves", size=22, color=color).move_to(xy(1.95 + 3.2 * (0 if up else 1), 3.0))
+        self.overlay(lab)
+        self.panel["lab_" + phase] = lab
+        per = (avail - 1.4) / 3
+        anims = [appear(lab, 0.2, 0.4)]
+        for k, m in enumerate(mine):
+            ch = self.chips[m]
+            anims.append(later(0.7 + per * k, recolor(ch, color, 0.35)))
+        return anims
+
+    def visual_reveal_count(self, arg, p, start, end, avail):
+        self.play_code("reveal_count", arg, p)
+        if arg == "pairs_6":
+            from itertools import combinations
+            pairs = list(combinations(range(4), 2))
+            chips_ = VGroup(*(chip(f"{i + 1} & {j + 1}  ✓", size=20, color=GREEN) for i, j in pairs)).arrange(RIGHT, buff=0.14)
+            chips_.move_to(xy(3.85, 3.5))
+            if chips_.width > 6.0:
+                chips_.scale_to_fit_width(6.0)
+            cap = text("each pair of places: 9 words, 9 different pairs", size=18, color=MUTED).next_to(chips_, DOWN, buff=0.14)
+            self.overlay(chips_, cap)
+            per = (avail - 1.6) / 6
+            return [appear(c, 0.4 + per * k, 0.3) for k, c in enumerate(chips_)] + [appear(cap, min(avail - 0.8, 1.0), 0.4)] \
+                + self.undim_table(0.5) + self.drop(self.panel.pop("covers", None), 0.2, 0.5)
+        if arg == "all_hands":
+            g = VGroup(text("the paper tests all 924 hands", size=24), text("passing: exactly the 132 hexads ✓", size=24, color=GREEN))
+            g.arrange(DOWN, buff=0.16).move_to(xy(3.45, 3.05))
+            self.overlay(g)
+            t = min(avail * 0.35, avail - 2.0)
+            return [appear(g[0], t, 0.4), appear(g[1], t + 1.0, 0.4)]
+        if arg == "three_of_fourteen":
+            g = text(f"{p['legal_repairs']} of {p['legal_moves']} legal moves are repairs", size=24, color=MUTED).move_to(xy(3.55, 0.35))
+            self.overlay(g)
+            return [appear(g, min(1.2, avail * 0.4), 0.4)]
+        raise NotImplementedError(f"reveal_count:{arg}")
+
+
+def recolor_text(m, color, run):
+    """Turn a reading or count (a Text) to color, from whatever it is when the animation begins."""
+    start = {}
+
+    def f(mob, a):
+        if not start:
+            start["c"] = mob.get_fill_color()
+        mob.set_fill(interpolate_color(start["c"], ManimColor(color), a))
+    return UpdateFromAlphaFunc(m, f, run_time=run)
+
+
 class Episode1(TableVisuals, EpisodeScene):
     pass
 
 
 class Episode2(BoardVisuals, EpisodeScene):
+    pass
+
+
+class Episode3(CodeVisuals, EpisodeScene):
     pass

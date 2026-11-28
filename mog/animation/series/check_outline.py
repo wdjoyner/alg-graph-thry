@@ -35,7 +35,13 @@ things to look at but not necessarily wrong.  The checks:
     highlight on points and cells) are played through cue_tools.Board, which
     recomputes every completion, mapped set, count, kitten family and
     relabeling from build_math_objects.py and compares it with
-    math_objects.json and with the claims written in the cue.
+    math_objects.json and with the claims written in the cue.  Episode 3's
+    MINIMOG verbs (fly_to_minimog, clock_mod, assemble_codeword, highlight
+    on cells and columns, write_along, reveal_count, card_exchange for the
+    repairs) are played through cue_tools.Code, which recomputes every cell,
+    clock sum, codeword, column count, reading, forced word, mismatch,
+    forbidden count and repair the same way.  test_cue_claims.py checks that
+    a wrong claim is caught.
   * Timing (where epN/timing.json exists): it is up to date with the cues and
     the audio manifest; the measured runtime is compared with the budget.
 """

@@ -30,7 +30,25 @@
     2
    ],
    "down_moves": 14,
-   "note": "Running example A of the paper, total 30"
+   "note": "Running example A of the paper, total 30",
+   "test": {
+    "column_counts": [
+     2,
+     1,
+     2,
+     1
+    ],
+    "odd_man_out": [
+     1,
+     1,
+     2,
+     2
+    ],
+    "forbidden": false,
+    "wildcards": 0,
+    "words_fitting": [],
+    "passes": false
+   }
   },
   "hand:1to6": {
    "cards": [
@@ -58,7 +76,80 @@
     null
    ],
    "down_moves": 0,
-   "note": "The dead hand of Episode 1"
+   "note": "The dead hand of Episode 1",
+   "test": {
+    "column_counts": [
+     3,
+     3,
+     0,
+     0
+    ],
+    "odd_man_out": [
+     null,
+     null,
+     null,
+     null
+    ],
+    "forbidden": false,
+    "wildcards": 4,
+    "words_fitting": [
+     [
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      1,
+      1,
+      1
+     ],
+     [
+      0,
+      2,
+      2,
+      2
+     ],
+     [
+      1,
+      0,
+      1,
+      2
+     ],
+     [
+      1,
+      1,
+      2,
+      0
+     ],
+     [
+      1,
+      2,
+      0,
+      1
+     ],
+     [
+      2,
+      0,
+      2,
+      1
+     ],
+     [
+      2,
+      1,
+      0,
+      2
+     ],
+     [
+      2,
+      2,
+      1,
+      0
+     ]
+    ],
+    "passes": true
+   }
   },
   "hand:complement_1to6": {
    "cards": [
@@ -142,7 +233,32 @@
     null
    ],
    "down_moves": 5,
-   "note": "Worked game after move 2"
+   "note": "Worked game after move 2",
+   "test": {
+    "column_counts": [
+     3,
+     1,
+     2,
+     0
+    ],
+    "odd_man_out": [
+     null,
+     1,
+     2,
+     null
+    ],
+    "forbidden": true,
+    "wildcards": 2,
+    "words_fitting": [
+     [
+      1,
+      1,
+      2,
+      0
+     ]
+    ],
+    "passes": false
+   }
   },
   "hand:game_after_3": {
    "cards": [
@@ -265,7 +381,49 @@
     29,
     28,
     28
-   ]
+   ],
+   "swaps": 36,
+   "repairs": 6,
+   "legal_moves": 14,
+   "legal_repairs": 3,
+   "up_totals": [
+    31,
+    38,
+    32
+   ],
+   "after_7_5": {
+    "cards": [
+     0,
+     2,
+     4,
+     5,
+     6,
+     11
+    ],
+    "column_counts": [
+     3,
+     1,
+     1,
+     1
+    ],
+    "odd_man_out": [
+     null,
+     1,
+     0,
+     2
+    ],
+    "forbidden": false,
+    "wildcards": 1,
+    "words_fitting": [
+     [
+      2,
+      1,
+      0,
+      2
+     ]
+    ],
+    "passes": true
+   }
   },
   "tries:complement_1to6": {
    "from": "hand:complement_1to6",
@@ -678,7 +836,35 @@
      8,
      11
     ]
-   ]
+   ],
+   "row_labels": [
+    0,
+    1,
+    2
+   ],
+   "columns": [
+    [
+     6,
+     5,
+     4
+    ],
+    [
+     3,
+     2,
+     1
+    ],
+    [
+     0,
+     7,
+     8
+    ],
+    [
+     9,
+     10,
+     11
+    ]
+   ],
+   "cards_once": true
   },
   "kitten:triangle": {
    "spots": [
@@ -891,7 +1077,114 @@
     2,
     0
    ],
-   "any_two_coordinates_determine": true
+   "any_two_coordinates_determine": true,
+   "by_ab": {
+    "0,0": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "0,1": [
+     1,
+     0,
+     1,
+     2
+    ],
+    "0,2": [
+     2,
+     0,
+     2,
+     1
+    ],
+    "1,0": [
+     0,
+     1,
+     1,
+     1
+    ],
+    "1,1": [
+     1,
+     1,
+     2,
+     0
+    ],
+    "1,2": [
+     2,
+     1,
+     0,
+     2
+    ],
+    "2,0": [
+     0,
+     2,
+     2,
+     2
+    ],
+    "2,1": [
+     1,
+     2,
+     0,
+     1
+    ],
+    "2,2": [
+     2,
+     2,
+     1,
+     0
+    ]
+   },
+   "formula_matches_words": true,
+   "a1_b1_steps": {
+    "b": 1,
+    "a": 1,
+    "a+b": 2,
+    "a+2b": 0,
+    "a+2b_before_wrap": 3
+   },
+   "coordinate_pairs": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     2,
+     3
+    ]
+   ],
+   "pairs_checked": 6,
+   "distinct_pairs_per_choice": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    9
+   ],
+   "first_two_1_1": [
+    [
+     1,
+     1,
+     2,
+     0
+    ]
+   ]
   },
   "move:illegal_11_1": {
    "from": "hand:example",
@@ -1745,6 +2038,159 @@
     ]
    ],
    "note": "Episode 1's losing hands in the card-labeled (shuffle) kitten: family 0..3, picture, parts"
+  },
+  "clock:mod3": {
+   "hours": [
+    0,
+    1,
+    2
+   ],
+   "sums": {
+    "0+0": 0,
+    "0+1": 1,
+    "0+2": 2,
+    "1+0": 1,
+    "1+1": 2,
+    "1+2": 0,
+    "2+0": 2,
+    "2+1": 0,
+    "2+2": 1
+   },
+   "twice": [
+    0,
+    2,
+    1
+   ],
+   "note": "Arithmetic mod 3 on a clock with three hours; 'twice' is x + x"
+  },
+  "kitten:wrap": {
+   "picture": 11,
+   "direction": [
+    1,
+    1
+   ],
+   "k": 0,
+   "cells": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "points": [
+    4,
+    6,
+    9
+   ],
+   "cell_points": [
+    6,
+    4,
+    9
+   ],
+   "row_plus_column": [
+    0,
+    0,
+    0
+   ],
+   "note": "Episode 2's wrapped diagonal (picture at infinity, projective labels): row + column = 0 mod 3"
+  },
+  "odd_man_out:demo": {
+   "column": 0,
+   "cards": [
+    6,
+    5,
+    4
+   ],
+   "demos": {
+    "one": {
+     "cards": [
+      5
+     ],
+     "count": 1,
+     "reading": 1
+    },
+    "two": {
+     "cards": [
+      6,
+      4
+     ],
+     "count": 2,
+     "reading": 1
+    },
+    "empty": {
+     "cards": [],
+     "count": 0,
+     "reading": null
+    },
+    "full": {
+     "cards": [
+      6,
+      5,
+      4
+     ],
+     "count": 3,
+     "reading": null
+    }
+   },
+   "note": "One column of the MINIMOG marked four ways; reading None is a wildcard"
+  },
+  "count:forbidden": {
+   "hands": 216,
+   "specified_coordinates": [
+    2
+   ],
+   "all_fit_a_word": true,
+   "hexads": 0,
+   "note": "Hands with column counts 0, 1, 2, 3: the words alone would pass them all; none is a hexad"
+  },
+  "count:test": {
+   "hands": 924,
+   "test_agrees_with_hexads": true,
+   "passing": 132
+  },
+  "test:example": {
+   "hand": "hand:example",
+   "reading": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "forced_from": [
+    0,
+    1
+   ],
+   "forced_word": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "is_word_a1_b1": true,
+   "disagrees_at": [
+    3
+   ],
+   "hand_row": 2,
+   "word_row": 0,
+   "fix": [
+    11,
+    9
+   ],
+   "fix_is_repair": true,
+   "fixed_reading": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "note": "The opening hand's first two readings force a word; the last column disagrees, and moving its card to the word's row repairs the hand"
   }
  }
 }
