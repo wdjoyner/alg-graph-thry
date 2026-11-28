@@ -1,4 +1,7 @@
 name: Build Grosswald-Schnitzer and RH companion PDFs
+concurrency:
+  group: grosswald-pdf-main
+  cancel-in-progress: true
 on:
   push:
     branches: [main]
@@ -39,9 +42,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p /tmp/grosswald-pdfs /tmp/zeta-pdfs
+          cp grosswald-schnitzer-graph/*.pdf /tmp/grosswald-pdfs/
+          cp zeta-operators-graph/rh_2026_operator_implications.pdf /tmp/zeta-pdfs/
+          git fetch origin main
+          # Never publish a PDF built from stale TeX.
+          for tex in grosswald-schnitzer-graph/prime_perturbations_revised.tex grosswald-schnitzer-graph/grosswald_schnitzer_spectral_invariance_2026.tex zeta-operators-graph/rh_2026_operator_implications.tex; do
+            if [ "$(git rev-parse HEAD:"$tex")" != "$(git rev-parse origin/main:"$tex")" ]; then
+              echo "Source changed while building $tex; a newer workflow will rebuild."
+              exit 0
+            fi
+          done
+          # Incorporate remote changes before staging freshly built binaries.
+          git reset --hard origin/main
+          cp /tmp/grosswald-pdfs/*.pdf grosswald-schnitzer-graph/
+          cp /tmp/zeta-pdfs/*.pdf zeta-operators-graph/
           git add -f grosswald-schnitzer-graph/prime_perturbations_revised.pdf grosswald-schnitzer-graph/grosswald_schnitzer_spectral_invariance_2026.pdf zeta-operators-graph/rh_2026_operator_implications.pdf
           if ! git diff --cached --quiet; then
             git commit -m "Build modern zeta operator PDFs"
-            git pull --rebase origin main
             git push origin HEAD:main
           fi
