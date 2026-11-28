@@ -171,12 +171,17 @@ def main():
     inputs = [x for p in parts for x in ("-i", p)]
     vf = "".join(f"[{i}:v]scale={width}:{height},setsar=1,fps={FPS}[v{i}];" for i in range(3))
     af = "".join(f"[{i}:a]aformat=sample_rates={RATE}:channel_layouts=stereo[a{i}];" for i in range(3))
-    concat = "".join(f"[v{i}][a{i}]" for i in range(3)) + "concat=n=3:v=1:a=1[v][a]"
+    # the body's length is a whole number of frames, but not of milliseconds;
+    # trimming to timing.json's frame count keeps a rounded timestamp from
+    # adding a frame at the joins
+    want = timing["frames"]
+    concat = "".join(f"[v{i}][a{i}]" for i in range(3)) + "concat=n=3:v=1:a=1[vc][ac];" \
+        + f"[vc]trim=end_frame={want},setpts=PTS-STARTPTS[v];[ac]atrim=end={want / FPS:.6f}[a]"
     run("ffmpeg", "-v", "error", "-y", *inputs, "-i", srt, "-filter_complex", vf + af + concat,
-        "-map", "[v]", "-map", "[a]", "-map", "3:s", "-c:v", "libx264", "-crf", "18", "-preset", "veryfast",
+        "-map", "[v]", "-map", "[a]", "-map", "3:s", "-fps_mode", "passthrough", "-c:v", "libx264", "-crf", "18", "-preset", "veryfast",
         "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-c:s", "mov_text",
         "-metadata:s:s:0", "language=eng", full)
-    got, want = frames(full), timing["frames"]
+    got = frames(full)
     print(f"{full.name}: {got} frames = {got / FPS:.1f}s, timing.json says {want}: {'ok' if got == want else 'MISMATCH'}")
 
 

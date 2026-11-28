@@ -34,8 +34,8 @@
      "shows": ["card_values"],
      "names": ["card_values"],
      "visual": ["card_deal:fan_12", "react:sophie_puzzled"],
-     "gist": "PASCAL: Blackjack! Twenty-one! SOPHIE: Where are the kings? ADA: There are twelve cards, zero to eleven. I counted.",
-     "lines": ["s01.b01.l01", "s01.b01.l02", "s01.b01.l03", "s01.b01.l04"]
+     "gist": "PASCAL: Blackjack! Twenty-one! Who's in? He asks each kitten by name. EULER: I'll watch for now. SOPHIE doesn't know how to play. ADA: Pascal, I'll play. SOPHIE: Where are the kings? ADA: There are twelve cards, zero to eleven. I counted.",
+     "lines": ["s01.b01.l01", "s01.b01.l01a", "s01.b01.l01b", "s01.b01.l01c", "s01.b01.l01d", "s01.b01.l01e", "s01.b01.l01f", "s01.b01.l01g", "s01.b01.l02", "s01.b01.l03", "s01.b01.l04"]
     },
     {
      "id": "s01.b02",

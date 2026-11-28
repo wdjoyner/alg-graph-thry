@@ -50,7 +50,16 @@
  "beats": {
   "s01.b01": [
    {"do": ["card_deal:fan_12", "react:pascal_deals"], "seconds": 4.0},
-   {"line": "s01.b01.l01", "with": ["react:pascal_proud"]},
+   {"line": "s01.b01.l01", "with": ["react:pascal_proud", "react:sophie_looks_up", "react:ada_looks_up", "react:euler_looks_up"]},
+   {"hold": 1.0},
+   {"line": "s01.b01.l01a", "with": ["react:pascal_paw_up"]},
+   {"line": "s01.b01.l01b", "with": []},
+   {"line": "s01.b01.l01c", "with": ["react:pascal_paw_up"]},
+   {"line": "s01.b01.l01d", "with": ["react:sophie_lean_in"]},
+   {"line": "s01.b01.l01e", "with": ["react:pascal_surprised"]},
+   {"line": "s01.b01.l01f", "with": []},
+   {"hold": 0.6},
+   {"line": "s01.b01.l01g", "with": ["react:ada_lean_in"]},
    {"line": "s01.b01.l02", "with": ["react:sophie_puzzled"]},
    {"line": "s01.b01.l03", "with": ["point_at:ada_cards"]},
    {"line": "s01.b01.l04", "with": ["react:pascal_confident"]}

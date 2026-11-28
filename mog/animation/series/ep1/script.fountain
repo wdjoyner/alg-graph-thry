@@ -3,8 +3,8 @@ Episode: 1. The Curious Game of Twenty-One
 Credit: Written by
 Author: David Joyner, Claude (Anthropic) and ChatGPT (OpenAI)
 Source: ep1/outline.json; the mathematics is checked against math_objects.json
-Draft date: 2026-11-27
-Notes: Draft 1. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Card values are written as words in dialogue so they are spoken as words. Spoken respellings (Euler as "Oiler") live in pronunciation.json, not here.
+Draft date: 2026-11-28
+Notes: Draft 2: Pascal asks each kitten in turn whether they'll play, so every name is spoken early. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Card values are written as words in dialogue so they are spoken as words. Spoken respellings (Euler as "Oiler") live in pronunciation.json, not here.
 
 [[ PRODUCTION NOTE: The whole episode plays on one tabletop, seen from the front. Pascal sits left of center facing right and Ada right of center facing left: they are the two players. Sophie sits far left, Euler far right. The hand is a row of six cards in the middle of the table, the pile a row of six above it, and the hand's total is shown at the right end of the hand. ]]
 
@@ -22,6 +22,35 @@ A dark tablecloth. PASCAL, an orange tabby with more swagger than sense, flicks 
 
 PASCAL
 Blackjack! Twenty-one! Who's in? [[line: s01.b01.l01]]
+
+The other kittens stare up at the numbers.
+
+PASCAL
+Euler? [[line: s01.b01.l01a]]
+
+Euler looks at Pascal.
+
+EULER
+I'll watch for now. [[line: s01.b01.l01b]]
+
+PASCAL
+Sophie? [[line: s01.b01.l01c]]
+
+Sophie looks at Pascal.
+
+SOPHIE
+Is this the same as mathematical blackjack? [[line: s01.b01.l01d]]
+
+PASCAL
+You know how to play? [[line: s01.b01.l01e]]
+
+SOPHIE
+No. [[line: s01.b01.l01f]]
+
+Ada looks at Pascal.
+
+ADA
+Pascal, I'll play. [[line: s01.b01.l01g]]
 
 SOPHIE
 (puzzled)
