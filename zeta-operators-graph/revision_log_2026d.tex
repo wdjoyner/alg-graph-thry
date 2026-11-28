@@ -159,14 +159,93 @@ made the following changes.
   and their preparers.
 \item Fixed this log's \verb|\externaldocument| target, which still named
   the pre-rename file, so all cross-references resolve again.
+\item Following the style guide, the discussion of the errors in the 1981
+  typescript was moved out of the paper into
+  Section~\ref{sec:errors} of this log, at the author's request.  Where
+  the material is mathematically useful, the paper now poses it as a
+  natural question; the ``[new]'' tags and ``Original Theorem $n$,
+  repaired'' titles were replaced by descriptive titles.  The list of
+  results new in the 2026 editions is in Section~\ref{sec:new}.  No
+  numbered statement was added or removed, so all numbers are unchanged.
 \end{itemize}
-Not changed: the discussion in the body of the errors in the 1981
-typescript, including the counterexamples to the original Theorems~4(a)
-and~6, is kept.  This is a deliberate exception to the style guide's
-preference for moving error discussion into the revision log: in a
-corrected historical edition, the counterexamples are part of the
-content.  The 1981-era proofs of Sections~2--9 were checked by Claude in
-the referee pass; no mathematical errors were found.
+The 1981-era proofs of Sections~2--9 were checked by Claude in the
+referee pass; no mathematical errors were found.
+
+\section{Discussion of the errors in the 1981 typescript}\label{sec:errors}
+This material was in the body of Draft~4 and was moved here in Draft~5.
+The status table in Section~2 gives the overall correspondence.
+\begin{description}
+\item[Generator $a_1=1$ (Theorem 3).]  The typescript lists $a_1=1$ as a
+  generator.  That is impossible: the factor $(1-1^{-s})^{-1}$ is
+  undefined.  The identity element belongs to the semigroup of
+  generalized integers but is never a generator.  The corrected statement
+  is Corollary~\ref{cor:sparseA}.
+\item[Unique factorization (Lemma 1(c) and Theorem 3).]  The typescript
+  spends effort on unique factorization of the generators.  In the
+  Beurling framework this is unnecessary (Remark~\ref{rem:UF}).
+\item[Double series.]  The double series
+  used for comparison are replaced by direct comparison of Euler factors
+  (Theorem~\ref{thm:comparison}).  The typescript cites Grosswald and
+  Schnitzer for its ``method of analytic continuation''.
+\item[Corollary 1.]  True; it is the case $\vartheta=1/(2k)$ of
+  Corollary~\ref{cor:pointwise}.
+\item[Last step of Theorem 2.]  The typescript estimates
+  $\int_1^Nx^a\,dP_\varepsilon(x)\ll P_\varepsilon(N)N^a$ for $a<0$.  This
+  is false in general, since early jumps of $P_\varepsilon$ carry more
+  weight than late ones.  Bounded partial sums would not give the
+  convergence needed for analytic continuation in any case.  The paper
+  now explains why dyadic blocks are used (the remark ``Why dyadic
+  blocks'' in Section~\ref{sec:sparse}).
+\item[Von Mangoldt weight in Theorem 1.]  In
+  $-\zeta_G'/\zeta_G=s\int_1^\infty\Psi_G(x)x^{-s-1}\,dx$ the coefficient
+  of $g^{-ms}$ is $\log g$, not $(\log g)/m$ as in the typescript.  The
+  factor $1/m$ belongs to $\log\zeta_G$, before differentiation.
+\item[Finite-$n$ constants in Lemma 1.]  Theorem~\ref{thm:random} is an
+  almost-sure statement and does not reproduce the finite-$n$
+  inequalities of Lemma~1 with their constants, which are not needed.
+  The typescript's remark that consecutive $g_n$ differ by
+  $O(\log g_n)$, and that by Rankin's theorem no choice gives $g_n=p_n$,
+  is correct and is kept in the paper.
+\item[First corrected edition and the slit plane.]  The first corrected
+  edition proved zero-freeness of $\zeta_U$ only on $\operatorname{Re} s>\frac12$.  It
+  worked with $\Psi_U$, which mixes all prime powers.  The paper now
+  explains, as a question, why working with $P_U$ gives the slit
+  half-plane.
+\item[Theorem 4(a).]  False.  The typescript claims that negative
+  eigenvalues of $B(\beta)$ come from zeros of $\zeta$.
+  Corollary~\ref{cor:thm4false} gives the eigenvalue $-\frac{81}{100}$ of
+  $B(\frac9{10})$ for $k=1$, although $\zeta(\frac9{10})\ne0$, and
+  Theorem~\ref{thm:manyeigen} shows that every
+  $\lambda\notin[0,\infty)$ is an eigenvalue.  The typescript argued that
+  $g=Tf/(\lambda+\log y)$ cannot lie in $S_k$ unless $g=0$.  The opposite
+  is true: for $\lambda<0$ the denominator never vanishes on $(0,1)$ and
+  grows near $0$.  The correct statement is the joint-kernel statement
+  Theorem~\ref{thm:spectral}.
+\item[Theorem 5.]  It says that $B$ and $B_A$ have the same negative
+  eigenvalues.  Where it makes sense it is true only vacuously, since
+  every negative number is an eigenvalue of both (Remark~\ref{rem:thm5}).
+  It is replaced by Proposition~\ref{prop:EA}.
+\item[Theorem 6.]  False wherever its operator is defined:
+  Corollary~\ref{cor:thm6false} gives the real eigenvalue $-\frac12$ of
+  $B_U(\frac9{10})$.  It is replaced by Theorem~\ref{thm:slit} and
+  Proposition~\ref{prop:KU}.
+\item[Closing remarks on pair correlation.]  Speculative; the random
+  system has no zeros to the right of $\frac12$.
+\end{description}
+
+\section{Results new in the 2026 editions}\label{sec:new}
+The following were marked ``new'' in Draft~4; the marks were removed
+from the paper in Draft~5.  Theorem~\ref{thm:comparison} (comparison
+principle), Lemma~\ref{lem:dyadic} (dyadic counting), Lemma~\ref{lem:PU},
+Theorem~\ref{thm:slit} (slit half-plane), Corollary~\ref{cor:thetafree},
+Corollary~\ref{cor:RHequiv}, the divergence remark of
+Section~\ref{sec:sparse}, Proposition~\ref{prop:logcoords},
+Lemma~\ref{lem:multiplier}, Lemma~\ref{lem:triangular},
+Lemma~\ref{lem:resolventM}, Theorem~\ref{thm:manyeigen},
+Theorem~\ref{thm:betafree} and its corollary, and
+Theorem~\ref{thm:graph-boundary}.  The editorial remarks on the November
+2026 RH formalization (including Remark~\ref{rem:synthesis-2026}) are
+also 2026 additions.
 
 \section{AI contributions}
 The source credits ChatGPT (OpenAI) and Claude (Anthropic)
