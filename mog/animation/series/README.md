@@ -60,21 +60,21 @@ Each step is one episode's picture, so the opening previews the whole series. It
 
 *Story:* Ada refuses to memorize 132 hexads and finds a test instead: lay the hand in Conway's MINIMOG and check it against nine tetracode words. The test spots a hexad at a glance and shows which single swaps repair a hand, and one of them is Pascal's opening move.
 
-**Twelve cells.** True to her word, Ada doesn't memorize. She sends the twelve cards into Conway's 3 × 4 MINIMOG.
+**Twelve cells.** True to her word, Ada doesn't memorize. She sends the twelve cards into Conway's 3 × 4 MINIMOG, where every card always sits in the same cell; the last lands crooked and she straightens it. "A small version of Curtis's MOG, the Miracle Octad Generator." Pascal: "Bless you." She numbers the rows 0, 1, 2, because those three numbers go round a clock.
 
-**A three-hour clock.** Arithmetic mod 3 on a clock with three hours. Sophie recognizes it as the diagonals that wrapped around in the kitten.
+**A three-hour clock.** A clock with three hours, whose hand moves as the sums are said: 2 + 1 = 0 and 2 + 2 = 1. That is arithmetic mod 3. Sophie recognizes it in the kitten's diagonal that ran off the edge and came back, and Ada shows why: along it, row plus column is always 0 mod 3.
 
-**Nine words.** Choose a and b mod 3, and the word is (b, a, a+b, a+2b). That gives nine words, the tetracode. *Viewers build the one for a = b = 1.* Any two coordinates pin down the whole word, which is Ada's favorite property.
+**Nine words.** Pick two hours a and b; the codeword is b, a, a+b, a+2b, and each of its four places is a coordinate. *Viewers build the one for a = b = 1:* the last box counts two hours round the clock, 1, 1, 2, 0. Three choices each give nine codewords, the tetracode. Any two coordinates pin down the whole word, which is Ada's favorite property: only one word starts 1, 1, and she has checked all six pairs of places.
 
-**Odd man out.** Mark a hand in the grid. A column with one card gives that card's row, and a column with two gives the missing row. Empty and full columns are wildcards. The rows must fit one tetracode word, and column counts of 0, 1, 2 and 3 are always rejected.
+**Odd man out.** Mark six cards and read each column of the grid. A column with one card gives that card's row; a column with two gives the row they leave out, the odd man out (the words travel along a curve to it). Empty and full columns are wildcards. The readings must spell one of the nine codewords, and then the hand is a hexad. Column counts of 0, 1, 2 and 3 always fail: then only two columns give a row, and any two coordinates fit a word, so the words alone would pass all 216 such hands, none of which is a hexad. Pascal: "So that rule is a patch." Ada: "A necessary one."
 
-**Test the hands.** Episode 1's opening hand reads 1, 1, 2, 2. Its first two coordinates force the word 1, 1, 2, 0, and the last coordinate disagrees, so it is not a hexad. The hand 1 to 6 is all wildcards, so it is one. The 24-hand Ada left Pascal in the worked game has the forbidden counts. (The test is shown on examples; the paper proves it always agrees with the design.)
+**Test the hands.** Episode 1's opening hand reads 1, 1, 2, 2. *Viewers are asked whether that spells a codeword.* Its first two coordinates force 1, 1, 2, 0, the word from the clock, and the last coordinate disagrees; since two coordinates pin down the word, there is no other word to try, so it is not a hexad. The hand 1 to 6 is all wildcards, so it is one. The 24-hand Ada left Pascal in the worked game fits 1, 1, 2, 0 as well, but its counts are 3, 1, 2, 0: forbidden. Euler: three hands aren't a proof. Ada: the paper runs the test on all 924 hands, and it picks out exactly the hexads.
 
-**Repair.** Which single swaps turn the opening hand into a hexad? There are six: three up (0 for 1, 2 for 10, 6 for 8) and three down (4 for 3, 7 for 5, 11 for 9). Pascal: "Seven for five. That was my move!" *(Payoff: Pascal's opening move.)*
+**Repair.** The forced word wants a 0 in the last column, so 11 out and 9 in (row 0) makes a hexad. Of the opening hand's 36 single swaps, six are repairs: three up (0 for 1, 2 for 10, 6 for 8), which the game forbids, and three down (4 for 3, 7 for 5, 11 for 9). Pascal: "Seven for five. That was my move!" It passes the test, fitting the word 2, 1, 0, 2. "Skill. Obviously." Ada: "Or luck. Three of your fourteen moves were repairs." *(Payoff: Pascal's opening move.)*
 
-**Signed patterns** *(optional)*. A brief look at the ternary Golay code behind the test.
+**Signed patterns** *(optional, left out of the first cut)*. A brief look at the ternary Golay code behind the test.
 
-**Why does it work?** Euler notes that repairing the hand to a hexad seems to win every time, and he wants to know why. Pascal: "Who cares why? It works." *(Clue.)*
+**Why does it work?** Euler notes that in every game so far, whoever repaired the hand went on to win, and he wants to know why. Pascal: "Who cares why? It works." Ada: "I care." *(Clue.)*
 
 ### Episode 4: The Hidden Graph of the Game
 
@@ -142,13 +142,13 @@ The kittens' guesses are settled on screen, never by assertion:
 
 These include the titles and credits.
 
-These are the outlines' targets. Episode 1, timed from its recorded dialogue (`make_timing.py`), runs 7:01; Episode 2 runs 7:50, and its scene targets are now its measured lengths.
+These are the outlines' targets. Episode 1, timed from its recorded dialogue (`make_timing.py`), runs 7:01; Episode 2 runs 7:50 and Episode 3 runs 7:07, and their scene targets are now their measured lengths.
 
 | Episode | Required scenes | With optional scenes | Target |
 |---|---|---|---|
 | 1. The Curious Game of Twenty-One | 7:43 | 7:43 | 7–8 min |
 | 2. The Geometry of a Kitten | 7:49 | 7:49 | 7–8 min |
-| 3. The Secret Code of the MINIMOG | 9:13 | 9:58 | 8–10 min |
+| 3. The Secret Code of the MINIMOG | 7:07 | 7:52 | 7–8 min |
 | 4. The Hidden Graph of the Game | 9:13 | 9:48 | 8–10 min |
 
 ## Files
@@ -167,15 +167,17 @@ These are the outlines' targets. Episode 1, timed from its recorded dialogue (`m
 | `ep1/audio_manifest.json` | Every line's voice, spoken text, measured length and mouth envelope. **Generated by `make_voices.py`** |
 | `ep1/timing.json` | The first frame and length of every scene, beat, step and line. **Generated by `make_timing.py`** |
 | `ep2/outline.json`, `script.fountain`, `cues.json`, `audio_manifest.json`, `timing.json` | Episode 2, as for Episode 1 |
-| `ep3/`, `ep4/outline.json` | Episodes 3–4, broken down to scenes; beats to come |
+| `ep3/outline.json`, `script.fountain`, `cues.json`, `audio_manifest.json`, `timing.json` | Episode 3, as for Episode 1 (its optional signed-patterns scene is outlined but not yet broken into beats, so it is left out of the timing and the render) |
+| `ep4/outline.json` | Episode 4, broken down to scenes; beats to come |
 | `math_objects.json` | Every hand, move and count the outlines mention. **Generated; do not edit** |
 | `build_math_objects.py` | Writes `math_objects.json`. `--cross-check` also compares the hexads with the paper's `verify.py` |
 | `check_outline.py` | Checks all the outlines and screenplays against the files above, and each episode's script, cues and timing where they exist |
 | `script_tools.py` | Reads a Fountain script into beats and lines |
-| `cue_tools.py` | Reads cues and plays their card game through the rules (`Table`) and their diagrams through the mathematics (`Board`); the montage's game engine |
+| `cue_tools.py` | Reads cues and plays their card game through the rules (`Table`), Episode 2's diagrams (`Board`) and Episode 3's MINIMOG test (`Code`) through the mathematics; the montage's game engine |
+| `test_cue_claims.py` | Plants wrong claims in Episode 3's cues and in a copy of `math_objects.json`, one at a time, and checks that the checker catches every one (`--build` also runs `check_outline.py` on a copy) |
 | `make_voices.py` | Speaks every line with Kokoro, applying `pronunciation.json`, and writes the audio manifest |
 | `make_timing.py` | Builds `timing.json` from the cues and the measured audio |
-| `episode_scenes.py` | Manim scenes for the episode bodies: one `EpisodeScene` (PAM kittens, clock, steps, transitions) with Episode 1's card table (`TableVisuals`) and Episode 2's board (`BoardVisuals`) |
+| `episode_scenes.py` | Manim scenes for the episode bodies: one `EpisodeScene` (PAM kittens, clock, steps, transitions) with Episode 1's card table (`TableVisuals`), Episode 2's board (`BoardVisuals`) and Episode 3's MINIMOG (`CodeVisuals`) |
 | `pam_link.py` | Finds PAM (set `PAM_DIR`) and its `CatGraph` |
 | `make_episode.py` | Renders the body, mixes the dialogue, writes captions, and joins opening, body and credits |
 | `title_scenes.py` | Manim scenes for the main title, the four subtitles, the credits roll and the tail cards |
@@ -226,11 +228,11 @@ python check_outline.py                      # after changing any outline
 ```
 
 1. Outline all four episodes at scene level, so plants and payoffs line up across the series (done).
-2. Break one episode into beats (Episodes 1 and 2 done).
-3. Write that episode's `epN/script.fountain`, putting a `[[beat: sNN.bMM]]` note on each beat and giving each dialogue line a stable ID in the beat's `lines` list (Episodes 1 and 2 done).
-4. Write `epN/cues.json`, keyed by beat ID, using the visual verbs in `series.json` (Episodes 1 and 2 done).
-5. Generate audio per line, measure it, and let the clip lengths set the timing (Episodes 1 and 2 done).
-6. Animate the kittens with PAM and render the episode (Episodes 1 and 2: first drafts).
+2. Break one episode into beats (Episodes 1–3 done).
+3. Write that episode's `epN/script.fountain`, putting a `[[beat: sNN.bMM]]` note on each beat and giving each dialogue line a stable ID in the beat's `lines` list (Episodes 1–3 done).
+4. Write `epN/cues.json`, keyed by beat ID, using the visual verbs in `series.json` (Episodes 1–3 done).
+5. Generate audio per line, measure it, and let the clip lengths set the timing (Episodes 1–3 done).
+6. Animate the kittens with PAM and render the episode (Episodes 1–3: first drafts).
 
 ```sh
 python make_voices.py --episode 1          # Kokoro: one WAV per line, audio_manifest.json
@@ -248,7 +250,9 @@ Every exchange on screen goes through the game's rules (`cue_tools.Table`), and 
 
 Episode 2 is drawn on a board instead of a table. Sophie keeps the chalk she found at the end of Episode 1 and draws in the space above the table: the Fano plane, twelve blank points, Euler's clock (the projective line), Curtis's kitten as a triangle and then as its three 3 × 3 pictures, and finally the same pictures in card values. `cue_tools.Board` plays the board's cues the way `Table` plays the cards: the completion a pair or a five calls up, the set a move on the clock produces, the orbit's layers, the 792 fives, the kitten's lines, crosses, squares and four families, the relabeling, and the family and picture each Episode 1 hand lands in are all computed from `build_math_objects.py` and checked against `math_objects.json` and the cue's own claims. The renderer draws what `Board` computes, so a typed-in set or count cannot reach the screen.
 
-`episode_scenes.py` has one `EpisodeScene` for every episode; `Episode1` adds `TableVisuals`, `Episode2` adds `BoardVisuals`. Refactoring it this way was checked frame by frame: Episode 1's body renders to the same 10,210 frames (compared by FFmpeg `framemd5`) as before the change.
+Episode 3 lays the cards out as Conway's MINIMOG on the left, with its row numbers and, under each column, three lanes: the column's count, its reading (the odd man out, or ? for a wildcard) and the codeword it is checked against. The three-hour clock, the codewords, the table of all nine and the repairs go on the right. `cue_tools.Code` plays these cues: the MINIMOG's cells, every clock sum, every codeword built from a and b, the word two readings force, every column count and reading, where a hand disagrees with its word, the forbidden counts (216 hands, none a hexad), the repairs and their totals, and the 924-hand check are all recomputed from `build_math_objects.py` and compared with `math_objects.json` and with the cue's own claims; the renderer draws what `Code` computes. `test_cue_claims.py` plants 39 wrong cue claims and 6 wrong values in `math_objects.json`, one at a time, and each must stop the check. Ada carries no prop, but she acts precisely: she sits straighter than the others, breathes less, looks up at the grid while she speaks, nods once for each item she counts (`counts`) and straightens the crooked card (`straightens`).
+
+`episode_scenes.py` has one `EpisodeScene` for every episode; `Episode1` adds `TableVisuals`, `Episode2` adds `BoardVisuals`, `Episode3` adds `CodeVisuals`. Refactoring it this way was checked frame by frame: Episode 1's body renders to the same 10,210 frames (compared by FFmpeg `framemd5`) as before the change, and after Episode 3 was added, Episodes 1 and 2 still render to the same 10,210 and 11,685 frames.
 
 If you change the story, update "The story" above to match; the outlines are what the checker reads.
 

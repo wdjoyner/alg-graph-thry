@@ -22,12 +22,24 @@
   "773/894": "seven hundred seventy-three out of eight hundred ninety-four",
   "86.47%": "about eighty-six and a half percent",
   "mod 3": "mod three",
-  "mod 11": "mod eleven"
+  "mod 11": "mod eleven",
+  "a and b": "eigh and b",
+  "then a,": "then eigh,",
+  "a plus two b": "eigh plus two b",
+  "a plus b": "eigh plus b",
+  "a equals": "eigh equals",
+  "a is one": "eigh is one",
+  "for a,": "for eigh,",
+  "codewords": "code words",
+  "codeword": "code word",
+  "wildcards": "wild cards",
+  "wildcard": "wild card"
  },
  "check_list": [
   "Euler should sound like 'Oiler', never 'Yooler'.",
   "Card values are read as words (seven to five), not digits run together.",
   "Arrows in captions (7 → 5) are spoken as 'seven to five'.",
-  "Episode 2: 'Fano' as 'Fah-no'; 'affine' as uh-FINE; 'Steiner' and 'Witt' as written. Checked with Kokoro's phonemizer, Nov 2026; no further respellings were needed."
+  "Episode 2: 'Fano' as 'Fah-no'; 'affine' as uh-FINE; 'Steiner' and 'Witt' as written. Checked with Kokoro's phonemizer, Nov 2026; no further respellings were needed.",
+  "Episode 3: the letter a, where it is one of the clock's two hours (a and b, a plus b, a equals one), is respelled \"eigh\": Kokoro's phonemizer reads a lone \"a\" as the article (a schwa), and \"ay\" as \"eye\". The respellings name the phrases, so the article is never touched. Checked with Kokoro's phonemizer, Nov 2026."
  ]
 }

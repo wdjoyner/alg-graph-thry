@@ -360,6 +360,7 @@ def build():
                                     "new_total": sum(A) - a + b,
                                     "legal": (a, b) in down_moves(A)}
     build_episode2(objects)
+    build_episode3(objects)
     return objects
 
 
@@ -457,6 +458,150 @@ def build_episode2(objects):
         "hands": hands,
         "views": [[RHO[d], list(VIEWS[RHO[d]])] for d in (INF, 0, 1)],
         "note": "Episode 1's losing hands in the card-labeled (shuffle) kitten: family 0..3, picture, parts"}
+
+
+# ---------------------------------------------------------------- Episode 3
+# Ada's test: the MINIMOG M, the tetracode T and the odd-man-out reading
+# (paper, Section 5).  Episode 3 draws every word, reading, forced word and
+# repair from these functions, never from typed-in values.
+
+def tetra_word(a, b):
+    """The tetracode word for a, b: (b, a, a+b, a+2b) mod 3."""
+    return (b, a, (a + b) % 3, (a + 2 * b) % 3)
+
+
+def words_through(known):
+    """The tetracode words that agree with known, a dict {coordinate: value}."""
+    return [t for t in T if all(t[i] == v for i, v in known.items())]
+
+
+def column_reading(rows):
+    """(count, odd man out) of one column whose marked cells are in rows; None is a wildcard."""
+    rows = set(rows)
+    if len(rows) == 1:
+        return 1, next(iter(rows))
+    if len(rows) == 2:
+        return 2, next(iter(set(range(3)) - rows))
+    return len(rows), None
+
+
+def forbidden(counts):
+    """Column counts 0, 1, 2 and 3 in some order: rejected whatever the rows say."""
+    return sorted(counts) == [0, 1, 2, 3]
+
+
+def test_hand(h):
+    """Ada's test on a hand: counts, readings, the words that fit, the verdict."""
+    counts, odds = coordinates(h)
+    fits = words_through({i: o for i, o in enumerate(odds) if o is not None})
+    return {"column_counts": counts, "odd_man_out": odds, "forbidden": forbidden(counts),
+            "wildcards": sum(o is None for o in odds), "words_fitting": [list(t) for t in fits],
+            "passes": not forbidden(counts) and bool(fits)}
+
+
+def forced_word(h, pair):
+    """The one word through the readings at the two coordinates in pair."""
+    _, odds = coordinates(h)
+    found = words_through({i: odds[i] for i in pair})
+    assert len(found) == 1, (sorted(h), pair, found)
+    return found[0]
+
+
+def disagreements(word, odds):
+    """Coordinates where a hand's reading (not a wildcard) differs from word."""
+    return [i for i, o in enumerate(odds) if o is not None and word[i] != o]
+
+
+def all_swaps(h):
+    """Every single exchange (out, in) of a hand card for a pile card."""
+    return [(a, b) for a in sorted(h) for b in sorted(X - h)]
+
+
+def repairs(h):
+    """The swaps that turn h into a hexad."""
+    return [m for m in all_swaps(h) if swap(h, m) in HEXADS]
+
+
+def build_episode3(objects):
+    """Objects Episode 3 draws: the MINIMOG's rows and columns, the three-hour
+    clock, the tetracode words, the odd-man-out test on Episode 1's hands, the
+    forbidden counts, and the repairs of the opening hand."""
+    m = objects["minimog"]
+    m["row_labels"] = [0, 1, 2]
+    m["columns"] = [[M[r][c] for r in range(3)] for c in range(4)]
+    m["cards_once"] = sorted(v for row in M for v in row) == list(range(12))
+    objects["clock:mod3"] = {
+        "hours": [0, 1, 2],
+        "sums": {f"{x}+{y}": (x + y) % 3 for x in range(3) for y in range(3)},
+        "twice": [2 * x % 3 for x in range(3)],
+        "note": "Arithmetic mod 3 on a clock with three hours; 'twice' is x + x"}
+    v = PROJECTIVE_VIEWS[INF]
+    cells = sorted((r, c) for r in range(3) for c in range(3) if (r + c) % 3 == 0)
+    objects["kitten:wrap"] = {
+        "picture": INF, "direction": [1, 1], "k": 0,
+        "cells": [list(rc) for rc in cells],
+        "points": sorted(view_line(v, (1, 1), 0)),
+        "cell_points": [v[3 * r + c] for r, c in cells],
+        "row_plus_column": [(r + c) % 3 for r, c in cells],
+        "note": "Episode 2's wrapped diagonal (picture at infinity, projective labels): row + column = 0 mod 3"}
+
+    t = objects["tetracode"]
+    pairs = list(combinations(range(4), 2))
+    t["by_ab"] = {f"{a},{b}": list(tetra_word(a, b)) for a, b in product(range(3), repeat=2)}
+    t["formula_matches_words"] = sorted(tetra_word(a, b) for a, b in product(range(3), repeat=2)) == T
+    t["a1_b1_steps"] = {"b": 1, "a": 1, "a+b": (1 + 1) % 3, "a+2b": (1 + 2) % 3, "a+2b_before_wrap": 1 + 2}
+    t["coordinate_pairs"] = [list(p) for p in pairs]
+    t["pairs_checked"] = len(pairs)
+    t["distinct_pairs_per_choice"] = [len({(w[i], w[j]) for w in T}) for i, j in pairs]
+    t["first_two_1_1"] = [list(w) for w in words_through({0: 1, 1: 1})]
+
+    col = M[0][0], M[1][0], M[2][0]
+    demos = {"one": [M[1][0]], "two": [M[0][0], M[2][0]], "empty": [], "full": list(col)}
+    objects["odd_man_out:demo"] = {
+        "column": 0, "cards": list(col),
+        "demos": {k: {"cards": cs, "count": column_reading({r for r in range(3) if M[r][0] in cs})[0],
+                      "reading": column_reading({r for r in range(3) if M[r][0] in cs})[1]}
+                  for k, cs in demos.items()},
+        "note": "One column of the MINIMOG marked four ways; reading None is a wildcard"}
+
+    bad = [h for h in HANDS if forbidden(coordinates(h)[0])]
+    objects["count:forbidden"] = {
+        "hands": len(bad),
+        "specified_coordinates": sorted({4 - sum(o is None for o in coordinates(h)[1]) for h in bad}),
+        "all_fit_a_word": all(words_through({i: o for i, o in enumerate(coordinates(h)[1]) if o is not None})
+                              for h in bad),
+        "hexads": sum(h in HEXADS for h in bad),
+        "note": "Hands with column counts 0, 1, 2, 3: the words alone would pass them all; none is a hexad"}
+    test_agrees = all(test_hand(h)["passes"] == (h in HEXADS) for h in HANDS)
+    objects["count:test"] = {"hands": len(HANDS), "test_agrees_with_hexads": test_agrees,
+                             "passing": sum(test_hand(h)["passes"] for h in HANDS)}
+
+    A = frozenset(objects["hand:example"]["cards"])
+    for key in ("hand:example", "hand:1to6", "hand:game_after_2"):
+        h = frozenset(objects[key]["cards"])
+        objects[key]["test"] = test_hand(h)
+    word = forced_word(A, (0, 1))
+    _, odds = coordinates(A)
+    off = disagreements(word, odds)
+    fix_col = off[0]
+    out = next(x for x in A if x in [M[r][fix_col] for r in range(3)])
+    inn = M[word[fix_col]][fix_col]
+    objects["test:example"] = {
+        "hand": "hand:example", "reading": odds, "forced_from": [0, 1],
+        "forced_word": list(word), "is_word_a1_b1": list(word) == objects["tetracode"]["word_a1_b1"],
+        "disagrees_at": off, "hand_row": odds[fix_col], "word_row": word[fix_col],
+        "fix": [out, inn], "fix_is_repair": swap(A, (out, inn)) in HEXADS,
+        "fixed_reading": coordinates(swap(A, (out, inn)))[1],
+        "note": "The opening hand's first two readings force a word; the last column disagrees, and moving its card to the word's row repairs the hand"}
+
+    reps = repairs(A)
+    after = swap(A, (7, 5))
+    objects["moves:example_to_hexads"].update({
+        "swaps": len(all_swaps(A)), "repairs": len(reps),
+        "legal_moves": len(down_moves(A)),
+        "legal_repairs": sum(m in down_moves(A) for m in reps),
+        "up_totals": [sum(swap(A, m)) for m in reps if m[1] > m[0]],
+        "after_7_5": {"cards": sorted(after), **test_hand(after)}})
 
 
 def cross_check(objects):

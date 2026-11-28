@@ -13,7 +13,7 @@ Line steps last as long as their audio plus a gap (cues.json 'gaps'): a
 short one when the same kitten speaks next, a longer one at a change of
 speaker, the longest after a beat's last line.  Every scene after the
 first opens with a transition (cues.json 'scene_transition_seconds'), and
-the body ends with one.  Do, pause and hold steps last as long as the cues
+the body ends with one.  An optional scene with no beats yet is left out.  Do, pause and hold steps last as long as the cues
 say; a recap_montage of 'more_losses' lasts as long as the game engine's
 game takes at its seconds_per_move.
 """
@@ -53,6 +53,13 @@ def montage_seconds(step, objects):
     raise ValueError("seconds 'montage' needs a recap_montage:more_losses visual")
 
 
+def body_scenes(outline):
+    """The scenes the body plays: all but the titles and credits, and but any
+    optional scene not yet broken into beats (Episode 3's signed patterns)."""
+    return [s for s in outline["scenes"] if s.get("kind") not in ("title_card", "end_credits")
+            and not (s.get("optional") and not s.get("beats"))]
+
+
 def build(n):
     outline = load(f"ep{n}/outline.json")
     cues = load(f"ep{n}/cues.json")
@@ -60,7 +67,7 @@ def build(n):
     objects = load("math_objects.json")["objects"]
     gaps = cues["gaps"]
     trans = frames(cues.get("scene_transition_seconds", 1.2))
-    body = [s for s in outline["scenes"] if s.get("kind") not in ("title_card", "end_credits")]
+    body = body_scenes(outline)
     title = next(s for s in outline["scenes"] if s.get("kind") == "title_card")
 
     t = 0
