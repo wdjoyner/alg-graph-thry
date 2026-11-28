@@ -375,6 +375,23 @@ For \eqref{eq:norm1}--\eqref{eq:norm2}, each factor has maximum modulus $1+x_j^{
 The necessity proof uses $\log|F|$ bounded \emph{above and below}. A one-sided $H^\infty$ hypothesis alone does not lead to the same two-sided summability criterion. The theorem is about boundedly invertible comparison multipliers, not merely bounded ones.
 \end{remark}
 
+\paragraph{Worked example (two independent frequencies).}
+Take
+\[
+ F(s)=\frac{1-2^{-s}}{1-3^{-s}}.
+\]
+The logarithms of \(2\) and \(3\) are rationally independent,
+and the signed inventory consists of \(+1\) at \(2\) and
+\(-1\) at \(3\). Hence \(F\) and \(F^{-1}\) are bounded
+on every half-plane \(\Re s>\delta>0\).
+For \(0<\delta\le1\), the exact norm formula yields
+\[
+ \|F\|_{H^\infty(\Re s>\delta)}
+ =\frac{1+2^{-\delta}}{1-3^{-\delta}}.
+\]
+This simple comparison illustrates the sign convention
+in Theorem~\ref{thm:independent}.
+
 \section{Exact classification for endpoint perturbations}\label{sec:endpoint}
 Fix a binary sequence $e=(e_n)_{n\ge1}\in\{0,1\}^{\mathbb N}$, and set
 \begin{equation}\label{eq:endpoint}
@@ -734,7 +751,7 @@ The classification gives the following hierarchy:
 \toprule
 \textbf{Level} & \textbf{Behavior under prime perturbations}\\
 \midrule
-Joint closed zero-model & Universal: identical for all admissible Grosswald--Schnitzer sequences\\
+Joint closed zero-model & Identical in the companion model, subject to its closure and domain hypotheses\\
 Bounded diagonal left equivalence & Nontrivial classes; exact weighted-variation criterion for endpoint shifts and weighted-inventory criterion for independent frequencies\\
 Full-pair similarity, resolvents, pseudospectra & Not classified by these results\\
 \bottomrule
@@ -791,6 +808,31 @@ without additional comparison estimates.
 The announced Dirichlet-$L$ GRH is a separate result and should
 not be identified with a claim for all generalized zeta functions.
 
+\section{Summary of results and open questions}\label{sec:summary}
+The bounded diagonal comparison relation separates three
+operator-theoretic notions. Equality of the zero-associated
+closed kernel belongs to the companion Hardy-space model,
+subject to its domain and closure results. Bounded diagonal
+left equivalence is characterized by two-sided \(H^\infty\)
+bounds for the quotient of Euler symbols.
+Similarity of the complete operator pairs is not established.
+
+For endpoint shifts, Theorem~\ref{thm:transition} gives an
+exact weighted-transition test. The prime-path graph
+explains cancellation within runs of shifted primes.
+For independent interior frequencies,
+Corollary~\ref{cor:inventory} gives a corresponding signed
+Euler-factor inventory criterion. The strict hierarchy
+in Proposition~\ref{prop:strict} shows that the classes
+depend on Sobolev regularity.
+
+Further work should characterize operator graph domains
+without requiring a prescribed diagonal comparison.
+Other open problems include interior shifts with rationally
+dependent frequencies and stability of resolvents and
+pseudospectra. Matching arithmetic zero sets does not
+resolve any of these questions.
+
 \section{Glossary of technical terms}
 The following definitions supplement the main text for readers
 whose background is in analysis rather than generalized-prime systems.
@@ -802,7 +844,7 @@ whose background is in analysis rather than generalized-prime systems.
 \item[Discrete divergence] The signed incidence boundary of an edge flow. The source and target contributions telescope along prime-path blocks.
 \item[Euler-factor inventory] The signed frequencies remaining after cancellation of two Euler products. Its weighted size can control boundedness of a multiplier.
 \item[Exponent-vector graph] The directed lattice of formal generalized integers. Its vertex generating series produces the Euler product with multiplicity.
-\item[Graph norm] The norm $|f|_T=(|f|^2+|Tf|^2)^{1/2}$ on the domain of an operator. It distinguishes domains even when point spectra coincide.
+\item[Graph norm] The norm \(\|f\|_T=(\|f\|^2+\|Tf\|^2)^{1/2}\) on the domain of an operator. It compares operator domains and can distinguish closed realizations even when their point spectra coincide.
 \item[Hardy space] A Hilbert space of analytic functions with square-integrable boundary behavior. Its multiplication operators provide the model for dilation symbols.
 \item[Inner factor] A factor with boundary modulus one almost everywhere. Its Blaschke and singular components determine invariant-subspace phenomena.
 \item[Joint kernel] The intersection of several operator null spaces. Pairing $q=2$ and $q=3$ removes extraneous zeros of the auxiliary factors.
@@ -816,6 +858,22 @@ whose background is in analysis rather than generalized-prime systems.
 \item[Spectral synthesis] Completeness of generalized eigenfunctions within the relevant invariant subspace. It requires more than matching zero sets.
 \item[Weighted graph variation] A sum of weighted absolute incidence jumps. It quantifies Euler-factor cancellation for endpoint perturbations.
 \item[Zero multiplicity] The vanishing order of an analytic function at a zero. Multiple zeros produce logarithmic generalized eigenvectors.
+\item[Almost-periodic function] A function obtained as a uniform limit of finite trigonometric sums, in the sense of Bohr. A translation-invariant mean extracts its frequencies and is used in the comparison theorem.
+\item[Beurling generalized primes] Abstract real generators greater than one from which a multiplicative system is built. Their finite formal products are generalized integers and are counted with multiplicity.
+\item[Bohr transform] An identification of Dirichlet-frequency coefficients with monomials on a torus or polydisk. It motivates why rational independence permits independent finite-phase approximations.
+\item[Dirichlet series] A series of the form \(\sum a_n e^{-\lambda_n s}\) with real frequencies \(\lambda_n\). For the ordinary integers one has \(\lambda_n=\log n\).
+\item[Endpoint shift] A perturbation that leaves \(p_n\) fixed or replaces it with \(p_{n+1}\). The binary edge-flow representation makes consecutive shifts telescope.
+\item[Generalized integer] A finite formal product of generalized primes, described by a nonnegative exponent vector. Two vectors can have the same numerical product, so the generating series counts both.
+\item[Holomorphic symbol] An analytic function prescribing an operator's action on powers \(y^s\). This prescription need not agree with a pointwise-convergent summation series outside the original convergence half-plane.
+\item[Kronecker approximation] A density theorem for rotations with rationally independent frequencies on a finite-dimensional torus. It lets finitely many Euler factors approach their extremizing phases simultaneously.
+\item[Left equivalence] An identity \(T_A=CT_B\) in which \(C\) is bounded and invertible, with domains respected. It is not the similarity identity \(T_A=CT_BC^{-1}\).
+\item[Logarithmic root vector] A function \(y^\rho(\log y)^j\) arising from derivatives in the exponent parameter. Multiple zeros of the analytic symbol can require such vectors in the joint kernel.
+\item[Maximal Hardy multiplier] Multiplication by an analytic symbol \(F\) on the domain \(\{g\in H^2:Fg\in H^2\}\). The domain is part of the construction when the symbol is unbounded.
+\item[Point spectrum] The set of complex eigenvalues of an operator on its specified domain. It need not exhaust the spectrum, which also contains obstructions to bounded invertibility.
+\item[Rational independence] A family of real numbers having no nontrivial finite rational linear relation. Logarithms of distinct ordinary primes have this property by unique factorization.
+\item[Resolvent] The bounded operator \((T-\lambda I)^{-1}\) when it exists. Its norm can be large even where \(\lambda\) is not an eigenvalue, making pseudospectral behavior sensitive.
+\item[Similarity] The conjugacy relation \(T_A=ST_BS^{-1}\) with boundedly invertible \(S\), including the corresponding domain transformation. It is stronger than left equivalence by an Euler-quotient multiplier.
+\item[Strong graph-core property] A dense subspace that is dense in the graph norm of a closed operator. It is needed to pass an identity verified on powers to an equality of closed unbounded operators.
 \end{description}
 
 \section*{Acknowledgments and AI contribution}
