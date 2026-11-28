@@ -7,36 +7,36 @@
  "fps": 30,
  "body_offset_frames": 570,
  "transition_frames": 48,
- "body_frames": 9776,
- "frames": 12206,
+ "body_frames": 10210,
+ "frames": 12640,
  "scenes": {
   "s01": {
    "start": 0,
-   "frames": 969,
-   "seconds": 32.3
+   "frames": 1403,
+   "seconds": 46.767
   },
   "s02": {
-   "start": 969,
+   "start": 1403,
    "frames": 1335,
    "seconds": 44.5
   },
   "s03": {
-   "start": 2304,
+   "start": 2738,
    "frames": 1744,
    "seconds": 58.133
   },
   "s04": {
-   "start": 4048,
+   "start": 4482,
    "frames": 2446,
    "seconds": 81.533
   },
   "s05": {
-   "start": 6494,
+   "start": 6928,
    "frames": 2016,
    "seconds": 67.2
   },
   "s06": {
-   "start": 8510,
+   "start": 8944,
    "frames": 1266,
    "seconds": 42.2
   }
@@ -45,7 +45,7 @@
   "s01.b01": {
    "scene": "s01",
    "start": 48,
-   "frames": 516,
+   "frames": 950,
    "steps": [
     {
      "kind": "do",
@@ -56,641 +56,693 @@
      "kind": "line",
      "line": "s01.b01.l01",
      "start": 168,
-     "frames": 75
+     "frames": 68
+    },
+    {
+     "kind": "hold",
+     "start": 236,
+     "frames": 30
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01a",
+     "start": 266,
+     "frames": 42
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01b",
+     "start": 308,
+     "frames": 67
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01c",
+     "start": 375,
+     "frames": 43
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01d",
+     "start": 418,
+     "frames": 97
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01e",
+     "start": 515,
+     "frames": 54
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01f",
+     "start": 569,
+     "frames": 31
+    },
+    {
+     "kind": "hold",
+     "start": 600,
+     "frames": 18
+    },
+    {
+     "kind": "line",
+     "line": "s01.b01.l01g",
+     "start": 618,
+     "frames": 59
     },
     {
      "kind": "line",
      "line": "s01.b01.l02",
-     "start": 243,
+     "start": 677,
      "frames": 52
     },
     {
      "kind": "line",
      "line": "s01.b01.l03",
-     "start": 295,
+     "start": 729,
      "frames": 133
     },
     {
      "kind": "line",
      "line": "s01.b01.l04",
-     "start": 428,
+     "start": 862,
      "frames": 136
     }
    ]
   },
   "s01.b02": {
    "scene": "s01",
-   "start": 564,
+   "start": 998,
    "frames": 405,
    "steps": [
     {
      "kind": "do",
-     "start": 564,
+     "start": 998,
      "frames": 108
     },
     {
      "kind": "line",
      "line": "s01.b02.l01",
-     "start": 672,
+     "start": 1106,
      "frames": 122
     },
     {
      "kind": "line",
      "line": "s01.b02.l02",
-     "start": 794,
+     "start": 1228,
      "frames": 67
     },
     {
      "kind": "line",
      "line": "s01.b02.l03",
-     "start": 861,
+     "start": 1295,
      "frames": 108
     }
    ]
   },
   "s02.b01": {
    "scene": "s02",
-   "start": 1017,
+   "start": 1451,
    "frames": 504,
    "steps": [
     {
      "kind": "line",
      "line": "s02.b01.l01",
-     "start": 1017,
+     "start": 1451,
      "frames": 134
     },
     {
      "kind": "line",
      "line": "s02.b01.l02",
-     "start": 1151,
+     "start": 1585,
      "frames": 149
     },
     {
      "kind": "do",
-     "start": 1300,
+     "start": 1734,
      "frames": 126
     },
     {
      "kind": "line",
      "line": "s02.b01.l03",
-     "start": 1426,
+     "start": 1860,
      "frames": 95
     }
    ]
   },
   "s02.b02": {
    "scene": "s02",
-   "start": 1521,
+   "start": 1955,
    "frames": 454,
    "steps": [
     {
      "kind": "line",
      "line": "s02.b02.l01",
-     "start": 1521,
+     "start": 1955,
      "frames": 74
     },
     {
      "kind": "do",
-     "start": 1595,
+     "start": 2029,
      "frames": 54
     },
     {
      "kind": "line",
      "line": "s02.b02.l02",
-     "start": 1649,
+     "start": 2083,
      "frames": 82
     },
     {
      "kind": "do",
-     "start": 1731,
+     "start": 2165,
      "frames": 42
     },
     {
      "kind": "line",
      "line": "s02.b02.l03",
-     "start": 1773,
+     "start": 2207,
      "frames": 202
     }
    ]
   },
   "s02.b03": {
    "scene": "s02",
-   "start": 1975,
+   "start": 2409,
    "frames": 329,
    "steps": [
     {
      "kind": "line",
      "line": "s02.b03.l01",
-     "start": 1975,
+     "start": 2409,
      "frames": 70
     },
     {
      "kind": "line",
      "line": "s02.b03.l02",
-     "start": 2045,
+     "start": 2479,
      "frames": 63
     },
     {
      "kind": "line",
      "line": "s02.b03.l03",
-     "start": 2108,
+     "start": 2542,
      "frames": 196
     }
    ]
   },
   "s03.b01": {
    "scene": "s03",
-   "start": 2352,
+   "start": 2786,
    "frames": 433,
    "steps": [
     {
      "kind": "do",
-     "start": 2352,
+     "start": 2786,
      "frames": 42
     },
     {
      "kind": "line",
      "line": "s03.b01.l01",
-     "start": 2394,
+     "start": 2828,
      "frames": 151
     },
     {
      "kind": "pause",
-     "start": 2545,
+     "start": 2979,
      "frames": 240
     }
    ]
   },
   "s03.b02": {
    "scene": "s03",
-   "start": 2785,
+   "start": 3219,
    "frames": 132,
    "steps": [
     {
      "kind": "line",
      "line": "s03.b02.l01",
-     "start": 2785,
+     "start": 3219,
      "frames": 96
     },
     {
      "kind": "hold",
-     "start": 2881,
+     "start": 3315,
      "frames": 36
     }
    ]
   },
   "s03.b03": {
    "scene": "s03",
-   "start": 2917,
+   "start": 3351,
    "frames": 371,
    "steps": [
     {
      "kind": "line",
      "line": "s03.b03.l01",
-     "start": 2917,
+     "start": 3351,
      "frames": 42
     },
     {
      "kind": "pause",
-     "start": 2959,
+     "start": 3393,
      "frames": 210
     },
     {
      "kind": "line",
      "line": "s03.b03.l02",
-     "start": 3169,
+     "start": 3603,
      "frames": 83
     },
     {
      "kind": "hold",
-     "start": 3252,
+     "start": 3686,
      "frames": 36
     }
    ]
   },
   "s03.b04": {
    "scene": "s03",
-   "start": 3288,
+   "start": 3722,
    "frames": 496,
    "steps": [
     {
      "kind": "line",
      "line": "s03.b04.l01",
-     "start": 3288,
+     "start": 3722,
      "frames": 68
     },
     {
      "kind": "do",
-     "start": 3356,
+     "start": 3790,
      "frames": 210
     },
     {
      "kind": "line",
      "line": "s03.b04.l02",
-     "start": 3566,
+     "start": 4000,
      "frames": 123
     },
     {
      "kind": "line",
      "line": "s03.b04.l03",
-     "start": 3689,
+     "start": 4123,
      "frames": 95
     }
    ]
   },
   "s03.b05": {
    "scene": "s03",
-   "start": 3784,
+   "start": 4218,
    "frames": 264,
    "steps": [
     {
      "kind": "do",
-     "start": 3784,
+     "start": 4218,
      "frames": 42
     },
     {
      "kind": "line",
      "line": "s03.b05.l01",
-     "start": 3826,
+     "start": 4260,
      "frames": 106
     },
     {
      "kind": "line",
      "line": "s03.b05.l02",
-     "start": 3932,
+     "start": 4366,
      "frames": 56
     },
     {
      "kind": "line",
      "line": "s03.b05.l03",
-     "start": 3988,
+     "start": 4422,
      "frames": 60
     }
    ]
   },
   "s04.b01": {
    "scene": "s04",
-   "start": 4096,
+   "start": 4530,
    "frames": 669,
    "steps": [
     {
      "kind": "do",
-     "start": 4096,
+     "start": 4530,
      "frames": 90
     },
     {
      "kind": "line",
      "line": "s04.b01.l01",
-     "start": 4186,
+     "start": 4620,
      "frames": 116
     },
     {
      "kind": "line",
      "line": "s04.b01.l02",
-     "start": 4302,
+     "start": 4736,
      "frames": 49
     },
     {
      "kind": "line",
      "line": "s04.b01.l03",
-     "start": 4351,
+     "start": 4785,
      "frames": 191
     },
     {
      "kind": "line",
      "line": "s04.b01.l04",
-     "start": 4542,
+     "start": 4976,
      "frames": 223
     }
    ]
   },
   "s04.b02": {
    "scene": "s04",
-   "start": 4765,
+   "start": 5199,
    "frames": 351,
    "steps": [
     {
      "kind": "line",
      "line": "s04.b02.l01",
-     "start": 4765,
+     "start": 5199,
      "frames": 103
     },
     {
      "kind": "do",
-     "start": 4868,
+     "start": 5302,
      "frames": 78
     },
     {
      "kind": "line",
      "line": "s04.b02.l02",
-     "start": 4946,
+     "start": 5380,
      "frames": 93
     },
     {
      "kind": "line",
      "line": "s04.b02.l03",
-     "start": 5039,
+     "start": 5473,
      "frames": 77
     }
    ]
   },
   "s04.b03": {
    "scene": "s04",
-   "start": 5116,
+   "start": 5550,
    "frames": 965,
    "steps": [
     {
      "kind": "line",
      "line": "s04.b03.l01",
-     "start": 5116,
+     "start": 5550,
      "frames": 87
     },
     {
      "kind": "line",
      "line": "s04.b03.l02",
-     "start": 5203,
+     "start": 5637,
      "frames": 60
     },
     {
      "kind": "pause",
-     "start": 5263,
+     "start": 5697,
      "frames": 135
     },
     {
      "kind": "line",
      "line": "s04.b03.l03",
-     "start": 5398,
+     "start": 5832,
      "frames": 71
     },
     {
      "kind": "do",
-     "start": 5469,
+     "start": 5903,
      "frames": 252
     },
     {
      "kind": "line",
      "line": "s04.b03.l04",
-     "start": 5721,
+     "start": 6155,
      "frames": 83
     },
     {
      "kind": "line",
      "line": "s04.b03.l05",
-     "start": 5804,
+     "start": 6238,
      "frames": 68
     },
     {
      "kind": "do",
-     "start": 5872,
+     "start": 6306,
      "frames": 132
     },
     {
      "kind": "line",
      "line": "s04.b03.l06",
-     "start": 6004,
+     "start": 6438,
      "frames": 77
     }
    ]
   },
   "s04.b04": {
    "scene": "s04",
-   "start": 6081,
+   "start": 6515,
    "frames": 413,
    "steps": [
     {
      "kind": "line",
      "line": "s04.b04.l01",
-     "start": 6081,
+     "start": 6515,
      "frames": 138
     },
     {
      "kind": "do",
-     "start": 6219,
+     "start": 6653,
      "frames": 72
     },
     {
      "kind": "line",
      "line": "s04.b04.l02",
-     "start": 6291,
+     "start": 6725,
      "frames": 143
     },
     {
      "kind": "hold",
-     "start": 6434,
+     "start": 6868,
      "frames": 60
     }
    ]
   },
   "s05.b01": {
    "scene": "s05",
-   "start": 6542,
+   "start": 6976,
    "frames": 366,
    "steps": [
     {
      "kind": "line",
      "line": "s05.b01.l01",
-     "start": 6542,
+     "start": 6976,
      "frames": 176
     },
     {
      "kind": "line",
      "line": "s05.b01.l02",
-     "start": 6718,
+     "start": 7152,
      "frames": 113
     },
     {
      "kind": "line",
      "line": "s05.b01.l03",
-     "start": 6831,
+     "start": 7265,
      "frames": 77
     }
    ]
   },
   "s05.b02": {
    "scene": "s05",
-   "start": 6908,
+   "start": 7342,
    "frames": 477,
    "steps": [
     {
      "kind": "do",
-     "start": 6908,
+     "start": 7342,
      "frames": 90
     },
     {
      "kind": "line",
      "line": "s05.b02.l01",
-     "start": 6998,
+     "start": 7432,
      "frames": 120
     },
     {
      "kind": "line",
      "line": "s05.b02.l02",
-     "start": 7118,
+     "start": 7552,
      "frames": 57
     },
     {
      "kind": "pause",
-     "start": 7175,
+     "start": 7609,
      "frames": 210
     }
    ]
   },
   "s05.b03": {
    "scene": "s05",
-   "start": 7385,
+   "start": 7819,
    "frames": 1125,
    "steps": [
     {
      "kind": "line",
      "line": "s05.b03.l01",
-     "start": 7385,
+     "start": 7819,
      "frames": 101
     },
     {
      "kind": "line",
      "line": "s05.b03.l02",
-     "start": 7486,
+     "start": 7920,
      "frames": 103
     },
     {
      "kind": "line",
      "line": "s05.b03.l03",
-     "start": 7589,
+     "start": 8023,
      "frames": 103
     },
     {
      "kind": "line",
      "line": "s05.b03.l04",
-     "start": 7692,
+     "start": 8126,
      "frames": 96
     },
     {
      "kind": "line",
      "line": "s05.b03.l05",
-     "start": 7788,
+     "start": 8222,
      "frames": 101
     },
     {
      "kind": "hold",
-     "start": 7889,
+     "start": 8323,
      "frames": 24
     },
     {
      "kind": "line",
      "line": "s05.b03.l06",
-     "start": 7913,
+     "start": 8347,
      "frames": 163
     },
     {
      "kind": "line",
      "line": "s05.b03.l07",
-     "start": 8076,
+     "start": 8510,
      "frames": 179
     },
     {
      "kind": "line",
      "line": "s05.b03.l08",
-     "start": 8255,
+     "start": 8689,
      "frames": 172
     },
     {
      "kind": "line",
      "line": "s05.b03.l09",
-     "start": 8427,
+     "start": 8861,
      "frames": 83
     }
    ]
   },
   "s06.b01": {
    "scene": "s06",
-   "start": 8558,
+   "start": 8992,
    "frames": 533,
    "steps": [
     {
      "kind": "do",
-     "start": 8558,
+     "start": 8992,
      "frames": 102
     },
     {
      "kind": "line",
      "line": "s06.b01.l01",
-     "start": 8660,
+     "start": 9094,
      "frames": 190
     },
     {
      "kind": "line",
      "line": "s06.b01.l02",
-     "start": 8850,
+     "start": 9284,
      "frames": 118
     },
     {
      "kind": "line",
      "line": "s06.b01.l03",
-     "start": 8968,
+     "start": 9402,
      "frames": 78
     },
     {
      "kind": "hold",
-     "start": 9046,
+     "start": 9480,
      "frames": 45
     }
    ]
   },
   "s06.b02": {
    "scene": "s06",
-   "start": 9091,
+   "start": 9525,
    "frames": 376,
    "steps": [
     {
      "kind": "line",
      "line": "s06.b02.l01",
-     "start": 9091,
+     "start": 9525,
      "frames": 186
     },
     {
      "kind": "do",
-     "start": 9277,
+     "start": 9711,
      "frames": 120
     },
     {
      "kind": "line",
      "line": "s06.b02.l02",
-     "start": 9397,
+     "start": 9831,
      "frames": 40
     },
     {
      "kind": "hold",
-     "start": 9437,
+     "start": 9871,
      "frames": 30
     }
    ]
   },
   "s06.b03": {
    "scene": "s06",
-   "start": 9467,
+   "start": 9901,
    "frames": 261,
    "steps": [
     {
      "kind": "line",
      "line": "s06.b03.l01",
-     "start": 9467,
+     "start": 9901,
      "frames": 67
     },
     {
      "kind": "line",
      "line": "s06.b03.l02",
-     "start": 9534,
+     "start": 9968,
      "frames": 56
     },
     {
      "kind": "line",
      "line": "s06.b03.l03",
-     "start": 9590,
+     "start": 10024,
      "frames": 48
     },
     {
      "kind": "hold",
-     "start": 9638,
+     "start": 10072,
      "frames": 90
     }
    ]
@@ -699,378 +751,420 @@
  "lines": {
   "s01.b01.l01": {
    "start": 168,
-   "frames": 75,
+   "frames": 68,
    "audio_frames": 53,
    "speaker": "pascal"
   },
+  "s01.b01.l01a": {
+   "start": 266,
+   "frames": 42,
+   "audio_frames": 19,
+   "speaker": "pascal"
+  },
+  "s01.b01.l01b": {
+   "start": 308,
+   "frames": 67,
+   "audio_frames": 45,
+   "speaker": "euler"
+  },
+  "s01.b01.l01c": {
+   "start": 375,
+   "frames": 43,
+   "audio_frames": 21,
+   "speaker": "pascal"
+  },
+  "s01.b01.l01d": {
+   "start": 418,
+   "frames": 97,
+   "audio_frames": 74,
+   "speaker": "sophie"
+  },
+  "s01.b01.l01e": {
+   "start": 515,
+   "frames": 54,
+   "audio_frames": 32,
+   "speaker": "pascal"
+  },
+  "s01.b01.l01f": {
+   "start": 569,
+   "frames": 31,
+   "audio_frames": 16,
+   "speaker": "sophie"
+  },
+  "s01.b01.l01g": {
+   "start": 618,
+   "frames": 59,
+   "audio_frames": 37,
+   "speaker": "ada"
+  },
   "s01.b01.l02": {
-   "start": 243,
+   "start": 677,
    "frames": 52,
    "audio_frames": 29,
    "speaker": "sophie"
   },
   "s01.b01.l03": {
-   "start": 295,
+   "start": 729,
    "frames": 133,
    "audio_frames": 111,
    "speaker": "ada"
   },
   "s01.b01.l04": {
-   "start": 428,
+   "start": 862,
    "frames": 136,
    "audio_frames": 100,
    "speaker": "pascal"
   },
   "s01.b02.l01": {
-   "start": 672,
+   "start": 1106,
    "frames": 122,
    "audio_frames": 99,
    "speaker": "pascal"
   },
   "s01.b02.l02": {
-   "start": 794,
+   "start": 1228,
    "frames": 67,
    "audio_frames": 45,
    "speaker": "ada"
   },
   "s01.b02.l03": {
-   "start": 861,
+   "start": 1295,
    "frames": 108,
    "audio_frames": 72,
    "speaker": "pascal"
   },
   "s02.b01.l01": {
-   "start": 1017,
+   "start": 1451,
    "frames": 134,
    "audio_frames": 111,
    "speaker": "ada"
   },
   "s02.b01.l02": {
-   "start": 1151,
+   "start": 1585,
    "frames": 149,
    "audio_frames": 134,
    "speaker": "pascal"
   },
   "s02.b01.l03": {
-   "start": 1426,
+   "start": 1860,
    "frames": 95,
    "audio_frames": 59,
    "speaker": "pascal"
   },
   "s02.b02.l01": {
-   "start": 1521,
+   "start": 1955,
    "frames": 74,
    "audio_frames": 59,
    "speaker": "pascal"
   },
   "s02.b02.l02": {
-   "start": 1649,
+   "start": 2083,
    "frames": 82,
    "audio_frames": 67,
    "speaker": "ada"
   },
   "s02.b02.l03": {
-   "start": 1773,
+   "start": 2207,
    "frames": 202,
    "audio_frames": 166,
    "speaker": "pascal"
   },
   "s02.b03.l01": {
-   "start": 1975,
+   "start": 2409,
    "frames": 70,
    "audio_frames": 48,
    "speaker": "ada"
   },
   "s02.b03.l02": {
-   "start": 2045,
+   "start": 2479,
    "frames": 63,
    "audio_frames": 41,
    "speaker": "pascal"
   },
   "s02.b03.l03": {
-   "start": 2108,
+   "start": 2542,
    "frames": 196,
    "audio_frames": 160,
    "speaker": "ada"
   },
   "s03.b01.l01": {
-   "start": 2394,
+   "start": 2828,
    "frames": 151,
    "audio_frames": 136,
    "speaker": "pascal"
   },
   "s03.b02.l01": {
-   "start": 2785,
+   "start": 3219,
    "frames": 96,
    "audio_frames": 81,
    "speaker": "pascal"
   },
   "s03.b03.l01": {
-   "start": 2917,
+   "start": 3351,
    "frames": 42,
    "audio_frames": 27,
    "speaker": "ada"
   },
   "s03.b03.l02": {
-   "start": 3169,
+   "start": 3603,
    "frames": 83,
    "audio_frames": 68,
    "speaker": "ada"
   },
   "s03.b04.l01": {
-   "start": 3288,
+   "start": 3722,
    "frames": 68,
    "audio_frames": 53,
    "speaker": "pascal"
   },
   "s03.b04.l02": {
-   "start": 3566,
+   "start": 4000,
    "frames": 123,
    "audio_frames": 101,
    "speaker": "ada"
   },
   "s03.b04.l03": {
-   "start": 3689,
+   "start": 4123,
    "frames": 95,
    "audio_frames": 59,
    "speaker": "pascal"
   },
   "s03.b05.l01": {
-   "start": 3826,
+   "start": 4260,
    "frames": 106,
    "audio_frames": 83,
    "speaker": "euler"
   },
   "s03.b05.l02": {
-   "start": 3932,
+   "start": 4366,
    "frames": 56,
    "audio_frames": 34,
    "speaker": "pascal"
   },
   "s03.b05.l03": {
-   "start": 3988,
+   "start": 4422,
    "frames": 60,
    "audio_frames": 24,
    "speaker": "ada"
   },
   "s04.b01.l01": {
-   "start": 4186,
+   "start": 4620,
    "frames": 116,
    "audio_frames": 93,
    "speaker": "sophie"
   },
   "s04.b01.l02": {
-   "start": 4302,
+   "start": 4736,
    "frames": 49,
    "audio_frames": 27,
    "speaker": "ada"
   },
   "s04.b01.l03": {
-   "start": 4351,
+   "start": 4785,
    "frames": 191,
    "audio_frames": 168,
    "speaker": "pascal"
   },
   "s04.b01.l04": {
-   "start": 4542,
+   "start": 4976,
    "frames": 223,
    "audio_frames": 187,
    "speaker": "sophie"
   },
   "s04.b02.l01": {
-   "start": 4765,
+   "start": 5199,
    "frames": 103,
    "audio_frames": 88,
    "speaker": "euler"
   },
   "s04.b02.l02": {
-   "start": 4946,
+   "start": 5380,
    "frames": 93,
    "audio_frames": 70,
    "speaker": "euler"
   },
   "s04.b02.l03": {
-   "start": 5039,
+   "start": 5473,
    "frames": 77,
    "audio_frames": 41,
    "speaker": "sophie"
   },
   "s04.b03.l01": {
-   "start": 5116,
+   "start": 5550,
    "frames": 87,
    "audio_frames": 72,
    "speaker": "pascal"
   },
   "s04.b03.l02": {
-   "start": 5203,
+   "start": 5637,
    "frames": 60,
    "audio_frames": 45,
    "speaker": "pascal"
   },
   "s04.b03.l03": {
-   "start": 5398,
+   "start": 5832,
    "frames": 71,
    "audio_frames": 56,
    "speaker": "ada"
   },
   "s04.b03.l04": {
-   "start": 5721,
+   "start": 6155,
    "frames": 83,
    "audio_frames": 60,
    "speaker": "pascal"
   },
   "s04.b03.l05": {
-   "start": 5804,
+   "start": 6238,
    "frames": 68,
    "audio_frames": 53,
    "speaker": "ada"
   },
   "s04.b03.l06": {
-   "start": 6004,
+   "start": 6438,
    "frames": 77,
    "audio_frames": 41,
    "speaker": "pascal"
   },
   "s04.b04.l01": {
-   "start": 6081,
+   "start": 6515,
    "frames": 138,
    "audio_frames": 123,
    "speaker": "ada"
   },
   "s04.b04.l02": {
-   "start": 6291,
+   "start": 6725,
    "frames": 143,
    "audio_frames": 128,
    "speaker": "sophie"
   },
   "s05.b01.l01": {
-   "start": 6542,
+   "start": 6976,
    "frames": 176,
    "audio_frames": 153,
    "speaker": "pascal"
   },
   "s05.b01.l02": {
-   "start": 6718,
+   "start": 7152,
    "frames": 113,
    "audio_frames": 91,
    "speaker": "euler"
   },
   "s05.b01.l03": {
-   "start": 6831,
+   "start": 7265,
    "frames": 77,
    "audio_frames": 41,
    "speaker": "pascal"
   },
   "s05.b02.l01": {
-   "start": 6998,
+   "start": 7432,
    "frames": 120,
    "audio_frames": 98,
    "speaker": "ada"
   },
   "s05.b02.l02": {
-   "start": 7118,
+   "start": 7552,
    "frames": 57,
    "audio_frames": 42,
    "speaker": "pascal"
   },
   "s05.b03.l01": {
-   "start": 7385,
+   "start": 7819,
    "frames": 101,
    "audio_frames": 86,
    "speaker": "ada"
   },
   "s05.b03.l02": {
-   "start": 7486,
+   "start": 7920,
    "frames": 103,
    "audio_frames": 88,
    "speaker": "ada"
   },
   "s05.b03.l03": {
-   "start": 7589,
+   "start": 8023,
    "frames": 103,
    "audio_frames": 88,
    "speaker": "ada"
   },
   "s05.b03.l04": {
-   "start": 7692,
+   "start": 8126,
    "frames": 96,
    "audio_frames": 81,
    "speaker": "ada"
   },
   "s05.b03.l05": {
-   "start": 7788,
+   "start": 8222,
    "frames": 101,
    "audio_frames": 86,
    "speaker": "ada"
   },
   "s05.b03.l06": {
-   "start": 7913,
+   "start": 8347,
    "frames": 163,
    "audio_frames": 148,
    "speaker": "ada"
   },
   "s05.b03.l07": {
-   "start": 8076,
+   "start": 8510,
    "frames": 179,
    "audio_frames": 156,
    "speaker": "ada"
   },
   "s05.b03.l08": {
-   "start": 8255,
+   "start": 8689,
    "frames": 172,
    "audio_frames": 150,
    "speaker": "euler"
   },
   "s05.b03.l09": {
-   "start": 8427,
+   "start": 8861,
    "frames": 83,
    "audio_frames": 47,
    "speaker": "pascal"
   },
   "s06.b01.l01": {
-   "start": 8660,
+   "start": 9094,
    "frames": 190,
    "audio_frames": 175,
    "speaker": "sophie"
   },
   "s06.b01.l02": {
-   "start": 8850,
+   "start": 9284,
    "frames": 118,
    "audio_frames": 103,
    "speaker": "sophie"
   },
   "s06.b01.l03": {
-   "start": 8968,
+   "start": 9402,
    "frames": 78,
    "audio_frames": 63,
    "speaker": "sophie"
   },
   "s06.b02.l01": {
-   "start": 9091,
+   "start": 9525,
    "frames": 186,
    "audio_frames": 171,
    "speaker": "euler"
   },
   "s06.b02.l02": {
-   "start": 9397,
+   "start": 9831,
    "frames": 40,
    "audio_frames": 25,
    "speaker": "pascal"
   },
   "s06.b03.l01": {
-   "start": 9467,
+   "start": 9901,
    "frames": 67,
    "audio_frames": 44,
    "speaker": "sophie"
   },
   "s06.b03.l02": {
-   "start": 9534,
+   "start": 9968,
    "frames": 56,
    "audio_frames": 34,
    "speaker": "ada"
   },
   "s06.b03.l03": {
-   "start": 9590,
+   "start": 10024,
    "frames": 48,
    "audio_frames": 33,
    "speaker": "sophie"

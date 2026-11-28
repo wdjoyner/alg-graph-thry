@@ -18,7 +18,9 @@ Each step is one episode's picture, so the opening previews the whole series. It
 
 *Lead: Pascal.* Subtitle: the dot bursts back into cards, which deal themselves into the hand the episode begins with.
 
-**Pascal deals.** Pascal announces blackjack. Sophie asks where the kings are. Ada points out that there are twelve cards, numbered 0 to 11: she counted. Six go face up into one hand that both players share, and the other six form the pile.
+*Story:* Pascal and Ada explain how to play mathematical blackjack (or the "Game of 21"), then play a few games together while Sophie and Euler watch and wonder.
+
+**Pascal deals.** Pascal announces blackjack and asks each kitten by name who's in, so every name is heard early (Euler is said "Oiler"). Euler will watch for now; Sophie has heard of mathematical blackjack but doesn't know how to play; Ada will play. Sophie asks where the kings are. Ada points out that there are twelve cards, numbered 0 to 11: she counted. Six go face up into one hand that both players share, and the other six form the pile.
 
 **The rules.** A move gives the hand one card and takes a smaller card from the pile, so the total only goes down. The new total must stay at 21 or more. Pascal tries to swap 11 for 1, and Ada stops him: that makes 20. A player with no legal move loses. Ada notes that every game must end, because the total keeps falling.
 
@@ -33,6 +35,8 @@ Each step is one episode's picture, so the opening previews the whole series. It
 ### Episode 2: The Geometry of a Kitten
 
 *Lead: Sophie.* Subtitle: the camera pushes into the kitten triangle.
+
+*Story:* Sophie needs a picture of the hands that lost. With Euler's help she builds the twelve-point design of hexads two ways, from a ring and from Curtis's kitten, and finds that every losing hand from Episode 1 is a hexad, though nobody yet knows why hexads lose.
 
 **Special how?** A quick replay of Episode 1's line-up. Sophie needs a picture.
 
@@ -54,6 +58,8 @@ Each step is one episode's picture, so the opening previews the whole series. It
 
 *Lead: Ada.* Subtitle: the MINIMOG returns, and the codeword 1, 1, 2, 0 lights one cell in each column.
 
+*Story:* Ada refuses to memorize 132 hexads and finds a test instead: lay the hand in Conway's MINIMOG and check it against nine tetracode words. The test spots a hexad at a glance and shows which single swaps repair a hand, and one of them is Pascal's opening move.
+
 **Twelve cells.** True to her word, Ada doesn't memorize. She sends the twelve cards into Conway's 3 × 4 MINIMOG.
 
 **A three-hour clock.** Arithmetic mod 3 on a clock with three hours. Sophie recognizes it as the diagonals that wrapped around in the kitten.
@@ -73,6 +79,8 @@ Each step is one episode's picture, so the opening previews the whole series. It
 ### Episode 4: The Hidden Graph of the Game
 
 *Lead: Euler.* Subtitle: the subtitle travels out along one edge of the 36-edge star.
+
+*Story:* Euler turns every hand into a dot in a graph and follows the game's moves downhill, proving that the losing hands are exactly the hexads. The mystery of 21 and 45 is solved, Pascal learns why his first win was skill, and the cards, the kitten, the code and the graph turn out to be one object.
 
 **Hands as dots.** Every six-card hand becomes a dot, and two dots are joined when the hands share five cards. Around the opening hand grow 6 cards out × 6 cards in = 36 neighbors. There are 924 dots in all, shown as a count, never as a tangle.
 
@@ -134,7 +142,7 @@ The kittens' guesses are settled on screen, never by assertion:
 
 These include the titles and credits.
 
-These are the outlines' targets. Episode 1, timed from its recorded dialogue (`make_timing.py`), runs 6:47.
+These are the outlines' targets. Episode 1, timed from its recorded dialogue (`make_timing.py`), runs 7:01.
 
 | Episode | Required scenes | With optional scenes | Target |
 |---|---|---|---|
