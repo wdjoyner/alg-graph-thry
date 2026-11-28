@@ -1,0 +1,365 @@
+Title: Kittens, MOGs, and Mathematical Blackjack
+Episode: 2. The Geometry of a Kitten
+Credit: Written by
+Author: David Joyner, Claude (Anthropic) and ChatGPT (OpenAI)
+Source: ep2/outline.json; the mathematics is checked against math_objects.json
+Draft date: 2026-11-28
+Notes: Draft 2: a line is defined when the Fano plane first appears; Euler's twelve points are a clock (never a "ring", which a mathematician would read as the algebraic structure), and its hand moves through the hours as they are said; a three-hour clock goes with the wrapped diagonal. Each beat of the outline is named by a [[beat: sNN.bMM]] note on the action that opens it. Each dialogue line carries a stable [[line: sNN.bMM.lKK]] note; the audio, captions and cues.json refer to lines by these IDs. Never renumber a line: add a suffix (s03.b02.l01a) instead. Numbers are written as words in dialogue so they are spoken as words. Spoken respellings (Euler as "Oiler", Fano as "Fah-no") live in pronunciation.json, not here.
+
+[[ PRODUCTION NOTE: The same tabletop as Episode 1, seen from the front, with the kittens in the same seats: Sophie far left, Pascal left of center, Ada right of center, Euler far right. The cards are put away. Sophie still has the chalk she found at the end of Episode 1, and every diagram is drawn with it in the dark space above the table. Points are chalk dots with their labels; from Curtis's kitten on, points are drawn as small cards, as in the titles. ]]
+
+# s00. Main title
+
+[[ The series main title and the Episode 2 subtitle play here (titles/outline.json; scene s00). No dialogue. ]]
+
+# s01. Special how?
+
+INT. KITCHEN TABLE - EVENING
+
+[[#1 | BEAT: Special how? | OBJ: Sophie wants a picture of the losing hands | SETUP: none]]
+
+The losing hands from last time line up again across the table: 1 to 6; the 21 that ended the first game, 0, 2, 3, 4, 5, 7; Ada's 24, 0, 1, 2, 4, 7, 10; and the 45-hand, 0, 7, 8, 9, 10, 11, with its question mark. Sophie holds her chalk. [[beat: s01.b01]]
+
+SOPHIE
+Last time, these hands lost. One to six. The end of our first game. Ada's twenty-four. And forty-five, which we only tested. [[line: s01.b01.l01]]
+
+SOPHIE
+They look special. But special how? [[line: s01.b01.l02]]
+
+PASCAL
+They lost. That's how they're special. [[line: s01.b01.l03]]
+
+Sophie raises the chalk.
+
+SOPHIE
+Losers with a secret. I need a picture. [[line: s01.b01.l04]]
+
+# s02. Seven points
+
+[[#2 | BEAT: Seven points | OBJ: Sophie shows a geometry small enough to hold | SETUP: none]]
+
+The hands clear away. Sophie draws seven chalk dots, numbered 1 to 7, then three sides of a triangle, three lines through the middle, and a circle. [[beat: s02.b01]]
+
+SOPHIE
+Here's a tiny geometry, the Fano plane. Seven points and seven lines. [[line: s02.b01.l01]]
+
+The lines light up one at a time, three points each. Beside the picture, two rules appear.
+
+SOPHIE
+A line is just three points that belong together. Two rules: every line has three points, and any two points lie on exactly one line. [[line: s02.b01.l01a]]
+
+ADA
+Only seven points? [[line: s02.b01.l02]]
+
+SOPHIE
+Only seven. A finite geometry: there's nothing between the points. [[line: s02.b01.l03]]
+
+Sophie taps two dots with the chalk, 1 and 4. [[beat: s02.b02]]
+
+SOPHIE
+Let's test the second rule. Pick one and four. [[line: s02.b02.l01]]
+
+A pause for the viewer: which point completes their line?
+
+The line through 1 and 4 lights up, and it calls up its third point, 2.
+
+SOPHIE
+Their line calls up a third point: two. [[line: s02.b02.l02]]
+
+Sophie taps 4 and 5. [[beat: s02.b03]]
+
+SOPHIE
+Now four and five. [[line: s02.b03.l01]]
+
+The circle lights up and calls up 6.
+
+SOPHIE
+Their line is the circle, and it brings six. [[line: s02.b03.l02]]
+
+PASCAL
+(objecting)
+Hold on. A circle isn't a line. [[line: s02.b03.l03]]
+
+SOPHIE
+It has three points, and it obeys the rule. Here, that makes it a line. [[line: s02.b03.l04]]
+
+EULER
+In geometry, a line is whatever obeys the rules. [[line: s02.b03.l05]]
+
+# s03. Twelve points, five at a time
+
+[[#3 | BEAT: Twelve points, five at a time | OBJ: Sophie asks for a bigger design and counts it before she has it | SETUP: none]]
+
+Beside the Fano plane, its name builds up from its parts: 2 points, 3 on a line, 7 in all. S(2,3,7). [[beat: s03.b01]]
+
+SOPHIE
+Every two of the seven points lie on exactly one line of three. That's a Steiner system, S(2,3,7). [[line: s03.b01.l01]]
+
+The Fano plane fades. Twelve blank dots stand in a circle. Five light up, and a sixth waits with a question mark. [[beat: s03.b02]]
+
+SOPHIE
+Now I want twelve points, and blocks of six, so that every five points lie in exactly one block. An S(5,6,12). [[line: s03.b02.l01]]
+
+EULER
+They call that the small Witt design. [[line: s03.b02.l02]]
+
+ADA
+Before you draw it: how many blocks? [[line: s03.b02.l03]]
+
+The count builds up beside the circle. [[beat: s03.b03]]
+
+SOPHIE
+Count the fives first. Twelve points, five at a time: seven hundred ninety-two ways. [[line: s03.b03.l01]]
+
+SOPHIE
+A block of six holds six of those fives, and no five can be in two blocks. [[line: s03.b03.l02]]
+
+SOPHIE
+So seven hundred ninety-two over six. A hundred thirty-two blocks. [[line: s03.b03.l03]]
+
+Sophie writes a name over the waiting block. [[beat: s03.b04]]
+
+SOPHIE
+We'll call each block a hexad. [[line: s03.b04.l01]]
+
+ADA
+(skeptical)
+If such a thing exists. Counting it doesn't make it real. [[line: s03.b04.l02]]
+
+# s04. Two moves on a clock
+
+[[#4 | BEAT: Two moves on a clock | OBJ: Euler builds the design and checks it completely | SETUP: none]]
+
+Euler takes the twelve dots. Eleven of them become the hours of a clock, 0 to 10, and the twelfth slides into the middle as infinity, where a clock's hand is pinned. [[beat: s04.b01]]
+
+A gold hand sweeps round the clock from 0 to 10 as Euler counts.
+
+EULER
+Let me try. Zero to ten around a clock, and infinity in the middle. [[line: s04.b01.l01]]
+
+The hand stands at 10, then ticks one hour on, to 0.
+
+EULER
+On this clock, ten plus one is zero again. That's arithmetic mod eleven. [[line: s04.b01.l02]]
+
+EULER
+Add infinity, and the clock becomes what mathematicians call the projective line. [[line: s04.b01.l03]]
+
+Six points light up on the clock: 0, 1, 3, 4, 5 and 9. [[beat: s04.b02]]
+
+EULER
+For a seed, take zero and the nonzero squares: one, four, nine, five and three. [[line: s04.b02.l01]]
+
+SOPHIE
+Six points. Our first hexad? [[line: s04.b02.l02]]
+
+The six marks step once around the clock. [[beat: s04.b03]]
+
+EULER
+Move one: add one. Every point steps around the clock, and infinity stays put. [[line: s04.b03.l01]]
+
+The marks return to the seed, then trade places across the clock.
+
+EULER
+Move two: the negative reciprocal. Zero and infinity trade places, and so do two and five. [[line: s04.b03.l02]]
+
+EULER
+Each move is a permutation. It only rearranges the twelve labels. [[line: s04.b03.l03]]
+
+Euler sets both moves loose. New six-point sets pile up, layer by layer. [[beat: s04.b04]]
+
+EULER
+Now apply both moves to every new set, again and again. [[line: s04.b04.l01]]
+
+The count climbs: 3, 6, 11, 19, 31, 48, 73, 102, 120, 128, 131, 132, and stops.
+
+SOPHIE
+It stopped. [[line: s04.b04.l02]]
+
+EULER
+A hundred thirty-two. Everything the moves can reach from the seed is called its orbit. [[line: s04.b04.l03]]
+
+Each of the 132 sets breaks into its six fives. [[beat: s04.b05]]
+
+EULER
+Now break every set into its fives. Seven hundred ninety-two fives, and each one appears exactly once. [[line: s04.b05.l01]]
+
+Sophie marks five points on the clock: 1, 2, 3, 4, 5.
+
+SOPHIE
+So any five points, like one, two, three, four, five... [[line: s04.b05.l02]]
+
+The sixth point answers: 7.
+
+EULER
+...call up exactly one more. Seven. [[line: s04.b05.l03]]
+
+ADA
+(nodding)
+All right. It exists. [[line: s04.b05.l04]]
+
+# s05. Curtis's kitten
+
+[[#5 | BEAT: Curtis's kitten | OBJ: Sophie draws the same twelve points as a picture | SETUP: none]]
+
+The clock's labels fly into a triangle of small cards, corners infinity, 0 and 1 in gold. [[beat: s05.b01]]
+
+SOPHIE
+Here's another picture of the same twelve points. The mathematician Curtis called it the kitten. [[line: s05.b01.l01]]
+
+PASCAL
+It's a triangle. [[line: s05.b01.l02]]
+
+SOPHIE
+A triangle with three corners: infinity, zero and one. [[line: s05.b01.l03]]
+
+The three copies of 6 glow. [[beat: s05.b02]]
+
+SOPHIE
+Some labels appear three times. Three sixes, but only one point. [[line: s05.b02.l01]]
+
+The triangle comes apart. At each corner, the other nine points gather into a three-by-three grid. [[beat: s05.b03]]
+
+SOPHIE
+Seen from each corner, the other nine points make a three-by-three grid. It's called an affine plane. [[line: s05.b03.l01]]
+
+In the grid at infinity, a row lights up, then a column, then a diagonal. [[beat: s05.b04]]
+
+SOPHIE
+In a grid, rows are lines. So are columns, and diagonals. [[line: s05.b04.l01]]
+
+A diagonal runs off the left edge and comes back in on the right: 6, 4, 9.
+
+SOPHIE
+This diagonal runs off the edge and comes back on the other side. [[line: s05.b04.l02]]
+
+A small clock with three hours, 0, 1 and 2, ticks round once beside the grid: 2 + 1 = 0.
+
+EULER
+Like a clock with only three hours. [[line: s05.b04.l03]]
+
+SOPHIE
+With the wrap, any two points in the grid lie on exactly one line. The same rule as the Fano plane. [[line: s05.b04.l04]]
+
+The top row and the left column light up together. [[beat: s05.b05]]
+
+SOPHIE
+A row plus a column makes a cross. [[line: s05.b05.l01]]
+
+The other four points light up.
+
+SOPHIE
+And the four points left over make a square. [[line: s05.b05.l02]]
+
+# s06. Four families
+
+[[#6 | BEAT: Four families | OBJ: Sophie finds every hexad in the kitten; Ada adds them up | SETUP: none]]
+
+A row and all three corners light up together. [[beat: s06.b01]]
+
+SOPHIE
+Now the hexads. One: a line, plus all three corners. Twelve of those. [[line: s06.b01.l01]]
+
+Two rows light up. [[beat: s06.b02]]
+
+SOPHIE
+Two: a pair of parallel lines. Twelve more. [[line: s06.b02.l01]]
+
+The cross lights up, and the corner above its grid. [[beat: s06.b03]]
+
+SOPHIE
+Three: a cross, plus its own corner. Eighteen crosses in each of three grids: fifty-four. [[line: s06.b03.l01]]
+
+The square lights up, and the other two corners. [[beat: s06.b04]]
+
+SOPHIE
+Four: a square, plus the other two corners. Fifty-four again. [[line: s06.b04.l01]]
+
+The four counts add up. [[beat: s06.b05]]
+
+ADA
+Twelve, twelve, fifty-four, fifty-four. A hundred thirty-two. [[line: s06.b05.l01]]
+
+ADA
+And I checked them against Euler's clock. The same hundred thirty-two. [[line: s06.b05.l02]]
+
+SOPHIE
+Two pictures, one object. [[line: s06.b05.l03]]
+
+# s07. Back to the cards
+
+[[#7 | BEAT: Back to the cards | OBJ: Sophie turns points into cards, and the losing hands light up | PAYOFF: special_hands]]
+
+Card by card, the kitten's labels change: infinity becomes 0, 0 becomes 6, and so on. [[beat: s07.b01]]
+
+SOPHIE
+Now give every point a card value. Infinity becomes zero, zero becomes six, and the rest follow along. [[line: s07.b01.l01]]
+
+SOPHIE
+It's called the shuffle labeling. [[line: s07.b01.l02]]
+
+The hand 1 to 6 appears above the kitten, and its cards light up in it. [[beat: s07.b02]]
+
+SOPHIE
+One to six. A square, plus corners one and six. A hexad! [[line: s07.b02.l01]]
+
+The 45-hand lights up beside it.
+
+EULER
+And the forty-five is the cross in the same grid, plus corner zero. [[line: s07.b02.l02]]
+
+Ada's 24-hand lights up, then the hand that ended the first game. [[beat: s07.b03]]
+
+SOPHIE
+Ada's twenty-four is a hexad. [[line: s07.b03.l01]]
+
+SOPHIE
+So is the end of our first game. [[line: s07.b03.l02]]
+
+ADA
+Every hand that lost is a hexad. [[line: s07.b03.l03]]
+
+Euler leans in. [[beat: s07.b04]]
+
+EULER
+And the twenty-eight Pascal left Ada? [[line: s07.b04.l01]]
+
+The 28-hand lights up: a square in the grid at 1, plus corners 0 and 6.
+
+SOPHIE
+A hexad too. [[line: s07.b04.l02]]
+
+EULER
+(pleased)
+I guessed right. [[line: s07.b04.l03]]
+
+PASCAL
+I knew it all along. [[line: s07.b04.l04]]
+
+Sophie looks from the kitten to the cards. [[beat: s07.b05]]
+
+SOPHIE
+So the special hands are hexads. But why do hexads lose? That, I can't see yet. [[line: s07.b05.l01]]
+
+# s08. No memorizing
+
+[[#8 | BEAT: No memorizing | OBJ: Pascal wants a shortcut; Ada refuses | SETUP: no_memorizing]]
+
+Pascal rubs his paws together. [[beat: s08.b01]]
+
+PASCAL
+Great! We memorize all one hundred thirty-two, and I never lose again. [[line: s08.b01.l01]]
+
+ADA
+(deadpan)
+Absolutely not. [[line: s08.b01.l02]]
+
+PASCAL
+Just the first fifty? [[line: s08.b01.l03]]
+
+ADA
+There's a better way. [[line: s08.b01.l04]]
+
+# s99. End credits
+
+[[ The end credits and the "Next time: Episode 3" tail play here (end_credits/outline.json; scene s99). No dialogue. ]]

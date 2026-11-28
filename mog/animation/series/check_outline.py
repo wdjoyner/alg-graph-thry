@@ -30,7 +30,12 @@ things to look at but not necessarily wrong.  The checks:
     cued once and in order, the outline's visuals all appear in their beat's
     cues, every verb, reaction and target is known, every predict_pause beat
     pauses, and the card game played through the cues obeys the rules and
-    reaches the totals the cues claim.
+    reaches the totals the cues claim.  The board's verbs (Episode 2:
+    morph_layout, summon_completion, point_ring, reveal_count, clock_mod and
+    highlight on points and cells) are played through cue_tools.Board, which
+    recomputes every completion, mapped set, count, kitten family and
+    relabeling from build_math_objects.py and compares it with
+    math_objects.json and with the claims written in the cue.
   * Timing (where epN/timing.json exists): it is up to date with the cues and
     the audio manifest; the measured runtime is compared with the budget.
 """
