@@ -21,7 +21,7 @@ jobs:
       - name: Install TeX Live
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra texlive-plain-generic
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra texlive-plain-generic tex-gyre
       - name: Compile two modern papers
         working-directory: grosswald-schnitzer-graph
         run: |
@@ -60,5 +60,9 @@ jobs:
           git add -f grosswald-schnitzer-graph/prime_perturbations_revised.pdf grosswald-schnitzer-graph/grosswald_schnitzer_spectral_invariance_2026.pdf zeta-operators-graph/rh_2026_operator_implications.pdf
           if ! git diff --cached --quiet; then
             git commit -m "Build modern zeta operator PDFs"
-            git push origin HEAD:main
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then break; fi
+              git fetch origin main
+              git rebase origin/main
+            done
           fi

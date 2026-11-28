@@ -1,4 +1,7 @@
 name: Build zeta operators PDF
+concurrency:
+  group: zeta-operators-pdf-main
+  cancel-in-progress: true
 on:
   push:
     branches: [main]
@@ -19,7 +22,7 @@ jobs:
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra texlive-plain-generic
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra texlive-plain-generic tex-gyre
       - name: Compile manuscript
         working-directory: zeta-operators-graph
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error zeta_operators_2026.tex
@@ -27,8 +30,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp zeta-operators-graph/zeta_operators_2026.pdf /tmp/zeta_operators_2026.pdf
+          git fetch origin main
+          # Never publish a PDF built from stale TeX.
+          if [ "$(git rev-parse HEAD:zeta-operators-graph/zeta_operators_2026.tex)" != "$(git rev-parse origin/main:zeta-operators-graph/zeta_operators_2026.tex)" ]; then
+            echo "Source changed while building; a newer workflow will rebuild."
+            exit 0
+          fi
+          # Start from the current main so that a concurrent PDF commit by the
+          # other workflow does not make this push non-fast-forward.
+          git reset --hard origin/main
+          cp /tmp/zeta_operators_2026.pdf zeta-operators-graph/
           git add -f zeta-operators-graph/zeta_operators_2026.pdf
           if ! git diff --cached --quiet; then
             git commit -m "Build zeta_operators_2026.pdf"
-            git push origin HEAD:main
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then break; fi
+              git fetch origin main
+              git rebase origin/main
+            done
           fi
