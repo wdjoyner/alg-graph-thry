@@ -2,7 +2,7 @@
 
 This folder contains a style-guided revision of David Joyner's corrected 1981 manuscript with a section on graph-theoretic connections.
 
-- `zeta_operators_corrected_2026d.tex`: revised manuscript; 12-point Times, American English, introduction, literature review, background, notation, results and new graph section.
+- `zeta_operators_2026.tex`: revised manuscript; 12-point Times, American English, introduction, literature review, background, notation, results and new graph section.
 - `revision_log_2026d.tex`: changes, historical status table, verification caveats and AI attribution.
 - `graph_checks.py`: independent finite examples of the graph identities.
 
@@ -10,6 +10,6 @@ The main graph structures are the prime-gap directed ray, weighted incidence bou
 
 For the companion **modern** comparison program, see [grosswald-schnitzer-graph](../grosswald-schnitzer-graph/).
 
-Compile with `pdflatex` twice, in this folder. The document uses TikZ and newtx fonts.
+Compile `zeta_operators_2026.tex` with `pdflatex` twice, in this folder. The document uses TikZ and newtx fonts. The compiled `zeta_operators_2026.pdf` is available as a separate download if not yet committed to GitHub.
 
 The original typescript itself was not supplied for this revision. The analytic results carried over from the attached 2026c edition still need independent referee verification.
