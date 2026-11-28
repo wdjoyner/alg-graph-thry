@@ -1,0 +1,98 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\title{Revision Log: Spectral Invariance under Grosswald--Schnitzer Prime Perturbations}
+\author{David Joyner\\\texttt{wdjoyner@gmail.com}}
+\date{Draft 2, November 28, 2026}
+\begin{document}
+\maketitle
+
+\section{History}
+\begin{itemize}
+\item \emph{November 1, 2026.}  Research note with the same title,
+  prepared by ChatGPT (OpenAI) for the author.  It is cited as CJ26 in
+  Draft~2 of the companion paper
+  \nolinkurl{prime_perturbations_revised.tex}.
+\item \emph{November 28, 2026, unnumbered expanded revision.}  ChatGPT
+  reformatted the paper for 12-point Times and letter paper.  It added an
+  Introduction with a literature review and notation, expanded the
+  technical glossary, and added the section on the November 2026 RH
+  formalization with explicit limits.  The existing operator-theoretic
+  claims were not newly certified.  (This entry replaces the former file
+  \nolinkurl{revision_log_2026.md}, which covered both papers in this
+  folder.)
+\item \emph{November 28, 2026, Draft~2.}  Prepared by Claude (Anthropic)
+  after a referee pass; details below.
+\end{itemize}
+
+\section{Draft 2: verification}
+Claude checked the proofs of Lemma~3.1 (sublinear growth), Lemma~4.1
+($Q_A$ is outer), Lemma~4.2 (ranges and the reproducing-kernel graph
+core), Theorem~2.1 (equality of the closed joint kernels), and
+Propositions~6.1, 6.2, 7.1 and~8.1, and found them correct.  The
+isomorphism $U_k$ was previously cited to the earlier note without proof.
+Claude verified that it is an isomorphism, and a short proof is now in
+Section~5.  No mathematical error was found in the statements.  The
+originality of the results has not been assessed.
+
+\section{Draft 2: changes}
+\begin{itemize}
+\item \emph{RH consequences.}  The former Section~11 said that RH ``does
+  not, by itself, prove spectral synthesis or a statement about the closed
+  joint kernel''.  Theorem~2.1 of this paper is a spectral-synthesis
+  theorem, so the new Corollary~11.1 states what follows.  Unconditionally,
+  the closed joint kernel on $S_1$ vanishes if and only if RH holds; it is
+  nonzero on $S_k$ for $k\ge2$.  With the certified RH, the closed joint
+  kernel is $\{0\}$ on $S_1$ and is the closed span of the zero powers of
+  all nontrivial zeros on $S_k$, $k\ge2$.  The abstract and Introduction
+  were updated to match.
+\item \emph{Graph section.}  The section ``Graph-theoretic interpretation:
+  prime flows, boundaries, and transfer operators'' was a verbatim copy of
+  Section~6 of the companion paper.  It used notation ($\sim_\delta$,
+  $R_{e/f}$, $Q_e$) and results that appear only there.  It is replaced by
+  a short Section~9.  That section states the boundary identity, gives
+  Example~9.1, and cites the companion paper's classification.  The
+  orphaned file \nolinkurl{gs_invariance_summation_operators_graph_appendix.tex},
+  an older copy of the same material not input anywhere, was deleted.
+\item \emph{Cross-references.}  Open question~1 of Section~10 now records
+  that the companion paper answers it for endpoint shifts and for
+  independent frequencies.  The citation of the ``earlier spectral-synthesis
+  note'' now names it.  The companion paper is cited as PP26.
+\item \emph{The order of the Sobolev norm.}  Remark~2.4 records that the
+  corrected 1981 edition uses derivatives up to a fixed order $N$ rather
+  than $k$, and that every argument goes through with $(\Delta+c)^N$ in
+  place of $(\Delta+c)^k$.
+\item \emph{Examples.}  The style guide asks for an example in every
+  section.  Added Example~2.3 (moving only the first prime), Example~4.3
+  (outer functions, bounded and unbounded), Example~5.1 (the first zeta
+  zero lies in the joint kernel for $k=2$ but not in $S_1$), and
+  Example~9.1 (telescoping along the prime ray).  New items were placed
+  after existing numbered statements, so Theorem~2.1, Theorem~2.2,
+  Lemmas~3.1--4.2 and Propositions~6.1--8.1 keep their numbers.
+\item \emph{Remark after Proposition~7.1.}  The sentence ``the quotient
+  can converge uniformly to $1$ on compact sets'' now says what varies: the
+  size of the prescribed intervals.
+\item \emph{Typesetting.}  Fixed \verb|$H^infty$|, \verb|$Re s$| and the
+  graph-norm bars in the glossary.  Alphabetized the glossary, added the
+  missing terms (dilation generator, Euler quotient, graph core,
+  Grosswald--Schnitzer perturbation, $H^\infty$, Kronecker approximation,
+  Laplace transform, reproducing kernel), and removed entries for terms
+  no longer used.  Added a table of contents, the draft number, and
+  section-based equation numbering.
+\item \emph{Citations and attribution.}  The RH result is attributed as
+  found with Anthropic's Claude, citing Rubinstein's page; the Lean FRO and
+  Mathlib statement does not mention Claude.  The title of the Rubinstein
+  citation was corrected, and an access date added.  The Acknowledgments
+  now state each AI system's role.
+\end{itemize}
+
+\section{AI assistance}
+ChatGPT (OpenAI) prepared the November~1 note and the November~28
+expanded revision.  Claude (Anthropic) refereed the expanded revision and
+prepared Draft~2.  AI review is not independent verification of the
+mathematical research.
+\end{document}

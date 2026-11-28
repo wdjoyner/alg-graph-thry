@@ -19,7 +19,7 @@ jobs:
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra texlive-plain-generic
       - name: Compile manuscript
         working-directory: zeta-operators-graph
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error zeta_operators_2026.tex

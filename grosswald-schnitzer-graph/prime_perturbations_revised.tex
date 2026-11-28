@@ -13,6 +13,7 @@
 \numberwithin{equation}{section}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
 \newcommand{\C}{\mathbb C}
 \newcommand{\Hp}{H^\infty}
 \newcommand{\D}{\mathcal D}
@@ -20,15 +21,15 @@
 \DeclareMathOperator{\Ker}{Ker}
 \DeclareMathOperator{\sgn}{sgn}
 \title{Operator-Equivalence Classes of Grosswald--Schnitzer Prime Perturbations\\[0.45em]
-\large Draft 2: Corrected and expanded version\\[0.25em]
+\large Draft 3\\[0.25em]
 \normalsize Weighted-transition criteria and a hierarchy of Sobolev-space comparisons}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
-\date{November 28, 2026 (expanded revision)}
+\date{November 28, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-This paper was expanded with assistance from ChatGPT (OpenAI); the specific contributions are described in the acknowledgments and revision log. 
-For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. In the companion Hardy-space realization, the analytic-symbol dilation operators are asserted to have the same closed joint zero-eigenspace. This conclusion depends on the closure and domain arguments of that working model, which are not independently reverified here. We distinguish this model-dependent zero-kernel equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the previously established Hardy-space model and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review; none of these results implies the Riemann hypothesis.
+This paper was prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); the specific contributions are described in the Acknowledgments and the revision log. 
+For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. In the Hardy-space realization of the companion paper, the analytic-symbol dilation operators of all such perturbations have the same closed joint zero-eigenspace. We distinguish this zero-kernel equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the Hardy-space model of the companion paper and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review. None of these results implies the Riemann hypothesis, and none depends on it; the consequences of the November 2026 certified formal proof of RH are recorded separately.
 \end{abstract}
 
 \clearpage
@@ -62,10 +63,12 @@ zero-preservation result \cite{GS78}.  Beurling's invariant-subspace
 theory supplies useful operator-theoretic background \cite{Be49}.
 The Bohr--Dirichlet-series literature concerns the independent
 frequencies used below \cite{DGMS19,Sc20}.
-The companion invariance note addresses the weaker zero-associated
-spectral problem \cite{CJ26}. It relies on an unbounded-multiplier
-realization, so its graph-core assumptions cannot be replaced
-by equality of arithmetic zero sets.
+The companion paper \cite{GS26} addresses the weaker zero-associated
+spectral problem.  It proves that the closed joint kernel is the same
+for every Grosswald--Schnitzer perturbation
+\cite[Theorem~2.1]{GS26}, using an unbounded-multiplier
+realization in which the Euler quotient is an outer function.  Equality
+of arithmetic zero sets alone would not suffice for that conclusion.
 
 The analytic theory of general Dirichlet series is treated in
 \cite{DGMS19,Sc20}. The frequency-independence test below is
@@ -75,7 +78,8 @@ affects the interpretation of the common zero exponents,
 as explained in Section~\ref{sec:rh-2026}.
 
 \paragraph{The November 2026 RH formalization.}
-Alp\"oge's Claude-assisted Lean development was announced on
+Levent Alp\"oge's Lean development of a proof of RH, found with
+Anthropic's Claude \cite{Ru26}, was released on
 November 20, 2026. The Lean FRO and Mathlib Initiative certified
 its RH statement and formal proof on November 21 \cite{LF26}.
 Rubinstein reports independent machine checks of the original
@@ -83,9 +87,13 @@ and shortened formalizations \cite{Ru26}. The critical-line location
 of nontrivial ordinary zeta zeros is therefore supported by certified
 formal proof, although a complete human-readable exposition is still
 being developed. The present paper does not audit the Lean development.
-RH determines the location of the common zeta zeros. It does
-\emph{not} imply boundedness of the Euler quotients, zero simplicity,
-spectral synthesis, or similarity of the complete operator pairs.
+RH determines the location of the common zeta zeros.  Combined with
+the spectral-synthesis theorem of the companion paper, it determines the
+closed joint kernel: it is $\{0\}$ on $S_1$, and on $S_k$, $k\ge2$, it is the
+closed span of the zero powers attached to all nontrivial zeros
+(Section~\ref{sec:rh-2026}).  RH does \emph{not} imply boundedness of the
+Euler quotients, zero simplicity, or similarity of the complete operator
+pairs.
 \subsection{Background and a running example}
 A prime-gap perturbation replaces the ordinary prime generator
 \(p_n\) by a real number \(a_n\) between \(p_n\) and \(p_{n+1}\).
@@ -110,6 +118,8 @@ noncanceled Euler factor.
 The primes are $p_1=2<p_2=3<\cdots$.
 A perturbation is $A=(a_n)$ with $p_n\le a_n\le p_{n+1}$.
 Write $Q_A=\zeta_A/\zeta$ and $\delta=1/(2k)$.
+The dilation by $a>1$ is $D_af(y)=f(y/a)$, and the dilation
+generator is $\Delta=y\,d/dy$, so that $\Delta y^s=sy^s$.
 For endpoint shifts $e_n\in\{0,1\}$,
 $(\partial e)_j=e_j-e_{j-1}$ is their directed incidence boundary.
 The space $H^\infty$ consists of bounded analytic functions
@@ -130,6 +140,7 @@ for two perturbations.\\
 threshold \(\delta=1/(2k)\).\\
 \(D_a\), \(T_A^{(r)}\) & Dilation by \(a\)
 and the associated summation operator.\\
+\(\Delta\) & The dilation generator \(y\,d/dy\).\\
 \(e\), \(\partial e\) & Endpoint shift pattern
 and its signed incidence boundary.\\
 \bottomrule
@@ -227,9 +238,12 @@ In particular, for $r=2$ the coefficients are $1,-1,1,-1,\ldots$:
 where the displayed rearrangement is justified when the relevant
 series are absolutely convergent.
 
-\paragraph{Example 2: all primes moved to their successors.}
+\paragraph{Example 2: every prime moved to its successor.}
 If $a_n=p_{n+1}$ for every $n$, then
-$A=(3,5,7,11,13,\ldots)$ and $\mathcal N_A$ consists precisely of
+\[
+ A=(3,5,7,11,13,\ldots),
+\]
+and $\mathcal N_A$ consists precisely of
 the positive \emph{odd} integers.  In this case
 \[
  \zeta_A(s)=(1-2^{-s})\zeta(s),\qquad Q_A(s)=1-2^{-s},
@@ -248,7 +262,7 @@ cancellation, used below in the endpoint-equivalence classification.
 
 \paragraph{Example 3: moving only the first prime.}
 For $A=(5/2,3,5,7,11,\ldots)$, the generalized integers begin with
-$1,5/2,3,5,25/4,15/2,\ldots$ (with their multiplicities).  We have
+$1,5/2,3,5,25/4,7,15/2,9,\ldots$ (with their multiplicities).  We have
 \begin{equation}\label{eq:oneprime}
  Q_A(s)=\frac{1-2^{-s}}{1-(5/2)^{-s}},\qquad
  m_{A,r}(s)=Q_A(s)(1-r^{1-s})\zeta(s).
@@ -286,7 +300,7 @@ converges on all of $\mathcal D_k$ or defines the same closed operator
 on larger function classes.  Establishing a natural regularized
 summation realization is a separate research problem.
 
-\section{Three different notions of equivalence}
+\section{Three different notions of equivalence}\label{sec:three}
 Let $p_1=2<p_2=3<\cdots$ be the primes, and let $A=(a_n)$ be an admissible Grosswald--Schnitzer sequence,
 \begin{equation}\label{eq:admissible}
  p_n\le a_n\le p_{n+1}.
@@ -297,7 +311,7 @@ For $\Re s>1$ put
  Q_A(s)=\frac{\zeta_A(s)}{\zeta(s)}
  =\prod_{n\ge1}\frac{1-p_n^{-s}}{1-a_n^{-s}}.
 \end{equation}
-Grosswald--Schnitzer \cite{GS78} gives a holomorphic, nowhere-vanishing extension of $Q_A$ to $\Re s>0$. Let $\delta=1/(2k)$ for an integer $k\ge1$, and let $S_k$ be the full weighted Sobolev space of the companion notes,
+Grosswald--Schnitzer \cite{GS78} gives a holomorphic, nowhere-vanishing extension of $Q_A$ to $\Re s>0$. Let $\delta=1/(2k)$ for an integer $k\ge1$, and let $S_k$ be the full weighted Sobolev space of the companion paper \cite{GS26},
 \[
  \|f\|_{S_k}^2=\sum_{j=0}^k\int_0^1|f^{(j)}(y)|^2y^{2j-1-1/k}\,dy.
 \]
@@ -305,11 +319,11 @@ On the exponential-polynomial domain $\D_k=\operatorname{span}\{y^s(\log y)^j:\R
 \begin{equation}\label{eq:symbol}
  m_{A,r}(s)=Q_A(s)(1-r^{1-s})\zeta(s),\qquad r=2,3.
 \end{equation}
-We rely on the Hardy-space realization described in \cite{CJ26}: the closures $\overline{T_A^{(r)}}$ are boundedly conjugate (by an isomorphism independent of $A$) to adjoints of maximal Hardy multipliers. The joint closed kernels are independent of $A$.
+We rely on the Hardy-space realization of \cite[Section~5]{GS26}: the closures $\overline{T_A^{(r)}}$ are boundedly conjugate (by an isomorphism independent of $A$) to adjoints of maximal Hardy multipliers. The joint closed kernels are independent of $A$ \cite[Theorem~2.1]{GS26}.
 
 We must \emph{not} confuse these three relations:
 \begin{enumerate}[leftmargin=2em]
-\item \textbf{Zero-model equivalence:} the closed joint kernels coincide for all $A$ (and hence have identical inherited norms). This holds under the closure and domain assumptions of the specified Hardy model.
+\item \textbf{Zero-model equivalence:} the closed joint kernels coincide for all $A$ (and hence have identical inherited norms). This always holds \cite[Theorem~2.1]{GS26}.
 \item \textbf{Bounded diagonal left equivalence:} for $A,B$ a comparison operator $C_{A/B}$ acts on powers by
 \[
  C_{A/B}y^s=R_{A/B}(s)y^s,\qquad R_{A/B}(s):=Q_A(s)/Q_B(s),
@@ -317,12 +331,26 @@ We must \emph{not} confuse these three relations:
  and extends boundedly and invertibly on $S_k$. We write $A\sim_\delta B$.
 \item \textbf{Similarity of the full pairs:} the existence of a bounded invertible $S$ with $ST_B^{(r)}S^{-1}=T_A^{(r)}$. Left equivalence does \emph{not} assert this; in particular a comparison commuting with the dilation generator cannot produce a nontrivial similarity by conjugation.
 \end{enumerate}
-The earlier Hardy multiplier criterion yields the precise test
+The Hardy multiplier criterion \cite[Proposition~6.1]{GS26} yields the precise test
 \begin{equation}\label{eq:Hinf}
  \boxed{A\sim_\delta B\quad\Longleftrightarrow\quad
  R_{A/B},\ R_{A/B}^{-1}\in H^\infty(\Re s>\delta).}
 \end{equation}
 It is immediately an equivalence relation. In terms of the analytic logarithm $\log R_{A/B}$, it is equivalent to uniform boundedness of $|\Re\log R_{A/B}(s)|$ for $\Re s>\delta$. The question is whether this analytic criterion admits an arithmetic description.
+
+\begin{example}[The three relations for one perturbation]\label{ex:three}
+Let $A$ move every prime to its successor and let $B$ be the ordinary
+primes, so $R_{A/B}=Q_A=1-2^{-s}$ by Example~2 of
+Section~\ref{sec:definitions}.  The joint kernels of $A$ and $B$
+coincide, as they do for every perturbation.  On $\Re s>\delta$,
+$1-2^{-\delta}\le|1-2^{-s}|\le1+2^{-\delta}$, so $A\sim_\delta B$ for
+every $k$, with $C_{A/B}=I-D_2$.  Thus
+$\overline{T_A^{(r)}}=(I-D_2)\,\overline{T_B^{(r)}}$.  Nevertheless
+$T_A^{(r)}$ and $T_B^{(r)}$ are not similar through any bounded
+invertible operator commuting with $\Delta$, because such an operator
+is diagonal on the powers and $Q_A\not\equiv1$
+\cite[Proposition~8.1]{GS26}.
+\end{example}
 
 \section{A frequency-independent Euler-product theorem}
 The following result supplies a sharp description for a broad and explicit family. It can be viewed as a consequence of Bohr's vertical-frequency principle \cite{DGMS19,Sc20}; for transparency, we prove it with bounded-harmonic means.
@@ -336,7 +364,7 @@ Suppose the Euler product
 \begin{equation}\label{eq:EulerF}
  F(s)=\prod_j(1-x_j^{-s})^{c_j},\qquad\Re s>1,
 \end{equation}
-continues holomorphically and without zeros to $\Re s>\delta$, where $0<\delta\le1$. Then
+continues holomorphically and without zeros to $\Re s>\delta$, where $\delta>0$. Then
 \begin{equation}\label{eq:maincriterion}
  \boxed{F,F^{-1}\in H^\infty(\Re s>\delta)
  \quad\Longleftrightarrow\quad\sum_j|c_j|x_j^{-\delta}<\infty.}
@@ -383,7 +411,7 @@ Positivity of the mean and $|u|\le M$ now give
  \sum_{j\in J}|c_j|x_j^{-\sigma}\le2M
  \qquad(\sigma>\delta).
 \]
-Let $J$ increase and $\sigma\downarrow\delta$. Monotone convergence proves necessity.
+Let $J$ increase and $\sigma\downarrow\delta$. Monotone convergence proves necessity. (For $\delta>1$ both sides of \eqref{eq:maincriterion} hold automatically; the argument above covers every $\delta>0$, but only $0<\delta\le1$ has content.)
 
 For \eqref{eq:norm1}--\eqref{eq:norm2}, each factor has maximum modulus $1+x_j^{-\sigma}$ or reciprocal maximum $(1-x_j^{-\sigma})^{-1}$ according to the sign of $c_j$. Rational independence and Kronecker's theorem let the phases of any finite family approach these optimal values simultaneously. Uniform convergence of the logarithmic product under the summability condition controls the tail. Maximizing over $\sigma>\delta$ then gives the asserted products.
 \end{proof}
@@ -401,13 +429,15 @@ The logarithms of \(2\) and \(3\) are rationally independent,
 and the signed inventory consists of \(+1\) at \(2\) and
 \(-1\) at \(3\). Hence \(F\) and \(F^{-1}\) are bounded
 on every half-plane \(\Re s>\delta>0\).
-For \(0<\delta\le1\), the exact norm formula yields
+For every \(\delta>0\), the exact norm formula yields
 \[
  \|F\|_{H^\infty(\Re s>\delta)}
  =\frac{1+2^{-\delta}}{1-3^{-\delta}}.
 \]
 This simple comparison illustrates the sign convention
-in Theorem~\ref{thm:independent}.
+in Theorem~\ref{thm:independent}.  At $\delta=\frac12$ the value is
+$(1+2^{-1/2})/(1-3^{-1/2})\approx4.039$, which a direct numerical
+maximization of $|F(\frac12+it)|$ over $t$ reproduces.
 
 \section{Exact classification for endpoint perturbations}\label{sec:endpoint}
 Fix a binary sequence $e=(e_n)_{n\ge1}\in\{0,1\}^{\mathbb N}$, and set
@@ -602,8 +632,9 @@ perturbation \(A_N=(a_1,\ldots,a_N)\), draw the oriented edge
 \(\{p_1,\ldots,p_N,a_1,\ldots,a_N\}\).  A loop contributes zero.
 The signed vertex boundary is the atomic measure
 \[
- \mu_{A,N}:=\sum_{n=1}^N(\delta_{p_n}-\delta_{a_n}).
+ \mu_{A,N}:=\sum_{n=1}^N(\varepsilon_{p_n}-\varepsilon_{a_n}),
 \]
+where \(\varepsilon_x\) denotes the unit point mass at \(x\).
 For every \(\Re s>0\), the finite Euler quotient satisfies
 \begin{equation}\label{eq:graph-atomic}
  \log Q_{A,N}(s)=
@@ -612,7 +643,7 @@ For every \(\Re s>0\), the finite Euler quotient satisfies
 If two edges share a frequency endpoint, their incidence
 coefficients may cancel.  With rational independence of distinct
 surviving logarithmic frequencies, the weighted signed-inventory
-criterion from the companion equivalence-class argument is precisely
+criterion of Corollary~\ref{cor:inventory} is precisely
 summability of this atomic boundary with weight \(x^{-\delta}\).
 Without that independence, no general necessity assertion follows
 from the graph model alone.
@@ -708,10 +739,10 @@ Write $\delta_k=1/(2k)$. As $k$ grows, $\delta_k$ decreases and the weight $p^{-
 but the reverse is generally false.
 
 \begin{proposition}[A concrete strict separation]\label{prop:strict}
-There exists an endpoint perturbation $e$ for which $e\sim_{1/2}0$ but $e\not\sim_{1/4}0$. Specifically, take the set of indices at which $e_n=1$ to be $\{\lceil j^3\rceil:j\ge2\}$, and take $e_n=0$ elsewhere, ignoring any finitely many initial collisions.
+There exists an endpoint perturbation $e$ for which $e\sim_{1/2}0$ but $e\not\sim_{1/4}0$. Specifically, take the set of indices at which $e_n=1$ to be $\{j^3:j\ge2\}$, and take $e_n=0$ elsewhere.
 \end{proposition}
 \begin{proof}
-For large $j$ each isolated $1$ causes two transitions, at $n_j=\lceil j^3\rceil$ and $n_j+1$. The prime number theorem gives $p_{n_j}\asymp j^3\log j$ and $p_{n_j+1}\asymp j^3\log j$. Thus the weighted variation has the same convergence as
+Consecutive cubes $j^3$ and $(j+1)^3$ differ by more than $1$, so each $1$ is isolated and causes two transitions, at $n_j=j^3$ and $n_j+1$. The prime number theorem gives $p_{n_j}\asymp j^3\log j$ and $p_{n_j+1}\asymp j^3\log j$. Thus the weighted variation has the same convergence as
 \[
  \sum_{j\ge2}j^{-3\delta}(\log j)^{-\delta}.
 \]
@@ -720,7 +751,7 @@ This series converges for $\delta=1/2$, and diverges for $\delta=1/4$, proving t
 
 More generally, the threshold $\inf\{\alpha>0:\sum_j|d_j(e)-d_j(f)|p_j^{-\alpha}<\infty\}$ is a numerical \emph{comparison exponent} for endpoint sequences; behavior at the threshold must be checked separately.
 
-\section{Generic interior perturbations and a common arithmetic invariant}
+\section{Generic interior perturbations and a common arithmetic invariant}\label{sec:generic}
 Endpoint sequences are highly structured because adjacent prime factors may cancel. At the other extreme, choose each changed $a_n$ in the open interval $(p_n,p_{n+1})$ so that its logarithm, together with the prime logarithms and the logarithms of other chosen interior values, is rationally independent. This is possible even with $0<a_n-p_n<2^{-n}$, since at each stage only countably many forbidden choices arise. Such independence is also generic in the Baire-category sense and under independent absolutely continuous random choices.
 
 For an arbitrary admissible sequence $A$, let
@@ -754,6 +785,23 @@ Suppose $a_n\in(p_n,p_{n+1})$ for every $n$, with the rational independence stip
 Here the signed inventory contains the prime factors with coefficient $+1$ and the interior factors with coefficient $-1$. In particular, its weighted sum contains $\sum_p p^{-\delta}=\infty$ for $\delta\le1$. The corollary follows from \eqref{eq:inventorycriterion}.
 \end{proof}
 
+\begin{example}[Computing an inventory]\label{ex:inventory}
+Take $a_1=e\in(2,3)$, $a_2=5=p_3$, and $a_n=p_n$ for $n\ge3$.  Then
+$r_1=r_2=1$, $e_1=0$, $e_2=1$, and $I(A)=\{1\}$, so \eqref{eq:inventory}
+gives exponents $+1$ at $2$ and at $3$, $-1$ at $5$, and $-1$ at the
+interior point $e$:
+\[
+ Q_A(s)=\frac{(1-2^{-s})(1-3^{-s})}{(1-5^{-s})(1-e^{-s})}.
+\]
+This agrees with multiplying the two nontrivial factors
+$(1-2^{-s})/(1-e^{-s})$ and $(1-3^{-s})/(1-5^{-s})$ directly.  The
+logarithms $\log2,\log3,\log5,\log e=1$ are rationally independent: a
+relation would make a power of $e$ rational, contradicting the
+transcendence of $e$.  The inventory is finite, so Corollary~\ref{cor:inventory}
+gives $A\sim_\delta B$ for every $\delta>0$, where $B$ is the sequence of ordinary primes.  If instead $a_1=5/2$, then
+$\log(5/2)=\log5-\log2$ and the independence hypothesis fails.
+\end{example}
+
 \section[Full-operator consequences]{Consequences for the full operators and unresolved classification questions}
 For $A\sim_\delta B$, the boundedly invertible comparison $C_{A/B}$ maps $\D_k$ into itself and commutes with each analytic-symbol operator on this domain. Passing to closures yields the \emph{left-equivalence identities}
 \begin{equation}\label{eq:lefteq}
@@ -768,7 +816,7 @@ The classification gives the following hierarchy:
 \toprule
 \textbf{Level} & \textbf{Behavior under prime perturbations}\\
 \midrule
-Joint closed zero-model & Identical in the companion model, subject to its closure and domain hypotheses\\
+Joint closed zero-model & Identical for all perturbations \cite[Theorem~2.1]{GS26}; with RH, $\{0\}$ on $S_1$\\
 Bounded diagonal left equivalence & Nontrivial classes; exact weighted-variation criterion for endpoint shifts and weighted-inventory criterion for independent frequencies\\
 Full-pair similarity, resolvents, pseudospectra & Not classified by these results\\
 \bottomrule
@@ -782,54 +830,57 @@ Full-pair similarity, resolvents, pseudospectra & Not classified by these result
 
 \section[The November 2026 RH development]{Consequences of the November 2026 RH formalization}
 \label{sec:rh-2026}
-On November 20, 2026 Levent Alp\"oge reported a formal proof of the
-Riemann hypothesis (RH) developed with Claude.  The Lean FRO and
-Mathlib Initiative certified the correctly stated and machine-checked
-RH proof on November 21 \cite{LF26}.  Rubinstein independently reports
-checks of the original and shortened formalizations \cite{Ru26}.
-Human-readable proofs are still being developed.  The present paper
-does not purport to independently check the large Lean development.
+On November 20, 2026 Levent Alp\"oge released a formal proof of the
+Riemann hypothesis (RH), found with Anthropic's Claude \cite{Ru26}.
+The Lean FRO and Mathlib Initiative certified the correctly stated and
+machine-checked RH proof on November 21 \cite{LF26}.  Rubinstein
+independently reports checks of the original and shortened
+formalizations \cite{Ru26}.  Human-readable proofs are still being
+developed.  The present paper does not independently check the large
+Lean development.\footnote{This paper does not itself prove RH or
+independently verify the Lean development. The November 2026
+certification concerns RH, not the operator-theoretic assertions
+studied here.}
 
-Taking the certified formal RH theorem \cite{LF26,Ru26} as
-an external input,\footnote{This paper does not itself prove RH
-or independently verify the Lean development. The November 2026
-certification concerns RH, not the additional operator-theoretic
-assertions studied here.} every nontrivial zeta zero is
-$\rho=\frac12+i\gamma$.  For $k\ge2$ the Sobolev threshold
-$\delta=1/(2k)$ is strictly below $\frac12$, and all zero-powers
-are algebraically admissible.  For $k=1$ the threshold equals
-$\frac12$, so none of these zero-powers satisfies the strict
-domain inequality.  This sharpens the spectral-model discussion
-but does not, by itself, prove spectral synthesis or a statement
-about the closed joint kernel.
+Taking the certified formal RH theorem \cite{LF26,Ru26} as an external
+input, every nontrivial zeta zero is $\rho=\frac12+i\gamma$.  For $k\ge2$
+the Sobolev threshold $\delta=1/(2k)$ is strictly below $\frac12$, and all
+zero powers lie in $S_k$.  For $k=1$ the threshold equals $\frac12$, so
+none of them satisfies the strict domain inequality.  Combined with the
+spectral-synthesis theorem of the companion paper
+\cite[Theorem~2.1]{GS26}, this determines the closed joint
+kernel exactly \cite[Corollary~11.1]{GS26}.  For every
+perturbation $A$ it is $\{0\}$ on $S_1$.  On $S_k$ with $k\ge2$ it is the
+closed span of the functions $y^\rho(\log y)^j$, $0\le j<\operatorname{ord}_\rho\zeta$,
+over all nontrivial zeros $\rho$.  Unconditionally, the vanishing of the
+closed joint kernel on $S_1$ is equivalent to RH.
 
-Grosswald--Schnitzer zero preservation then places the nontrivial
-zeros of each $\zeta_A$ in $\Re s>0$ on the same critical line,
-with the same multiplicities and ordinates as $\zeta$.
-RH does not imply that these zeros are simple, so logarithmic
-generalized eigenvectors cannot simply be discarded.
-The shifted dilation generator $-i(\Delta-\frac12)$ has real
-eigenvalues $\gamma$ on its admissible zero-power eigenvectors,
-but need not be symmetric or self-adjoint.
+Grosswald--Schnitzer zero preservation places the nontrivial zeros of
+each $\zeta_A$ in $\Re s>0$ on the same critical line, with the same
+multiplicities and ordinates as $\zeta$.  RH does not imply that these
+zeros are simple, so logarithmic generalized eigenvectors cannot simply be
+discarded.  For $k\ge2$, the shifted dilation generator $-i(\Delta-\frac12)$
+has the real eigenvalue $\gamma$ on the zero power $y^\rho$, but it need not
+be symmetric or self-adjoint.
 
-RH neither makes the Euler quotient $Q_A$ or its reciprocal
-bounded nor changes the graph-boundary summability test.
-It does not establish boundedly invertible similarity of the
-full summation operators, equality of their nonzero spectra,
-equivalence of graph domains, or pseudospectral stability.
-The ordinary-prime conditional bounds
+RH neither makes the Euler quotient $Q_A$ or its reciprocal bounded nor
+changes the graph-boundary summability test of Theorem~\ref{thm:transition}.
+It does not establish boundedly invertible similarity of the full
+summation operators, equality of their nonzero spectra, equivalence of
+graph domains, or pseudospectral stability.  The classical consequences
+of RH for the ordinary primes (von Koch),
 $\psi(x)=x+O(x^{1/2}\log^2x)$ and
-$\pi(x)=\operatorname{Li}(x)+O(x^{1/2}\log x)$
-do not transfer to arbitrary Beurling or random prime systems
-without additional comparison estimates.
-The announced Dirichlet-$L$ GRH is a separate result and should
-not be identified with a claim for all generalized zeta functions.
+$\pi(x)=\operatorname{Li}(x)+O(x^{1/2}\log x)$, do not transfer to
+arbitrary Beurling or random prime systems without additional comparison
+estimates.  The announced GRH for Dirichlet $L$-functions \cite{Ru26} is
+a separate result and should not be identified with a claim for all
+generalized zeta functions.
 
 \section{Summary of results and open questions}\label{sec:summary}
 The bounded diagonal comparison relation separates three
 operator-theoretic notions. Equality of the zero-associated
-closed kernel belongs to the companion Hardy-space model,
-subject to its domain and closure results. Bounded diagonal
+closed kernel holds for all perturbations, by the companion
+Hardy-space theorem \cite{GS26}; with RH, that kernel is $\{0\}$ on $S_1$. Bounded diagonal
 left equivalence is characterized by two-sided \(H^\infty\)
 bounds for the quotient of Euler symbols.
 Similarity of the complete operator pairs is not established.
@@ -854,63 +905,73 @@ resolve any of these questions.
 The following definitions supplement the main text for readers
 whose background is in analysis rather than generalized-prime systems.
 \begin{description}[style=nextline,leftmargin=1.5em]
+\item[Almost-periodic function] A function obtained as a uniform limit of finite trigonometric sums, in the sense of Bohr. A translation-invariant mean extracts its frequencies and is used in the comparison theorem.
 \item[Analytic continuation] Extension of a function beyond its original convergence domain. The continued function need not be represented by the original infinite series.
+\item[Beurling generalized primes] Abstract real generators greater than one from which a multiplicative system is built. Their finite formal products are generalized integers and are counted with multiplicity.
 \item[Blaschke product] An inner function built from a zero sequence satisfying the Blaschke condition. Its model space records the zero set with multiplicity.
+\item[Bohr transform] An identification of Dirichlet-frequency coefficients with monomials on a torus or polydisk. It motivates why rational independence permits independent finite-phase approximations.
 \item[Bounded diagonal comparison] A comparison quotient and its reciprocal both belong to $H^\infty$ on the chosen half-plane. It gives invertible left equivalence, not generally operator similarity.
 \item[Critical line] The line $\Re s=\tfrac{1}{2}$. RH puts the nontrivial ordinary zeta zeros there.
+\item[Dirichlet series] A series of the form \(\sum a_n e^{-\lambda_n s}\) with real frequencies \(\lambda_n\). For the ordinary integers one has \(\lambda_n=\log n\).
+\item[Dilation generator] The operator $\Delta=y\,d/dy$. It acts on $y^s$ as multiplication by $s$ and commutes with every dilation $D_a$.
 \item[Discrete divergence] The signed incidence boundary of an edge flow. The source and target contributions telescope along prime-path blocks.
+\item[Endpoint shift] A perturbation that leaves \(p_n\) fixed or replaces it with \(p_{n+1}\). The binary edge-flow representation makes consecutive shifts telescope.
 \item[Euler-factor inventory] The signed frequencies remaining after cancellation of two Euler products. Its weighted size can control boundedness of a multiplier.
 \item[Exponent-vector graph] The directed lattice of formal generalized integers. Its vertex generating series produces the Euler product with multiplicity.
+\item[Generalized integer] A finite formal product of generalized primes, described by a nonnegative exponent vector. Two vectors can have the same numerical product, so the generating series counts both.
 \item[Graph norm] The norm \(\|f\|_T=(\|f\|^2+\|Tf\|^2)^{1/2}\) on the domain of an operator. It compares operator domains and can distinguish closed realizations even when their point spectra coincide.
 \item[Hardy space] A Hilbert space of analytic functions with square-integrable boundary behavior. Its multiplication operators provide the model for dilation symbols.
-\item[Inner factor] A factor with boundary modulus one almost everywhere. Its Blaschke and singular components determine invariant-subspace phenomena.
-\item[Joint kernel] The intersection of several operator null spaces. Pairing $q=2$ and $q=3$ removes extraneous zeros of the auxiliary factors.
-\item[Operator domain] The subspace on which an unbounded operator acts. A multiplier prescription on powers is not automatically a closed operator.
-\item[Outer function] A Hardy or Smirnov function determined by its boundary modulus up to phase. Outerness does not mean bounded invertibility.
-\item[Pseudospectrum] The region of large resolvent norms or spectral instability under small perturbations. It is not fixed by the zeros of arithmetic symbols.
-\item[Riesz basis] The boundedly invertible image of an orthonormal basis. Having complete root vectors is weaker.
-\item[Self-adjointness] Equality of an operator and its Hilbert-space adjoint, including domains. Real eigenvalues are not sufficient.
-\item[Smirnov class] Ratios of bounded analytic functions with an outer denominator. This allows useful unbounded analytic quotients in the Hardy model.
-\item[Sobolev threshold] The strict exponent condition $\Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
-\item[Spectral synthesis] Completeness of generalized eigenfunctions within the relevant invariant subspace. It requires more than matching zero sets.
-\item[Weighted graph variation] A sum of weighted absolute incidence jumps. It quantifies Euler-factor cancellation for endpoint perturbations.
-\item[Zero multiplicity] The vanishing order of an analytic function at a zero. Multiple zeros produce logarithmic generalized eigenvectors.
-\item[Almost-periodic function] A function obtained as a uniform limit of finite trigonometric sums, in the sense of Bohr. A translation-invariant mean extracts its frequencies and is used in the comparison theorem.
-\item[Beurling generalized primes] Abstract real generators greater than one from which a multiplicative system is built. Their finite formal products are generalized integers and are counted with multiplicity.
-\item[Bohr transform] An identification of Dirichlet-frequency coefficients with monomials on a torus or polydisk. It motivates why rational independence permits independent finite-phase approximations.
-\item[Dirichlet series] A series of the form \(\sum a_n e^{-\lambda_n s}\) with real frequencies \(\lambda_n\). For the ordinary integers one has \(\lambda_n=\log n\).
-\item[Endpoint shift] A perturbation that leaves \(p_n\) fixed or replaces it with \(p_{n+1}\). The binary edge-flow representation makes consecutive shifts telescope.
-\item[Generalized integer] A finite formal product of generalized primes, described by a nonnegative exponent vector. Two vectors can have the same numerical product, so the generating series counts both.
 \item[Holomorphic symbol] An analytic function prescribing an operator's action on powers \(y^s\). This prescription need not agree with a pointwise-convergent summation series outside the original convergence half-plane.
+\item[Inner factor] A factor with boundary modulus one almost everywhere. Its Blaschke and singular components determine invariant-subspace phenomena.
+\item[Joint kernel] The intersection of several operator null spaces. Pairing $r=2$ and $r=3$ removes extraneous zeros of the auxiliary factors.
 \item[Kronecker approximation] A density theorem for rotations with rationally independent frequencies on a finite-dimensional torus. It lets finitely many Euler factors approach their extremizing phases simultaneously.
 \item[Left equivalence] An identity \(T_A=CT_B\) in which \(C\) is bounded and invertible, with domains respected. It is not the similarity identity \(T_A=CT_BC^{-1}\).
 \item[Logarithmic root vector] A function \(y^\rho(\log y)^j\) arising from derivatives in the exponent parameter. Multiple zeros of the analytic symbol can require such vectors in the joint kernel.
 \item[Maximal Hardy multiplier] Multiplication by an analytic symbol \(F\) on the domain \(\{g\in H^2:Fg\in H^2\}\). The domain is part of the construction when the symbol is unbounded.
+\item[Operator domain] The subspace on which an unbounded operator acts. A multiplier prescription on powers is not automatically a closed operator.
+\item[Outer function] A Hardy or Smirnov function determined by its boundary modulus up to phase. Outerness does not mean bounded invertibility.
 \item[Point spectrum] The set of complex eigenvalues of an operator on its specified domain. It need not exhaust the spectrum, which also contains obstructions to bounded invertibility.
+\item[Pseudospectrum] The region of large resolvent norms or spectral instability under small perturbations. It is not fixed by the zeros of arithmetic symbols.
 \item[Rational independence] A family of real numbers having no nontrivial finite rational linear relation. Logarithms of distinct ordinary primes have this property by unique factorization.
 \item[Resolvent] The bounded operator \((T-\lambda I)^{-1}\) when it exists. Its norm can be large even where \(\lambda\) is not an eigenvalue, making pseudospectral behavior sensitive.
+\item[Riesz basis] The boundedly invertible image of an orthonormal basis. Having complete root vectors is weaker.
+\item[Self-adjointness] Equality of an operator and its Hilbert-space adjoint, including domains. Real eigenvalues are not sufficient.
 \item[Similarity] The conjugacy relation \(T_A=ST_BS^{-1}\) with boundedly invertible \(S\), including the corresponding domain transformation. It is stronger than left equivalence by an Euler-quotient multiplier.
+\item[Smirnov class] Ratios of bounded analytic functions with an outer denominator. This allows useful unbounded analytic quotients in the Hardy model.
+\item[Sobolev threshold] The strict exponent condition $\Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
+\item[Spectral synthesis] Completeness of generalized eigenfunctions within the relevant invariant subspace. It requires more than matching zero sets.
 \item[Strong graph-core property] A dense subspace that is dense in the graph norm of a closed operator. It is needed to pass an identity verified on powers to an equality of closed unbounded operators.
+\item[Weighted graph variation] A sum of weighted absolute incidence jumps. It quantifies Euler-factor cancellation for endpoint perturbations.
+\item[Zero multiplicity] The vanishing order of an analytic function at a zero. Multiple zeros produce logarithmic generalized eigenvectors.
 \end{description}
 
 \section*{Acknowledgments and AI contribution}
-ChatGPT (OpenAI) revised the exposition, glossary, RH status discussion,
-and presentation of graph connections.  The existing spectral and
-classification claims were not independently re-refereed during this
-editorial revision.  AI review is not independent mathematical
-certification; details are recorded in the separate revision log.
+\addcontentsline{toc}{section}{Acknowledgments and AI contribution}
+ChatGPT (OpenAI) prepared Draft~2 from the November 28, 2026 working
+manuscript, revising the exposition and adding the graph connections,
+the glossary, and the RH status discussion.  Claude
+(Anthropic) refereed Draft~2 and prepared the present Draft~3.  Claude
+checked the proofs of Theorems~\ref{thm:independent}
+and~\ref{thm:transition}, Propositions~\ref{prop:graph-conditioning},
+\ref{prop:graph-transfer} and~\ref{prop:strict}, and
+Corollaries~\ref{cor:inventory} and~\ref{cor:dense}.  It added the
+examples in Sections~\ref{sec:three} and~\ref{sec:generic}, the RH
+consequences for the joint kernel, and the citations to the companion
+paper, and corrected the errors listed in the revision log.  AI review
+is not independent mathematical certification; details are recorded in
+the separate revision log \texttt{prime\_perturbations\_revision\_log.tex}.
 
 \begin{thebibliography}{9}\bibitem{LF26} Lean FRO and Mathlib Initiative,
 \emph{Lean verification of the Riemann Hypothesis},
 joint statement, November 21, 2026.
 \url{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}.
 \bibitem{Ru26} M. Rubinstein,
-\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis:
-exposition and verification}, November 2026.
+\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis},
+web page, November 2026, accessed November 28, 2026.
 \url{https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/}.
 
 \bibitem{GS78} E. Grosswald and F. J. Schnitzer, A class of modified $\zeta$ and $L$-functions, \emph{Pacific J. Math.} \textbf{74} (1978), 357--364. \url{https://msp.org/pjm/1978/74-2/pjm-v74-n2-p09-s.pdf}.
-\bibitem{CJ26} ChatGPT, prepared for D. Joyner, \emph{Spectral Invariance under Grosswald--Schnitzer Prime Perturbations}, companion research note, November 1, 2026.
+\bibitem{GS26} D. Joyner, \emph{Spectral invariance under Grosswald--Schnitzer prime perturbations}, Draft~2, November 2026, file \texttt{grosswald\_schnitzer\_spectral\_invariance\_2026.tex} in this folder of \url{https://github.com/wdjoyner/alg-graph-thry}. (The November 1, 2026 version was prepared by ChatGPT for the author.)
 \bibitem{DGMS19} A. Defant, D. Garc\'ia, M. Maestre, and P. Sevilla-Peris, \emph{Dirichlet Series and Holomorphic Functions in High Dimensions}, Cambridge University Press, 2019, Chapters 11--12.
 \bibitem{Sc20} J. Schoolmann, On Bohr's theorem for general Dirichlet series, \emph{Math. Nachr.} \textbf{293} (2020), 1591--1612.
 \bibitem{Be49} A. Beurling, On two problems concerning linear transformations in Hilbert space, \emph{Acta Math.} \textbf{81} (1949), 239--255.
