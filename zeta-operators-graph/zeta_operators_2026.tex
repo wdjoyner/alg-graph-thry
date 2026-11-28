@@ -26,6 +26,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
+\numberwithin{equation}{section}
 
 \newcommand{\Li}{\operatorname{Li}}
 \newcommand{\Log}{\operatorname{Log}}
@@ -40,10 +41,9 @@
 \newcommand{\kerop}{\operatorname{ker}}
 \newcommand{\ord}{\operatorname{ord}}
 \newcommand{\yD}{\vartheta}
-\newcommand{\tagN}{\textup{[new]}}
 
 \title{Zeta Functions and Their Associated Operators\\[0.3em]
-\large Draft 4: Corrected and expanded version\thanks{Original typescript: David Joyner, Georgia Institute of Technology, 1981. The 2026 corrected editions were prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); see the Acknowledgments and the separate revision log.}}
+\large Draft 5: Corrected and expanded version\thanks{Original typescript: David Joyner, Georgia Institute of Technology, 1981. The 2026 corrected editions were prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); see the Acknowledgments and the separate revision log.}}
 \author{David Joyner\\[0.2em]\normalsize\texttt{wdjoyner@gmail.com}}
 \date{Original draft: 1981\\Corrected and expanded draft: November 2026}
 
@@ -58,12 +58,14 @@ Associated Operators}. It keeps the three themes of the original. These are
 random generalized zeta functions, comparison of Euler products, and
 operators whose kernels detect zeros of $\zeta(s)$. We place everything in
 the framework of Beurling generalized primes. We prove one comparison
-principle and derive the original Theorems~2 and~3 from it. We show that
-the Euler product over $u_n=\Li^{-1}(n)$ has no zeros in the slit half-plane
-$\{\Ree s>0\}\setminus(0,1/2]$. We give a two-line reason why the block
-operators of the original have far too many eigenvalues. Every
-$\lambda\notin[0,\infty)$ is an eigenvalue. We replace the original
-Theorems~5 and~6 by honest statements about multiplier operators. Finally,
+principle and derive from it zero-preservation results for generator
+systems close to the primes, and a criterion for RH in terms of rare large
+deviations of $p_n$ from $u_n=\Li^{-1}(n)$. We show that
+the Euler product over $u_n$ has no zeros in the slit half-plane
+$\{\Ree s>0\}\setminus(0,1/2]$. We ask whether the point spectrum of a
+natural block operator detects zeros, and show that it cannot: every
+$\lambda\notin[0,\infty)$ is an eigenvalue. We study multiplier operators
+built from Euler-factor comparisons and a pole-removed operator. Finally,
 we give a formulation that does not need the parameter $\beta$. Two
 dilation-sum operators have a joint kernel. The dilation generator acts on
 that kernel, and its eigenvalues are exactly the nontrivial zeros of
@@ -84,8 +86,8 @@ theorem for two dilation sums.
 
 Two types of operator statement must be kept separate.  On the one hand,
 a zero of the zeta function produces a function annihilated by suitable
-summation operators.  On the other hand, the full block operator from
-the typescript has many additional eigenvalues.  Its entire point
+summation operators.  On the other hand, the natural block operator
+$B(\beta)$ of Section~\ref{sec:operators} has many additional eigenvalues.  Its entire point
 spectrum therefore cannot serve as a characterization of zeta zeros.
 The restriction to a \emph{joint kernel} is essential.
 
@@ -139,8 +141,8 @@ or modern Hardy-space model methods.  Later developments belong in a
 separate contemporary review.
 
 \paragraph{Editorial update: the RH formalization of November 2026.}
-On November 20, 2026, Levent Alp\"oge announced a proof of the
-Riemann hypothesis (RH) developed with Claude. On November 21, the
+On November 20, 2026, Levent Alp\"oge released a formal proof of the
+Riemann hypothesis (RH), found with Anthropic's Claude \cite{Ru26}. On November 21, the
 Lean Focused Research Organization and the Mathlib Initiative
 certified both the statement and its formal proof \cite{LF26}.
 Rubinstein reports independent machine checks of the original Lean
@@ -151,8 +153,9 @@ expositions remain works in progress. We cite this development only as a
 historical edition depends on it. We retain the original conditional
 formulations so the logic of the 1981 arguments remains visible. In a
 modern reading, the formal RH verification supplies the hypothesis as an
-external input; it does not imply simplicity of zeta zeros or spectral
-synthesis for the summation operators.
+external input; it does not imply simplicity of zeta zeros.  Spectral
+synthesis for the summation operators is a separate matter, discussed in
+the editorial remark after Open Problem~\ref{prob:synthesis}.
 
 
 \subsection{Notation and conventions}\label{sec:notation}
@@ -235,9 +238,9 @@ $\Ree s>1$.
 \begin{remark}\label{rem:UF}
 Unique factorization of the \emph{numbers} $a_n$ plays no role in the
 Euler product. It matters only if one wants the Dirichlet series to run
-over distinct real numbers. The typescript spends effort on unique
-factorization in Lemma~1(c) and Theorem~3. In the Beurling framework that
-effort is unnecessary.
+over distinct real numbers. In the Beurling framework no
+multiplicative independence of the generators is needed for any of the
+analytic results below.
 \end{remark}
 
 \subsection{The logarithmic integral}
@@ -306,8 +309,7 @@ bound also follows from $p_n,u_n\ll n\log n$.
 
 \section{A comparison principle for Euler products}\label{sec:comparison}
 
-This section replaces the double series of the typescript. We compare
-Euler factors directly. The method goes back to Grosswald and
+We compare Euler factors directly. The method goes back to Grosswald and
 Schnitzer~\cite{GS78}.
 
 \begin{lemma}[Factor bound]\label{lem:factor}
@@ -329,7 +331,7 @@ So the derivative has modulus at most $2|s|c^{-1-\sigma}\le2|s|m^{-1-\sigma}$.
 Integrate over the real segment from $a$ to $b$.
 \end{proof}
 
-\begin{theorem}[Comparison principle, new]\label{thm:comparison}
+\begin{theorem}[Comparison principle]\label{thm:comparison}
 Let $A=(a_n)$ and $B=(b_n)$ be sequences with $a_n,b_n>1$. Put
 $m_n=\min(a_n,b_n)$ and assume $m_n\to\infty$. Let $\sigma_0\ge0$. Assume
 that
@@ -367,7 +369,7 @@ The hypothesis \eqref{eq:l1} is a weighted $\ell^1$ condition. It allows
 large individual errors, provided they are rare. The next lemma turns
 counting information into \eqref{eq:l1}.
 
-\begin{lemma}[Dyadic counting, new]\label{lem:dyadic}
+\begin{lemma}[Dyadic counting]\label{lem:dyadic}
 Let $w_n\ge0$. Let $0\le\kappa\le1$, $\tau\ge0$ and $\sigma_0\ge0$.
 Assume:
 \begin{enumerate}[label=(\roman*)]
@@ -421,16 +423,14 @@ $\sigma_0=0$.
 
 \begin{remark}
 Grosswald and Schnitzer~\cite{GS78} proved a result of this type in 1978.
-The typescript cites their paper for its ``method of analytic
-continuation.'' The proof above shows that no bound on individual prime
+The proof above shows that no bound on individual prime
 gaps is needed. Only the average size of the gaps enters.
 \end{remark}
 
-\begin{corollary}[Original Corollary 1, repaired]\label{cor:pointwise}
+\begin{corollary}[Pointwise closeness to the primes]\label{cor:pointwise}
 Let $0\le\vartheta<1$. Let $a_n>1$ with $|a_n-p_n|\ll_\delta
 n^{\vartheta+\delta}$ for every $\delta>0$. Then $\zeta_A$ and $\zeta$
 have the same zeros and poles in $\Ree s>\vartheta$, with multiplicities.
-The case $\vartheta=1/(2k)$ is the original Corollary~1.
 \end{corollary}
 
 \begin{proof}
@@ -440,7 +440,7 @@ converges for $\sigma>\vartheta+\delta$. Since $\delta$ is arbitrary,
 \eqref{eq:l1} holds with $\sigma_0=\vartheta$.
 \end{proof}
 
-\begin{corollary}[Original Theorem 3, repaired]\label{cor:sparseA}
+\begin{corollary}[Sparse large deviations]\label{cor:sparseA}
 Let $0\le\vartheta<1$ and $\sigma_0>0$. Let $a_n>1$. Assume:
 \begin{enumerate}[label=(\roman*)]
 \item $|a_n-p_n|\ll_\delta n^{\vartheta+\delta}$ for every $\delta>0$.
@@ -463,12 +463,6 @@ $m_n\gg n$. So \eqref{eq:l1} holds for every $\sigma>\sigma_0$. Apply
 Theorem~\ref{thm:comparison}.
 \end{proof}
 
-\begin{remark}
-The typescript lists $a_1=1$ as a generator. That is impossible. The
-factor $(1-1^{-s})^{-1}$ is undefined. The identity element belongs to
-the semigroup of generalized integers. It is never a generator.
-\end{remark}
-
 \section{The deterministic system \texorpdfstring{$u_n=\Li^{-1}(n)$}{u\_n = Li\^{}(-1)(n)}}
 \label{sec:deterministic}
 
@@ -480,7 +474,7 @@ holds exactly when $n\le\Li(x)$. So
 \end{equation}
 Write $b(x)=\{\Li(x)\}$ for $x\ge u_1$. Then $0\le b(x)<1$ and $b(u_1)=0$.
 
-\begin{lemma}[New]\label{lem:PU}
+\begin{lemma}\label{lem:PU}
 The prime zeta function $P_U(s)=\sum_n u_n^{-s}$ satisfies
 \[
 P_U(s)=-\Log(s-1)+H(s)\qquad(\Ree s>1),
@@ -508,7 +502,7 @@ $I(s)=\int_a^\infty e^{-(s-1)v}\,\dd v/v$. By \ref{C:E1}, $I(s)+\Log(s-1)$
 is an entire function of $s$.
 \end{proof}
 
-\begin{theorem}[Replaces original Theorem 6, new]\label{thm:slit}
+\begin{theorem}[Zero-free slit half-plane]\label{thm:slit}
 Let $\Omega=\{\Ree s>0\}\setminus(0,\tfrac12]$. Then $\zeta_U$ extends to a
 meromorphic function on $\Omega$. Its only singularity is a simple pole at
 $s=1$. It has no zeros in $\Omega$. Near $s=\frac12$ we have
@@ -555,10 +549,11 @@ holomorphic near $\frac12$. This gives the stated form of $\zeta_U$.
 \end{proof}
 
 \begin{remark}
-The first corrected edition proved only the half-plane $\Ree s>\frac12$.
-It worked with $\Psi_U$, which mixes all prime powers. The term
-$\Theta_U(\sqrt{x})\approx\sqrt{x}$ in $\Psi_U$ is the trace of the branch
-point at $\frac12$. Working with $P_U$ separates the prime powers. Then
+Why work with $P_U$ rather than the Chebyshev function $\Psi_U$? The
+function $\Psi_U$ mixes all prime powers, and its term
+$\Theta_U(\sqrt{x})\approx\sqrt{x}$ is the trace of the branch point at
+$\frac12$; an argument based on $\Psi_U$ alone reaches only the half-plane
+$\Ree s>\frac12$. Working with $P_U$ separates the prime powers. Then
 each $m$ contributes one branch point, at $s=1/m$.
 \end{remark}
 
@@ -575,7 +570,7 @@ For $\eps>0$ define
 P_\eps(X)=\#\{n:\ p_n\le X,\ |p_n-u_n|\ge n^{1/2+\eps}\}.
 \]
 
-\begin{theorem}[Original Theorem 2, repaired]\label{thm:sparse}
+\begin{theorem}[Sparse exceptions give a zero-free region]\label{thm:sparse}
 Let $\sigma_0\ge\frac12$. Suppose that for every sufficiently small
 $\eps>0$,
 \begin{equation}\label{eq:sparsehyp}
@@ -602,7 +597,7 @@ $\zeta=\zeta_U/Q$ has no zeros in $\Ree s>\sigma_0$.
 The hypothesis involves the unknown number $\theta$. Since $\theta\le1$, we
 can remove it.
 
-\begin{corollary}[$\theta$-free form, new]\label{cor:thetafree}
+\begin{corollary}[$\theta$-free form]\label{cor:thetafree}
 Let $\sigma_0\ge\frac12$. Suppose $P_\eps(X)\ll_\eps X^{\sigma_0+\eps}$ for
 every sufficiently small $\eps>0$. Then $\zeta(s)$ has no zeros in
 $\Ree s>\sigma_0$.
@@ -613,7 +608,7 @@ Since $\theta\le1$, we have $X^{\sigma_0+\eps}\le X^{1+\sigma_0-\theta+\eps}$.
 Apply Theorem~\ref{thm:sparse}.
 \end{proof}
 
-\begin{corollary}[New]\label{cor:RHequiv}
+\begin{corollary}[An equivalent form of RH]\label{cor:RHequiv}
 The following are equivalent.
 \begin{enumerate}[label=(\alph*)]
 \item The Riemann hypothesis.
@@ -647,15 +642,17 @@ arbitrarily small $\eps$ the large deviations $|p_n-u_n|\ge n^{1/2+\eps}$
 are \emph{not} as rare as $X^{1+\sigma_0-\theta+\eps}$.
 \end{remark}
 
-\begin{remark}[Why the last step of the typescript fails]
-The typescript estimates $\int_1^N x^a\dd P_\eps(x)\ll P_\eps(N)N^a$ for
-$a<0$. This is false in general. Early jumps of $P_\eps$ carry more weight
-than late ones. Also, bounded partial sums would not prove the convergence
-needed for analytic continuation. Lemma~\ref{lem:dyadic} gives absolute and
-locally uniform convergence instead.
+\begin{remark}[Why dyadic blocks]
+Why does the proof pass through Lemma~\ref{lem:dyadic} rather than a single
+partial summation against $P_\eps$? For $a<0$ the integral
+$\int_1^N x^a\dd P_\eps(x)$ is not bounded by $P_\eps(N)N^a$ in general,
+because early jumps of $P_\eps$ carry more weight than late ones. Moreover,
+bounded partial sums would not give the convergence needed for analytic
+continuation. Summing over dyadic blocks gives absolute and locally uniform
+convergence.
 \end{remark}
 
-\begin{remark}[A divergence statement, new]
+\begin{remark}[A divergence statement]
 For every $\sigma<\frac12$ we have $\sum_n|p_n-u_n|\,n^{-1-\sigma}=\infty$.
 Suppose the series converged for some $\sigma_1<\frac12$. Then
 Theorem~\ref{thm:comparison} would give $\zeta=\zeta_U/Q$ on
@@ -673,7 +670,7 @@ Hawkins~\cite{Ha58}, Wunderlich~\cite{Wu74} and
 Heyde~\cite{He78}. Our model randomizes the counting function
 $\Li$ directly. It follows a suggestion of Kosambi~\cite{Ko59}.
 
-\begin{theorem}[Original Theorem 1, repaired]\label{thm:random}
+\begin{theorem}[A random generalized prime system]\label{thm:random}
 Let $X_1,X_2,\dots$ be independent and uniform on $(0,2)$. Put
 $S_n=X_1+\cdots+X_n$ and $g_n=\Li^{-1}(S_n)$. Then $1<g_1<g_2<\cdots$.
 With probability one the following hold.
@@ -719,9 +716,8 @@ For $\Ree s>1$, logarithmic differentiation of the Euler product gives
 \[
 -\frac{\zeta_G'(s)}{\zeta_G(s)}=s\int_1^\infty\Psi_G(x)x^{-s-1}\dd x.
 \]
-The coefficient of $g^{-ms}$ here is $\log g$. It is not $(\log g)/m$, as
-the typescript has it. The factor $1/m$ belongs to $\log\zeta_G$, before
-differentiation. Since $s\int_1^\infty x\cdot x^{-s-1}\dd x=1+1/(s-1)$, we
+The coefficient of $g^{-ms}$ here is $\log g$: the factor $1/m$ in
+$\log\zeta_G$ disappears on differentiation. Since $s\int_1^\infty x\cdot x^{-s-1}\dd x=1+1/(s-1)$, we
 get
 \[
 -\frac{\dd}{\dd s}\log\bigl((s-1)\zeta_G(s)\bigr)
@@ -734,16 +730,15 @@ continues holomorphically and has no zeros on $\Ree s>\frac12$.
 \end{proof}
 
 \begin{remark}
-Theorem~\ref{thm:random} is an almost-sure asymptotic statement. It does
-not reproduce the finite-$n$ inequalities of Lemma~1 with their constants.
-Those constants are not needed. Part~(i) is true but, by
+Theorem~\ref{thm:random} is an almost-sure asymptotic statement; no
+explicit finite-$n$ constants are needed. Part~(i) is true but, by
 Remark~\ref{rem:UF}, it is not needed for part~(iii).
 \end{remark}
 
 \begin{remark}
-The typescript observes that consecutive $g_n$ differ by $O(\log g_n)$.
+Since $X_n<2$, consecutive $g_n$ differ by $O(\log g_n)$.
 By Rankin's theorem~\cite{Ra38} on large prime gaps, no choice of the
-$X_n$ makes $g_n=p_n$ for all $n$. This remark is correct.
+$X_n$ makes $g_n=p_n$ for all $n$.
 \end{remark}
 
 \begin{remark}
@@ -782,7 +777,7 @@ $y^{2\Ree s-1-1/k}$ times a power of $|\log y|$. Near $y=0$ this is
 integrable exactly when $2\Ree s>1/k$. Near $y=1$ there is no problem.
 \end{proof}
 
-\begin{lemma}[Original Lemmas 2 and 3, repaired]\label{lem:density}
+\begin{lemma}[Completeness and density]\label{lem:density}
 $S_k$ is a Hilbert space. The polynomials without constant term are dense
 in $S_k$. So $\Dk$ is dense in $S_k$.
 \end{lemma}
@@ -819,7 +814,7 @@ half-line.  Differential and dilation-sum operators then have simple
 forms.  Multiplication by $-\log y$ becomes multiplication by $x$;
 it is not translation invariant.
 
-\begin{proposition}[New]\label{prop:logcoords}
+\begin{proposition}[Logarithmic coordinates]\label{prop:logcoords}
 Put $(\Phi f)(x)=f(e^{-x})$ for $x>0$. Then $\|f\|_k^2$ is equivalent to
 \[
 \sum_{j=0}^N\int_0^\infty|\partial_x^j\Phi f(x)|^2\,e^{x/k}\dd x.
@@ -874,7 +869,7 @@ for every polynomial $p$ and every $s$ with $\Ree s>\alpha$.
 In words, $F(\Delta)$ acts on $y^s p(\log y)$ as the Taylor operator
 $F(s+\dd/\dd L)$ acts on $p(L)$. The sum is finite.
 
-\begin{lemma}[New]\label{lem:multiplier}
+\begin{lemma}[Multiplier calculus]\label{lem:multiplier}
 \begin{enumerate}[label=(\alph*)]
 \item The functions $y^s(\log y)^j$ with distinct pairs $(s,j)$ are
   linearly independent. So $F(\Delta)$ is well defined.
@@ -915,7 +910,7 @@ points. These converge.
 
 \subsection{The joint-kernel theorem}
 
-\begin{theorem}[Original Theorem 4, repaired]\label{thm:spectral}
+\begin{theorem}[Detecting a zero with $J_\beta$ and $T$]\label{thm:spectral}
 Let $\alpha<\beta<1$, $\gamma\in\RR$ and $\lambda=-(\beta^2+\gamma^2)$.
 Then $\zeta(\beta+i\gamma)=0$ if and only if there is $0\ne f\in S_k$ with
 \[
@@ -948,13 +943,16 @@ $\eta(\beta)>0$. So $Tf=0$ forces $f=0$. And $\zeta(\beta)\ne0$. So both
 sides of the equivalence are false.
 \end{proof}
 
-\subsection{Why the block operator has too many eigenvalues}
+\subsection{Can the block operator detect zeros?}
 
-The typescript claims that negative eigenvalues of $B(\beta)$ come from
-zeros of $\zeta$. The following two lemmas show why this fails. They also
-show how badly it fails.
+Theorem~\ref{thm:spectral} says that a zero produces an eigenvector of
+the block operator $B(\beta)$ of the special form $(f,0)$.  It is natural
+to ask whether, conversely, every eigenvalue of $B(\beta)$, or every
+negative one, comes from a zero of $\zeta$.  The following results show
+that the answer is no, in a strong form: almost every complex number is
+an eigenvalue.
 
-\begin{lemma}[Triangular blocks, new]\label{lem:triangular}
+\begin{lemma}[Triangular blocks]\label{lem:triangular}
 Let $X$ be a Hilbert space. Let $J$, $L$, $M$ be linear operators in $X$.
 Define $B(f,g)=(Jf,\ Lf+Mg)$ on the pairs with $f\in D(J)\cap D(L)$ and
 $g\in D(M)$. Suppose $Jf=\lambda f$ with $f\ne0$ and $f\in D(L)$. Suppose
@@ -966,7 +964,7 @@ $B(f,g)=\lambda(f,g)$.
 We have $g\in D(M)$ and $(\lambda-M)g=Lf$. So $Lf+Mg=\lambda g$.
 \end{proof}
 
-\begin{lemma}[New]\label{lem:resolventM}
+\begin{lemma}\label{lem:resolventM}
 Let $M$ be multiplication by $-\log y$ on $S_k$, with domain
 $\{g\in S_k:\ Mg\in S_k\}$. Every $\lambda\notin[0,\infty)$ lies in the
 resolvent set of $M$.
@@ -981,7 +979,7 @@ Proposition~\ref{prop:logcoords}, multiplication by $\varphi$ is bounded
 on $S_k$. It inverts $\lambda-M$.
 \end{proof}
 
-\begin{theorem}[New]\label{thm:manyeigen}
+\begin{theorem}[Eigenvalues of block operators]\label{thm:manyeigen}
 Let $\alpha<\beta$. Let $L$ be any linear operator whose domain contains
 the power functions $y^r$ with $\Ree r\ge\beta$, and with
 $Ly^r=c(r)y^r$ for finite numbers $c(r)$. Then every
@@ -1001,46 +999,42 @@ $J_\beta y^r=\lambda y^r$. Apply Lemmas~\ref{lem:triangular}
 and~\ref{lem:resolventM}.
 \end{proof}
 
-\begin{corollary}\label{cor:thm4false}
-The original Theorem~4(a) is false. Take $k=1$, $\beta=\frac{9}{10}$ and
+\begin{corollary}[An eigenvalue not coming from a zero]\label{cor:thm4false}
+Take $k=1$, $\beta=\frac{9}{10}$ and
 $\lambda=-\frac{81}{100}$. Then $r=\frac{9}{10}$. The pair
 \[
 f=y^{9/10},\qquad g=\frac{-\eta(9/10)\,y^{9/10}}{\log y-81/100}
 \]
 is an eigenvector of $B(\frac{9}{10})$ with eigenvalue
-$-\frac{81}{100}$. But $\zeta(\frac{9}{10})\ne0$.
+$-\frac{81}{100}$, although $\zeta(\frac{9}{10})\ne0$.  Here the second
+component $g$ lies in $S_1$: since $\lambda<0$, the denominator never
+vanishes on $(0,1)$, and it grows near $0$, which helps integrability.
 \end{corollary}
 
-\begin{corollary}\label{cor:thm6false}
-The original Theorem~6 is false wherever its operator is defined. Let
-$T_U=\sum_\nu R_\nu$, summed over the generalized integers of $U$. On
+\begin{corollary}[Block operators built from $\zeta_U$]\label{cor:thm6false}
+Let $T_U=\sum_\nu R_\nu$, summed over the generalized integers of $U$. On
 $y^r$ with $\Ree r>1$ it acts by $\zeta_U(r)$. Take $k=1$,
 $\beta=\frac{9}{10}$ and $\lambda=-\frac12$. The root
 $r=\frac{9+\sqrt{31}}{10}\approx1.457$ exceeds $1$. So
 Theorem~\ref{thm:manyeigen} applies to $L=T_U$. The block operator
-$B_U(\frac{9}{10})$ has the real eigenvalue $-\frac12$.
+$B_U(\frac{9}{10})$ has the real eigenvalue $-\frac12$, although
+$\zeta_U$ has no zeros in $\Ree s>\frac12$ (Theorem~\ref{thm:slit}).
 \end{corollary}
 
-\begin{remark}[Original Theorem 5]\label{rem:thm5}
-The original Theorem~5 says that $B$ and $B_A$ have the same negative
-eigenvalues. Where both $T$ and $T_A$ act on power functions by finite
-scalars, Theorem~\ref{thm:manyeigen} shows that every negative number is
-an eigenvalue of both. So the statement is true only in a vacuous way. It
-carries no information about zeros.
+\begin{remark}[Comparing two block operators]\label{rem:thm5}
+Do $B$ and $B_A$, built from $T$ and from a perturbed operator $T_A$,
+have the same negative eigenvalues?  Where both $T$ and $T_A$ act on power
+functions by finite scalars, Theorem~\ref{thm:manyeigen} shows that every
+negative number is an eigenvalue of both.  So they do, but for a reason
+that carries no information about zeros.  Section~\ref{sec:replace}
+compares the summation operators directly instead.
 \end{remark}
 
-\begin{remark}
-The typescript argued that $g=Tf/(\lambda+\log y)$ cannot lie in $S_k$
-unless $g=0$. The opposite is true. Since $\lambda<0$, the denominator
-never vanishes on $(0,1)$. It even grows near $0$, which helps
-integrability.
-\end{remark}
-
-\section{Replacements for the original Theorems 5 and 6}\label{sec:replace}
+\section{Comparison operators and a pole-removed operator}\label{sec:replace}
 
 \subsection{An Euler-factor comparison operator}
 
-\begin{proposition}[Replaces original Theorem 5]\label{prop:EA}
+\begin{proposition}[An Euler-factor comparison operator]\label{prop:EA}
 Let $a_n>1$ and suppose that $A$ and the primes satisfy \eqref{eq:l1} with
 $\sigma_0=\alpha$. For instance, this holds if $|a_n-p_n|\ll_\delta
 n^{\alpha+\delta}$ for every $\delta>0$. Let $Q$ be as in
@@ -1085,7 +1079,7 @@ $\Ree s>\alpha$. That fails in general.
 
 \subsection{A pole-removed operator for \texorpdfstring{$U$}{U}}
 
-\begin{proposition}[Replaces original Theorem 6]\label{prop:KU}
+\begin{proposition}[A pole-removed operator]\label{prop:KU}
 Let $k=1$, so $\alpha=\frac12$. Let $G_U(s)=(s-1)\zeta_U(s)$. By
 Theorem~\ref{thm:slit}, $G_U$ is holomorphic and has no zeros on
 $\Ree s>\frac12$. Let $K_U=G_U(\Delta)$ on $\mathcal D_1$. Then
@@ -1147,7 +1141,7 @@ has the symbol
 Note $c_2(n)=(-1)^{n-1}$, so
 $T=-T^{(2)}$.
 
-\begin{theorem}[New]\label{thm:betafree}
+\begin{theorem}[The joint kernel of two dilation sums]\label{thm:betafree}
 On $\Dk$ the joint kernel $\mathcal Z_k=\kerop T^{(2)}\cap\kerop T^{(3)}$
 is spanned by the functions
 \[
@@ -1179,13 +1173,14 @@ The operator $\yD$ acts on $V_s$ by $p\mapsto sp+p'$. This is one Jordan
 block with eigenvalue $s$. Its size is $\ord_s\zeta$.
 \end{proof}
 
-\begin{corollary}[New]
+\begin{corollary}[RH and the algebraic joint kernel]
 Take $k=1$. The Riemann hypothesis holds if and only if
 $\kerop T^{(2)}\cap\kerop T^{(3)}\cap\mathcal D_1=\{0\}$.
 In particular, taking the November 2026 formal RH verification
 \cite{LF26,Ru26} as an external input yields the asserted
-\emph{algebraic} joint-kernel vanishing. This conclusion does not,
-by itself, identify kernels of the closed operators.
+\emph{algebraic} joint-kernel vanishing.  The corresponding statement
+for the closed operators is discussed in
+Remark~\ref{rem:synthesis-2026}.
 \end{corollary}
 
 \begin{proof}
@@ -1211,6 +1206,24 @@ Schwartz~\cite{Sc47} proved spectral synthesis for a single convolution
 equation on the whole line. Nyman~\cite{Ny50} and Beurling~\cite{Be55}
 studied closely related closure problems for dilations on $(0,1)$. Their
 work connects such closures to the zeros of $\zeta$.
+
+\begin{remark}[Editorial update, November 2026]\label{rem:synthesis-2026}
+The companion paper \emph{Spectral invariance under Grosswald--Schnitzer
+prime perturbations}, in the \texttt{grosswald-schnitzer-graph} folder of
+this repository, answers Open Problem~\ref{prob:synthesis} in the
+affirmative.  It shows that the closures exist and that their joint
+kernel is the closed span of $\mathcal Z_k$ (Theorem~2.1 there).
+That paper uses the space with derivatives up to order $k$ rather than
+$N$; its Remark~2.4 explains that the argument is the same for
+the spaces of this edition.  Its proof uses Hardy-space methods from
+after 1981 and is not part of this historical edition.  Combined with the
+November 2026 formal verification of RH \cite{LF26,Ru26}, it gives the
+closed form of the corollary above.  For $k=1$ the closed joint kernel
+is $\{0\}$.  For $k\ge2$ it is the closed span of the $y^\rho(\log y)^j$
+over all nontrivial zeros $\rho$.  The eigenvectors of $\yD$ lying in
+that subspace are exactly the multiples of the $y^\rho$, so their
+eigenvalues are exactly the nontrivial zeros.
+\end{remark}
 
 \section{Graph interpretations of Euler products and summation operators}
 \label{sec:graphs}
@@ -1304,7 +1317,7 @@ $c_j=h_j-h_{j-1}$, with $h_0=0$.  Define the weighted boundary norm
  \qquad \alpha=\frac{1}{2k}.
 \end{equation}
 
-\begin{theorem}[Bounded graph-boundary comparison, new]
+\begin{theorem}[Bounded graph-boundary comparison]
 \label{thm:graph-boundary}
 Assume $V_\alpha(e-f)<\infty$.  Then the operator product
 \begin{equation}\label{eq:graph-operator-product}
@@ -1455,8 +1468,9 @@ replace the analytic proof of that assertion.
 
 \section{Concluding remarks}\label{sec:conclusion}
 
-Three parts of the 1981 program survive.  The graph interpretation
-adds a separate elementary comparison theorem (Theorem~\ref{thm:graph-boundary}).
+The main results fall under the three themes of the 1981 program.  The
+graph interpretation adds a separate elementary comparison theorem
+(Theorem~\ref{thm:graph-boundary}).
 \begin{enumerate}[label=(\arabic*)]
 \item Generator systems close to the primes, in the weighted $\ell^1$
   sense of \eqref{eq:l1}, have the same zeros as $\zeta$.
@@ -1467,10 +1481,10 @@ adds a separate elementary comparison theorem (Theorem~\ref{thm:graph-boundary})
   such operators and the generator $\yD$, no parameter $\beta$ is needed.
 \end{enumerate}
 
-Two parts do not survive. The block operators $B(\beta)$ have point
-spectrum containing $\CC\setminus[0,\infty)$. So their spectra carry no
-information about zeros. And the closing hope about pair correlation
-remains a motivation only. In particular, the random system of
+Two questions have negative answers. The block operators $B(\beta)$
+have point spectrum containing $\CC\setminus[0,\infty)$, so their spectra
+carry no information about zeros. And a link between these models and
+pair correlation remains a motivation only. In particular, the random system of
 Section~\ref{sec:random} has no zeros to the right of $\frac12$. So a
 random-matrix model of Montgomery's conjecture~\cite{Mo73} would
 need a different design. See also Mehta~\cite{Me67}.
@@ -1479,46 +1493,62 @@ need a different design. See also Mehta~\cite{Me67}.
 \section{Glossary}\label{app:glossary}
 
 \begin{description}[style=nextline,leftmargin=1.5em]
+\item[Abscissa of convergence] The boundary of the right half-plane where a Dirichlet series converges. Its sum may admit continuation farther left.
+\item[Absolute convergence] The sum of termwise absolute values is finite. This justifies many rearrangements that conditional convergence does not.
+\item[Adjoint operator] For a densely defined Hilbert-space operator, the adjoint is defined through the inner-product identity. Its natural domain may differ from the original operator domain.
 \item[Algebraic span] The set of \emph{finite} linear combinations of a
   family of vectors. No limits are taken. Its Hilbert-space closure can be strictly larger.
 \item[Almost surely] With probability one. Exceptional outcomes may still occur on a probability-zero set.
 \item[Analytic continuation] Extension of a holomorphic function to a
   larger connected open set. It is unique when it exists. It does not imply convergence of the original series.
+\item[Analytic symbol] A function prescribing an operator's action on $y^s$. Domain and closure questions must be answered separately.
+\item[Banach space] A complete normed vector space. Continuity of linear operators can be expressed through bounded operator norms.
 \item[Beurling generalized primes] Any sequence $1<a_1\le a_2\le\cdots$
   tending to infinity. Formal products of its terms are the generalized
   integers. Distinct exponent vectors can represent the same numerical product.
 \item[Borel--Cantelli lemma] If $\sum\Pr(E_n)<\infty$, then almost surely
   only finitely many events $E_n$ occur. The forward implication needs no independence assumption.
+\item[Bounded multiplier] A function that defines a bounded multiplication operator in the chosen analytic-function space. Being nonzero is not sufficient for bounded invertibility.
 \item[Branch point] A point around which a function changes value when
   continued around a small loop. Example: $(2s-1)^{-1/2}$ at
   $s=\frac12$. A slit domain may be required to choose one single-valued branch.
+\item[Chebyshev function] A weighted count of prime generators or prime powers. Logarithmic derivatives of Euler products naturally involve it.
 \item[Closure of an operator] The operator whose graph is the closure of
   the original graph, when that closure is a graph. It exists as an operator only if the graph closure remains single valued.
+\item[Comparison quotient] The ratio $Q_A=\zeta_A/\zeta$ of generalized and ordinary zeta functions. Its zero-free property controls zeros, not all operator norms.
+\item[Critical line] The vertical line $\Ree s=\tfrac12$. Under RH the nontrivial zeta zeros lie on this line.
 \item[Critical strip] The region $0<\Ree s<1$. The critical line is its midpoint.
 \item[Dilation] The map $f(y)\mapsto f(y/c)$. It becomes translation after taking logarithmic coordinates.
+\item[Directed incidence boundary] Also called the discrete divergence. A signed function on vertices
+obtained from an edge flow, positive at a source and negative at its
+target.  In the prime path it is $(\partial e)_j=e_j-e_{j-1}$. A long occupied block has boundary contributions only at its endpoints.
 \item[Dirichlet eta function] $\eta(s)=\sum(-1)^{n-1}n^{-s}$. It equals
   $(1-2^{1-s})\zeta(s)$ and converges for $\Ree s>0$. Its alternating signs give convergence beyond the original zeta Dirichlet series.
+\item[Dirichlet series] A sum of terms $a_n n^{-s}$ or of a generalized-frequency analogue. Its region of absolute convergence is often smaller than the domain of analytic continuation.
+\item[Discrete Fourier character] A character of a finite cyclic group represented by a complex root of unity. Such characters diagonalize the shift around a residue cycle.
 \item[Distributional derivative] The derivative in the sense of
   distributions. It agrees with the classical derivative for smooth
   functions. This derivative is available for nondifferentiable Sobolev functions.
-\item[Directed incidence boundary] A signed function on vertices
-obtained from an edge flow, positive at a source and negative at its
-target.  In the prime path it is $(\partial e)_j=e_j-e_{j-1}$. A long occupied block has boundary contributions only at its endpoints.
+\item[Eigenvector] A nonzero vector $f$ in the operator domain satisfying $Tf=\lambda f$. A formal identity is not enough without domain membership.
+\item[Essential spectrum] Spectrum stable under certain perturbations, depending on the definition. It cannot be read off from symbol zeros alone.
+\item[Euler product] A product $\prod(1-a_n^{-s})^{-1}$ over generators. Its geometric expansion counts exponent vectors with multiplicity.
 \item[Exponent-vector graph] The directed lattice graph with vertices
 nonnegative exponent vectors and edges corresponding to multiplying by
 one generator.  Each vertex represents one formal generalized integer. Its Euler generating function counts vertices rather than directed paths.
-\item[Graph boundary variation] The weighted sum of absolute incidence
-coefficients.  Its finiteness ensures the norm convergence of a
-comparison-operator product in Theorem~\ref{thm:graph-boundary}. It quantifies the Euler factors remaining after cancellation.
-\item[Euler product] A product $\prod(1-a_n^{-s})^{-1}$ over generators. Its geometric expansion counts exponent vectors with multiplicity.
 \item[Exponential integral] $E_1(z)=\int_z^\infty e^{-t}\,\dd t/t$. It
   equals $-\gamma-\Log z$ plus an entire function. The logarithmic local term is crucial in its continuation.
+\item[Formal generalized integer] An exponent-vector product of generalized prime generators. Equal numerical values may have multiple formal representations.
+\item[Graph norm] The norm $\|f\|_T=(\|f\|^2+\|Tf\|^2)^{1/2}$ on an operator domain. Equivalent graph norms require more than equality of eigenvalues.
+\item[Half-plane] The open region $\{s\in\mathbb C:\Ree s>\sigma_0\}$. The precise boundary affects both convergence and which spectral powers belong to $S_k$.
+\item[Hilbert space] A complete space with an inner product. Its geometry supplies orthogonal projections and an adjoint-operator theory.
 \item[Hoeffding's inequality] A tail bound for sums of bounded
   independent random variables. It assumes independent, bounded random summands.
+\item[Incidence matrix] A signed matrix recording endpoints of oriented edges. Multiplying by an edge-flow vector computes vertex divergence.
 \item[Joint kernel] The set of vectors killed by each of several
   operators. Intersection removes eigenvectors present in only one kernel.
 \item[Jordan block] A matrix with one eigenvalue on the diagonal and ones
-  just above it. Its nontrivial chains obstruct diagonalization by an orthonormal eigenbasis.
+  just above it. A block of size greater than one cannot be diagonalized.
+\item[Locally uniform convergence] Uniform convergence on every compact subset of an open domain. It preserves holomorphy of the limit.
 \item[Logarithmic integral] $\Li(x)=\mathrm{P.V.}\int_0^x\dd t/\log t$. It is a smooth approximation, not an actual counting function.
 \item[Mellin transform] The transform $f\mapsto\int_0^\infty f(y)y^{s-1}
   \dd y$. It turns dilations into multiplication by $c^{-s}$. The multiplier convention depends on the transform normalization.
@@ -1528,53 +1558,32 @@ comparison-operator product in Theorem~\ref{thm:graph-boundary}. It quantifies t
 \item[Nontrivial zero] A zero of $\zeta$ in the critical strip. The known negative even integer zeros are excluded.
 \item[Normal convergence] Convergence of $\sum\sup_K|f_n|$ on every
   compact set $K$. It allows term-by-term holomorphic differentiation.
+\item[Operator domain] The specified linear subspace on which an operator acts. Different domains can produce different closed operators from the same formula.
 \item[Periodic residue cycle] A directed cycle whose vertices are
 residue classes modulo $q$.  The zero-mean coefficient $c_q$ is the
 negative sum of its nonconstant Fourier modes. The nonconstant cyclic Fourier modes have average zero.
 \item[Point spectrum] The set of eigenvalues of an operator. Continuous or residual spectrum can exist separately.
 \item[Prime zeta function] $P_A(s)=\sum_na_n^{-s}$. It appears on taking logarithms of Euler products.
-\item[Resolvent set] The set of $\lambda$ for which $\lambda-M$ has a
-  bounded inverse. Its definition requires a bounded, everywhere-defined inverse.
+\item[Prime-gap perturbation] The replacement $p_n\le a_n\le p_{n+1}$. Moving few or nearby primes does not automatically ensure a bounded multiplier.
+\item[Pseudospectrum] A resolvent-sensitive notion describing spectral instability. It depends on operator norms, not only eigenvalues.
+\item[Random generalized prime system] A generalized prime sequence chosen according to a probability model. Its zeta function has analytic behavior depending on that model, rather than automatically inheriting RH.
+\item[Resolvent set] The set of $\lambda$ for which $\lambda I-L$ has a
+  bounded, everywhere-defined inverse, for a closed operator $L$. Its complement is the spectrum.
 \item[Riemann hypothesis (RH)] All nontrivial zeros of $\zeta$ have real
   part $\frac12$. It does not imply zero simplicity or operator self-adjointness.
-\item[Spectral synthesis] The property that a closed invariant subspace
-  is the closed span of the exponential (or power) functions it contains. One must prove completeness rather than merely list eigenfunctions.
-\item[Stieltjes integral] An integral $\int f\dd g$ with respect to a
-  function $g$ of bounded variation, such as a counting function. It makes partial summation against counting measures possible.
-\item[Weighted Sobolev space] A space of functions whose derivatives up
-  to some order are square integrable against given weights. Its weights determine integrability near the interval boundary.
-
-% Additional technical terms, editorial draft 4
-\item[Absolute convergence] The sum of termwise absolute values is finite. This justifies many rearrangements that conditional convergence does not.
-\item[Abscissa of convergence] The boundary of the right half-plane where a Dirichlet series converges. Its sum may admit continuation farther left.
-\item[Analytic symbol] A function prescribing an operator's action on $y^s$. Domain and closure questions must be answered separately.
-\item[Bounded multiplier] A function that defines a bounded multiplication operator in the chosen analytic-function space. Being nonzero is not sufficient for bounded invertibility.
-\item[Chebyshev function] A weighted count of prime generators or prime powers. Logarithmic derivatives of Euler products naturally involve it.
-\item[Comparison quotient] The ratio $Q_A=\zeta_A/\zeta$ of generalized and ordinary zeta functions. Its zero-free property controls zeros, not all operator norms.
-\item[Critical line] The vertical line $\Ree s=\tfrac12$. Under RH the nontrivial zeta zeros lie on this line.
-\item[Discrete divergence] The signed edge-to-vertex boundary of a directed flow. It measures the transitions where Euler factors do not cancel.
-\item[Eigenvector] A nonzero vector $f$ in the operator domain satisfying $Tf=\lambda f$. A formal identity is not enough without domain membership.
-\item[Essential spectrum] Spectrum stable under certain perturbations, depending on the definition. It cannot be read off from symbol zeros alone.
-\item[Formal generalized integer] An exponent-vector product of generalized prime generators. Equal numerical values may have multiple formal representations.
-\item[Graph norm] The norm $\|f\|_T=(\|f\|^2+\|Tf\|^2)^{1/2}$ on an operator domain. Equivalent graph norms require more than equality of eigenvalues.
-\item[Incidence matrix] A signed matrix recording endpoints of oriented edges. Multiplying by an edge-flow vector computes vertex divergence.
-\item[Operator domain] The specified linear subspace on which an operator acts. Different domains can produce different closed operators from the same formula.
-\item[Pseudospectrum] A resolvent-sensitive notion describing spectral instability. It depends on operator norms, not only eigenvalues.
-\item[Prime-gap perturbation] The replacement $p_n\le a_n\le p_{n+1}$. Moving few or nearby primes does not automatically ensure a bounded multiplier.
 \item[Riesz basis] A boundedly invertible image of an orthonormal basis. Completeness alone is strictly weaker.
 \item[Self-adjointness] Equality of an operator and its adjoint, including domains. Merely real eigenvalues do not imply it.
 \item[Sobolev threshold] The strict condition $\Ree s>1/(2k)$ for admissible powers. The critical line lies on the boundary when $k=1$.
 \item[Spectral mapping] A relation between the spectrum of an operator and that of a function of it. Its validity depends on the operator calculus used.
-\item[Weighted total variation] A weighted sum of absolute jumps in an edge flow. It controls how much of an Euler product survives telescoping.
+\item[Spectral synthesis] The property that a closed invariant subspace
+  is the closed span of the exponential (or power) functions it contains. One must prove completeness rather than merely list eigenfunctions.
+\item[Stieltjes integral] An integral $\int f\dd g$ with respect to a
+  function $g$ of bounded variation, such as a counting function. It makes partial summation against counting measures possible.
+\item[Weighted boundary variation] The weighted sum $\sum_j|(\partial h)_j|\,p_j^{-\alpha}$ of the absolute incidence coefficients of an edge flow $h$ on the prime path. When it is finite, the product of the factors $(I-R_{p_j})^{(\partial h)_j}$ converges in operator norm; it measures the Euler factors that survive telescoping.
+\item[Weighted Sobolev space] A space of functions whose derivatives up
+  to some order are square integrable against given weights. Its weights determine integrability near the interval boundary.
+
 \item[Zero multiplicity] The order of vanishing of a holomorphic symbol. Multiple zeros yield longer logarithmic generalized-eigenvector chains.
-\item[Adjoint operator] For a densely defined Hilbert-space operator, the adjoint is defined through the inner-product identity. Its natural domain may differ from the original operator domain.
-\item[Banach space] A complete normed vector space. Continuity of linear operators can be expressed through bounded operator norms.
-\item[Dirichlet series] A sum of terms $a_n n^{-s}$ or of a generalized-frequency analogue. Its region of absolute convergence is often smaller than the domain of analytic continuation.
-\item[Discrete Fourier character] A character of a finite cyclic group represented by a complex root of unity. Such characters diagonalize the shift around a residue cycle.
-\item[Half-plane] The open region $\{s\in\mathbb C:\Ree s>\sigma_0\}$. The precise boundary affects both convergence and which spectral powers belong to $S_k$.
-\item[Hilbert space] A complete space with an inner product. Its geometry supplies orthogonal projections and an adjoint-operator theory.
-\item[Locally uniform convergence] Uniform convergence on every compact subset of an open domain. It preserves holomorphy of the limit.
-\item[Random generalized prime system] A generalized prime sequence chosen according to a probability model. Its zeta function has analytic behavior depending on that model, rather than automatically inheriting RH.
 \end{description}
 
 \section*{Acknowledgments and provenance}
@@ -1595,19 +1604,36 @@ significant improvements in section~3.
 split them into sentences.) These acknowledgments do not imply that either
 mathematician reviewed the present edition.
 
-The first corrected edition (ChatGPT, 2026) supplied the repaired proofs of
-the original Theorems~1--4 and the first counterexample. This second
-edition (Claude, 2026) added the comparison principle, the dyadic lemma,
-the slit-plane theorem, the triangular-block lemma, the multiplier
-calculus and Section~\ref{sec:betafree}. ChatGPT (OpenAI) prepared Draft 3 in November 2026, revising the
-exposition and typesetting, providing the elementary graph constructions,
-and checking the new graph-boundary operator theorem.  Claude (Anthropic)
-prepared the second corrected edition in October 2026 from the
-original and the first corrected edition.  AI review is not independent
-certification of any result.  Details on each system's role, remaining
-verification limitations, and the mathematical changes appear in the
-separate revision log.  All analytic and graph-theoretic tools used in
-this edition were available in 1981.
+The 2026 editions were prepared as follows.
+\begin{itemize}
+\item The first corrected edition (ChatGPT, OpenAI) transcribed the
+  typescript, supplied the first corrected proofs, and gave the example
+  of Corollary~\ref{cor:thm4false}.
+\item The second corrected edition (Claude, Anthropic, October 2026)
+  was prepared from the original and the first corrected edition.  It
+  added the comparison principle, the dyadic lemma, the slit-plane
+  theorem, the triangular-block lemma, the multiplier calculus, and
+  Section~\ref{sec:betafree}.
+\item Draft~3 (ChatGPT, November 2026) revised the exposition and
+  typesetting, provided the elementary graph constructions of
+  Section~\ref{sec:graphs}, and checked the graph-boundary operator
+  theorem.
+\item Draft~4 (ChatGPT, November 28, 2026) moved the literature review and
+  notation into the Introduction, expanded the glossary, and added the
+  editorial notes on the November 2026 RH formalization.
+\item Draft~5, the present edition (Claude, November 28, 2026), refereed
+  Draft~4 against its companion papers.  It added
+  Remark~\ref{rem:synthesis-2026}, moved the discussion of the errors in
+  the typescript to the revision log, merged and alphabetized the glossary,
+  introduced section-based equation numbering, and corrected the RH
+  attribution and citation.
+\end{itemize}
+AI review is not independent certification of any result.  Details on
+each system's role, remaining verification limitations, and the
+mathematical changes appear in the separate revision log.  All analytic
+and graph-theoretic tools used in the historical narrative of this
+edition were available in 1981; the editorial remarks on 2026
+developments are marked as such.
 
 
 \begin{thebibliography}{99}
@@ -1685,8 +1711,8 @@ Springer-Verlag, Berlin, 1974.
 joint statement, November 21, 2026,
 \url{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}.
 \bibitem{Ru26} M. Rubinstein,
-\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis:
-exposition and verification}, November 2026,
+\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis},
+web page, November 2026, accessed November 28, 2026,
 \url{https://math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/}.
 
 \end{thebibliography}

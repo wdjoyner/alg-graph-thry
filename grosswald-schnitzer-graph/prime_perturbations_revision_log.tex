@@ -4,9 +4,10 @@
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{amsmath,amssymb,booktabs,microtype}
 \usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
 \title{Revision Log: Operator-Equivalence Classes of Grosswald--Schnitzer Prime Perturbations}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
-\date{Draft 2, November 28, 2026}
+\date{Drafts 2 and 3, November 28, 2026}
 \begin{document}
 \maketitle
 \section{Scope}
@@ -29,7 +30,7 @@ paper, and one-inch margins follow the supplied style guide.
 The prior theorem labels have been preserved.
 
 \section{Bibliographic and mathematical-status notes}
-Standardized citation keys to GS78, CJ26, DGMS19, Sc20, and Be49.
+Standardized citation keys to GS78, CJ26 (replaced by GS26 in Draft~3), DGMS19, Sc20, and Be49.
 Publisher and journal records were consulted for Grosswald--Schnitzer
 (1978), Defant--Garc\'ia--Maestre--Sevilla-Peris (2019), and
 Schoolmann (2020). Further checking of individual source locations
@@ -44,8 +45,60 @@ No new theorem is claimed as independently certified by this pass.
 The discussion of November 2026 RH verification retains its
 previous cited and appropriately qualified status.
 
+\section{Draft 3 (November 28, 2026), prepared by Claude}
+Claude (Anthropic) refereed Draft~2 together with the companion paper
+\nolinkurl{grosswald_schnitzer_spectral_invariance_2026.tex}, the
+corrected 1981 edition, and the RH companion note.  Claude checked the
+proofs of Theorems~4.1 and~5.1, Propositions~6.1, 6.2 and~7.1, and
+Corollaries~8.1 and~8.2, and found them correct.  Draft~3 makes the
+following changes.
+\begin{itemize}
+\item \emph{Error corrected.}  Example~3 of Section~2 listed the
+  generalized integers for $A=(5/2,3,5,7,\ldots)$ as
+  $1,5/2,3,5,25/4,15/2,\ldots$, omitting $7$.  The list now reads
+  $1,5/2,3,5,25/4,7,15/2,9,\ldots$.
+\item \emph{Companion paper.}  The citation CJ26 (the November~1 version,
+  prepared by ChatGPT) is replaced by GS26, the current Draft~2 of the
+  spectral-invariance paper in this folder.  Statements that the
+  closed-kernel equality ``depends on the closure and domain arguments of
+  that working model, which are not independently reverified here'' are
+  replaced by citations of its Theorem~2.1, whose proof Claude checked.
+  The $H^\infty$ criterion is now cited to Proposition~6.1 there.
+\item \emph{RH consequences.}  Section~10 and the Introduction no longer
+  say that RH gives no statement about the closed joint kernel.  With
+  GS26 Theorem~2.1 and Corollary~11.1, RH gives that the closed joint
+  kernel is $\{0\}$ on $S_1$ and is the closed span of the zero powers
+  of all nontrivial zeros on $S_k$, $k\ge2$.  The von Koch bounds are no
+  longer called ``conditional''.  The RH result is attributed as found
+  with Anthropic's Claude, citing Rubinstein's page; the title of that
+  citation was corrected and an access date added.
+\item \emph{Notation.}  The dilation generator $\Delta=y\,d/dy$, used in
+  Section~10, is now defined in the notation table.  Point masses in
+  Section~6.3 are written $\varepsilon_x$ instead of $\delta_x$, since
+  $\delta$ is the Sobolev threshold.  In Theorem~4.1 the hypothesis
+  $0<\delta\le1$ is relaxed to $\delta>0$, with a sentence explaining
+  that $\delta>1$ is trivial; this matches Theorem~5.1.  The worked
+  example after Theorem~4.1 now states its norm formula for every
+  $\delta>0$ and records the numerical value $4.039$ at
+  $\delta=\frac12$, which Claude confirmed by direct maximization.
+\item \emph{Proposition~7.1.}  The ceiling in $\lceil j^3\rceil$ and the
+  clause about initial collisions were removed: cubes are integers and
+  are never adjacent.
+\item \emph{Cross-reference.}  The graph section refers to
+  Corollary~8.1 instead of ``the companion equivalence-class argument''.
+  The graph section is now kept only in this paper; the companion paper
+  summarizes it and cites it.
+\item \emph{Style guide.}  Examples were added to Section~3
+  (Example~3.1, the three relations for the endpoint shift) and to
+  Section~8 (Example~8.3, computing an inventory with the interior point
+  $e$).  The glossary was alphabetized, the entry ``Dilation generator''
+  was added, and the joint-kernel entry now uses $r$ instead of $q$.  The
+  draft line and date line were simplified, and one overfull line was
+  removed.  Theorem numbering is unchanged.
+\end{itemize}
+
 \section{AI assistance and license}
-ChatGPT (OpenAI) performed editorial revision, added examples
+For Draft~2, ChatGPT (OpenAI) performed editorial revision, added examples
 and definitions, checked citation names, and reviewed the
 automated compilation output. AI review is not independent
 verification of the mathematical research.

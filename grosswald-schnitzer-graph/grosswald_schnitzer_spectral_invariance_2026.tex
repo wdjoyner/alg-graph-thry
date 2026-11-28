@@ -13,6 +13,8 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\numberwithin{equation}{section}
 \newcommand{\C}{\mathbb C}
 \newcommand{\Hh}{\mathcal H}
 \newcommand{\D}{\mathcal D}
@@ -24,22 +26,48 @@
 \newcommand{\Nplus}{N^+(\C_+)}
 \newcommand{\dd}{\,\mathrm d}
 \title{Spectral Invariance under Grosswald--Schnitzer Prime Perturbations\\[0.4em]
-\large Bounded comparison operators, unbounded counterexamples, and a common Hardy-space model}
+\large Draft 2\\[0.25em]
+\normalsize Bounded comparison operators, unbounded counterexamples, and a common Hardy-space model}
 \author{David Joyner\\\texttt{wdjoyner@gmail.com}}
-\date{November 28, 2026 (expanded revision)}
+\date{November 28, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-This paper was expanded with assistance from ChatGPT (OpenAI); the specific contributions are described in the acknowledgments and revision log. 
-We investigate whether the zero-preserving perturbations of primes introduced by Grosswald and Schnitzer in 1978 induce boundedly invertible comparisons between the zeta-associated dilation operators of D. Joyner. We prove an elementary sublinear growth estimate for the logarithm of the Euler-product quotient $Q_A=\zeta_A/\zeta$ in every right half-plane $\Re s\ge\delta>0$, and deduce that $Q_A$ and its reciprocal belong to the Smirnov class and that $Q_A$ is outer. Applied to the Hardy-space representation of Joyner's weighted Sobolev space, this proves equality of the \emph{closed joint kernels}, not just their eigenvalue multisets, for all Grosswald--Schnitzer perturbations. We distinguish this equality from similarity of the full operators. We give sufficient conditions for genuinely boundedly invertible comparison operators, as well as arbitrarily small perturbations for which $Q_A$ and $1/Q_A$ are both unbounded on the relevant half-plane. The results use standard Hardy-space facts and require independent novelty assessment before publication; no claim about the truth of the Riemann hypothesis is made.
+This paper was prepared with assistance from ChatGPT (OpenAI) and Claude (Anthropic); the specific contributions are described in the Acknowledgments and the revision log.
+We investigate whether the zero-preserving perturbations of primes introduced by Grosswald and Schnitzer in 1978 induce boundedly invertible comparisons between the zeta-associated dilation operators of D. Joyner. We prove an elementary sublinear growth estimate for the logarithm of the Euler-product quotient $Q_A=\zeta_A/\zeta$ in every right half-plane $\Re s\ge\delta>0$, and deduce that $Q_A$ and its reciprocal belong to the Smirnov class and that $Q_A$ is outer. Applied to the Hardy-space representation of Joyner's weighted Sobolev space, this proves equality of the \emph{closed joint kernels}, not just their eigenvalue multisets, for all Grosswald--Schnitzer perturbations. We distinguish this equality from similarity of the full operators. We give sufficient conditions for genuinely boundedly invertible comparison operators, as well as arbitrarily small perturbations for which $Q_A$ and $1/Q_A$ are both unbounded on the relevant half-plane. Unconditionally, the closed joint kernel on the space $S_1$ is $\{0\}$ if and only if the Riemann hypothesis holds. Taking the November 2026 certified formal proof of RH as an external input, the closed joint kernel is therefore $\{0\}$ on $S_1$, and on $S_k$ with $k\ge2$ it is the closed span of the critical-line zero powers and their logarithmic companions. The results use standard Hardy-space facts and require independent novelty assessment before publication; this paper does not itself prove or verify RH.
 \end{abstract}
+
+\clearpage
+\setcounter{tocdepth}{2}
+\tableofcontents
+\clearpage
 
 \section{Introduction}
 \subsection{Motivation and principal results}
+The Grosswald--Schnitzer theorem says that moving each prime within
+its prime gap does not move the zeros of the associated zeta function
+in $\Re s>0$.  This paper asks how much of that invariance survives
+at the level of the zeta-associated dilation operators of the
+author's 1981 manuscript (see the corrected edition in the
+\texttt{zeta-operators-graph} folder of this repository).
+
 We distinguish invariance of the zero-associated common kernel
 from bounded left equivalence or similarity of full summation operators.
-The proof uses Hardy-space and Smirnov-class factorization, whereas
-the graph interpretation records Euler-factor cancellations.
+The first is complete: Theorem~\ref{thm:main} shows that the
+\emph{closed} joint kernel does not depend on the perturbation.
+The second depends on the perturbation in a delicate way
+(Theorem~\ref{thm:compare}); its exact classification for
+endpoint shifts is given in the companion paper \cite{PP26}.
+The proof uses Hardy-space and Smirnov-class factorization: the
+Euler quotient $Q_A$ may be unbounded, but it is always an
+\emph{outer} function, so it introduces no new inner factor.
+Combined with RH, Theorem~\ref{thm:main} determines the closed joint
+kernel completely (Corollary~\ref{cor:rh-kernel}).
+
+The simplest example to keep in mind is the endpoint perturbation
+$a_n=p_{n+1}$, which moves every prime to its successor.  Its Euler
+quotient telescopes to $Q_A(s)=1-2^{-s}$, which is bounded and
+bounded away from zero on every half-plane $\Re s\ge\delta>0$.
 \subsection{Literature review}
 Grosswald and Schnitzer introduced the zero-preserving prime-gap
 perturbations \cite{GS}.  Beurling's invariant-subspace
@@ -48,20 +76,27 @@ The Smirnov-class material relates to work of Choa--Kim--Shapiro
 \cite{SmirnovReference} and Fricain--Hartmann--Ross--Timotin
 \cite{Fricain}.  The prior spectral questions were formulated
 in the accompanying working note \cite{JoynerNote}.
+The companion paper \cite{PP26} classifies bounded comparison
+for endpoint perturbations and for perturbations with
+rationally independent frequencies.
 
 \paragraph{The November 2026 RH formalization.}
-On November 20, 2026, Alp\"oge announced a Claude-assisted Lean
-formalization of RH. The Lean FRO and Mathlib Initiative certified
+On November 20, 2026, Levent Alp\"oge released a Lean formalization
+of a proof of RH, found with Anthropic's Claude \cite{Ru26}.
+The Lean FRO and Mathlib Initiative certified
 the statement and formal proof on November 21 \cite{LF26}.
 Rubinstein records independent checks of the original formalization
-and its shorter successor \cite{Ru26}. We use this development to
-interpret the zero locations in the Hardy-space model, not as a
-replacement for its closure arguments. For $k\ge2$, RH locates the
+and its shorter successor \cite{Ru26}. We use this development as an
+external input in Section~\ref{sec:rh-2026}, not as a
+replacement for the closure arguments of the Hardy-space model.
+For $k\ge2$, RH locates the
 nontrivial zero powers strictly within the admissible exponent
-half-plane of $S_k$. For $k=1$, they lie on its boundary.
+half-plane of $S_k$; for $k=1$, they lie on its boundary.
+Together with Theorem~\ref{thm:main}, this determines the closed
+joint kernel for every $k$ (Corollary~\ref{cor:rh-kernel}).
 RH proves neither zero simplicity nor similarity of the full
 operator pairs. Human-readable expositions remain under development,
-and the present note has not independently audited the formal proof.
+and the present paper has not independently audited the formal proof.
 \subsection{Notation and conventions}
 Write $A=(a_n)$ for a prime-gap perturbation and
 $Q_A=\zeta_A/\zeta$ for its Euler quotient.
@@ -69,6 +104,8 @@ Fix $k\ge1$ and $\delta=1/(2k)$.
 The space $S_k$ is weighted Sobolev,
 $H^2(\mathbb C_+)$ is the Hardy model,
 and $N^+(\mathbb C_+)$ is the Smirnov class.
+The dilation generator is $\Delta=y\,d/dy$, so that
+$\Delta y^s=sy^s$, and $D_cf(y)=f(y/c)$ denotes dilation by $c>1$.
 The operators $T_A^{(r)}$ are initially analytic-symbol
 operators; literal convergence in the critical strip is not assumed.
 
@@ -93,6 +130,9 @@ with no added boundary condition at $y=1$. Its standard algebraic domain is
 \[
  \mathcal D_k=\spn\{y^s(\log y)^j:\Re s>\delta,\ j\ge0\}.
 \]
+A power $y^s$ lies in $S_k$ exactly when $\Re s>\delta$: each term
+of \eqref{eq:Sk} has integrand $|s(s-1)\cdots(s-j+1)|^2y^{2\Re s-1-1/k}$.
+
 For $r=2,3$, define the holomorphic symbols on $\Re s>\delta$
 \begin{equation}\label{eq:symbols}
  m_r(s)=(1-r^{1-s})\zeta(s),\qquad m_{A,r}(s)=Q_A(s)m_r(s).
@@ -125,6 +165,32 @@ The diagonal map $C_{Q_A}y^s=Q_A(s)y^s$ extends to a boundedly invertible operat
 \]
 There exist nontrivial \emph{infinite} perturbations satisfying this condition. Conversely, there exist perturbations with $0<a_n-p_n<2^{-n}$ for all $n$ such that \emph{both} $Q_A$ and $1/Q_A$ are unbounded even on $\Re s>1$. These unbounded examples still satisfy Theorem~\ref{thm:main}.
 \end{theorem}
+
+\begin{example}[Moving only the first prime]\label{ex:first-prime}
+Take $a_1=5/2$ and $a_n=p_n$ for $n\ge2$.  Then
+\[
+ Q_A(s)=\frac{1-2^{-s}}{1-(5/2)^{-s}},\qquad
+ m_{A,r}(s)=\frac{1-2^{-s}}{1-(5/2)^{-s}}\,(1-r^{1-s})\zeta(s).
+\]
+For example $Q_A(2)=\tfrac{3/4}{21/25}=\tfrac{25}{28}$, so the
+eigenvalue of $T_A^{(r)}$ on $y^2$ is $25/28$ times that of $T^{(r)}$.
+On $\Re s>\delta$ both $|1-2^{-s}|$ and $|1-(5/2)^{-s}|$ lie between
+$1-2^{-\delta}$ and $1+2^{-\delta}$, so $Q_A$ and $1/Q_A$ are bounded
+there.  The full operators therefore differ, but by
+Theorem~\ref{thm:compare} only by a boundedly invertible diagonal
+factor, and by Theorem~\ref{thm:main} their joint kernels coincide.
+\end{example}
+
+\begin{remark}[The order of the Sobolev norm]\label{rem:order}
+The corrected edition of the author's 1981 manuscript, in the
+companion folder of this repository, uses the same weights but sums the derivatives up to a fixed order $N\ge2$,
+independent of $k$.  The admissible half-plane $\Re s>\delta$ is the
+same.  Every argument below goes through for that space with $k$
+replaced by $N$ in the exponent of $(\Delta+c)^k$ in \eqref{eq:Uk};
+then $U(y^s)(z)=(s+c)^N/(z+s-\delta)$.  In particular,
+Theorem~\ref{thm:main} and Corollary~\ref{cor:rh-kernel} hold for
+the spaces of the 1981 edition as well.
+\end{remark}
 
 \section{A uniform sublinear growth estimate}
 We first prove the analytic estimate which makes the invariant-space argument work.
@@ -202,8 +268,38 @@ For the reverse inclusion, if $fF=G\in H^2$ then $bF=aG$. The inner factor $I_b$
 For $w\in\C_+$, bounded point evaluation gives $M_f^*K_w=\overline{f(w)}K_w$ (with inner product linear in the first variable). If a pair $(F,G)\in H^2\oplus H^2$ is orthogonal to every graph vector $(K_w,M_f^*K_w)$, evaluating at all $w$ shows $F=-fG$. Thus $G\in\Dom M_f$ and $F=-M_fG$: the orthogonal complement of these kernel graph vectors coincides with that of the full graph of $M_f^*$. Their span is therefore a graph core.
 \end{proof}
 
-\section{Proof of spectral invariance}
-Let $U_k:S_k\to H^2(\C_+)$ denote the bounded isomorphism constructed in the earlier spectral-synthesis note. For example, with $\Delta=y\,d/dy$ and $c>0$ it can be taken as the Laplace transform of $(\Delta+c)^kf$ after the logarithmic change $t=-\log y$ and the weight $e^{\delta t}$. Its essential property is
+\begin{example}[Outer, bounded and unbounded]\label{ex:outer}
+For the endpoint shift $a_n=p_{n+1}$ one has
+$Q_A(z+\delta)=1-2^{-z-\delta}$.  On $\C_+$ its modulus lies between
+$1-2^{-\delta}$ and $1+2^{-\delta}$.  A function that is bounded and
+bounded away from zero is invertible in $H^\infty(\C_+)$, and an
+invertible element of $H^\infty$ is outer, so here
+Lemma~\ref{lem:outer} is immediate.  The lemma has real content for
+the perturbations of Proposition~\ref{prop:counter} below.  There
+$Q_A(z+\delta)$ is outer but \emph{not} bounded, so it is not a bounded
+multiplier, yet it still contributes no inner factor.
+\end{example}
+
+\section{Proof of spectral invariance}\label{sec:proof}
+Let $U_k:S_k\to H^2(\C_+)$ denote the bounded isomorphism of the earlier spectral-synthesis note \cite{JoynerNote}. With $\Delta=y\,d/dy$ and $c>0$ it is the Laplace transform of $(\Delta+c)^kf$ after the logarithmic change $t=-\log y$ and the weight $e^{\delta t}$:
+\[
+ (U_kf)(z)=\int_0^\infty e^{-zt}\,e^{\delta t}\,\big((\Delta+c)^kf\big)(e^{-t})\dd t .
+\]
+For the reader's convenience, here is why $U_k$ is an isomorphism.
+Since $dy/y=dt$, the norm \eqref{eq:Sk} equals
+$\sum_{j\le k}\|e^{\delta t}(y^jD^jf)(e^{-t})\|_{L^2(0,\infty)}^2$.
+Each $y^jD^j$ is a polynomial in $\Delta$ of degree $j$, and conversely,
+so $\|f\|_{S_k}$ is equivalent to
+$\sum_{i\le k}\|e^{\delta t}(\Delta^if)(e^{-t})\|_{L^2}$.
+In the variable $t$, $\Delta=-d/dt$, and conjugation by $e^{\delta t}$
+turns $\Delta+c$ into $-d/dt+(c+\delta)$.  The latter is a bijection from
+the Sobolev space $W^{1,2}(0,\infty)$ onto $L^2(0,\infty)$.  Its inverse is
+convolution with the integrable kernel $e^{-(c+\delta)u}\mathbf 1_{u\ge0}$,
+taken from the right, so no boundary condition at $t=0$ ($y=1$) is
+imposed.  Hence $f\mapsto e^{\delta t}((\Delta+c)^kf)(e^{-t})$ is an
+isomorphism of $S_k$ onto $L^2(0,\infty)$, and the Paley--Wiener theorem
+identifies the Laplace image of $L^2(0,\infty)$ with $H^2(\C_+)$.
+The essential property of $U_k$ is
 \begin{equation}\label{eq:Uk}
  U_k(y^s)(z)=\frac{(s+c)^k}{z+s-\delta},\qquad \Re s>\delta.
 \end{equation}
@@ -233,10 +329,23 @@ Taking orthogonal complements and using \eqref{eq:adjointmodel} proves
  =H^2\ominus B_\delta H^2
  =U_k\left(\Ker\overline{T^{(2)}}\cap\Ker\overline{T^{(3)}}\right).
 \]
-Completeness of the reproducing kernels and derivative kernels at the zeros of $B_\delta$ yields the asserted spectral synthesis, exactly as in the earlier note. Since the two closed subspaces are equal, their inherited Hilbert norms are equal; if the dilation generator is equipped with the same restriction/domain in both models, the identity intertwines it.
+Completeness of the reproducing kernels and derivative kernels at the zeros of $B_\delta$ yields the asserted spectral synthesis, exactly as in the earlier note \cite{JoynerNote}. Since the two closed subspaces are equal, their inherited Hilbert norms are equal; if the dilation generator is equipped with the same restriction/domain in both models, the identity intertwines it.
 \end{proof}
 
-\section{When comparisons really are bounded}
+\begin{example}[The first zeta zero]\label{ex:first-zero}
+Let $\rho_1=\tfrac12+i\gamma_1$ with $\gamma_1\approx14.1347$ be the
+first nontrivial zero of $\zeta$.  For $k=2$ we have $\delta=\tfrac14<\Re\rho_1$,
+so $y^{\rho_1}\in S_2$.  Under \eqref{eq:Uk} it maps to a multiple of the
+Hardy kernel $K_w$ with $w=\overline{\rho_1}-\tfrac14=\tfrac14-i\gamma_1$.
+That kernel lies in $H^2\ominus B_{1/4}H^2$, since $\langle Bh,K_w\rangle$ is a
+constant multiple of $B(w)h(w)$, which vanishes when $B(w)=0$.  Here $B(w)=0$ because $\overline{\rho_1}=\tfrac12-i\gamma_1$ is
+also a zero of $\zeta$.  Thus $y^{\rho_1}$ lies in the joint kernel of
+$\overline{T_A^{(2)}}$ and $\overline{T_A^{(3)}}$ for \emph{every}
+Grosswald--Schnitzer perturbation $A$.  For $k=1$, $\delta=\tfrac12$ and
+$y^{\rho_1}\notin S_1$.
+\end{example}
+
+\section{When comparisons really are bounded}\label{sec:bounded}
 \begin{proposition}[An $H^\infty$ criterion]\label{prop:Hinfty}
 For any holomorphic, real-symmetric $Q$ on $\Re s>\delta$, the diagonal map $C_Qy^s=Q(s)y^s$ extends boundedly to $S_k$ if and only if $Q\in H^\infty(\Re s>\delta)$. It is boundedly invertible if and only if both $Q$ and $1/Q$ belong to $H^\infty$ there.
 \end{proposition}
@@ -269,7 +378,7 @@ Replacing only $2$ by $5/2$ produces
 which is bounded and bounded away from zero for $\Re s>\delta$. For a genuinely infinite example, select indices $n_j$ so that $p_{n_j}>2^{j^2}$, let $a_{n_j}=(p_{n_j}+p_{n_j+1})/2$, and leave all other primes unchanged. Condition \eqref{eq:sparse} holds for every fixed $\delta>0$.
 \end{remark}
 
-\section{Counterexample: arbitrarily small shifts can destroy boundedness}
+\section{Counterexample: arbitrarily small shifts can destroy boundedness}\label{sec:counter}
 \begin{proposition}[Generic non-$H^\infty$ comparison]\label{prop:counter}
 There are sequences satisfying \eqref{eq:GS}, with $0<a_n-p_n<2^{-n}$ for every $n$, for which
 \[
@@ -298,7 +407,7 @@ Both products tend to infinity as $\sigma\downarrow1$: their logarithms dominate
 \end{proof}
 
 \begin{remark}[What the counterexample does and does not say]
-For any \emph{fixed} $\sigma>1$, the two suprema in \eqref{eq:sup}--\eqref{eq:invsup} are finite. Unboundedness on the full half-plane arises from vertical frequencies tuned at values $\sigma\downarrow1$, not from a divergence at a fixed $s$. The perturbations can be extremely small as real numbers and the quotient can converge uniformly to $1$ on compact sets while still failing to be globally bounded.
+For any \emph{fixed} $\sigma>1$, the two suprema in \eqref{eq:sup}--\eqref{eq:invsup} are finite. Unboundedness on the full half-plane arises from vertical frequencies tuned at values $\sigma\downarrow1$, not from a divergence at a fixed $s$. The perturbations can be extremely small as real numbers: the construction works inside any prescribed intervals $(p_n,p_n+\varepsilon_n)$ with $\varepsilon_n>0$. By the mean-value bound \eqref{eq:each}, $|\log Q_A(s)|\le C_K\sum_n(a_n-p_n)p_n^{-1-\sigma_K}$ on a compact set $K\subset\{\Re s>0\}$. Hence, as $\sup_n 2^n\varepsilon_n\to0$, these quotients converge to $1$ uniformly on compact sets, although each one fails to be bounded on $\Re s>1$.
 \end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:compare}]
@@ -321,245 +430,55 @@ The eigenspace of $\Delta$ with eigenvalue $s$ is one-dimensional, spanned by $y
 \end{proof}
 
 
-\section{Graph-theoretic interpretation: prime flows, boundaries, and transfer operators}
+\section{Graph-theoretic interpretation}
 \label{sec:prime-graphs}
 
-The arithmetic equivalence classes admit a direct interpretation in terms of
-flows and incidence operators on a countable directed graph.  This description
-is useful in three ways: it explains Euler-factor cancellation, gives a
-quantitative stability bound, and supplies finite graph models of the
-literal summation operators.
+The Euler-factor bookkeeping behind Theorem~\ref{thm:compare} has a
+simple graph description, developed in full in the companion paper
+\cite[Section~6]{PP26}; we record only what is needed here.
 
-\subsection{The prime path and its incidence boundary}
-
-Let \(G_P\) be the directed ray with vertices \(v_j=p_j\) and edges
-\(b_j:p_j\to p_{j+1}\), \(j\ge1\).  For an endpoint perturbation
-\(a_j=p_{j+e_j}\), put the binary flow \(e_j\in\{0,1\}\) on \(b_j\).
-We use the incidence convention
-\[
- (\partial e)_j=e_j-e_{j-1},\qquad e_0=0,
-\]
-so an occupied edge contributes \(+1\) at its source and \(-1\) at its
-target.  This is the (signed) vertex boundary of the edge flow.
-
-\begin{center}
-\begin{tikzpicture}[>=stealth,baseline]
-\node (a) at (0,0) {$p_1=2$};
-\node (b) at (2,0) {$p_2=3$};
-\node (c) at (4,0) {$p_3=5$};
-\node (d) at (6,0) {$p_4=7$};
-\node (e) at (8,0) {$p_5=11$};
-\draw[->,thick] (a)--node[above]{$e_1$}(b);
-\draw[->,thick] (b)--node[above]{$e_2$}(c);
-\draw[->,thick] (c)--node[above]{$e_3$}(d);
-\draw[->,thick] (d)--node[above]{$e_4$}(e);
-\node at (9.1,0) {$\cdots$};
-\end{tikzpicture}
-\end{center}
-
-Put \(g_s(x)=\log(1-x^{-s})\), with the branch specified by its
-convergent power series for \(x>1\) and \(\Re s>0\).
-An elementary discrete-Stokes formula is
-\begin{equation}\label{eq:graph-stokes}
- \sum_{n=1}^{N}e_n\bigl(g_s(p_n)-g_s(p_{n+1})\bigr)
- =\sum_{j=1}^{N}(\partial e)_j g_s(p_j)
-       -e_Ng_s(p_{N+1}).
-\end{equation}
-The left side converges absolutely and locally uniformly for \(\Re s>0\).
-Indeed, on a compact subset of that half-plane,
-\[
- |g'_s(x)|\le C_K x^{-1-\sigma_K}\quad(x\ge2)
-\]
-for some \(\sigma_K>0\), and
-\(\sum_n\int_{p_n}^{p_{n+1}}x^{-1-\sigma_K}\,dx<\infty\).
-Since \(g_s(p_n)\to0\), taking \(N\to\infty\) in
-\eqref{eq:graph-stokes} gives
+Let $G_P$ be the directed ray with vertices $p_1,p_2,\ldots$ and
+edges $p_j\to p_{j+1}$.  An endpoint perturbation $a_j=p_{j+e_j}$,
+$e_j\in\{0,1\}$, is a binary flow on the edges, and its signed vertex
+boundary is $(\partial e)_j=e_j-e_{j-1}$ with $e_0=0$.  With
+$g_s(x)=\log(1-x^{-s})$, summation by parts gives, for $\Re s>0$,
 \begin{equation}\label{eq:graph-product}
- \boxed{\quad
- \log Q_e(s)
- =\sum_{n\ge1}e_n\bigl[g_s(p_n)-g_s(p_{n+1})\bigr]
- =\sum_{j\ge1}(\partial e)_j g_s(p_j),\quad \Re s>0.
- \quad}
+ \log Q_A(s)=\sum_{n\ge1}e_n\bigl[g_s(p_n)-g_s(p_{n+1})\bigr]
+ =\sum_{j\ge1}(\partial e)_j\,g_s(p_j),
 \end{equation}
-The second series in \eqref{eq:graph-product} need not be absolutely
-convergent: its equality follows from the boundary term in
-\eqref{eq:graph-stokes}, not from arbitrary rearrangement.
+where the second series is summed in order.  The convergence of the
+first series is the estimate used in the proof of Lemma~\ref{lem:growth}.
 
-For \(e_n=1\) on every edge, the interior boundary vanishes and
-\(\partial e=(1,0,0,\ldots)\).  Therefore
+\begin{example}[Telescoping along the ray]\label{ex:ray}
+If every edge is occupied, $\partial e=(1,0,0,\ldots)$ and
+$Q_A(s)=1-2^{-s}$.  If exactly the edges $u,\ldots,v$ are occupied,
+$\partial e=\mathbf 1_{\{u\}}-\mathbf 1_{\{v+1\}}$ and
+$Q_A(s)=(1-p_u^{-s})/(1-p_{v+1}^{-s})$.  In both cases $Q_A$ and $1/Q_A$
+are bounded on every half-plane $\Re s\ge\delta>0$, although infinitely
+many, or arbitrarily many, primes move.  If instead the occupied edges
+alternate, the boundary is supported at every vertex.
+\end{example}
+
+The companion paper shows that this boundary is exactly what governs
+bounded comparison.  For endpoint perturbations $e,f$, the diagonal
+comparison $Q_e/Q_f$ and its inverse are bounded on $\Re s>\delta$ if
+and only if
 \[
- \log Q_e(s)=g_s(2),\qquad Q_e(s)=1-2^{-s}.
+ \sum_{j\ge1}p_j^{-\delta}\,\bigl|(\partial e)_j-(\partial f)_j\bigr|<\infty
 \]
-An infinite occupied ray has only a finite source boundary.  If instead
-\(e_n=1\) precisely for \(u\le n\le v\), then
-\[
- \partial e=\mathbf 1_{\{u\}}-\mathbf 1_{\{v+1\}},
- \qquad Q_e(s)=\frac{1-p_u^{-s}}{1-p_{v+1}^{-s}}.
-\]
-For alternating occupied edges, the graph boundary is supported at
-every vertex, explaining why cancellation is much weaker.
-
-\subsection{Weighted graph variation and quantitative conditioning}
-
-For a bounded integer-valued edge flow \(h=(h_j)\), let
-\begin{equation}\label{eq:graph-TV}
- V_\delta(h):=\sum_{j\ge1}p_j^{-\delta}
-                  |h_j-h_{j-1}|,\qquad h_0=0,\quad\delta>0.
-\end{equation}
-This is the weighted \(\ell^1\)-norm of its incidence boundary,
-a discrete bounded-variation quantity on \(G_P\).
-For binary perturbations \(e,f\), the previously established endpoint
-classification is exactly \(e\sim_\delta f\) if and only if
-\(V_\delta(e-f)<\infty\).  In particular, its invariant is a
-\emph{boundary norm}, not the number or size of occupied edges.
-
-\begin{proposition}[Graph-variation stability bound]
-\label{prop:graph-conditioning}
-Let \(e,f\) be endpoint perturbations and \(0<\delta\le1\).
-If \(V_\delta(e-f)<\infty\), then
-\(R_{e/f}=Q_e/Q_f\) and its inverse belong to
-\(H^\infty(\Re s>\delta)\), and
-\begin{equation}\label{eq:graph-stability}
- \max\{\|R_{e/f}\|_\infty,\|R_{e/f}^{-1}\|_\infty\}
- \le \exp\!\left(\frac{V_\delta(e-f)}{1-2^{-\delta}}\right).
-\end{equation}
-The product of the two operator-multiplier norm bounds is at most
-\(\exp(2V_\delta(e-f)/(1-2^{-\delta}))\).
-\end{proposition}
-\begin{proof}
-Put \(h=e-f\), and \(c_j=h_j-h_{j-1}\).
-For \(\Re s>\delta\), the estimate
-\[
- |\log(1-p_j^{-s})|
- \le \frac{p_j^{-\delta}}{1-p_j^{-\delta}}
- \le \frac{p_j^{-\delta}}{1-2^{-\delta}}
-\]
-shows that \(\sum_j c_jg_s(p_j)\) converges absolutely and uniformly
-and has modulus at most
-\(V_\delta(h)/(1-2^{-\delta})\).
-Exponentiate \eqref{eq:graph-product} for the quotient, and then
-apply the same argument with \(-h\).
-\end{proof}
-
-The additive group of bounded integer edge flows contains the subgroup
-\(\{h:V_\delta(h)<\infty\}\).
-Consequently the binary endpoint perturbations map to equivalence
-classes in the quotient by this subgroup.  This is a convenient
-graph-cochain description of the arithmetic classification; it does
-\emph{not} assert ordinary graph-Laplacian spectral equivalence.
-
-\subsection{A signed-frequency graph for arbitrary interior shifts}
-
-The same bookkeeping works beyond the endpoints.  For a finite
-perturbation \(A_N=(a_1,\ldots,a_N)\), draw the oriented edge
-\(p_n\to a_n\) on the vertex set of all distinct frequencies
-\(\{p_1,\ldots,p_N,a_1,\ldots,a_N\}\).  A loop contributes zero.
-The signed vertex boundary is the atomic measure
-\[
- \mu_{A,N}:=\sum_{n=1}^N(\delta_{p_n}-\delta_{a_n}).
-\]
-For every \(\Re s>0\), the finite Euler quotient satisfies
-\begin{equation}\label{eq:graph-atomic}
- \log Q_{A,N}(s)=
- \int_{(1,\infty)}\log(1-x^{-s})\,d\mu_{A,N}(x).
-\end{equation}
-If two edges share a frequency endpoint, their incidence
-coefficients may cancel.  With rational independence of distinct
-surviving logarithmic frequencies, the weighted signed-inventory
-criterion from the companion equivalence-class argument is precisely
-summability of this atomic boundary with weight \(x^{-\delta}\).
-Without that independence, no general necessity assertion follows
-from the graph model alone.
-
-\subsection{The multiplicative graph of generalized integers}
-
-For \(A_N=(a_1,\ldots,a_N)\), consider the graded directed graph
-\[
- \Gamma_{A_N}:\quad
- V=\mathbb Z_{\ge0}^{N},\qquad
- \nu\longrightarrow \nu+\mathbf e_j\quad(1\le j\le N).
-\]
-Give the vertex \(\nu\) the weight
-\(w_s(\nu)=\prod_{j=1}^N a_j^{-s\nu_j}\).
-Summing \emph{vertices}, rather than all directed paths, gives
-\begin{equation}\label{eq:graph-vertexzeta}
- \sum_{\nu\in\mathbb Z_{\ge0}^N}w_s(\nu)
- =\prod_{j=1}^N(1-a_j^{-s})^{-1}
- =\zeta_{A,N}(s),\qquad\Re s>0.
-\end{equation}
-This vertex interpretation respects the multiplicities of
-generalized integers.  For example, \(a_1=a_2=3\) produces
-three exponent vectors of total degree two, all evaluating to \(9\);
-accordingly the coefficient of \(3^{-2s}\) in
-\((1-3^{-s})^{-2}\) is \(3\).  Counting directed paths instead
-would introduce different, and incorrect, multiplicities.
-The graph in \eqref{eq:graph-vertexzeta} is not an Ihara
-nonbacktracking-cycle zeta construction.
-
-\begin{proposition}[Convergent graph-transfer realization]
-\label{prop:graph-transfer}
-For \(\sigma>1\), let \(X_\sigma\) be the Banach space of functions
-on \((0,1]\) with
-\[
- \|f\|_{X_\sigma}:=\sup_{0<y\le1}y^{-\sigma}|f(y)|<\infty.
-\]
-Write \(D_a f(y)=f(y/a)\).  The operator products
-\begin{equation}\label{eq:graph-resolvents}
- P_A=\prod_{n\ge1}(I-D_{a_n})^{-1},
- \qquad
- (I-qD_q)P_A\quad(q=2,3)
-\end{equation}
-converge in operator norm on \(X_\sigma\), and
-\begin{equation}\label{eq:graph-literalsum}
- (I-qD_q)P_Af(y)
- =\sum_{m\in\mathcal N_A}
- \left[f(y/m)-qf(y/(qm))\right].
-\end{equation}
-All sums in \eqref{eq:graph-literalsum} converge absolutely in
-\(X_\sigma\).  These operators are boundedly invertible on
-\(X_\sigma\).
-\end{proposition}
-\begin{proof}
-The dilation operators commute and
-\(\|D_a\|_{X_\sigma}=a^{-\sigma}\).
-Since \(a_n\ge p_n\) and
-\(\sum_n p_n^{-\sigma}<\infty\), the two products
-\(\prod_n(I-D_{a_n})^{-1}\) and
-\(\prod_n(I-D_{a_n})\) converge in operator norm and
-are inverses.  Expand each geometric series and pass to the
-norm limit to obtain the generalized-integer sum with
-multiplicity.  Finally,
-\(\|qD_q\|=q^{1-\sigma}<1\), so \(I-qD_q\) is invertible
-by a Neumann series.
-\end{proof}
-
-\begin{remark}[Scope of the graph model]
-The space \(X_\sigma\), \(\sigma>1\), is the domain of an
-\emph{absolutely convergent} graph-transfer representation.  It
-does not contain the zeta-zero eigenfunctions \(y^\rho\) from the
-critical strip and is not a substitute for the analytically
-continued \(S_k\) operators.  In particular, Proposition
-\ref{prop:graph-transfer} proves no kernel invariance in the
-critical strip.  It supplies a natural discrete approximation
-and separates the convergent graph mechanics from the deeper
-operator-domain problem.
-\end{remark}
-
-\paragraph{Further graph questions.}
-One can ask whether (i) weighted incidence-boundary classes
-admit computable finite-section approximations with certified
-tails; (ii) equality of closed graph-transfer domains forces
-bounded comparison in a natural completion; and (iii) the
-graph boundary at infinity controls comparison-operator
-conditioning.  These are proposed investigations, not claims
-about the spectrum of a graph Laplacian.
+\cite[Theorem~5.1]{PP26}.  In particular, the alternating perturbation
+is not boundedly comparable with the primes for any $0<\delta\le1$.
+Proposition~\ref{prop:sparse} is the special case in which the
+perturbation is compared with the unperturbed primes and the changed
+indices are sparse.  The counterexample of Proposition~\ref{prop:counter}
+is the opposite extreme, in which no Euler factors cancel.
 
 \section{Interpretation and next questions}
 The principal distinction is between the \emph{full operator pair} and its \emph{closed joint zero-eigenspace}. Full operators need not be similar, and even the natural diagonal comparison may be unbounded. Nevertheless, the joint zero-eigenspace is invariant under all perturbations \eqref{eq:GS}; the same ambient $S_k$ norm remains available. This invariance follows from the absence of a new inner factor in $Q_A$, rather than boundedness of $Q_A$.
 
 Research questions that remain genuinely open in this framework include:
 \begin{enumerate}[leftmargin=2em]
-\item Characterize arithmetic conditions on the moved primes that are both necessary and sufficient for $Q_A,1/Q_A\in H^\infty(\Re s>\delta)$, beyond the sparse condition \eqref{eq:sparse} and the generic counterexample.
+\item Characterize arithmetic conditions on the moved primes that are both necessary and sufficient for $Q_A,1/Q_A\in H^\infty(\Re s>\delta)$ in general. The companion paper \cite{PP26} answers this for endpoint perturbations (Theorem~5.1 there) and for perturbations whose surviving Euler-factor frequencies are rationally independent (Corollary~8.1 there); the open case is that of rationally dependent interior frequencies.
 \item Determine whether analytically defined $T_A^{(r)}$ have useful \emph{natural} generalized-prime dilation-series realizations, and whether those initial domains are graph cores.
 \item Study perturbation behavior of resolvents, pseudospectra and operator domains \emph{outside} the common joint kernel. Invariance of the kernel by itself gives no such stability.
 \item Establish how much of the theorem persists for more general Beurling systems whose Euler-product quotient has nontrivial singular inner factors or fails to lie in $N^+$.
@@ -570,48 +489,86 @@ Research questions that remain genuinely open in this framework include:
 
 \section{Consequences of the November 2026 RH formalization}
 \label{sec:rh-2026}
-On November 20, 2026 Levent Alp\"oge reported a formal proof of the
-Riemann hypothesis (RH) developed with Claude.  The Lean FRO and
-Mathlib Initiative certified the correctly stated and machine-checked
-RH proof on November 21 \cite{LF26}.  Rubinstein independently reports
-checks of the original and shortened formalizations \cite{Ru26}.
-Human-readable proofs are still being developed.  The present paper
-does not purport to independently check the large Lean development.
+On November 20, 2026 Levent Alp\"oge released a formal proof of the
+Riemann hypothesis (RH), found with Anthropic's Claude \cite{Ru26}.
+The Lean FRO and Mathlib Initiative certified that the Lean statement
+is Mathlib's vetted statement of RH and that the machine-checked proof
+is correct \cite{LF26}.  Rubinstein independently reports checks of the
+original and shortened formalizations \cite{Ru26}.  Human-readable
+proofs are still being developed.  The present paper does not
+independently check the Lean development.\footnote{The November 2026
+certification concerns RH, not the operator-theoretic assertions
+studied here.  Those rest on the proofs in this paper.}
 
-Taking the certified formal RH theorem \cite{LF26,Ru26} as
-an external input,\footnote{This paper does not itself prove RH
-or independently verify the Lean development. The November 2026
-certification concerns RH, not the additional operator-theoretic
-assertions studied here.} every nontrivial zeta zero is
-$\rho=\frac12+i\gamma$.  For $k\ge2$ the Sobolev threshold
-$\delta=1/(2k)$ is strictly below $\frac12$, and all zero-powers
-are algebraically admissible.  For $k=1$ the threshold equals
-$\frac12$, so none of these zero-powers satisfies the strict
-domain inequality.  This sharpens the spectral-model discussion
-but does not, by itself, prove spectral synthesis or a statement
-about the closed joint kernel.
+The first part of the following corollary is unconditional.  The second
+part takes the certified RH theorem \cite{LF26,Ru26} as an external input.
 
-Grosswald--Schnitzer zero preservation then places the nontrivial
+\begin{corollary}[The joint kernel and RH]\label{cor:rh-kernel}
+Let $A$ be any perturbation \eqref{eq:GS} and write
+$\mathcal Z_k(A)=\Ker\overline{T_A^{(2)}}\cap\Ker\overline{T_A^{(3)}}$
+in $S_k$.
+\begin{enumerate}[label=(\roman*)]
+\item For each $k\ge1$, $\mathcal Z_k(A)=\{0\}$ if and only if $\zeta$ has
+no zeros with $\Re s>1/(2k)$.  In particular,
+$\mathcal Z_1(A)=\{0\}$ if and only if RH holds.  For $k\ge2$,
+$\mathcal Z_k(A)\ne\{0\}$, since $\zeta$ has zeros on the critical line.
+\item Assume RH.  Then $\mathcal Z_1(A)=\{0\}$.  For $k\ge2$,
+$\mathcal Z_k(A)$ is the closed $S_k$-span of
+\[
+ y^{\rho}(\log y)^j,\qquad \rho=\tfrac12+i\gamma,\quad\zeta(\rho)=0,
+ \quad 0\le j<\operatorname{ord}_\rho\zeta,
+\]
+that is, of the power functions attached to \emph{all} nontrivial zeros,
+and it is the same subspace for every $A$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:main}, $\mathcal Z_k(A)$ is the closed span of the
+$y^\rho(\log y)^j$ with $\zeta(\rho)=0$ and $\Re\rho>1/(2k)$.  These
+functions are nonzero, so $\mathcal Z_k(A)=\{0\}$ exactly when there is
+no such $\rho$.  The nontrivial zeros lie in $0<\Re s<1$, and the
+functional equation and $\zeta(\bar s)=\overline{\zeta(s)}$ make the
+set of zeros symmetric under $\rho\mapsto1-\bar\rho$.  A zero with
+$\Re\rho\ne\frac12$ therefore produces one with real part greater than
+$\frac12$.  Hence there is no zero with $\Re s>\frac12$ if and only if
+RH holds, which is the case $k=1$.  For $k\ge2$, $1/(2k)<\frac12$ and the
+zeros on the critical line, for example $\rho_1$ of
+Example~\ref{ex:first-zero}, give nonzero elements.  Part (ii) follows
+from part (i) and Theorem~\ref{thm:main}, because under RH every
+nontrivial zero has real part $\frac12$.
+\end{proof}
+
+\begin{remark}[What the corollary does and does not say]
+For $k=1$ the critical line is exactly the boundary of the admissible
+half-plane $\Re s>\frac12$, so no zero power lies in $S_1$.  The
+statement $\mathcal Z_1(A)=\{0\}$ is the closed-operator form of the
+algebraic equivalence between RH and the vanishing of the algebraic
+joint kernel on $\mathcal D_1$ proved in the corrected 1981 edition.
+For $k\ge2$, the dilation generator $\Delta$ has eigenvalue $\rho$ on
+$y^\rho$, so the shifted generator $-i(\Delta-\frac12)$ has the real
+eigenvalue $\gamma$.  It need not be symmetric or self-adjoint, and RH
+does not imply that the zeros are simple.  Multiple zeros, if any,
+would contribute Jordan chains $y^\rho(\log y)^j$.
+\end{remark}
+
+Grosswald--Schnitzer zero preservation places the nontrivial
 zeros of each $\zeta_A$ in $\Re s>0$ on the same critical line,
 with the same multiplicities and ordinates as $\zeta$.
-RH does not imply that these zeros are simple, so logarithmic
-generalized eigenvectors cannot simply be discarded.
-The shifted dilation generator $-i(\Delta-\frac12)$ has real
-eigenvalues $\gamma$ on its admissible zero-power eigenvectors,
-but need not be symmetric or self-adjoint.
-
 RH neither makes the Euler quotient $Q_A$ or its reciprocal
-bounded nor changes the graph-boundary summability test.
+bounded nor changes the graph-boundary summability test of
+Section~\ref{sec:prime-graphs}.
 It does not establish boundedly invertible similarity of the
 full summation operators, equality of their nonzero spectra,
 equivalence of graph domains, or pseudospectral stability.
-The ordinary-prime conditional bounds
+The classical consequences of RH for the ordinary primes
+(von Koch),
 $\psi(x)=x+O(x^{1/2}\log^2x)$ and
-$\pi(x)=\operatorname{Li}(x)+O(x^{1/2}\log x)$
+$\pi(x)=\operatorname{Li}(x)+O(x^{1/2}\log x)$,
 do not transfer to arbitrary Beurling or random prime systems
 without additional comparison estimates.
-The announced Dirichlet-$L$ GRH is a separate result and should
-not be identified with a claim for all generalized zeta functions.
+The announced Dirichlet-$L$ GRH \cite{Ru26} is a separate result and
+should not be identified with a claim for all generalized zeta functions.
 
 \section{Glossary of technical terms}
 The following definitions supplement the main text for readers
@@ -619,46 +576,66 @@ whose background is in analysis rather than generalized-prime systems.
 \begin{description}[style=nextline,leftmargin=1.5em]
 \item[Analytic continuation] Extension of a function beyond its original convergence domain. The continued function need not be represented by the original infinite series.
 \item[Blaschke product] An inner function built from a zero sequence satisfying the Blaschke condition. Its model space records the zero set with multiplicity.
-\item[Bounded diagonal comparison] A comparison quotient and its reciprocal both belong to $H^infty$ on the chosen half-plane. It gives invertible left equivalence, not generally operator similarity.
+\item[Bounded diagonal comparison] A comparison quotient and its reciprocal both belong to $H^\infty$ on the chosen half-plane. It gives invertible left equivalence, not generally operator similarity.
 \item[Critical line] The line $\Re s=\tfrac{1}{2}$. RH puts the nontrivial ordinary zeta zeros there.
+\item[Dilation generator] The operator $\Delta=y\,d/dy$. It acts on $y^s$ as multiplication by $s$ and commutes with every dilation $f(y)\mapsto f(y/c)$.
 \item[Discrete divergence] The signed incidence boundary of an edge flow. The source and target contributions telescope along prime-path blocks.
-\item[Euler-factor inventory] The signed frequencies remaining after cancellation of two Euler products. Its weighted size can control boundedness of a multiplier.
-\item[Exponent-vector graph] The directed lattice of formal generalized integers. Its vertex generating series produces the Euler product with multiplicity.
-\item[Graph norm] The norm $|f|_T=(|f|^2+|Tf|^2)^{1/2}$ on the domain of an operator. It distinguishes domains even when point spectra coincide.
+\item[Euler quotient] The function $Q_A=\zeta_A/\zeta$, an infinite product of ratios of Euler factors. For prime-gap perturbations it continues holomorphically and without zeros to $\Re s>0$.
+\item[Graph core] A subspace of the domain of a closed operator that is dense for the graph norm. An identity checked on a graph core extends to the closed operator.
+\item[Graph norm] The norm $\|f\|_T=(\|f\|^2+\|Tf\|^2)^{1/2}$ on the domain of an operator. It distinguishes domains even when point spectra coincide.
+\item[Grosswald--Schnitzer perturbation] A sequence $a_n$ with $p_n\le a_n\le p_{n+1}$, replacing each prime by a real number in its prime gap. The zeros of the zeta function in $\Re s>0$ do not move.
+\item[$H^\infty$] The algebra of bounded holomorphic functions on a half-plane, with the supremum norm. Its elements are exactly the symbols of bounded multiplication operators on $H^2$.
 \item[Hardy space] A Hilbert space of analytic functions with square-integrable boundary behavior. Its multiplication operators provide the model for dilation symbols.
 \item[Inner factor] A factor with boundary modulus one almost everywhere. Its Blaschke and singular components determine invariant-subspace phenomena.
-\item[Joint kernel] The intersection of several operator null spaces. Pairing $q=2$ and $q=3$ removes extraneous zeros of the auxiliary factors.
+\item[Joint kernel] The intersection of several operator null spaces. Pairing $r=2$ and $r=3$ removes extraneous zeros of the auxiliary factors.
+\item[Kronecker approximation] A density theorem for rotations with rationally independent frequencies. It lets finitely many Euler factors approach chosen phases simultaneously.
+\item[Laplace transform] The map $g\mapsto\int_0^\infty e^{-zt}g(t)\,dt$. By the Paley--Wiener theorem it identifies $L^2(0,\infty)$ with the Hardy space of the right half-plane.
 \item[Operator domain] The subspace on which an unbounded operator acts. A multiplier prescription on powers is not automatically a closed operator.
 \item[Outer function] A Hardy or Smirnov function determined by its boundary modulus up to phase. Outerness does not mean bounded invertibility.
 \item[Pseudospectrum] The region of large resolvent norms or spectral instability under small perturbations. It is not fixed by the zeros of arithmetic symbols.
+\item[Reproducing kernel] The function $K_w$ in a Hilbert space of analytic functions whose inner product with $F$ returns a multiple of $F(w)$. Power functions $y^s$ correspond to such kernels in the Hardy model.
 \item[Riesz basis] The boundedly invertible image of an orthonormal basis. Having complete root vectors is weaker.
 \item[Self-adjointness] Equality of an operator and its Hilbert-space adjoint, including domains. Real eigenvalues are not sufficient.
 \item[Smirnov class] Ratios of bounded analytic functions with an outer denominator. This allows useful unbounded analytic quotients in the Hardy model.
-\item[Sobolev threshold] The strict exponent condition $Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
+\item[Sobolev threshold] The strict exponent condition $\Re s>1/(2k)$. When $k=1$ the RH critical line lies on its boundary.
 \item[Spectral synthesis] Completeness of generalized eigenfunctions within the relevant invariant subspace. It requires more than matching zero sets.
 \item[Weighted graph variation] A sum of weighted absolute incidence jumps. It quantifies Euler-factor cancellation for endpoint perturbations.
 \item[Zero multiplicity] The vanishing order of an analytic function at a zero. Multiple zeros produce logarithmic generalized eigenvectors.
 \end{description}
 
 \section*{Acknowledgments and AI contribution}
-ChatGPT (OpenAI) revised the exposition, glossary, RH status discussion,
-and presentation of graph connections.  The existing spectral and
-classification claims were not independently re-refereed during this
-editorial revision.  AI review is not independent mathematical
-certification; details are recorded in the separate revision log.
+\addcontentsline{toc}{section}{Acknowledgments and AI contribution}
+The November 1, 2026 version of this paper, and the working note
+\cite{JoynerNote} from which it grew, were prepared by ChatGPT (OpenAI)
+for the author.  The Hardy-space model and Theorems~\ref{thm:main}
+and~\ref{thm:compare}, with their proofs, originate there.  On
+November 28, 2026 ChatGPT also
+revised the exposition, glossary, RH status discussion, and graph
+connections.  Claude (Anthropic) refereed the November 28 version and
+prepared the present Draft~2.  Claude added the RH corollary
+(Corollary~\ref{cor:rh-kernel}), the verification that $U_k$ is an
+isomorphism, the examples, and the remark on the order of the Sobolev
+norm, and replaced the duplicated graph section by a summary of the
+companion paper.  Claude checked the proofs of
+Lemmas~\ref{lem:growth}--\ref{lem:range}, Theorem~\ref{thm:main}, and
+the propositions of Sections~\ref{sec:bounded}--\ref{sec:counter}.
+AI review is not independent mathematical certification.  Details are
+recorded in the separate revision log
+\texttt{spectral\_invariance\_revision\_log.tex}.
 
 \begin{thebibliography}{9}\bibitem{LF26} Lean FRO and Mathlib Initiative,
 \emph{Lean verification of the Riemann Hypothesis},
 joint statement, November 21, 2026.
 \url{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}.
 \bibitem{Ru26} M. Rubinstein,
-\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis:
-exposition and verification}, November 2026.
+\emph{Alp\"oge/Claude proof of the Generalized Riemann Hypothesis},
+web page, November 2026, accessed November 28, 2026.
 \url{https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/}.
 
 \bibitem{GS} E. Grosswald and F. J. Schnitzer, A class of modified $\zeta$ and $L$-functions, \emph{Pacific J. Math.} \textbf{74} (1978), 357--364. \href{https://msp.org/pjm/1978/74-2/pjm-v74-n2-p09-s.pdf}{journal PDF}.
 \bibitem{SmirnovReference} J. S. Choa, H. O. Kim, and J. H. Shapiro, \emph{Compact composition operators on the Smirnov class}, preprint (1998), Section 2, for background on $N^+$ and inner--outer factorization. \href{https://users.math.msu.edu/users/shapiro/pubvit/Downloads/Smirnov/Smirnov.pdf}{online preprint}.
 \bibitem{Fricain} E. Fricain, A. Hartmann, W. T. Ross, and D. Timotin, The Smirnov class for de Branges--Rovnyak spaces, for background on multiplier/outer-denominator methods. \href{https://pro.univ-lille.fr/fileadmin/user_upload/pages/pros/emmanuel_fricain/Smirnov-Hb-version-soumise-Result.pdf}{online preprint}.
+\bibitem{PP26} D. Joyner, \emph{Operator-equivalence classes of Grosswald--Schnitzer prime perturbations}, Draft~3, November 2026, file \texttt{prime\_perturbations\_revised.tex} in this folder of \url{https://github.com/wdjoyner/alg-graph-thry}.
 \bibitem{JoynerNote} ChatGPT, prepared for D. Joyner, \emph{Progress on the Spectral Questions for Zeta-Associated Dilation Operators}, November 1, 2026 (companion working note).
 \bibitem{Beurling} A. Beurling, On two problems concerning linear transformations in Hilbert space, \emph{Acta Math.} \textbf{81} (1949), 239--255.
 \end{thebibliography}
