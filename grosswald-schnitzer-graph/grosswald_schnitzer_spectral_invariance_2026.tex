@@ -1,0 +1,537 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tikz}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Hh}{\mathcal H}
+\newcommand{\D}{\mathcal D}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\ran}{\operatorname{Ran}}
+\newcommand{\Dom}{\operatorname{Dom}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Hp}{H^2(\C_+)}
+\newcommand{\Nplus}{N^+(\C_+)}
+\newcommand{\dd}{\,\mathrm d}
+\title{Spectral Invariance under Grosswald--Schnitzer Prime Perturbations\\[0.4em]
+\large Bounded comparison operators, unbounded counterexamples, and a common Hardy-space model}
+\author{Prepared by ChatGPT for D. Joyner}
+\date{November 28, 2026 (graph-theoretic revision)}
+\begin{document}
+\maketitle
+\begin{abstract}
+We investigate whether the zero-preserving perturbations of primes introduced by Grosswald and Schnitzer in 1978 induce boundedly invertible comparisons between the zeta-associated dilation operators of D. Joyner. We prove an elementary sublinear growth estimate for the logarithm of the Euler-product quotient $Q_A=\zeta_A/\zeta$ in every right half-plane $\Re s\ge\delta>0$, and deduce that $Q_A$ and its reciprocal belong to the Smirnov class and that $Q_A$ is outer. Applied to the Hardy-space representation of Joyner's weighted Sobolev space, this proves equality of the \emph{closed joint kernels}, not just their eigenvalue multisets, for all Grosswald--Schnitzer perturbations. We distinguish this equality from similarity of the full operators. We give sufficient conditions for genuinely boundedly invertible comparison operators, as well as arbitrarily small perturbations for which $Q_A$ and $1/Q_A$ are both unbounded on the relevant half-plane. The results use standard Hardy-space facts and require independent novelty assessment before publication; no claim about the truth of the Riemann hypothesis is made.
+\end{abstract}
+
+\section{Setting and main conclusions}
+Let $p_1=2<p_2=3<\cdots$ be the primes. Choose real numbers
+\begin{equation}\label{eq:GS}
+ p_n\le a_n\le p_{n+1}\quad(n\ge1),
+\end{equation}
+and define for $\Re s>1$
+\begin{equation}\label{eq:Q}
+ \zeta_A(s)=\prod_{n\ge1}(1-a_n^{-s})^{-1},\qquad
+ Q_A(s)=\frac{\zeta_A(s)}{\zeta(s)}
+ =\prod_{n\ge1}\frac{1-p_n^{-s}}{1-a_n^{-s}}.
+\end{equation}
+Grosswald--Schnitzer \cite{GS} proves that $Q_A$ extends holomorphically without zeros to $\Re s>0$, hence $\zeta_A=Q_A\zeta$ there. We will also derive the required convergence directly below.
+
+Fix an integer $k\ge1$, put $\delta=1/(2k)$, and work in the \emph{full} weighted Sobolev space
+\begin{equation}\label{eq:Sk}
+ \|f\|_{S_k}^2=\sum_{j=0}^k\int_0^1|f^{(j)}(y)|^2y^{2j-1-1/k}\dd y,
+\end{equation}
+with no added boundary condition at $y=1$. Its standard algebraic domain is
+\[
+ \mathcal D_k=\spn\{y^s(\log y)^j:\Re s>\delta,\ j\ge0\}.
+\]
+For $r=2,3$, define the holomorphic symbols on $\Re s>\delta$
+\begin{equation}\label{eq:symbols}
+ m_r(s)=(1-r^{1-s})\zeta(s),\qquad m_{A,r}(s)=Q_A(s)m_r(s).
+\end{equation}
+Here $m_r$ is entire: the zero of $1-r^{1-s}$ at $s=1$ cancels the pole of $\zeta$. Define operators on $\mathcal D_k$ by
+\begin{equation}\label{eq:operators}
+ T^{(r)}[y^s(\log y)^j]=\partial_s^j(m_r(s)y^s),\quad
+ T_A^{(r)}[y^s(\log y)^j]=\partial_s^j(m_{A,r}(s)y^s).
+\end{equation}
+These definitions agree with the original alternating dilation sums for $T^{(r)}$. For $T_A^{(r)}$, they are \emph{analytic-symbol definitions}; no assertion of convergence of a literal generalized-prime dilation series for $\Re s\le1$ is implicit.
+
+\begin{theorem}[Spectral invariance]\label{thm:main}
+For every choice \eqref{eq:GS} and every $k\ge1$, the four operators in \eqref{eq:operators} are densely defined and closable on $S_k$, and
+\begin{equation}\label{eq:main}
+ \boxed{\Ker\overline{T_A^{(2)}}\cap\Ker\overline{T_A^{(3)}}
+ =\Ker\overline{T^{(2)}}\cap\Ker\overline{T^{(3)}}.}
+\end{equation}
+Both sides equal the closed $S_k$-span of
+\[
+ y^\rho(\log y)^j,\qquad
+ \zeta(\rho)=0,\quad \Re\rho>\delta,\quad 0\le j<\operatorname{ord}_\rho\zeta.
+\]
+Thus the two zero-associated spectral models are literally the same closed Hilbert subspace, with the same induced norm, and the identity is a unitary identification intertwining their restrictions of the dilation generator with the same chosen domain.
+\end{theorem}
+
+\begin{theorem}[Bounded comparison versus arbitrary perturbations]\label{thm:compare}
+The diagonal map $C_{Q_A}y^s=Q_A(s)y^s$ extends to a boundedly invertible operator on $S_k$ if and only if
+\[
+ Q_A,\,1/Q_A\in H^\infty(\Re s>\delta).
+\]
+There exist nontrivial \emph{infinite} perturbations satisfying this condition. Conversely, there exist perturbations with $0<a_n-p_n<2^{-n}$ for all $n$ such that \emph{both} $Q_A$ and $1/Q_A$ are unbounded even on $\Re s>1$. These unbounded examples still satisfy Theorem~\ref{thm:main}.
+\end{theorem}
+
+\section{A uniform sublinear growth estimate}
+We first prove the analytic estimate which makes the invariant-space argument work.
+
+\begin{lemma}[Growth of the comparison quotient]\label{lem:growth}
+For each $0<\delta<1$, one may choose an analytic logarithm $L_A=\log Q_A$ on $\Re s>0$ such that
+\begin{equation}\label{eq:sublinear}
+ \left|L_A(s)\right|\le C_\delta(1+|s|)^{1-\delta},\qquad \Re s\ge\delta,
+\end{equation}
+where the constant can be chosen \emph{uniformly in all sequences} satisfying \eqref{eq:GS}.
+\end{lemma}
+\begin{proof}
+For $x\ge2$ and $\Re s>0$ use the branch
+$h_s(x)=\log(1-x^{-s})=-\sum_{m\ge1}x^{-ms}/m$.
+For $\Re s\ge\delta$ one has
+\[
+ |h_s(x)|\le C_\delta x^{-\delta},\qquad
+ |h_s'(x)|=\left|\frac{s x^{-s-1}}{1-x^{-s}}\right|
+ \le C_\delta |s|x^{-1-\delta}.
+\]
+Writing $g_n=p_{n+1}-p_n$, it follows that
+\begin{equation}\label{eq:each}
+ |h_s(p_n)-h_s(a_n)|
+ \le C_\delta\min\big\{p_n^{-\delta},\ |s|g_n p_n^{-1-\delta}\big\}.
+\end{equation}
+The series of logarithmic differences is absolutely and locally uniformly convergent in $\Re s>0$: for $s$ in a compact set, use the second bound and the convergence of $\sum_n g_np_n^{-1-\epsilon}$ for each $\epsilon>0$. The latter follows by comparison with the integral of $x^{-1-\epsilon}$ over the disjoint prime intervals $[p_n,p_{n+1}]$, since Bertrand's postulate gives $p_{n+1}<2p_n$.
+
+Take $R=2+|s|$. Splitting \eqref{eq:each} at $p_n=R$ gives
+\[
+ |L_A(s)|\le C_\delta\left(\sum_{p_n\le R}p_n^{-\delta}
+ +|s|\sum_{p_n>R}g_np_n^{-1-\delta}\right).
+\]
+The first sum is $O_\delta(R^{1-\delta})$ by comparison with all integers. The second sum is $O_\delta(|s|R^{-\delta})$, again by the disjoint intervals and Bertrand's postulate. This yields \eqref{eq:sublinear}.
+\end{proof}
+
+\begin{remark}[Why primewise closeness does not give an $H^\infty$ bound]
+An estimate based on the mean-value theorem has a factor $|s|$, whereas the trivial estimate does not measure $|a_n-p_n|$. Splitting the sum at $p_n\asymp|s|$ produces the sublinear growth exponent $1-\delta$, but it \emph{does not} produce a uniform bound as $|\Im s|\to\infty$. In particular, control on every compact vertical strip is weaker than an $H^\infty$ estimate on an entire half-plane.
+\end{remark}
+
+\section{The Smirnov-class mechanism}
+Let $\C_+=\{z:\Re z>0\}$ and $\Nplus$ denote the Smirnov class: functions expressible as $b/a$ with $a,b\in H^\infty(\C_+)$ and $a$ outer. We use the standard facts that products of outer functions are outer, the outer functions in $H^\infty$ have dense multiples in $H^2$, and a member of $N^+$ is invertible in $N^+$ precisely when it is outer \cite{SmirnovReference}.
+
+\begin{lemma}[Invertibility in $N^+$]\label{lem:outer}
+The functions $z\mapsto Q_A(z+\delta)$ and $z\mapsto Q_A(z+\delta)^{-1}$ belong to $\Nplus$, and $Q_A(z+\delta)$ is outer there.
+\end{lemma}
+\begin{proof}
+Choose $\beta$ with $1-\delta<\beta<1$ and let
+\[
+ E_\beta(z)=\exp\big[-(1+z)^\beta\big],\qquad\Re z>0,
+\]
+using the principal branch. This is a bounded, nonvanishing \emph{outer} function: its logarithmic boundary modulus is integrable with weight $(1+t^2)^{-1}$, it extends analytically across each finite boundary point, and $-\log|E_\beta(x)|=o(x)$ as $x\to+\infty$, excluding a singular inner factor at infinity. Since
+$\Re(1+z)^\beta\ge \cos(\pi\beta/2)|1+z|^\beta$ for $\Re z\ge0$, Lemma~\ref{lem:growth} gives
+\[
+ E_\beta(z)Q_A(z+\delta),\qquad
+ E_\beta(z)/Q_A(z+\delta)\in H^\infty(\C_+).
+\]
+Thus both $Q_A$ and its reciprocal are quotients of bounded analytic functions by the outer denominator $E_\beta$. Since a product of two Smirnov functions is again Smirnov and their product is $1$, their canonical inner factors must be constant. Hence $Q_A$ is outer.
+\end{proof}
+
+\begin{lemma}[Ranges of unbounded Hardy multipliers]\label{lem:range}
+Suppose $0\ne f\in\Nplus$ and write its canonical factorization $f=I_fO_f$ (inner times outer). The maximal multiplication operator
+\[
+ M_f:F\mapsto fF,\quad\Dom M_f=\{F\in H^2(\C_+):fF\in H^2(\C_+)\}
+\]
+is closed and densely defined, and
+\begin{equation}\label{eq:range}
+ \overline{\ran M_f}=I_fH^2(\C_+).
+\end{equation}
+Moreover the span of all Hardy reproducing kernels $K_w(z)=(z+\overline w)^{-1}$ is a graph core for $M_f^*$.
+\end{lemma}
+\begin{proof}
+Write $f=b/a$ with $a,b\in H^\infty$ and $a$ outer. Since $aH^2\subset\Dom M_f$ and $aH^2$ is dense, $M_f$ is densely defined. It is closed because convergence in $H^2$ implies locally uniform convergence on $\C_+$, and multiplication by a holomorphic function respects such convergence. Also $M_f(aF)=bF$, so $\overline{\ran M_f}\supset\overline{bH^2}=I_bH^2=I_fH^2$.
+For the reverse inclusion, if $fF=G\in H^2$ then $bF=aG$. The inner factor $I_b$ divides the inner factor of $aG$, and $a$ is outer, so $I_b$ divides $G$. This proves \eqref{eq:range}.
+
+For $w\in\C_+$, bounded point evaluation gives $M_f^*K_w=\overline{f(w)}K_w$ (with inner product linear in the first variable). If a pair $(F,G)\in H^2\oplus H^2$ is orthogonal to every graph vector $(K_w,M_f^*K_w)$, evaluating at all $w$ shows $F=-fG$. Thus $G\in\Dom M_f$ and $F=-M_fG$: the orthogonal complement of these kernel graph vectors coincides with that of the full graph of $M_f^*$. Their span is therefore a graph core.
+\end{proof}
+
+\section{Proof of spectral invariance}
+Let $U_k:S_k\to H^2(\C_+)$ denote the bounded isomorphism constructed in the earlier spectral-synthesis note. For example, with $\Delta=y\,d/dy$ and $c>0$ it can be taken as the Laplace transform of $(\Delta+c)^kf$ after the logarithmic change $t=-\log y$ and the weight $e^{\delta t}$. Its essential property is
+\begin{equation}\label{eq:Uk}
+ U_k(y^s)(z)=\frac{(s+c)^k}{z+s-\delta},\qquad \Re s>\delta.
+\end{equation}
+Thus $\mathcal D_k$ maps to the span of the Hardy evaluation kernels and their parameter derivatives. Any real-symmetric holomorphic symbol $f(s)$ in the shifted Smirnov class determines, by \eqref{eq:operators}, a closable algebraic operator whose closure is
+\begin{equation}\label{eq:adjointmodel}
+ U_k^{-1}M_{f(z+\delta)}^*U_k,
+\end{equation}
+by Lemma~\ref{lem:range} and the reproducing-kernel graph core. This includes our $m_r$ and $m_{A,r}$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+The functions $m_r(z+\delta)$ are in $\Nplus$: they have polynomial growth in the closed half-plane, so division by a sufficiently high power of $1+z$ gives a bounded numerator and a bounded outer denominator. Lemma~\ref{lem:outer} implies that $m_{A,r}(z+\delta)=Q_A(z+\delta)m_r(z+\delta)$ has \emph{exactly the same inner factor} as $m_r(z+\delta)$.
+
+The only zeros in $\Re s>\delta$ of $m_r$ are the zeta zeros and the additional points
+\[
+ s=1+\frac{2\pi i n}{\log r},\qquad n\in\mathbb Z\setminus\{0\}.
+\]
+There is no additional common zero for $r=2,3$, because $\log2/\log3$ is irrational. Also the $m_r$ are entire of polynomial half-plane growth, so there are no finite-boundary singular inner factors; their limit $m_r(\sigma)\to1$ as $\sigma\to+\infty$ excludes a singular inner factor at infinity. Consequently the greatest common inner divisor $B_\delta$ of the two symbols is just the Blaschke product of the zeta zeros $\rho$ with $\Re\rho>\delta$, repeated according to multiplicity.
+
+For any $f_1,f_2\in\Nplus$, Lemma~\ref{lem:range} and Beurling's theorem give
+\[
+ \overline{\ran M_{f_1}+\ran M_{f_2}}
+ =\gcd(I_{f_1},I_{f_2})H^2(\C_+).
+\]
+Taking orthogonal complements and using \eqref{eq:adjointmodel} proves
+\[
+ U_k\left(\Ker\overline{T_A^{(2)}}\cap\Ker\overline{T_A^{(3)}}\right)
+ =H^2\ominus B_\delta H^2
+ =U_k\left(\Ker\overline{T^{(2)}}\cap\Ker\overline{T^{(3)}}\right).
+\]
+Completeness of the reproducing kernels and derivative kernels at the zeros of $B_\delta$ yields the asserted spectral synthesis, exactly as in the earlier note. Since the two closed subspaces are equal, their inherited Hilbert norms are equal; if the dilation generator is equipped with the same restriction/domain in both models, the identity intertwines it.
+\end{proof}
+
+\section{When comparisons really are bounded}
+\begin{proposition}[An $H^\infty$ criterion]\label{prop:Hinfty}
+For any holomorphic, real-symmetric $Q$ on $\Re s>\delta$, the diagonal map $C_Qy^s=Q(s)y^s$ extends boundedly to $S_k$ if and only if $Q\in H^\infty(\Re s>\delta)$. It is boundedly invertible if and only if both $Q$ and $1/Q$ belong to $H^\infty$ there.
+\end{proposition}
+\begin{proof}
+Necessity follows from evaluating the norm on each nonzero vector $y^s$. Sufficiency follows from the bounded Hardy multiplication adjoint conjugated by $U_k$. The inverse, if bounded, must act as multiplication by $1/Q$ on the total family of power functions.
+\end{proof}
+
+\begin{proposition}[Sparse infinite perturbations]\label{prop:sparse}
+If $I=\{n:a_n\ne p_n\}$ and
+\begin{equation}\label{eq:sparse}
+ \sum_{n\in I}p_n^{-\delta}<\infty,
+\end{equation}
+then $Q_A,1/Q_A\in H^\infty(\Re s>\delta)$.
+\end{proposition}
+\begin{proof}
+For $\Re s>\delta$ and any changed index,
+\[
+ \left|\log\frac{1-p_n^{-s}}{1-a_n^{-s}}\right|
+ \le C_\delta(p_n^{-\delta}+a_n^{-\delta})
+ \le2C_\delta p_n^{-\delta}.
+\]
+The uniformly convergent logarithm therefore has bounded real part, above and below. Exponentiating yields the two bounds.
+\end{proof}
+
+\begin{remark}[Concrete examples]
+Replacing only $2$ by $5/2$ produces
+\[
+ Q_A(s)=\frac{1-2^{-s}}{1-(5/2)^{-s}},
+\]
+which is bounded and bounded away from zero for $\Re s>\delta$. For a genuinely infinite example, select indices $n_j$ so that $p_{n_j}>2^{j^2}$, let $a_{n_j}=(p_{n_j}+p_{n_j+1})/2$, and leave all other primes unchanged. Condition \eqref{eq:sparse} holds for every fixed $\delta>0$.
+\end{remark}
+
+\section{Counterexample: arbitrarily small shifts can destroy boundedness}
+\begin{proposition}[Generic non-$H^\infty$ comparison]\label{prop:counter}
+There are sequences satisfying \eqref{eq:GS}, with $0<a_n-p_n<2^{-n}$ for every $n$, for which
+\[
+ Q_A\notin H^\infty(\Re s>1),\qquad
+ 1/Q_A\notin H^\infty(\Re s>1).
+\]
+Consequently neither comparison is bounded on $S_k$ for any $k\ge1$.
+\end{proposition}
+\begin{proof}
+Choose $a_n$ successively in
+$(p_n,\min\{p_n+2^{-n},p_{n+1}\})$, avoiding the countable set for which $\log a_n$ lies in the rational linear span of all $\log p_j$ and the earlier $\log a_j$. Then the family
+\[\{\log p_1,\log a_1,\log p_2,\log a_2,\ldots\}\]
+is linearly independent over $\mathbb Q$; the prime logarithms themselves have this independence by unique factorization.
+
+For each fixed $\sigma>1$, the Euler product \eqref{eq:Q} converges absolutely and uniformly in $t=\Im s$. Kronecker's simultaneous approximation theorem allows the phases of any finite collection of $p_n^{-it}$ to approach $-1$, while those of $a_n^{-it}$ approach $+1$. Uniform convergence of the tail then gives the exact formula
+\begin{equation}\label{eq:sup}
+ \sup_{t\in\mathbb R}|Q_A(\sigma+it)|
+ =\prod_{n\ge1}\frac{1+p_n^{-\sigma}}{1-a_n^{-\sigma}}.
+\end{equation}
+Applying the same argument with phases reversed gives
+\begin{equation}\label{eq:invsup}
+ \sup_{t\in\mathbb R}|Q_A(\sigma+it)^{-1}|
+ =\prod_{n\ge1}\frac{1+a_n^{-\sigma}}{1-p_n^{-\sigma}}.
+\end{equation}
+Both products tend to infinity as $\sigma\downarrow1$: their logarithms dominate a positive constant times $\sum_p p^{-\sigma}$, which diverges as $\sigma\downarrow1$. Thus neither $Q_A$ nor its reciprocal is bounded on $\Re s>1$; a fortiori neither is bounded on $\Re s>\delta$ when $\delta\le1/2$.
+\end{proof}
+
+\begin{remark}[What the counterexample does and does not say]
+For any \emph{fixed} $\sigma>1$, the two suprema in \eqref{eq:sup}--\eqref{eq:invsup} are finite. Unboundedness on the full half-plane arises from vertical frequencies tuned at values $\sigma\downarrow1$, not from a divergence at a fixed $s$. The perturbations can be extremely small as real numbers and the quotient can converge uniformly to $1$ on compact sets while still failing to be globally bounded.
+\end{remark}
+
+\begin{proof}[Proof of Theorem~\ref{thm:compare}]
+The boundedness criterion is Proposition~\ref{prop:Hinfty}, the positive infinite examples are Proposition~\ref{prop:sparse}, and the negative examples are Proposition~\ref{prop:counter}.
+\end{proof}
+
+\section{Left equivalence is not similarity}
+Define $C_{Q_A}$ on the logarithmic powers by $C_{Q_A}[y^s(\log y)^j]=\partial_s^j(Q_A(s)y^s)$. On $\mathcal D_k$ the diagonal comparison satisfies the formal identity
+\[
+ T_A^{(r)}=C_{Q_A}T^{(r)}=T^{(r)}C_{Q_A}.
+\]
+If $C_{Q_A}$ is boundedly invertible, it follows that
+$\overline{T_A^{(r)}}=C_{Q_A}\overline{T^{(r)}}$; this is \emph{left equivalence}, not a similarity $T_A^{(r)}=C_{Q_A}T^{(r)}C_{Q_A}^{-1}$. Indeed the latter expression equals $T^{(r)}$, since the diagonal operators commute.
+
+\begin{proposition}[No nontrivial dilation-compatible similarity]\label{prop:nosim}
+Suppose a boundedly invertible operator $S$ on $S_k$ commutes with $\Delta=y\,d/dy$ on the span of its power-function eigenvectors, with the necessary domain compatibility. If it also intertwines $T^{(r)}$ with $T_A^{(r)}$ there, for either $r=2$ or $r=3$, then $Q_A\equiv1$ on $\Re s>\delta$.
+\end{proposition}
+\begin{proof}
+The eigenspace of $\Delta$ with eigenvalue $s$ is one-dimensional, spanned by $y^s$. Hence $Sy^s=c(s)y^s$, $c(s)\ne0$. The identity $ST^{(r)}=T_A^{(r)}S$ applied to $y^s$ yields $c(s)m_r(s)=c(s)Q_A(s)m_r(s)$. Away from the discrete zero set of $m_r$, we get $Q_A(s)=1$; the identity theorem gives $Q_A\equiv1$.
+\end{proof}
+
+
+\section{Graph-theoretic interpretation: prime flows, boundaries, and transfer operators}
+\label{sec:prime-graphs}
+
+The arithmetic equivalence classes admit a direct interpretation in terms of
+flows and incidence operators on a countable directed graph.  This description
+is useful in three ways: it explains Euler-factor cancellation, gives a
+quantitative stability bound, and supplies finite graph models of the
+literal summation operators.
+
+\subsection{The prime path and its incidence boundary}
+
+Let \(G_P\) be the directed ray with vertices \(v_j=p_j\) and edges
+\(b_j:p_j\to p_{j+1}\), \(j\ge1\).  For an endpoint perturbation
+\(a_j=p_{j+e_j}\), put the binary flow \(e_j\in\{0,1\}\) on \(b_j\).
+We use the incidence convention
+\[
+ (\partial e)_j=e_j-e_{j-1},\qquad e_0=0,
+\]
+so an occupied edge contributes \(+1\) at its source and \(-1\) at its
+target.  This is the (signed) vertex boundary of the edge flow.
+
+\begin{center}
+\begin{tikzpicture}[>=stealth,baseline]
+\node (a) at (0,0) {$p_1=2$};
+\node (b) at (2,0) {$p_2=3$};
+\node (c) at (4,0) {$p_3=5$};
+\node (d) at (6,0) {$p_4=7$};
+\node (e) at (8,0) {$p_5=11$};
+\draw[->,thick] (a)--node[above]{$e_1$}(b);
+\draw[->,thick] (b)--node[above]{$e_2$}(c);
+\draw[->,thick] (c)--node[above]{$e_3$}(d);
+\draw[->,thick] (d)--node[above]{$e_4$}(e);
+\node at (9.1,0) {$\cdots$};
+\end{tikzpicture}
+\end{center}
+
+Put \(g_s(x)=\log(1-x^{-s})\), with the branch specified by its
+convergent power series for \(x>1\) and \(\Re s>0\).
+An elementary discrete-Stokes formula is
+\begin{equation}\label{eq:graph-stokes}
+ \sum_{n=1}^{N}e_n\bigl(g_s(p_n)-g_s(p_{n+1})\bigr)
+ =\sum_{j=1}^{N}(\partial e)_j g_s(p_j)
+       -e_Ng_s(p_{N+1}).
+\end{equation}
+The left side converges absolutely and locally uniformly for \(\Re s>0\).
+Indeed, on a compact subset of that half-plane,
+\[
+ |g'_s(x)|\le C_K x^{-1-\sigma_K}\quad(x\ge2)
+\]
+for some \(\sigma_K>0\), and
+\(\sum_n\int_{p_n}^{p_{n+1}}x^{-1-\sigma_K}\,dx<\infty\).
+Since \(g_s(p_n)\to0\), taking \(N\to\infty\) in
+\eqref{eq:graph-stokes} gives
+\begin{equation}\label{eq:graph-product}
+ \boxed{\quad
+ \log Q_e(s)
+ =\sum_{n\ge1}e_n\bigl[g_s(p_n)-g_s(p_{n+1})\bigr]
+ =\sum_{j\ge1}(\partial e)_j g_s(p_j),\quad \Re s>0.
+ \quad}
+\end{equation}
+The second series in \eqref{eq:graph-product} need not be absolutely
+convergent: its equality follows from the boundary term in
+\eqref{eq:graph-stokes}, not from arbitrary rearrangement.
+
+For \(e_n=1\) on every edge, the interior boundary vanishes and
+\(\partial e=(1,0,0,\ldots)\).  Therefore
+\[
+ \log Q_e(s)=g_s(2),\qquad Q_e(s)=1-2^{-s}.
+\]
+An infinite occupied ray has only a finite source boundary.  If instead
+\(e_n=1\) precisely for \(u\le n\le v\), then
+\[
+ \partial e=\mathbf 1_{\{u\}}-\mathbf 1_{\{v+1\}},
+ \qquad Q_e(s)=\frac{1-p_u^{-s}}{1-p_{v+1}^{-s}}.
+\]
+For alternating occupied edges, the graph boundary is supported at
+every vertex, explaining why cancellation is much weaker.
+
+\subsection{Weighted graph variation and quantitative conditioning}
+
+For a bounded integer-valued edge flow \(h=(h_j)\), let
+\begin{equation}\label{eq:graph-TV}
+ V_\delta(h):=\sum_{j\ge1}p_j^{-\delta}
+                  |h_j-h_{j-1}|,\qquad h_0=0,\quad\delta>0.
+\end{equation}
+This is the weighted \(\ell^1\)-norm of its incidence boundary,
+a discrete bounded-variation quantity on \(G_P\).
+For binary perturbations \(e,f\), the previously established endpoint
+classification is exactly \(e\sim_\delta f\) if and only if
+\(V_\delta(e-f)<\infty\).  In particular, its invariant is a
+\emph{boundary norm}, not the number or size of occupied edges.
+
+\begin{proposition}[Graph-variation stability bound]
+\label{prop:graph-conditioning}
+Let \(e,f\) be endpoint perturbations and \(0<\delta\le1\).
+If \(V_\delta(e-f)<\infty\), then
+\(R_{e/f}=Q_e/Q_f\) and its inverse belong to
+\(H^\infty(\Re s>\delta)\), and
+\begin{equation}\label{eq:graph-stability}
+ \max\{\|R_{e/f}\|_\infty,\|R_{e/f}^{-1}\|_\infty\}
+ \le \exp\!\left(\frac{V_\delta(e-f)}{1-2^{-\delta}}\right).
+\end{equation}
+The product of the two operator-multiplier norm bounds is at most
+\(\exp(2V_\delta(e-f)/(1-2^{-\delta}))\).
+\end{proposition}
+\begin{proof}
+Put \(h=e-f\), and \(c_j=h_j-h_{j-1}\).
+For \(\Re s>\delta\), the estimate
+\[
+ |\log(1-p_j^{-s})|
+ \le \frac{p_j^{-\delta}}{1-p_j^{-\delta}}
+ \le \frac{p_j^{-\delta}}{1-2^{-\delta}}
+\]
+shows that \(\sum_j c_jg_s(p_j)\) converges absolutely and uniformly
+and has modulus at most
+\(V_\delta(h)/(1-2^{-\delta})\).
+Exponentiate \eqref{eq:graph-product} for the quotient, and then
+apply the same argument with \(-h\).
+\end{proof}
+
+The additive group of bounded integer edge flows contains the subgroup
+\(\{h:V_\delta(h)<\infty\}\).
+Consequently the binary endpoint perturbations map to equivalence
+classes in the quotient by this subgroup.  This is a convenient
+graph-cochain description of the arithmetic classification; it does
+\emph{not} assert ordinary graph-Laplacian spectral equivalence.
+
+\subsection{A signed-frequency graph for arbitrary interior shifts}
+
+The same bookkeeping works beyond the endpoints.  For a finite
+perturbation \(A_N=(a_1,\ldots,a_N)\), draw the oriented edge
+\(p_n\to a_n\) on the vertex set of all distinct frequencies
+\(\{p_1,\ldots,p_N,a_1,\ldots,a_N\}\).  A loop contributes zero.
+The signed vertex boundary is the atomic measure
+\[
+ \mu_{A,N}:=\sum_{n=1}^N(\delta_{p_n}-\delta_{a_n}).
+\]
+For every \(\Re s>0\), the finite Euler quotient satisfies
+\begin{equation}\label{eq:graph-atomic}
+ \log Q_{A,N}(s)=
+ \int_{(1,\infty)}\log(1-x^{-s})\,d\mu_{A,N}(x).
+\end{equation}
+If two edges share a frequency endpoint, their incidence
+coefficients may cancel.  With rational independence of distinct
+surviving logarithmic frequencies, the weighted signed-inventory
+criterion from the companion equivalence-class argument is precisely
+summability of this atomic boundary with weight \(x^{-\delta}\).
+Without that independence, no general necessity assertion follows
+from the graph model alone.
+
+\subsection{The multiplicative graph of generalized integers}
+
+For \(A_N=(a_1,\ldots,a_N)\), consider the graded directed graph
+\[
+ \Gamma_{A_N}:\quad
+ V=\mathbb Z_{\ge0}^{N},\qquad
+ \nu\longrightarrow \nu+\mathbf e_j\quad(1\le j\le N).
+\]
+Give the vertex \(\nu\) the weight
+\(w_s(\nu)=\prod_{j=1}^N a_j^{-s\nu_j}\).
+Summing \emph{vertices}, rather than all directed paths, gives
+\begin{equation}\label{eq:graph-vertexzeta}
+ \sum_{\nu\in\mathbb Z_{\ge0}^N}w_s(\nu)
+ =\prod_{j=1}^N(1-a_j^{-s})^{-1}
+ =\zeta_{A,N}(s),\qquad\Re s>0.
+\end{equation}
+This vertex interpretation respects the multiplicities of
+generalized integers.  For example, \(a_1=a_2=3\) produces
+three exponent vectors of total degree two, all evaluating to \(9\);
+accordingly the coefficient of \(3^{-2s}\) in
+\((1-3^{-s})^{-2}\) is \(3\).  Counting directed paths instead
+would introduce different, and incorrect, multiplicities.
+The graph in \eqref{eq:graph-vertexzeta} is not an Ihara
+nonbacktracking-cycle zeta construction.
+
+\begin{proposition}[Convergent graph-transfer realization]
+\label{prop:graph-transfer}
+For \(\sigma>1\), let \(X_\sigma\) be the Banach space of functions
+on \((0,1]\) with
+\[
+ \|f\|_{X_\sigma}:=\sup_{0<y\le1}y^{-\sigma}|f(y)|<\infty.
+\]
+Write \(D_a f(y)=f(y/a)\).  The operator products
+\begin{equation}\label{eq:graph-resolvents}
+ P_A=\prod_{n\ge1}(I-D_{a_n})^{-1},
+ \qquad
+ (I-qD_q)P_A\quad(q=2,3)
+\end{equation}
+converge in operator norm on \(X_\sigma\), and
+\begin{equation}\label{eq:graph-literalsum}
+ (I-qD_q)P_Af(y)
+ =\sum_{m\in\mathcal N_A}
+ \left[f(y/m)-qf(y/(qm))\right].
+\end{equation}
+All sums in \eqref{eq:graph-literalsum} converge absolutely in
+\(X_\sigma\).  These operators are boundedly invertible on
+\(X_\sigma\).
+\end{proposition}
+\begin{proof}
+The dilation operators commute and
+\(\|D_a\|_{X_\sigma}=a^{-\sigma}\).
+Since \(a_n\ge p_n\) and
+\(\sum_n p_n^{-\sigma}<\infty\), the two products
+\(\prod_n(I-D_{a_n})^{-1}\) and
+\(\prod_n(I-D_{a_n})\) converge in operator norm and
+are inverses.  Expand each geometric series and pass to the
+norm limit to obtain the generalized-integer sum with
+multiplicity.  Finally,
+\(\|qD_q\|=q^{1-\sigma}<1\), so \(I-qD_q\) is invertible
+by a Neumann series.
+\end{proof}
+
+\begin{remark}[Scope of the graph model]
+The space \(X_\sigma\), \(\sigma>1\), is the domain of an
+\emph{absolutely convergent} graph-transfer representation.  It
+does not contain the zeta-zero eigenfunctions \(y^\rho\) from the
+critical strip and is not a substitute for the analytically
+continued \(S_k\) operators.  In particular, Proposition
+\ref{prop:graph-transfer} proves no kernel invariance in the
+critical strip.  It supplies a natural discrete approximation
+and separates the convergent graph mechanics from the deeper
+operator-domain problem.
+\end{remark}
+
+\paragraph{Further graph questions.}
+One can ask whether (i) weighted incidence-boundary classes
+admit computable finite-section approximations with certified
+tails; (ii) equality of closed graph-transfer domains forces
+bounded comparison in a natural completion; and (iii) the
+graph boundary at infinity controls comparison-operator
+conditioning.  These are proposed investigations, not claims
+about the spectrum of a graph Laplacian.
+
+\section{Interpretation and next questions}
+The principal distinction is between the \emph{full operator pair} and its \emph{closed joint zero-eigenspace}. Full operators need not be similar, and even the natural diagonal comparison may be unbounded. Nevertheless, the joint zero-eigenspace is invariant under all perturbations \eqref{eq:GS}; the same ambient $S_k$ norm remains available. This invariance follows from the absence of a new inner factor in $Q_A$, rather than boundedness of $Q_A$.
+
+Research questions that remain genuinely open in this framework include:
+\begin{enumerate}[leftmargin=2em]
+\item Characterize arithmetic conditions on the moved primes that are both necessary and sufficient for $Q_A,1/Q_A\in H^\infty(\Re s>\delta)$, beyond the sparse condition \eqref{eq:sparse} and the generic counterexample.
+\item Determine whether analytically defined $T_A^{(r)}$ have useful \emph{natural} generalized-prime dilation-series realizations, and whether those initial domains are graph cores.
+\item Study perturbation behavior of resolvents, pseudospectra and operator domains \emph{outside} the common joint kernel. Invariance of the kernel by itself gives no such stability.
+\item Establish how much of the theorem persists for more general Beurling systems whose Euler-product quotient has nontrivial singular inner factors or fails to lie in $N^+$.
+\end{enumerate}
+
+\noindent\textbf{Research-status qualification.} The Hardy-space and Smirnov-class mechanisms are classical. The arguments presented here are a self-contained mathematical investigation, not an assertion of publication novelty or of resolution of the Riemann hypothesis. The analytic-symbol model should not be conflated with an unconditionally convergent prime-generated dilation series.
+
+\begin{thebibliography}{9}
+\bibitem{GS} E. Grosswald and F. J. Schnitzer, A class of modified $\zeta$ and $L$-functions, \emph{Pacific J. Math.} \textbf{74} (1978), 357--364. \href{https://msp.org/pjm/1978/74-2/pjm-v74-n2-p09-s.pdf}{journal PDF}.
+\bibitem{SmirnovReference} J. S. Choa, H. O. Kim, and J. H. Shapiro, \emph{Compact composition operators on the Smirnov class}, preprint (1998), Section 2, for background on $N^+$ and inner--outer factorization. \href{https://users.math.msu.edu/users/shapiro/pubvit/Downloads/Smirnov/Smirnov.pdf}{online preprint}.
+\bibitem{Fricain} E. Fricain, A. Hartmann, W. T. Ross, and D. Timotin, The Smirnov class for de Branges--Rovnyak spaces, for background on multiplier/outer-denominator methods. \href{https://pro.univ-lille.fr/fileadmin/user_upload/pages/pros/emmanuel_fricain/Smirnov-Hb-version-soumise-Result.pdf}{online preprint}.
+\bibitem{JoynerNote} ChatGPT, prepared for D. Joyner, \emph{Progress on the Spectral Questions for Zeta-Associated Dilation Operators}, November 1, 2026 (companion working note).
+\bibitem{Beurling} A. Beurling, On two problems concerning linear transformations in Hilbert space, \emph{Acta Math.} \textbf{81} (1949), 239--255.
+\end{thebibliography}
+\end{document}
