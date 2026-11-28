@@ -1,0 +1,47 @@
+name: Build Grosswald-Schnitzer and RH companion PDFs
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-prime-perturbations-pdfs.yml'
+      - 'grosswald-schnitzer-graph/prime_perturbations_revised.tex'
+      - 'grosswald-schnitzer-graph/grosswald_schnitzer_spectral_invariance_2026.tex'
+      - 'zeta-operators-graph/rh_2026_operator_implications.tex'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-fonts-extra
+      - name: Compile two modern papers
+        working-directory: grosswald-schnitzer-graph
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error prime_perturbations_revised.tex
+          latexmk -pdf -interaction=nonstopmode -halt-on-error grosswald_schnitzer_spectral_invariance_2026.tex
+      - name: Compile RH companion note
+        working-directory: zeta-operators-graph
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error rh_2026_operator_implications.tex
+      - name: Upload PDFs as build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: zeta-operator-modern-pdfs
+          path: |
+            grosswald-schnitzer-graph/prime_perturbations_revised.pdf
+            grosswald-schnitzer-graph/grosswald_schnitzer_spectral_invariance_2026.pdf
+            zeta-operators-graph/rh_2026_operator_implications.pdf
+      - name: Commit compiled PDFs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f grosswald-schnitzer-graph/prime_perturbations_revised.pdf grosswald-schnitzer-graph/grosswald_schnitzer_spectral_invariance_2026.pdf zeta-operators-graph/rh_2026_operator_implications.pdf
+          if ! git diff --cached --quiet; then
+            git commit -m "Build modern zeta operator PDFs"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
