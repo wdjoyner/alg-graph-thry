@@ -1,6 +1,6 @@
 # MINIMOGs and Mathematical Blackjack
 
-A 7:22 narrated animation in six chapters, based on David Joyner’s *MINIMOGs and Mathematical Blackjack*, Draft 3. The film is a 1920 × 1080 H.264 MP4 at 30 fps with AAC narration, chapter markers, and selectable English captions. The separate SRT works in players that support sidecar captions.
+A 7:34 narrated animation in six chapters with end credits, based on David Joyner’s *MINIMOGs and Mathematical Blackjack*, Draft 3. The film is a 1920 × 1080 H.264 MP4 at 30 fps with AAC narration, chapter markers, and selectable English captions. The separate SRT works in players that support sidecar captions.
 
 | File | Purpose |
 |---|---|
@@ -24,7 +24,7 @@ python3 -m venv .venv
 python -m pip install -r requirements.txt
 python math_data.py
 manim --media_dir build/media -r 1920,1080 --fps 30 scenes.py \
-  FanoSteiner ProjectiveLine CurtisKitten ConwayMINIMOG JohnsonGraph Blackjack
+  FanoSteiner ProjectiveLine CurtisKitten ConwayMINIMOG JohnsonGraph Blackjack EndCredits
 python production.py inspect
 ```
 
@@ -50,6 +50,12 @@ Mathematical source and figure layouts adapted from David Joyner, *MINIMOGs and 
 
 [model]: https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx
 [config]: https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json
+
+## End credits
+
+- Video authors: [David Joyner](https://github.com/wdjoyner) and [ChatGPT](https://chatgpt.com/) ([OpenAI on GitHub](https://github.com/openai)).
+- Animation package: [Manim Community Edition](https://github.com/ManimCommunity/manim).
+- Mathematics: [MINIMOGs and Mathematical Blackjack, Draft 3](https://github.com/wdjoyner/alg-graph-thry/tree/main/mog).
 
 ## Planned series
 

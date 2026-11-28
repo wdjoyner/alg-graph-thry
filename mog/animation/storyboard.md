@@ -1,6 +1,6 @@
 # Timed storyboard
 
-The finished film runs **7:22**. Each beat lasts 17 seconds. Narration starts about half a second into the beat, allowing the next visual to settle. The last seconds of each beat hold the completed diagram for reading. Times below are global.
+The finished film runs **7:34**. Each beat lasts 17 seconds. Narration starts about half a second into the beat, allowing the next visual to settle. The last seconds of each beat hold the completed diagram for reading. Times below are global.
 
 | Time | Narration cue | Picture and motion | Draft 3 |
 |---|---|---|---|
@@ -30,3 +30,4 @@ The finished film runs **7:22**. Each beat lasts 17 seconds. Narration starts ab
 | 6:31–6:48 | Finish at twenty-one | Animate 6 → 3. Replace the total with 21 and show the terminal result. | §8.2 |
 | 6:48–7:05 | Recursion on the directed graph | Show the played path and build the increasing-total recursion. | §8.1, Thm. 8.1 |
 | 7:05–7:22 | The kernel | Reveal the number of legal and losing hands, then state independence and the outgoing-edge property. | Thm. 8.1 |
+| 7:22–7:34 | End credits (silent) | Fade in the Draft 3 attribution, video authors, animation package, and mathematics links. | Credits |

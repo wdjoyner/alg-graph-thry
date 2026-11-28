@@ -7,6 +7,8 @@ import subprocess
 import textwrap
 import wave
 
+from credits_timing import CREDITS_SECONDS
+
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "build"
 WIDTH, HEIGHT, FPS = 1920, 1080, 30
@@ -107,35 +109,48 @@ def inspect():
             run("ffmpeg","-v","error","-y","-ss",str(i*BEAT+15.7),"-i",path,
                 "-frames:v","1","-vf","scale=960:540",preview/f"{scene}-{i+1}.png")
         print(f"{scene}: {info['nb_frames']} frames", flush=True)
+    run("ffmpeg", "-v", "error", "-y", "-ss", "3", "-i", clip("EndCredits"),
+        "-frames:v", "1", "-vf", "scale=960:540", preview/"EndCredits.png")
+
+
+def normalize_clip(scene, duration):
+    raw = clip(scene)
+    info = probe(raw)["streams"][0]
+    assert (info["width"], info["height"], info["r_frame_rate"]) == (WIDTH, HEIGHT, "30/1")
+    assert abs(int(info["nb_frames"]) - duration*FPS) < FPS//2
+    normalized = BUILD/f"{scene}.mp4"
+    run("ffmpeg","-v","error","-y","-i",raw,"-vf","tpad=stop_mode=clone:stop_duration=0.5",
+        "-t",duration,"-an","-c:v","libx264","-threads",3,"-preset","fast","-crf","18",
+        "-pix_fmt","yuv420p",normalized)
 
 
 def assemble():
+    for scene, _, beats in CHAPTERS:
+        normalize_clip(scene, beats*BEAT)
+    normalize_clip("EndCredits", CREDITS_SECONDS)
+    mux()
+
+
+def mux():
     manifest = BUILD/"clips.ffconcat"
     entries = ["ffconcat version 1.0"]
-    for scene, _, beats in CHAPTERS:
-        raw = clip(scene)
-        info = probe(raw)["streams"][0]
-        assert (info["width"],info["height"],info["r_frame_rate"]) == (WIDTH,HEIGHT,"30/1")
-        duration = beats*BEAT
-        assert abs(int(info["nb_frames"])-duration*FPS) < FPS//2
-        normalized = BUILD/f"{scene}.mp4"
-        run("ffmpeg","-v","error","-y","-i",raw,"-vf","tpad=stop_mode=clone:stop_duration=0.5",
-            "-t",duration,"-an","-c:v","libx264","-threads",3,"-preset","fast","-crf","18",
-            "-pix_fmt","yuv420p",normalized)
-        entries.append(f"file '{normalized.name}'")
+    schedule = [(scene, title, beats*BEAT) for scene, title, beats in CHAPTERS]
+    schedule.append(("EndCredits", "Credits", CREDITS_SECONDS))
+    for scene, _, _ in schedule:
+        entries.append(f"file '{scene}.mp4'")
     manifest.write_text("\n".join(entries)+"\n")
     chapters = BUILD/"chapters.ffmetadata"
     metadata = [";FFMETADATA1", "title=MINIMOGs and Mathematical Blackjack"]
     start = 0
-    for _, title, beats in CHAPTERS:
-        end = start + BEAT*beats
+    for _, title, duration in schedule:
+        end = start + duration
         metadata += ["[CHAPTER]", "TIMEBASE=1/1", f"START={start}", f"END={end}", f"title={title}"]
         start = end
     chapters.write_text("\n".join(metadata)+"\n")
     run("ffmpeg","-v","error","-y","-f","concat","-safe","0","-i",manifest,
         "-i",BUILD/"narration.wav","-i",BUILD/"minimogs-blackjack.srt","-i",chapters,
         "-map","0:v","-map","1:a","-map","2:s","-map_metadata","3","-map_chapters","3",
-        "-c:v","copy","-c:a","aac","-b:a","128k","-af","volume=-3dB","-c:s","mov_text",
+        "-c:v","copy","-c:a","aac","-b:a","128k","-af",f"volume=-3dB,apad=pad_dur={CREDITS_SECONDS}","-c:s","mov_text",
         "-metadata:s:s:0","language=eng","-disposition:s:0","0",
         "-movflags","+faststart",ROOT/"minimogs-blackjack.mp4")
 

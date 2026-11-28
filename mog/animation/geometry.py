@@ -29,9 +29,8 @@ class FanoSteiner(Chapter):
     def construct(self):
         diagram = fano().shift(LEFT*3.25)
         self.beat(VGroup(diagram, label("MINIMOGs and", 2.68,.75,49),
-                         label("Mathematical Blackjack", 2.68,.04,45,BLUE),
-                         label("Based on David Joyner’s Draft 3", 2.68,-.84,24,MUTED)),
-                  (10, label("7 points  •  7 lines", 2.68,-1.55,29,GOLD)))
+                         label("Mathematical Blackjack", 2.68,.04,45,BLUE)),
+                  (10, label("7 points  •  7 lines", 2.68,-.96,29,GOLD)))
         self.beat(VGroup(fano(0,(1,4)).scale(.83).move_to(xy(-3,.15)),
                          label("1 and 4  →  2", -3,-2.28,34,GOLD)),
                   (7.4, VGroup(fano(6,(4,5)).scale(.83).move_to(xy(3,.15)),
