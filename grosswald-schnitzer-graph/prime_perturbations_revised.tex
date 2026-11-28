@@ -27,18 +27,34 @@
 \maketitle
 \begin{abstract}
 This paper was expanded with assistance from ChatGPT (OpenAI); the specific contributions are described in the acknowledgments and revision log. 
-For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. In the companion Hardy-space realization, the analytic-symbol dilation operators are asserted to have the same closed joint zero-eigenspace. This conclusion depends on the closure and domain arguments of that working model, which are not independently reverified here. We distinguish this universal spectral equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the previously established Hardy-space model and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review; none of these results implies the Riemann hypothesis.
+For Grosswald--Schnitzer prime sequences $p_n\le a_n\le p_{n+1}$, we first define the generalized integers, the associated zeta function, and the generalized-prime summation operators, distinguishing literal convergent series from analytically continued symbol operators. In the companion Hardy-space realization, the analytic-symbol dilation operators are asserted to have the same closed joint zero-eigenspace. This conclusion depends on the closure and domain arguments of that working model, which are not independently reverified here. We distinguish this model-dependent zero-kernel equivalence from bounded \emph{diagonal left equivalence} of the full operator pairs. The latter is characterized by the quotient $Q_A/Q_B$ and its inverse being bounded on a right half-plane. We prove a quantitative necessary-and-sufficient summability criterion when the surviving Euler-factor logarithms are rationally independent. As a particularly concrete application, for perturbations replacing selected primes by the next prime, bounded comparability is equivalent to weighted summability of the discrete derivative of the difference of the two binary selection sequences. Hence moving \emph{every} prime to the next prime gives a bounded comparison, whereas moving alternating primes does not. We establish strict dependence of the resulting equivalence classes on the Sobolev index and discuss generic interior perturbations. The arguments are self-contained except for the previously established Hardy-space model and standard arithmetic facts. Originality and the relation to the Dirichlet-series/Bohr-lift literature require independent review; none of these results implies the Riemann hypothesis.
 \end{abstract}
 
+\clearpage
 \setcounter{tocdepth}{2}
 \tableofcontents
+\clearpage
 
 \section{Introduction}\label{sec:introduction}
 \subsection{Motivation and principal results}
-Zero-preservation of prime-perturbation zeta functions does not
-automatically entail bounded equivalence of their summation operators.
-This paper classifies bounded comparison for important perturbation families
-using weighted transition sums and Euler-factor cancellation.
+The Grosswald--Schnitzer theorem says that moving the ordinary
+primes within adjacent prime gaps preserves the zeros of the
+associated zeta functions in a suitable right half-plane.
+This arithmetic invariance is much weaker than equivalence
+of the resulting summation operators.
+
+We distinguish equality of the zero-associated kernel,
+boundedly invertible \emph{left} comparison of the full operator
+pairs, and similarity by conjugation. The classification obtained
+here applies to the second notion. It is governed by weighted
+changes of a prime-shift pattern, rather than by the number
+of primes moved.
+
+The main example is moving every prime to its successor.
+The surviving Euler quotient is particularly simple,
+as shown in Equation~\eqref{eq:intro-telescope}.
+The exact endpoint classification appears in
+Theorem~\ref{thm:transition}.
 \subsection{Literature review}
 Grosswald and Schnitzer established the original prime-gap
 zero-preservation result \cite{GS78}.  Beurling's invariant-subspace
@@ -292,7 +308,7 @@ We rely on the Hardy-space realization described in \cite{CJ26}: the closures $\
 
 We must \emph{not} confuse these three relations:
 \begin{enumerate}[leftmargin=2em]
-\item \textbf{Zero-model equivalence:} the closed joint kernels coincide for all $A$ (and hence have identical inherited norms). This is universal.
+\item \textbf{Zero-model equivalence:} the closed joint kernels coincide for all $A$ (and hence have identical inherited norms). This holds under the closure and domain assumptions of the specified Hardy model.
 \item \textbf{Bounded diagonal left equivalence:} for $A,B$ a comparison operator $C_{A/B}$ acts on powers by
 \[
  C_{A/B}y^s=R_{A/B}(s)y^s,\qquad R_{A/B}(s):=Q_A(s)/Q_B(s),
